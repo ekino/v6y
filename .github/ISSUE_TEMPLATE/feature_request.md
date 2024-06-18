@@ -1,20 +1,35 @@
 ---
 name: Feature request
-about: Suggest an idea for this project
-title: ''
-labels: ''
+about: Suggest an idea for Vitality v6y
+title: "[FEATURE]"
+labels: enhancement
 assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+### ✨ Description
+A clear and concise description of the feature or enhancement you are proposing.
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+### 🚀 Motivation
+Explain why this feature would be useful and how it would benefit users.
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+### 📝 Proposed Solution
+Describe the solution you would like to see. Include any relevant details, mockups, or diagrams.
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+### 🔄 Alternatives
+Describe any alternative solutions or features you have considered.
+
+### 📸 Screenshots
+If applicable, add screenshots to help explain your proposal.
+
+### 💻 Environment
+- OS: [e.g., Windows, macOS, Linux]
+- Browser: [e.g., Chrome, Safari]
+- Version: [e.g., 22]
+- Vitality v6y Version: [e.g., 1.0.0]
+
+### 📝 Additional Context
+Add any other context or information about the suggestion here.
+
+### 🔗 Relevant Links (if any)
+Add links to any relevant issues, discussions, or tickets.
