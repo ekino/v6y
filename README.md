@@ -2,19 +2,35 @@
 
 Vitality (v6y) is a web-based application developed by Ekino, designed to maintain and optimize the health and performance of codebases and applications. While it is primarily used for Ekino projects, it can also be generalized for use by the wider development community.
 
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Features](#features)
+3. [Usage](#usage)
+4. [Contributing](#contributing)
+5. [License](#license)
+
+## Introduction
+**Vitality (v6y)** helps developers ensure high-quality code and robust applications by providing continuous health checks, detailed reports, and actionable insights. Although it was developed for Ekino projects, it is versatile and can be used by any development team.
+
 ## Features
+- **Code Quality Analysis**: Runs static analysis to detect issues in your code.
+- **Runtime Monitoring**: Monitors applications in real-time to catch errors and performance issues.
+- **Comprehensive Reports**: Generates detailed reports with insights and recommendations for improving code health.
+- **User-friendly Dashboard**: Offers an intuitive dashboard for monitoring the health status of all your projects at a glance.
 
-- **Codebase Maintenance**: Ensures your codebase is clean, efficient, and up-to-date.
-- **Performance Optimization**: Enhances the speed and efficiency of your applications.
+## Usage
+To use **Vitality (v6y)**, follow these steps:
 
-## Access
+1. Access the application online at [Vitality (v6y) Web App](http://your-vitality-app-url.com).
 
-Vitality is a web-based application that is accessible via an open link. Please visit our website to access Vitality.
+2. Create an account or log in using your existing credentials.
+
+3. Add your projects to the dashboard to start monitoring their health and performance.
+
+4. Use the dashboard to view real-time data and detailed reports on the health of your codebases and applications.
 
 ## Contributing
-
-Contributions are welcome! Please read our Contributing Guide and our Code of Conduct for details on our code of conduct and the process for submitting pull requests to us.
+We welcome contributions to **Vitality (v6y)**. To contribute, please read our guidelines outlined in the project Wiki.
 
 ## License
-
-This project is licensed under the MIT License - see the LICENSE.md file for details.
+**Vitality (v6y)** is licensed under the MIT License. See the `LICENSE` file for more details.
