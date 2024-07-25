@@ -40,9 +40,9 @@ const VITALITY_DASHBOARD_DATASOURCE = [
     {
         autoFocus: false,
         defaultChecked: false,
-        title: 'Socle usage stats',
-        description: 'Choose this option to view Socle usage stats.',
-        url: 'socle-stats',
+        title: 'Stack usage stats',
+        description: 'Choose this option to view Stack usage stats.',
+        url: 'stack-stats',
         imageUrl: '',
     },
 ];

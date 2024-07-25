@@ -1,0 +1,70 @@
+{
+  "transform":{
+    "^.+\\.(js|jsx)$": "babel-jest"
+  },
+  "testTimeout": 9999999,
+  "moduleFileExtensions": [
+    "js",
+    "jsx",
+    "ts",
+    "tsx"
+  ],
+  "cacheDirectory": "<rootDir>/jest-cache/tmp",
+  "clearMocks": true,
+  "collectCoverageFrom": [
+    "api/**/*.js",
+    "!node_modules/**",
+    "!./.eslintrc.js",
+    "!**/DataUpdateScheduler.js",
+    "!api/workers/**",
+    "!api/providers/**",
+    "!api/kernel/resolvers/**",
+    "!api/kernel/types/**",
+    "!api/core/AppLogger.js",
+    "!api/core/Matcher.js",
+    "!api/core/TaskUtils.js"
+  ],
+  "coverageDirectory": "<rootDir>/target/coverage",
+  "coverageReporters": [
+    "text",
+    "html",
+    "lcov"
+  ],
+  "reporters": [
+    "default",
+    [
+      "jest-stare",
+      {
+        "resultDir": "target/jest-stare",
+        "coverageLink": "../coverage/index.html",
+        "log": true
+      }
+    ]
+  ],
+  "coverageThreshold": {
+    "global": {
+      "branches": 0,
+      "functions": 0,
+      "lines": 0,
+      "statements": 0
+    }
+  },
+  "testMatch": [
+    "<rootDir>/**/__tests__/**/*.js",
+    "<rootDir>/**/?(*-)(spec|test).js",
+    "<rootDir>/**/*-test.js"
+  ],
+  "testResultsProcessor": "jest-sonar-reporter",
+  "testPathIgnorePatterns": [
+    "<rootDir>/node_modules/(?!got|p-|@szmarczak|lowercase-)",
+    "<rootDir>/jest/tmp"
+  ],
+  "testEnvironmentOptions": {
+    "url": "http://localhost"
+  },
+  "transformIgnorePatterns": [
+    "<rootDir>/node_modules/(?!got|p-|@szmarczak|lowercase-)",
+    "<rootDir>/jest/tmp"
+  ],
+  "verbose": true
+}

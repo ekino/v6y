@@ -16,7 +16,7 @@ const CommonsDico = {
 
     VITALITY_FAQ_PAGE_TITLE: 'FAQ',
     VITALITY_NOTIFICATIONS_PAGE_TITLE: 'Notifications',
-    VITALITY_SOCLE_STATS_PAGE_TITLE: 'Socle usage statistics',
+    VITALITY_STACK_STATS_PAGE_TITLE: 'Stack usage statistics',
 };
 
 export default CommonsDico;

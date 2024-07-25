@@ -39,12 +39,12 @@ export const buildBreadCrumbItems = (pathname) =>
                 title: <Link href="">{CommonsDico.VITALITY_NOTIFICATIONS_PAGE_TITLE}</Link>,
             },
         ],
-        '/socle-stats': [
+        '/stack-stats': [
             {
                 title: <Link href="/dashboard">Dashboard</Link>,
             },
             {
-                title: <Link href="">{CommonsDico.VITALITY_SOCLE_STATS_PAGE_TITLE}</Link>,
+                title: <Link href="">{CommonsDico.VITALITY_STACK_STATS_PAGE_TITLE}</Link>,
             },
         ],
     })[pathname] || [];
