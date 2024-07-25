@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-
 const CommonsDico = {
     VITALITY_GLOBAL_SEARCHBAR_INPUT_HELPER:
         'You can search by application name, package name or keyword (eslint, maintainability, ...)',

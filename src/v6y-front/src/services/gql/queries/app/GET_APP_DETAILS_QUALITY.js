@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { gql } from 'graphql-request';
 
 const GET_APP_DETAILS_QUALITY = gql`
