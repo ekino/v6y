@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import VitalityConfig from '../../config/VitalityConfig.js';
+import VitalityCommonUtils from '../../utils/VitalityCommonUtils.js';
 import VitalityKeywordItem from './VitalityKeywordItem.jsx';
 import VitalityInfiniteList from '../VitalityInfiniteList.jsx';
 
-const { getTextWidth } = VitalityConfig;
+const { getTextWidth } = VitalityCommonUtils;
 
 const VitalityKeywords = ({ keywords, onSelectedKeyword }) => {
     const [selectedKeywords, setSelectedKeywords] = useState([]);

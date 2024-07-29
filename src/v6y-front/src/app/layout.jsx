@@ -1,10 +1,12 @@
 import React from 'react';
-import { Providers } from './Providers';
+import { AppProvider } from '../infrastructure/providers/AppProvider.jsx';
+import VitalityTerms from '../commons/config/VitalityTerms.js';
+import VitalityPageLayout from '../commons/components/layout/VitalityPageLayout.jsx';
+import VitalityTheme from '../commons/config/VitalityTheme.js';
 
 export const metadata = {
-    title: 'Vitality',
-    description:
-        'Vitality (v6y) is a web-based application developed by Ekino, designed to maintain and optimize the health and performance of codebases and applications.',
+    title: VitalityTerms.VITALITY_APP_TITLE,
+    description: VitalityTerms.VITALITY_APP_DESCRIPTION,
 };
 
 export default function RootLayout({ children }) {
@@ -12,7 +14,9 @@ export default function RootLayout({ children }) {
         <html lang="en">
             <body>
                 <main>
-                    <Providers>{children}</Providers>
+                    <AppProvider theme={VitalityTheme}>
+                        <VitalityPageLayout>{children}</VitalityPageLayout>
+                    </AppProvider>
                 </main>
             </body>
         </html>

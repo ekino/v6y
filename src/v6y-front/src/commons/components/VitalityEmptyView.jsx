@@ -1,9 +1,9 @@
 import { Empty, Typography } from 'antd';
-import CommonsDico from '../dico/CommonsDico.js';
+import VitalityTerms from '../config/VitalityTerms.js';
 
 const VitalityEmptyView = () => (
     <Empty
-        description={<Typography.Text>{CommonsDico.VITALITY_EMPTY_DATA_MESSAGE}</Typography.Text>}
+        description={<Typography.Text>{VitalityTerms.VITALITY_EMPTY_DATA_MESSAGE}</Typography.Text>}
     />
 );
 

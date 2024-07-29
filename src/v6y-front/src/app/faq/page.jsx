@@ -1,5 +1,3 @@
-import FAQList from '../../components/faq/FAQList.jsx';
+import FaqListPage from '../../features/faq/pages/FaqListPage.jsx';
 
-export default function FaqPage() {
-    return <FAQList />;
-}
+export default FaqListPage;

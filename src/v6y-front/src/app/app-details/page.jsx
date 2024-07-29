@@ -1,5 +1,3 @@
-import VitalityAppDetailsView from '../../components/app-details/VitalityAppDetailsView.jsx';
+import VitalityAppDetailsPage from '../../features/app-details/pages/VitalityAppDetailsPage.jsx';
 
-export default function VitalityAppDetailsPage() {
-    return <VitalityAppDetailsView />;
-}
+export default VitalityAppDetailsPage;

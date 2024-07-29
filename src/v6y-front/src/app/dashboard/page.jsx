@@ -1,5 +1,3 @@
-import VitalityDashboardView from '../../components/dashboard/VitalityDashboardView.jsx';
+import VitalityDashboardPage from '../../features/dashboard/pages/VitalityDashboardPage.jsx';
 
-export default function VitalityDashboardPage() {
-    return <VitalityDashboardView />;
-}
+export default VitalityDashboardPage;

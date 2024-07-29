@@ -1,5 +1,3 @@
-import StackStatsView from '../../components/stack-stats/StackStatsView.jsx';
+import StackStatsPage from '../../features/stack-stats/pages/StackStatsPage.jsx';
 
-export default function NotificationsPage() {
-    return <StackStatsView />;
-}
+export default StackStatsPage;

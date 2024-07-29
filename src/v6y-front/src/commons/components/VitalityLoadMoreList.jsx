@@ -1,6 +1,6 @@
 import { Button, Flex, List } from 'antd';
 import { SyncOutlined } from '@ant-design/icons';
-import CommonsDico from '../dico/CommonsDico.js';
+import VitalityTerms from '../config/VitalityTerms.js';
 
 const VitalityLoadMoreList = ({ isDataSourceLoading, dataSource, renderItem, onLoadMore }) => (
     <List
@@ -14,11 +14,11 @@ const VitalityLoadMoreList = ({ isDataSourceLoading, dataSource, renderItem, onL
                     <Button
                         size="middle"
                         type="default"
-                        icon={<SyncOutlined spin />}
+                        icon={<SyncOutlined />}
                         iconPosition="end"
                         onClick={onLoadMore}
                     >
-                        {CommonsDico.VITALITY_APP_LIST_LOAD_MORE_LABEL}
+                        {VitalityTerms.VITALITY_APP_LIST_LOAD_MORE_LABEL}
                     </Button>
                 </Flex>
             ) : null

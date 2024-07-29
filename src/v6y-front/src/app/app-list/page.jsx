@@ -1,5 +1,3 @@
-import VitalityAppList from '../../components/app-list/VitalityAppList.jsx';
+import VitalityAppListPage from '../../features/app-list/pages/VitalityAppListPage.jsx';
 
-export default function VitalityAppListPage() {
-    return <VitalityAppList />;
-}
+export default VitalityAppListPage;

@@ -1,5 +1,3 @@
-import NotificationList from '../../components/notifications/NotificationList.jsx';
+import NotificationListPage from '../../features/notifications/pages/NotificationListPage.jsx';
 
-export default function NotificationsPage() {
-    return <NotificationList />;
-}
+export default NotificationListPage;
