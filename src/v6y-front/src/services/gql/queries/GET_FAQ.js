@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request';
 
 const GET_FAQ = gql`
-    query getFaqListByPageAndParams {
-        getFaqListByPageAndParams {
+    query getFaqList {
+        getFaqList {
             title
             description
             color

@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { VariableSizeList } from 'react-window';
-import AutoSizer from 'react-virtualized-auto-sizer';
 import VitalityConfig from '../../config/VitalityConfig.js';
 import VitalityKeywordItem from './VitalityKeywordItem.jsx';
+import VitalityInfiniteList from '../VitalityInfiniteList.jsx';
 
 const { getTextWidth } = VitalityConfig;
 
@@ -19,46 +18,33 @@ const VitalityKeywords = ({ keywords, onSelectedKeyword }) => {
     };
 
     return (
-        <div
-            style={{
-                width: '80%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
+        <VitalityInfiniteList
+            dataSource={keywords}
+            itemHeight={60}
+            itemSize={(index) => {
+                const currentText = keywords?.[index]?.label;
+                return getTextWidth(currentText);
             }}
-        >
-            <AutoSizer disableHeight>
-                {({ width }) => (
-                    <VariableSizeList
-                        direction="horizontal"
-                        itemCount={keywords?.length || 0}
-                        itemSize={(index) => {
-                            const currentText = keywords?.[index]?.label;
-                            return getTextWidth(currentText);
+            renderItem={({ index, style }) => {
+                const keyword = keywords?.[index];
+                return (
+                    <div
+                        key={keyword.label}
+                        style={{
+                            ...style,
+                            display: 'flex',
+                            alignItems: 'center',
                         }}
-                        height={50}
-                        width={width}
                     >
-                        {({ index, style }) => {
-                            const keyword = keywords?.[index];
-                            return (
-                                <div key={keyword.label} style={style}>
-                                    <VitalityKeywordItem
-                                        keyword={keyword}
-                                        type={
-                                            selectedKeywords?.includes(keyword.label)
-                                                ? 'primary'
-                                                : 'default'
-                                        }
-                                        onSelectedKeyword={handleSelectedKeyword}
-                                    />
-                                </div>
-                            );
-                        }}
-                    </VariableSizeList>
-                )}
-            </AutoSizer>
-        </div>
+                        <VitalityKeywordItem
+                            keyword={keyword}
+                            type={selectedKeywords?.includes(keyword.label) ? 'primary' : 'default'}
+                            onSelectedKeyword={handleSelectedKeyword}
+                        />
+                    </div>
+                );
+            }}
+        />
     );
 };
 

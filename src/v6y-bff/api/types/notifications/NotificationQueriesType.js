@@ -1,6 +1,6 @@
 const NotificationQueriesType = `
   type Query {
-    getNotificationListByPageAndParams: [NotificationType]
+    getNotificationList: [NotificationType]
   }
 `;
 

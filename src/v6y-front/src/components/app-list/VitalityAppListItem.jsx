@@ -1,5 +1,4 @@
 import { Col, List, Row, Typography } from 'antd';
-import { RightOutlined } from '@ant-design/icons';
 import VitalityTags from '../../commons/components/VitalityTags.jsx';
 import CommonsDico from '../../commons/dico/CommonsDico.js';
 import Link from 'next/link';

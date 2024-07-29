@@ -1,4 +1,5 @@
 import VitalityGraphqlConfig from './VitalityGraphqlConfig';
+import VitalityLegend from '../components/VitalityLegend.jsx';
 
 const { VITALITY_BFF_URL } = VitalityGraphqlConfig;
 
@@ -63,11 +64,27 @@ const getTextWidth = (text) => {
     return context.measureText(text).width + 2 * padding + 2 * margin;
 };
 
+const formatHelpOptions = (options) => {
+    if (!options?.length) {
+        return [];
+    }
+
+    return options
+        .filter((option) => option.title?.length)
+        .map((option) => ({
+            key: option.title,
+            label: option.title,
+            children: <VitalityLegend legend={option} />,
+            showArrow: true,
+        }));
+};
+
 const VitalityConfig = {
     VITALITY_BFF_URL,
     VITALITY_BFF_PAGE_SIZE,
     VITALITY_DASHBOARD_DATASOURCE,
     getTextWidth,
+    formatHelpOptions,
 };
 
 export default VitalityConfig;

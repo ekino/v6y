@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request';
 
 const GET_NOTIFICATIONS = gql`
-    query getNotificationListByPageAndParams {
-        getNotificationListByPageAndParams {
+    query getNotificationList {
+        getNotificationList {
             title
             color
             description

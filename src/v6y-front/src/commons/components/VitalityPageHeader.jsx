@@ -1,10 +1,21 @@
-import { Col, Image, Row, Typography } from 'antd';
+import { Col, Row, Typography } from 'antd';
 import VitalityMenuItems from './VitalityMenuItems.jsx';
+import Link from 'next/link';
+import Image from 'next/image.js';
 
 const VitalityPageHeader = ({ title, subTitle }) => (
     <Row style={{ width: '100%', textAlign: 'center' }} justify="center" align="middle">
         <Col xs={0} sm={0} md={4} lg={4} xl={4}>
-            <Image width={150} loading="lazy" src="/ekino_logo.png" alt="Ekino Logo" />
+            <Link href="/dashboard">
+                <Image
+                    style={{ marginTop: '2rem', marginLeft: '1rem', objectFit: 'fill' }}
+                    width={150}
+                    height={40}
+                    loading="lazy"
+                    src="/ekino_logo.png"
+                    alt="Ekino Logo"
+                />
+            </Link>
         </Col>
         <Col xs={16} sm={16} md={16} lg={16} xl={16}>
             <Typography.Title>

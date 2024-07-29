@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { Col, Row } from 'antd';
 import {
     buildGraphqlQuery,
     useGraphqlClient,
@@ -8,13 +9,13 @@ import {
 } from '../../commons/services/useGraphqlClient.jsx';
 import { GET_APP_KEYWORDS, GET_APP_LIST_PAGINATED } from '../../services';
 import VitalityConfig from '../../commons/config/VitalityConfig.js';
+import CommonsDico from '../../commons/dico/CommonsDico.js';
 import useUrlParams from '../../commons/navigation/useUrlParams.jsx';
-import VitalityInfiniteList from '../../commons/components/VitalityInfiniteList.jsx';
+import VitalityLoadMoreList from '../../commons/components/VitalityLoadMoreList.jsx';
 import VitalityPageLayout from '../../commons/components/VitalityPageLayout.jsx';
 import VitalitySearchBar from '../../commons/components/VitalitySearchBar.jsx';
 import VitalityKeywords from '../../commons/components/keywords/VitalityKeywords.jsx';
 import VitalityAppListItem from './VitalityAppListItem.jsx';
-import CommonsDico from '../../commons/dico/CommonsDico.js';
 
 let currentAppListPage = 0;
 
@@ -70,8 +71,6 @@ const VitalityAppList = () => {
     const isAppListLoading =
         appListFetchStatus === 'loading' || isAppListFetching || isAppListFetchingNextPage || false;
 
-    const isAppListEmpty = !isAppListLoading && !dataAppList?.pages?.length;
-
     const showKeywords = !isKeywordsLoading && dataKeywords?.getAppKeywords?.length > 0;
 
     const onSearchChanged = (value) => {
@@ -87,29 +86,33 @@ const VitalityAppList = () => {
         fetchAppListNextPage();
     };
 
-    if (isAppListEmpty) {
-        return <>Empty</>;
-    }
-
     return (
         <VitalityPageLayout pageTitle={CommonsDico.VITALITY_APP_LIST_PAGE_TITLE}>
-            <VitalitySearchBar
-                placeholder={CommonsDico.VITALITY_SEARCHBAR_INPUT_PLACEHOLDER}
-                helper={CommonsDico.VITALITY_GLOBAL_SEARCHBAR_INPUT_HELPER}
-                onSearchChanged={onSearchChanged}
-            />
-            {showKeywords && (
-                <VitalityKeywords
-                    keywords={dataKeywords?.getAppKeywords}
-                    onSelectedKeyword={onSelectedKeyword}
-                />
-            )}
-            <VitalityInfiniteList
-                isDataSourceLoading={isAppListLoading}
-                dataSource={appList}
-                renderItem={(app) => <VitalityAppListItem app={app} />}
-                onLoadMore={onLoadMore}
-            />
+            <Row justify="center" align="middle" gutter={[0, 24]}>
+                <Col span={24}>
+                    <VitalitySearchBar
+                        placeholder={CommonsDico.VITALITY_SEARCHBAR_INPUT_PLACEHOLDER}
+                        helper={CommonsDico.VITALITY_GLOBAL_SEARCHBAR_INPUT_HELPER}
+                        onSearchChanged={onSearchChanged}
+                    />
+                </Col>
+                {showKeywords && (
+                    <Col span={20}>
+                        <VitalityKeywords
+                            keywords={dataKeywords?.getAppKeywords}
+                            onSelectedKeyword={onSelectedKeyword}
+                        />
+                    </Col>
+                )}
+                <Col span={20}>
+                    <VitalityLoadMoreList
+                        isDataSourceLoading={isAppListLoading}
+                        dataSource={appList}
+                        renderItem={(app) => <VitalityAppListItem app={app} />}
+                        onLoadMore={onLoadMore}
+                    />
+                </Col>
+            </Row>
         </VitalityPageLayout>
     );
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import { Flex, FloatButton, Layout, Typography } from 'antd';
+import { Col, FloatButton, Layout, Row, Typography } from 'antd';
 import ThemeConfigProvider from '../theme/ThemeConfigProvider.jsx';
 import VitalityPageHeader from './VitalityPageHeader.jsx';
 import VitalityPageFooter from './VitalityPageFooter.jsx';
@@ -32,14 +32,18 @@ const VitalityPageLayout = ({ pageTitle, children }) => {
                     tagName="div"
                     style={{
                         margin: '0',
-                        padding: '0',
+                        paddingTop: '1rem',
                     }}
                 >
-                    <VitalityBreadcrumb />
-                    <Flex justify="center" align="center">
-                        <Typography.Title level={2}>{pageTitle}</Typography.Title>
-                    </Flex>
-                    {children}
+                    <Row justify="center" align="middle" gutter={[12, 12]}>
+                        <Col span={23}>
+                            <VitalityBreadcrumb />
+                        </Col>
+                        <Col span={20} style={{ textAlign: 'center' }}>
+                            <Typography.Title level={2}>{pageTitle}</Typography.Title>
+                        </Col>
+                        <Col span={18}>{children}</Col>
+                    </Row>
                 </Content>
                 <Footer
                     style={{

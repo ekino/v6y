@@ -4,7 +4,7 @@ import React from 'react';
 
 import VitalityPageLayout from '../../commons/components/VitalityPageLayout.jsx';
 import VitalitySearchBar from '../../commons/components/VitalitySearchBar.jsx';
-import VitalityVerticalMenu from '../../commons/components/VitalityVerticalMenu.jsx';
+import VitalityDashboardMenu from './VitalityDashboardMenu.jsx';
 import CommonsDico from '../../commons/dico/CommonsDico.js';
 import VitalityConfig from '../../commons/config/VitalityConfig.js';
 
@@ -22,7 +22,7 @@ const VitalityDashboardView = () => {
                 helper={CommonsDico.VITALITY_GLOBAL_SEARCHBAR_INPUT_HELPER}
                 onSearchChanged={onSearchChanged}
             />
-            <VitalityVerticalMenu options={VITALITY_DASHBOARD_DATASOURCE} />
+            <VitalityDashboardMenu options={VITALITY_DASHBOARD_DATASOURCE} />
         </VitalityPageLayout>
     );
 };

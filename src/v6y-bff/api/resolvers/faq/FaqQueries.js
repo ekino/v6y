@@ -1,12 +1,11 @@
-import {FaqConfig,} from '@v6y/commons';
+import { FaqConfig } from "@v6y/commons";
 
-const getFaqListByPageAndParams = () => {
+const getFaqList = () => {
   return FaqConfig.buildData();
 };
 
-
 const FaqQueries = {
-  getFaqListByPageAndParams,
+  getFaqList,
 };
 
 export default FaqQueries;

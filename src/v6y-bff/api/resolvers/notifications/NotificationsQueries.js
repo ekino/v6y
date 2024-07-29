@@ -1,11 +1,11 @@
 import { NotificationsConfig } from "@v6y/commons";
 
-const getNotificationListByPageAndParams = () => {
+const getNotificationList = () => {
   return NotificationsConfig.buildData();
 };
 
 const NotificationsQueries = {
-  getNotificationListByPageAndParams,
+  getNotificationList,
 };
 
 export default NotificationsQueries;
