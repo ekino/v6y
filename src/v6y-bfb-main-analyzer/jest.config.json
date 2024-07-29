@@ -12,17 +12,8 @@
   "cacheDirectory": "<rootDir>/jest-cache/tmp",
   "clearMocks": true,
   "collectCoverageFrom": [
-    "api/**/*.js",
-    "!node_modules/**",
-    "!./.eslintrc.js",
-    "!**/DataUpdateScheduler.js",
-    "!api/workers/**",
-    "!api/providers/**",
-    "!api/kernel/resolvers/**",
-    "!api/kernel/types/**",
-    "!api/core/AppLogger.js",
-    "!api/core/Matcher.js",
-    "!api/core/TaskUtils.js"
+    "src/**/*.js",
+    "!node_modules/**"
   ],
   "coverageDirectory": "<rootDir>/target/coverage",
   "coverageReporters": [

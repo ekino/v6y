@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'v6y-bfb-frontend-auditor',
-      script: './api/index.js',
+      script: './src/index.js',
       watch: true,
       // disable pm2 default logs
       out_file: '/dev/null',

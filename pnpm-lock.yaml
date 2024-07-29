@@ -17,6 +17,9 @@ importers:
       '@typhonjs/babel-parser':
         specifier: '=0.2.0'
         version: 0.2.0
+      '@v6y/commons':
+        specifier: workspace:^
+        version: link:../v6y-commons
       axios:
         specifier: '=1.6.2'
         version: 1.6.2

@@ -2,9 +2,9 @@
   "name": "@v6y/bfb-main-analyzer",
   "version": "0.0.0",
   "type": "module",
-  "main": "./api/index.js",
+  "main": "src/index.js",
   "files": [
-    "api",
+    "src",
     "dist",
     "README.md"
   ],
@@ -13,16 +13,16 @@
     "url": "https://github.com/ekino/v6y"
   },
   "scripts": {
-    "start:dev": "nodemon -L api/index.js -- --dev",
+    "start:dev": "nodemon -L src/index.js -- --dev",
     "start": "pm2 start ecosystem.config.cjs",
     "stop": "pm2 stop v6y-bfb-main-analyzer",
     "logs": "pm2 logs",
     "info": "pm2 list",
     "monitor": "pm2 monit",
     "build": "echo '--BUILD BFF--' ",
-    "code:analyze": "es6-plato -r -d target/report api",
-    "lint": "eslint --config ./.eslintrc.cjs --ignore-path ./.eslintignore --cache-location ./.eslintcache \"./**/*.js\" --cache",
-    "lint:fix": "eslint --config ./.eslintrc.cjs --ignore-path ./.eslintignore --cache-location ./.eslintcache \"./**/*.js\" --cache --fix",
+    "code:analyze": "es6-plato -r -d target/report src",
+    "lint": "eslint --config ./eslint.config.js --cache-location ./.eslintcache \"./**/*.js\" --cache",
+    "lint:fix": "eslint --config ./eslint.config.js --cache-location ./.eslintcache \"./**/*.js\" --cache --fix",
     "test:dev": "jest --config=jest.config.json --all --coverage",
     "generate:heapdump": "node ./HeapDump.js"
   },
