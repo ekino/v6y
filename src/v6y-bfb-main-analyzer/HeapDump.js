@@ -1,5 +1,5 @@
-import fs from "fs";
-import v8 from "v8";
+import fs from 'fs';
+import v8 from 'v8';
 
 // More information : https://nodejs.org/api/v8.html et https://nodejs.medium.com/introducing-node-js-12-76c41a1b3f3f
 const snapshotStream = v8.getHeapSnapshot();

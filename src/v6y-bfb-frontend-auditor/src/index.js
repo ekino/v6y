@@ -11,21 +11,21 @@ const { createServer } = ServerUtils;
 const { getCurrentConfig } = ServerConfig;
 
 const {
-  ssl,
-  monitoringPath,
-  hostname,
-  port,
-  healthCheckPath,
-  appAuditorApiPath,
-  serverTimeout,
-  serverUrl,
+    ssl,
+    monitoringPath,
+    hostname,
+    port,
+    healthCheckPath,
+    appAuditorApiPath,
+    serverTimeout,
+    serverUrl,
 } = getCurrentConfig() || {}; // Destructuring with defaults
 
 const app = express();
 
 const httpServer = createServer({
-  app,
-  config: getCurrentConfig(),
+    app,
+    config: getCurrentConfig(),
 });
 
 // *********************************************** Server Configuration ***********************************************
@@ -35,10 +35,10 @@ app.use(cookieParser());
 
 // CORS (Cross-Origin Resource Sharing): Configures the server to allow requests from other origins.
 const corsOptions = {
-  origin: (origin, callback) => {
-    AppLogger.debug(`CORS origin redirect: ${origin}`);
-    callback(null, origin);
-  },
+    origin: (origin, callback) => {
+        AppLogger.debug(`CORS origin redirect: ${origin}`);
+        callback(null, origin);
+    },
 };
 app.use(cors(corsOptions));
 
@@ -50,24 +50,24 @@ app.use(bodyParser.json());
 
 // Express Status Monitor: Adds a monitoring dashboard accessible at the specified path.
 app.use(
-  expressStatusMonitor({
-    path: monitoringPath,
-    healthChecks: [
-      {
-        protocol: ssl ? 'https' : 'http',
-        host: hostname,
-        port,
-        path: healthCheckPath,
-      },
-    ],
-  }),
+    expressStatusMonitor({
+        path: monitoringPath,
+        healthChecks: [
+            {
+                protocol: ssl ? 'https' : 'http',
+                host: hostname,
+                port,
+                path: healthCheckPath,
+            },
+        ],
+    }),
 );
 
 // *********************************************** Health Check ***********************************************
 
 // Health Check Endpoint: Responds with "V6y Server is UP!" if the server is healthy.
 app.get(healthCheckPath, (req, res) => {
-  res.status(200).send('V6y Server is UP!');
+    res.status(200).send('V6y Server is UP!');
 });
 
 // *********************************************** App Auditor Routes ***********************************************
@@ -77,11 +77,11 @@ app.use(appAuditorApiPath, AppAuditorRouter);
 
 // Default Route: Handles requests to unknown routes and returns a 404 Not Found response.
 app.get('*', (request, response) => {
-  AppLogger.debug(`[*] KO: Requested route ${request.url} does not exist`);
-  response.status(404).json({
-    success: false,
-    message: 'The requested route does not exist',
-  });
+    AppLogger.debug(`[*] KO: Requested route ${request.url} does not exist`);
+    response.status(404).json({
+        success: false,
+        message: 'The requested route does not exist',
+    });
 });
 
 // *********************************************** Server Start ***********************************************

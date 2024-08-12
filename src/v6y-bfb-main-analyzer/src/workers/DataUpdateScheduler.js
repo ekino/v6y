@@ -7,43 +7,39 @@ const { getCurrentConfig } = ServerConfig;
 
 // Function to initiate the background workers (presumably for updating data)
 const startUpdateWorkers = () => {
-  (async () => {
-    const currentConfig = getCurrentConfig();
-    await forkWorker('./src/workers/AppWorker.js', currentConfig); // Start worker thread
-  })();
+    (async () => {
+        const currentConfig = getCurrentConfig();
+        await forkWorker('./src/workers/AppWorker.js', currentConfig); // Start worker thread
+    })();
 };
 
 /**
  * Database updates are performed by default at startup, then every midnight.
  */
 const start = () => {
-  // Check every second to make sure the main thread is still responsive
-  setInterval(() => {
-    AppLogger.info(
-      '******************** Checking that the main thread is not blocked **************************',
-    );
-  }, 1000);
+    // Check every second to make sure the main thread is still responsive
+    setInterval(() => {
+        AppLogger.info(
+            '******************** Checking that the main thread is not blocked **************************',
+        );
+    }, 1000);
 
-  // Initial update
-  AppLogger.info(
-    '******************** Starting initial update **************************',
-  );
-  setTimeout(() => {
-    startUpdateWorkers();
-  }, 2000); // Delay the initial update by 2 seconds
+    // Initial update
+    AppLogger.info('******************** Starting initial update **************************');
+    setTimeout(() => {
+        startUpdateWorkers();
+    }, 2000); // Delay the initial update by 2 seconds
 
-  // Schedule periodic updates (every midnight)
-  const job = new CronJob('00 00 00 * * *', () => {
-    AppLogger.info(
-      '******************** Starting scheduled update **************************',
-    );
-    startUpdateWorkers();
-  });
-  job.start();
+    // Schedule periodic updates (every midnight)
+    const job = new CronJob('00 00 00 * * *', () => {
+        AppLogger.info('******************** Starting scheduled update **************************');
+        startUpdateWorkers();
+    });
+    job.start();
 };
 
 const DataUpdateScheduler = {
-  start,
+    start,
 };
 
 export default DataUpdateScheduler;

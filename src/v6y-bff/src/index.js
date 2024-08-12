@@ -14,69 +14,62 @@ const { createServer } = ServerUtils;
 
 const { getCurrentConfig } = ServerConfig;
 
-const {
-  ssl,
-  monitoringPath,
-  hostname,
-  port,
-  apiPath,
-  healthCheckPath,
-  databaseUri,
-} = getCurrentConfig() || {};
+const { ssl, monitoringPath, hostname, port, apiPath, healthCheckPath, databaseUri } =
+    getCurrentConfig() || {};
 
 const app = Express();
 
 // *********************************************** Monitoring Endpoints ***********************************************
 
 app.use(
-  ExpressStatusMonitor({
-    path: monitoringPath,
-    healthChecks: [
-      {
-        protocol: ssl ? 'https' : 'http',
-        host: hostname,
-        port,
-        path: healthCheckPath,
-        headers: {},
-      },
-    ],
-  }),
+    ExpressStatusMonitor({
+        path: monitoringPath,
+        healthChecks: [
+            {
+                protocol: ssl ? 'https' : 'http',
+                host: hostname,
+                port,
+                path: healthCheckPath,
+                headers: {},
+            },
+        ],
+    }),
 );
 
 // *********************************************** Graphql Config & Endpoints ***********************************************
 
 const httpServer = createServer({
-  app,
-  config: getCurrentConfig(),
+    app,
+    config: getCurrentConfig(),
 });
 
 const server = new ApolloServer({
-  typeDefs: VitalityTypes,
-  resolvers: VitalityResolvers,
-  plugins: [
-    ApolloServerPluginDrainHttpServer({
-      httpServer,
-    }),
-  ],
+    typeDefs: VitalityTypes,
+    resolvers: VitalityResolvers,
+    plugins: [
+        ApolloServerPluginDrainHttpServer({
+            httpServer,
+        }),
+    ],
 });
 
 await server.start();
 
 app.use(
-  apiPath,
-  Cors(),
-  BodyParser.json(),
-  expressMiddleware(server, {
-    context: async ({ req }) => ({
-      token: req.headers.token,
+    apiPath,
+    Cors(),
+    BodyParser.json(),
+    expressMiddleware(server, {
+        context: async ({ req }) => ({
+            token: req.headers.token,
+        }),
     }),
-  }),
 );
 
 // *********************************************** Health Check Endpoints ***********************************************
 
 app.get(healthCheckPath, (req, res) => {
-  res.status(200).send('V6y Sever is UP !');
+    res.status(200).send('V6y Sever is UP !');
 });
 
 // *********************************************** DataBase Config & Launch ***********************************************
@@ -86,12 +79,12 @@ await DataBaseManager.connect(databaseUri);
 // *********************************************** Server Config & Launch ***********************************************
 
 await new Promise((resolve) =>
-  httpServer.listen(
-    {
-      port,
-    },
-    resolve,
-  ),
+    httpServer.listen(
+        {
+            port,
+        },
+        resolve,
+    ),
 );
 
 httpServer.timeout = getCurrentConfig()?.serverTimeout; // milliseconds

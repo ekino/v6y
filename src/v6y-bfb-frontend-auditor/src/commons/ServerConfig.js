@@ -5,51 +5,59 @@ const V6Y_HEALTH_CHECK_PATH = `${V6Y_API_PATH}health-checks`;
 const V6Y_MONITORING_PATH = `${V6Y_API_PATH}monitoring`;
 const APP_AUDITOR_API_PATH = `${V6Y_API_PATH}app`;
 
+const execEnv = process?.argv;
+
+/**
+ * Server configuration for different environments.
+ * @type {Object}
+ */
 const SERVER_ENV_CONFIGURATION = {
-  production: {
-    ssl: false,
-    port: 4002,
-    hostname: 'localhost',
-    apiPath: V6Y_API_PATH,
-    appAuditorApiPath: APP_AUDITOR_API_PATH,
-    healthCheckPath: V6Y_HEALTH_CHECK_PATH,
-    monitoringPath: V6Y_MONITORING_PATH,
-    databaseUri: '',
-    serverTimeout: 900000, // milliseconds
-    chromeExecutablePath: '/applis/appf/chrome-linux/chrome',
-  },
-  development: {
-    ssl: false,
-    port: 4002,
-    hostname: 'localhost',
-    apiPath: V6Y_API_PATH,
-    appAuditorApiPath: APP_AUDITOR_API_PATH,
-    healthCheckPath: V6Y_HEALTH_CHECK_PATH,
-    monitoringPath: V6Y_MONITORING_PATH,
-    databaseUri: '',
-    serverTimeout: 900000, // milliseconds
-    chromeExecutablePath:
-      'C:\\Users\\A493659\\bin\\chromium-current\\chrome.exe',
-  },
+    production: {
+        ssl: false,
+        port: 4002,
+        hostname: 'localhost',
+        apiPath: V6Y_API_PATH,
+        appAuditorApiPath: APP_AUDITOR_API_PATH,
+        healthCheckPath: V6Y_HEALTH_CHECK_PATH,
+        monitoringPath: V6Y_MONITORING_PATH,
+        databaseUri: '',
+        serverTimeout: 900000, // milliseconds
+        chromeExecutablePath: '/applis/appf/chrome-linux/chrome',
+    },
+    development: {
+        ssl: false,
+        port: 4002,
+        hostname: 'localhost',
+        apiPath: V6Y_API_PATH,
+        appAuditorApiPath: APP_AUDITOR_API_PATH,
+        healthCheckPath: V6Y_HEALTH_CHECK_PATH,
+        monitoringPath: V6Y_MONITORING_PATH,
+        databaseUri: '',
+        serverTimeout: 900000, // milliseconds
+        chromeExecutablePath: 'C:\\Users\\A493659\\bin\\chromium-current\\chrome.exe',
+    },
 };
 
-const getCurrentContext = () =>
-  process?.argv?.includes('--dev') ? 'development' : 'production';
+const getCurrentContext = () => (execEnv?.includes('--dev') ? 'development' : 'production');
 
 const getCurrentConfig = () => {
-  const currentContext = getCurrentContext();
-  AppLogger.info(`[getCurrentConfig] currentContext: ${currentContext}`);
+    const currentContext = getCurrentContext();
+    AppLogger.info(`[getCurrentConfig] currentContext: ${currentContext}`);
 
-  const currentConfig = SERVER_ENV_CONFIGURATION[currentContext];
-  return {
-    ...(currentConfig || {}),
-    serverUrl: `http${currentConfig.ssl ? 's' : ''}://${currentConfig.hostname}:${currentConfig.port}${currentConfig.apiPath}`,
-  };
+    const currentConfig = SERVER_ENV_CONFIGURATION[currentContext];
+    return {
+        ...(currentConfig || {}),
+        serverUrl: `http${currentConfig.ssl ? 's' : ''}://${currentConfig.hostname}:${currentConfig.port}${currentConfig.apiPath}`,
+    };
 };
 
+/**
+ * Server configuration module.
+ * @type {Object}
+ */
 const ServerConfig = {
-  getCurrentConfig,
-  getCurrentContext,
+    getCurrentConfig,
+    getCurrentContext,
 };
 
 export default ServerConfig;

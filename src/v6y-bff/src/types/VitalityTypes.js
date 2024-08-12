@@ -17,29 +17,29 @@ import NotificationType from './notifications/NotificationType.js';
 import NotificationQueriesType from './notifications/NotificationQueriesType.js';
 
 const VitalityTypes = gql`
-  # common schemas
-  ${EvolutionTypes}
-  ${HelpType}
-  ${QualityGateType}
-  ${VersionType}
-  ${LinkType}
-  ${RepositoryType}
-  ${KeywordType}
-  ${DependencyType}
-  ${UserType}
+    # common schemas
+    ${EvolutionTypes}
+    ${HelpType}
+    ${QualityGateType}
+    ${VersionType}
+    ${LinkType}
+    ${RepositoryType}
+    ${KeywordType}
+    ${DependencyType}
+    ${UserType}
 
-  # outputted schemas
-  ${AppType}
-  ${AuditReportType}
-  ${FaqType}
-  ${NotificationType}
+    # outputted schemas
+    ${AppType}
+    ${AuditReportType}
+    ${FaqType}
+    ${NotificationType}
 
-  # the schemas allows the following queries
-  ${AppQueriesType}
-  ${FaqQueriesType}
-  ${NotificationQueriesType}
+    # the schemas allows the following queries
+    ${AppQueriesType}
+    ${FaqQueriesType}
+    ${NotificationQueriesType}
 
-  # this schemas allows the following mutations
+    # this schemas allows the following mutations
 `;
 
 export default VitalityTypes;

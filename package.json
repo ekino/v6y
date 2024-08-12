@@ -15,13 +15,16 @@
     "build": "nx run-many --target=build --all",
     "lint": "nx run-many --target=lint --all",
     "lint:fix": "nx run-many --target=lint:fix --all",
+    "format": "nx run-many --target=format --all",
     "test": "nx run-many --target=test --all",
     "nx:analyze:graph": "nx graph",
-    "nx:analyze:graph:affected": "nx affected:graph",
-    "nx:clear:cache": "nx reset"
+    "nx:analyze:graph:affected": "nx graph --affected",
+    "nx:clear:cache": "nx reset",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "nx": "19.3.0"
+    "husky": "=9.1.4",
+    "nx": "=19.3.0"
   },
   "workspaces": [
     "src/**"

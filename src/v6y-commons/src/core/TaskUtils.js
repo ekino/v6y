@@ -1,7 +1,7 @@
 const sleep = (waitTimeInMs) => new Promise((resolve) => setTimeout(resolve, waitTimeInMs));
 
 const TaskUtils = {
-  sleep,
+    sleep,
 };
 
 export default TaskUtils;

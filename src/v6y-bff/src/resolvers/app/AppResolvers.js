@@ -1,9 +1,9 @@
 import AppQueries from './AppQueries.js';
 
 const AppResolvers = {
-  Query: {
-    ...AppQueries,
-  },
+    Query: {
+        ...AppQueries,
+    },
 };
 
 export default AppResolvers;

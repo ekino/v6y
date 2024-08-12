@@ -1,9 +1,9 @@
 import NotificationsQueries from './NotificationsQueries.js';
 
 const NotificationsResolvers = {
-  Query: {
-    ...NotificationsQueries,
-  },
+    Query: {
+        ...NotificationsQueries,
+    },
 };
 
 export default NotificationsResolvers;

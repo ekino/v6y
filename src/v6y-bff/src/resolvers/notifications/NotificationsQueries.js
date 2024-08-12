@@ -1,11 +1,11 @@
 import { NotificationsConfig } from '@v6y/commons';
 
 const getNotificationList = () => {
-  return NotificationsConfig.buildData();
+    return NotificationsConfig.buildData();
 };
 
 const NotificationsQueries = {
-  getNotificationList,
+    getNotificationList,
 };
 
 export default NotificationsQueries;

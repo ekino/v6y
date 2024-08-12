@@ -1,4 +1,3 @@
-
 const FaqType = `
   type FaqType {
     """ FAQ Question """

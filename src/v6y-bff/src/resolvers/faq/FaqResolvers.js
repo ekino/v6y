@@ -1,9 +1,9 @@
 import FaqQueries from './FaqQueries.js';
 
 const FaqResolvers = {
-  Query: {
-    ...FaqQueries,
-  },
+    Query: {
+        ...FaqQueries,
+    },
 };
 
 export default FaqResolvers;

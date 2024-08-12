@@ -1,11 +1,11 @@
 import { FaqConfig } from '@v6y/commons';
 
 const getFaqList = () => {
-  return FaqConfig.buildData();
+    return FaqConfig.buildData();
 };
 
 const FaqQueries = {
-  getFaqList,
+    getFaqList,
 };
 
 export default FaqQueries;

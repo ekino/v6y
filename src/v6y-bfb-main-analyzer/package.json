@@ -23,6 +23,7 @@
     "code:analyze": "es6-plato -r -d target/report src",
     "lint": "eslint --config ./eslint.config.js --cache-location ./.eslintcache \"./**/*.js\" --cache",
     "lint:fix": "eslint --config ./eslint.config.js --cache-location ./.eslintcache \"./**/*.js\" --cache --fix",
+    "format": "prettier --write ./src",
     "test:dev": "jest --config=jest.config.json --all --coverage",
     "generate:heapdump": "node ./HeapDump.js"
   },
@@ -33,7 +34,9 @@
     "@babel/preset-env": "=7.23.6",
     "babel-jest": "=29.7.0",
     "chai": "=4.3.10",
-    "eslint": "=7.5.0 || =8.0.0 || =9.0.0",
+    "eslint": "=9.0.0",
+    "eslint-config-prettier": "=9.1.0",
+    "eslint-plugin-prettier": "=5.2.1",
     "jest": "=29.7.0",
     "jest-sonar-reporter": "=2.0.0",
     "jest-stare": "=2.5.1"
