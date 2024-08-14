@@ -28,7 +28,7 @@ const DependencyType = `
     """ Dependency Patch Version """
     patch: String
                
-    """ Dependency status (deprecated, conflict, old or up-to-date) """
+    """ Dependency status (deprecated, outdated or up-to-date) """
     status: String
     
     """ Dependency packaging (jar, war, ...) """

@@ -2,8 +2,9 @@ import { gql } from 'graphql-request';
 
 const GetAppDetailsEvolutions = gql`
     query getAppDetails($appId: String) {
-        getAppDetailsEvolutions: getAppDetails(appId: $appId) {
+        getAppDetailsEvolutions: getAppDetailsByParams(appId: $appId) {
             evolutions {
+                _id
                 type
                 branch
                 title

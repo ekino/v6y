@@ -1,21 +1,21 @@
 import { gql } from 'graphql-request';
 
 const GetAppDetailsAuditReports = gql`
-    query getAppDetailsAuditReports($appId: String) {
-        getAppDetailsAuditReports(appId: $appId) {
+    query getAppDetails($appId: String) {
+        getAppDetailsAuditReportsByParams(appId: $appId) {
             type
             category
             subCategory
             title
             description
+            explanation
             webUrl
             status
             score
-            scoreMax
-            scoreMin
             scorePercent
             scoreUnit
             branch
+            module
         }
     }
 `;

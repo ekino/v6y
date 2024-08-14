@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import VitalityCommonUtils from '../../utils/VitalityCommonUtils.js';
-import VitalityKeywordItem from './VitalityKeywordItem.jsx';
+
+import { getTextWidth } from '../../utils/VitalityCommonUtils.js';
 import VitalityInfiniteList from '../VitalityInfiniteList.jsx';
+import VitalityKeywordItem from './VitalityKeywordItem.jsx';
 
-const { getTextWidth } = VitalityCommonUtils;
-
-const VitalityKeywords = ({ keywords, onSelectedKeyword }) => {
+const VitalityKeywords = ({ keywords, onKeywordsChanged }) => {
     const [selectedKeywords, setSelectedKeywords] = useState([]);
 
     const handleSelectedKeyword = (keyword) => {
@@ -15,6 +14,7 @@ const VitalityKeywords = ({ keywords, onSelectedKeyword }) => {
         }
 
         setSelectedKeywords([...selectedKeywords, keyword.label]);
+        onKeywordsChanged?.([...selectedKeywords, keyword.label]);
     };
 
     return (

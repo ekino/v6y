@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request';
 
-const GetAppDetailsQuality = gql`
+const GetAppDetailsQualityReports = gql`
     query getAppDetails($appId: String) {
-        getAppDetailsQuality: getAppDetails(appId: $appId) {
+        getAppDetailsQualityReports: getAppDetailsByParams(appId: $appId) {
             keywords {
                 type
                 branch
@@ -20,4 +20,4 @@ const GetAppDetailsQuality = gql`
     }
 `;
 
-export default GetAppDetailsQuality;
+export default GetAppDetailsQualityReports;

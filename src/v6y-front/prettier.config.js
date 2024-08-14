@@ -1,3 +1,5 @@
+import PrettierImportConfig from '@trivago/prettier-plugin-sort-imports';
+
 /**
  * @see https://prettier.io/docs/en/configuration.html
  * @type {import("prettier").Config}
@@ -8,7 +10,8 @@ const config = {
     semi: true,
     singleQuote: true,
     printWidth: 100,
-    importOrder: ['^@core/(.*)$', '^@server/(.*)$', '^@ui/(.*)$', '^[./]'],
+    plugins: [PrettierImportConfig],
+    importOrder: ['^@ui/(.*)$', '^@server/(.*)$', '^[./]'],
     importOrderSeparation: true,
     importOrderSortSpecifiers: true,
 };

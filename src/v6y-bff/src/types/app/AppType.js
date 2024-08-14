@@ -3,8 +3,14 @@ const AppType = `
     """ App Unique id """
     _id: String!
     
-    """ APP Name """
+    """ APP Name (full name) """
     name: String!
+    
+    """ APP Acronym (abbreviation, trigram, ...) """
+    acronym: String!
+    
+    """ APP Contact Mails """
+    mails: [String]!
     
     """ APP Description """
     description: String

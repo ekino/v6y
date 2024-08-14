@@ -1,14 +1,15 @@
 import { ApolloServer } from '@apollo/server';
-import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import { expressMiddleware } from '@apollo/server/express4';
-import Express from 'express';
-import Cors from 'cors';
-import BodyParser from 'body-parser';
-import ExpressStatusMonitor from 'express-status-monitor';
-import VitalityTypes from './types/VitalityTypes.js';
-import VitalityResolvers from './resolvers/VitalityResolvers.js';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import { AppLogger, DataBaseManager, ServerUtils } from '@v6y/commons';
+import BodyParser from 'body-parser';
+import Cors from 'cors';
+import Express from 'express';
+import ExpressStatusMonitor from 'express-status-monitor';
+
 import ServerConfig from './config/ServerConfig.js';
+import VitalityResolvers from './resolvers/VitalityResolvers.js';
+import VitalityTypes from './types/VitalityTypes.js';
 
 const { createServer } = ServerUtils;
 

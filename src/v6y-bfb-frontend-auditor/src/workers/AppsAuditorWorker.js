@@ -1,5 +1,5 @@
-import { parentPort } from 'worker_threads';
 import { AppLogger } from '@v6y/commons';
+import { parentPort } from 'worker_threads';
 
 AppLogger.info('******************** Starting background app audits **************************');
 

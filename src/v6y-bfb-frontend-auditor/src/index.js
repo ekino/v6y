@@ -1,11 +1,12 @@
-import express from 'express';
-import cors from 'cors';
+import { AppLogger, ServerUtils } from '@v6y/commons';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import express from 'express';
 import expressStatusMonitor from 'express-status-monitor';
-import { AppLogger, ServerUtils } from '@v6y/commons';
-import AppAuditorRouter from './routes/AppAuditorRouter.js';
+
 import ServerConfig from './commons/ServerConfig.js';
+import AppAuditorRouter from './routes/AppAuditorRouter.js';
 
 const { createServer } = ServerUtils;
 const { getCurrentConfig } = ServerConfig;

@@ -1,23 +1,29 @@
 'use client';
 
+import { Col, Form, Input, Row, Typography } from 'antd';
 import React from 'react';
-import { Col, Input, Row, Typography } from 'antd';
 
 const { Search } = Input;
 
-const VitalitySearchBar = ({ helper, status, placeholder, onSearchChanged }) => {
+const VitalitySearchBar = ({ helper, label, status, placeholder, onSearchChanged }) => {
     return (
         <Row justify="center" align="middle" gutter={[12, 6]}>
             <Col span={20}>
-                <Search
-                    status={status}
-                    placeholder={placeholder}
-                    onSearch={onSearchChanged}
-                    enterButton
-                />
-            </Col>
-            <Col span={20}>
-                <Typography.Text>{helper}</Typography.Text>
+                <Form layout="vertical">
+                    <Form.Item
+                        name="vitality_search"
+                        label={<Typography.Text>{label}</Typography.Text>}
+                        help={<Typography.Text>{helper}</Typography.Text>}
+                    >
+                        <Search
+                            enterButton
+                            status={status}
+                            placeholder={placeholder}
+                            onSearch={onSearchChanged}
+                            style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }}
+                        />
+                    </Form.Item>
+                </Form>
             </Col>
         </Row>
     );

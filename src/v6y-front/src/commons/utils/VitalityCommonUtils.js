@@ -1,9 +1,10 @@
 import Link from 'next/link';
-import VitalityLegend from '../components/VitalityLegend.jsx';
-import VitalityTerms from '../config/VitalityTerms.js';
-import VitalityNavigationPaths from '../config/VitalityNavigationPaths.js';
 
-const getTextWidth = (text) => {
+import VitalityLegend from '../components/VitalityLegend.jsx';
+import VitalityNavigationPaths from '../config/VitalityNavigationPaths.js';
+import VitalityTerms from '../config/VitalityTerms.js';
+
+export const getTextWidth = (text) => {
     const padding = 16;
     const margin = 5;
     const defaultWidth = 100;
@@ -19,7 +20,7 @@ const getTextWidth = (text) => {
     return context.measureText(text).width + 2 * padding + 2 * margin;
 };
 
-const formatHelpOptions = (options) => {
+export const formatHelpOptions = (options) => {
     if (!options?.length) {
         return [];
     }
@@ -28,13 +29,13 @@ const formatHelpOptions = (options) => {
         .filter((option) => option.title?.length)
         .map((option) => ({
             key: option.title,
-            label: option.title,
+            label: `${option.title}${option.branch?.length ? ` - (branch: ${option.branch})` : ''}`,
             children: <VitalityLegend legend={option} />,
             showArrow: true,
         }));
 };
 
-const buildBreadCrumbItems = (pathname) => {
+export const buildBreadCrumbItems = (pathname) => {
     const dashboardLink = <Link href={VitalityNavigationPaths.DASHBOARD}>Dashboard</Link>;
     const appListLink = (
         <Link href={VitalityNavigationPaths.APP_LIST}>
@@ -91,7 +92,7 @@ const buildBreadCrumbItems = (pathname) => {
     );
 };
 
-const buildPageTitle = (pathname) =>
+export const buildPageTitle = (pathname) =>
     ({
         [VitalityNavigationPaths.DASHBOARD]: VitalityTerms.VITALITY_DASHBOARD_PAGE_TITLE,
         [VitalityNavigationPaths.APP_LIST]: VitalityTerms.VITALITY_APP_LIST_PAGE_TITLE,
@@ -100,12 +101,3 @@ const buildPageTitle = (pathname) =>
         [VitalityNavigationPaths.NOTIFICATIONS]: VitalityTerms.VITALITY_NOTIFICATIONS_PAGE_TITLE,
         [VitalityNavigationPaths.STACK_STATS]: VitalityTerms.VITALITY_STACK_STATS_PAGE_TITLE,
     })[pathname] || [];
-
-const VitalityCommonUtils = {
-    getTextWidth,
-    formatHelpOptions,
-    buildBreadCrumbItems,
-    buildPageTitle,
-};
-
-export default VitalityCommonUtils;

@@ -1,5 +1,6 @@
-import React from 'react';
 import { Col, Row, Typography } from 'antd';
+import React from 'react';
+
 import VitalityTerms from '../../../commons/config/VitalityTerms.js';
 import VitalityDashboardMenuItem from './VitalityDashboardMenuItem.jsx';
 

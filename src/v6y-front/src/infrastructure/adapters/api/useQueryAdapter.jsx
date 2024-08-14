@@ -1,4 +1,4 @@
-import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import GraphqlClientRequest from 'graphql-request';
 
 export const buildClientQuery = async ({ queryBaseUrl, queryPath, queryParams }) =>

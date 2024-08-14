@@ -2,7 +2,7 @@ import { gql } from 'graphql-request';
 
 const GetAppDetailsDependencies = gql`
     query getAppDetails($appId: String) {
-        getAppDetailsDependencies: getAppDetails(appId: $appId) {
+        getAppDetailsDependencies: getAppDetailsByParams(appId: $appId) {
             dependencies {
                 type
                 name

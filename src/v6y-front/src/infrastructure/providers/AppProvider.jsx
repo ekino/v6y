@@ -1,7 +1,7 @@
 'use client';
 
-import ThemeProvider from './ThemeProvider.jsx';
 import QueryProvider from './QueryProvider.jsx';
+import ThemeProvider from './ThemeProvider.jsx';
 
 export function AppProvider({ theme, children }) {
     return (

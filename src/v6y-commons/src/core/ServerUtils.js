@@ -1,5 +1,5 @@
-import HttpsClient from 'https';
 import HttpClient from 'http';
+import HttpsClient from 'https';
 import HttpStaticClient from 'spdy';
 
 const createStaticServer = ({ app, config }) => {

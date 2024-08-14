@@ -1,3 +1,5 @@
+import VitalityTheme from './VitalityTheme.js';
+
 const VITALITY_DASHBOARD_DATASOURCE = [
     {
         autoFocus: true,
@@ -41,8 +43,55 @@ const VITALITY_DASHBOARD_DATASOURCE = [
     },
 ];
 
+const VITALITY_APPS_DEPENDENCIES_STATUS = [
+    {
+        key: 'all',
+        label: 'All',
+        helpMessage: 'Show all dependencies',
+    },
+    {
+        key: 'up-to-date',
+        label: 'Valid',
+        helpMessage:
+            'Show only valid dependencies (a valid dependency is a recommended dependency with an up-to-date version)',
+    },
+    {
+        key: 'outdated',
+        label: 'Outdated',
+        helpMessage:
+            'Show only outdated dependencies (an outdated dependency is a recommended dependency but with a non-up-to-date version)',
+    },
+    {
+        key: 'deprecated',
+        label: 'Forbidden',
+        helpMessage:
+            'Show only forbidden dependencies (a forbidden dependency is a dependency that should not be added to the project)',
+    },
+];
+
+const AUDIT_REPORT_TYPES = {
+    codeCompliance: 'Code Compliance',
+    codeComplexity: 'Code Complexity',
+    codeCoupling: 'Code Coupling',
+    lighthouse: 'Lighthouse',
+    codeSecurity: 'Code Security',
+    codeDuplication: 'Code Duplication',
+};
+
+const AUDIT_STATUS_COLORS = {
+    success: VitalityTheme.token.colorSuccess,
+    warning: VitalityTheme.token.colorWarning,
+    error: VitalityTheme.token.colorError,
+};
+
+const normalizeDependencyVersion = (version) => version?.replace('=', '');
+
 const VitalityCommonConfig = {
     VITALITY_DASHBOARD_DATASOURCE,
+    VITALITY_APPS_DEPENDENCIES_STATUS,
+    AUDIT_REPORT_TYPES,
+    AUDIT_STATUS_COLORS,
+    normalizeDependencyVersion,
 };
 
 export default VitalityCommonConfig;

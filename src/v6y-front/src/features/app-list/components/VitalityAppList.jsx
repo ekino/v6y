@@ -1,36 +1,59 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'antd';
+import React, { useEffect, useState } from 'react';
+
+import VitalityLoadMoreList from '../../../commons/components/VitalityLoadMoreList.jsx';
+import VitalitySearchBar from '../../../commons/components/VitalitySearchBar.jsx';
+import VitalityKeywords from '../../../commons/components/keywords/VitalityKeywords.jsx';
+import VitalityApiConfig from '../../../commons/config/VitalityApiConfig.js';
+import VitalityTerms from '../../../commons/config/VitalityTerms.js';
+import { exportAppListDataToCSV } from '../../../commons/utils/VitalityDataExportUtils.js';
 import {
     buildClientQuery,
     useClientQuery,
     useInfiniteClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter.jsx';
-import VitalityTerms from '../../../commons/config/VitalityTerms.js';
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
-import VitalityLoadMoreList from '../../../commons/components/VitalityLoadMoreList.jsx';
-import VitalitySearchBar from '../../../commons/components/VitalitySearchBar.jsx';
-import VitalityKeywords from '../../../commons/components/keywords/VitalityKeywords.jsx';
-import VitalityAppListItem from './VitalityAppListItem.jsx';
 import GetAppKeywords from '../api/getAppKeywords.js';
 import GetAppListByPageAndParams from '../api/getAppListByPageAndParams.js';
-import VitalityApiConfig from '../../../commons/config/VitalityApiConfig.js';
+import GetAppsTotalByParams from '../api/getAppsTotalByParams.js';
+import VitalityAppListHeader from './VitalityAppListHeader.jsx';
+import VitalityAppListItem from './VitalityAppListItem.jsx';
 
 let currentAppListPage = 0;
 
 const VitalityAppList = () => {
     const [appList, setAppList] = useState([]);
+    const [appsTotal, setAppsTotal] = useState(0);
+
     const { getUrlParams } = useNavigationAdapter();
     const [keywords, searchText] = getUrlParams(['keywords', 'searchText']);
 
-    const { loading: isKeywordsLoading, data: dataKeywords } = useClientQuery({
+    const { isLoading: isKeywordsLoading, data: dataKeywords } = useClientQuery({
         queryCacheKey: ['getKeywords'],
         queryBuilder: async () =>
             buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
                 queryPath: GetAppKeywords,
                 queryParams: {},
+            }),
+    });
+
+    const { data: dataAppsTotal, refetch: refetchAppsTotal } = useClientQuery({
+        queryCacheKey: [
+            'getAppsTotalByParams',
+            keywords?.length ? keywords : 'empty_keywords',
+            searchText?.length ? searchText : 'empty_search_text',
+        ],
+        queryBuilder: async () =>
+            buildClientQuery({
+                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
+                queryPath: GetAppsTotalByParams,
+                queryParams: {
+                    keywords,
+                    searchText,
+                },
             }),
     });
 
@@ -70,6 +93,18 @@ const VitalityAppList = () => {
         setAppList(mergedAppList);
     }, [dataAppList?.pages]);
 
+    useEffect(() => {
+        setAppsTotal(dataAppsTotal?.getAppsTotalByParams);
+    }, [dataAppsTotal?.getAppsTotalByParams]);
+
+    useEffect(() => {
+        setAppsTotal(0);
+        refetchAppsTotal?.();
+
+        currentAppListPage = 0;
+        fetchAppListNextPage?.();
+    }, [keywords, searchText]);
+
     const isAppListLoading =
         appListFetchStatus === 'loading' || isAppListFetching || isAppListFetchingNextPage || false;
 
@@ -79,8 +114,12 @@ const VitalityAppList = () => {
         console.log(value);
     };
 
-    const onSelectedKeyword = (keywords) => {
+    const onKeywordsChanged = (keywords) => {
         console.log(keywords);
+    };
+
+    const onExportApplicationsClicked = () => {
+        exportAppListDataToCSV({ appList });
     };
 
     const onLoadMore = () => {
@@ -94,6 +133,7 @@ const VitalityAppList = () => {
                 <VitalitySearchBar
                     placeholder={VitalityTerms.VITALITY_SEARCHBAR_INPUT_PLACEHOLDER}
                     helper={VitalityTerms.VITALITY_GLOBAL_SEARCHBAR_INPUT_HELPER}
+                    label={VitalityTerms.VITALITY_SEARCHBAR_INPUT_LABEL}
                     onSearchChanged={onSearchChanged}
                 />
             </Col>
@@ -101,10 +141,16 @@ const VitalityAppList = () => {
                 <Col span={20}>
                     <VitalityKeywords
                         keywords={dataKeywords?.getAppKeywords}
-                        onSelectedKeyword={onSelectedKeyword}
+                        onKeywordsChanged={onKeywordsChanged}
                     />
                 </Col>
             )}
+            <Col span={20}>
+                <VitalityAppListHeader
+                    appsTotal={appsTotal}
+                    onExportApplicationsClicked={onExportApplicationsClicked}
+                />
+            </Col>
             <Col span={20}>
                 <VitalityLoadMoreList
                     isDataSourceLoading={isAppListLoading}

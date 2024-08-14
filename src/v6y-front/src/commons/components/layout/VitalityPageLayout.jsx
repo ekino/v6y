@@ -1,17 +1,16 @@
 'use client';
 
-import React from 'react';
 import { Col, FloatButton, Layout, Row, Typography } from 'antd';
+import React from 'react';
+
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
-import VitalityCommonUtils from '../../utils/VitalityCommonUtils.js';
-import VitalityPageHeader from './VitalityPageHeader.jsx';
-import VitalityPageFooter from './VitalityPageFooter.jsx';
+import { buildPageTitle } from '../../utils/VitalityCommonUtils.js';
 import VitalityBot from '../chatbot/VitalityBot.jsx';
 import VitalityBreadcrumb from './VitalityBreadcrumb.jsx';
+import VitalityPageFooter from './VitalityPageFooter.jsx';
+import VitalityPageHeader from './VitalityPageHeader.jsx';
 
 const { Header, Footer, Content } = Layout;
-
-const { buildPageTitle } = VitalityCommonUtils;
 
 const VitalityPageLayout = ({ children }) => {
     const { pathname } = useNavigationAdapter();

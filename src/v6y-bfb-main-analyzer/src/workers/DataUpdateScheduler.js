@@ -1,5 +1,6 @@
-import { CronJob } from 'cron';
 import { AppLogger, WorkerHelper } from '@v6y/commons';
+import { CronJob } from 'cron';
+
 import ServerConfig from '../config/ServerConfig.js';
 
 const { forkWorker } = WorkerHelper;

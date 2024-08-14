@@ -1,18 +1,17 @@
 'use client';
 
 import React from 'react';
+
+import VitalityCollapse from '../../../commons/components/VitalityCollapse.jsx';
+import VitalityEmptyView from '../../../commons/components/VitalityEmptyView.jsx';
+import VitalityLoader from '../../../commons/components/VitalityLoader.jsx';
+import VitalityApiConfig from '../../../commons/config/VitalityApiConfig.js';
+import { formatHelpOptions } from '../../../commons/utils/VitalityCommonUtils.js';
 import {
     buildClientQuery,
     useClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter.jsx';
-import VitalityCollapse from '../../../commons/components/VitalityCollapse.jsx';
-import VitalityCommonUtils from '../../../commons/utils/VitalityCommonUtils.js';
-import VitalityEmptyView from '../../../commons/components/VitalityEmptyView.jsx';
-import VitalityLoader from '../../../commons/components/VitalityLoader.jsx';
-import VitalityApiConfig from '../../../commons/config/VitalityApiConfig.js';
 import GetFaqList from '../api/getFaqList.js';
-
-const { formatHelpOptions } = VitalityCommonUtils;
 
 const FAQList = () => {
     const { isLoading: faqListLoading, data: dataFaqList } = useClientQuery({

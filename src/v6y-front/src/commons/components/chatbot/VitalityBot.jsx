@@ -1,6 +1,7 @@
 'use client';
 
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
+
 import VitalityLoader from '../VitalityLoader.jsx';
 import VitalityBotSettings from './VitalityBotSettings.js';
 

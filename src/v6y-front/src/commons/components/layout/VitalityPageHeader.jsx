@@ -1,7 +1,8 @@
 import { Col, Row, Typography } from 'antd';
-import VitalityPageHeaderMenu from './VitalityPageHeaderMenu.jsx';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
+
+import VitalityPageHeaderMenu from './VitalityPageHeaderMenu.jsx';
 
 const VitalityPageHeader = ({ title, subTitle }) => (
     <Row style={{ width: '100%', textAlign: 'center' }} justify="center" align="middle">

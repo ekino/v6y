@@ -1,8 +1,7 @@
 import { Breadcrumb } from 'antd';
-import VitalityCommonUtils from '../../utils/VitalityCommonUtils.js';
-import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
 
-const { buildBreadCrumbItems } = VitalityCommonUtils;
+import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
+import { buildBreadCrumbItems } from '../../utils/VitalityCommonUtils.js';
 
 const VitalityBreadcrumb = () => {
     const { pathname } = useNavigationAdapter();

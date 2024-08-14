@@ -1,11 +1,12 @@
-import { workerData, parentPort } from 'worker_threads';
 import {
     AppLogger,
-    DataBaseManager,
     AppProvider,
-    KeywordsProvider,
     AuditsProvider,
+    DataBaseManager,
+    KeywordsProvider,
 } from '@v6y/commons';
+import { parentPort, workerData } from 'worker_threads';
+
 import AppManager from '../managers/AppManager.js';
 
 const { buildAppList } = AppManager;

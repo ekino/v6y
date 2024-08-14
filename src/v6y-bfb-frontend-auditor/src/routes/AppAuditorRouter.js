@@ -1,5 +1,6 @@
-import express from 'express';
 import { AppLogger } from '@v6y/commons';
+import express from 'express';
+
 import AppAuditorManager from '../auditors/AppAuditorManager.js';
 
 const { startAudits } = AppAuditorManager;

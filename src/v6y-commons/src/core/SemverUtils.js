@@ -1,5 +1,6 @@
 import { compare } from 'compare-versions';
-import { valid, clean, major, minor, patch } from 'semver';
+import { clean, major, minor, patch, valid } from 'semver';
+
 import AppLogger from './AppLogger.js';
 
 const SEMVER_OPERATORS = ['^', '~', '*', '='];

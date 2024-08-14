@@ -6,10 +6,10 @@ const AuditReportType = `
     """ App Unique id """
     appId: String!
     
-    """ Audit type (lighthouse, axe, unit tests, code quality, security ...) """
+    """ Audit type (lighthouse, Code security, Code compliance, Code complexity, Code complexity, Code duplication, Code coupling) """
     type: String
 
-    """ Audit category (performance, a11y, w3c, no unit tests, ...) """
+    """ Audit category (performance, seo, accessibility, first-contentful-paint, largest-contentful-paint, cumulative-layout-shift, cyclomatic-complexity, maintainability-index, ...) """
     category: String
     
     """ Audit sub category (mobile, desktop, 3G, 4G, ...) """
@@ -18,8 +18,11 @@ const AuditReportType = `
     """ Audit title """
     title: String
     
-    """ Audit description """
+    """ Audit description (detailed description that describes why the audit is important) """
     description: String
+    
+    """ Audit explanation (the reason for audit failure) """
+    explanation: String
     
     """ Audit web url (app link, github link, ...) """
     webUrl: String
@@ -30,12 +33,6 @@ const AuditReportType = `
     """ Audit score """
     score: Float 
 
-    """ Audit max score """
-    scoreMax: Float
-
-    """ Audit min score """
-    scoreMin: Float
-        
     """ Audit score percent """
     scorePercent: Float
     
@@ -43,7 +40,10 @@ const AuditReportType = `
     scoreUnit: String 
     
     """ Audit branch """
-    branch: String      
+    branch: String   
+    
+    """ Audit module (apps/frontend/index.js, ...) """
+    module: String      
   }
 `;
 

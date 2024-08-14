@@ -2,8 +2,11 @@ import { gql } from 'graphql-request';
 
 const GetAppDetailsInfos = gql`
     query getAppDetails($appId: String) {
-        getAppDetailsInfos: getAppDetails(appId: $appId) {
+        getAppDetailsInfos: getAppDetailsByParams(appId: $appId) {
             name
+            acronym
+            mails
+            description
             links {
                 type
                 label

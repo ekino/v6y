@@ -1,70 +1,114 @@
 import { AppLogger, AppProvider, KeywordsProvider } from '@v6y/commons';
 
-const { getKeywordsByParams } = KeywordsProvider;
+const getAppDetailsAuditReportsByParams = async (_, args) => {
+    try {
+        const { appId } = args || {};
 
-const { getAppsByParams, getAppsCountByParams } = AppProvider;
+        AppLogger.info(`[AppQueries - getAppDetailsAuditReports] appId : ${appId}`);
+
+        const auditsReports = await AppProvider.getAppDetailsAuditReportsByParams({
+            appId,
+        });
+
+        AppLogger.info(
+            `[AppQueries - getAppDetailsAuditReports] auditsReports : ${auditsReports?.length}`,
+        );
+
+        return auditsReports;
+    } catch (error) {
+        AppLogger.info(`[AppQueries - getAppDetailsAuditReports] error : ${error.message}`);
+        return [];
+    }
+};
+
+const getAppDetailsByParams = async (_, args) => {
+    try {
+        const { appId } = args || {};
+
+        AppLogger.info(`[AppQueries - getAppDetailsByParams] appId : ${appId}`);
+
+        const appDetails = await AppProvider.getAppDetailsByParams({
+            appId,
+        });
+
+        AppLogger.info(`[AppQueries - getAppDetailsByParams] appDetails : ${appDetails?._id}`);
+
+        return appDetails;
+    } catch (error) {
+        AppLogger.info(`[AppQueries - getAppDetailsByParams] error : ${error.message}`);
+        return {};
+    }
+};
 
 const getAppListByPageAndParams = async (_, args) => {
     try {
         const { offset, limit, keywords, searchText } = args || {};
 
-        AppLogger.info(`[getAppListByPageAndParams] offset : ${offset}`);
-        AppLogger.info(`[getAppListByPageAndParams] limit : ${limit}`);
-        AppLogger.info(`[getAppListByPageAndParams] keywords : ${keywords?.join?.(',') || ''}`);
-        AppLogger.info(`[getAppListByPageAndParams] searchText : ${searchText}`);
+        AppLogger.info(`[AppQueries - getAppListByPageAndParams] offset : ${offset}`);
+        AppLogger.info(`[AppQueries - getAppListByPageAndParams] limit : ${limit}`);
+        AppLogger.info(
+            `[AppQueries - getAppListByPageAndParams] keywords : ${keywords?.join?.(',') || ''}`,
+        );
+        AppLogger.info(`[AppQueries - getAppListByPageAndParams] searchText : ${searchText}`);
 
-        const appList = await getAppsByParams({
+        const appList = await AppProvider.getAppsByParams({
             searchText,
             keywords,
             offset,
             limit,
         });
 
-        AppLogger.info(`[getAppListByPageAndParams] appList : ${appList?.length}`);
+        AppLogger.info(`[AppQueries - getAppListByPageAndParams] appList : ${appList?.length}`);
 
         return appList;
     } catch (error) {
-        AppLogger.info(`[getAppListByPageAndParams] error : ${error.message}`);
+        AppLogger.info(`[AppQueries - getAppListByPageAndParams] error : ${error.message}`);
         return [];
     }
 };
 
 const getAppKeywords = async () => {
     try {
-        const appKeywordsList = await getKeywordsByParams();
+        const appKeywordsList = await KeywordsProvider.getKeywordsByParams();
 
-        AppLogger.info(`[getAppKeywords] appKeywordsList : ${appKeywordsList?.length}`);
+        AppLogger.info(
+            `[AppQueries - getAppKeywords] appKeywordsList : ${appKeywordsList?.length}`,
+        );
 
         return appKeywordsList;
     } catch (error) {
-        AppLogger.info(`[getAppKeywords] error : ${error.message}`);
+        AppLogger.info(`[AppQueries - getAppKeywords] error : ${error.message}`);
         return [];
     }
 };
 
-const getAppTotalNumber = async (_, args) => {
+const getAppsTotalByParams = async (_, args) => {
     try {
         const { keywords, searchText } = args || {};
 
-        AppLogger.info(`[getAppTotalNumber] keywords : ${keywords?.join?.(',') || ''}`);
-        AppLogger.info(`[getAppTotalNumber] searchText : ${searchText}`);
+        AppLogger.info(
+            `[AppQueries - getAppsTotalByParams] keywords : ${keywords?.join?.(',') || ''}`,
+        );
+        AppLogger.info(`[AppQueries - getAppsTotalByParams] searchText : ${searchText}`);
 
-        const appListCount = await getAppsCountByParams({
+        const appsTotal = await AppProvider.getAppsTotalByParams({
             searchText,
             keywords,
         });
 
-        AppLogger.info(`[getAppTotalNumber] appListCount : ${appListCount}`);
+        AppLogger.info(`[AppQueries - getAppsTotalByParams] apps Total : ${appsTotal}`);
 
-        return appListCount;
+        return appsTotal;
     } catch (error) {
-        AppLogger.info(`[getAppTotalNumber] error : ${error.message}`);
+        AppLogger.info(`[AppQueries - getAppsTotalByParams] error : ${error.message}`);
         return 0;
     }
 };
 
 const AppQueries = {
-    getAppTotalNumber,
+    getAppDetailsByParams,
+    getAppDetailsAuditReportsByParams,
+    getAppsTotalByParams,
     getAppListByPageAndParams,
     getAppKeywords,
 };

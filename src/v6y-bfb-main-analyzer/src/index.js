@@ -1,11 +1,12 @@
-import Express from 'express';
-import Cors from 'cors';
+import { AppLogger, ServerUtils } from '@v6y/commons';
 import BodyParser from 'body-parser';
 import CookieParser from 'cookie-parser';
+import Cors from 'cors';
+import Express from 'express';
 import ExpressStatusMonitor from 'express-status-monitor';
-import { AppLogger, ServerUtils } from '@v6y/commons';
-import DataUpdateScheduler from './workers/DataUpdateScheduler.js';
+
 import ServerConfig from './config/ServerConfig.js';
+import DataUpdateScheduler from './workers/DataUpdateScheduler.js';
 
 const { createServer } = ServerUtils;
 

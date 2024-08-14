@@ -1,7 +1,8 @@
-import VitalityCollapse from '../VitalityCollapse.jsx';
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
 import React from 'react';
+import { describe, expect, it } from 'vitest';
+
+import VitalityCollapse from '../VitalityCollapse.jsx';
 
 const dataSource = [
     {

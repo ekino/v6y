@@ -1,13 +1,13 @@
 import { Col, Row, Tag, Typography } from 'antd';
 
-const VitalityTags = ({ tags }) => (
-    <Row wrap gutter={[16, 16]} justify="end" align="middle">
+const VitalityTags = ({ tags, align }) => (
+    <Row wrap gutter={[16, 16]} justify={align || 'end'} align="middle">
         {tags?.map((tag) => (
-            <Col key={tag._id}>
-                <Tag color={tag.color}>
-                    <Typography.Text>
-                        {`${tag.label} (${tag.branch} - ${tag.type})`}
-                    </Typography.Text>
+            <Col
+                key={`${tag._id}${tag.label}${tag.branch?.length ? ` - Branch: ${tag.branch}` : ''}`}
+            >
+                <Tag bordered={false} color={tag.color}>
+                    <Typography.Text>{`${tag.label}${tag.branch?.length ? ` - (branch: ${tag.branch})` : ''}`}</Typography.Text>
                 </Tag>
             </Col>
         ))}

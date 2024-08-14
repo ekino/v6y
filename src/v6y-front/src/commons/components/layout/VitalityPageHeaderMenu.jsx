@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
 import { Menu, Typography } from 'antd';
 import Link from 'next/link';
+import React, { useState } from 'react';
 
 const VITALITY_HEADER_MENU_ITEMS = [
     {

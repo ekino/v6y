@@ -1,11 +1,11 @@
+import FileSaver from 'file-saver';
 import { json2csv } from 'json-2-csv';
 
 const EXPORT_CSV_OPTIONS = {
     delimiter: {
         filed: ';',
     },
-    expandNestedObjects: true,
-    expandArrayObjects: false,
+    excludeKeys: ['_id', 'repo._id'],
     unwindArrays: false,
 };
 
@@ -17,40 +17,21 @@ const buildCSVFileName = (baseName) => {
     return `${baseName}_${year}_${month}_${day}.csv`;
 };
 
-const exportCSVData = ({ data, open, fileName }) => {
+export const exportAppListDataToCSV = ({ appList = [] }) => {
     try {
-        if (data && data.length) {
-            const csvData = json2csv(data, EXPORT_CSV_OPTIONS);
-
-            if (open) {
-                openFile(csvData, buildCSVFileName(fileName));
-            }
-
-            return csvData;
+        if (!appList?.length) {
+            return false;
         }
-        return null;
+
+        const csvData = json2csv(appList, EXPORT_CSV_OPTIONS);
+        const csvBlob = new Blob([csvData], { type: 'text/plain;charset=utf-8' });
+        FileSaver.saveAs(csvBlob, buildCSVFileName('VitalityAppList'));
+
+        return true;
     } catch (error) {
-        return null;
+        console.log('exportAppListDataToCSV error: ', error);
+        return false;
     }
 };
 
-const exportAppListDataToCSV = ({ data, open }) =>
-    exportCSVData({
-        data,
-        open,
-        fileName: buildCSVFileName('VITALITY_APP_LIST'),
-    });
-
-const exportAppDetailsDataToCSV = ({ appDetails, open }) =>
-    exportCSVData({
-        data: [appDetails],
-        open,
-        fileName: buildCSVFileName('VITALITY_APP_DETAILS'),
-    });
-
-const VitalityDataExportUtils = {
-    exportAppListDataToCSV,
-    exportAppDetailsDataToCSV,
-};
-
-export default VitalityDataExportUtils;
+export const exportAppDetailsDataToCSV = ({ appDetails, open }) => {};

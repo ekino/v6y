@@ -15,6 +15,7 @@ const GetAppListByPageAndParams = gql`
         ) {
             _id
             name
+            acronym
             description
             repo {
                 _id
