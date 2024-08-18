@@ -67,18 +67,26 @@ const getAppListByPageAndParams = async (_, args) => {
     }
 };
 
-const getAppKeywords = async () => {
+const getAppsStatsByParams = async (_, args) => {
     try {
-        const appKeywordsList = await KeywordsProvider.getKeywordsByParams();
+        const { keywords } = args || {};
 
         AppLogger.info(
-            `[AppQueries - getAppKeywords] appKeywordsList : ${appKeywordsList?.length}`,
+            `[AppQueries - getAppsStatsByParams] keywords : ${keywords?.join?.(',') || ''}`,
         );
 
-        return appKeywordsList;
+        const appsStats = await AppProvider.getAppsStatsByParams({
+            keywords,
+        });
+
+        AppLogger.info(
+            `[AppQueries - getAppsStatsByParams] appsStats : ${appsStats?.data?.length}`,
+        );
+
+        return appsStats;
     } catch (error) {
-        AppLogger.info(`[AppQueries - getAppKeywords] error : ${error.message}`);
-        return [];
+        AppLogger.info(`[AppQueries - getAppsStatsByParams] error : ${error.message}`);
+        return {};
     }
 };
 
@@ -105,12 +113,28 @@ const getAppsTotalByParams = async (_, args) => {
     }
 };
 
+const getAppKeywords = async () => {
+    try {
+        const appKeywordsList = await KeywordsProvider.getKeywordsByParams();
+
+        AppLogger.info(
+            `[AppQueries - getAppKeywords] appKeywordsList : ${appKeywordsList?.length}`,
+        );
+
+        return appKeywordsList;
+    } catch (error) {
+        AppLogger.info(`[AppQueries - getAppKeywords] error : ${error.message}`);
+        return [];
+    }
+};
+
 const AppQueries = {
     getAppDetailsByParams,
     getAppDetailsAuditReportsByParams,
     getAppsTotalByParams,
     getAppListByPageAndParams,
     getAppKeywords,
+    getAppsStatsByParams,
 };
 
 export default AppQueries;

@@ -5,10 +5,8 @@ import React, { useState } from 'react';
 
 import VitalityLinks from '../../../../commons/components/VitalityLinks.jsx';
 import VitalityModal from '../../../../commons/components/VitalityModal.jsx';
-import VitalityCommonConfig from '../../../../commons/config/VitalityCommonConfig.js';
+import { normalizeDependencyVersion } from '../../../../commons/config/VitalityCommonConfig.js';
 import VitalityTerms from '../../../../commons/config/VitalityTerms.js';
-
-const { normalizeDependencyVersion } = VitalityCommonConfig;
 
 const VitalityAppDetailsDependenciesListItem = ({ dependency }) => {
     const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
@@ -25,9 +23,12 @@ const VitalityAppDetailsDependenciesListItem = ({ dependency }) => {
                         {dependency.name}
                         <Tag
                             key={`Status: ${dependency.name} - ${dependency.usedOnPath} - ${dependency.branch}`}
-                            bordered={false}
+                            bordered
                             color={dependencyStatusInfos.color}
-                            style={{ marginLeft: '1rem' }}
+                            style={{
+                                marginLeft: '1rem',
+                                backgroundColor: 'white',
+                            }}
                         >
                             {dependencyStatusInfos.label}
                         </Tag>

@@ -1,11 +1,21 @@
 import { Breadcrumb } from 'antd';
 
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
-import { buildBreadCrumbItems } from '../../utils/VitalityCommonUtils.js';
+import { buildBreadCrumbItems } from '../../config/VitalityCommonConfig.js';
 
 const VitalityBreadcrumb = () => {
-    const { pathname } = useNavigationAdapter();
-    return <Breadcrumb items={buildBreadCrumbItems(pathname).filter((item) => item)} />;
+    const { pathname, urlParams, getUrlParams } = useNavigationAdapter();
+    const [source] = getUrlParams(['source']);
+
+    return (
+        <Breadcrumb
+            items={buildBreadCrumbItems({
+                currentPage: pathname,
+                lastPage: source,
+                urlParams,
+            }).filter((item) => item)}
+        />
+    );
 };
 
 export default VitalityBreadcrumb;

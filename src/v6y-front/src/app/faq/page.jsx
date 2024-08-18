@@ -1,3 +1,3 @@
-import FaqListPage from '../../features/faq/pages/FaqListPage.jsx';
+import VitalityFaqListPage from '../../features/faq/pages/VitalityFaqListPage.jsx';
 
-export default FaqListPage;
+export default VitalityFaqListPage;

@@ -4,10 +4,14 @@ import React from 'react';
 
 const VitalityDashboardMenuItem = ({ option }) => {
     return (
-        <Link href={option.url}>
+        <Link href={option.url} style={{ textDecoration: 'none' }}>
             <Card bordered hoverable>
                 <Card.Meta
-                    title={<Typography.Title level={4}>{option.title}</Typography.Title>}
+                    title={
+                        <Typography.Title level={4} underline>
+                            {option.title}
+                        </Typography.Title>
+                    }
                     description={<Typography.Text>{option.description}</Typography.Text>}
                 />
             </Card>

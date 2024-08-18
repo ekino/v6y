@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 
 import VitalityModal from '../../../../../commons/components/VitalityModal.jsx';
-import VitalityCommonConfig from '../../../../../commons/config/VitalityCommonConfig.js';
+import { AUDIT_STATUS_COLORS } from '../../../../../commons/config/VitalityCommonConfig.js';
 import VitalityTerms from '../../../../../commons/config/VitalityTerms.js';
 import VitalityMetricDetailsView from './VitalityMetricDetailsView.jsx';
 
@@ -45,7 +45,7 @@ const VitalityLighthouseReportsView = ({ reports }) => {
                                 value={report.score || 0}
                                 suffix={report.scoreUnit || ''}
                                 valueStyle={{
-                                    color: VitalityCommonConfig.AUDIT_STATUS_COLORS[report.status],
+                                    color: AUDIT_STATUS_COLORS[report.status?.toLowerCase()],
                                 }}
                             />
                             <Link href={report.webUrl} target="_blank">

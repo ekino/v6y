@@ -5,7 +5,7 @@ const VitalityInfiniteList = ({ dataSource, itemHeight, itemSize, renderItem }) 
     <AutoSizer disableHeight>
         {({ width }) => (
             <VariableSizeList
-                direction="horizontal"
+                layout="horizontal"
                 itemCount={dataSource?.length || 0}
                 itemSize={itemSize}
                 height={itemHeight}

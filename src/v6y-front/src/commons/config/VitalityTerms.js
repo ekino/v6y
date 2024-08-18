@@ -67,9 +67,12 @@ const VitalityTerms = {
     VITALITY_APP_DETAILS_AUDIT_METRIC_STATUS: 'Status',
     VITALITY_APP_DETAILS_AUDIT_METRIC_STATUS_EMPTY: 'Default',
 
-    VITALITY_FAQ_PAGE_TITLE: 'Frequent questions',
+    VITALITY_FAQ_PAGE_TITLE: 'Frequent Questions',
     VITALITY_NOTIFICATIONS_PAGE_TITLE: 'Notifications',
-    VITALITY_STACK_STATS_PAGE_TITLE: 'Stack usage statistics',
+    VITALITY_SEARCH_PAGE_TITLE: 'Search Application',
+
+    VITALITY_APP_STATS_PAGE_TITLE: 'Tech Stack Stats',
+    VITALITY_APP_STATS_GRAPH_TITLE: 'Tech Stack Stats',
 };
 
 export default VitalityTerms;

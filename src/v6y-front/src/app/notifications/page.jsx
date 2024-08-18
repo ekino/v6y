@@ -1,3 +1,3 @@
-import NotificationListPage from '../../features/notifications/pages/NotificationListPage.jsx';
+import VitalityNotificationListPage from '../../features/notifications/pages/VitalityNotificationListPage.jsx';
 
-export default NotificationListPage;
+export default VitalityNotificationListPage;

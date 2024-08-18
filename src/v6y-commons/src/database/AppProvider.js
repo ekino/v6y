@@ -83,12 +83,33 @@ const getAppsTotalByParams = async ({ searchText, keywords }) => {
     }
 };
 
+const getAppsStatsByParams = async ({ keywords }) => {
+    try {
+        AppLogger.info(`[AppProvider - getAppsStatsByParams] keywords: ${keywords?.join('\r\n')}`);
+
+        // number of apps with each keyword
+        // case of empty keyword
+
+        return [
+            { keyword: 'ESLint', total: 60000 },
+            { keyword: 'Angular', total: 40000 },
+            { keyword: 'Cash', total: 7000 },
+            { keyword: 'Real Estate', total: 5000 },
+            { keyword: 'Commodities', total: 3000 },
+        ];
+    } catch (error) {
+        AppLogger.info(`[AppProvider - getAppsStatsByParams] error: ${error.message}`);
+        return {};
+    }
+};
+
 const AppProvider = {
     insertApp,
     getAppDetailsByParams,
     getAppDetailsAuditReportsByParams,
     getAppsByParams,
     getAppsTotalByParams,
+    getAppsStatsByParams,
     deleteAppList,
 };
 

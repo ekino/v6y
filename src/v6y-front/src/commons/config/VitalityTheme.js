@@ -1,17 +1,18 @@
 const themeToken = {
     colorTextBase: '#1a1a1a',
     colorTextLight: '#fff',
-    colorPrimary: '#fcb900',
-    colorSecondary: '#abb8c3',
-    colorTertiary: '#f2f2f2',
-    colorBgHeader: '#abb8c3',
+    colorPrimary: '#1976d2',
+    colorPrimaryLight: '#e3f2fd',
+    colorSecondary: '#81c784',
+    colorTertiary: '#f5f5f5',
+    colorBgHeader: 'linear-gradient(135deg, #1976d2 0%, rgb(0,208,130) 100%)',
     colorBgBase: '#fff',
-    colorError: '#cf2e2e',
-    colorInfo: '#0693e3',
-    colorSuccess: '#00d084',
-    colorWarning: '#ff6900',
-    colorGray: '#f6f6f6',
-    colorLink: '#ff6900',
+    colorError: '#880e4f',
+    colorInfo: '#9575cd',
+    colorWarning: '#d50000', // Deeper orange, closer to red
+    colorSuccess: '#2e7d32', // Darker green
+    colorGray: '#eeeeee',
+    colorLink: '#e65100',
     fontFamily: '"Graphik",arial,sans-serif',
     fontSize: 16,
     linkDecoration: 'underline',
@@ -21,11 +22,7 @@ const themeToken = {
 const vitalityTheme = {
     token: themeToken,
     components: {
-        Button: {
-            defaultHoverBorderColor: null,
-            defaultHoverColor: themeToken.colorTextBase,
-            defaultHoverBg: themeToken.colorPrimary,
-        },
+        Button: {},
         Layout: {
             headerHeight: '5rem',
             bodyBg: themeToken.colorBgBase,
@@ -37,13 +34,12 @@ const vitalityTheme = {
         },
         Breadcrumb: {
             linkColor: themeToken.colorTextBase,
-            separatorColor: themeToken.colorSecondary,
+            separatorColor: themeToken.colorPrimary,
         },
         Collapse: {
-            headerBg: themeToken.colorTertiary,
-        },
-        Card: {
-            // actionsBg: themeToken.colorBgHeader,
+            headerBg: themeToken.colorBgBase,
+            contentBg: themeToken.colorPrimaryLight,
+            colorBorder: themeToken.colorPrimary,
         },
         List: {
             headerBg: themeToken.colorTertiary,

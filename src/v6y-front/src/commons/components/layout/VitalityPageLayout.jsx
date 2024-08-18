@@ -4,7 +4,7 @@ import { Col, FloatButton, Layout, Row, Typography } from 'antd';
 import React from 'react';
 
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
-import { buildPageTitle } from '../../utils/VitalityCommonUtils.js';
+import { buildPageTitle } from '../../config/VitalityCommonConfig.js';
 import VitalityBot from '../chatbot/VitalityBot.jsx';
 import VitalityBreadcrumb from './VitalityBreadcrumb.jsx';
 import VitalityPageFooter from './VitalityPageFooter.jsx';

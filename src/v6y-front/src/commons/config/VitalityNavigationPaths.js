@@ -4,7 +4,8 @@ const VitalityNavigationPaths = {
     APP_DETAILS: '/app-details',
     FAQ: '/faq',
     NOTIFICATIONS: '/notifications',
-    STACK_STATS: '/stack-stats',
+    APPS_STATS: '/apps-stats',
+    SEARCH: '/search',
 };
 
 export default VitalityNavigationPaths;

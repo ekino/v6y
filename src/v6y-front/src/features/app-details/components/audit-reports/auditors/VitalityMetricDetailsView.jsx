@@ -9,8 +9,13 @@ const VitalityMetricDetailsView = ({ metric }) => (
             <Typography.Title level={4}>{metric.title}</Typography.Title>
         </Descriptions.Item>
         <Descriptions.Item label={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_METRIC_STATUS}>
-            <Tag bordered={false} color={metric.status || '#0693e3'}>
-                {metric.status || VitalityTerms.VITALITY_APP_DETAILS_AUDIT_METRIC_STATUS_EMPTY}
+            <Tag
+                bordered
+                color={metric.status?.toLowerCase() || '#0693e3'}
+                style={{ backgroundColor: 'white' }}
+            >
+                {metric.status?.toLowerCase() ||
+                    VitalityTerms.VITALITY_APP_DETAILS_AUDIT_METRIC_STATUS_EMPTY}
             </Tag>
         </Descriptions.Item>
         <Descriptions.Item label={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_METRIC_DESCRIPTION}>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { formatHelpOptions } from '../utils/VitalityCommonUtils.js';
+import { formatHelpOptions } from '../config/VitalityCommonConfig.js';
 import VitalityCollapse from './VitalityCollapse.jsx';
 
 const VitalityHelpList = ({ helps }) => {

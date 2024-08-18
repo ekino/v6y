@@ -21,7 +21,7 @@ const VitalityBotSettings = {
                         fontSize: '1.5rem',
                     }}
                 >
-                    Vitality Bot
+                    Vibe
                 </span>
             ),
         },

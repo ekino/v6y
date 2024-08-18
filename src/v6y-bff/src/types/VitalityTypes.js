@@ -6,6 +6,7 @@ import AuditReportType from './commons/AuditReportType.js';
 import DependencyType from './commons/DependencyType.js';
 import EvolutionTypes from './commons/EvolutionType.js';
 import HelpType from './commons/HelpType.js';
+import KeywordStatsType from './commons/KeywordStatsType.js';
 import LinkType from './commons/LinkType.js';
 import QualityGateType from './commons/QualityGateType.js';
 import RepositoryType from './commons/RepositoryType.js';
@@ -28,6 +29,7 @@ const VitalityTypes = gql`
     ${KeywordType}
     ${DependencyType}
     ${UserType}
+    ${KeywordStatsType}
 
     # outputted schemas
     ${AppType}

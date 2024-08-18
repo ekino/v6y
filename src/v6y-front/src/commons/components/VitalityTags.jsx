@@ -6,8 +6,8 @@ const VitalityTags = ({ tags, align }) => (
             <Col
                 key={`${tag._id}${tag.label}${tag.branch?.length ? ` - Branch: ${tag.branch}` : ''}`}
             >
-                <Tag bordered={false} color={tag.color}>
-                    <Typography.Text>{`${tag.label}${tag.branch?.length ? ` - (branch: ${tag.branch})` : ''}`}</Typography.Text>
+                <Tag bordered color={tag.color} style={{ backgroundColor: 'white' }}>
+                    {`${tag.label}${tag.branch?.length ? ` - (branch: ${tag.branch})` : ''}`}
                 </Tag>
             </Col>
         ))}

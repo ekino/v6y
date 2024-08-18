@@ -6,7 +6,7 @@ import VitalityLoader from '../../../../commons/components/VitalityLoader.jsx';
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView.jsx';
 import VitalityTabGrouperView from '../../../../commons/components/VitalityTabGrouperView.jsx';
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig.js';
-import VitalityCommonConfig from '../../../../commons/config/VitalityCommonConfig.js';
+import { AUDIT_REPORT_TYPES } from '../../../../commons/config/VitalityCommonConfig.js';
 import VitalityTerms from '../../../../commons/config/VitalityTerms.js';
 import {
     buildClientQuery,
@@ -57,14 +57,14 @@ const VitalityAppDetailsAuditReportsView = ({}) => {
                 dataSource={auditDetailsAuditReports}
                 onRenderChildren={(group, data) => (
                     <div id="audit_reports_grouper_tab_content">
-                        {group === VitalityCommonConfig.AUDIT_REPORT_TYPES.lighthouse && (
+                        {group === AUDIT_REPORT_TYPES.lighthouse && (
                             <VitalityLighthouseReportsView reports={data} />
                         )}
-                        {(group === VitalityCommonConfig.AUDIT_REPORT_TYPES.codeCompliance ||
-                            group === VitalityCommonConfig.AUDIT_REPORT_TYPES.codeComplexity ||
-                            group === VitalityCommonConfig.AUDIT_REPORT_TYPES.codeCoupling ||
-                            group === VitalityCommonConfig.AUDIT_REPORT_TYPES.codeSecurity ||
-                            group === VitalityCommonConfig.AUDIT_REPORT_TYPES.codeDuplication) && (
+                        {(group === AUDIT_REPORT_TYPES.codeCompliance ||
+                            group === AUDIT_REPORT_TYPES.codeComplexity ||
+                            group === AUDIT_REPORT_TYPES.codeCoupling ||
+                            group === AUDIT_REPORT_TYPES.codeSecurity ||
+                            group === AUDIT_REPORT_TYPES.codeDuplication) && (
                             <VitalityCodeStatusReportsView reports={data} />
                         )}
                     </div>
