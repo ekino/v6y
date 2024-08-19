@@ -5,7 +5,7 @@ const AppQueriesType = `
     getAppsTotalByParams(keywords: [String], searchText: String): Int
     getAppDetailsInfosByParams(appId: String): AppType
     getAppDetailsAuditReportsByParams(appId: String): [AuditReportType]
-    getAppDetailsEvolutionsByParams(appId: String): [AppEvolutionType]
+    getAppDetailsEvolutionsByParams(appId: String): [EvolutionType]
     getAppDetailsDependenciesByParams(appId: String): [DependencyType]
   }
 `;

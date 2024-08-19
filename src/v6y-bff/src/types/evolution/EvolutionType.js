@@ -1,7 +1,7 @@
-const AppEvolutionType = `
+const EvolutionType = `
   """ Based on the status of the project and it's conformity to quality gates and recommended update, 
   we can suggest an Evolution. """
-  type AppEvolutionType {
+  type EvolutionType {
     """ Evolution Unique id """
     _id: String!
     
@@ -18,8 +18,8 @@ const AppEvolutionType = `
     links: [LinkType]
     
     """ Application Suggested Evolution Modules """
-    modules: [AppModuleType]
+    modules: [EvolutionModuleType]
   }
 `;
 
-export default AppEvolutionType;
+export default EvolutionType;

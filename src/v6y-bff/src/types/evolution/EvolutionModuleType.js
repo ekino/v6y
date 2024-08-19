@@ -1,7 +1,7 @@
-const AppModuleType = `
+const EvolutionModuleType = `
   """ Based on the status of the project and it's conformity to quality gates and recommended update, 
   we can suggest an Evolution. """
-  type AppModuleType {
+  type EvolutionModuleType {
     """ Module Application Unique Id """
     appId: String!
     
@@ -13,4 +13,4 @@ const AppModuleType = `
   }
 `;
 
-export default AppModuleType;
+export default EvolutionModuleType;

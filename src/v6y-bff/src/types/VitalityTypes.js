@@ -1,7 +1,5 @@
 import gql from 'graphql-tag';
 
-import AppEvolutionType from './app/AppEvolutionType.js';
-import AppModuleType from './app/AppModuleType.js';
 import AppQueriesType from './app/AppQueriesType.js';
 import AppType from './app/AppType.js';
 import AuditReportType from './audit/AuditReportType.js';
@@ -10,6 +8,8 @@ import RepositoryType from './commons/RepositoryType.js';
 import UserType from './commons/UserType.js';
 import DependencyHelpType from './dependency/DependencyHelpType.js';
 import DependencyType from './dependency/DependencyType.js';
+import EvolutionModuleType from './evolution/EvolutionModuleType.js';
+import EvolutionType from './evolution/EvolutionType.js';
 import FaqQueriesType from './faq/FaqQueriesType.js';
 import FaqType from './faq/FaqType.js';
 import KeywordQueriesType from './keyword/KeywordQueriesType.js';
@@ -29,8 +29,8 @@ const VitalityTypes = gql`
     ${KeywordStatsType}
 
     # outputted schemas
-    ${AppModuleType}
-    ${AppEvolutionType}
+    ${EvolutionModuleType}
+    ${EvolutionType}
     ${AppType}
     ${AuditReportType}
     ${FaqType}
