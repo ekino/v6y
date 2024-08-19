@@ -3,8 +3,10 @@ const AppQueriesType = `
     getAppListByPageAndParams(offset: Int, limit: Int, keywords: [String], searchText: String): [AppType]
     getAppsStatsByParams(keywords: [String]): [KeywordStatsType]
     getAppsTotalByParams(keywords: [String], searchText: String): Int
-    getAppDetailsByParams(appId: String): AppType
+    getAppDetailsInfosByParams(appId: String): AppType
     getAppDetailsAuditReportsByParams(appId: String): [AuditReportType]
+    getAppDetailsEvolutionsByParams(appId: String): [AppEvolutionType]
+    getAppDetailsDependenciesByParams(appId: String): [DependencyType]
   }
 `;
 

@@ -1,19 +1,13 @@
 const LinkType = `
   type LinkType {
-    """ Link Unique id """
-    _id: String!
-    
-    """ Link type (exp: gitlab, github, help, doc, others) """
-    type: String
-    
     """ Link label """
-    label: String
+    label: String!
     
     """ Link value """
-    value: String
+    value: String!
     
     """ Link description """
-    description: String
+    description: String!
   }
 `;
 

@@ -1,5 +1,8 @@
 const NotificationType = `
   type NotificationType {
+    """ Notification Unique id """
+    _id: String!
+    
     """ Notification Title """
     title: String!
     
@@ -9,7 +12,7 @@ const NotificationType = `
     """ Notification Legend Color """
     color: Int!
     
-    """ Notification Extra Help Links """
+    """ Notification Extra Links """
     links: [LinkType]
   }
 `;

@@ -3,9 +3,9 @@ import { gql } from 'graphql-request';
 const GetKeywordsByParams = gql`
     query getKeywordsByParams {
         getKeywordsByParams {
-            type
-            status
             label
+            version
+            status
             helpMessage
         }
     }

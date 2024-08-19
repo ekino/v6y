@@ -11,7 +11,7 @@ import {
     useClientQuery,
 } from '../../../../infrastructure/adapters/api/useQueryAdapter.jsx';
 import useNavigationAdapter from '../../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
-import GetAppDetailsAuditReports from '../../api/getAppDetailsAuditReports.js';
+import GetAppDetailsAuditReportsByParams from '../../api/getAppDetailsAuditReportsByParams.js';
 import VitalityCodeStatusReportsView from './auditors/VitalityCodeStatusReportsView.jsx';
 import VitalityLighthouseReportsView from './auditors/VitalityLighthouseReportsView.jsx';
 
@@ -25,7 +25,7 @@ const VitalityAppDetailsAuditReportsView = ({}) => {
             queryBuilder: async () =>
                 buildClientQuery({
                     queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
-                    queryPath: GetAppDetailsAuditReports,
+                    queryPath: GetAppDetailsAuditReportsByParams,
                     queryParams: {
                         appId,
                     },

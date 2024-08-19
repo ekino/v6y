@@ -1,5 +1,5 @@
 const DependencyType = `
-  """ A dependency can be a npm module or a java dependency """
+  """ A dependency can be a npm module, rust crate, java dependency, ... """
   type DependencyType {
     """ Dependency Unique id """
     _id: String!
@@ -37,9 +37,6 @@ const DependencyType = `
     """ Dependency scope (Especially used for java module) """
     scope: String
     
-    """ Dependency Recommended help """
-    help: HelpType  
-    
     """ Dependency Used On Path """
     usedOnPath: String
     
@@ -48,6 +45,9 @@ const DependencyType = `
 
     """ Dependency Recommended Version """
     recommendedVersion: String
+    
+    """ Dependency Recommended help """
+    help: DependencyHelpType  
   }
 `;
 

@@ -34,6 +34,12 @@ const VitalityTabGrouperView = ({
             ? groupedDataSource?.[selectedCriteria?.key]
             : dataSource) || [];
 
+    console.log({
+        name,
+        criteriaGroups,
+        valuesByGroup,
+    });
+
     return (
         <Row wrap gutter={[16, 16]} justify={align || 'end'} align="middle">
             <Col span={24}>

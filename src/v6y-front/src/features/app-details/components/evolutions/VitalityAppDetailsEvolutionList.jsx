@@ -10,14 +10,9 @@ const VitalityAppDetailsEvolutionList = ({ evolutions }) => {
             [next.title]: {
                 title: next.title,
                 description: next.description,
-                branches: [
-                    ...(acc[next.title]?.branches || []),
-                    {
-                        name: next.branch,
-                        status: next.status,
-                    },
-                ],
-                docLinks: [...(acc[next.title]?.docLinks || []), ...(next.docLinks || [])],
+                status: next.status,
+                links: [...(acc[next.title]?.links || []), ...(next.links || [])],
+                modules: [...(acc[next.title]?.modules || []), ...(next.modules || [])],
             },
         }),
         {},

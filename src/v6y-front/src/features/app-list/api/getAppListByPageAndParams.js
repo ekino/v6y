@@ -17,35 +17,11 @@ const GetAppListByPageAndParams = gql`
             name
             acronym
             description
-            repo {
-                _id
-                name
-                fullName
-                owner
-                webUrl
-                gitUrl
-                allBranches
-            }
-            links {
-                _id
-                type
-                label
-                value
-                description
-            }
             keywords {
-                _id
-                type
-                branch
                 label
+                version
                 status
                 helpMessage
-            }
-            qualityGates {
-                label
-                branch
-                status
-                module
             }
         }
     }

@@ -1,5 +1,24 @@
 import { AppLogger, AppProvider } from '@v6y/commons';
 
+const getAppDetailsInfosByParams = async (_, args) => {
+    try {
+        const { appId } = args || {};
+
+        AppLogger.info(`[AppQueries - getAppDetailsInfosByParams] appId : ${appId}`);
+
+        const appDetails = await AppProvider.getAppDetailsInfosByParams({
+            appId,
+        });
+
+        AppLogger.info(`[AppQueries - getAppDetailsInfosByParams] appDetails : ${appDetails?._id}`);
+
+        return appDetails;
+    } catch (error) {
+        AppLogger.info(`[AppQueries - getAppDetailsInfosByParams] error : ${error.message}`);
+        return {};
+    }
+};
+
 const getAppDetailsAuditReportsByParams = async (_, args) => {
     try {
         const { appId } = args || {};
@@ -21,22 +40,45 @@ const getAppDetailsAuditReportsByParams = async (_, args) => {
     }
 };
 
-const getAppDetailsByParams = async (_, args) => {
+const getAppDetailsEvolutionsByParams = async (_, args) => {
     try {
         const { appId } = args || {};
 
-        AppLogger.info(`[AppQueries - getAppDetailsByParams] appId : ${appId}`);
+        AppLogger.info(`[AppQueries - getAppDetailsEvolutionsByParams] appId : ${appId}`);
 
-        const appDetails = await AppProvider.getAppDetailsByParams({
+        const evolutions = await AppProvider.getAppDetailsEvolutionsByParams({
             appId,
         });
 
-        AppLogger.info(`[AppQueries - getAppDetailsByParams] appDetails : ${appDetails?._id}`);
+        AppLogger.info(
+            `[AppQueries - getAppDetailsEvolutionsByParams] evolutions : ${evolutions?.length}`,
+        );
 
-        return appDetails;
+        return evolutions;
     } catch (error) {
-        AppLogger.info(`[AppQueries - getAppDetailsByParams] error : ${error.message}`);
-        return {};
+        AppLogger.info(`[AppQueries - getAppDetailsEvolutionsByParams] error : ${error.message}`);
+        return [];
+    }
+};
+
+const getAppDetailsDependenciesByParams = async (_, args) => {
+    try {
+        const { appId } = args || {};
+
+        AppLogger.info(`[AppQueries - getAppDetailsDependenciesByParams] appId : ${appId}`);
+
+        const dependencies = await AppProvider.getAppDetailsDependenciesByParams({
+            appId,
+        });
+
+        AppLogger.info(
+            `[AppQueries - getAppDetailsDependenciesByParams] dependencies : ${dependencies?.length}`,
+        );
+
+        return dependencies;
+    } catch (error) {
+        AppLogger.info(`[AppQueries - getAppDetailsDependenciesByParams] error : ${error.message}`);
+        return [];
     }
 };
 
@@ -114,8 +156,10 @@ const getAppsTotalByParams = async (_, args) => {
 };
 
 const AppQueries = {
-    getAppDetailsByParams,
+    getAppDetailsInfosByParams,
     getAppDetailsAuditReportsByParams,
+    getAppDetailsEvolutionsByParams,
+    getAppDetailsDependenciesByParams,
     getAppsTotalByParams,
     getAppListByPageAndParams,
     getAppsStatsByParams,

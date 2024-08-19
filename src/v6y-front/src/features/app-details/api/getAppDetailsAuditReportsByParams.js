@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request';
 
-const GetAppDetailsAuditReports = gql`
-    query getAppDetails($appId: String) {
+const GetAppDetailsAuditReportsByParams = gql`
+    query getAppDetailsAuditReportsByParams($appId: String) {
         getAppDetailsAuditReportsByParams(appId: $appId) {
             type
             category
@@ -20,4 +20,4 @@ const GetAppDetailsAuditReports = gql`
     }
 `;
 
-export default GetAppDetailsAuditReports;
+export default GetAppDetailsAuditReportsByParams;

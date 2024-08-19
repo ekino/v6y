@@ -1,14 +1,13 @@
 import { gql } from 'graphql-request';
 
-const GetAppDetailsInfos = gql`
-    query getAppDetails($appId: String) {
-        getAppDetailsInfos: getAppDetailsByParams(appId: $appId) {
+const GetAppDetailsInfosByParams = gql`
+    query getAppDetailsInfosByParams($appId: String) {
+        getAppDetailsInfosByParams(appId: $appId) {
             name
             acronym
             mails
             description
             links {
-                type
                 label
                 value
                 description
@@ -21,8 +20,14 @@ const GetAppDetailsInfos = gql`
                 gitUrl
                 allBranches
             }
+            keywords {
+                label
+                version
+                status
+                helpMessage
+            }
         }
     }
 `;
 
-export default GetAppDetailsInfos;
+export default GetAppDetailsInfosByParams;

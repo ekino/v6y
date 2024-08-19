@@ -3,11 +3,11 @@ import { gql } from 'graphql-request';
 const GetFaqsByParams = gql`
     query getFaqsByParams {
         getFaqsByParams {
+            _id
             title
             description
             color
             links {
-                type
                 label
                 value
                 description

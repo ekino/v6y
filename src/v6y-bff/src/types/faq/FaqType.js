@@ -1,5 +1,8 @@
 const FaqType = `
   type FaqType {
+    """ FAQ Unique id """
+    _id: String!
+    
     """ FAQ Question """
     title: String!
     
@@ -9,7 +12,7 @@ const FaqType = `
     """ FAQ Question Legend Color """
     color: Int!
     
-    """ FAQ Extra Help Links """
+    """ FAQ Extra Links """
     links: [LinkType]
   }
 `;

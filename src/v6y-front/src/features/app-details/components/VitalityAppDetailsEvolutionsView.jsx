@@ -10,7 +10,7 @@ import {
     useClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter.jsx';
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
-import GetAppDetailsEvolutions from '../api/getAppDetailsEvolutions.js';
+import GetAppDetailsEvolutionsByParams from '../api/getAppDetailsEvolutionsByParams.js';
 import VitalityAppDetailsEvolutionList from './evolutions/VitalityAppDetailsEvolutionList.jsx';
 
 const VitalityAppDetailsEvolutionsView = ({}) => {
@@ -19,11 +19,11 @@ const VitalityAppDetailsEvolutionsView = ({}) => {
 
     const { isLoading: isAppDetailsEvolutionsLoading, data: appDetailsEvolutions } = useClientQuery(
         {
-            queryCacheKey: ['getAppDetailsEvolutions', appId],
+            queryCacheKey: ['getAppDetailsEvolutionsByParams', appId],
             queryBuilder: async () =>
                 buildClientQuery({
                     queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
-                    queryPath: GetAppDetailsEvolutions,
+                    queryPath: GetAppDetailsEvolutionsByParams,
                     queryParams: {
                         appId,
                     },
@@ -31,8 +31,10 @@ const VitalityAppDetailsEvolutionsView = ({}) => {
         },
     );
 
-    const appDetails = appDetailsEvolutions?.getAppDetailsEvolutions;
-    const evolutions = appDetails?.evolutions?.filter((item) => item?.status?.length) || [];
+    const evolutions =
+        appDetailsEvolutions?.getAppDetailsEvolutionsByParams?.filter(
+            (item) => item?.status?.length,
+        ) || [];
 
     return (
         <VitalitySectionView

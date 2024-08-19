@@ -1,3 +1,4 @@
+import { auditsReports } from '../config/data/AppMockData.js';
 import AppLogger from '../core/AppLogger.js';
 
 const insertAudit = async (app, audit) => {
@@ -30,9 +31,11 @@ const deleteAuditsList = async () => {
     }
 };
 
-const getAuditsByParams = async () => {
+const getAuditsByParams = async ({ appId }) => {
     try {
-        return [];
+        AppLogger.info(`[AuditsProvider - getAuditsByParams] appId: ${appId}`);
+
+        return auditsReports?.filter((report) => report?.appId === appId);
     } catch (error) {
         AppLogger.info(`[getAuditsByParams] error:  ${error.message}`);
         return [];

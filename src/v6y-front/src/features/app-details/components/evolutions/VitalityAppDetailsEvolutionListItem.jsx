@@ -9,7 +9,19 @@ const VitalityAppDetailsEvolutionListItem = ({ evolution }) => (
     <List.Item>
         <Descriptions bordered layout="vertical" column={1}>
             {evolution.description?.length > 0 && (
-                <Descriptions.Item label="Evolution details">
+                <Descriptions.Item
+                    label={
+                        <Tag
+                            bordered
+                            color={EVOLUTIONS_STATUS_INFOS[evolution.status]?.statusColor}
+                            style={{
+                                backgroundColor: 'white',
+                            }}
+                        >
+                            {EVOLUTIONS_STATUS_INFOS[evolution.status]?.statusLabel}
+                        </Tag>
+                    }
+                >
                     <Typography.Text>
                         <div
                             dangerouslySetInnerHTML={{
@@ -19,33 +31,24 @@ const VitalityAppDetailsEvolutionListItem = ({ evolution }) => (
                     </Typography.Text>
                 </Descriptions.Item>
             )}
-            {evolution.branches?.length > 0 && (
-                <Descriptions.Item label="Status by branch">
+
+            {evolution.modules?.length > 0 && (
+                <Descriptions.Item label="Detected on module (branch)">
                     <VitalityGridList
-                        bordered
-                        dataSource={evolution.branches}
-                        renderItem={(branch, index) => (
-                            <List.Item>
-                                <Tag
-                                    key={`Tag-${branch.name}-${branch.status}-${index}`}
-                                    bordered
-                                    color={EVOLUTIONS_STATUS_INFOS[branch.status]?.statusColor}
-                                    style={{
-                                        backgroundColor: 'white',
-                                        fontWeight: 'bold',
-                                    }}
-                                >
-                                    {EVOLUTIONS_STATUS_INFOS[branch.status]?.statusLabel}
-                                </Tag>
-                                <Typography.Text>{branch.name}</Typography.Text>
+                        bordered={false}
+                        dataSource={evolution.modules}
+                        renderItem={(module, index) => (
+                            <List.Item key={`Tag-${module.branch}-${module.module}-${index}`}>
+                                <Typography.Text>{`${module.module} (${module.branch})`}</Typography.Text>
                             </List.Item>
                         )}
                     />
                 </Descriptions.Item>
             )}
-            {evolution?.docLinks?.length > 0 && (
+
+            {evolution?.links?.length > 0 && (
                 <Descriptions.Item label="Helpful links">
-                    <VitalityLinks align="center" links={evolution?.docLinks} />
+                    <VitalityLinks align="center" links={evolution?.links} />
                 </Descriptions.Item>
             )}
         </Descriptions>

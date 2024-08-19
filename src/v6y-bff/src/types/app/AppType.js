@@ -23,15 +23,6 @@ const AppType = `
      
     """ Needed keywords to help searching (exp: React, Angular, ...) """
     keywords: [KeywordType]
-
-    """ Quality gates status for the current APP WEB """
-    qualityGates: [QualityGateType]
- 
-    """ List of suggest evolutions according to quality gates status """
-    evolutions: [EvolutionType]
-
-    """ List of dependencies """
-    dependencies: [DependencyType]
   }
 `;
 

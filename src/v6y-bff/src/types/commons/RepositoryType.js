@@ -1,8 +1,5 @@
 const RepositoryType = `
   type RepositoryType {
-    """ Repo Unique id """
-    _id: String!
-    
     """ Repository Name """
     name: String!
     

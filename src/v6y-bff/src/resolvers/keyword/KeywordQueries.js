@@ -2,7 +2,7 @@ import { AppLogger, KeywordProvider } from '@v6y/commons';
 
 const getKeywordsByParams = async () => {
     try {
-        const keywordsList = await KeywordProvider.getKeywordsByParams();
+        const keywordsList = await KeywordProvider.getKeywordsByParams({});
 
         AppLogger.info(`[AppQueries - getKeywordsByParams] keywordsList : ${keywordsList?.length}`);
 

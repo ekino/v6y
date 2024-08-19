@@ -1,5 +1,9 @@
-import { appList, auditsReports, stats } from '../config/data/AppMockData.js';
+import { appList, stats } from '../config/data/AppMockData.js';
 import AppLogger from '../core/AppLogger.js';
+import AuditsProvider from './AuditsProvider.js';
+import DependenciesProvider from './DependencyProvider.js';
+import EvolutionProvider from './EvolutionProvider.js';
+import KeywordProvider from './KeywordProvider.js';
 
 const insertApp = async (app) => {
     try {
@@ -17,9 +21,9 @@ const deleteAppList = async () => {
     }
 };
 
-const getAppDetailsByParams = async ({ appId }) => {
+const getAppDetailsInfosByParams = async ({ appId }) => {
     try {
-        AppLogger.info(`[AppProvider - getAppDetailsByParams] appId: ${appId}`);
+        AppLogger.info(`[AppProvider - getAppDetailsInfosByParams] appId: ${appId}`);
 
         if (!appId?.length) {
             return null;
@@ -27,11 +31,98 @@ const getAppDetailsByParams = async ({ appId }) => {
 
         const appDetails = appList?.find((app) => app._id === appId);
 
-        AppLogger.info(`[AppProvider - getAppDetailsByParams] appDetails: ${appDetails?._id}`);
+        AppLogger.info(
+            `[AppProvider - getAppDetailsInfosByParams] appDetails _id: ${appDetails?._id}`,
+        );
 
-        return appDetails;
+        if (!appDetails?._id) {
+            return null;
+        }
+
+        const appDetailsKeywords = await KeywordProvider.getKeywordsByParams({
+            appId: appDetails?._id,
+        });
+
+        return {
+            ...appDetails,
+            keywords: appDetailsKeywords,
+        };
     } catch (error) {
-        AppLogger.info(`[AppProvider - getAppDetailsByParams] error: ${error.message}`);
+        AppLogger.info(`[AppProvider - getAppDetailsInfosByParams] error: ${error.message}`);
+        return {};
+    }
+};
+
+const getAppDetailsEvolutionsByParams = async ({ appId }) => {
+    try {
+        AppLogger.info(`[AppProvider - getAppDetailsEvolutionsByParams] appId: ${appId}`);
+
+        if (!appId?.length) {
+            return null;
+        }
+
+        const appDetails = appList?.find((app) => app._id === appId);
+
+        AppLogger.info(
+            `[AppProvider - getAppDetailsEvolutionsByParams] appDetails _id: ${appDetails?._id}`,
+        );
+
+        if (!appDetails?._id || appDetails?._id !== appId) {
+            return null;
+        }
+
+        const appDetailsKeywords = await KeywordProvider.getKeywordsByParams({
+            appId: appDetails?._id,
+        });
+
+        if (!appDetailsKeywords?.length) {
+            return null;
+        }
+
+        const appDetailsEvolutions = [];
+        for (const keyword of appDetailsKeywords) {
+            const appDetailsEvolution = await EvolutionProvider.getEvolutionByParams({
+                evolutionId: keyword.evolutionId,
+            });
+
+            if (appDetailsEvolution?._id?.length > 0) {
+                appDetailsEvolutions.push({
+                    ...appDetailsEvolution,
+                    modules: keyword?.apps?.filter((app) => app.appId === appDetails?._id),
+                });
+            }
+        }
+
+        AppLogger.info(
+            `[AppProvider - getAppDetailsEvolutionsByParams] appDetailsEvolutions: ${appDetailsEvolutions?.length}`,
+        );
+
+        return appDetailsEvolutions;
+    } catch (error) {
+        AppLogger.info(`[AppProvider - getAppDetailsEvolutionsByParams] error: ${error.message}`);
+        return {};
+    }
+};
+
+const getAppDetailsDependenciesByParams = async ({ appId }) => {
+    try {
+        AppLogger.info(`[AppProvider - getAppDetailsDependenciesByParams] appId: ${appId}`);
+
+        if (!appId?.length) {
+            return null;
+        }
+
+        const dependencies = await DependenciesProvider.getDependenciesByParams({
+            appId,
+        });
+
+        AppLogger.info(
+            `[AppProvider - getAppDetailsDependenciesByParams] dependencies: ${dependencies?.length}`,
+        );
+
+        return dependencies;
+    } catch (error) {
+        AppLogger.info(`[AppProvider - getAppDetailsDependenciesByParams] error: ${error.message}`);
         return {};
     }
 };
@@ -44,7 +135,7 @@ const getAppDetailsAuditReportsByParams = async ({ appId }) => {
             return null;
         }
 
-        return auditsReports;
+        return AuditsProvider.getAuditsByParams({ appId });
     } catch (error) {
         AppLogger.info(`[AppProvider - getAppDetailsAuditReportsByParams] error: ${error.message}`);
         return {};
@@ -60,7 +151,20 @@ const getAppsByParams = async ({ keywords, searchText, offset = 0, limit }) => {
 
         // read from DB
 
-        return limit ? appList.slice(offset, offset + limit) : appList;
+        const dataSource = [];
+        if (appList?.length) {
+            for (const app of appList) {
+                const { _id } = app;
+                const appDetails = await getAppDetailsInfosByParams({ appId: _id });
+
+                // eslint-disable-next-line max-depth
+                if (appDetails?._id) {
+                    dataSource.push(appDetails);
+                }
+            }
+        }
+
+        return limit ? dataSource.slice(offset, offset + limit) : dataSource;
     } catch (error) {
         AppLogger.info(`[AppProvider - getAppsByParams] error: ${error.message}`);
         return [];
@@ -99,7 +203,9 @@ const getAppsStatsByParams = async ({ keywords }) => {
 
 const AppProvider = {
     insertApp,
-    getAppDetailsByParams,
+    getAppDetailsInfosByParams,
+    getAppDetailsEvolutionsByParams,
+    getAppDetailsDependenciesByParams,
     getAppDetailsAuditReportsByParams,
     getAppsByParams,
     getAppsTotalByParams,

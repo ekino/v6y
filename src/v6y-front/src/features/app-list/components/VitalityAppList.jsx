@@ -1,6 +1,6 @@
 'use client';
 
-import { Col, Row } from 'antd';
+import { Col, List, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 import VitalityLoadMoreList from '../../../commons/components/VitalityLoadMoreList.jsx';
@@ -85,7 +85,11 @@ const VitalityAppList = ({ source }) => {
                 <VitalityLoadMoreList
                     isDataSourceLoading={isAppListLoading}
                     dataSource={appList}
-                    renderItem={(app) => <VitalityAppListItem app={app} source={source} />}
+                    renderItem={(app) => (
+                        <List.Item key={app._id}>
+                            <VitalityAppListItem app={app} source={source} />
+                        </List.Item>
+                    )}
                     onLoadMore={onLoadMore}
                 />
             </Col>

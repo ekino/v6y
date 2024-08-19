@@ -11,7 +11,7 @@ import {
     useClientQuery,
 } from '../../../../infrastructure/adapters/api/useQueryAdapter.jsx';
 import useNavigationAdapter from '../../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
-import GetAppDetailsDependencies from '../../api/getAppDetailsDependencies.js';
+import GetAppDetailsDependenciesByParams from '../../api/getAppDetailsDependenciesByParams.js';
 import VitalityAppDetailsDependenciesList from './VitalityAppDetailsDependenciesList.jsx';
 
 const VitalityAppDetailsDependenciesView = ({}) => {
@@ -20,19 +20,21 @@ const VitalityAppDetailsDependenciesView = ({}) => {
 
     const { isLoading: isAppDetailsDependenciesLoading, data: appDetailsDependencies } =
         useClientQuery({
-            queryCacheKey: ['getAppDetailsDependencies', appId],
+            queryCacheKey: ['getAppDetailsDependenciesByParams', appId],
             queryBuilder: async () =>
                 buildClientQuery({
                     queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
-                    queryPath: GetAppDetailsDependencies,
+                    queryPath: GetAppDetailsDependenciesByParams,
                     queryParams: {
                         appId,
                     },
                 }),
         });
 
-    const appDetails = appDetailsDependencies?.getAppDetailsDependencies;
-    const dependencies = appDetails?.dependencies?.filter((item) => item?.status?.length) || [];
+    const dependencies =
+        appDetailsDependencies?.getAppDetailsDependenciesByParams?.filter(
+            (item) => item?.status?.length,
+        ) || [];
 
     return (
         <VitalitySectionView
@@ -47,7 +49,7 @@ const VitalityAppDetailsDependenciesView = ({}) => {
                 align="center"
                 criteria="status"
                 hasAllGroup
-                dataSource={appDetails?.dependencies}
+                dataSource={dependencies}
                 onRenderChildren={(_, data) => (
                     <div id="dependencies_grouper_tab_content">
                         <VitalitySelectGrouperView

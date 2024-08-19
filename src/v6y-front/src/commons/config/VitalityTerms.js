@@ -24,7 +24,7 @@ const VitalityTerms = {
     VITALITY_APP_DETAILS_QUALITY_SELECT_LABEL: 'Select a branch',
     VITALITY_APP_DETAILS_QUALITY_SELECT_HELPER: 'Select a branch to filter quality status',
     VITALITY_APP_DETAILS_QUALITY_SELECT_PLACEHOLDER: 'All',
-    VITALITY_APP_DETAILS_INFOS_TITLE: 'General Information',
+    VITALITY_APP_DETAILS_INFOS_TITLE: 'General Information and Status',
     VITALITY_APP_DETAILS_EVOLUTIONS_TITLE: 'Recommendations and Evolutions',
     VITALITY_APP_DETAILS_EVOLUTIONS_SELECT_LABEL: 'Select a branch',
     VITALITY_APP_DETAILS_EVOLUTIONS_SELECT_HELPER: 'Select a branch to filter evolutions',

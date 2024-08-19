@@ -36,17 +36,15 @@ const deleteKeywordsList = async () => {
     }
 };
 
-const getKeywordsByParams = async () => {
+const getKeywordsByParams = async ({ appId = null }) => {
     try {
-        const uniqueKeywords = keywords?.reduce(
-            (acc, next) => ({
-                ...acc,
-                [next.label]: next,
-            }),
-            {},
-        );
+        AppLogger.info(`[getKeywordsByParams] appId:  ${appId}`);
 
-        return Object.values(uniqueKeywords || {});
+        // read from DB
+
+        return appId?.length > 0
+            ? keywords.filter((keyword) => keyword?.apps?.find((app) => app.appId === appId))
+            : keywords;
     } catch (error) {
         AppLogger.info(`[getKeywordsByParams] error:  ${error.message}`);
         return [];
