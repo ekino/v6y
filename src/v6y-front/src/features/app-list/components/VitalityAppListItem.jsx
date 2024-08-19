@@ -24,7 +24,10 @@ const VitalityAppListItem = ({ app, source }) => {
                     <Typography.Text>{app.description}</Typography.Text>
                 </Col>
                 <Col span={24}>
-                    <VitalityTags align="center" tags={app.keywords} />
+                    <VitalityTags
+                        align="center"
+                        tags={[...(app.keywords || []), ...(app.qualityGates || [])]}
+                    />
                 </Col>
                 <Col span={24} style={{ textAlign: 'right' }}>
                     <Link href={appDetailsLink}>

@@ -13,8 +13,8 @@ const KeywordType = `
     """ Keyword label (exp: React, Angular, Vite, Webpack, Jest, Vitest, ...) """
     label: String
     
-    """ Keyword color for level (error/success/warning) """
-    color: String
+    """ Possible values for status : error, success, warning """
+    status: String
     
     """ Help message to explain the keyword purpose """
     helpMessage: String

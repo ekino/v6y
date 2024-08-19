@@ -15,10 +15,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "analyze": "ANALYZE=true pnpm build",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "format": "prettier --write ./src",
-    "analyze": "ANALYZE=true pnpm build",
     "test": "vitest --coverage --watch false",
     "test:watch": "vitest",
     "test:ui": "vitest --ui"

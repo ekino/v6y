@@ -1,6 +1,6 @@
 const FaqQueriesType = `
   type Query {
-    getFaqList: [FaqType]
+    getFaqsByParams: [FaqType]
   }
 `;
 

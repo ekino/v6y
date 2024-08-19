@@ -1,7 +1,7 @@
 import { Checkbox } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-import GetAppKeywords from '../../features/app-list/api/getAppKeywords.js';
+import GetKeywordsByParams from '../../features/app-list/api/getKeywordsByParams.js';
 import {
     buildClientQuery,
     useClientQuery,
@@ -24,19 +24,19 @@ const VitalityKeywords = () => {
         queryBuilder: async () =>
             buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
-                queryPath: GetAppKeywords,
+                queryPath: GetKeywordsByParams,
                 queryParams: {},
             }),
     });
 
     useEffect(() => {
-        const data = dataKeywords?.getAppKeywords?.map((item) => ({
+        const data = dataKeywords?.getKeywordsByParams?.map((item) => ({
             ...item,
             value: item.label,
         }));
 
         setKeywordsList(data);
-    }, [dataKeywords?.getAppKeywords]);
+    }, [dataKeywords?.getKeywordsByParams]);
 
     useEffect(() => {
         const defaultSelectedKeywords = keywordsUrlParams?.split(',');

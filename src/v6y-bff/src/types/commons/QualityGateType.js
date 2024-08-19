@@ -10,11 +10,8 @@ const QualityGateType = `
     """ Quality Gate Branch """
     branch: String
     
-    """ Quality Gate level. Possible values are: PASSED, FAILED """
-    level: String!    
-    
-    """ Quality Gate color for level """
-    color: String
+    """ Possible values for status : error, success, warning """
+    status: String
     
     """ Module where quality gate is executed """
     module: String

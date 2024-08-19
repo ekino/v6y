@@ -1,4 +1,4 @@
-import { AppLogger, AppProvider, KeywordsProvider } from '@v6y/commons';
+import { AppLogger, AppProvider } from '@v6y/commons';
 
 const getAppDetailsAuditReportsByParams = async (_, args) => {
     try {
@@ -113,27 +113,11 @@ const getAppsTotalByParams = async (_, args) => {
     }
 };
 
-const getAppKeywords = async () => {
-    try {
-        const appKeywordsList = await KeywordsProvider.getKeywordsByParams();
-
-        AppLogger.info(
-            `[AppQueries - getAppKeywords] appKeywordsList : ${appKeywordsList?.length}`,
-        );
-
-        return appKeywordsList;
-    } catch (error) {
-        AppLogger.info(`[AppQueries - getAppKeywords] error : ${error.message}`);
-        return [];
-    }
-};
-
 const AppQueries = {
     getAppDetailsByParams,
     getAppDetailsAuditReportsByParams,
     getAppsTotalByParams,
     getAppListByPageAndParams,
-    getAppKeywords,
     getAppsStatsByParams,
 };
 

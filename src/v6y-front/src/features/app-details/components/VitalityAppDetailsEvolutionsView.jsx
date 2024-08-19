@@ -1,11 +1,8 @@
 import { BulbOutlined } from '@ant-design/icons';
 import React from 'react';
 
-import VitalityEmptyView from '../../../commons/components/VitalityEmptyView.jsx';
-import VitalityHelpList from '../../../commons/components/VitalityHelpList.jsx';
-import VitalityLoader from '../../../commons/components/VitalityLoader.jsx';
 import VitalitySectionView from '../../../commons/components/VitalitySectionView.jsx';
-import VitalitySelectGrouperView from '../../../commons/components/VitalitySelectGrouperView.jsx';
+import VitalityTabGrouperView from '../../../commons/components/VitalityTabGrouperView.jsx';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig.js';
 import VitalityTerms from '../../../commons/config/VitalityTerms.js';
 import {
@@ -14,6 +11,7 @@ import {
 } from '../../../infrastructure/adapters/api/useQueryAdapter.jsx';
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
 import GetAppDetailsEvolutions from '../api/getAppDetailsEvolutions.js';
+import VitalityAppDetailsEvolutionList from './evolutions/VitalityAppDetailsEvolutionList.jsx';
 
 const VitalityAppDetailsEvolutionsView = ({}) => {
     const { getUrlParams } = useNavigationAdapter();
@@ -33,29 +31,28 @@ const VitalityAppDetailsEvolutionsView = ({}) => {
         },
     );
 
-    if (isAppDetailsEvolutionsLoading) {
-        return <VitalityLoader />;
-    }
-
     const appDetails = appDetailsEvolutions?.getAppDetailsEvolutions;
-    if (!appDetails?.evolutions?.length) {
-        return <VitalityEmptyView />;
-    }
+    const evolutions = appDetails?.evolutions?.filter((item) => item?.status?.length) || [];
 
     return (
         <VitalitySectionView
+            isLoading={isAppDetailsEvolutionsLoading}
+            isEmpty={!evolutions?.length}
             title={VitalityTerms.VITALITY_APP_DETAILS_EVOLUTIONS_TITLE}
             avatar={<BulbOutlined />}
         >
-            <VitalitySelectGrouperView
-                name="evolutions_grouper_select"
-                criteria="branch"
+            <VitalityTabGrouperView
+                name="evolutions_grouper_tab"
+                ariaLabelledby="evolutions_grouper_tab_content"
+                align="center"
+                criteria="status"
                 hasAllGroup
-                placeholder={VitalityTerms.VITALITY_APP_DETAILS_EVOLUTIONS_SELECT_PLACEHOLDER}
-                label={VitalityTerms.VITALITY_APP_DETAILS_EVOLUTIONS_SELECT_LABEL}
-                helper={VitalityTerms.VITALITY_APP_DETAILS_EVOLUTIONS_SELECT_HELPER}
-                dataSource={appDetails?.evolutions || []}
-                onRenderChildren={(_, data) => <VitalityHelpList helps={data} />}
+                dataSource={evolutions}
+                onRenderChildren={(_, data) => (
+                    <div id="evolutions_grouper_tab_content">
+                        <VitalityAppDetailsEvolutionList evolutions={data} />
+                    </div>
+                )}
             />
         </VitalitySectionView>
     );

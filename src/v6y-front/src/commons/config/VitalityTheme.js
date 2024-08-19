@@ -38,7 +38,6 @@ const vitalityTheme = {
         },
         Collapse: {
             headerBg: themeToken.colorBgBase,
-            contentBg: themeToken.colorPrimaryLight,
             colorBorder: themeToken.colorPrimary,
         },
         List: {

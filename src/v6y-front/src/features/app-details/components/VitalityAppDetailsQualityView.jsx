@@ -1,8 +1,6 @@
 import { DashboardOutlined } from '@ant-design/icons';
 import React from 'react';
 
-import VitalityEmptyView from '../../../commons/components/VitalityEmptyView.jsx';
-import VitalityLoader from '../../../commons/components/VitalityLoader.jsx';
 import VitalitySectionView from '../../../commons/components/VitalitySectionView.jsx';
 import VitalitySelectGrouperView from '../../../commons/components/VitalitySelectGrouperView.jsx';
 import VitalityTags from '../../../commons/components/VitalityTags.jsx';
@@ -31,17 +29,12 @@ const VitalityAppDetailsQualityView = ({}) => {
             }),
     });
 
-    if (isAppDetailsQualityLoading) {
-        return <VitalityLoader />;
-    }
-
     const appDetails = appDetailsQuality?.getAppDetailsQualityReports;
-    if (!appDetails?.keywords?.length && !appDetails?.qualityGates?.length) {
-        return <VitalityEmptyView />;
-    }
 
     return (
         <VitalitySectionView
+            isLoading={isAppDetailsQualityLoading}
+            isEmpty={!appDetails?.keywords?.length && !appDetails?.qualityGates?.length}
             title={VitalityTerms.VITALITY_APP_DETAILS_QUALITY_STATUS_TITLE}
             avatar={<DashboardOutlined />}
         >

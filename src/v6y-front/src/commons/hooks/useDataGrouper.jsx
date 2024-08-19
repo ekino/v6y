@@ -35,7 +35,7 @@ const useDataGrouper = ({ dataSource, criteria, hasAllGroup }) => {
                 ...(groups || []),
             ].filter((item) => item),
         );
-    }, [groupedDataSource]);
+    }, [groupedDataSource, hasAllGroup]);
 
     useEffect(() => {
         setSelectedCriteria(criteriaGroups?.[0]);

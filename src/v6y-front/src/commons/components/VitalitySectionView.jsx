@@ -1,6 +1,10 @@
 import { Avatar, Card, Col, Row, Space, Typography } from 'antd';
+import React from 'react';
 
-const VitalitySectionView = ({ title, description, avatar, children }) => (
+import VitalityEmptyView from './VitalityEmptyView.jsx';
+import VitalityLoader from './VitalityLoader.jsx';
+
+const VitalitySectionView = ({ isLoading, isEmpty, title, description, avatar, children }) => (
     <Row
         justify="center"
         align="middle"
@@ -21,18 +25,20 @@ const VitalitySectionView = ({ title, description, avatar, children }) => (
                                 }}
                             />
                         )}
-                        <Typography.Title level={3}>{title}</Typography.Title>
+                        <Typography.Title level={3}>{title || ''}</Typography.Title>
                     </Space>
                 }
             >
-                <Card.Meta
-                    description={
-                        <Typography.Paragraph>
-                            <p>{description}</p>
-                        </Typography.Paragraph>
-                    }
-                />
-                {children}
+                {description?.length > 0 && (
+                    <Card.Meta
+                        description={
+                            <Typography.Paragraph>
+                                <p>{description || ''}</p>
+                            </Typography.Paragraph>
+                        }
+                    />
+                )}
+                {isLoading ? <VitalityLoader /> : <>{isEmpty ? <VitalityEmptyView /> : children}</>}
             </Card>
         </Col>
     </Row>

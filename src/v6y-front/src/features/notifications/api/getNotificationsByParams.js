@@ -1,11 +1,11 @@
 import { gql } from 'graphql-request';
 
-const GetFaqList = gql`
-    query getFaqList {
-        getFaqList {
+const GetNotificationsByParams = gql`
+    query getNotificationsByParams {
+        getNotificationsByParams {
             title
-            description
             color
+            description
             links {
                 type
                 label
@@ -16,4 +16,4 @@ const GetFaqList = gql`
     }
 `;
 
-export default GetFaqList;
+export default GetNotificationsByParams;

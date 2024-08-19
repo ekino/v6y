@@ -1,8 +1,6 @@
 import { FormOutlined } from '@ant-design/icons';
 import React from 'react';
 
-import VitalityEmptyView from '../../../../commons/components/VitalityEmptyView.jsx';
-import VitalityLoader from '../../../../commons/components/VitalityLoader.jsx';
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView.jsx';
 import VitalityTabGrouperView from '../../../../commons/components/VitalityTabGrouperView.jsx';
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig.js';
@@ -34,17 +32,12 @@ const VitalityAppDetailsAuditReportsView = ({}) => {
                 }),
         });
 
-    if (isAppDetailsAuditReportsLoading) {
-        return <VitalityLoader />;
-    }
-
-    const auditDetailsAuditReports = appDetailsAuditReports?.getAppDetailsAuditReportsByParams;
-    if (!auditDetailsAuditReports?.length) {
-        return <VitalityEmptyView />;
-    }
+    const auditReports = appDetailsAuditReports?.getAppDetailsAuditReportsByParams;
 
     return (
         <VitalitySectionView
+            isLoading={isAppDetailsAuditReportsLoading}
+            isEmpty={!auditReports?.length}
             title={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_REPORTS_TITLE}
             avatar={<FormOutlined />}
         >
@@ -54,7 +47,7 @@ const VitalityAppDetailsAuditReportsView = ({}) => {
                 align="center"
                 criteria="type"
                 hasAllGroup={false}
-                dataSource={auditDetailsAuditReports}
+                dataSource={auditReports}
                 onRenderChildren={(group, data) => (
                     <div id="audit_reports_grouper_tab_content">
                         {group === AUDIT_REPORT_TYPES.lighthouse && (

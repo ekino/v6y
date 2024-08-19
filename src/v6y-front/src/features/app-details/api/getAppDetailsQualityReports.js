@@ -7,13 +7,12 @@ const GetAppDetailsQualityReports = gql`
                 type
                 branch
                 label
-                color
+                status
             }
             qualityGates {
                 label
                 branch
-                level
-                color
+                status
                 module
             }
         }

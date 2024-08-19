@@ -64,6 +64,37 @@ export const AUDIT_STATUS_COLORS = {
     error: VitalityTheme.token.colorError,
 };
 
+export const DEPENDENCIES_STATUS_INFOS = {
+    'up-to-date': {
+        statusColor: 'success',
+        statusLabel: 'Up-to-date',
+    },
+    outdated: {
+        statusColor: 'error',
+        statusLabel: 'Outdated',
+    },
+    deprecated: {
+        statusColor: 'warning',
+        statusLabel: 'Deprecated',
+    },
+};
+
+// critical, important, recommended
+export const EVOLUTIONS_STATUS_INFOS = {
+    critical: {
+        statusColor: 'error',
+        statusLabel: 'Critical',
+    },
+    important: {
+        statusColor: 'warning',
+        statusLabel: 'Important',
+    },
+    recommended: {
+        statusColor: 'processing',
+        statusLabel: 'Recommended',
+    },
+};
+
 export const normalizeDependencyVersion = (version) => version?.replace('=', '');
 
 export const formatHelpOptions = (options) => {

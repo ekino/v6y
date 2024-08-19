@@ -14,6 +14,7 @@ import UserType from './commons/UserType.js';
 import VersionType from './commons/VersionType.js';
 import FaqQueriesType from './faq/FaqQueriesType.js';
 import FaqType from './faq/FaqType.js';
+import KeywordQueriesType from './keyword/KeywordQueriesType.js';
 import KeywordType from './keyword/KeywordType.js';
 import NotificationQueriesType from './notifications/NotificationQueriesType.js';
 import NotificationType from './notifications/NotificationType.js';
@@ -38,6 +39,7 @@ const VitalityTypes = gql`
     ${NotificationType}
 
     # the schemas allows the following queries
+    ${KeywordQueriesType}
     ${AppQueriesType}
     ${FaqQueriesType}
     ${NotificationQueriesType}

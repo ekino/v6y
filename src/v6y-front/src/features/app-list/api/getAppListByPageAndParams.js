@@ -38,8 +38,14 @@ const GetAppListByPageAndParams = gql`
                 type
                 branch
                 label
-                color
+                status
                 helpMessage
+            }
+            qualityGates {
+                label
+                branch
+                status
+                module
             }
         }
     }

@@ -1,8 +1,6 @@
 import { ProductOutlined } from '@ant-design/icons';
 import React from 'react';
 
-import VitalityEmptyView from '../../../../commons/components/VitalityEmptyView.jsx';
-import VitalityLoader from '../../../../commons/components/VitalityLoader.jsx';
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView.jsx';
 import VitalitySelectGrouperView from '../../../../commons/components/VitalitySelectGrouperView.jsx';
 import VitalityTabGrouperView from '../../../../commons/components/VitalityTabGrouperView.jsx';
@@ -33,17 +31,13 @@ const VitalityAppDetailsDependenciesView = ({}) => {
                 }),
         });
 
-    if (isAppDetailsDependenciesLoading) {
-        return <VitalityLoader />;
-    }
-
     const appDetails = appDetailsDependencies?.getAppDetailsDependencies;
-    if (!appDetails?.dependencies?.length) {
-        return <VitalityEmptyView />;
-    }
+    const dependencies = appDetails?.dependencies?.filter((item) => item?.status?.length) || [];
 
     return (
         <VitalitySectionView
+            isLoading={isAppDetailsDependenciesLoading}
+            isEmpty={!dependencies?.length}
             title={VitalityTerms.VITALITY_APP_DETAILS_DEPENDENCIES_TITLE}
             avatar={<ProductOutlined />}
         >

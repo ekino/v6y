@@ -10,7 +10,7 @@ const VitalitySelectGrouperView = ({
     placeholder,
     label,
     helper,
-    name,
+    name = 'criteria_grouper_select',
     hasAllGroup,
     onRenderChildren,
 }) => {
@@ -24,7 +24,7 @@ const VitalitySelectGrouperView = ({
 
     useEffect(() => {
         selectGroupForm?.setFieldsValue({
-            criteria_grouper_select: null,
+            [name]: hasAllGroup ? 'All' : null,
         });
     }, [groupedDataSource]);
 
@@ -49,15 +49,14 @@ const VitalitySelectGrouperView = ({
                     form={selectGroupForm}
                     onValuesChange={(values) =>
                         setSelectedCriteria({
-                            value: values?.[name || 'criteria_grouper_select'],
+                            value: values?.[name],
                         })
                     }
                 >
                     <Form.Item
-                        name={name || 'criteria_grouper_select'}
+                        name={name}
                         label={<Typography.Text>{label}</Typography.Text>}
                         help={<Typography.Text>{helper}</Typography.Text>}
-                        initialValue="All"
                     >
                         <Select
                             placeholder={placeholder}

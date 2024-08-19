@@ -5,14 +5,17 @@ import React, { useState } from 'react';
 
 import VitalityLinks from '../../../../commons/components/VitalityLinks.jsx';
 import VitalityModal from '../../../../commons/components/VitalityModal.jsx';
-import { normalizeDependencyVersion } from '../../../../commons/config/VitalityCommonConfig.js';
+import {
+    DEPENDENCIES_STATUS_INFOS,
+    normalizeDependencyVersion,
+} from '../../../../commons/config/VitalityCommonConfig.js';
 import VitalityTerms from '../../../../commons/config/VitalityTerms.js';
 
 const VitalityAppDetailsDependenciesListItem = ({ dependency }) => {
     const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
 
-    const dependencyStatusInfos =
-        VitalityTerms.VITALITY_APP_DETAILS_DEPENDENCIES_STATUS_INFOS[dependency.status];
+    const dependencyStatusInfos = DEPENDENCIES_STATUS_INFOS[dependency.status];
+
     return (
         <List.Item>
             <Descriptions
@@ -24,13 +27,13 @@ const VitalityAppDetailsDependenciesListItem = ({ dependency }) => {
                         <Tag
                             key={`Status: ${dependency.name} - ${dependency.usedOnPath} - ${dependency.branch}`}
                             bordered
-                            color={dependencyStatusInfos.color}
+                            color={dependencyStatusInfos.statusColor}
                             style={{
                                 marginLeft: '1rem',
                                 backgroundColor: 'white',
                             }}
                         >
-                            {dependencyStatusInfos.label}
+                            {dependencyStatusInfos.statusLabel}
                         </Tag>
                     </Typography.Title>
                 }

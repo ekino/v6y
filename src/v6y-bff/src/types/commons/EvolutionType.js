@@ -11,6 +11,9 @@ const EvolutionType = `
     """ Evolution Branch """
     branch: String
     
+    """ Possible values for status : critical, important, recommended """
+    status: String
+    
     """ Evolution description """
     description: String!
     

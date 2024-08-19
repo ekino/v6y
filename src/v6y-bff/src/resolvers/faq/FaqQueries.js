@@ -1,11 +1,20 @@
-import { FaqConfig } from '@v6y/commons';
+import { AppLogger, FaqProvider } from '@v6y/commons';
 
-const getFaqList = () => {
-    return FaqConfig.buildData();
+const getFaqsByParams = async () => {
+    try {
+        const faqList = await FaqProvider.getFaqsByParams();
+
+        AppLogger.info(`[FaqQueries - getFaqsByParams] faqList : ${faqList?.length}`);
+
+        return faqList;
+    } catch (error) {
+        AppLogger.info(`[FaqQueries - getFaqsByParams] error : ${error.message}`);
+        return [];
+    }
 };
 
 const FaqQueries = {
-    getFaqList,
+    getFaqsByParams,
 };
 
 export default FaqQueries;

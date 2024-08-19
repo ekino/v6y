@@ -3,7 +3,7 @@ import {
     AppProvider,
     AuditsProvider,
     DataBaseManager,
-    KeywordsProvider,
+    KeywordProvider,
 } from '@v6y/commons';
 import { parentPort, workerData } from 'worker_threads';
 
@@ -20,7 +20,7 @@ try {
     await DataBaseManager.connect(databaseUri);
 
     // Clear existing data in preparation for updates
-    await KeywordsProvider.deleteKeywordsList();
+    await KeywordProvider.deleteKeywordsList();
     await AuditsProvider.deleteAuditsList();
     await AppProvider.deleteAppList();
 

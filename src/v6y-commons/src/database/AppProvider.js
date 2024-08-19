@@ -1,4 +1,4 @@
-import { appList, auditsReports } from '../config/data/AppMockData.js';
+import { appList, auditsReports, stats } from '../config/data/AppMockData.js';
 import AppLogger from '../core/AppLogger.js';
 
 const insertApp = async (app) => {
@@ -90,13 +90,7 @@ const getAppsStatsByParams = async ({ keywords }) => {
         // number of apps with each keyword
         // case of empty keyword
 
-        return [
-            { keyword: 'ESLint', total: 60000 },
-            { keyword: 'Angular', total: 40000 },
-            { keyword: 'Cash', total: 7000 },
-            { keyword: 'Real Estate', total: 5000 },
-            { keyword: 'Commodities', total: 3000 },
-        ];
+        return stats;
     } catch (error) {
         AppLogger.info(`[AppProvider - getAppsStatsByParams] error: ${error.message}`);
         return {};

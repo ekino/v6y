@@ -1,10 +1,10 @@
 import { InfoOutlined } from '@ant-design/icons';
+import React from 'react';
 
-import VitalityEmptyView from '../../../commons/components/VitalityEmptyView.jsx';
 import VitalityLinks from '../../../commons/components/VitalityLinks.jsx';
-import VitalityLoader from '../../../commons/components/VitalityLoader.jsx';
 import VitalitySectionView from '../../../commons/components/VitalitySectionView.jsx';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig.js';
+import VitalityTerms from '../../../commons/config/VitalityTerms.js';
 import {
     buildClientQuery,
     useClientQuery,
@@ -28,29 +28,27 @@ const VitalityAppDetailsInfosView = ({}) => {
             }),
     });
 
-    if (isAppDetailsInfosLoading) {
-        return <VitalityLoader />;
-    }
-
-    const appDetails = appDetailsInfos?.getAppDetailsInfos;
-
-    if (!appDetails?.name?.length || !appDetails?.acronym?.length) {
-        return <VitalityEmptyView />;
-    }
+    const appInfos = appDetailsInfos?.getAppDetailsInfos;
+    const appTitle =
+        appInfos?.name?.length && appInfos?.acronym?.length
+            ? `${appInfos?.acronym} - ${appInfos?.name}`
+            : VitalityTerms.VITALITY_APP_DETAILS_INFOS_TITLE;
 
     return (
         <VitalitySectionView
-            title={`${appDetails?.acronym} - ${appDetails?.name}`}
-            description={appDetails?.description}
+            isLoading={isAppDetailsInfosLoading}
+            isEmpty={!appInfos?.name?.length || !appInfos?.acronym?.length}
+            title={appTitle}
+            description={appInfos?.description}
             avatar={<InfoOutlined />}
         >
             <VitalityLinks
                 align="center"
                 links={[
-                    ...(appDetails?.links || []),
+                    ...(appInfos?.links || []),
                     {
-                        label: appDetails?.repo?.name,
-                        value: appDetails?.repo?.webUrl,
+                        label: appInfos?.repo?.name,
+                        value: appInfos?.repo?.webUrl,
                     },
                 ]}
             />

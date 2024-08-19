@@ -1,11 +1,24 @@
-import { NotificationsConfig } from '@v6y/commons';
+import { AppLogger, NotificationProvider } from '@v6y/commons';
 
-const getNotificationList = () => {
-    return NotificationsConfig.buildData();
+const getNotificationsByParams = async () => {
+    try {
+        const notificationList = await NotificationProvider.getNotificationsByParams();
+
+        AppLogger.info(
+            `[NotificationsQueries - getNotificationsByParams] notificationList : ${notificationList?.length}`,
+        );
+
+        return notificationList;
+    } catch (error) {
+        AppLogger.info(
+            `[NotificationsQueries - getNotificationsByParams] error : ${error.message}`,
+        );
+        return [];
+    }
 };
 
 const NotificationsQueries = {
-    getNotificationList,
+    getNotificationsByParams,
 };
 
 export default NotificationsQueries;

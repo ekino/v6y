@@ -24,6 +24,7 @@ const VitalityTerms = {
     VITALITY_APP_DETAILS_QUALITY_SELECT_LABEL: 'Select a branch',
     VITALITY_APP_DETAILS_QUALITY_SELECT_HELPER: 'Select a branch to filter quality status',
     VITALITY_APP_DETAILS_QUALITY_SELECT_PLACEHOLDER: 'All',
+    VITALITY_APP_DETAILS_INFOS_TITLE: 'General Information',
     VITALITY_APP_DETAILS_EVOLUTIONS_TITLE: 'Recommendations and Evolutions',
     VITALITY_APP_DETAILS_EVOLUTIONS_SELECT_LABEL: 'Select a branch',
     VITALITY_APP_DETAILS_EVOLUTIONS_SELECT_HELPER: 'Select a branch to filter evolutions',
@@ -35,20 +36,6 @@ const VitalityTerms = {
     VITALITY_APP_DETAILS_DEPENDENCIES_OPEN_MODULE_LABEL: 'Open module',
     VITALITY_APP_DETAILS_DEPENDENCIES_HELP_LABEL: 'More details',
 
-    VITALITY_APP_DETAILS_DEPENDENCIES_STATUS_INFOS: {
-        'up-to-date': {
-            color: 'success',
-            label: 'Up-to-date',
-        },
-        outdated: {
-            color: 'error',
-            label: 'Outdated',
-        },
-        deprecated: {
-            color: 'warning',
-            label: 'Deprecated',
-        },
-    },
     VITALITY_APP_DETAILS_DEPENDENCIES_HELP_TITLE: 'Up-to-date',
     VITALITY_APP_DETAILS_DEPENDENCIES_HELP_DESCRIPTION:
         "This dependency doesn't require any action.",

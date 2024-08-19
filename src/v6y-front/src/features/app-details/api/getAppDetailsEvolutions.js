@@ -9,6 +9,7 @@ const GetAppDetailsEvolutions = gql`
                 branch
                 title
                 description
+                status
                 docLinks {
                     type
                     label
