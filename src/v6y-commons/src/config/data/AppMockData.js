@@ -168,6 +168,257 @@ export const evolutions = [
     },
 ];
 
+export const faqs = [
+    {
+        _id: 'A123',
+        title: 'Unlocking Codebase Performance with Vitality',
+        color: '13',
+        description:
+            'Discover how Vitality identifies bottlenecks, optimizes resource usage, and enhances the overall health of your applications.',
+        links: [
+            {
+                label: 'Performance Optimization Guide',
+                value: 'https://docs.vitality.app/performance',
+                description: '',
+            },
+        ],
+    },
+    {
+        _id: 'B123',
+        title: 'Your Path to Smoother, Faster Applications',
+        color: '13',
+        description:
+            'Learn how Vitality empowers developers to build and maintain high-quality applications that deliver exceptional user experiences.',
+        links: [
+            {
+                label: 'Get Started with Vitality',
+                value: 'https://docs.vitality.app/getting-started',
+                description: '',
+            },
+        ],
+    },
+    {
+        _id: 'C123',
+        title: 'Proactive Codebase Monitoring and Analysis',
+        color: '13',
+        description:
+            "Explore Vitality's comprehensive suite of tools for real-time monitoring, automated analysis, and actionable insights into your codebase.",
+        links: [
+            {
+                label: 'Feature Overview',
+                value: 'https://docs.vitality.app/features',
+                description: '',
+            },
+        ],
+    },
+    {
+        _id: 'D123',
+        title: 'Why Vitality?',
+        color: '13',
+        description:
+            'Understand the benefits of using Vitality to ensure your applications are robust, efficient, and scalable.',
+        links: [
+            {
+                label: 'Why Vitality?',
+                value: 'https://docs.vitality.app/why-vitality',
+                description: '',
+            },
+        ],
+    },
+    {
+        _id: 'E123',
+        title: 'Integrating Vitality into Your Workflow',
+        color: '13',
+        description:
+            'See how easily Vitality integrates into your existing development pipeline, providing continuous feedback and improvement opportunities.',
+        links: [
+            {
+                label: 'Integration Guide',
+                value: 'https://docs.vitality.app/integration',
+                description: '',
+            },
+        ],
+    },
+    {
+        _id: 'F123',
+        title: 'Success Stories with Vitality',
+        color: '13',
+        description:
+            "Read real-world case studies of how teams have used Vitality to achieve significant improvements in their applications' performance and maintainability.",
+        links: [
+            {
+                label: 'Case Studies',
+                value: 'https://docs.vitality.app/case-studies',
+                description: '',
+            },
+        ],
+    },
+];
+
+export const notifications = [
+    {
+        _id: 'A128',
+        title: 'Vitality Update Available!',
+        color: '14',
+        description:
+            'Vitality v2.5 is now ready for download.  New features include enhanced performance monitoring and improved code analysis.',
+        links: [
+            {
+                label: 'Update Now',
+                value: 'https://downloads.vitality.app/v2.5',
+                description: '',
+            },
+            {
+                label: 'Release Notes',
+                value: 'https://docs.vitality.app/release-notes/v2.5',
+                description: '',
+            },
+        ],
+    },
+    {
+        _id: 'B128',
+        title: 'Potential Performance Issue Detected',
+        color: '14',
+        description:
+            'Vitality has identified a potential performance issue in your XYZ service. Please review the detailed report for recommendations.',
+        links: [
+            {
+                label: 'View Report',
+                value: 'https://app.vitality.app/reports/xyz-service-performance-issue',
+                description: '',
+            },
+        ],
+    },
+    {
+        _id: 'C128',
+        title: 'Security Vulnerability Patched',
+        color: '14',
+        description:
+            "A critical security vulnerability in Vitality's dependency library has been addressed. Please update to the latest version.",
+        links: [
+            {
+                label: 'Update Instructions',
+                value: 'https://docs.vitality.app/update-instructions',
+                description: '',
+            },
+        ],
+    },
+    {
+        _id: 'D128',
+        title: 'New Tutorial: Optimizing Frontend Code',
+        color: '14',
+        description:
+            "Our latest tutorial shows you how to leverage Vitality's insights to improve your frontend code's performance and maintainability.",
+        links: [
+            {
+                label: 'Read the Tutorial',
+                value: 'https://docs.vitality.app/tutorials/frontend-optimization',
+                description: '',
+            },
+        ],
+    },
+];
+
+export const auditsInfos = {
+    'Lighthouse-performance': {
+        title: 'Performance',
+        description: 'Measures how quickly the content on your page loads and becomes interactive.',
+        explanation: null,
+    },
+    'Lighthouse-seo': {
+        title: 'SEO',
+        description: 'Evaluates how well your page is optimized for search engines.',
+        explanation: null,
+    },
+    'Lighthouse-accessibility': {
+        title: 'Accessibility',
+        description:
+            'Checks for issues that might make it difficult for people with disabilities to use your website.',
+        explanation:
+            'There are opportunities to improve the accessibility of your web app. Manual testing is also encouraged as automatic detection may not catch all issues.',
+    },
+    'Lighthouse-first-contentful-paint': {
+        title: 'First Contentful Paint',
+        description:
+            'Measures how long it takes for the first piece of content (text or image) to appear on the screen.',
+        explanation:
+            'First Contentful Paint is slower than recommended. Consider optimizing image sizes, reducing server response times, and minimizing render-blocking resources.',
+    },
+    'Lighthouse-largest-contentful-paint': {
+        title: 'Largest Contentful Paint',
+        description:
+            'Measures how long it takes for the largest piece of content (text or image) to appear on the screen.',
+        explanation:
+            'Largest Contentful Paint is slower than recommended. Consider optimizing image sizes, reducing server response times, and minimizing render-blocking resources.',
+    },
+    'Lighthouse-cumulative-layout-shift': {
+        title: 'Cumulative Layout Shift',
+        description:
+            "Measures how much the layout of your page shifts unexpectedly while it's loading.",
+        explanation: null,
+    },
+    'Code-Coupling-circular-dependencies': {
+        title: 'Circular dependencies detected',
+        description:
+            'There are circular dependencies between modules, which can make the code difficult to understand and maintain.',
+        explanation:
+            'Consider refactoring to eliminate circular dependencies. This might involve restructuring the code or introducing dependency injection.',
+    },
+    'Code-Coupling-instability-index': {
+        title: 'High instability',
+        description:
+            'The "user" module has a high instability index, indicating it\'s likely to be affected by changes in other modules.',
+        explanation:
+            'Consider refactoring to reduce the number of modules that depend on the "user" module. This could involve extracting common functionality into a separate module or redesigning the module interfaces.',
+    },
+    'Code-Coupling-efferent-coupling': {
+        title: 'High efferent coupling',
+        description:
+            'The "user" module depends on many other modules, making it potentially fragile to changes in those modules.',
+        explanation:
+            'Consider refactoring to reduce the number of modules that the "user" module depends on. This could involve extracting common functionality into a separate module or redesigning the module interfaces.',
+    },
+    'Code-Coupling-afferent-coupling': {
+        title: 'High afferent coupling',
+        description:
+            'The "user" module is used by many other modules, making it a potential bottleneck for changes.',
+        explanation:
+            'Consider refactoring to reduce the number of modules that depend on the "user" module. This could involve extracting common functionality into a separate module or redesigning the module interfaces.',
+    },
+    'Code-Duplication-repeated-code-block': {
+        title: 'Repeated code block detected',
+        description: 'The code block for handling user input is duplicated in multiple places.',
+        explanation:
+            'Duplicated code makes maintenance more difficult and increases the risk of errors. Consider refactoring to extract the duplicated code into a reusable function or component.',
+    },
+    'Code-Complexity-maintainability-index': {
+        title: 'Low maintainability',
+        description:
+            'The function "calculateTotals" has a low maintainability index, indicating it may be difficult to modify or update.',
+        explanation:
+            'Consider refactoring this function to improve its maintainability score. This could involve simplifying the logic, reducing its size, or improving its commenting.',
+    },
+    'Code-Complexity-cyclomatic-complexity': {
+        title: 'Function is too complex',
+        description:
+            'The function "calculateTotals" has a high cyclomatic complexity, making it difficult to understand and maintain.',
+        explanation:
+            'Consider refactoring this function into smaller, more manageable parts to improve readability and maintainability.',
+    },
+    'Code-Compliance-unused-variable': {
+        title: 'Unused variable detected',
+        description: 'The variable "unusedVar" is declared but never used.',
+        explanation:
+            'Unused variables can clutter the code and potentially lead to confusion. Consider removing them.',
+    },
+    'Code-Security-xss-vulnerability': {
+        title: 'Potential XSS vulnerability detected',
+        description: 'UserInput is not properly sanitized before being rendered in the DOM',
+        explanation:
+            'This vulnerability allows attackers to inject malicious scripts into your website, potentially compromising user data or taking control of their sessions.',
+    },
+};
+
 // dynamic / semi dynamic parts
 
 export const appList = [
@@ -179,11 +430,13 @@ export const appList = [
         description:
             'A next-generation CRM system designed for small to large enterprises, featuring a React frontend and a Spring Boot backend.',
         repo: {
+            webUrl: 'https://github.com/CRMTech/crm-system', // static
+            gitUrl: 'git@github.com:CRMTech/crm-system.git', // static
+
+            // dynamic
             name: 'crm-system',
             fullName: 'CRMTech/crm-system',
             owner: 'CRMTech',
-            webUrl: 'https://github.com/CRMTech/crm-system',
-            gitUrl: 'git@github.com:CRMTech/crm-system.git',
             allBranches: [
                 'main',
                 'develop',
@@ -257,14 +510,12 @@ export const dependencies = [
 
 export const auditsReports = [
     {
+        ...(auditsInfos['Lighthouse-performance'] || {}),
         _id: 'A12',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
         type: 'Lighthouse',
         category: 'performance',
-        title: 'Performance',
-        description: 'Measures how quickly the content on your page loads and becomes interactive.',
-        explanation: null,
         webUrl: 'https://www.examplewebsite.com',
         status: 'success',
         score: 92,
@@ -274,14 +525,12 @@ export const auditsReports = [
         module: null,
     },
     {
+        ...(auditsInfos['Lighthouse-seo'] || {}),
         _id: 'A13',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
         type: 'Lighthouse',
         category: 'seo',
-        title: 'SEO',
-        description: 'Evaluates how well your page is optimized for search engines.',
-        explanation: null,
         webUrl: 'https://www.examplewebsite.com',
         status: 'success',
         score: 92,
@@ -291,16 +540,12 @@ export const auditsReports = [
         module: null,
     },
     {
+        ...(auditsInfos['Lighthouse-accessibility'] || {}),
         _id: 'A14',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
         type: 'Lighthouse',
         category: 'accessibility',
-        title: 'Accessibility',
-        description:
-            'Checks for issues that might make it difficult for people with disabilities to use your website.',
-        explanation:
-            'There are opportunities to improve the accessibility of your web app. Manual testing is also encouraged as automatic detection may not catch all issues.',
         webUrl: 'https://www.examplewebsite.com',
         status: 'warning',
         score: 75,
@@ -310,16 +555,12 @@ export const auditsReports = [
         module: null,
     },
     {
+        ...(auditsInfos['Lighthouse-first-contentful-paint'] || {}),
         _id: 'A14',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
         type: 'Lighthouse',
         category: 'first-contentful-paint',
-        title: 'First Contentful Paint',
-        description:
-            'Measures how long it takes for the first piece of content (text or image) to appear on the screen.',
-        explanation:
-            'First Contentful Paint is slower than recommended. Consider optimizing image sizes, reducing server response times, and minimizing render-blocking resources.',
         webUrl: 'https://www.examplewebsite.com',
         status: 'error',
         score: 1.2,
@@ -329,16 +570,12 @@ export const auditsReports = [
         module: null,
     },
     {
+        ...(auditsInfos['Lighthouse-largest-contentful-paint'] || {}),
         _id: 'A15',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
         type: 'Lighthouse',
         category: 'largest-contentful-paint',
-        title: 'Largest Contentful Paint',
-        description:
-            'Measures how long it takes for the largest piece of content (text or image) to appear on the screen.',
-        explanation:
-            'Largest Contentful Paint is slower than recommended. Consider optimizing image sizes, reducing server response times, and minimizing render-blocking resources.',
         webUrl: 'https://www.examplewebsite.com',
         status: 'warning',
         score: 2.8,
@@ -348,15 +585,12 @@ export const auditsReports = [
         module: null,
     },
     {
+        ...(auditsInfos['Lighthouse-cumulative-layout-shift'] || {}),
         _id: 'A16',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
         type: 'Lighthouse',
         category: 'cumulative-layout-shift',
-        title: 'Cumulative Layout Shift',
-        description:
-            "Measures how much the layout of your page shifts unexpectedly while it's loading.",
-        explanation: null,
         webUrl: 'https://www.examplewebsite.com',
         status: 'success',
         score: 0.05,
@@ -366,15 +600,12 @@ export const auditsReports = [
         module: null,
     },
     {
+        ...(auditsInfos['Code-Security-xss-vulnerability'] || {}),
         _id: 'A17',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
         type: 'Code Security',
         category: 'xss-vulnerability',
-        title: 'Potential XSS vulnerability detected',
-        description: 'UserInput is not properly sanitized before being rendered in the DOM',
-        explanation:
-            'This vulnerability allows attackers to inject malicious scripts into your website, potentially compromising user data or taking control of their sessions.',
         webUrl: 'https://github.com/project/repo/blob/main/vulnerable.js#L12',
         status: 'error',
         score: 0,
@@ -384,15 +615,12 @@ export const auditsReports = [
         module: 'apps/frontend/index.js',
     },
     {
+        ...(auditsInfos['Code-Compliance-unused-variable'] || {}),
         _id: 'A18',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
         type: 'Code Compliance',
         category: 'unused-variable',
-        title: 'Unused variable detected',
-        description: 'The variable "unusedVar" is declared but never used.',
-        explanation:
-            'Unused variables can clutter the code and potentially lead to confusion. Consider removing them.',
         webUrl: 'https://github.com/project/repo/blob/main/code.js#L5',
         status: 'warning',
         score: 0,
@@ -402,16 +630,12 @@ export const auditsReports = [
         module: 'apps/frontend/src/components/ListView.jsx',
     },
     {
+        ...(auditsInfos['Code-Complexity-cyclomatic-complexity'] || {}),
         _id: 'A19',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
         type: 'Code Complexity',
         category: 'cyclomatic-complexity',
-        title: 'Function is too complex',
-        description:
-            'The function "calculateTotals" has a high cyclomatic complexity, making it difficult to understand and maintain.',
-        explanation:
-            'Consider refactoring this function into smaller, more manageable parts to improve readability and maintainability.',
         webUrl: 'https://github.com/project/repo/blob/main/code.js#L25',
         status: 'warning',
         score: 0,
@@ -421,16 +645,12 @@ export const auditsReports = [
         module: 'apps/frontend/src/components/ListView.jsx',
     },
     {
+        ...(auditsInfos['Code-Complexity-maintainability-index'] || {}),
         _id: 'A20',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
         type: 'Code Complexity',
         category: 'maintainability-index',
-        title: 'Low maintainability',
-        description:
-            'The function "calculateTotals" has a low maintainability index, indicating it may be difficult to modify or update.',
-        explanation:
-            'Consider refactoring this function to improve its maintainability score. This could involve simplifying the logic, reducing its size, or improving its commenting.',
         webUrl: 'https://github.com/project/repo/blob/main/code.js#L25',
         status: 'warning',
         score: 0,
@@ -440,15 +660,12 @@ export const auditsReports = [
         module: 'apps/frontend/src/components/ListView.jsx',
     },
     {
+        ...(auditsInfos['Code-Duplication-repeated-code-block'] || {}),
         _id: 'A21',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
         type: 'Code Duplication',
         category: 'repeated-code-block',
-        title: 'Repeated code block detected',
-        description: 'The code block for handling user input is duplicated in multiple places.',
-        explanation:
-            'Duplicated code makes maintenance more difficult and increases the risk of errors. Consider refactoring to extract the duplicated code into a reusable function or component.',
         webUrl: 'https://github.com/project/repo/blob/main/code.js#L50,L75',
         status: 'warning',
         score: 0,
@@ -458,16 +675,12 @@ export const auditsReports = [
         module: 'apps/frontend/src/components/DialogView.jsx',
     },
     {
+        ...(auditsInfos['Code-Coupling-afferent-coupling'] || {}),
         _id: 'A22',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
         type: 'Code Coupling',
         category: 'afferent-coupling',
-        title: 'High afferent coupling',
-        description:
-            'The "user" module is used by many other modules, making it a potential bottleneck for changes.',
-        explanation:
-            'Consider refactoring to reduce the number of modules that depend on the "user" module. This could involve extracting common functionality into a separate module or redesigning the module interfaces.',
         webUrl: 'https://github.com/project/repo/blob/main/user.js',
         status: 'warning',
         score: 0,
@@ -477,16 +690,12 @@ export const auditsReports = [
         module: 'apps/frontend/src/components/DialogView.jsx',
     },
     {
+        ...(auditsInfos['Code-Coupling-efferent-coupling'] || {}),
         _id: 'A23',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
         type: 'Code Coupling',
         category: 'efferent-coupling',
-        title: 'High efferent coupling',
-        description:
-            'The "user" module depends on many other modules, making it potentially fragile to changes in those modules.',
-        explanation:
-            'Consider refactoring to reduce the number of modules that the "user" module depends on. This could involve extracting common functionality into a separate module or redesigning the module interfaces.',
         webUrl: 'https://github.com/project/repo/blob/main/user.js',
         status: 'warning',
         score: 0,
@@ -496,16 +705,12 @@ export const auditsReports = [
         module: 'apps/frontend/src/components/DialogView.jsx', // Placeholder for missing module value
     },
     {
+        ...(auditsInfos['Code-Coupling-instability-index'] || {}),
         _id: 'A24',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
         type: 'Code Coupling',
         category: 'instability-index',
-        title: 'High instability',
-        description:
-            'The "user" module has a high instability index, indicating it\'s likely to be affected by changes in other modules.',
-        explanation:
-            'Consider refactoring to reduce the number of modules that depend on the "user" module. This could involve extracting common functionality into a separate module or redesigning the module interfaces.',
         webUrl: 'https://github.com/project/repo/blob/main/user.js',
         status: 'warning',
         score: 0,
@@ -515,16 +720,12 @@ export const auditsReports = [
         module: 'apps/frontend/src/pages/LoginPage.jsx', // Placeholder for missing module value
     },
     {
+        ...(auditsInfos['Code-Coupling-circular-dependencies'] || {}),
         _id: 'A25',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
         type: 'Code Coupling',
         category: 'circular-dependencies',
-        title: 'Circular dependencies detected',
-        description:
-            'There are circular dependencies between modules, which can make the code difficult to understand and maintain.',
-        explanation:
-            'Consider refactoring to eliminate circular dependencies. This might involve restructuring the code or introducing dependency injection.',
         webUrl: 'https://github.com/project/repo/blob/main/user.js',
         status: 'Warning',
         score: 0,
@@ -1018,155 +1219,4 @@ export const stats = [
     { keyword: 'React-Hook-Form', total: 1 }, // Used in Real Estate Portal
     { keyword: 'Firebase', total: 1 }, // Used in Learning Management System
     { keyword: 'React-Query', total: 1 }, // Used in Learning Management System
-];
-
-export const faqs = [
-    {
-        _id: 'A123',
-        title: 'Unlocking Codebase Performance with Vitality',
-        color: '13',
-        description:
-            'Discover how Vitality identifies bottlenecks, optimizes resource usage, and enhances the overall health of your applications.',
-        links: [
-            {
-                label: 'Performance Optimization Guide',
-                value: 'https://docs.vitality.app/performance',
-                description: '',
-            },
-        ],
-    },
-    {
-        _id: 'B123',
-        title: 'Your Path to Smoother, Faster Applications',
-        color: '13',
-        description:
-            'Learn how Vitality empowers developers to build and maintain high-quality applications that deliver exceptional user experiences.',
-        links: [
-            {
-                label: 'Get Started with Vitality',
-                value: 'https://docs.vitality.app/getting-started',
-                description: '',
-            },
-        ],
-    },
-    {
-        _id: 'C123',
-        title: 'Proactive Codebase Monitoring and Analysis',
-        color: '13',
-        description:
-            "Explore Vitality's comprehensive suite of tools for real-time monitoring, automated analysis, and actionable insights into your codebase.",
-        links: [
-            {
-                label: 'Feature Overview',
-                value: 'https://docs.vitality.app/features',
-                description: '',
-            },
-        ],
-    },
-    {
-        _id: 'D123',
-        title: 'Why Vitality?',
-        color: '13',
-        description:
-            'Understand the benefits of using Vitality to ensure your applications are robust, efficient, and scalable.',
-        links: [
-            {
-                label: 'Why Vitality?',
-                value: 'https://docs.vitality.app/why-vitality',
-                description: '',
-            },
-        ],
-    },
-    {
-        _id: 'E123',
-        title: 'Integrating Vitality into Your Workflow',
-        color: '13',
-        description:
-            'See how easily Vitality integrates into your existing development pipeline, providing continuous feedback and improvement opportunities.',
-        links: [
-            {
-                label: 'Integration Guide',
-                value: 'https://docs.vitality.app/integration',
-                description: '',
-            },
-        ],
-    },
-    {
-        _id: 'F123',
-        title: 'Success Stories with Vitality',
-        color: '13',
-        description:
-            "Read real-world case studies of how teams have used Vitality to achieve significant improvements in their applications' performance and maintainability.",
-        links: [
-            {
-                label: 'Case Studies',
-                value: 'https://docs.vitality.app/case-studies',
-                description: '',
-            },
-        ],
-    },
-];
-
-export const notifications = [
-    {
-        _id: 'A128',
-        title: 'Vitality Update Available!',
-        color: '14',
-        description:
-            'Vitality v2.5 is now ready for download.  New features include enhanced performance monitoring and improved code analysis.',
-        links: [
-            {
-                label: 'Update Now',
-                value: 'https://downloads.vitality.app/v2.5',
-                description: '',
-            },
-            {
-                label: 'Release Notes',
-                value: 'https://docs.vitality.app/release-notes/v2.5',
-                description: '',
-            },
-        ],
-    },
-    {
-        _id: 'B128',
-        title: 'Potential Performance Issue Detected',
-        color: '14',
-        description:
-            'Vitality has identified a potential performance issue in your XYZ service. Please review the detailed report for recommendations.',
-        links: [
-            {
-                label: 'View Report',
-                value: 'https://app.vitality.app/reports/xyz-service-performance-issue',
-                description: '',
-            },
-        ],
-    },
-    {
-        _id: 'C128',
-        title: 'Security Vulnerability Patched',
-        color: '14',
-        description:
-            "A critical security vulnerability in Vitality's dependency library has been addressed. Please update to the latest version.",
-        links: [
-            {
-                label: 'Update Instructions',
-                value: 'https://docs.vitality.app/update-instructions',
-                description: '',
-            },
-        ],
-    },
-    {
-        _id: 'D128',
-        title: 'New Tutorial: Optimizing Frontend Code',
-        color: '14',
-        description:
-            "Our latest tutorial shows you how to leverage Vitality's insights to improve your frontend code's performance and maintainability.",
-        links: [
-            {
-                label: 'Read the Tutorial',
-                value: 'https://docs.vitality.app/tutorials/frontend-optimization',
-                description: '',
-            },
-        ],
-    },
 ];
