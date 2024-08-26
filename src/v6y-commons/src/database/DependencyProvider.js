@@ -1,7 +1,7 @@
 import {
     DEPENDENCIES_STATUS,
     dependencies,
-    dependenciesStatusHelp,
+    dependencyStatusHelp,
     frontendDeprecatedDeps,
     frontendDepsMinVersions,
 } from '../config/data/AppMockData.js';
@@ -60,7 +60,7 @@ const getDependenciesByParams = async ({ appId }) => {
                     depStatus = DEPENDENCIES_STATUS.outdated;
                 }
 
-                const depStatusHelp = dependenciesStatusHelp[depStatus] || {};
+                const depStatusHelp = dependencyStatusHelp[depStatus] || {};
                 const depRecommendedVersion = frontendDepsMinVersions[dependency.name] || '';
 
                 return {

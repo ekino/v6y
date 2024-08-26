@@ -83,7 +83,7 @@ export const DEPENDENCIES_STATUS = {
     'up-to-date': 'up-to-date',
 };
 
-export const dependenciesStatusHelp = {
+export const dependencyStatusHelp = {
     [DEPENDENCIES_STATUS.outdated]: {
         title: 'Outdated Module',
         status: 'outdated',
@@ -319,7 +319,7 @@ export const notifications = [
     },
 ];
 
-export const auditsInfos = {
+export const auditHelps = {
     'Lighthouse-performance': {
         title: 'Performance',
         description: 'Measures how quickly the content on your page loads and becomes interactive.',
@@ -510,7 +510,7 @@ export const dependencies = [
 
 export const auditsReports = [
     {
-        ...(auditsInfos['Lighthouse-performance'] || {}),
+        ...(auditHelps['Lighthouse-performance'] || {}),
         _id: 'A12',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
@@ -525,7 +525,7 @@ export const auditsReports = [
         module: null,
     },
     {
-        ...(auditsInfos['Lighthouse-seo'] || {}),
+        ...(auditHelps['Lighthouse-seo'] || {}),
         _id: 'A13',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
@@ -540,7 +540,7 @@ export const auditsReports = [
         module: null,
     },
     {
-        ...(auditsInfos['Lighthouse-accessibility'] || {}),
+        ...(auditHelps['Lighthouse-accessibility'] || {}),
         _id: 'A14',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
@@ -555,7 +555,7 @@ export const auditsReports = [
         module: null,
     },
     {
-        ...(auditsInfos['Lighthouse-first-contentful-paint'] || {}),
+        ...(auditHelps['Lighthouse-first-contentful-paint'] || {}),
         _id: 'A14',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
@@ -570,7 +570,7 @@ export const auditsReports = [
         module: null,
     },
     {
-        ...(auditsInfos['Lighthouse-largest-contentful-paint'] || {}),
+        ...(auditHelps['Lighthouse-largest-contentful-paint'] || {}),
         _id: 'A15',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
@@ -585,7 +585,7 @@ export const auditsReports = [
         module: null,
     },
     {
-        ...(auditsInfos['Lighthouse-cumulative-layout-shift'] || {}),
+        ...(auditHelps['Lighthouse-cumulative-layout-shift'] || {}),
         _id: 'A16',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
@@ -600,7 +600,7 @@ export const auditsReports = [
         module: null,
     },
     {
-        ...(auditsInfos['Code-Security-xss-vulnerability'] || {}),
+        ...(auditHelps['Code-Security-xss-vulnerability'] || {}),
         _id: 'A17',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
@@ -615,7 +615,7 @@ export const auditsReports = [
         module: 'apps/frontend/index.js',
     },
     {
-        ...(auditsInfos['Code-Compliance-unused-variable'] || {}),
+        ...(auditHelps['Code-Compliance-unused-variable'] || {}),
         _id: 'A18',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
@@ -630,7 +630,7 @@ export const auditsReports = [
         module: 'apps/frontend/src/components/ListView.jsx',
     },
     {
-        ...(auditsInfos['Code-Complexity-cyclomatic-complexity'] || {}),
+        ...(auditHelps['Code-Complexity-cyclomatic-complexity'] || {}),
         _id: 'A19',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
@@ -645,7 +645,7 @@ export const auditsReports = [
         module: 'apps/frontend/src/components/ListView.jsx',
     },
     {
-        ...(auditsInfos['Code-Complexity-maintainability-index'] || {}),
+        ...(auditHelps['Code-Complexity-maintainability-index'] || {}),
         _id: 'A20',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
@@ -660,7 +660,7 @@ export const auditsReports = [
         module: 'apps/frontend/src/components/ListView.jsx',
     },
     {
-        ...(auditsInfos['Code-Duplication-repeated-code-block'] || {}),
+        ...(auditHelps['Code-Duplication-repeated-code-block'] || {}),
         _id: 'A21',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
@@ -675,7 +675,7 @@ export const auditsReports = [
         module: 'apps/frontend/src/components/DialogView.jsx',
     },
     {
-        ...(auditsInfos['Code-Coupling-afferent-coupling'] || {}),
+        ...(auditHelps['Code-Coupling-afferent-coupling'] || {}),
         _id: 'A22',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
@@ -690,7 +690,7 @@ export const auditsReports = [
         module: 'apps/frontend/src/components/DialogView.jsx',
     },
     {
-        ...(auditsInfos['Code-Coupling-efferent-coupling'] || {}),
+        ...(auditHelps['Code-Coupling-efferent-coupling'] || {}),
         _id: 'A23',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
@@ -705,7 +705,7 @@ export const auditsReports = [
         module: 'apps/frontend/src/components/DialogView.jsx', // Placeholder for missing module value
     },
     {
-        ...(auditsInfos['Code-Coupling-instability-index'] || {}),
+        ...(auditHelps['Code-Coupling-instability-index'] || {}),
         _id: 'A24',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,
@@ -720,7 +720,7 @@ export const auditsReports = [
         module: 'apps/frontend/src/pages/LoginPage.jsx', // Placeholder for missing module value
     },
     {
-        ...(auditsInfos['Code-Coupling-circular-dependencies'] || {}),
+        ...(auditHelps['Code-Coupling-circular-dependencies'] || {}),
         _id: 'A25',
         appId: '20b20b20b20b20b20b20b20b',
         subCategory: null,

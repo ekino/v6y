@@ -13,7 +13,7 @@ export const VITALITY_DASHBOARD_DATASOURCE = [
         title: 'React',
         description: 'Choose this option to view React applications.',
         url: VitalityNavigationPaths.APP_LIST + '?keywords=react',
-        imageUrl: 'react_logo.svg',
+        imageUrl: '',
     },
     {
         autoFocus: false,

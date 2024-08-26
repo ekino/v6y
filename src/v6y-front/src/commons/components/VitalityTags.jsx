@@ -28,13 +28,13 @@ const VitalityTags = ({ tags, align }) => {
                 <Col
                     key={`${tag._id}${tag.label}${tag.branch?.length ? ` - Branch: ${tag.branch}` : ''}`}
                 >
-                    <Tag bordered color={tag.status} style={{ backgroundColor: 'white' }}>
+                    <Tag bordered color={tag.status}>
                         {`${tag.label}${tag.branch?.length ? ` - (branch: ${tag.branch})` : ''}`}
                     </Tag>
                 </Col>
             ))}
 
-            <Col style={{ textAlign: 'center' }}>
+            <Col>
                 {tags?.length > MAX_TAGS && (
                     <Button
                         type="primary"
