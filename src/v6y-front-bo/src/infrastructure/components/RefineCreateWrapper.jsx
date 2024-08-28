@@ -3,26 +3,17 @@
 import { Create, useForm } from '@refinedev/antd';
 import { Form } from 'antd';
 
-export default function RefineCreateWrapper({ formItems }) {
-    const { formProps, saveButtonProps } = useForm({});
+export default function RefineCreateWrapper({ title, formItems, resourceOptions }) {
+    const { formProps, saveButtonProps } = useForm(resourceOptions);
 
     if (!formItems?.length) {
         return null;
     }
 
     return (
-        <Create saveButtonProps={saveButtonProps}>
-            <Form {...formProps} layout="vertical">
-                {formItems.map((item, index) => (
-                    <Form.Item
-                        key={`${item.label}-${index}`}
-                        label={item.label}
-                        name={item.name}
-                        rules={item.rules}
-                    >
-                        {item.children}
-                    </Form.Item>
-                ))}
+        <Create title={title} saveButtonProps={saveButtonProps}>
+            <Form {...formProps} layout="vertical" variant="filled">
+                {formItems.map((item) => item)}
             </Form>
         </Create>
     );

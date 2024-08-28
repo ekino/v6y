@@ -4,49 +4,45 @@ import { useNotificationProvider } from '@refinedev/antd';
 import '@refinedev/antd/dist/reset.css';
 import { Refine } from '@refinedev/core';
 import routerProvider from '@refinedev/nextjs-router';
-import { SessionProvider, useSession } from 'next-auth/react';
 import React from 'react';
 
-import useNavigationAdapter from '../adapters/navigation/useNavigationAdapter.jsx';
+import { useNextTranslation } from '../adapters/translation/TranslationAdapter.js';
+// initialize i18n
+import '../adapters/translation/i18n.js';
 import { ColorModeProvider } from './ColorModeProvider.jsx';
-import { DataProvider } from './DataProvider.jsx';
-import { RefineAuthProvider } from './RefineAuthProvider.jsx';
+import { gqlAuthProvider, gqlDataProvider, gqlLiveProvider } from './GraphQLProvider.js';
 import { RefineDevtoolsProvider } from './RefineDevtoolsProvider.jsx';
 
-const App = ({ resources, apiBaseUrl, defaultMode, children }) => {
-    const { data, status } = useSession();
-    const { pathname } = useNavigationAdapter();
-
-    if (status === 'loading') {
-        return <span>loading...</span>;
-    }
+export const RefineProvider = ({ resources, defaultMode, children }) => {
+    const { translateHelper, i18nHelper } = useNextTranslation();
+    const i18nProvider = {
+        translate: (key, params) => translateHelper(key, params),
+        changeLocale: (lang) => i18nHelper.changeLanguage(lang),
+        getLocale: () => i18nHelper.language,
+    };
 
     return (
-        <RefineDevtoolsProvider>
+        (<RefineDevtoolsProvider>
             <ColorModeProvider defaultMode={defaultMode}>
                 <Refine
                     routerProvider={routerProvider}
-                    dataProvider={DataProvider(apiBaseUrl)}
+                    dataProvider={gqlDataProvider}
+                    liveProvider={gqlLiveProvider}
+                    authProvider={gqlAuthProvider}
                     notificationProvider={useNotificationProvider}
-                    authProvider={RefineAuthProvider({ status, data, redirectionUrl: pathname })}
+                    i18nProvider={i18nProvider}
                     resources={resources}
                     options={{
+                        liveMode: 'auto',
                         syncWithLocation: true,
                         warnWhenUnsavedChanges: true,
                         useNewQueryKeys: true,
+                        projectId: "15myAK-vcBUHf-ebxe3F"
                     }}
                 >
                     {children}
                 </Refine>
             </ColorModeProvider>
-        </RefineDevtoolsProvider>
-    );
-};
-
-export const RefineProvider = (props) => {
-    return (
-        <SessionProvider>
-            <App {...props} />
-        </SessionProvider>
+        </RefineDevtoolsProvider>)
     );
 };

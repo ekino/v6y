@@ -1,23 +1,24 @@
-import { getServerSession } from 'next-auth/next';
 import { redirect } from 'next/navigation';
 
-import { VitalityAuthConfig, VitalityAuthOptions } from '../../commons/auth/VitalityAuthHelper.js';
-import { VitalityAuthView } from '../../features/auth/VitalityAuthView.jsx';
+import { VitalityAuthLoginView } from '../../features/v6y-auth/VitalityAuthLoginView.jsx';
+import { AuthServerProvider } from '../../infrastructure/providers/AuthServerProvider.js';
 
 export default async function Login() {
     const data = await getData();
 
-    if (data.session?.user) {
-        return redirect('/');
+    if (data.authenticated) {
+        redirect(data?.redirectTo || '/');
     }
 
-    return <VitalityAuthView {...VitalityAuthOptions.login} />;
+    return <VitalityAuthLoginView />;
 }
 
 async function getData() {
-    const session = await getServerSession(VitalityAuthConfig);
+    const { authenticated, redirectTo, error } = await AuthServerProvider.check();
 
     return {
-        session,
+        authenticated,
+        redirectTo,
+        error,
     };
 }

@@ -1,6 +1,6 @@
 const AppQueriesType = `
   type Query {
-    getAppListByPageAndParams(offset: Int, limit: Int, keywords: [String], searchText: String): [AppType]
+    getAppListByPageAndParams(start: Int, offset: Int, limit: Int, keywords: [String], searchText: String, where: JSON, sort: String): [AppType]
     getAppsStatsByParams(keywords: [String]): [KeywordStatsType]
     getAppsTotalByParams(keywords: [String], searchText: String): Int
     getAppDetailsInfosByParams(appId: String): AppType

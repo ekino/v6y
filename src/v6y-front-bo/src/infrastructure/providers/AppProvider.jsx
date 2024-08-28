@@ -3,10 +3,10 @@
 import { RefineProvider } from './RefineProvider.jsx';
 import ThemeProvider from './ThemeProvider.jsx';
 
-export function AppProvider({ defaultMode, apiBaseUrl, resources, children }) {
+export function AppProvider({ defaultMode, resources, children }) {
     return (
         <ThemeProvider>
-            <RefineProvider defaultMode={defaultMode} apiBaseUrl={apiBaseUrl} resources={resources}>
+            <RefineProvider defaultMode={defaultMode} resources={resources}>
                 {children}
             </RefineProvider>
         </ThemeProvider>

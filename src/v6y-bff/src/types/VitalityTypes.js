@@ -19,6 +19,9 @@ import NotificationQueriesType from './notifications/NotificationQueriesType.js'
 import NotificationType from './notifications/NotificationType.js';
 
 const VitalityTypes = gql`
+    #scalar
+    scalar JSON
+
     # common schemas
     ${LinkType}
     ${RepositoryType}

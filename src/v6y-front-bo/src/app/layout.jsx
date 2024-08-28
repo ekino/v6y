@@ -2,14 +2,13 @@ import { cookies } from 'next/headers';
 import React, { Suspense } from 'react';
 
 import VitalityPageLayout from '../commons/components/layout/VitalityPageLayout.jsx';
-import { VitalityApiBaseUrl } from '../commons/config/VitalityApiConfig.js';
-import { VitalityPathTree } from '../commons/config/VitalityPathTree.js';
-import VitalityTerms from '../commons/config/VitalityTerms.js';
+import { VitalityRoutes } from '../commons/config/VitalityNavigationConfig.js';
 import { AppProvider } from '../infrastructure/providers/AppProvider.jsx';
 
 export const metadata = {
-    title: VitalityTerms.VITALITY_META_APP_TITLE,
-    description: VitalityTerms.VITALITY_META_APP_DESCRIPTION,
+    title: 'Vitality Back Office (V6Y BO)',
+    description:
+        'Vitality (v6y) is a web-based application developed by Ekino, designed to maintain and optimize the health and performance of codebases and applications.',
     icons: {
         icon: '/favicon.ico',
     },
@@ -23,11 +22,7 @@ export default function RootLayout({ children }) {
         <html lang="en">
             <body>
                 <Suspense>
-                    <AppProvider
-                        defaultMode={theme?.value}
-                        apiBaseUrl={VitalityApiBaseUrl}
-                        resources={VitalityPathTree}
-                    >
+                    <AppProvider defaultMode={theme?.value} resources={VitalityRoutes}>
                         <VitalityPageLayout>{children}</VitalityPageLayout>
                     </AppProvider>
                 </Suspense>

@@ -84,20 +84,24 @@ const getAppDetailsDependenciesByParams = async (_, args) => {
 
 const getAppListByPageAndParams = async (_, args) => {
     try {
-        const { offset, limit, keywords, searchText } = args || {};
+        const { start, offset, limit, keywords, searchText, where, sort } = args || {};
 
+        AppLogger.info(`[AppQueries - getAppListByPageAndParams] start : ${start}`);
         AppLogger.info(`[AppQueries - getAppListByPageAndParams] offset : ${offset}`);
         AppLogger.info(`[AppQueries - getAppListByPageAndParams] limit : ${limit}`);
         AppLogger.info(
             `[AppQueries - getAppListByPageAndParams] keywords : ${keywords?.join?.(',') || ''}`,
         );
         AppLogger.info(`[AppQueries - getAppListByPageAndParams] searchText : ${searchText}`);
+        AppLogger.info(`[AppQueries - getAppListByPageAndParams] where : ${where}`);
+        AppLogger.info(`[AppQueries - getAppListByPageAndParams] sort : ${sort}`);
 
         const appList = await AppProvider.getAppsByParams({
             searchText,
             keywords,
-            offset,
+            offset: offset || start,
             limit,
+            where,
         });
 
         AppLogger.info(`[AppQueries - getAppListByPageAndParams] appList : ${appList?.length}`);

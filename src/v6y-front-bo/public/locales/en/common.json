@@ -1,0 +1,240 @@
+{
+  "pages": {
+    "login": {
+      "title": "Sign in to your account",
+      "signin": "Sign in",
+      "signup": "Sign up",
+      "divider": "or",
+      "fields": {
+        "email": "Email",
+        "password": "Password"
+      },
+      "errors": {
+        "validEmail": "Invalid email address"
+      },
+      "buttons": {
+        "submit": "Login",
+        "forgotPassword": "Forgot password?",
+        "noAccount": "Don’t have an account?",
+        "rememberMe": "Remember me"
+      }
+    },
+    "forgotPassword": {
+      "title": "Forgot your password?",
+      "fields": {
+        "email": "Email"
+      },
+      "errors": {
+        "validEmail": "Invalid email address"
+      },
+      "buttons": {
+        "submit": "Send reset instructions"
+      }
+    },
+    "register": {
+      "title": "Sign up for your account",
+      "fields": {
+        "email": "Email",
+        "password": "Password"
+      },
+      "errors": {
+        "validEmail": "Invalid email address"
+      },
+      "buttons": {
+        "submit": "Register",
+        "haveAccount": "Have an account?"
+      }
+    },
+    "updatePassword": {
+      "title": "Update password",
+      "fields": {
+        "password": "New Password",
+        "confirmPassword": "Confirm new password"
+      },
+      "errors": {
+        "confirmPasswordNotMatch": "Passwords do not match"
+      },
+      "buttons": {
+        "submit": "Update"
+      }
+    },
+    "error": {
+      "info": "You may have forgotten to add the {{action}} component to {{resource}} resource.",
+      "404": "Sorry, the page you visited does not exist.",
+      "resource404": "Are you sure you have created the {{resource}} resource.",
+      "backHome": "Back Home"
+    }
+  },
+  "actions": {
+    "list": "List",
+    "create": "Create",
+    "edit": "Edit",
+    "show": "Show"
+  },
+  "buttons": {
+    "create": "Create",
+    "save": "Save",
+    "logout": "Logout",
+    "delete": "Delete",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "confirm": "Are you sure?",
+    "filter": "Filter",
+    "clear": "Clear",
+    "refresh": "Refresh",
+    "show": "Show",
+    "undo": "Undo",
+    "import": "Import",
+    "clone": "Clone",
+    "notAccessTitle": "You don't have permission to access"
+  },
+  "warnWhenUnsavedChanges": "Are you sure you want to leave? You have unsaved changes.",
+  "notifications": {
+    "success": "Successful",
+    "error": "Error (status code: {{statusCode}})",
+    "undoable": "You have {{seconds}} seconds to undo",
+    "createSuccess": "Successfully created {{resource}}",
+    "createError": "There was an error creating {{resource}} (status code: {{statusCode}})",
+    "deleteSuccess": "Successfully deleted {{resource}}",
+    "deleteError": "Error when deleting {{resource}} (status code: {{statusCode}})",
+    "editSuccess": "Successfully edited {{resource}}",
+    "editError": "Error when editing {{resource}} (status code: {{statusCode}})",
+    "importProgress": "Importing: {{processed}}/{{total}}"
+  },
+  "loading": "Loading",
+  "tags": {
+    "clone": "Clone"
+  },
+  "table": {
+    "actions": "Actions"
+  },
+  "v6y-applications": {
+    "v6y-applications": "Applications",
+    "fields": {
+      "app-infos-group": "Application Information",
+      "app-required-link-group": "Required Link(s)",
+      "app-optional-link-group": "Other Link(s)",
+      "app-name": {
+        "label": "Application name",
+        "placeholder": "Enter your application name",
+        "error": "Application name is a mandatory field!"
+      },
+      "app-description": {
+        "label": "Application description",
+        "placeholder": "Enter your application description",
+        "error": "Application description is a mandatory field!"
+      },
+      "app-acronym": {
+        "label": "Application acronym",
+        "placeholder": "Enter your application acronym",
+        "error": "Application acronym is a mandatory field!"
+      },
+      "app-git-url": {
+        "label": "Application Git URL",
+        "placeholder": "Enter your application Git URL",
+        "error": "Application Git URL is a mandatory field!"
+      },
+      "app-production-link": {
+        "label": "Application production link",
+        "placeholder": "Enter your application production link",
+        "error": "You should enter at least one application production link!"
+      },
+      "app-code-quality-platform-link": {
+        "label": "Application code quality platform link",
+        "placeholder": "Enter your application code quality platform link",
+        "error": ""
+      },
+      "app-ci-cd-platform-link": {
+        "label": "Application CI/CD platform link",
+        "placeholder": "Enter your application CI/CD platform link",
+        "error": ""
+      },
+      "app-deployment-platform-link": {
+        "label": "Application deployment platform link",
+        "placeholder": "Enter your application deployment platform link",
+        "error": ""
+      }
+    },
+    "titles": {
+      "create": "Create Application",
+      "edit": "Edit Application",
+      "list": "Applications",
+      "show": "Show Application"
+    }
+  },
+  "v6y-notifications": {
+    "v6y-notifications": "Notifications",
+    "fields": {
+
+    },
+    "titles": {
+      "create": "Create Application",
+      "edit": "Edit Application",
+      "list": "Applications",
+      "show": "Show Application"
+    }
+  },
+  "v6y-faqs": {
+    "v6y-faqs": "FAQ",
+    "fields": {
+
+    },
+    "titles": {
+      "create": "Create Application",
+      "edit": "Edit Application",
+      "list": "Applications",
+      "show": "Show Application"
+    }
+  },
+  "v6y-evolutions": {
+    "v6y-evolutions": "Evolutions",
+    "fields": {
+
+    },
+    "titles": {
+      "create": "Create Evolution",
+      "edit": "Edit Evolution",
+      "list": "Evolutions",
+      "show": "Show Evolution"
+    }
+  },
+  "v6y-keywords": {
+    "v6y-keywords": "Keywords",
+    "fields": {
+
+    },
+    "titles": {
+      "create": "Create Keyword",
+      "edit": "Edit Keyword",
+      "list": "Keywords",
+      "show": "Show Keyword"
+    }
+  },
+  "v6y-audits": {
+    "v6y-audits": "Audits",
+    "fields": {
+
+    },
+    "titles": {
+      "create": "Create Audit",
+      "edit": "Edit Audit",
+      "list": "Audits",
+      "show": "Show Audit"
+    }
+  },
+  "v6y-dependencies": {
+    "v6y-audits": "Dependencies",
+    "fields": {
+
+    },
+    "titles": {
+      "create": "Create Dependency",
+      "edit": "Edit Dependency",
+      "list": "Dependencies",
+      "show": "Show Dependency"
+    }
+  },
+  "v6y-authentication": {
+    "title": "Authentication"
+  }
+}
