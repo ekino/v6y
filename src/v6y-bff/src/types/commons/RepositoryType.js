@@ -1,16 +1,16 @@
 const RepositoryType = `
   type RepositoryType {
     """ Repository Name """
-    name: String!
+    name: String
     
     """ Repository full name """
-    fullName: String!
+    fullName: String
     
     """ Repository owner """
-    owner: String!
+    owner: String
     
     """ Repository web url """
-    webUrl: String!
+    webUrl: String
     
     """ Repository git url """
     gitUrl: String!  

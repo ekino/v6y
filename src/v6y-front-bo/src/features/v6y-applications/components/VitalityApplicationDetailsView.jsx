@@ -2,6 +2,8 @@ import { useParsed } from '@refinedev/core';
 import { Typography } from 'antd';
 import React from 'react';
 
+import VitalityDetailsView from '../../../commons/components/VitalityDetailsView.jsx';
+import { formatApplicationDetails } from '../../../commons/config/VitalityDetailsConfig.js';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter.js';
 import RefineShowWrapper from '../../../infrastructure/components/RefineShowWrapper.jsx';
 import GetAppDetailsInfosByParams from '../apis/getAppDetailsInfosByParams.js';
@@ -25,13 +27,12 @@ export default function VitalityApplicationDetailsView() {
                     appId: id,
                 },
             }}
-            renderShowView={({ data, error }) => {
-                console.log({
-                    data,
-                    error,
-                });
-                return <>cc</>;
-            }}
+            renderShowView={({ data, error }) => (
+                <VitalityDetailsView
+                    details={formatApplicationDetails(translate, data)}
+                    error={error}
+                />
+            )}
         />
     );
 }

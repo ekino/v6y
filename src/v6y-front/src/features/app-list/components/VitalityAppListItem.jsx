@@ -23,6 +23,9 @@ const VitalityAppListItem = ({ app, source, canOpenDetails = true }) => {
                 <Typography.Text>{app.description}</Typography.Text>
             </Col>
             <Col span={24}>
+                <Typography.Text>{app.contactMail}</Typography.Text>
+            </Col>
+            <Col span={24}>
                 <VitalityTags align="center" tags={app.keywords || []} />
             </Col>
             {canOpenDetails && (

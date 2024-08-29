@@ -9,7 +9,6 @@ const VitalityInputFieldSet = ({ groupTitle, items }) => (
                 key={`${item.name}-${item.id}`}
                 label={item.label}
                 name={item.name}
-                initialValue={item.initialValue}
                 rules={item.rules}
             >
                 <Input placeholder={item.placeholder} />

@@ -22,7 +22,7 @@ export const RefineProvider = ({ resources, defaultMode, children }) => {
     };
 
     return (
-        (<RefineDevtoolsProvider>
+        <RefineDevtoolsProvider>
             <ColorModeProvider defaultMode={defaultMode}>
                 <Refine
                     routerProvider={routerProvider}
@@ -37,12 +37,12 @@ export const RefineProvider = ({ resources, defaultMode, children }) => {
                         syncWithLocation: true,
                         warnWhenUnsavedChanges: true,
                         useNewQueryKeys: true,
-                        projectId: "15myAK-vcBUHf-ebxe3F"
+                        projectId: '15myAK-vcBUHf-ebxe3F',
                     }}
                 >
                     {children}
                 </Refine>
             </ColorModeProvider>
-        </RefineDevtoolsProvider>)
+        </RefineDevtoolsProvider>
     );
 };

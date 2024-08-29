@@ -9,11 +9,11 @@ const AppType = `
     """ APP Acronym (abbreviation, trigram, ...) """
     acronym: String!
     
-    """ APP Contact Mails """
-    mails: [String]!
+    """ APP Contact Mail """
+    contactMail: String!
     
     """ APP Description """
-    description: String
+    description: String!
     
     """ First matched APP Web Repository Information """
     repo: RepositoryType!

@@ -1,5 +1,4 @@
-import { DeleteButton, EditButton, ShowButton } from '@refinedev/antd';
-import { Space } from 'antd';
+import VitalityTableRowActions from '../components/VitalityTableRowActions.js';
 
 export const buildTableDataSource = (dataSource) =>
     dataSource?.map((item) => ({
@@ -17,12 +16,6 @@ export const buildTableColumns = (dataSource) => [
         title: 'Actions',
         dataIndex: 'actions',
         key: 'actions',
-        render: (_, record) => (
-            <Space>
-                <EditButton hideText size="small" recordItemId={record.id} />
-                <ShowButton hideText size="small" recordItemId={record.id} />
-                <DeleteButton hideText size="small" recordItemId={record.id} />
-            </Space>
-        ),
+        render: (_, record) => <VitalityTableRowActions record={record} />,
     },
 ];

@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 
-// static parts (BO)
+// static parts (BO) V2
 const STACK_MIN_VALID_VERSIONS = {
     react: '17.0.2',
     'react-dom': '17.0.2',
@@ -118,6 +118,7 @@ export const dependencyStatusHelp = {
     },
 };
 
+// static parts (BO) V1
 export const evolutions = [
     {
         _id: 'A8901WXZSX1c1c1c1c1c1c1c1c1c',
@@ -419,94 +420,7 @@ export const auditHelps = {
     },
 };
 
-// dynamic / semi dynamic parts
-
-export const appList = [
-    {
-        _id: '20b20b20b20b20b20b20b20b',
-        name: 'Advanced CRM System',
-        mails: ['michael.scott@crmtech.com', 'michaelscott@gmail.com'],
-        acronym: 'ACRMS',
-        description:
-            'A next-generation CRM system designed for small to large enterprises, featuring a React frontend and a Spring Boot backend.',
-        repo: {
-            webUrl: 'https://github.com/CRMTech/crm-system', // static
-            gitUrl: 'git@github.com:CRMTech/crm-system.git', // static
-
-            // dynamic
-            name: 'crm-system',
-            fullName: 'CRMTech/crm-system',
-            owner: 'CRMTech',
-            allBranches: [
-                'main',
-                'develop',
-                'feature/customer-analytics',
-                'feature/email-integration',
-            ],
-        },
-        links: [
-            {
-                label: 'Support Center',
-                value: 'https://help.crmtech.app',
-                description: 'Get assistance with your CRM system.',
-            },
-            {
-                label: 'Developer Documentation',
-                value: 'https://help.crmtech.app',
-                description: '',
-            },
-            {
-                label: 'Repository',
-                value: 'https://github.com/CRMTech/crm-system',
-                description: 'Access the source code repository on GitHub.',
-            },
-            {
-                label: 'CI/CD Pipeline',
-                value: 'https://ci.crmtech.app',
-                description: 'Monitor the continuous integration and delivery pipeline.',
-            },
-            {
-                label: 'Project Dashboard',
-                value: 'https://dashboard.crmtech.app',
-                description: 'View project metrics and status on the dashboard.',
-            },
-        ],
-    },
-];
-
-export const dependencies = [
-    {
-        _id: '1c1c1c1c1c1c1c1c1c1c1c1c1c',
-        appId: '20b20b20b20b20b20b20b20b',
-        type: 'frontend',
-        branch: 'main',
-        name: '@types/react',
-        usedOnPath: 'modules/front-js',
-        usedOnUrl:
-            'https://github.fr.world.socgen/AppliDigitalClient/bddf_awt_acf_acs/tree/master/modules/front-js',
-        version: '17.0.39',
-    },
-    {
-        _id: '3c3c3c3c3c3c3c3c3c3c3c3c3c',
-        appId: '20b20b20b20b20b20b20b20b',
-        type: 'frontend',
-        branch: 'feature/customer-analytics',
-        name: 'd3',
-        usedOnPath: 'modules/front-js',
-        usedOnUrl: 'https://github.com/CRMTech/crm-system',
-        version: '6.7.0',
-    },
-    {
-        _id: '4c4c4c4c4c4c4c4c4c4c4c4c4c',
-        appId: '20b20b20b20b20b20b20b20b',
-        type: 'frontend',
-        branch: 'main',
-        name: 'axios',
-        usedOnPath: 'modules/front-js',
-        usedOnUrl: 'https://github.com/CRMTech/crm-system',
-        version: '0.21.1',
-    },
-];
+// semi dynamic parts (BO) V1
 
 export const auditsReports = [
     {
@@ -735,7 +649,6 @@ export const auditsReports = [
         module: 'apps/frontend/src/pages/LogOutPage.jsx', // Placeholder for missing module value
     },
 ];
-
 export const keywords = [
     {
         // static parts (BO)
@@ -1201,6 +1114,90 @@ export const keywords = [
                 module: 'front-js',
             },
         ],
+    },
+];
+
+// full dynamic parts (BO) V1
+
+export const appList = [
+    {
+        _id: '20b20b20b20b20b20b20b20b',
+        name: 'Advanced CRM System',
+        contactMail: 'michael.scott@crmtech.com',
+        acronym: 'ACRMS',
+        description:
+            'A next-generation CRM system designed for small to large enterprises, featuring a React frontend and a Spring Boot backend.',
+        repo: {
+            webUrl: 'https://github.com/CRMTech/crm-system', // static
+            gitUrl: 'git@github.com:CRMTech/crm-system.git', // static
+
+            // dynamic
+            name: 'crm-system',
+            fullName: 'CRMTech/crm-system',
+            owner: 'CRMTech',
+            allBranches: [
+                'main',
+                'develop',
+                'feature/customer-analytics',
+                'feature/email-integration',
+            ],
+        },
+        links: [
+            {
+                label: 'Application production url',
+                value: 'https://help.crmtech.app',
+                description: 'Get assistance with your CRM system.',
+            },
+            {
+                label: 'Application code quality platform url',
+                value: 'https://help.crmtech.app',
+                description: '',
+            },
+            {
+                label: 'Application CI/CD platform url',
+                value: 'https://ci.crmtech.app',
+                description: 'Monitor the continuous integration and delivery pipeline.',
+            },
+            {
+                label: 'Application deployment platform url',
+                value: 'https://dashboard.crmtech.app',
+                description: 'View project metrics and status on the dashboard.',
+            },
+        ],
+    },
+];
+
+export const dependencies = [
+    {
+        _id: '1c1c1c1c1c1c1c1c1c1c1c1c1c',
+        appId: '20b20b20b20b20b20b20b20b',
+        type: 'frontend',
+        branch: 'main',
+        name: '@types/react',
+        usedOnPath: 'modules/front-js',
+        usedOnUrl:
+            'https://github.fr.world.socgen/AppliDigitalClient/bddf_awt_acf_acs/tree/master/modules/front-js',
+        version: '17.0.39',
+    },
+    {
+        _id: '3c3c3c3c3c3c3c3c3c3c3c3c3c',
+        appId: '20b20b20b20b20b20b20b20b',
+        type: 'frontend',
+        branch: 'feature/customer-analytics',
+        name: 'd3',
+        usedOnPath: 'modules/front-js',
+        usedOnUrl: 'https://github.com/CRMTech/crm-system',
+        version: '6.7.0',
+    },
+    {
+        _id: '4c4c4c4c4c4c4c4c4c4c4c4c4c',
+        appId: '20b20b20b20b20b20b20b20b',
+        type: 'frontend',
+        branch: 'main',
+        name: 'axios',
+        usedOnPath: 'modules/front-js',
+        usedOnUrl: 'https://github.com/CRMTech/crm-system',
+        version: '0.21.1',
     },
 ];
 

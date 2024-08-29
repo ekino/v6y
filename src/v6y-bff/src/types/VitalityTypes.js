@@ -1,5 +1,9 @@
 import gql from 'graphql-tag';
 
+import AppCreateOrEditInput from './app/AppCreateOrEditInput.js';
+import AppDeleteInput from './app/AppDeleteInput.js';
+import AppDeleteOutput from './app/AppDeleteOutput.js';
+import AppMutationsType from './app/AppMutationsType.js';
 import AppQueriesType from './app/AppQueriesType.js';
 import AppType from './app/AppType.js';
 import AuditReportType from './audit/AuditReportType.js';
@@ -46,6 +50,10 @@ const VitalityTypes = gql`
     ${NotificationQueriesType}
 
     # this schemas allows the following mutations
+    ${AppCreateOrEditInput}
+    ${AppDeleteOutput}
+    ${AppDeleteInput}
+    ${AppMutationsType}
 `;
 
 export default VitalityTypes;

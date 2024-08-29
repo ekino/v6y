@@ -10,6 +10,9 @@ const VitalityResolvers = {
         ...NotificationsResolvers.Query,
         ...KeywordResolvers.Query,
     },
+    Mutation: {
+        ...AppResolvers.Mutation,
+    },
 };
 
 export default VitalityResolvers;

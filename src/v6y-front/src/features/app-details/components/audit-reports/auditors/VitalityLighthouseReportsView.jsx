@@ -38,7 +38,7 @@ const VitalityLighthouseReportsView = ({ reports }) => {
                 {reports?.map((report) => (
                     <Descriptions.Item
                         key={`${report.type}-${report.category}-${report.title}`}
-                        label={report.title}
+                        label={`${report.title}${report.subCategory?.length ? ` (${report.subCategory.length})` : ''}`}
                     >
                         <>
                             <Statistic

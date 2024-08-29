@@ -5,7 +5,7 @@ const GetAppDetailsInfosByParams = gql`
         getAppDetailsInfosByParams(appId: $appId) {
             name
             acronym
-            mails
+            contactMail
             description
             links {
                 label

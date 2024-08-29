@@ -62,7 +62,9 @@
       "info": "You may have forgotten to add the {{action}} component to {{resource}} resource.",
       "404": "Sorry, the page you visited does not exist.",
       "resource404": "Are you sure you have created the {{resource}} resource.",
-      "backHome": "Back Home"
+      "backHome": "Back Home",
+      "general": "An error was occurred",
+      "coming-soon": "Coming soon!"
     }
   },
   "actions": {
@@ -87,6 +89,13 @@
     "import": "Import",
     "clone": "Clone",
     "notAccessTitle": "You don't have permission to access"
+  },
+  "pops": {
+    "delete": {
+      "title": "Are you sure?",
+      "okText": "Confirm",
+      "cancelText": "Cancel"
+    }
   },
   "warnWhenUnsavedChanges": "Are you sure you want to leave? You have unsaved changes.",
   "notifications": {
@@ -129,13 +138,21 @@
         "placeholder": "Enter your application acronym",
         "error": "Application acronym is a mandatory field!"
       },
+      "app-contact-email": {
+        "label": "Application contact email",
+        "placeholder": "Enter the application contact email",
+        "error": "Application contact email is a mandatory field and must be a valid email!"
+      },
       "app-git-url": {
         "label": "Application Git URL",
         "placeholder": "Enter your application Git URL",
         "error": "Application Git URL is a mandatory field!"
       },
+      "app-links": {
+        "label": "Application links"
+      },
       "app-production-link": {
-        "label": "Application production link",
+        "label": "Application production link * (needed for runtime analysis)",
         "placeholder": "Enter your application production link",
         "error": "You should enter at least one application production link!"
       },
