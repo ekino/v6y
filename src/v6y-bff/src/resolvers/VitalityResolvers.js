@@ -12,6 +12,8 @@ const VitalityResolvers = {
     },
     Mutation: {
         ...AppResolvers.Mutation,
+        ...FaqResolvers.Mutation,
+        ...NotificationsResolvers.Mutation,
     },
 };
 

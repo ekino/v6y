@@ -10,6 +10,7 @@ import VitalityBreadcrumb from './VitalityBreadcrumb.jsx';
 import VitalityPageFooter from './VitalityPageFooter.jsx';
 import VitalityPageHeader from './VitalityPageHeader.jsx';
 
+
 const { Header, Footer, Content } = Layout;
 
 const VitalityPageLayout = ({ children }) => {

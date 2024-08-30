@@ -11,6 +11,7 @@ import ServerConfig from './config/ServerConfig.js';
 import VitalityResolvers from './resolvers/VitalityResolvers.js';
 import VitalityTypes from './types/VitalityTypes.js';
 
+
 const { createServer } = ServerUtils;
 
 const { getCurrentConfig } = ServerConfig;

@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request';
 
-const GetAppDetailsInfosByParams = gql`
-    query GetAppDetailsInfosByParams($appId: String!) {
+const GetApplicationDetails = gql`
+    query GetApplicationDetails($appId: String!) {
         getAppDetailsInfosByParams(appId: $appId) {
             id: _id
             name
@@ -25,4 +25,4 @@ const GetAppDetailsInfosByParams = gql`
     }
 `;
 
-export default GetAppDetailsInfosByParams;
+export default GetApplicationDetails;

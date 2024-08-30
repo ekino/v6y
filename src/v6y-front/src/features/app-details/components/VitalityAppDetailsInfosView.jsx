@@ -14,6 +14,7 @@ import useNavigationAdapter from '../../../infrastructure/adapters/navigation/us
 import VitalityAppListItem from '../../app-list/components/VitalityAppListItem.jsx';
 import GetAppDetailsInfosByParams from '../api/getAppDetailsInfosByParams.js';
 
+
 const VitalityAppDetailsInfosView = ({}) => {
     const { getUrlParams } = useNavigationAdapter();
     const [appId] = getUrlParams(['appId']);

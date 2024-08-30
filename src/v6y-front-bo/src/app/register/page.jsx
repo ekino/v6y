@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { VitalityAuthRegisterView } from '../../features/v6y-auth/VitalityAuthRegisterView.jsx';
 import { AuthServerProvider } from '../../infrastructure/providers/AuthServerProvider.js';
 
+
 export default async function Register() {
     const data = await getData();
 

@@ -8,6 +8,7 @@ import VitalitySearchBar from '../../../commons/components/VitalitySearchBar.jsx
 import VitalityTerms from '../../../commons/config/VitalityTerms.js';
 import VitalityAppList from './VitalityAppList.jsx';
 
+
 const VitalityAppListView = () => {
     return (
         <Row justify="center" align="middle" gutter={[0, 24]}>

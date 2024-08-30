@@ -7,6 +7,7 @@ import VitalityLoader from '../../../commons/components/VitalityLoader.jsx';
 import VitalityAppList from '../../app-list/components/VitalityAppList.jsx';
 import VitalityAppsStatsChart from './VitalityAppsStatsChart.jsx';
 
+
 const VitalityAppsStatsView = () => {
     return (
         <>

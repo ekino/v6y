@@ -14,6 +14,7 @@ import useNavigationAdapter from '../../../../infrastructure/adapters/navigation
 import GetAppDetailsDependenciesByParams from '../../api/getAppDetailsDependenciesByParams.js';
 import VitalityAppDetailsDependenciesList from './VitalityAppDetailsDependenciesList.jsx';
 
+
 const VitalityAppDetailsDependenciesView = ({}) => {
     const { getUrlParams } = useNavigationAdapter();
     const [appId] = getUrlParams(['appId']);

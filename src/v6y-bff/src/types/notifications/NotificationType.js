@@ -9,9 +9,6 @@ const NotificationType = `
     """ Notification Description Details """
     description: String!
     
-    """ Notification Legend Color """
-    color: Int!
-    
     """ Notification Extra Links """
     links: [LinkType]
   }

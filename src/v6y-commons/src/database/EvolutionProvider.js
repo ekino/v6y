@@ -1,4 +1,4 @@
-import { evolutions, keywords } from '../config/data/AppMockData.js';
+import { evolutions } from '../config/data/AppMockData.js';
 import AppLogger from '../core/AppLogger.js';
 
 const insertEvolution = async (evolution) => {

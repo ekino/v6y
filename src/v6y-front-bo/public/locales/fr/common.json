@@ -182,25 +182,63 @@
   "v6y-notifications": {
     "v6y-notifications": "Notifications",
     "fields": {
-
+      "notification-infos-group": "Notification Information",
+      "notification-optional-link-group": "Other Link(s)",
+      "notification-title": {
+        "label": "Notification title",
+        "placeholder": "Enter your Notification title",
+        "error": "Notification title is a mandatory field!"
+      },
+      "notification-description": {
+        "label": "Notification description",
+        "placeholder": "Enter your Notification description",
+        "error": "Notification description is a mandatory field!"
+      },
+      "notification-optional-link": {
+        "label": "Notification optional link",
+        "placeholder": "Enter your notification optional link",
+        "error": ""
+      },
+      "notification-links": {
+        "label": "Notification links"
+      }
     },
     "titles": {
-      "create": "Create Application",
-      "edit": "Edit Application",
-      "list": "Applications",
-      "show": "Show Application"
+      "create": "Create Notification",
+      "edit": "Edit Notification",
+      "list": "Notifications",
+      "show": "Show Notification"
     }
   },
   "v6y-faqs": {
     "v6y-faqs": "FAQ",
     "fields": {
-
+      "faq-infos-group": "Faq Information",
+      "faq-optional-link-group": "Other Link(s)",
+      "faq-title": {
+        "label": "Faq title",
+        "placeholder": "Enter your Faq title",
+        "error": "Faq title is a mandatory field!"
+      },
+      "faq-description": {
+        "label": "Faq description",
+        "placeholder": "Enter your Faq description",
+        "error": "Faq description is a mandatory field!"
+      },
+      "faq-optional-link": {
+        "label": "Faq optional link",
+        "placeholder": "Enter your faq optional link",
+        "error": ""
+      },
+      "faq-links": {
+        "label": "Faq links"
+      }
     },
     "titles": {
-      "create": "Create Application",
-      "edit": "Edit Application",
-      "list": "Applications",
-      "show": "Show Application"
+      "create": "Create Faq",
+      "edit": "Edit Faq",
+      "list": "Frequent questions",
+      "show": "Show Faq"
     }
   },
   "v6y-evolutions": {

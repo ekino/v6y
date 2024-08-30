@@ -13,6 +13,7 @@ import useNavigationAdapter from '../../../infrastructure/adapters/navigation/us
 import GetAppDetailsEvolutionsByParams from '../api/getAppDetailsEvolutionsByParams.js';
 import VitalityAppDetailsEvolutionList from './evolutions/VitalityAppDetailsEvolutionList.jsx';
 
+
 const VitalityAppDetailsEvolutionsView = ({}) => {
     const { getUrlParams } = useNavigationAdapter();
     const [appId] = getUrlParams(['appId']);

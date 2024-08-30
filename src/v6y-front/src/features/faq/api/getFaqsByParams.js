@@ -6,7 +6,6 @@ const GetFaqsByParams = gql`
             _id
             title
             description
-            color
             links {
                 label
                 value

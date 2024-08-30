@@ -1,7 +1,7 @@
 'use client';
 
-import VitalityApplicationCreateEditView from '../../../../features/v6y-applications/components/VitalityApplicationCreateEditView.jsx';
+import VitalityApplicationEditView from '../../../../features/v6y-applications/components/VitalityApplicationEditView.jsx';
 
 export default function VitalityApplicationEditPage() {
-    return <VitalityApplicationCreateEditView mode="edit" />;
+    return <VitalityApplicationEditView />;
 }

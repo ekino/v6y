@@ -15,6 +15,7 @@ import GetAppDetailsAuditReportsByParams from '../../api/getAppDetailsAuditRepor
 import VitalityCodeStatusReportsView from './auditors/VitalityCodeStatusReportsView.jsx';
 import VitalityLighthouseReportsView from './auditors/VitalityLighthouseReportsView.jsx';
 
+
 const VitalityAppDetailsAuditReportsView = ({}) => {
     const { getUrlParams } = useNavigationAdapter();
     const [appId] = getUrlParams(['appId']);

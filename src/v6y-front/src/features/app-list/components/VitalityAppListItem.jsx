@@ -7,6 +7,7 @@ import VitalityNavigationPaths from '../../../commons/config/VitalityNavigationP
 import VitalityTerms from '../../../commons/config/VitalityTerms.js';
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
 
+
 const VitalityAppListItem = ({ app, source, canOpenDetails = true }) => {
     const { creatUrlQueryParam } = useNavigationAdapter();
     const queryParams = creatUrlQueryParam('appId', app._id);

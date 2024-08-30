@@ -45,10 +45,36 @@ const getFaqsByParams = async () => {
     }
 };
 
+const getFaqDetailsInfosByParams = async ({ faqId }) => {
+    try {
+        AppLogger.info(`[FaqProvider - getAppDetailsInfosByParams] faqId: ${faqId}`);
+
+        if (!faqId?.length) {
+            return null;
+        }
+
+        const faqDetails = faqs?.find((faq) => faq._id === faqId);
+
+        AppLogger.info(
+            `[FaqProvider - getFaqDetailsInfosByParams] appDetails _id: ${faqDetails?._id}`,
+        );
+
+        if (!faqDetails?._id) {
+            return null;
+        }
+
+        return faqDetails;
+    } catch (error) {
+        AppLogger.info(`[FaqProvider - getFaqDetailsInfosByParams] error: ${error.message}`);
+        return {};
+    }
+};
+
 const FaqProvider = {
     insertFaqList,
     deleteFaqsList,
     getFaqsByParams,
+    getFaqDetailsInfosByParams,
 };
 
 export default FaqProvider;

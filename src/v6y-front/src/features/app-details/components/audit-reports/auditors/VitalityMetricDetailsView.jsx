@@ -3,6 +3,7 @@ import React from 'react';
 
 import VitalityTerms from '../../../../../commons/config/VitalityTerms.js';
 
+
 const VitalityMetricDetailsView = ({ metric }) => (
     <Descriptions bordered size="middle" column={1}>
         <Descriptions.Item label={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_METRIC_TITLE}>

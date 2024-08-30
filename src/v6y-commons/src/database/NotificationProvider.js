@@ -45,10 +45,42 @@ const getNotificationsByParams = async () => {
     }
 };
 
+const getNotificationDetailsInfosByParams = async ({ notificationId }) => {
+    try {
+        AppLogger.info(
+            `[NotificationProvider - getAppDetailsInfosByParams] notificationId: ${notificationId}`,
+        );
+
+        if (!notificationId?.length) {
+            return null;
+        }
+
+        const notificationDetails = notifications?.find(
+            (notification) => notification._id === notificationId,
+        );
+
+        AppLogger.info(
+            `[NotificationProvider - getNotificationDetailsInfosByParams] appDetails _id: ${notificationDetails?._id}`,
+        );
+
+        if (!notificationDetails?._id) {
+            return null;
+        }
+
+        return notificationDetails;
+    } catch (error) {
+        AppLogger.info(
+            `[NotificationProvider - getNotificationDetailsInfosByParams] error: ${error.message}`,
+        );
+        return {};
+    }
+};
+
 const NotificationProvider = {
     insertNotificationList,
     deleteNotificationsList,
     getNotificationsByParams,
+    getNotificationDetailsInfosByParams,
 };
 
 export default NotificationProvider;

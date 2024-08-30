@@ -14,6 +14,7 @@ import {
 } from '../../../infrastructure/adapters/api/useQueryAdapter.jsx';
 import GetNotificationsByParams from '../api/getNotificationsByParams.js';
 
+
 const VitalityNotificationList = () => {
     const { isLoading: notificationListLoading, data: dataNotificationList } = useClientQuery({
         queryCacheKey: ['getNotificationsByParams'],

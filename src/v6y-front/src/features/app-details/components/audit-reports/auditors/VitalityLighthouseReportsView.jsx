@@ -8,6 +8,7 @@ import { AUDIT_STATUS_COLORS } from '../../../../../commons/config/VitalityCommo
 import VitalityTerms from '../../../../../commons/config/VitalityTerms.js';
 import VitalityMetricDetailsView from './VitalityMetricDetailsView.jsx';
 
+
 const VitalityLighthouseReportsView = ({ reports }) => {
     const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
 

@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request';
 
 const CreateOrEditApplication = gql`
-    mutation createOrEditApplication($applicationInput: AppCreateOrEditInput!) {
+    mutation CreateOrEditApplication($applicationInput: AppCreateOrEditInput!) {
         createOrEditApplication(applicationInput: $applicationInput) {
             id: _id
             name

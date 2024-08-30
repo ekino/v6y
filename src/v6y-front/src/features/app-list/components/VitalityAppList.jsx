@@ -15,6 +15,7 @@ import GetAppListByPageAndParams from '../api/getAppListByPageAndParams.js';
 import VitalityAppListHeader from './VitalityAppListHeader.jsx';
 import VitalityAppListItem from './VitalityAppListItem.jsx';
 
+
 let currentAppListPage = 0;
 
 const VitalityAppList = ({ source }) => {

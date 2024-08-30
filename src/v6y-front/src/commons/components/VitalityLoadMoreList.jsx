@@ -3,6 +3,7 @@ import { Button, Flex, List } from 'antd';
 
 import VitalityTerms from '../config/VitalityTerms.js';
 
+
 const VitalityLoadMoreList = ({ isDataSourceLoading, dataSource, renderItem, onLoadMore }) => (
     <List
         bordered

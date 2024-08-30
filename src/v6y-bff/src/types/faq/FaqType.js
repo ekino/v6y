@@ -9,9 +9,6 @@ const FaqType = `
     """ FAQ Question Response """
     description: String!
     
-    """ FAQ Question Legend Color """
-    color: Int!
-    
     """ FAQ Extra Links """
     links: [LinkType]
   }

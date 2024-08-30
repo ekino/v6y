@@ -11,6 +11,7 @@ import VitalityApiConfig from '../config/VitalityApiConfig.js';
 import VitalityEmptyView from './VitalityEmptyView.jsx';
 import VitalityLoader from './VitalityLoader.jsx';
 
+
 const VitalityKeywords = () => {
     const [selectedKeywords, setSelectedKeywords] = useState([]);
     const [keywordsList, setKeywordsList] = useState([]);

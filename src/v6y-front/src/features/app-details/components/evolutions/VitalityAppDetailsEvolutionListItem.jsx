@@ -5,6 +5,7 @@ import VitalityGridList from '../../../../commons/components/VitalityGridList.js
 import VitalityLinks from '../../../../commons/components/VitalityLinks.jsx';
 import { EVOLUTIONS_STATUS_INFOS } from '../../../../commons/config/VitalityCommonConfig.js';
 
+
 const VitalityAppDetailsEvolutionListItem = ({ evolution }) => (
     <List.Item>
         <Descriptions bordered layout="vertical" column={1}>

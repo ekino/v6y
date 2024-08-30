@@ -3,6 +3,7 @@ import { clean, major, minor, patch, valid } from 'semver';
 
 import AppLogger from './AppLogger.js';
 
+
 const SEMVER_OPERATORS = ['^', '~', '*', '='];
 
 const compareVersions = (version1, version2, operator) => compare(version1, version2, operator);

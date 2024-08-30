@@ -14,11 +14,19 @@ import DependencyHelpType from './dependency/DependencyHelpType.js';
 import DependencyType from './dependency/DependencyType.js';
 import EvolutionModuleType from './evolution/EvolutionModuleType.js';
 import EvolutionType from './evolution/EvolutionType.js';
+import FaqCreateOrEditInput from './faq/FaqCreateOrEditInput.js';
+import FaqDeleteInput from './faq/FaqDeleteInput.js';
+import FaqDeleteOutput from './faq/FaqDeleteOutput.js';
+import FaqMutationsType from './faq/FaqMutationsType.js';
 import FaqQueriesType from './faq/FaqQueriesType.js';
 import FaqType from './faq/FaqType.js';
 import KeywordQueriesType from './keyword/KeywordQueriesType.js';
 import KeywordStatsType from './keyword/KeywordStatsType.js';
 import KeywordType from './keyword/KeywordType.js';
+import NotificationCreateOrEditInput from './notifications/NotificationCreateOrEditInput.js';
+import NotificationDeleteInput from './notifications/NotificationDeleteInput.js';
+import NotificationDeleteOutput from './notifications/NotificationDeleteOutput.js';
+import NotificationMutationsType from './notifications/NotificationMutationsType.js';
 import NotificationQueriesType from './notifications/NotificationQueriesType.js';
 import NotificationType from './notifications/NotificationType.js';
 
@@ -54,6 +62,16 @@ const VitalityTypes = gql`
     ${AppDeleteOutput}
     ${AppDeleteInput}
     ${AppMutationsType}
+
+    ${FaqCreateOrEditInput}
+    ${FaqDeleteOutput}
+    ${FaqDeleteInput}
+    ${FaqMutationsType}
+
+    ${NotificationCreateOrEditInput}
+    ${NotificationDeleteOutput}
+    ${NotificationDeleteInput}
+    ${NotificationMutationsType}
 `;
 
 export default VitalityTypes;

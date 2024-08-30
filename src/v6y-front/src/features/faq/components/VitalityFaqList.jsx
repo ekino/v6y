@@ -14,6 +14,7 @@ import {
 } from '../../../infrastructure/adapters/api/useQueryAdapter.jsx';
 import GetFaqsByParams from '../api/getFaqsByParams.js';
 
+
 const VitalityFaqList = () => {
     const { isLoading: faqListLoading, data: dataFaqList } = useClientQuery({
         queryCacheKey: ['getFaqsByParams'],

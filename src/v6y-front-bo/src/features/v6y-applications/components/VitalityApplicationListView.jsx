@@ -1,11 +1,11 @@
 import VitalityTable from '../../../commons/components/VitalityTable.jsx';
 import {
-    buildTableColumns,
-    buildTableDataSource,
+    buildApplicationTableColumns,
+    buildApplicationTableDataSource,
 } from '../../../commons/config/VitalityTableConfig.jsx';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter.js';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper.jsx';
-import GetAppListByPageAndParams from '../apis/getAppListByPageAndParams.js';
+import GetApplicationList from '../apis/getApplicationList.js';
 
 export default function VitalityApplicationListView() {
     const { translate } = useTranslation();
@@ -13,6 +13,7 @@ export default function VitalityApplicationListView() {
     return (
         <RefineTableWrapper
             title={translate('v6y-applications.titles.list')}
+            subTitle=""
             defaultSorter={[
                 {
                     field: 'name',
@@ -21,12 +22,12 @@ export default function VitalityApplicationListView() {
             ]}
             queryOptions={{
                 resource: 'getAppListByPageAndParams',
-                query: GetAppListByPageAndParams,
+                query: GetApplicationList,
             }}
             renderTable={(dataSource) => (
                 <VitalityTable
-                    dataSource={buildTableDataSource(dataSource)}
-                    columns={buildTableColumns(dataSource)}
+                    dataSource={buildApplicationTableDataSource(dataSource)}
+                    columns={buildApplicationTableColumns(dataSource)}
                 />
             )}
         />

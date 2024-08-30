@@ -5,7 +5,6 @@ const GetNotificationsByParams = gql`
         getNotificationsByParams {
             _id
             title
-            color
             description
             links {
                 label

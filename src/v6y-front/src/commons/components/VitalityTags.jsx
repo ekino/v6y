@@ -2,6 +2,7 @@ import { DownCircleOutlined, UpCircleOutlined } from '@ant-design/icons';
 import { Button, Col, Row, Tag } from 'antd';
 import { useEffect, useState } from 'react';
 
+
 const MAX_TAGS = 5;
 
 const VitalityTags = ({ tags, align }) => {

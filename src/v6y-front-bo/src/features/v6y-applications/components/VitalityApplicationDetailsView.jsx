@@ -6,7 +6,7 @@ import VitalityDetailsView from '../../../commons/components/VitalityDetailsView
 import { formatApplicationDetails } from '../../../commons/config/VitalityDetailsConfig.js';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter.js';
 import RefineShowWrapper from '../../../infrastructure/components/RefineShowWrapper.jsx';
-import GetAppDetailsInfosByParams from '../apis/getAppDetailsInfosByParams.js';
+import GetApplicationDetails from '../apis/getApplicationDetails.js';
 
 export default function VitalityApplicationDetailsView() {
     const { translate } = useTranslation();
@@ -22,7 +22,7 @@ export default function VitalityApplicationDetailsView() {
             }
             queryOptions={{
                 resource: 'getAppDetailsInfosByParams',
-                query: GetAppDetailsInfosByParams,
+                query: GetApplicationDetails,
                 queryParams: {
                     appId: id,
                 },

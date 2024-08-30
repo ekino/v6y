@@ -5,6 +5,7 @@ import VitalityEmptyView from '../../../../../commons/components/VitalityEmptyVi
 import useDataGrouper from '../../../../../commons/hooks/useDataGrouper.jsx';
 import VitalityMetricDetailsView from './VitalityMetricDetailsView.jsx';
 
+
 const VitalityCodeStatusReportsView = ({ reports }) => {
     const [selectedSmells, setSelectedSmells] = useState([]);
     const { criteriaGroups } = useDataGrouper({

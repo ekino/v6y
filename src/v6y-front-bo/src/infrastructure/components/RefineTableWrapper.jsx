@@ -1,7 +1,13 @@
 import { List, RefreshButton, useTable } from '@refinedev/antd';
 import { Typography } from 'antd';
 
-export default function RefineTableWrapper({ title, queryOptions, defaultSorter, renderTable }) {
+export default function RefineTableWrapper({
+    title,
+    subTitle,
+    queryOptions,
+    defaultSorter,
+    renderTable,
+}) {
     const { tableProps, tableQueryResult } = useTable({
         resource: queryOptions?.resource,
         meta: { gqlQuery: queryOptions?.query },
@@ -11,13 +17,14 @@ export default function RefineTableWrapper({ title, queryOptions, defaultSorter,
     const { dataSource } = tableProps || {};
 
     const handleRefresh = () => {
-        tableQueryResult?.refetch();
+        tableQueryResult?.refetch?.();
     };
 
     return (
         <section>
             <Typography.Title level={2}>{title}</Typography.Title>
             <List
+                title={subTitle}
                 headerButtons={({ defaultButtons }) => (
                     <>
                         {defaultButtons}

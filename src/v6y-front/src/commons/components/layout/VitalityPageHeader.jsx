@@ -5,6 +5,7 @@ import Link from 'next/link';
 import VitalityNavigationPaths from '../../config/VitalityNavigationPaths.js';
 import VitalityPageHeaderMenu from './VitalityPageHeaderMenu.jsx';
 
+
 const VitalityPageHeader = ({ title, subTitle }) => (
     <Row style={{ width: '100%', textAlign: 'center' }} justify="center" align="middle">
         <Col xs={0} sm={0} md={4} lg={4} xl={4}>

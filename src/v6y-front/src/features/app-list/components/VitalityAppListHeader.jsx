@@ -11,6 +11,7 @@ import {
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
 import GetAppsTotalByParams from '../api/getAppsTotalByParams.js';
 
+
 const VitalityAppListHeader = ({ onExportApplicationsClicked }) => {
     const [appsTotal, setAppsTotal] = useState(0);
 

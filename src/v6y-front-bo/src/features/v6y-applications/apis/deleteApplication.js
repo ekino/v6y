@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request';
 
 const DeleteApplication = gql`
-    mutation deleteApplication($input: AppDeleteInput!) {
+    mutation DeleteApplication($input: AppDeleteInput!) {
         deleteApplication(input: $input) {
             id: _id
         }
