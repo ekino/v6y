@@ -6,7 +6,7 @@ import VitalityDetailsView from '../../../commons/components/VitalityDetailsView
 import { formatFaqDetails } from '../../../commons/config/VitalityDetailsConfig.js';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter.js';
 import RefineShowWrapper from '../../../infrastructure/components/RefineShowWrapper.jsx';
-import GetFaqDetails from '../apis/getFaqDetails.js';
+import GetFaqDetailsByParams from '../apis/getFaqDetailsByParams.js';
 
 export default function VitalityFaqDetailsView() {
     const { translate } = useTranslation();
@@ -19,8 +19,8 @@ export default function VitalityFaqDetailsView() {
                 <Typography.Title level={2}>{translate('v6y-faqs.titles.show')}</Typography.Title>
             }
             queryOptions={{
-                resource: 'getFaqDetailsInfosByParams',
-                query: GetFaqDetails,
+                resource: 'getFaqDetailsByParams',
+                query: GetFaqDetailsByParams,
                 queryParams: {
                     faqId: id,
                 },

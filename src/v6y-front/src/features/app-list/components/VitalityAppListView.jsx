@@ -3,11 +3,10 @@
 import { Col, Row } from 'antd';
 import React from 'react';
 
-import VitalityKeywords from '../../../commons/components/VitalityKeywords.jsx';
 import VitalitySearchBar from '../../../commons/components/VitalitySearchBar.jsx';
+import VitalityKeywords from '../../../commons/components/keywords/VitalityKeywords.jsx';
 import VitalityTerms from '../../../commons/config/VitalityTerms.js';
 import VitalityAppList from './VitalityAppList.jsx';
-
 
 const VitalityAppListView = () => {
     return (

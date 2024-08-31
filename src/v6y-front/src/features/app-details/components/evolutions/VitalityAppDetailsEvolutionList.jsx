@@ -7,12 +7,12 @@ const VitalityAppDetailsEvolutionList = ({ evolutions }) => {
     const groupedEvolutions = evolutions?.reduce(
         (acc, next) => ({
             ...acc,
-            [next.title]: {
-                title: next.title,
-                description: next.description,
-                status: next.status,
-                links: [...(acc[next.title]?.links || []), ...(next.links || [])],
-                modules: [...(acc[next.title]?.modules || []), ...(next.modules || [])],
+            [next?.evolutionHelp?.title]: {
+                title: next?.evolutionHelp?.title,
+                description: next?.evolutionHelp?.description,
+                status: next?.evolutionHelp?.status,
+                links: [...(acc[next.title]?.links || []), ...(next?.evolutionHelp?.links || [])],
+                modules: [...(acc[next.title]?.modules || []), next.module],
             },
         }),
         {},

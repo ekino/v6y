@@ -11,10 +11,9 @@ import {
     useClientQuery,
 } from '../../../../infrastructure/adapters/api/useQueryAdapter.jsx';
 import useNavigationAdapter from '../../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
-import GetAppDetailsAuditReportsByParams from '../../api/getAppDetailsAuditReportsByParams.js';
+import GetApplicationDetailsAuditReportsByParams from '../../api/getApplicationDetailsAuditReportsByParams.js';
 import VitalityCodeStatusReportsView from './auditors/VitalityCodeStatusReportsView.jsx';
 import VitalityLighthouseReportsView from './auditors/VitalityLighthouseReportsView.jsx';
-
 
 const VitalityAppDetailsAuditReportsView = ({}) => {
     const { getUrlParams } = useNavigationAdapter();
@@ -22,18 +21,18 @@ const VitalityAppDetailsAuditReportsView = ({}) => {
 
     const { isLoading: isAppDetailsAuditReportsLoading, data: appDetailsAuditReports } =
         useClientQuery({
-            queryCacheKey: ['getAppDetailsAuditReportsByParams', appId],
+            queryCacheKey: ['getApplicationDetailsAuditReportsByParams', appId],
             queryBuilder: async () =>
                 buildClientQuery({
                     queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
-                    queryPath: GetAppDetailsAuditReportsByParams,
+                    queryPath: GetApplicationDetailsAuditReportsByParams,
                     queryParams: {
                         appId,
                     },
                 }),
         });
 
-    const auditReports = appDetailsAuditReports?.getAppDetailsAuditReportsByParams;
+    const auditReports = appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams;
 
     return (
         <VitalitySectionView

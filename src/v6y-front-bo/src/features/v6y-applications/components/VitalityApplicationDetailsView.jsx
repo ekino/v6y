@@ -21,7 +21,7 @@ export default function VitalityApplicationDetailsView() {
                 </Typography.Title>
             }
             queryOptions={{
-                resource: 'getAppDetailsInfosByParams',
+                resource: 'getApplicationDetailsByParams',
                 query: GetApplicationDetails,
                 queryParams: {
                     appId: id,

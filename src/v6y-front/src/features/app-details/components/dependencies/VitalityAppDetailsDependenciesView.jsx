@@ -11,9 +11,8 @@ import {
     useClientQuery,
 } from '../../../../infrastructure/adapters/api/useQueryAdapter.jsx';
 import useNavigationAdapter from '../../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
-import GetAppDetailsDependenciesByParams from '../../api/getAppDetailsDependenciesByParams.js';
+import GetApplicationDetailsDependenciesByParams from '../../api/getApplicationDetailsDependenciesByParams.js';
 import VitalityAppDetailsDependenciesList from './VitalityAppDetailsDependenciesList.jsx';
-
 
 const VitalityAppDetailsDependenciesView = ({}) => {
     const { getUrlParams } = useNavigationAdapter();
@@ -21,11 +20,11 @@ const VitalityAppDetailsDependenciesView = ({}) => {
 
     const { isLoading: isAppDetailsDependenciesLoading, data: appDetailsDependencies } =
         useClientQuery({
-            queryCacheKey: ['getAppDetailsDependenciesByParams', appId],
+            queryCacheKey: ['getApplicationDetailsDependenciesByParams', appId],
             queryBuilder: async () =>
                 buildClientQuery({
                     queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
-                    queryPath: GetAppDetailsDependenciesByParams,
+                    queryPath: GetApplicationDetailsDependenciesByParams,
                     queryParams: {
                         appId,
                     },
@@ -33,7 +32,7 @@ const VitalityAppDetailsDependenciesView = ({}) => {
         });
 
     const dependencies =
-        appDetailsDependencies?.getAppDetailsDependenciesByParams?.filter(
+        appDetailsDependencies?.getApplicationDetailsDependenciesByParams?.filter(
             (item) => item?.status?.length,
         ) || [];
 
@@ -62,7 +61,12 @@ const VitalityAppDetailsDependenciesView = ({}) => {
                             }
                             label={VitalityTerms.VITALITY_APP_DETAILS_DEPENDENCIES_SELECT_LABEL}
                             helper={VitalityTerms.VITALITY_APP_DETAILS_DEPENDENCIES_SELECT_HELPER}
-                            dataSource={data || []}
+                            dataSource={
+                                data?.map((dep) => ({
+                                    ...dep,
+                                    branch: dep.module?.branch,
+                                })) || []
+                            }
                             onRenderChildren={(_, data) => (
                                 <VitalityAppDetailsDependenciesList dependencies={data} />
                             )}

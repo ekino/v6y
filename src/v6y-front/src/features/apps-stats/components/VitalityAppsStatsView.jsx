@@ -2,11 +2,10 @@
 
 import React, { Suspense } from 'react';
 
-import VitalityKeywords from '../../../commons/components/VitalityKeywords.jsx';
 import VitalityLoader from '../../../commons/components/VitalityLoader.jsx';
+import VitalityKeywords from '../../../commons/components/keywords/VitalityKeywords.jsx';
 import VitalityAppList from '../../app-list/components/VitalityAppList.jsx';
 import VitalityAppsStatsChart from './VitalityAppsStatsChart.jsx';
-
 
 const VitalityAppsStatsView = () => {
     return (

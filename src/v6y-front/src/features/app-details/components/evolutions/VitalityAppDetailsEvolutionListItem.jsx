@@ -1,10 +1,8 @@
 import { Descriptions, List, Tag, Typography } from 'antd';
 import React from 'react';
 
-import VitalityGridList from '../../../../commons/components/VitalityGridList.jsx';
 import VitalityLinks from '../../../../commons/components/VitalityLinks.jsx';
 import { EVOLUTIONS_STATUS_INFOS } from '../../../../commons/config/VitalityCommonConfig.js';
-
 
 const VitalityAppDetailsEvolutionListItem = ({ evolution }) => (
     <List.Item>
@@ -14,42 +12,39 @@ const VitalityAppDetailsEvolutionListItem = ({ evolution }) => (
                     label={
                         <Tag
                             bordered
-                            color={EVOLUTIONS_STATUS_INFOS[evolution.status]?.statusColor}
+                            color={
+                                EVOLUTIONS_STATUS_INFOS[evolution?.evolutionHelp?.status]
+                                    ?.statusColor
+                            }
                             style={{
                                 backgroundColor: 'white',
                             }}
                         >
-                            {EVOLUTIONS_STATUS_INFOS[evolution.status]?.statusLabel}
+                            {EVOLUTIONS_STATUS_INFOS[evolution?.evolutionHelp?.status]?.statusLabel}
                         </Tag>
                     }
                 >
                     <Typography.Text>
                         <div
                             dangerouslySetInnerHTML={{
-                                __html: evolution.description.split('. ').join('. <br />'),
+                                __html: evolution?.evolutionHelp?.description
+                                    .split('. ')
+                                    .join('. <br />'),
                             }}
                         />
                     </Typography.Text>
                 </Descriptions.Item>
             )}
 
-            {evolution.modules?.length > 0 && (
+            {evolution.module?.path?.length && (
                 <Descriptions.Item label="Detected on module (branch)">
-                    <VitalityGridList
-                        bordered={false}
-                        dataSource={evolution.modules}
-                        renderItem={(module, index) => (
-                            <List.Item key={`Tag-${module.branch}-${module.module}-${index}`}>
-                                <Typography.Text>{`${module.module} (${module.branch})`}</Typography.Text>
-                            </List.Item>
-                        )}
-                    />
+                    <Typography.Text>{`${evolution.module?.path} (${evolution.module?.branch})`}</Typography.Text>
                 </Descriptions.Item>
             )}
 
-            {evolution?.links?.length > 0 && (
+            {evolution?.evolutionHelp?.links?.length > 0 && (
                 <Descriptions.Item label="Helpful links">
-                    <VitalityLinks align="center" links={evolution?.links} />
+                    <VitalityLinks align="center" links={evolution?.evolutionHelp?.links} />
                 </Descriptions.Item>
             )}
         </Descriptions>

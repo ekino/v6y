@@ -12,21 +12,20 @@ import {
     buildClientQuery,
     useClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter.jsx';
-import GetFaqsByParams from '../api/getFaqsByParams.js';
-
+import GetFaqListByPageAndParams from '../api/getFaqListByPageAndParams.js';
 
 const VitalityFaqList = () => {
     const { isLoading: faqListLoading, data: dataFaqList } = useClientQuery({
-        queryCacheKey: ['getFaqsByParams'],
+        queryCacheKey: ['getFaqListByPageAndParams'],
         queryBuilder: async () =>
             buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
-                queryPath: GetFaqsByParams,
+                queryPath: GetFaqListByPageAndParams,
                 queryParams: {},
             }),
     });
 
-    const dataSource = formatHelpOptions(dataFaqList?.getFaqsByParams);
+    const dataSource = formatHelpOptions(dataFaqList?.getFaqListByPageAndParams);
 
     return (
         <VitalitySectionView

@@ -9,8 +9,7 @@ import {
     useClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter.jsx';
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
-import GetAppsTotalByParams from '../api/getAppsTotalByParams.js';
-
+import GetApplicationTotalByParams from '../api/getApplicationTotalByParams.js';
 
 const VitalityAppListHeader = ({ onExportApplicationsClicked }) => {
     const [appsTotal, setAppsTotal] = useState(0);
@@ -20,14 +19,14 @@ const VitalityAppListHeader = ({ onExportApplicationsClicked }) => {
 
     const { data: dataAppsTotal, refetch: refetchAppsTotal } = useClientQuery({
         queryCacheKey: [
-            'getAppsTotalByParams',
+            'getApplicationTotalByParams',
             keywords?.length ? keywords : 'empty_keywords',
             searchText?.length ? searchText : 'empty_search_text',
         ],
         queryBuilder: async () =>
             buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
-                queryPath: GetAppsTotalByParams,
+                queryPath: GetApplicationTotalByParams,
                 queryParams: {
                     keywords,
                     searchText,
@@ -36,8 +35,8 @@ const VitalityAppListHeader = ({ onExportApplicationsClicked }) => {
     });
 
     useEffect(() => {
-        setAppsTotal(dataAppsTotal?.getAppsTotalByParams);
-    }, [dataAppsTotal?.getAppsTotalByParams]);
+        setAppsTotal(dataAppsTotal?.getApplicationTotalByParams);
+    }, [dataAppsTotal?.getApplicationTotalByParams]);
 
     useEffect(() => {
         setAppsTotal(0);

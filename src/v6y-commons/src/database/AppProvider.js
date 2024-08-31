@@ -1,6 +1,6 @@
-import { appList, stats } from '../config/data/AppMockData.js';
+import { appList } from '../config/data/AppMockData.js';
 import AppLogger from '../core/AppLogger.js';
-import AuditsProvider from './AuditsProvider.js';
+import AuditProvider from './AuditProvider.js';
 import DependenciesProvider from './DependencyProvider.js';
 import EvolutionProvider from './EvolutionProvider.js';
 import KeywordProvider from './KeywordProvider.js';
@@ -14,16 +14,16 @@ const insertApp = async (app) => {
     }
 };
 
-const deleteAppList = async () => {
+const deleteApplicationList = async () => {
     try {
     } catch (error) {
-        AppLogger.info(`[AppProvider - deleteAppList] error:  ${error.message}`);
+        AppLogger.info(`[AppProvider - deleteApplicationList] error:  ${error.message}`);
     }
 };
 
-const getAppDetailsInfosByParams = async ({ appId }) => {
+const getApplicationDetailsByParams = async ({ appId }) => {
     try {
-        AppLogger.info(`[AppProvider - getAppDetailsInfosByParams] appId: ${appId}`);
+        AppLogger.info(`[AppProvider - getApplicationDetailsByParams] appId: ${appId}`);
 
         if (!appId?.length) {
             return null;
@@ -32,81 +32,69 @@ const getAppDetailsInfosByParams = async ({ appId }) => {
         const appDetails = appList?.find((app) => app._id === appId);
 
         AppLogger.info(
-            `[AppProvider - getAppDetailsInfosByParams] appDetails _id: ${appDetails?._id}`,
-        );
-
-        if (!appDetails?._id) {
-            return null;
-        }
-
-        const appDetailsKeywords = await KeywordProvider.getKeywordsByParams({
-            appId: appDetails?._id,
-        });
-
-        return {
-            ...appDetails,
-            keywords: appDetailsKeywords,
-        };
-    } catch (error) {
-        AppLogger.info(`[AppProvider - getAppDetailsInfosByParams] error: ${error.message}`);
-        return {};
-    }
-};
-
-const getAppDetailsEvolutionsByParams = async ({ appId }) => {
-    try {
-        AppLogger.info(`[AppProvider - getAppDetailsEvolutionsByParams] appId: ${appId}`);
-
-        if (!appId?.length) {
-            return null;
-        }
-
-        const appDetails = appList?.find((app) => app._id === appId);
-
-        AppLogger.info(
-            `[AppProvider - getAppDetailsEvolutionsByParams] appDetails _id: ${appDetails?._id}`,
+            `[AppProvider - getApplicationDetailsByParams] appDetails _id: ${appDetails?._id}`,
         );
 
         if (!appDetails?._id || appDetails?._id !== appId) {
             return null;
         }
 
-        const appDetailsKeywords = await KeywordProvider.getKeywordsByParams({
+        const appDetailsKeywords = await KeywordProvider.getKeywordListByParams({
             appId: appDetails?._id,
         });
 
         if (!appDetailsKeywords?.length) {
-            return null;
+            return appDetails;
         }
 
-        const appDetailsEvolutions = [];
-        for (const keyword of appDetailsKeywords) {
-            const appDetailsEvolution = await EvolutionProvider.getEvolutionByParams({
-                evolutionId: keyword.evolutionId,
-            });
-
-            if (appDetailsEvolution?._id?.length > 0) {
-                appDetailsEvolutions.push({
-                    ...appDetailsEvolution,
-                    modules: keyword?.apps?.filter((app) => app.appId === appDetails?._id),
-                });
-            }
-        }
-
-        AppLogger.info(
-            `[AppProvider - getAppDetailsEvolutionsByParams] appDetailsEvolutions: ${appDetailsEvolutions?.length}`,
-        );
-
-        return appDetailsEvolutions;
+        return {
+            ...appDetails,
+            keywords: appDetailsKeywords,
+        };
     } catch (error) {
-        AppLogger.info(`[AppProvider - getAppDetailsEvolutionsByParams] error: ${error.message}`);
+        AppLogger.info(`[AppProvider - getApplicationDetailsByParams] error: ${error.message}`);
         return {};
     }
 };
 
-const getAppDetailsDependenciesByParams = async ({ appId }) => {
+const getApplicationDetailsEvolutionsByParams = async ({ appId }) => {
     try {
-        AppLogger.info(`[AppProvider - getAppDetailsDependenciesByParams] appId: ${appId}`);
+        AppLogger.info(`[AppProvider - getApplicationDetailsEvolutionsByParams] appId: ${appId}`);
+
+        if (!appId?.length) {
+            return null;
+        }
+
+        const appDetails = appList?.find((app) => app._id === appId);
+
+        AppLogger.info(
+            `[AppProvider - getApplicationDetailsEvolutionsByParams] appDetails _id: ${appDetails?._id}`,
+        );
+
+        if (!appDetails?._id || appDetails?._id !== appId) {
+            return null;
+        }
+
+        const appDetailsEvolutions = await EvolutionProvider.getEvolutionsByParams({
+            appId: appDetails?._id,
+        });
+
+        if (!appDetailsEvolutions) {
+            return null;
+        }
+
+        return appDetailsEvolutions;
+    } catch (error) {
+        AppLogger.info(
+            `[AppProvider - getApplicationDetailsEvolutionsByParams] error: ${error.message}`,
+        );
+        return {};
+    }
+};
+
+const getApplicationDetailsDependenciesByParams = async ({ appId }) => {
+    try {
+        AppLogger.info(`[AppProvider - getApplicationDetailsDependenciesByParams] appId: ${appId}`);
 
         if (!appId?.length) {
             return null;
@@ -117,37 +105,52 @@ const getAppDetailsDependenciesByParams = async ({ appId }) => {
         });
 
         AppLogger.info(
-            `[AppProvider - getAppDetailsDependenciesByParams] dependencies: ${dependencies?.length}`,
+            `[AppProvider - getApplicationDetailsDependenciesByParams] dependencies: ${dependencies?.length}`,
         );
 
         return dependencies;
     } catch (error) {
-        AppLogger.info(`[AppProvider - getAppDetailsDependenciesByParams] error: ${error.message}`);
+        AppLogger.info(
+            `[AppProvider - getApplicationDetailsDependenciesByParams] error: ${error.message}`,
+        );
         return {};
     }
 };
 
-const getAppDetailsAuditReportsByParams = async ({ appId }) => {
+const getApplicationDetailsAuditReportsByParams = async ({ appId }) => {
     try {
-        AppLogger.info(`[AppProvider - getAppDetailsAuditReportsByParams] appId: ${appId}`);
+        AppLogger.info(`[AppProvider - getApplicationDetailsAuditReportsByParams] appId: ${appId}`);
 
         if (!appId?.length) {
             return null;
         }
 
-        return AuditsProvider.getAuditsByParams({ appId });
+        return AuditProvider.getAuditListByPageAndParams({ appId });
     } catch (error) {
-        AppLogger.info(`[AppProvider - getAppDetailsAuditReportsByParams] error: ${error.message}`);
+        AppLogger.info(
+            `[AppProvider - getApplicationDetailsAuditReportsByParams] error: ${error.message}`,
+        );
         return {};
     }
 };
 
-const getAppsByParams = async ({ keywords, searchText, offset = 0, limit }) => {
+const getApplicationListByPageAndParams = async ({
+    searchText,
+    keywords,
+    offset,
+    limit,
+    where,
+}) => {
     try {
-        AppLogger.info(`[AppProvider - getAppsByParams] keywords: ${keywords?.join('\r\n')}`);
-        AppLogger.info(`[AppProvider - getAppsByParams] searchText: ${searchText}`);
-        AppLogger.info(`[AppProvider - getAppsByParams] offset: ${offset}`);
-        AppLogger.info(`[AppProvider - getAppsByParams] limit: ${limit}`);
+        AppLogger.info(
+            `[AppProvider - getApplicationListByPageAndParams] keywords: ${keywords?.join('\r\n')}`,
+        );
+        AppLogger.info(
+            `[AppProvider - getApplicationListByPageAndParams] searchText: ${searchText}`,
+        );
+        AppLogger.info(`[AppProvider - getApplicationListByPageAndParams] where: ${where}`);
+        AppLogger.info(`[AppProvider - getApplicationListByPageAndParams] offset: ${offset}`);
+        AppLogger.info(`[AppProvider - getApplicationListByPageAndParams] limit: ${limit}`);
 
         // read from DB
 
@@ -155,7 +158,7 @@ const getAppsByParams = async ({ keywords, searchText, offset = 0, limit }) => {
         if (appList?.length) {
             for (const app of appList) {
                 const { _id } = app;
-                const appDetails = await getAppDetailsInfosByParams({ appId: _id });
+                const appDetails = await getApplicationDetailsByParams({ appId: _id });
 
                 // eslint-disable-next-line max-depth
                 if (appDetails?._id) {
@@ -166,51 +169,55 @@ const getAppsByParams = async ({ keywords, searchText, offset = 0, limit }) => {
 
         return limit ? dataSource.slice(offset, offset + limit) : dataSource;
     } catch (error) {
-        AppLogger.info(`[AppProvider - getAppsByParams] error: ${error.message}`);
+        AppLogger.info(`[AppProvider - getApplicationListByPageAndParams] error: ${error.message}`);
         return [];
     }
 };
 
-const getAppsTotalByParams = async ({ searchText, keywords }) => {
+const getApplicationTotalByParams = async ({ searchText, keywords }) => {
     try {
-        AppLogger.info(`[AppProvider - getAppsTotalByParams] searchText: ${searchText}`);
-        AppLogger.info(`[AppProvider - getAppsTotalByParams] keywords: ${keywords?.join('\r\n')}`);
+        AppLogger.info(`[AppProvider - getApplicationTotalByParams] searchText: ${searchText}`);
+        AppLogger.info(
+            `[AppProvider - getApplicationTotalByParams] keywords: ${keywords?.join('\r\n')}`,
+        );
 
-        const apps = await getAppsByParams({ keywords, searchText });
+        const apps = await getApplicationListByPageAndParams({ keywords, searchText });
 
-        AppLogger.info(`[AppProvider - getAppsTotalByParams] apps total: ${apps?.length}`);
+        AppLogger.info(`[AppProvider - getApplicationTotalByParams] apps total: ${apps?.length}`);
 
         return apps?.length;
     } catch (error) {
-        AppLogger.info(`[AppProvider - getAppsTotalByParams] error: ${error.message}`);
+        AppLogger.info(`[AppProvider - getApplicationTotalByParams] error: ${error.message}`);
         return 0;
     }
 };
 
-const getAppsStatsByParams = async ({ keywords }) => {
+const getApplicationStatsByParams = async ({ keywords }) => {
     try {
-        AppLogger.info(`[AppProvider - getAppsStatsByParams] keywords: ${keywords?.join('\r\n')}`);
+        AppLogger.info(
+            `[AppProvider - getApplicationStatsByParams] keywords: ${keywords?.join('\r\n')}`,
+        );
 
         // number of apps with each keyword
         // case of empty keyword
 
-        return stats;
+        return KeywordProvider.getKeywordsStatsByParams({ keywords });
     } catch (error) {
-        AppLogger.info(`[AppProvider - getAppsStatsByParams] error: ${error.message}`);
+        AppLogger.info(`[AppProvider - getApplicationStatsByParams] error: ${error.message}`);
         return {};
     }
 };
 
 const AppProvider = {
     insertApp,
-    getAppDetailsInfosByParams,
-    getAppDetailsEvolutionsByParams,
-    getAppDetailsDependenciesByParams,
-    getAppDetailsAuditReportsByParams,
-    getAppsByParams,
-    getAppsTotalByParams,
-    getAppsStatsByParams,
-    deleteAppList,
+    getApplicationDetailsByParams,
+    getApplicationDetailsEvolutionsByParams,
+    getApplicationDetailsDependenciesByParams,
+    getApplicationDetailsAuditReportsByParams,
+    getApplicationListByPageAndParams,
+    getApplicationTotalByParams,
+    getApplicationStatsByParams,
+    deleteApplicationList,
 };
 
 export default AppProvider;

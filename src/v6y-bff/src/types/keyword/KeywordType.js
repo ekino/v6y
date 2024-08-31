@@ -3,21 +3,18 @@ const KeywordType = `
   type KeywordType {
     """ Keyword Unique id """
     _id: String!
-    
-    """ Evolution associated to the keyword """
-    evolutionId: String
-    
+
     """ Keyword label (exp: React, Angular, Vite, Webpack, Jest, Vitest, ...) """
-    label: String
+    label: String!
 
     """ Keyword version (displayed as: label(version)) """
     version: String
       
     """ Possible values for status : error, success, warning """
-    status: String
+    status: String!
     
-    """ Help message to explain the keyword purpose """
-    helpMessage: String
+    """ Keyword Concerned Module """
+    module: ModuleType
   }
 `;
 

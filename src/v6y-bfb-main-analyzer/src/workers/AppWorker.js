@@ -1,7 +1,7 @@
 import {
     AppLogger,
     AppProvider,
-    AuditsProvider,
+    AuditProvider,
     DataBaseManager,
     KeywordProvider,
 } from '@v6y/commons';
@@ -21,8 +21,8 @@ try {
 
     // Clear existing data in preparation for updates
     await KeywordProvider.deleteKeywordsList();
-    await AuditsProvider.deleteAuditsList();
-    await AppProvider.deleteAppList();
+    await AuditProvider.deleteAuditsList();
+    await AppProvider.deleteApplicationList();
 
     // *********************************************** Update APP List ***********************************************
     await buildAppList({

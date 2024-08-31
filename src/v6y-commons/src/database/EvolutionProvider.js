@@ -1,16 +1,19 @@
 import { evolutions } from '../config/data/AppMockData.js';
 import AppLogger from '../core/AppLogger.js';
+import EvolutionHelpProvider from './EvolutionHelpProvider.js';
 
 const insertEvolution = async (evolution) => {
     try {
-        AppLogger.info(`[insertEvolution] evolution title:  ${evolution?.title}`);
+        AppLogger.info(
+            `[EvolutionProvider - insertEvolution] evolution title:  ${evolution?.title}`,
+        );
         if (!evolution?.title?.length) {
             return {};
         }
 
         return null;
     } catch (error) {
-        AppLogger.info(`[insertEvolution] error:  ${error.message}`);
+        AppLogger.info(`[EvolutionProvider - insertEvolution] error:  ${error.message}`);
         return {};
     }
 };
@@ -25,33 +28,51 @@ const insertEvolutionList = async (evolutionList) => {
             await insertEvolution(evolution);
         }
     } catch (error) {
-        AppLogger.info(`[insertEvolutionList] error:  ${error.message}`);
+        AppLogger.info(`[EvolutionProvider - insertEvolutionList] error:  ${error.message}`);
     }
 };
 
 const deleteEvolutionsList = async () => {
     try {
     } catch (error) {
-        AppLogger.info(`[deleteEvolutionsList] error:  ${error.message}`);
+        AppLogger.info(`[EvolutionProvider - deleteEvolutionsList] error:  ${error.message}`);
     }
 };
 
-const getEvolutionByParams = async ({ evolutionId }) => {
+const getEvolutionsByParams = async ({ appId }) => {
     try {
-        // read from DB
+        const evolutionsByParams = evolutions;
+        if (!evolutionsByParams?.length) {
+            return;
+        }
 
-        return evolutionId?.length > 0
-            ? evolutions?.find((evolution) => evolution._id === evolutionId)
-            : {};
+        const evolutionList = [];
+
+        for (const evolution of evolutionsByParams) {
+            if (appId && evolution?.module?.appId !== appId) {
+                continue;
+            }
+
+            const evolutionHelp = await EvolutionHelpProvider.getEvolutionHelpDetailsByParams({
+                category: `${evolution.type}-${evolution.category}`,
+            });
+
+            evolutionList.push({
+                ...evolution,
+                evolutionHelp,
+            });
+        }
+
+        return evolutionList;
     } catch (error) {
-        AppLogger.info(`[getEvolutionsByParams] error:  ${error.message}`);
-        return {};
+        AppLogger.info(`[EvolutionProvider - getEvolutionsByParams] error:  ${error.message}`);
+        return [];
     }
 };
 
 const EvolutionProvider = {
     insertEvolutionList,
-    getEvolutionByParams,
+    getEvolutionsByParams,
     deleteEvolutionsList,
 };
 

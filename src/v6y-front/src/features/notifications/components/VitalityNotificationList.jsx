@@ -12,21 +12,20 @@ import {
     buildClientQuery,
     useClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter.jsx';
-import GetNotificationsByParams from '../api/getNotificationsByParams.js';
-
+import GetNotificationListByPageAndParams from '../api/getNotificationListByPageAndParams.js';
 
 const VitalityNotificationList = () => {
     const { isLoading: notificationListLoading, data: dataNotificationList } = useClientQuery({
-        queryCacheKey: ['getNotificationsByParams'],
+        queryCacheKey: ['getNotificationListByPageAndParams'],
         queryBuilder: async () =>
             buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
-                queryPath: GetNotificationsByParams,
+                queryPath: GetNotificationListByPageAndParams,
                 queryParams: {},
             }),
     });
 
-    const dataSource = formatHelpOptions(dataNotificationList?.getNotificationsByParams);
+    const dataSource = formatHelpOptions(dataNotificationList?.getNotificationListByPageAndParams);
 
     return (
         <VitalitySectionView

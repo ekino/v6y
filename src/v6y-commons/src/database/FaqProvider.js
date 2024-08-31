@@ -29,25 +29,25 @@ const insertFaqList = async (faqList) => {
     }
 };
 
-const deleteFaqsList = async () => {
+const deleteFaqList = async () => {
     try {
     } catch (error) {
-        AppLogger.info(`[deleteFaqsList] error:  ${error.message}`);
+        AppLogger.info(`[deleteFaqList] error:  ${error.message}`);
     }
 };
 
-const getFaqsByParams = async () => {
+const getFaqListByPageAndParams = async () => {
     try {
         return faqs;
     } catch (error) {
-        AppLogger.info(`[getFaqsByParams] error:  ${error.message}`);
+        AppLogger.info(`[getFaqListByPageAndParams] error:  ${error.message}`);
         return [];
     }
 };
 
-const getFaqDetailsInfosByParams = async ({ faqId }) => {
+const getFaqDetailsByParams = async ({ faqId }) => {
     try {
-        AppLogger.info(`[FaqProvider - getAppDetailsInfosByParams] faqId: ${faqId}`);
+        AppLogger.info(`[FaqProvider - getApplicationDetailsByParams] faqId: ${faqId}`);
 
         if (!faqId?.length) {
             return null;
@@ -55,9 +55,7 @@ const getFaqDetailsInfosByParams = async ({ faqId }) => {
 
         const faqDetails = faqs?.find((faq) => faq._id === faqId);
 
-        AppLogger.info(
-            `[FaqProvider - getFaqDetailsInfosByParams] appDetails _id: ${faqDetails?._id}`,
-        );
+        AppLogger.info(`[FaqProvider - getFaqDetailsByParams] appDetails _id: ${faqDetails?._id}`);
 
         if (!faqDetails?._id) {
             return null;
@@ -65,16 +63,16 @@ const getFaqDetailsInfosByParams = async ({ faqId }) => {
 
         return faqDetails;
     } catch (error) {
-        AppLogger.info(`[FaqProvider - getFaqDetailsInfosByParams] error: ${error.message}`);
+        AppLogger.info(`[FaqProvider - getFaqDetailsByParams] error: ${error.message}`);
         return {};
     }
 };
 
 const FaqProvider = {
     insertFaqList,
-    deleteFaqsList,
-    getFaqsByParams,
-    getFaqDetailsInfosByParams,
+    deleteFaqList,
+    getFaqListByPageAndParams,
+    getFaqDetailsByParams,
 };
 
 export default FaqProvider;

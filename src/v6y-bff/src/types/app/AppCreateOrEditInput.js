@@ -11,6 +11,9 @@ const AppCreateOrEditInput = `
         
       """ APP Description """
       description: String!
+      
+      """ Application web repository url """
+      gitWebUrl: String!
         
       """ Application git repository url """
       gitUrl: String!

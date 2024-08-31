@@ -10,44 +10,20 @@ const DependencyType = `
     """ Dependency Unique Name (name for node or artifactId for java) """
     name: String
     
-    """ Dependency Branch """
-    branch: String
-    
-    """ Dependency Group (Especially used for java module) """
-    groupId: String
-    
     """ Dependency Version """
     version: String
     
-    """ Dependency Major Version """
-    major: String
-
-    """ Dependency Minor Version """
-    minor: String
-    
-    """ Dependency Patch Version """
-    patch: String
-               
+    """ Dependency Recommended Version """
+    recommendedVersion: String
+                            
     """ Dependency status (deprecated, outdated or up-to-date) """
     status: String
     
-    """ Dependency packaging (jar, war, ...) """
-    packaging: String
+    """ Dependency Status help """
+    statusHelp: DependencyStatusHelpType  
     
-    """ Dependency scope (Especially used for java module) """
-    scope: String
-    
-    """ Dependency Used On Path """
-    usedOnPath: String
-    
-    """ Dependency Used On Url """
-    usedOnUrl: String
-
-    """ Dependency Recommended Version """
-    recommendedVersion: String
-    
-    """ Dependency Recommended help """
-    help: DependencyHelpType  
+    """ Dependency Concerned Module """
+    module: ModuleType
   }
 `;
 

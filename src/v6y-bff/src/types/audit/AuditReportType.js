@@ -2,10 +2,7 @@ const AuditReportType = `
   type AuditReportType {
     """ Audit Unique id """
     _id: String!
-    
-    """ App Unique id """
-    appId: String!
-    
+
     """ Audit type (lighthouse, Code security, Code compliance, Code complexity, Code complexity, Code duplication, Code coupling) """
     type: String
 
@@ -14,36 +11,24 @@ const AuditReportType = `
     
     """ Audit sub category (mobile, desktop, 3G, 4G, ...) """
     subCategory: String
-        
-    """ Audit title """
-    title: String
-    
-    """ Audit description (detailed description that describes why the audit is important) """
-    description: String
-    
-    """ Audit explanation (the reason for audit failure) """
-    explanation: String
-    
-    """ Audit web url (app link, github link, ...) """
-    webUrl: String
-         
+
     """ Audit status """
     status: String
         
-    """ Audit score """
+    """ Audit score (success, warning, error) """
     score: Float 
 
     """ Audit score percent """
     scorePercent: Float
     
     """ Audit metric score unit """
-    scoreUnit: String 
+    scoreUnit: String  
     
-    """ Audit branch """
-    branch: String   
+    """ Audit Concerned Module """
+    module: ModuleType
     
-    """ Audit module (apps/frontend/index.js, ...) """
-    module: String      
+    """ Audit help """
+    auditHelp: AuditHelpType  
   }
 `;
 

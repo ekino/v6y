@@ -10,7 +10,7 @@ import {
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter.js';
 import RefineEditWrapper from '../../../infrastructure/components/RefineEditWrapper.jsx';
 import CreateOrEditNotification from '../apis/createOrEditNotification.js';
-import GetNotificationDetails from '../apis/getNotificationDetails.js';
+import GetNotificationDetailsByParams from '../apis/getNotificationDetailsByParams.js';
 
 export default function VitalityNotificationEditView() {
     const { translate } = useTranslation();
@@ -25,8 +25,8 @@ export default function VitalityNotificationEditView() {
             }
             queryOptions={{
                 queryFormAdapter: notificationCreateOrEditFormInAdapter,
-                query: GetNotificationDetails,
-                queryResource: 'getNotificationDetailsInfosByParams',
+                query: GetNotificationDetailsByParams,
+                queryResource: 'getNotificationDetailsByParams',
                 queryParams: {
                     notificationId: id,
                 },

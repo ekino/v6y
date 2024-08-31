@@ -8,6 +8,7 @@ const createOrEditApplication = async (_, params) => {
             name,
             description,
             gitUrl,
+            gitWebUrl,
             productionLink,
             contactMail,
             codeQualityPlatformLink,
@@ -20,6 +21,7 @@ const createOrEditApplication = async (_, params) => {
         AppLogger.info(`[AppMutations - createOrEditApplication] name : ${name}`);
         AppLogger.info(`[AppMutations - createOrEditApplication] description : ${description}`);
         AppLogger.info(`[AppMutations - createOrEditApplication] gitUrl : ${gitUrl}`);
+        AppLogger.info(`[AppMutations - createOrEditApplication] gitWebUrl : ${gitWebUrl}`);
         AppLogger.info(
             `[AppMutations - createOrEditApplication] productionLink : ${productionLink}`,
         );
@@ -30,7 +32,7 @@ const createOrEditApplication = async (_, params) => {
             acronym,
             name,
             description,
-            repo: { gitUrl },
+            repo: { webUrl: gitWebUrl, gitUrl },
             contactMail,
             links: [
                 {

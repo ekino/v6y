@@ -3,14 +3,18 @@ import Link from 'next/link';
 
 const VitalityLinks = ({ links, align }) => {
     const dataSource = (links || [])
-        .filter((link) => link.value?.length)
+        .filter((link) => link.label?.length && link.value?.length)
         .reduce(
             (acc, next) => ({
                 ...acc,
-                [`${next.label}-${next.value}`]: next,
+                [`${next.label?.split(' ')?.join('-')}-${next.value}`]: next,
             }),
             {},
         );
+
+    if (!Object.keys(dataSource || {})?.length) {
+        return null;
+    }
 
     return (
         <Row gutter={[12, 12]} justify={align || 'end'} align="middle">

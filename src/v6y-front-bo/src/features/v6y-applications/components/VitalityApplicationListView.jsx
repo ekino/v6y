@@ -21,7 +21,7 @@ export default function VitalityApplicationListView() {
                 },
             ]}
             queryOptions={{
-                resource: 'getAppListByPageAndParams',
+                resource: 'getApplicationListByPageAndParams',
                 query: GetApplicationList,
             }}
             renderTable={(dataSource) => (

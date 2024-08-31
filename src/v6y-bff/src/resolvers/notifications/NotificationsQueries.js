@@ -1,22 +1,5 @@
 import { AppLogger, NotificationProvider } from '@v6y/commons';
 
-const getNotificationsByParams = async () => {
-    try {
-        const notificationList = await NotificationProvider.getNotificationsByParams();
-
-        AppLogger.info(
-            `[NotificationsQueries - getNotificationsByParams] notificationList : ${notificationList?.length}`,
-        );
-
-        return notificationList;
-    } catch (error) {
-        AppLogger.info(
-            `[NotificationsQueries - getNotificationsByParams] error : ${error.message}`,
-        );
-        return [];
-    }
-};
-
 const getNotificationListByPageAndParams = async (_, args) => {
     try {
         const { start, offset, limit, keywords, searchText, where, sort } = args || {};
@@ -41,7 +24,7 @@ const getNotificationListByPageAndParams = async (_, args) => {
         );
         AppLogger.info(`[NotificationQueries - getNotificationListByPageAndParams] sort : ${sort}`);
 
-        const notificationList = await NotificationProvider.getNotificationsByParams();
+        const notificationList = await NotificationProvider.getNotificationListByPageAndParams();
 
         AppLogger.info(
             `[NotificationQueries - getNotificationListByPageAndParams] notificationList : ${notificationList?.length}`,
@@ -56,35 +39,34 @@ const getNotificationListByPageAndParams = async (_, args) => {
     }
 };
 
-const getNotificationDetailsInfosByParams = async (_, args) => {
+const getNotificationDetailsByParams = async (_, args) => {
     try {
         const { notificationId } = args || {};
 
         AppLogger.info(
-            `[NotificationQueries - getNotificationDetailsInfosByParams] notificationId : ${notificationId}`,
+            `[NotificationQueries - getNotificationDetailsByParams] notificationId : ${notificationId}`,
         );
 
-        const appDetails = await NotificationProvider.getNotificationDetailsInfosByParams({
+        const appDetails = await NotificationProvider.getNotificationDetailsByParams({
             notificationId,
         });
 
         AppLogger.info(
-            `[NotificationQueries - getNotificationDetailsInfosByParams] appDetails : ${appDetails?._id}`,
+            `[NotificationQueries - getNotificationDetailsByParams] appDetails : ${appDetails?._id}`,
         );
 
         return appDetails;
     } catch (error) {
         AppLogger.info(
-            `[NotificationQueries - getNotificationDetailsInfosByParams] error : ${error.message}`,
+            `[NotificationQueries - getNotificationDetailsByParams] error : ${error.message}`,
         );
         return {};
     }
 };
 
 const NotificationsQueries = {
-    getNotificationsByParams,
     getNotificationListByPageAndParams,
-    getNotificationDetailsInfosByParams,
+    getNotificationDetailsByParams,
 };
 
 export default NotificationsQueries;

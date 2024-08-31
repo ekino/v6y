@@ -50,12 +50,12 @@ export const VITALITY_DASHBOARD_DATASOURCE = [
 ];
 
 export const AUDIT_REPORT_TYPES = {
-    codeCompliance: 'Code Compliance',
-    codeComplexity: 'Code Complexity',
-    codeCoupling: 'Code Coupling',
     lighthouse: 'Lighthouse',
-    codeSecurity: 'Code Security',
-    codeDuplication: 'Code Duplication',
+    codeCompliance: 'Code-Compliance',
+    codeComplexity: 'Code-Complexity',
+    codeCoupling: 'Code-Coupling',
+    codeSecurity: 'Code-Security',
+    codeDuplication: 'Code-Duplication',
 };
 
 export const AUDIT_STATUS_COLORS = {

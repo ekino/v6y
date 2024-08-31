@@ -6,7 +6,7 @@ import VitalityDetailsView from '../../../commons/components/VitalityDetailsView
 import { formatNotificationDetails } from '../../../commons/config/VitalityDetailsConfig.js';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter.js';
 import RefineShowWrapper from '../../../infrastructure/components/RefineShowWrapper.jsx';
-import GetNotificationDetails from '../../v6y-notifications/apis/getNotificationDetails.js';
+import GetNotificationDetailsByParams from '../apis/getNotificationDetailsByParams.js';
 
 export default function VitalityNotificationDetailsView() {
     const { translate } = useTranslation();
@@ -21,8 +21,8 @@ export default function VitalityNotificationDetailsView() {
                 </Typography.Title>
             }
             queryOptions={{
-                resource: 'getNotificationDetailsInfosByParams',
-                query: GetNotificationDetails,
+                resource: 'getNotificationDetailsByParams',
+                query: GetNotificationDetailsByParams,
                 queryParams: {
                     notificationId: id,
                 },

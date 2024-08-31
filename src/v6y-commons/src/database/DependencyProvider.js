@@ -1,22 +1,24 @@
 import {
-    DEPENDENCIES_STATUS,
     dependencies,
-    dependencyStatusHelp,
-    frontendDeprecatedDeps,
-    frontendDepsMinVersions,
+    dependencyRecommendedVersions,
+    dependencyStatus,
 } from '../config/data/AppMockData.js';
 import AppLogger from '../core/AppLogger.js';
+import DependencyStatusHelpProvider from './DependencyStatusHelpProvider.js';
+import DeprecatedDependencyProvider from './DeprecatedDependencyProvider.js';
 
 const insertDependency = async (dependency) => {
     try {
-        AppLogger.info(`[insertDependency] dependency title:  ${dependency?.title}`);
+        AppLogger.info(
+            `[DependencyProvider - insertDependency] dependency title:  ${dependency?.title}`,
+        );
         if (!dependency?.title?.length) {
             return {};
         }
 
         return null;
     } catch (error) {
-        AppLogger.info(`[insertDependency] error:  ${error.message}`);
+        AppLogger.info(`[DependencyProvider - insertDependency] error:  ${error.message}`);
         return {};
     }
 };
@@ -31,52 +33,65 @@ const insertDependencyList = async (dependencyList) => {
             await insertDependency(dependency);
         }
     } catch (error) {
-        AppLogger.info(`[insertDependencyList] error:  ${error.message}`);
+        AppLogger.info(`[DependencyProvider - insertDependencyList] error:  ${error.message}`);
     }
 };
 
 const deleteDependencyList = async () => {
     try {
     } catch (error) {
-        AppLogger.info(`[deleteDependencyList] error:  ${error.message}`);
+        AppLogger.info(`[DependencyProvider - deleteDependencyList] error:  ${error.message}`);
     }
 };
 
 const getDependenciesByParams = async ({ appId }) => {
     try {
         // TODO: read from DB
+        const dependenciesByParams = dependencies;
+        if (!dependenciesByParams?.length) {
+            return;
+        }
 
-        return dependencies
-            ?.filter((item) => item.appId === appId)
-            ?.map((dependency) => {
-                const isDeprecated = frontendDeprecatedDeps.includes(dependency.name);
-                const isOutDated = false; // TODO: semver compare
+        const dependencyList = [];
 
-                // deprecated, outdated or up-to-date
-                let depStatus = DEPENDENCIES_STATUS['up-to-date'];
-                if (isDeprecated) {
-                    depStatus = DEPENDENCIES_STATUS.deprecated;
-                } else if (isOutDated) {
-                    depStatus = DEPENDENCIES_STATUS.outdated;
-                }
+        for (const dependency of dependenciesByParams) {
+            if (dependency.module?.appId !== appId) {
+                continue;
+            }
 
-                const depStatusHelp = dependencyStatusHelp[depStatus] || {};
-                const depRecommendedVersion = frontendDepsMinVersions[dependency.name] || '';
+            const isDeprecated =
+                await DeprecatedDependencyProvider.getDeprecatedDependencyDetailsByParams({
+                    name: dependency.name,
+                });
 
-                return {
-                    ...dependency,
-                    status: depStatus,
-                    help: {
-                        ...depStatusHelp,
-                        description: depStatusHelp.description
-                            ?.replaceAll('XXX', dependency.name)
-                            ?.replaceAll('YYY', depRecommendedVersion),
-                    },
-                    recommendedVersion: depRecommendedVersion,
-                };
+            const isOutDated = false; // TODO: semver compare with bistro
+
+            // deprecated, outdated or up-to-date
+            let depStatus = dependencyStatus['up-to-date'];
+            if (isDeprecated) {
+                depStatus = dependencyStatus.deprecated;
+            } else if (isOutDated) {
+                depStatus = dependencyStatus.outdated;
+            }
+
+            const depStatusHelp =
+                await DependencyStatusHelpProvider.getDependencyStatusHelpDetailsByParams({
+                    category: depStatus,
+                });
+
+            const depRecommendedVersion = dependencyRecommendedVersions[dependency.name] || '';
+
+            dependencyList.push({
+                ...dependency,
+                status: depStatus,
+                statusHelp: depStatusHelp,
+                recommendedVersion: depRecommendedVersion,
             });
+        }
+
+        return dependencyList;
     } catch (error) {
-        AppLogger.info(`[getDependencyByParams] error:  ${error.message}`);
+        AppLogger.info(`[DependencyProvider - getDependencyByParams] error:  ${error.message}`);
         return [];
     }
 };

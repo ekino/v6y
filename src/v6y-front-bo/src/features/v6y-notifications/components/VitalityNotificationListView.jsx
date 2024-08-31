@@ -5,7 +5,7 @@ import {
 } from '../../../commons/config/VitalityTableConfig.jsx';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter.js';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper.jsx';
-import GetNotificationList from '../apis/getNotificationList.js';
+import GetNotificationListByPageAndParams from '../apis/getNotificationListByPageAndParams.js';
 
 export default function VitalityNotificationListView() {
     const { translate } = useTranslation();
@@ -22,7 +22,7 @@ export default function VitalityNotificationListView() {
             ]}
             queryOptions={{
                 resource: 'getNotificationListByPageAndParams',
-                query: GetNotificationList,
+                query: GetNotificationListByPageAndParams,
             }}
             renderTable={(dataSource) => (
                 <VitalityTable

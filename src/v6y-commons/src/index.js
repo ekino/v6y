@@ -8,8 +8,14 @@ import TaskUtils from './core/TaskUtils.js';
 import WorkerHelper from './core/WorkerHelper.js';
 import ZipUtils from './core/ZipUtils.js';
 import AppProvider from './database/AppProvider.js';
-import AuditsProvider from './database/AuditsProvider.js';
+import AuditHelpProvider from './database/AuditHelpProvider.js';
+import AuditProvider from './database/AuditProvider.js';
 import DataBaseManager from './database/DataBaseManager.js';
+import DependencyProvider from './database/DependencyProvider.js';
+import DependencyStatusHelpProvider from './database/DependencyStatusHelpProvider.js';
+import DeprecatedDependencyProvider from './database/DeprecatedDependencyProvider.js';
+import EvolutionHelpProvider from './database/EvolutionHelpProvider.js';
+import EvolutionProvider from './database/EvolutionProvider.js';
 import FaqProvider from './database/FaqProvider.js';
 import KeywordProvider from './database/KeywordProvider.js';
 import NotificationProvider from './database/NotificationProvider.js';
@@ -27,7 +33,13 @@ export {
     AppProvider,
     KeywordProvider,
     DataBaseManager,
-    AuditsProvider,
+    AuditProvider,
+    AuditHelpProvider,
     FaqProvider,
     NotificationProvider,
+    EvolutionProvider,
+    EvolutionHelpProvider,
+    DependencyProvider,
+    DependencyStatusHelpProvider,
+    DeprecatedDependencyProvider,
 };

@@ -10,7 +10,7 @@ import {
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter.js';
 import RefineEditWrapper from '../../../infrastructure/components/RefineEditWrapper.jsx';
 import CreateOrEditFaq from '../apis/createOrEditFaq.js';
-import GetFaqDetails from '../apis/getFaqDetails.js';
+import GetFaqDetailsByParams from '../apis/getFaqDetailsByParams.js';
 
 export default function VitalityFaqEditView() {
     const { translate } = useTranslation();
@@ -23,8 +23,8 @@ export default function VitalityFaqEditView() {
             }
             queryOptions={{
                 queryFormAdapter: faqCreateOrEditFormInAdapter,
-                query: GetFaqDetails,
-                queryResource: 'getFaqDetailsInfosByParams',
+                query: GetFaqDetailsByParams,
+                queryResource: 'getFaqDetailsByParams',
                 queryParams: {
                     faqId: id,
                 },

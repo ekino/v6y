@@ -26,9 +26,9 @@ export const buildCommonTableDataSource = (dataSource) =>
         key: item.id,
     }));
 
-export const buildCommonTableColumns = (dataSource) => [
+export const buildCommonTableColumns = (dataSource, excludedKeys) => [
     ...(Object.keys(dataSource?.[0] || {})
-        ?.filter((key) => key !== 'links')
+        ?.filter((key) => key !== 'links' && !excludedKeys?.includes(key))
         ?.map((key) => ({
             title: key,
             dataIndex: key,

@@ -8,7 +8,6 @@ import { AUDIT_STATUS_COLORS } from '../../../../../commons/config/VitalityCommo
 import VitalityTerms from '../../../../../commons/config/VitalityTerms.js';
 import VitalityMetricDetailsView from './VitalityMetricDetailsView.jsx';
 
-
 const VitalityLighthouseReportsView = ({ reports }) => {
     const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
 
@@ -38,8 +37,8 @@ const VitalityLighthouseReportsView = ({ reports }) => {
             >
                 {reports?.map((report) => (
                     <Descriptions.Item
-                        key={`${report.type}-${report.category}-${report.title}`}
-                        label={`${report.title}${report.subCategory?.length ? ` (${report.subCategory.length})` : ''}`}
+                        key={`${report.type}-${report.category}-${report.module?.branch}-${report?.auditHelp?.category}-${report.module?.path}`}
+                        label={`${report?.auditHelp?.title}${report.subCategory?.length ? ` (${report.subCategory})` : ''}`}
                     >
                         <>
                             <Statistic
@@ -49,11 +48,13 @@ const VitalityLighthouseReportsView = ({ reports }) => {
                                     color: AUDIT_STATUS_COLORS[report.status?.toLowerCase()],
                                 }}
                             />
-                            <Link href={report.webUrl} target="_blank">
-                                <Typography.Text style={{ textDecoration: 'underline' }}>
-                                    {VitalityTerms.VITALITY_APP_DETAILS_AUDIT_OPEN_APP_LABEL}
-                                </Typography.Text>
-                            </Link>
+                            {report.module?.url?.length && (
+                                <Link href={report.module?.url} target="_blank">
+                                    <Typography.Text style={{ textDecoration: 'underline' }}>
+                                        {VitalityTerms.VITALITY_APP_DETAILS_AUDIT_OPEN_APP_LABEL}
+                                    </Typography.Text>
+                                </Link>
+                            )}
                         </>
                     </Descriptions.Item>
                 ))}
@@ -70,7 +71,7 @@ const VitalityLighthouseReportsView = ({ reports }) => {
                 <Space size="middle" direction="vertical">
                     {reports?.map((metric, index) => (
                         <VitalityMetricDetailsView
-                            key={`${metric.title}}-${metric.description}-${index}`}
+                            key={`${metric?.auditHelp?.title}}-${metric?.auditHelp?.description}-${index}`}
                             metric={metric}
                         />
                     ))}

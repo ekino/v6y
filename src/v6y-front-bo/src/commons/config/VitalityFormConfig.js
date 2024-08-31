@@ -1,5 +1,6 @@
 import React from 'react';
 
+import VitalityEvolutionHelpEditView from '../../features/v6y-evolution-helps/components/VitalityEvolutionHelpEditView.jsx';
 import VitalityInputFieldSet from '../components/VitalityInputFieldSet.jsx';
 
 export const applicationInfosFormItems = (translate) => {
@@ -60,6 +61,18 @@ export const applicationInfosFormItems = (translate) => {
 };
 
 export const applicationRequiredLinksFormItems = (translate) => [
+    {
+        id: 'app-git-web-url',
+        name: 'app-git-web-url',
+        label: translate('v6y-applications.fields.app-git-web-url.label'),
+        placeholder: translate('v6y-applications.fields.app-git-web-url.placeholder'),
+        rules: [
+            {
+                required: true,
+                message: translate('v6y-applications.fields.app-git-web-url.error'),
+            },
+        ],
+    },
     {
         id: 'app-git-url',
         name: 'app-git-url',
@@ -151,6 +164,7 @@ export const applicationCreateOrEditFormInAdapter = (params) => ({
     'app-acronym': params?.['acronym'],
     'app-name': params?.['name'],
     'app-description': params?.['description'],
+    'app-git-web-url': params?.['repo']?.webUrl,
     'app-git-url': params?.['repo']?.gitUrl,
     'app-contact-email': params?.['contactMail'],
     'app-production-link-1': params?.['links']?.find?.(
@@ -171,6 +185,7 @@ export const applicationCreateOrEditFormOutputAdapter = (params) => ({
     applicationInput: {
         acronym: params?.['app-acronym'],
         description: params?.['app-description'],
+        gitWebUrl: params?.['app-git-web-url'],
         gitUrl: params?.['app-git-url'],
         name: params?.['app-name'],
         contactMail: params?.['app-contact-email'],
@@ -364,3 +379,40 @@ export const notificationCreateEditItems = (translate) => {
         />,
     ];
 };
+
+export const evolutionHelpCreateEditItems = (translate) => {
+    return [
+        <VitalityInputFieldSet
+            key={translate('v6y-faqs.fields.faq-infos-group')}
+            groupTitle={translate('v6y-faqs.fields.faq-infos-group')}
+            items={faqInfosFormItems(translate)}
+        />,
+        <VitalityInputFieldSet
+            key={translate('v6y-faqs.fields.faq-optional-link-group')}
+            groupTitle={translate('v6y-faqs.fields.faq-optional-link-group')}
+            items={faqOptionalLinksFormItems(translate)}
+        />,
+    ];
+};
+
+export const evolutionHelpCreateOrEditFormInAdapter = (params) => ({
+    faqId: params?.id,
+    'faq-title': params?.['title'],
+    'faq-description': params?.['description'],
+    'faq-optional-link-1': params?.['links']?.[0]?.value,
+    'faq-optional-link-2': params?.['links']?.[1]?.value,
+    'faq-optional-link-3': params?.['links']?.[2]?.value,
+});
+
+export const evolutionHelpCreateOrEditFormOutputAdapter = (params) => ({
+    faqInput: {
+        faqId: params?.['faqId'],
+        title: params?.['faq-title'],
+        description: params?.['faq-description'],
+        links: [
+            params?.['faq-optional-link-1'],
+            params?.['faq-optional-link-2'],
+            params?.['faq-optional-link-3'],
+        ]?.filter((item) => item?.length),
+    },
+});

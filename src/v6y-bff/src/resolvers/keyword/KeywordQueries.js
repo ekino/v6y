@@ -1,20 +1,22 @@
 import { AppLogger, KeywordProvider } from '@v6y/commons';
 
-const getKeywordsByParams = async () => {
+const getKeywordListByParams = async () => {
     try {
-        const keywordsList = await KeywordProvider.getKeywordsByParams({});
+        const keywordsList = await KeywordProvider.getKeywordListByParams({});
 
-        AppLogger.info(`[AppQueries - getKeywordsByParams] keywordsList : ${keywordsList?.length}`);
+        AppLogger.info(
+            `[AppQueries - getKeywordListByParams] keywordsList : ${keywordsList?.length}`,
+        );
 
         return keywordsList;
     } catch (error) {
-        AppLogger.info(`[AppQueries - getKeywordsByParams] error : ${error.message}`);
+        AppLogger.info(`[AppQueries - getKeywordListByParams] error : ${error.message}`);
         return [];
     }
 };
 
 const KeywordQueries = {
-    getKeywordsByParams,
+    getKeywordListByParams,
 };
 
 export default KeywordQueries;

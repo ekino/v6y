@@ -5,7 +5,7 @@ import {
 } from '../../../commons/config/VitalityTableConfig.jsx';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter.js';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper.jsx';
-import GetFaqList from '../apis/getFaqList.js';
+import GetFaqListByPageAndParams from '../apis/getFaqListByPageAndParams.js';
 
 export default function VitalityFaqListView() {
     const { translate } = useTranslation();
@@ -22,7 +22,7 @@ export default function VitalityFaqListView() {
             ]}
             queryOptions={{
                 resource: 'getFaqListByPageAndParams',
-                query: GetFaqList,
+                query: GetFaqListByPageAndParams,
             }}
             renderTable={(dataSource) => (
                 <VitalityTable

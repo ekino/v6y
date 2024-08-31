@@ -1,172 +1,354 @@
 /* eslint-disable max-lines */
 
-// static parts (BO) V2
-const STACK_MIN_VALID_VERSIONS = {
+// to read from Bistro
+export const dependencyRecommendedVersions = {
     react: '17.0.2',
     'react-dom': '17.0.2',
     'react-hot-loader': '4.13.0',
     'react-router-dom': '5.3.0',
-};
-
-const STACK_MIN_VALID_DEV_VERSIONS = {
-    'ts-jest': '28.0.2',
-    typescript: '4.5.5',
     '@babel/preset-typescript': '7.16.7',
     '@types/chai': '4.3.1',
     '@types/enzyme': '3.10.12',
     '@types/jest': '27.5.1',
     '@typescript-eslint/eslint-plugin': '5.12.1',
     '@typescript-eslint/parser': '5.12.1',
-    webpack: '5.69.0',
-    'webpack-bundle-analyzer': '4.5.0',
-    'webpack-dev-server': '4.7.4',
-    'css-loader': '6.6.0',
-    'sass-loader': '12.6.0',
-    '@babel/eslint-parser': '7.17.0',
-    '@babel/eslint-plugin': '7.16.5',
-    eslint: '8.9.0',
-    'eslint-config-airbnb': '19.0.4',
-    'eslint-plugin-import': '2.25.4',
-    'eslint-plugin-jsx-a11y': '6.5.1',
-    'eslint-plugin-react': '7.29.2',
-    'eslint-plugin-react-hooks': '4.3.0',
-    'eslint-config-airbnb-typescript': '16.1.0',
-    'eslint-import-resolver-typescript': '2.5.0',
-    'babel-jest': '28.1.0',
-    chai: '4.3.6',
-    enzyme: '3.11.0',
-    'enzyme-adapter-react-16': '1.15.6',
-    'enzyme-to-json': '3.6.2',
-    jest: '28.1.0',
-    'jest-sonar-reporter': '2.0.0',
-    'jest-stare': '2.3.0',
-    'jest-environment-jsdom': '28.1.0',
 };
 
-export const frontendDepsMinVersions = {
-    ...STACK_MIN_VALID_VERSIONS,
-    ...STACK_MIN_VALID_DEV_VERSIONS,
+// static and private
+const codeSmellTypes = {
+    Dependency: 'Dependency',
+    Lighthouse: 'Lighthouse',
+    'Code-Coupling': 'Code-Coupling',
+    'Code-Duplication': 'Code-Duplication',
+    'Code-Complexity': 'Code-Complexity',
+    'Code-Compliance': 'Code-Compliance',
+    'Code-Security': 'Code-Security',
 };
 
-export const frontendDeprecatedDeps = [
-    '@babel/polyfill/noConflict',
-    '@babel/polyfill',
-    '@babel/compat-data',
-    '@babel/plugin-proposal-numeric-separator',
-    '@babel/plugin-syntax-dynamic-import',
-    '@babel/plugin-transform-modules-commonjs',
-    '@babel/polyfill',
-    'babel-plugin-dynamic-import-node',
-    '@babel/plugin-proposal-export-default-from',
-    '@babel/plugin-syntax-class-properties',
-    '@babel/plugin-transform-react-jsx',
-    '@babel/plugin-proposal-optional-chaining',
-    '@babel/plugin-proposal-class-properties',
-    '@babel/plugin-proposal-object-rest-spread',
-    '@babel/plugin-proposal-nullish-coalescing-operator',
-    'node-sass',
-    'lodash',
-    'moment',
-    '@types/lodash',
-    'babel-plugin-lodash',
-    'smoothscroll-polyfill',
-    'whatwg-fetch',
-    'libphonenumber-js',
-    'es6-promise-promise',
-    'url-search-params-polyfill',
-];
+const codeSmellCategories = {
+    deprecated: 'deprecated',
+    outdated: 'outdated',
+    performance: 'performance',
+    seo: 'seo',
+    accessibility: 'accessibility',
+    'first-contentful-paint': 'first-contentful-paint',
+    'largest-contentful-paint': 'largest-contentful-paint',
+    'cumulative-layout-shift': 'cumulative-layout-shift',
+    'circular-dependencies': 'circular-dependencies',
+    'instability-index': 'instability-index',
+    'efferent-coupling': 'efferent-coupling',
+    'afferent-coupling': 'afferent-coupling',
+    'maintainability-index': 'maintainability-index',
+    'cyclomatic-complexity': 'cyclomatic-complexity',
+};
 
-export const DEPENDENCIES_STATUS = {
-    // Dependency status (deprecated, outdated or up-to-date)
+export const evolutionHelpStatus = {
+    critical: 'critical',
+    important: 'important',
+    recommended: 'recommended',
+};
+
+export const dependencyStatus = {
     outdated: 'outdated',
     deprecated: 'deprecated',
     'up-to-date': 'up-to-date',
 };
 
-export const dependencyStatusHelp = {
-    [DEPENDENCIES_STATUS.outdated]: {
-        title: 'Outdated Module',
-        status: 'outdated',
-        description:
-            'The XXX version used is outdated. Upgrade to version YYY for enhanced security and performance.',
-        links: [
-            {
-                label: 'More Information',
-                value: 'https://www.npmjs.com/package',
-                description: '',
-            },
-        ],
-    },
-    [DEPENDENCIES_STATUS.deprecated]: {
-        title: 'Deprecated Module',
-        status: 'deprecated',
-        description:
-            'Module XXX is deprecated and should not be used. You should delete it or replace it with equivalent more recent and performant.',
-        links: [
-            {
-                label: 'More Information',
-                value: 'https://www.npmjs.com/package',
-                description: '',
-            },
-        ],
-    },
-    [DEPENDENCIES_STATUS['up-to-date']]: {
-        title: 'Up to date',
-        status: 'up-to-date',
-        description: 'Module XXX is up to date, no action is required',
-        links: [],
-    },
+export const auditStatus = {
+    success: 'success',
+    warning: 'warning',
+    error: 'error',
+};
+
+export const keywordStatus = {
+    success: 'success',
+    warning: 'warning',
+    error: 'error',
 };
 
 // static parts (BO) V1
-export const evolutions = [
+export const auditHelps = [
     {
-        _id: 'A8901WXZSX1c1c1c1c1c1c1c1c1c',
-        title: 'Customer Analytics Dashboard',
-        status: 'critical',
-        description:
-            'A new customer analytics dashboard has been implemented, providing insights into customer behavior and trends.',
-        links: [
-            {
-                label: 'More Information',
-                value: 'https://github.com/CRMTech/crm-system',
-                description: '',
-            },
-            {
-                label: 'Repository',
-                value: 'https://github.com/CRMTech/crm-system',
-                description: 'Access the source code repository on GitHub.',
-            },
-        ],
+        title: '',
+        category: `${codeSmellTypes.Lighthouse}-${codeSmellCategories.performance}`,
+        description: '',
+        explanation: null,
     },
     {
-        _id: 'B8904WXZSX1c1c1c1c1c1c1c1c1c',
-        title: 'Material-UI Update',
-        status: 'important',
-        description:
-            'Material-UI library has been updated to the latest stable version to enhance UI consistency and performance.',
-        links: [
-            {
-                label: 'More Information',
-                value: 'https://github.com/CRMTech/crm-system',
-                description: '',
-            },
-        ],
+        title: '',
+        description: '',
+        category: `${codeSmellTypes.Lighthouse}-${codeSmellCategories.seo}`,
+        explanation: null,
     },
     {
-        _id: 'C8901WXZSX1c1c1c1c1c2d1d1d',
-        title: 'Task Tracking Feature',
-        status: 'recommended',
-        description:
-            'A new task tracking feature has been added, allowing users to manage tasks more effectively.',
-        links: [
-            {
-                label: 'More Information',
-                value: 'https://docs.pmtool.com',
-                description: '',
-            },
-        ],
+        title: '',
+        description: '',
+        category: `${codeSmellTypes.Lighthouse}-${codeSmellCategories.accessibility}`,
+        explanation: null,
     },
+    {
+        title: '',
+        description: '',
+        category: `${codeSmellTypes.Lighthouse}-${codeSmellCategories['first-contentful-paint']}`,
+        explanation: null,
+    },
+    {
+        title: '',
+        description: '',
+        category: `${codeSmellTypes.Lighthouse}-${codeSmellCategories['largest-contentful-paint']}`,
+        explanation: null,
+    },
+    {
+        title: '',
+        description: '',
+        category: `${codeSmellTypes.Lighthouse}-${codeSmellCategories['cumulative-layout-shift']}`,
+        explanation: null,
+    },
+    {
+        title: '',
+        description: '',
+        category: `${codeSmellTypes['Code-Coupling']}-${codeSmellCategories['circular-dependencies']}`,
+        explanation: null,
+    },
+    {
+        title: '',
+        description: '',
+        category: `${codeSmellTypes['Code-Coupling']}-${codeSmellCategories['instability-index']}`,
+        explanation: null,
+    },
+    {
+        title: '',
+        description: '',
+        category: `${codeSmellTypes['Code-Coupling']}-${codeSmellCategories['efferent-coupling']}`,
+        explanation: null,
+    },
+    {
+        title: '',
+        description: '',
+        category: `${codeSmellTypes['Code-Coupling']}-${codeSmellCategories['afferent-coupling']}`,
+        explanation: null,
+    },
+    {
+        title: '',
+        description: '',
+        category: `${codeSmellTypes['Code-Duplication']}`,
+        explanation: null,
+    },
+    {
+        title: '',
+        description: '',
+        category: `${codeSmellTypes['Code-Complexity']}-${codeSmellCategories['maintainability-index']}`,
+        explanation: null,
+    },
+    {
+        title: '',
+        description: '',
+        category: `${codeSmellTypes['Code-Complexity']}-${codeSmellCategories['cyclomatic-complexity']}`,
+        explanation: null,
+    },
+    {
+        title: '',
+        description: '',
+        category: `${codeSmellTypes['Code-Compliance']}`,
+        explanation: null,
+    },
+    {
+        title: '',
+        description: '',
+        category: `${codeSmellTypes['Code-Security']}`,
+        explanation: null,
+    },
+];
+
+export const evolutionHelps = [
+    {
+        _id: 'evolution-help-1',
+        category: `${codeSmellTypes.Dependency}-${codeSmellCategories.deprecated}`,
+        status: evolutionHelpStatus.critical,
+        title: '',
+        description: '',
+        links: [],
+    },
+    {
+        _id: 'evolution-help-2',
+        category: `${codeSmellTypes.Dependency}-${codeSmellCategories.outdated}`,
+        status: evolutionHelpStatus.recommended,
+        title: '',
+        description: '',
+        links: [],
+    },
+    {
+        _id: 'evolution-help-3',
+        category: `${codeSmellTypes.Lighthouse}-${codeSmellCategories.performance}`,
+        status: evolutionHelpStatus.critical,
+        title: '',
+        description: '',
+        links: [],
+    },
+    {
+        _id: 'evolution-help-4',
+        category: `${codeSmellTypes.Lighthouse}-${codeSmellCategories.seo}`,
+        status: evolutionHelpStatus.important,
+        title: '',
+        description: '',
+        links: [],
+    },
+    {
+        _id: 'evolution-help-5',
+        category: `${codeSmellTypes.Lighthouse}-${codeSmellCategories.accessibility}`,
+        status: evolutionHelpStatus.critical,
+        title: '',
+        description: '',
+        links: [],
+    },
+    {
+        _id: 'evolution-help-6',
+        category: `${codeSmellTypes.Lighthouse}-${codeSmellCategories['first-contentful-paint']}`,
+        status: evolutionHelpStatus.critical,
+        title: '',
+        description: '',
+        links: [],
+    },
+    {
+        _id: 'evolution-help-7',
+        category: `${codeSmellTypes.Lighthouse}-${codeSmellCategories['largest-contentful-paint']}`,
+        status: evolutionHelpStatus.critical,
+        title: '',
+        description: '',
+        links: [],
+    },
+    {
+        _id: 'evolution-help-8',
+        category: `${codeSmellTypes.Lighthouse}-${codeSmellCategories['cumulative-layout-shift']}`,
+        status: evolutionHelpStatus.critical,
+        title: '',
+        description: '',
+        links: [],
+    },
+    {
+        _id: 'evolution-help-9',
+        category: `${codeSmellTypes['Code-Coupling']}-${codeSmellCategories['circular-dependencies']}`,
+        status: evolutionHelpStatus.critical,
+        title: '',
+        description: '',
+        links: [],
+    },
+    {
+        _id: 'evolution-help-10',
+        category: `${codeSmellTypes['Code-Coupling']}-${codeSmellCategories['instability-index']}`,
+        status: evolutionHelpStatus.important,
+        title: '',
+        description: '',
+        links: [],
+    },
+    {
+        _id: 'evolution-help-11',
+        category: `${codeSmellTypes['Code-Coupling']}-${codeSmellCategories['efferent-coupling']}`,
+        status: evolutionHelpStatus.important,
+        title: '',
+        description: '',
+        links: [],
+    },
+    {
+        _id: 'evolution-help-12',
+        category: `${codeSmellTypes['Code-Coupling']}-${codeSmellCategories['afferent-coupling']}`,
+        status: evolutionHelpStatus.important,
+        title: '',
+        description: '',
+        links: [],
+    },
+    {
+        _id: 'evolution-help-13',
+        category: `${codeSmellTypes['Code-Duplication']}`,
+        status: evolutionHelpStatus.important,
+        title: '',
+        description: '',
+        links: [],
+    },
+    {
+        _id: 'evolution-help-14',
+        category: `${codeSmellTypes['Code-Complexity']}-${codeSmellCategories['maintainability-index']}`,
+        status: evolutionHelpStatus.important,
+        title: '',
+        description: '',
+        links: [],
+    },
+    {
+        _id: 'evolution-help-15',
+        category: `${codeSmellTypes['Code-Complexity']}-${codeSmellCategories['cyclomatic-complexity']}`,
+        status: evolutionHelpStatus.important,
+        title: '',
+        description: '',
+        links: [],
+    },
+    {
+        _id: 'evolution-help-16',
+        category: `${codeSmellTypes['Code-Compliance']}`,
+        status: evolutionHelpStatus.important,
+        title: '',
+        description: '',
+        links: [],
+    },
+    {
+        _id: 'evolution-help-17',
+        category: `${codeSmellTypes['Code-Security']}`,
+        status: evolutionHelpStatus.recommended,
+        title: '',
+        description: '',
+        links: [],
+    },
+];
+
+export const dependencyStatusHelp = [
+    {
+        _id: 'A123',
+        title: '',
+        description: '',
+        category: dependencyStatus.outdated,
+        links: [],
+    },
+    {
+        _id: 'A124',
+        title: '',
+        description: '',
+        category: dependencyStatus.deprecated,
+        links: [],
+    },
+    {
+        _id: 'A125',
+        title: '',
+        description: '',
+        category: dependencyStatus['up-to-date'],
+        links: [],
+    },
+];
+
+export const deprecatedDependencies = [
+    { _id: 'A111', name: '@babel/polyfill/noConflict' },
+    { _id: 'A112', name: '@babel/polyfill' },
+    { _id: 'A113', name: '@babel/compat-data' },
+    { _id: 'A114', name: '@babel/plugin-proposal-numeric-separator' },
+    { _id: 'A115', name: '@babel/plugin-syntax-dynamic-import' },
+    { _id: 'A116', name: '@babel/plugin-transform-modules-commonjs' },
+    { _id: 'A117', name: '@babel/polyfill' },
+    { _id: 'A118', name: 'babel-plugin-dynamic-import-node' },
+    { _id: 'A119', name: '@babel/plugin-proposal-export-default-from' },
+    { _id: 'A1110', name: '@babel/plugin-syntax-class-properties' },
+    { _id: 'A1111', name: '@babel/plugin-transform-react-jsx' },
+    { _id: 'A1112', name: '@babel/plugin-proposal-optional-chaining' },
+    { _id: 'A1113', name: '@babel/plugin-proposal-class-properties' },
+    { _id: 'A1114', name: '@babel/plugin-proposal-object-rest-spread' },
+    { _id: 'A1115', name: '@babel/plugin-proposal-nullish-coalescing-operator' },
+    { _id: 'A1116', name: 'node-sass' },
+    { _id: 'A1117', name: 'lodash' },
+    { _id: 'A1118', name: 'moment' },
+    { _id: 'A1119', name: '@types/lodash' },
+    { _id: 'A1120', name: 'babel-plugin-lodash' },
+    { _id: 'A1121', name: 'smoothscroll-polyfill' },
+    { _id: 'A1122', name: 'whatwg-fetch' },
+    { _id: 'A1123', name: 'libphonenumber-js' },
+    { _id: 'A1124', name: 'es6-promise-promise' },
+    { _id: 'A1125', name: 'url-search-params-polyfill' },
 ];
 
 export const faqs = [
@@ -320,811 +502,452 @@ export const notifications = [
     },
 ];
 
-export const auditHelps = {
-    'Lighthouse-performance': {
-        title: 'Performance',
-        description: 'Measures how quickly the content on your page loads and becomes interactive.',
-        explanation: null,
-    },
-    'Lighthouse-seo': {
-        title: 'SEO',
-        description: 'Evaluates how well your page is optimized for search engines.',
-        explanation: null,
-    },
-    'Lighthouse-accessibility': {
-        title: 'Accessibility',
-        description:
-            'Checks for issues that might make it difficult for people with disabilities to use your website.',
-        explanation:
-            'There are opportunities to improve the accessibility of your web app. Manual testing is also encouraged as automatic detection may not catch all issues.',
-    },
-    'Lighthouse-first-contentful-paint': {
-        title: 'First Contentful Paint',
-        description:
-            'Measures how long it takes for the first piece of content (text or image) to appear on the screen.',
-        explanation:
-            'First Contentful Paint is slower than recommended. Consider optimizing image sizes, reducing server response times, and minimizing render-blocking resources.',
-    },
-    'Lighthouse-largest-contentful-paint': {
-        title: 'Largest Contentful Paint',
-        description:
-            'Measures how long it takes for the largest piece of content (text or image) to appear on the screen.',
-        explanation:
-            'Largest Contentful Paint is slower than recommended. Consider optimizing image sizes, reducing server response times, and minimizing render-blocking resources.',
-    },
-    'Lighthouse-cumulative-layout-shift': {
-        title: 'Cumulative Layout Shift',
-        description:
-            "Measures how much the layout of your page shifts unexpectedly while it's loading.",
-        explanation: null,
-    },
-    'Code-Coupling-circular-dependencies': {
-        title: 'Circular dependencies detected',
-        description:
-            'There are circular dependencies between modules, which can make the code difficult to understand and maintain.',
-        explanation:
-            'Consider refactoring to eliminate circular dependencies. This might involve restructuring the code or introducing dependency injection.',
-    },
-    'Code-Coupling-instability-index': {
-        title: 'High instability',
-        description:
-            'The "user" module has a high instability index, indicating it\'s likely to be affected by changes in other modules.',
-        explanation:
-            'Consider refactoring to reduce the number of modules that depend on the "user" module. This could involve extracting common functionality into a separate module or redesigning the module interfaces.',
-    },
-    'Code-Coupling-efferent-coupling': {
-        title: 'High efferent coupling',
-        description:
-            'The "user" module depends on many other modules, making it potentially fragile to changes in those modules.',
-        explanation:
-            'Consider refactoring to reduce the number of modules that the "user" module depends on. This could involve extracting common functionality into a separate module or redesigning the module interfaces.',
-    },
-    'Code-Coupling-afferent-coupling': {
-        title: 'High afferent coupling',
-        description:
-            'The "user" module is used by many other modules, making it a potential bottleneck for changes.',
-        explanation:
-            'Consider refactoring to reduce the number of modules that depend on the "user" module. This could involve extracting common functionality into a separate module or redesigning the module interfaces.',
-    },
-    'Code-Duplication-repeated-code-block': {
-        title: 'Repeated code block detected',
-        description: 'The code block for handling user input is duplicated in multiple places.',
-        explanation:
-            'Duplicated code makes maintenance more difficult and increases the risk of errors. Consider refactoring to extract the duplicated code into a reusable function or component.',
-    },
-    'Code-Complexity-maintainability-index': {
-        title: 'Low maintainability',
-        description:
-            'The function "calculateTotals" has a low maintainability index, indicating it may be difficult to modify or update.',
-        explanation:
-            'Consider refactoring this function to improve its maintainability score. This could involve simplifying the logic, reducing its size, or improving its commenting.',
-    },
-    'Code-Complexity-cyclomatic-complexity': {
-        title: 'Function is too complex',
-        description:
-            'The function "calculateTotals" has a high cyclomatic complexity, making it difficult to understand and maintain.',
-        explanation:
-            'Consider refactoring this function into smaller, more manageable parts to improve readability and maintainability.',
-    },
-    'Code-Compliance-unused-variable': {
-        title: 'Unused variable detected',
-        description: 'The variable "unusedVar" is declared but never used.',
-        explanation:
-            'Unused variables can clutter the code and potentially lead to confusion. Consider removing them.',
-    },
-    'Code-Security-xss-vulnerability': {
-        title: 'Potential XSS vulnerability detected',
-        description: 'UserInput is not properly sanitized before being rendered in the DOM',
-        explanation:
-            'This vulnerability allows attackers to inject malicious scripts into your website, potentially compromising user data or taking control of their sessions.',
-    },
-};
-
-// semi dynamic parts (BO) V1
-
+// full dynamic parts (BO) V1
 export const auditsReports = [
     {
-        ...(auditHelps['Lighthouse-performance'] || {}),
+        // static parts: help key: type-category (to find dynamically)
+        //...(auditHelps['Lighthouse-performance'] || {}),
+
+        // dynamic parts
         _id: 'A12',
-        appId: '20b20b20b20b20b20b20b20b',
+        type: codeSmellTypes.Lighthouse,
+        category: codeSmellCategories.performance,
         subCategory: null,
-        type: 'Lighthouse',
-        category: 'performance',
-        webUrl: 'https://www.examplewebsite.com',
-        status: 'success',
+        status: auditStatus.success,
         score: 92,
         scorePercent: 92,
         scoreUnit: '%',
-        branch: null,
-        module: null,
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'front-js',
+            url: 'https://www.examplewebsite.com',
+        },
     },
     {
-        ...(auditHelps['Lighthouse-seo'] || {}),
+        // ...(auditHelps['Lighthouse-seo'] || {}),
+
+        // dynamic parts
         _id: 'A13',
-        appId: '20b20b20b20b20b20b20b20b',
+        type: codeSmellTypes.Lighthouse,
+        category: codeSmellCategories.seo,
         subCategory: null,
-        type: 'Lighthouse',
-        category: 'seo',
-        webUrl: 'https://www.examplewebsite.com',
-        status: 'success',
+        status: auditStatus.success,
         score: 92,
         scorePercent: 92,
         scoreUnit: '%',
-        branch: null,
-        module: null,
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'front-js',
+            url: 'https://www.examplewebsite.com',
+        },
     },
     {
-        ...(auditHelps['Lighthouse-accessibility'] || {}),
+        //...(auditHelps['Lighthouse-accessibility'] || {}),
+
+        // dynamic parts
         _id: 'A14',
-        appId: '20b20b20b20b20b20b20b20b',
+        type: codeSmellTypes.Lighthouse,
+        category: codeSmellCategories.accessibility,
         subCategory: null,
-        type: 'Lighthouse',
-        category: 'accessibility',
-        webUrl: 'https://www.examplewebsite.com',
-        status: 'warning',
+        status: auditStatus.warning,
         score: 75,
         scorePercent: 75,
         scoreUnit: '%',
-        branch: null,
-        module: null,
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'front-js',
+            url: 'https://www.examplewebsite.com',
+        },
     },
     {
-        ...(auditHelps['Lighthouse-first-contentful-paint'] || {}),
+        // ...(auditHelps['Lighthouse-first-contentful-paint'] || {}),
+
+        // dynamic parts
         _id: 'A14',
-        appId: '20b20b20b20b20b20b20b20b',
+        type: codeSmellTypes.Lighthouse,
+        category: codeSmellCategories['first-contentful-paint'],
         subCategory: null,
-        type: 'Lighthouse',
-        category: 'first-contentful-paint',
-        webUrl: 'https://www.examplewebsite.com',
-        status: 'error',
+        status: auditStatus.error,
         score: 1.2,
         scorePercent: 24,
         scoreUnit: 's',
-        branch: null,
-        module: null,
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'front-js',
+            url: 'https://www.examplewebsite.com',
+        },
     },
     {
-        ...(auditHelps['Lighthouse-largest-contentful-paint'] || {}),
+        //...(auditHelps['Lighthouse-largest-contentful-paint'] || {}),
+
+        // dynamic parts
         _id: 'A15',
-        appId: '20b20b20b20b20b20b20b20b',
+        type: codeSmellTypes.Lighthouse,
+        category: codeSmellCategories['last-contentful-paint'],
         subCategory: null,
-        type: 'Lighthouse',
-        category: 'largest-contentful-paint',
-        webUrl: 'https://www.examplewebsite.com',
-        status: 'warning',
+        status: auditStatus.warning,
         score: 2.8,
         scorePercent: 56,
         scoreUnit: 's',
-        branch: null,
-        module: null,
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'front-js',
+            url: 'https://www.examplewebsite.com',
+        },
     },
     {
-        ...(auditHelps['Lighthouse-cumulative-layout-shift'] || {}),
+        // ...(auditHelps['Lighthouse-cumulative-layout-shift'] || {}),
+
+        // dynamic parts
         _id: 'A16',
-        appId: '20b20b20b20b20b20b20b20b',
+        type: codeSmellTypes.Lighthouse,
+        category: codeSmellCategories['cumulative-layout-shift'],
         subCategory: null,
-        type: 'Lighthouse',
-        category: 'cumulative-layout-shift',
-        webUrl: 'https://www.examplewebsite.com',
-        status: 'success',
+        status: auditStatus.success,
         score: 0.05,
         scorePercent: 5,
         scoreUnit: '',
-        branch: null,
-        module: null,
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'front-js',
+            url: 'https://www.examplewebsite.com',
+        },
     },
     {
-        ...(auditHelps['Code-Security-xss-vulnerability'] || {}),
+        // ...(auditHelps['Code-Security'] || {}),
+
+        // dynamic parts
         _id: 'A17',
-        appId: '20b20b20b20b20b20b20b20b',
-        subCategory: null,
-        type: 'Code Security',
+        type: codeSmellTypes['Code-Security'],
         category: 'xss-vulnerability',
-        webUrl: 'https://github.com/project/repo/blob/main/vulnerable.js#L12',
-        status: 'error',
+        subCategory: null,
+        status: auditStatus.error,
         score: 0,
         scorePercent: 0,
         scoreUnit: '',
-        branch: 'main',
-        module: 'apps/frontend/index.js',
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'front-js',
+            url: 'https://github.com/project/repo/blob/main/vulnerable.js#L12',
+        },
     },
     {
-        ...(auditHelps['Code-Compliance-unused-variable'] || {}),
+        //...(auditHelps['Code-Compliance'] || {}),
+
+        // dynamic parts
         _id: 'A18',
-        appId: '20b20b20b20b20b20b20b20b',
-        subCategory: null,
-        type: 'Code Compliance',
+        type: codeSmellTypes['Code-Compliance'],
         category: 'unused-variable',
-        webUrl: 'https://github.com/project/repo/blob/main/code.js#L5',
-        status: 'warning',
+        subCategory: null,
+        status: auditStatus.warning,
         score: 0,
         scorePercent: 0,
         scoreUnit: '',
-        branch: 'main',
-        module: 'apps/frontend/src/components/ListView.jsx',
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'front-js',
+            url: 'https://github.com/project/repo/blob/main/code.js#L5',
+        },
     },
     {
-        ...(auditHelps['Code-Complexity-cyclomatic-complexity'] || {}),
+        //...(auditHelps['Code-Complexity-cyclomatic-complexity'] || {}),
+
+        // dynamic parts
         _id: 'A19',
-        appId: '20b20b20b20b20b20b20b20b',
-        subCategory: null,
-        type: 'Code Complexity',
+        type: codeSmellTypes['Code-Complexity'],
         category: 'cyclomatic-complexity',
-        webUrl: 'https://github.com/project/repo/blob/main/code.js#L25',
-        status: 'warning',
+        subCategory: null,
+        status: auditStatus.warning,
         score: 0,
         scorePercent: 0,
         scoreUnit: '',
-        branch: 'main',
-        module: 'apps/frontend/src/components/ListView.jsx',
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'front-js',
+            url: 'https://github.com/project/repo/blob/main/code.js#L25',
+        },
     },
     {
-        ...(auditHelps['Code-Complexity-maintainability-index'] || {}),
+        // ...(auditHelps['Code-Complexity-maintainability-index'] || {}),
+
+        // dynamic parts
         _id: 'A20',
-        appId: '20b20b20b20b20b20b20b20b',
-        subCategory: null,
-        type: 'Code Complexity',
+        type: codeSmellTypes['Code-Complexity'],
         category: 'maintainability-index',
-        webUrl: 'https://github.com/project/repo/blob/main/code.js#L25',
-        status: 'warning',
+        subCategory: null,
+        status: auditStatus.warning,
         score: 0,
         scorePercent: 0,
         scoreUnit: '',
-        branch: 'main',
-        module: 'apps/frontend/src/components/ListView.jsx',
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'front-js',
+            url: 'https://github.com/project/repo/blob/main/code.js#L25',
+        },
     },
     {
-        ...(auditHelps['Code-Duplication-repeated-code-block'] || {}),
+        //...(auditHelps['Code-Duplication'] || {}),
+
+        // dynamic parts
         _id: 'A21',
-        appId: '20b20b20b20b20b20b20b20b',
-        subCategory: null,
-        type: 'Code Duplication',
+        type: codeSmellTypes['Code-Duplication'],
         category: 'repeated-code-block',
-        webUrl: 'https://github.com/project/repo/blob/main/code.js#L50,L75',
-        status: 'warning',
+        subCategory: null,
+        status: auditStatus.warning,
         score: 0,
         scorePercent: 0,
         scoreUnit: '',
-        branch: 'main',
-        module: 'apps/frontend/src/components/DialogView.jsx',
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'front-js',
+            url: 'https://github.com/project/repo/blob/main/code.js#L50,L75',
+        },
     },
     {
-        ...(auditHelps['Code-Coupling-afferent-coupling'] || {}),
+        //...(auditHelps['Code-Coupling-afferent-coupling'] || {}),
+
+        // dynamic parts
         _id: 'A22',
-        appId: '20b20b20b20b20b20b20b20b',
-        subCategory: null,
-        type: 'Code Coupling',
+        type: codeSmellTypes['Code-Coupling'],
         category: 'afferent-coupling',
-        webUrl: 'https://github.com/project/repo/blob/main/user.js',
-        status: 'warning',
+        subCategory: null,
+        status: auditStatus.warning,
         score: 0,
         scorePercent: 0,
         scoreUnit: '',
-        branch: 'main',
-        module: 'apps/frontend/src/components/DialogView.jsx',
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'front-js',
+            url: 'https://github.com/project/repo/blob/main/user.js',
+        },
     },
     {
-        ...(auditHelps['Code-Coupling-efferent-coupling'] || {}),
+        //...(auditHelps['Code-Coupling-efferent-coupling'] || {}),
+
+        // dynamic parts
         _id: 'A23',
-        appId: '20b20b20b20b20b20b20b20b',
-        subCategory: null,
-        type: 'Code Coupling',
+        type: codeSmellTypes['Code-Coupling'],
         category: 'efferent-coupling',
-        webUrl: 'https://github.com/project/repo/blob/main/user.js',
-        status: 'warning',
+        subCategory: null,
+        status: auditStatus.warning,
         score: 0,
         scorePercent: 0,
         scoreUnit: '',
-        branch: 'main',
-        module: 'apps/frontend/src/components/DialogView.jsx', // Placeholder for missing module value
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'front-js',
+            url: 'https://github.com/project/repo/blob/main/user.js',
+        },
     },
     {
-        ...(auditHelps['Code-Coupling-instability-index'] || {}),
+        //...(auditHelps['Code-Coupling-instability-index'] || {}),
+
+        // dynamic parts
         _id: 'A24',
-        appId: '20b20b20b20b20b20b20b20b',
-        subCategory: null,
-        type: 'Code Coupling',
+        type: codeSmellTypes['Code-Coupling'],
         category: 'instability-index',
-        webUrl: 'https://github.com/project/repo/blob/main/user.js',
-        status: 'warning',
+        subCategory: null,
+        status: auditStatus.warning,
         score: 0,
         scorePercent: 0,
         scoreUnit: '',
-        branch: 'main',
-        module: 'apps/frontend/src/pages/LoginPage.jsx', // Placeholder for missing module value
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'front-js',
+            url: 'https://github.com/project/repo/blob/main/user.js',
+        },
     },
     {
-        ...(auditHelps['Code-Coupling-circular-dependencies'] || {}),
+        //...(auditHelps['Code-Coupling-circular-dependencies'] || {}),
+
+        // dynamic parts
         _id: 'A25',
-        appId: '20b20b20b20b20b20b20b20b',
-        subCategory: null,
-        type: 'Code Coupling',
+        type: codeSmellTypes['Code-Coupling'],
         category: 'circular-dependencies',
-        webUrl: 'https://github.com/project/repo/blob/main/user.js',
-        status: 'Warning',
+        subCategory: null,
+        status: auditStatus.warning,
         score: 0,
         scorePercent: 0,
         scoreUnit: '',
-        branch: 'main',
-        module: 'apps/frontend/src/pages/LogOutPage.jsx', // Placeholder for missing module value
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'front-js',
+            url: 'https://github.com/project/repo/blob/main/user.js',
+        },
     },
 ];
+
+export const evolutions = [
+    {
+        // static parts: help key: type-category
+        // ...(evolutionHelps['Dependency-deprecated'] || {}),
+
+        // dynamic parts
+        _id: 'A8901WXZSX1c1c1c1c1c1c1c1c1c',
+        type: codeSmellTypes.Dependency,
+        category: codeSmellCategories.deprecated,
+        subCategory: null,
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'front-js',
+        },
+    },
+    {
+        // static parts: help key: type-category
+        // ...(evolutionHelps['Dependency-outdated'] || {}),
+
+        // dynamic parts
+        _id: 'A8901WXZSX1c1c1c1c1c1c1c1c1c',
+        type: codeSmellTypes.Dependency,
+        category: codeSmellCategories.outdated,
+        subCategory: null,
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'front-js',
+        },
+    },
+];
+
 export const keywords = [
     {
-        // static parts (BO)
         _id: '1a1a1a1a1a1a1a1a1a1a1a1a',
-        evolutionId: 'A8901WXZSX1c1c1c1c1c1c1c1c1c',
-        helpMessage: 'This project uses Angular (12.0.0)',
         label: 'Angular',
         version: '12.0.0',
-        // error, success, warning
-        status: 'error',
-
-        // dynamic parts
-        apps: [
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'feature/customer-analytics',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'develop',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-        ],
+        status: keywordStatus.error,
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'front-js',
+        },
     },
     {
-        // static parts (BO)
         _id: '2a2a2a2a2a2a2a2a2a2a2a2a',
-        evolutionId: 'B8904WXZSX1c1c1c1c1c1c1c1c1c',
-        helpMessage: 'This project uses NGRX (11.1.0)',
         label: 'NGRX',
         version: '11.1.0',
-        // error, success, warning
-        status: 'success',
-
-        // dynamic parts
-        apps: [
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'feature/customer-analytics',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'develop',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-        ],
+        status: keywordStatus.warning,
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'front-js',
+        },
     },
     {
-        // static parts (BO)
         _id: '3a3a3a3a3a3a3a3a3a3a3a3a',
-        evolutionId: 'C8901WXZSX1c1c1c1c1c2d1d1d',
-        helpMessage: 'This project uses RxJS (6.6.7)',
         label: 'RxJS',
         version: '6.6.7',
-        // error, success, warning
-        status: 'warning',
-
-        // dynamic parts
-        apps: [
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'feature/customer-analytics',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'develop',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-        ],
+        status: keywordStatus.success,
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'front-js',
+        },
     },
     {
-        // static parts (BO)
         _id: '4a4a4a4a4a4a4a4a4a4a4a4a',
-        helpMessage: 'This project uses Vue (3.2.26)',
         label: 'Vue',
         version: '3.2.26',
-        // error, success, warning
-        status: 'warning',
-
-        // dynamic parts
-        apps: [
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'feature/customer-analytics',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'develop',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-        ],
-    },
-    {
-        // static parts (BO)
-        _id: '5a5a5a5a5a5a5a5a5a5a5a5a',
-        helpMessage: 'This project uses Vuex (4.0.2)',
-        label: 'Vuex',
-        version: '4.0.2',
-        // error, success, warning
-        status: 'warning',
-
-        // dynamic parts
-        apps: [
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'feature/customer-analytics',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'develop',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-        ],
-    },
-    {
-        // static parts (BO)
-        _id: '6a6a6a6a6a6a6a6a6a6a6a6a',
-        helpMessage: 'This project uses Vuetify (2.5.10)',
-        label: 'Vuetify',
-        version: '2.5.10',
-        // error, success, warning
-        status: 'warning',
-
-        // dynamic parts
-        apps: [
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'feature/customer-analytics',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'develop',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-        ],
-    },
-    {
-        // static parts (BO)
-        _id: '7a7a7a7a7a7a7a7a7a7a7a7a',
-        helpMessage: 'This project uses React (17.0.2)',
-        label: 'React',
-        version: '17.0.2',
-        // error, success, warning
-        status: 'warning',
-
-        // dynamic parts
-        apps: [
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'feature/customer-analytics',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'develop',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-        ],
-    },
-    {
-        // static parts (BO)
-        _id: '8a8a8a8a8a8a8a8a8a8a8a8a',
-        helpMessage: 'This project uses Redux (4.1.0)',
-        label: 'Redux',
-        version: '4.1.0',
-        // error, success, warning
-        status: 'warning',
-
-        // dynamic parts
-        apps: [
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'feature/customer-analytics',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'develop',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-        ],
-    },
-    {
-        // static parts (BO)
-        _id: '9a9a9a9a9a9a9a9a9a9a9a9a',
-        helpMessage: 'This project uses Styled-Components (5.3.1)',
-        label: 'Styled-Components',
-        version: '5.3.1',
-        // error, success, warning
-        status: 'warning',
-
-        // dynamic parts
-        apps: [
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'feature/customer-analytics',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'develop',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-        ],
-    },
-    {
-        // static parts (BO)
-        _id: '10a10a10a10a10a10a10a10a',
-        helpMessage: 'This project uses Next.js (11.1.0)',
-        label: 'Next.js',
-        version: '11.1.0',
-        // error, success, warning
-        status: 'success',
-
-        // dynamic parts
-        apps: [
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'feature/customer-analytics',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'develop',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-        ],
-    },
-    {
-        // static parts (BO)
-        _id: '11a11a11a11a11a11a11a11a',
-        helpMessage: 'This project uses Tailwind CSS (2.2.16)',
-        label: 'Tailwind CSS',
-        version: '2.2.16',
-        // error, success, warning
-        status: 'warning',
-
-        // dynamic parts
-        apps: [
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'feature/customer-analytics',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'develop',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-        ],
-    },
-    {
-        // static parts (BO)
-        _id: '12a12a12a12a12a12a12a12a',
-        helpMessage: 'This project uses React-Hook-Form (7.15.3)',
-        label: 'React-Hook-Form',
-        version: '7.15.3',
-        // error, success, warning
-        status: 'warning',
-
-        // dynamic parts
-        apps: [
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'feature/customer-analytics',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'develop',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-        ],
-    },
-    {
-        // static parts (BO)
-        _id: '14a14a14a14a14a14a14a14a',
-        helpMessage: 'This project uses Firebase (9.0.0)',
-        label: 'Firebase',
-        version: '9.0.0',
-        // error, success, warning
-        status: 'warning',
-
-        // dynamic parts
-        apps: [
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'feature/customer-analytics',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'develop',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-        ],
-    },
-    {
-        // static parts (BO)
-        _id: '15a15a15a15a15a15a15a15a',
-        helpMessage: 'This project uses React-Query (3.18.1)',
-        label: 'React-Query',
-        version: '3.18.1',
-        // error, success, warning
-        status: 'warning',
-
-        // dynamic parts
-        apps: [
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'feature/customer-analytics',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'develop',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-            {
-                appId: '20b20b20b20b20b20b20b20b',
-                branch: 'main',
-                module: 'front-js',
-            },
-        ],
+        status: keywordStatus.warning,
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'front-js',
+        },
     },
 ];
 
-// full dynamic parts (BO) V1
+export const keywordsStats = [
+    {
+        keyword: {
+            _id: '1a1a1a1a1a1a1a1a1a1a1a1a',
+            label: 'Angular',
+            version: '12.0.0',
+            status: keywordStatus.error,
+            module: {
+                appId: '20b20b20b20b20b20b20b20b',
+                branch: 'feature/customer-analytics',
+                path: 'front-js',
+            },
+        },
+        total: 3,
+    },
+    {
+        keyword: {
+            _id: '2a2a2a2a2a2a2a2a2a2a2a2a',
+            label: 'NGRX',
+            version: '11.1.0',
+            status: keywordStatus.warning,
+            module: {
+                appId: '20b20b20b20b20b20b20b20b',
+                branch: 'feature/customer-analytics',
+                path: 'front-js',
+            },
+        },
+        total: 5,
+    },
+];
+
+export const dependencies = [
+    {
+        _id: '1c1c1c1c1c1c1c1c1c1c1c1c1c',
+        type: 'frontend',
+        name: '@types/react',
+        version: '17.0.39',
+        module: {
+            appId: '20b20b20b20b20b20b',
+            branch: 'main',
+            path: 'modules/front-js',
+            url: 'https://github.fr.world.socgen/AppliDigitalClient/bddf_awt_acf_acs/tree/master/modules/front-js',
+        },
+    },
+    {
+        _id: '3c3c3c3c3c3c3c3c3c3c3c3c3c',
+        type: 'frontend',
+        name: 'd3',
+        version: '6.7.0',
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'feature/customer-analytics',
+            path: 'modules/front-js',
+            url: 'https://github.com/CRMTech/crm-system',
+        },
+    },
+    {
+        _id: '4c4c4c4c4c4c4c4c4c4c4c4c4c',
+        type: 'frontend',
+        name: 'axios',
+        version: '0.21.1',
+        module: {
+            appId: '20b20b20b20b20b20b20b20b',
+            branch: 'main',
+            path: 'modules/front-js',
+            url: 'https://github.com/CRMTech/crm-system',
+        },
+    },
+];
 
 export const appList = [
     {
         _id: '20b20b20b20b20b20b20b20b',
         name: 'Advanced CRM System',
-        contactMail: 'michael.scott@crmtech.com',
         acronym: 'ACRMS',
+        contactMail: 'michael.scott@crmtech.com',
         description:
             'A next-generation CRM system designed for small to large enterprises, featuring a React frontend and a Spring Boot backend.',
         repo: {
@@ -1165,55 +988,4 @@ export const appList = [
             },
         ],
     },
-];
-
-export const dependencies = [
-    {
-        _id: '1c1c1c1c1c1c1c1c1c1c1c1c1c',
-        appId: '20b20b20b20b20b20b20b20b',
-        type: 'frontend',
-        branch: 'main',
-        name: '@types/react',
-        usedOnPath: 'modules/front-js',
-        usedOnUrl:
-            'https://github.fr.world.socgen/AppliDigitalClient/bddf_awt_acf_acs/tree/master/modules/front-js',
-        version: '17.0.39',
-    },
-    {
-        _id: '3c3c3c3c3c3c3c3c3c3c3c3c3c',
-        appId: '20b20b20b20b20b20b20b20b',
-        type: 'frontend',
-        branch: 'feature/customer-analytics',
-        name: 'd3',
-        usedOnPath: 'modules/front-js',
-        usedOnUrl: 'https://github.com/CRMTech/crm-system',
-        version: '6.7.0',
-    },
-    {
-        _id: '4c4c4c4c4c4c4c4c4c4c4c4c4c',
-        appId: '20b20b20b20b20b20b20b20b',
-        type: 'frontend',
-        branch: 'main',
-        name: 'axios',
-        usedOnPath: 'modules/front-js',
-        usedOnUrl: 'https://github.com/CRMTech/crm-system',
-        version: '0.21.1',
-    },
-];
-
-export const stats = [
-    { keyword: 'React', total: 3 }, // Used in E-Commerce Platform, Learning Management System
-    { keyword: 'Angular', total: 1 }, // Used in Smart Inventory Management System
-    { keyword: 'NGRX', total: 1 }, // Used in Smart Inventory Management System
-    { keyword: 'RxJS', total: 1 }, // Used in Smart Inventory Management System
-    { keyword: 'Vue', total: 1 }, // Used in Healthcare Appointment System
-    { keyword: 'Vuex', total: 1 }, // Used in Healthcare Appointment System
-    { keyword: 'Vuetify', total: 1 }, // Used in Healthcare Appointment System
-    { keyword: 'Redux', total: 1 }, // Used in E-Commerce Platform
-    { keyword: 'Styled-Components', total: 1 }, // Used in E-Commerce Platform
-    { keyword: 'Next.js', total: 1 }, // Used in Real Estate Portal
-    { keyword: 'Tailwind CSS', total: 1 }, // Used in Real Estate Portal
-    { keyword: 'React-Hook-Form', total: 1 }, // Used in Real Estate Portal
-    { keyword: 'Firebase', total: 1 }, // Used in Learning Management System
-    { keyword: 'React-Query', total: 1 }, // Used in Learning Management System
 ];

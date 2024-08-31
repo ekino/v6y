@@ -5,20 +5,20 @@ const EvolutionType = `
     """ Evolution Unique id """
     _id: String!
     
-    """ Evolution type (exp: app-5.2, app-5.1, node-sass, ...) """
-    title: String!
+    """ Evolution type (exp: lighthouse, dependency, code complexity, code security, ...) """
+    type: String!
     
-    """ Evolution description """
-    description: String!
+    """ Evolution category (exp: performance, accessibility, ...) """
+    category: String!
     
-    """ Possible values for status : critical, important, recommended """
-    status: String
+    """ Evolution subCategory (exp: mobile, 3G, 4G, ...) """
+    subCategory: String
     
-    """ Evolution documentation links for the suggested evolution """
-    links: [LinkType]
+    """ Evolution Concerned Module """
+    module: ModuleType
     
-    """ Application Suggested Evolution Modules """
-    modules: [EvolutionModuleType]
+    """ Evolution help """
+    evolutionHelp: EvolutionHelpType  
   }
 `;
 

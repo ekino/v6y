@@ -36,19 +36,19 @@ const deleteNotificationsList = async () => {
     }
 };
 
-const getNotificationsByParams = async () => {
+const getNotificationListByPageAndParams = async () => {
     try {
         return notifications;
     } catch (error) {
-        AppLogger.info(`[getNotificationsByParams] error:  ${error.message}`);
+        AppLogger.info(`[getNotificationListByPageAndParams] error:  ${error.message}`);
         return [];
     }
 };
 
-const getNotificationDetailsInfosByParams = async ({ notificationId }) => {
+const getNotificationDetailsByParams = async ({ notificationId }) => {
     try {
         AppLogger.info(
-            `[NotificationProvider - getAppDetailsInfosByParams] notificationId: ${notificationId}`,
+            `[NotificationProvider - getApplicationDetailsByParams] notificationId: ${notificationId}`,
         );
 
         if (!notificationId?.length) {
@@ -60,7 +60,7 @@ const getNotificationDetailsInfosByParams = async ({ notificationId }) => {
         );
 
         AppLogger.info(
-            `[NotificationProvider - getNotificationDetailsInfosByParams] appDetails _id: ${notificationDetails?._id}`,
+            `[NotificationProvider - getNotificationDetailsByParams] appDetails _id: ${notificationDetails?._id}`,
         );
 
         if (!notificationDetails?._id) {
@@ -70,7 +70,7 @@ const getNotificationDetailsInfosByParams = async ({ notificationId }) => {
         return notificationDetails;
     } catch (error) {
         AppLogger.info(
-            `[NotificationProvider - getNotificationDetailsInfosByParams] error: ${error.message}`,
+            `[NotificationProvider - getNotificationDetailsByParams] error: ${error.message}`,
         );
         return {};
     }
@@ -79,8 +79,8 @@ const getNotificationDetailsInfosByParams = async ({ notificationId }) => {
 const NotificationProvider = {
     insertNotificationList,
     deleteNotificationsList,
-    getNotificationsByParams,
-    getNotificationDetailsInfosByParams,
+    getNotificationListByPageAndParams,
+    getNotificationDetailsByParams,
 };
 
 export default NotificationProvider;

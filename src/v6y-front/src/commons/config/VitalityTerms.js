@@ -60,6 +60,7 @@ const VitalityTerms = {
 
     VITALITY_APP_STATS_PAGE_TITLE: 'Tech Stack Stats',
     VITALITY_APP_STATS_GRAPH_TITLE: 'Tech Stack Stats',
+    VITALITY_APP_STATS_GRAPH_EMPTY_MESSAGE: 'You should select a filter to display stats!',
 };
 
 export default VitalityTerms;

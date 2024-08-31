@@ -3,12 +3,12 @@ import React from 'react';
 
 import VitalityTerms from '../../../../../commons/config/VitalityTerms.js';
 
-
 const VitalityMetricDetailsView = ({ metric }) => (
     <Descriptions bordered size="middle" column={1}>
         <Descriptions.Item label={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_METRIC_TITLE}>
-            <Typography.Title level={4}>{metric.title}</Typography.Title>
+            <Typography.Title level={4}>{metric?.auditHelp?.title}</Typography.Title>
         </Descriptions.Item>
+
         <Descriptions.Item label={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_METRIC_STATUS}>
             <Tag
                 bordered
@@ -19,24 +19,28 @@ const VitalityMetricDetailsView = ({ metric }) => (
                     VitalityTerms.VITALITY_APP_DETAILS_AUDIT_METRIC_STATUS_EMPTY}
             </Tag>
         </Descriptions.Item>
+
         <Descriptions.Item label={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_METRIC_DESCRIPTION}>
             <Typography.Text>
-                {metric.description ||
+                {metric?.auditHelp?.description ||
                     VitalityTerms.VITALITY_APP_DETAILS_AUDIT_METRIC_DESCRIPTION_EMPTY}
             </Typography.Text>
         </Descriptions.Item>
+
         <Descriptions.Item label={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_METRIC_EXPLANATION}>
             <Typography.Text>
-                {metric.explanation ||
+                {metric?.auditHelp?.explanation ||
                     VitalityTerms.VITALITY_APP_DETAILS_AUDIT_METRIC_EXPLANATION_EMPTY}
             </Typography.Text>
         </Descriptions.Item>
+
         <Descriptions.Item label={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_METRIC_SCORE}>
             <Typography.Text>{`${metric.score || 0}${metric.scoreUnit || ''}`}</Typography.Text>
         </Descriptions.Item>
-        {metric.branch?.length && metric.module?.length && (
+
+        {metric?.module?.branch?.length && metric?.module?.path?.length && (
             <Descriptions.Item label={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_METRIC_MODULE}>
-                <Typography.Text>{`${metric.module} (${metric.branch})`}</Typography.Text>
+                <Typography.Text>{`${metric?.module?.path} (${metric?.module?.branch})`}</Typography.Text>
             </Descriptions.Item>
         )}
     </Descriptions>

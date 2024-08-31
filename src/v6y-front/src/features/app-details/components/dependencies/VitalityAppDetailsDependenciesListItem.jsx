@@ -40,33 +40,44 @@ const VitalityAppDetailsDependenciesListItem = ({ dependency }) => {
                 layout="vertical"
                 extra={
                     <>
-                        <Link
-                            key={`Url: ${dependency.name} - ${dependency.usedOnPath} - ${dependency.branch}`}
-                            href={dependency.usedOnUrl}
-                            target="_blank"
-                            style={{ textDecoration: 'none', marginRight: '1rem' }}
-                        >
-                            <Typography.Text style={{ textDecoration: 'underline' }}>
-                                {VitalityTerms.VITALITY_APP_DETAILS_DEPENDENCIES_OPEN_MODULE_LABEL}
-                            </Typography.Text>
-                        </Link>
-                        <Button
-                            icon={<InfoCircleOutlined />}
-                            onClick={() => setIsHelpModalOpen(true)}
-                        >
-                            <Typography.Text>
-                                {VitalityTerms.VITALITY_APP_DETAILS_DEPENDENCIES_HELP_LABEL}
-                            </Typography.Text>
-                        </Button>
+                        {dependency?.module?.url?.length && (
+                            <Link
+                                key={`Url: ${dependency.name} - ${dependency?.module?.url} - ${dependency?.module?.branch}`}
+                                href={dependency?.module?.url}
+                                target="_blank"
+                                style={{ textDecoration: 'none', marginRight: '1rem' }}
+                            >
+                                <Typography.Text style={{ textDecoration: 'underline' }}>
+                                    {
+                                        VitalityTerms.VITALITY_APP_DETAILS_DEPENDENCIES_OPEN_MODULE_LABEL
+                                    }
+                                </Typography.Text>
+                            </Link>
+                        )}
+
+                        {dependency?.statusHelp?.title?.length && (
+                            <Button
+                                icon={<InfoCircleOutlined />}
+                                onClick={() => setIsHelpModalOpen(true)}
+                            >
+                                <Typography.Text>
+                                    {VitalityTerms.VITALITY_APP_DETAILS_DEPENDENCIES_HELP_LABEL}
+                                </Typography.Text>
+                            </Button>
+                        )}
                     </>
                 }
             >
-                {dependency.branch && (
-                    <Descriptions.Item label="Branch">{dependency.branch}</Descriptions.Item>
+                {dependency?.module?.branch?.length && (
+                    <Descriptions.Item label="Branch">
+                        {dependency?.module?.branch}
+                    </Descriptions.Item>
                 )}
+
                 <Descriptions.Item label="Current Version">
                     {normalizeDependencyVersion(dependency.version)}
                 </Descriptions.Item>
+
                 <Descriptions.Item label="Recommended Version">
                     {normalizeDependencyVersion(dependency.recommendedVersion)}
                 </Descriptions.Item>
@@ -74,7 +85,7 @@ const VitalityAppDetailsDependenciesListItem = ({ dependency }) => {
             <VitalityModal
                 title={
                     <Typography.Title level={5}>
-                        {dependency.help?.title ||
+                        {dependency.statusHelp?.title ||
                             VitalityTerms.VITALITY_APP_DETAILS_DEPENDENCIES_HELP_TITLE}
                     </Typography.Title>
                 }
@@ -86,12 +97,14 @@ const VitalityAppDetailsDependenciesListItem = ({ dependency }) => {
                         <div
                             dangerouslySetInnerHTML={{
                                 __html:
-                                    dependency.help?.description?.split('. ')?.join('. <br />') ||
+                                    dependency.statusHelp?.description
+                                        ?.split('. ')
+                                        ?.join('. <br />') ||
                                     VitalityTerms.VITALITY_APP_DETAILS_DEPENDENCIES_HELP_DESCRIPTION,
                             }}
                         />
                     </Typography.Text>
-                    <VitalityLinks align="center" links={dependency.help?.docLinks} />
+                    <VitalityLinks align="center" links={dependency.statusHelp?.links} />
                 </Space>
             </VitalityModal>
         </List.Item>

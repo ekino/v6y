@@ -11,8 +11,7 @@ import {
     useClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter.jsx';
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
-import GetAppsStatsByParams from '../api/getAppsStatsByParams.js';
-
+import GetApplicationStatsByParams from '../api/getApplicationStatsByParams.js';
 
 const VitalityAppsStatsChart = () => {
     const { getUrlParams } = useNavigationAdapter();
@@ -23,11 +22,14 @@ const VitalityAppsStatsChart = () => {
         data: dataAppsStats,
         refetch: refetchAppsStats,
     } = useClientQuery({
-        queryCacheKey: ['getAppsStatsByParams', keywords?.length ? keywords : 'empty_keywords'],
+        queryCacheKey: [
+            'getApplicationStatsByParams',
+            keywords?.length ? keywords : 'empty_keywords',
+        ],
         queryBuilder: async () =>
             buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
-                queryPath: GetAppsStatsByParams,
+                queryPath: GetApplicationStatsByParams,
                 queryParams: {
                     keywords,
                 },
@@ -42,9 +44,16 @@ const VitalityAppsStatsChart = () => {
         return <VitalityLoader />;
     }
 
-    if (!dataAppsStats?.getAppsStatsByParams?.length) {
+    if (!dataAppsStats?.getApplicationStatsByParams?.length) {
         return <VitalityEmptyView />;
     }
+
+    const chartDataSource = (
+        !keywords?.length ? [] : dataAppsStats?.getApplicationStatsByParams
+    ).map((item) => ({
+        label: `${item.keyword?.label}${item.keyword?.version?.length ? ` (${item.keyword?.version})` : ''}`,
+        total: item.total,
+    }));
 
     return (
         <Row
@@ -58,7 +67,7 @@ const VitalityAppsStatsChart = () => {
                     options={{
                         autoSize: true,
                         theme: 'ag-vivid-dark',
-                        data: dataAppsStats?.getAppsStatsByParams,
+                        data: chartDataSource,
                         title: {
                             text: VitalityTerms.VITALITY_APP_STATS_GRAPH_TITLE,
                         },
@@ -66,9 +75,14 @@ const VitalityAppsStatsChart = () => {
                             {
                                 type: 'pie',
                                 angleKey: 'total',
-                                legendItemKey: 'keyword',
+                                legendItemKey: 'label',
                             },
                         ],
+                        overlays: {
+                            noData: {
+                                text: VitalityTerms.VITALITY_APP_STATS_GRAPH_EMPTY_MESSAGE,
+                            },
+                        },
                     }}
                 />
             </Col>

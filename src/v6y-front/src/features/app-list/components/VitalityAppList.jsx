@@ -11,10 +11,9 @@ import {
     useInfiniteClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter.jsx';
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
-import GetAppListByPageAndParams from '../api/getAppListByPageAndParams.js';
+import GetApplicationListByPageAndParams from '../api/getApplicationListByPageAndParams.js';
 import VitalityAppListHeader from './VitalityAppListHeader.jsx';
 import VitalityAppListItem from './VitalityAppListItem.jsx';
-
 
 let currentAppListPage = 0;
 
@@ -32,14 +31,14 @@ const VitalityAppList = ({ source }) => {
         isFetching: isAppListFetching,
     } = useInfiniteClientQuery({
         queryCacheKey: [
-            'getAppListByPageAndParams',
+            'getApplicationListByPageAndParams',
             keywords?.length ? keywords : 'empty_keywords',
             searchText?.length ? searchText : 'empty_search_text',
         ],
         queryBuilder: async ({ pageParam = 0 }) =>
             buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
-                queryPath: GetAppListByPageAndParams,
+                queryPath: GetApplicationListByPageAndParams,
                 queryParams: {
                     offset: pageParam,
                     limit: VitalityApiConfig.VITALITY_BFF_PAGE_SIZE,
@@ -54,7 +53,7 @@ const VitalityAppList = ({ source }) => {
         const pagedAppList = dataAppList?.pages;
         const mergedAppList = pagedAppList
             ?.map((page) => {
-                return page?.getAppListByPageAndParams;
+                return page?.getApplicationListByPageAndParams;
             })
             ?.flat();
         setAppList(mergedAppList);

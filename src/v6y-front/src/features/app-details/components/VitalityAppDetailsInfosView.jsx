@@ -12,26 +12,25 @@ import {
 } from '../../../infrastructure/adapters/api/useQueryAdapter.jsx';
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
 import VitalityAppListItem from '../../app-list/components/VitalityAppListItem.jsx';
-import GetAppDetailsInfosByParams from '../api/getAppDetailsInfosByParams.js';
-
+import GetApplicationDetailsByParams from '../api/GetApplicationDetailsByParams.js';
 
 const VitalityAppDetailsInfosView = ({}) => {
     const { getUrlParams } = useNavigationAdapter();
     const [appId] = getUrlParams(['appId']);
 
     const { isLoading: isAppDetailsInfosLoading, data: appDetailsInfos } = useClientQuery({
-        queryCacheKey: ['getAppDetailsInfosByParams', appId],
+        queryCacheKey: ['getApplicationDetailsByParams', appId],
         queryBuilder: async () =>
             buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
-                queryPath: GetAppDetailsInfosByParams,
+                queryPath: GetApplicationDetailsByParams,
                 queryParams: {
                     appId,
                 },
             }),
     });
 
-    const appInfos = appDetailsInfos?.getAppDetailsInfosByParams;
+    const appInfos = appDetailsInfos?.getApplicationDetailsByParams;
 
     return (
         <VitalitySectionView

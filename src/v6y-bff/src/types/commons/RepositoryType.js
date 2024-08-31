@@ -1,5 +1,11 @@
 const RepositoryType = `
   type RepositoryType {
+    """ Repository web url """
+    webUrl: String
+    
+    """ Repository git url """
+    gitUrl: String  
+    
     """ Repository Name """
     name: String
     
@@ -8,13 +14,7 @@ const RepositoryType = `
     
     """ Repository owner """
     owner: String
-    
-    """ Repository web url """
-    webUrl: String
-    
-    """ Repository git url """
-    gitUrl: String!  
-    
+        
     """ Repository all related branches """
     allBranches: [String]                  
   }
