@@ -1,10 +1,11 @@
 import VitalityTable from '../../../commons/components/VitalityTable.jsx';
 import {
-    buildApplicationTableColumns,
-    buildApplicationTableDataSource,
+    buildCommonTableColumns,
+    buildCommonTableDataSource,
 } from '../../../commons/config/VitalityTableConfig.jsx';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter.js';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper.jsx';
+import DeleteApplication from '../apis/deleteApplication.js';
 import GetApplicationList from '../apis/getApplicationList.js';
 
 export default function VitalityApplicationListView() {
@@ -16,7 +17,7 @@ export default function VitalityApplicationListView() {
             subTitle=""
             defaultSorter={[
                 {
-                    field: 'name',
+                    field: 'acronym',
                     order: 'asc',
                 },
             ]}
@@ -26,8 +27,11 @@ export default function VitalityApplicationListView() {
             }}
             renderTable={(dataSource) => (
                 <VitalityTable
-                    dataSource={buildApplicationTableDataSource(dataSource)}
-                    columns={buildApplicationTableColumns(dataSource)}
+                    dataSource={buildCommonTableDataSource(dataSource)}
+                    columns={buildCommonTableColumns(dataSource, [], {
+                        gqlMutation: DeleteApplication,
+                        operation: 'deleteApplication',
+                    })}
                 />
             )}
         />

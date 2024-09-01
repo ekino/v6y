@@ -63,9 +63,16 @@ const getEvolutionHelpDetailsByParams = async (_, args) => {
     }
 };
 
-const getEvolutionHelpStatus = async () => {
+const getEvolutionHelpStatus = async (_, args) => {
     try {
-        return Object.keys(evolutionHelpStatus);
+        const { where, sort } = args || {};
+        AppLogger.info(`[EvolutionHelpQueries - getEvolutionHelpStatus] where : ${where}`);
+        AppLogger.info(`[EvolutionHelpQueries - getEvolutionHelpStatus] sort : ${sort}`);
+
+        return Object.keys(evolutionHelpStatus)?.map((key) => ({
+            label: key,
+            value: evolutionHelpStatus[key],
+        }));
     } catch (error) {
         AppLogger.info(`[EvolutionHelpQueries - getEvolutionHelpStatus] error : ${error.message}`);
         return {};

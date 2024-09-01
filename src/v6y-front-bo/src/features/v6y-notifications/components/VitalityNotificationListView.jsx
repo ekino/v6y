@@ -5,6 +5,7 @@ import {
 } from '../../../commons/config/VitalityTableConfig.jsx';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter.js';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper.jsx';
+import DeleteNotification from '../apis/deleteNotification.js';
 import GetNotificationListByPageAndParams from '../apis/getNotificationListByPageAndParams.js';
 
 export default function VitalityNotificationListView() {
@@ -16,7 +17,7 @@ export default function VitalityNotificationListView() {
             subTitle=""
             defaultSorter={[
                 {
-                    field: 'name',
+                    field: 'title',
                     order: 'asc',
                 },
             ]}
@@ -27,7 +28,10 @@ export default function VitalityNotificationListView() {
             renderTable={(dataSource) => (
                 <VitalityTable
                     dataSource={buildCommonTableDataSource(dataSource)}
-                    columns={buildCommonTableColumns(dataSource)}
+                    columns={buildCommonTableColumns(dataSource, [], {
+                        gqlMutation: DeleteNotification,
+                        operation: 'deleteNotification',
+                    })}
                 />
             )}
         />

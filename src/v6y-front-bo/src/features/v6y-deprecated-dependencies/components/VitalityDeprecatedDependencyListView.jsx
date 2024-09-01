@@ -1,5 +1,39 @@
-import VitalityMessageView from '../../../commons/components/VitalityMessageView.jsx';
+import VitalityTable from '../../../commons/components/VitalityTable.jsx';
+import {
+    buildCommonTableColumns,
+    buildCommonTableDataSource,
+} from '../../../commons/config/VitalityTableConfig.jsx';
+import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter.js';
+import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper.jsx';
+import DeleteDeprecatedDependency from '../apis/deleteDeprecatedDependency.js';
+import GetDeprecatedDependencyListByPageAndParams from '../apis/getDeprecatedDependencyListByPageAndParams.js';
 
 export default function VitalityDeprecatedDependencyListView() {
-    return <VitalityMessageView type="coming-soon" />;
+    const { translate } = useTranslation();
+
+    return (
+        <RefineTableWrapper
+            title={translate('v6y-deprecated-dependencies.titles.list')}
+            subTitle=""
+            defaultSorter={[
+                {
+                    field: 'label',
+                    order: 'asc',
+                },
+            ]}
+            queryOptions={{
+                resource: 'getDeprecatedDependencyListByPageAndParams',
+                query: GetDeprecatedDependencyListByPageAndParams,
+            }}
+            renderTable={(dataSource) => (
+                <VitalityTable
+                    dataSource={buildCommonTableDataSource(dataSource)}
+                    columns={buildCommonTableColumns(dataSource, ['id'], {
+                        gqlMutation: DeleteDeprecatedDependency,
+                        operation: 'deleteDeprecatedDependency',
+                    })}
+                />
+            )}
+        />
+    );
 }

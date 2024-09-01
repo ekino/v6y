@@ -32,7 +32,6 @@ export const VitalityRoutes = [
     {
         name: 'v6y-evolution-helps',
         list: '/v6y-evolution-helps',
-        create: '/v6y-evolution-helps/create',
         edit: '/v6y-evolution-helps/edit/:id',
         show: '/v6y-evolution-helps/show/:id',
         meta: {
@@ -42,7 +41,6 @@ export const VitalityRoutes = [
     {
         name: 'v6y-audit-helps',
         list: '/v6y-audit-helps',
-        create: '/v6y-audit-helps/create',
         edit: '/v6y-audit-helps/edit/:id',
         show: '/v6y-audit-helps/show/:id',
         meta: {
@@ -52,7 +50,6 @@ export const VitalityRoutes = [
     {
         name: 'v6y-dependency-status-helps',
         list: '/v6y-dependency-status-helps',
-        create: '/v6y-dependency-status-helps/create',
         edit: '/v6y-dependency-status-helps/edit/:id',
         show: '/v6y-dependency-status-helps/show/:id',
         meta: {

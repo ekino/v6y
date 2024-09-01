@@ -37,11 +37,17 @@ const deleteDependencyStatusHelpList = async () => {
     }
 };
 
-const getDependencyStatusHelpDetailsByParams = async ({ category }) => {
+const getDependencyStatusHelpDetailsByParams = async ({ dependencyStatusHelpId, category }) => {
     try {
         AppLogger.info(
             `[DependencyProvider - getDependencyStatusHelpDetailsByParams] category: ${category}`,
         );
+
+        if (dependencyStatusHelpId?.length) {
+            return dependencyStatusHelp.find(
+                (dependencyStatusHelp) => dependencyStatusHelp._id === dependencyStatusHelpId,
+            );
+        }
 
         if (category?.length) {
             return dependencyStatusHelp.find(
@@ -58,10 +64,10 @@ const getDependencyStatusHelpDetailsByParams = async ({ category }) => {
     }
 };
 
-const getDependencyStatusHelpListByPageAndParams = async ({ offset, limit, where, sort }) => {
+const getDependencyStatusHelpListByPageAndParams = async ({ start, limit, where, sort }) => {
     try {
         AppLogger.info(
-            `[AuditsProvider - getDependencyStatusHelpListByPageAndParams] offset: ${offset}`,
+            `[AuditsProvider - getDependencyStatusHelpListByPageAndParams] start: ${start}`,
         );
         AppLogger.info(
             `[AuditsProvider - getDependencyStatusHelpListByPageAndParams] limit: ${limit}`,

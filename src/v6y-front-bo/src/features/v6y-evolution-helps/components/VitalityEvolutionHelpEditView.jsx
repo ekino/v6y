@@ -8,16 +8,17 @@ import {
     evolutionHelpCreateOrEditFormOutputAdapter,
 } from '../../../commons/config/VitalityFormConfig.js';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter.js';
-import RefineEditWrapper from '../../../infrastructure/components/RefineEditWrapper.jsx';
+import RefineSelectWrapper from '../../../infrastructure/components/RefineSelectWrapper.jsx';
 import CreateOrEditEvolutionHelp from '../apis/createOrEditEvolutionHelp.js';
 import GetEvolutionHelpDetailsByParams from '../apis/getEvolutionHelpDetailsByParams.js';
+import GetEvolutionHelpStatus from '../apis/getEvolutionHelpStatus.js';
 
 export default function VitalityEvolutionHelpEditView() {
     const { translate } = useTranslation();
     const { id } = useParsed();
 
     return (
-        <RefineEditWrapper
+        <RefineSelectWrapper
             title={
                 <Typography.Title level={2}>
                     {translate('v6y-evolution-helps.titles.edit')}
@@ -38,7 +39,11 @@ export default function VitalityEvolutionHelpEditView() {
                     evolutionHelpId: id,
                 },
             }}
-            formItems={evolutionHelpCreateEditItems(translate)}
+            selectOptions={{
+                resource: 'getEvolutionHelpStatus',
+                query: GetEvolutionHelpStatus,
+            }}
+            formItems={(options) => evolutionHelpCreateEditItems(translate, options)}
         />
     );
 }

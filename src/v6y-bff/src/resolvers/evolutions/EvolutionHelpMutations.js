@@ -13,6 +13,10 @@ const createOrEditEvolutionHelp = async (_, params) => {
             `[EvolutionHelpMutations - createOrEditEvolutionHelp] description : ${description}`,
         );
         AppLogger.info(
+            `[EvolutionHelpMutations - createOrEditEvolutionHelp] category : ${category}`,
+        );
+        AppLogger.info(`[EvolutionHelpMutations - createOrEditEvolutionHelp] status : ${status}`);
+        AppLogger.info(
             `[EvolutionHelpMutations - createOrEditEvolutionHelp] links : ${links?.join(',')}`,
         );
 

@@ -5,6 +5,7 @@ import {
 } from '../../../commons/config/VitalityTableConfig.jsx';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter.js';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper.jsx';
+import DeleteEvolutionHelp from '../apis/deleteEvolutionHelp.js';
 import GetEvolutionHelpListByPageAndParams from '../apis/getEvolutionHelpListByPageAndParams.js';
 
 export default function VitalityEvolutionHelpListView() {
@@ -27,7 +28,10 @@ export default function VitalityEvolutionHelpListView() {
             renderTable={(dataSource) => (
                 <VitalityTable
                     dataSource={buildCommonTableDataSource(dataSource)}
-                    columns={buildCommonTableColumns(dataSource, ['id'])}
+                    columns={buildCommonTableColumns(dataSource, ['id'], {
+                        gqlMutation: DeleteEvolutionHelp,
+                        operation: 'deleteEvolutionHelp',
+                    })}
                 />
             )}
         />

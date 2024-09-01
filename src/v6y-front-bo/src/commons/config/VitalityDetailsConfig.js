@@ -1,4 +1,3 @@
-import VitalityEvolutionHelpDetailsView from '../../features/v6y-evolution-helps/components/VitalityEvolutionHelpDetailsView.jsx';
 import VitalityLinks from '../components/VitalityLinks.jsx';
 
 export const formatApplicationDetails = (translate, details) => {
@@ -57,8 +56,50 @@ export const formatEvolutionHelpDetails = (translate, details) => {
         [translate('v6y-evolution-helps.fields.evolution-help-title.label')]: details.title,
         [translate('v6y-evolution-helps.fields.evolution-help-description.label')]:
             details.description,
-        [translate('v6y-evolution-helps.fields.evolution-help-links.label')]: (
+        [translate('v6y-evolution-helps.fields.evolution-help-link.label')]: (
             <VitalityLinks links={details.links} align="start" />
         ),
+    };
+};
+
+export const formatAuditHelpDetails = (translate, details) => {
+    if (!Object.keys(details || {})?.length) {
+        return {};
+    }
+
+    return {
+        [translate('v6y-audit-helps.fields.audit-help-category.label')]: details.category,
+        [translate('v6y-audit-helps.fields.audit-help-title.label')]: details.title,
+        [translate('v6y-audit-helps.fields.audit-help-description.label')]: details.description,
+        [translate('v6y-audit-helps.fields.audit-help-explanation.label')]: details.explanation,
+    };
+};
+
+export const formatDependencyStatusHelpDetails = (translate, details) => {
+    if (!Object.keys(details || {})?.length) {
+        return {};
+    }
+
+    return {
+        [translate('v6y-dependency-status-helps.fields.dependency-status-help-category.label')]:
+            details.category,
+        [translate('v6y-dependency-status-helps.fields.dependency-status-help-title.label')]:
+            details.title,
+        [translate('v6y-dependency-status-helps.fields.dependency-status-help-description.label')]:
+            details.description,
+        [translate('v6y-dependency-status-helps.fields.dependency-status-help-links.label')]: (
+            <VitalityLinks links={details.links} align="start" />
+        ),
+    };
+};
+
+export const formatDeprecatedDependencyDetails = (translate, details) => {
+    if (!Object.keys(details || {})?.length) {
+        return {};
+    }
+
+    return {
+        [translate('v6y-deprecated-dependencies.fields.deprecated-dependency-name.label')]:
+            details.name,
     };
 };

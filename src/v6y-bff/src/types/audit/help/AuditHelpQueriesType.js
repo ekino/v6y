@@ -1,6 +1,6 @@
 const AuditHelpQueriesType = `
   type Query {
-    getAuditHelpListByPageAndParams(offset: Int, limit: Int, where: JSON, sort: String): [AuditHelpType]
+    getAuditHelpListByPageAndParams(start: Int, limit: Int, where: JSON, sort: String): [AuditHelpType]
     getAuditHelpDetailsByParams(auditHelpId: String!): AuditHelpType
   }
 `;

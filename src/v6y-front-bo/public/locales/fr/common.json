@@ -249,11 +249,15 @@
   "v6y-evolution-helps": {
     "v6y-evolution-helps": "Evolution Help List",
     "fields": {
+      "evolution-help-infos-group": "Evolution Help Information",
+      "evolution-help-optional-link-group": "Other Link(s)",
       "evolution-help-category": {
         "label": "Evolution help category"
       },
       "evolution-help-status": {
-        "label": "Evolution help status"
+        "label": "Evolution help status",
+        "placeholder": "Select an Evolution help status",
+        "error": "You should select and Evolution help status"
       },
       "evolution-help-title": {
         "label": "Evolution Help title",
@@ -265,7 +269,7 @@
         "placeholder": "Enter your evolution help description",
         "error": ""
       },
-      "evolution-help-links": {
+      "evolution-help-link": {
         "label": "Evolution Help link",
         "placeholder": "Enter your evolution help link",
         "error": ""
@@ -281,7 +285,25 @@
   "v6y-audit-helps": {
     "v6y-audit-helps": "Audit Help List",
     "fields": {
-
+      "audit-help-infos-group": "Audit Help Information",
+      "audit-help-category": {
+        "label": "Audit Help Category"
+      },
+      "audit-help-title": {
+        "label": "Audit Help Title",
+        "placeholder": "Enter your Audit Help Title",
+        "error": ""
+      },
+      "audit-help-description": {
+        "label": "Audit Help Description",
+        "placeholder": "Enter your Audit Help Description",
+        "error": ""
+      },
+      "audit-help-explanation": {
+        "label": "Audit Help Explanation",
+        "placeholder": "Enter your Audit Help explanation",
+        "error": ""
+      }
     },
     "titles": {
       "create": "Create Audit Help",
@@ -291,9 +313,27 @@
     }
   },
   "v6y-dependency-status-helps": {
-    "v6y-dependency-status-helps": "Dependency Help List",
+    "v6y-dependency-status-helps": "Dependency Status Help List",
     "fields": {
-
+      "dependency-status-help-infos-group": "Dependency Status Help Information",
+      "dependency-status-help-category": {
+        "label": "Dependency Status Help"
+      },
+      "dependency-status-help-title": {
+        "label": "Dependency Status Help Title",
+        "placeholder": "Enter your Dependency Status Help Title",
+        "error": ""
+      },
+      "dependency-status-help-description": {
+        "label": "Dependency Status Help Description",
+        "placeholder": "Enter your Dependency Status Help Description",
+        "error": ""
+      },
+      "dependency-status-help-links": {
+        "label": "Dependency Status Help Link",
+        "placeholder": "Enter your Dependency Status Help Link",
+        "error": ""
+      }
     },
     "titles": {
       "create": "Create Dependency Help",
@@ -305,7 +345,12 @@
   "v6y-deprecated-dependencies": {
     "v6y-deprecated-dependencies": "Deprecated Dependency List",
     "fields": {
-
+      "deprecated-dependency-infos-group": "Deprecated Dependency Information",
+      "deprecated-dependency-name": {
+        "label": "Deprecated Dependency Name",
+        "placeholder": "Enter your Deprecated Dependency Name",
+        "error": ""
+      }
     },
     "titles": {
       "create": "Create Deprecated Dependency",

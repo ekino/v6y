@@ -1,6 +1,5 @@
 import React from 'react';
 
-import VitalityEvolutionHelpEditView from '../../features/v6y-evolution-helps/components/VitalityEvolutionHelpEditView.jsx';
 import VitalityInputFieldSet from '../components/VitalityInputFieldSet.jsx';
 
 export const applicationInfosFormItems = (translate) => {
@@ -380,39 +379,324 @@ export const notificationCreateEditItems = (translate) => {
     ];
 };
 
-export const evolutionHelpCreateEditItems = (translate) => {
+export const evolutionHelpInfosFormItems = (translate) => {
+    return [
+        {
+            id: 'evolution-help-category',
+            name: 'evolution-help-category',
+            label: translate('v6y-evolution-helps.fields.evolution-help-category.label'),
+            disabled: true,
+            rules: [],
+        },
+        {
+            id: 'evolution-help-status',
+            name: 'evolution-help-status',
+            label: translate('v6y-evolution-helps.fields.evolution-help-status.label'),
+            placeholder: translate('v6y-evolution-helps.fields.evolution-help-status.placeholder'),
+            type: 'select',
+            rules: [
+                {
+                    required: true,
+                    message: translate('v6y-evolution-helps.fields.evolution-help-status.error'),
+                },
+            ],
+        },
+        {
+            id: 'evolution-help-title',
+            name: 'evolution-help-title',
+            label: translate('v6y-evolution-helps.fields.evolution-help-title.label'),
+            placeholder: translate('v6y-evolution-helps.fields.evolution-help-title.placeholder'),
+            rules: [
+                {
+                    required: true,
+                    message: translate('v6y-evolution-helps.fields.evolution-help-title.error'),
+                },
+            ],
+        },
+        {
+            id: 'evolution-help-description',
+            name: 'evolution-help-description',
+            label: translate('v6y-evolution-helps.fields.evolution-help-description.label'),
+            placeholder: translate(
+                'v6y-evolution-helps.fields.evolution-help-description.placeholder',
+            ),
+            rules: [
+                {
+                    required: true,
+                    message: translate(
+                        'v6y-evolution-helps.fields.evolution-help-description.error',
+                    ),
+                },
+            ],
+        },
+    ];
+};
+
+export const evolutionHelpOptionalLinksFormItems = (translate) => [
+    {
+        id: 'evolution-help-optional-link-1',
+        name: 'evolution-help-optional-link-1',
+        label: translate('v6y-evolution-helps.fields.evolution-help-link.label'),
+        placeholder: translate('v6y-evolution-helps.fields.evolution-help-link.placeholder'),
+        rules: [],
+    },
+    {
+        id: 'evolution-help-optional-link-2',
+        name: 'evolution-help-optional-link-2',
+        label: translate('v6y-evolution-helps.fields.evolution-help-link.label'),
+        placeholder: translate('v6y-evolution-helps.fields.evolution-help-link.placeholder'),
+        rules: [],
+    },
+    {
+        id: 'evolution-help-optional-link-3',
+        name: 'evolution-help-optional-link-3',
+        label: translate('v6y-evolution-helps.fields.evolution-help-link.label'),
+        placeholder: translate('v6y-evolution-helps.fields.evolution-help-link.placeholder'),
+        rules: [],
+    },
+];
+
+export const evolutionHelpCreateEditItems = (translate, selectOptions) => {
     return [
         <VitalityInputFieldSet
-            key={translate('v6y-faqs.fields.faq-infos-group')}
-            groupTitle={translate('v6y-faqs.fields.faq-infos-group')}
-            items={faqInfosFormItems(translate)}
+            key={translate('v6y-evolution-helps.fields.evolution-help-infos-group')}
+            groupTitle={translate('v6y-evolution-helps.fields.evolution-help-infos-group')}
+            items={evolutionHelpInfosFormItems(translate)}
+            selectOptions={selectOptions}
         />,
         <VitalityInputFieldSet
-            key={translate('v6y-faqs.fields.faq-optional-link-group')}
-            groupTitle={translate('v6y-faqs.fields.faq-optional-link-group')}
-            items={faqOptionalLinksFormItems(translate)}
+            key={translate('v6y-evolution-helps.fields.evolution-help-optional-link-group')}
+            groupTitle={translate('v6y-evolution-helps.fields.evolution-help-optional-link-group')}
+            items={evolutionHelpOptionalLinksFormItems(translate)}
         />,
     ];
 };
 
 export const evolutionHelpCreateOrEditFormInAdapter = (params) => ({
-    faqId: params?.id,
-    'faq-title': params?.['title'],
-    'faq-description': params?.['description'],
-    'faq-optional-link-1': params?.['links']?.[0]?.value,
-    'faq-optional-link-2': params?.['links']?.[1]?.value,
-    'faq-optional-link-3': params?.['links']?.[2]?.value,
+    evolutionHelpId: params?.id,
+    'evolution-help-category': params?.['category'],
+    'evolution-help-status': params?.['status'],
+    'evolution-help-title': params?.['title'],
+    'evolution-help-description': params?.['description'],
+    'evolution-help-optional-link-1': params?.['links']?.[0]?.value,
+    'evolution-help-optional-link-2': params?.['links']?.[1]?.value,
+    'evolution-help-optional-link-3': params?.['links']?.[2]?.value,
 });
 
-export const evolutionHelpCreateOrEditFormOutputAdapter = (params) => ({
-    faqInput: {
-        faqId: params?.['faqId'],
-        title: params?.['faq-title'],
-        description: params?.['faq-description'],
-        links: [
-            params?.['faq-optional-link-1'],
-            params?.['faq-optional-link-2'],
-            params?.['faq-optional-link-3'],
-        ]?.filter((item) => item?.length),
+export const evolutionHelpCreateOrEditFormOutputAdapter = (params) => {
+    console.log({ params });
+
+    return {
+        evolutionHelpInput: {
+            evolutionHelpId: params?.['evolutionHelpId'],
+            category: params?.['evolution-help-category'],
+            status: params?.['evolution-help-status'],
+            title: params?.['evolution-help-title'],
+            description: params?.['evolution-help-description'],
+            links: [
+                params?.['evolution-help-optional-link-1'],
+                params?.['evolution-help-optional-link-2'],
+                params?.['evolution-help-optional-link-3'],
+            ]?.filter((item) => item?.length),
+        },
+    };
+};
+
+export const auditHelpInfosFormItems = (translate) => {
+    return [
+        {
+            id: 'audit-help-category',
+            name: 'audit-help-category',
+            label: translate('v6y-audit-helps.fields.audit-help-category.label'),
+            disabled: true,
+            rules: [],
+        },
+        {
+            id: 'audit-help-title',
+            name: 'audit-help-title',
+            label: translate('v6y-audit-helps.fields.audit-help-title.label'),
+            placeholder: translate('v6y-audit-helps.fields.audit-help-title.placeholder'),
+            rules: [
+                {
+                    required: true,
+                    message: translate('v6y-audit-helps.fields.audit-help-title.error'),
+                },
+            ],
+        },
+        {
+            id: 'audit-help-description',
+            name: 'audit-help-description',
+            label: translate('v6y-audit-helps.fields.audit-help-description.label'),
+            placeholder: translate('v6y-audit-helps.fields.audit-help-description.placeholder'),
+            rules: [
+                {
+                    required: true,
+                    message: translate('v6y-audit-helps.fields.audit-help-description.error'),
+                },
+            ],
+        },
+        {
+            id: 'audit-help-explanation',
+            name: 'audit-help-explanation',
+            label: translate('v6y-audit-helps.fields.audit-help-explanation.label'),
+            placeholder: translate('v6y-audit-helps.fields.audit-help-explanation.placeholder'),
+            rules: [
+                {
+                    required: true,
+                    message: translate('v6y-audit-helps.fields.audit-help-explanation.error'),
+                },
+            ],
+        },
+    ];
+};
+
+export const auditHelpCreateEditItems = (translate) => {
+    return [
+        <VitalityInputFieldSet
+            key={translate('v6y-audit-helps.fields.audit-help-infos-group')}
+            groupTitle={translate('v6y-audit-helps.fields.audit-help-infos-group')}
+            items={auditHelpInfosFormItems(translate)}
+        />,
+    ];
+};
+
+export const auditHelpCreateOrEditFormInAdapter = (params) => ({
+    auditHelpId: params?.id,
+    'audit-help-category': params?.['category'],
+    'audit-help-title': params?.['title'],
+    'audit-help-description': params?.['description'],
+    'audit-help-explanation': params?.['explanation'],
+});
+
+export const auditHelpCreateOrEditFormOutputAdapter = (params) => ({
+    auditHelpInput: {
+        auditHelpId: params?.['auditHelpId'],
+        category: params?.['audit-help-category'],
+        title: params?.['audit-help-title'],
+        description: params?.['audit-help-description'],
+        explanation: params?.['audit-help-explanation'],
+    },
+});
+
+export const dependencyStatusHelpInfosFormItems = (translate) => {
+    return [
+        {
+            id: 'dependency-status-help-category',
+            name: 'dependency-status-help-category',
+            label: translate(
+                'v6y-dependency-status-helps.fields.dependency-status-help-category.label',
+            ),
+            disabled: true,
+            rules: [],
+        },
+        {
+            id: 'dependency-status-help-title',
+            name: 'dependency-status-help-title',
+            label: translate(
+                'v6y-dependency-status-helps.fields.dependency-status-help-title.label',
+            ),
+            placeholder: translate(
+                'v6y-dependency-status-helps.fields.dependency-status-help-title.placeholder',
+            ),
+            rules: [
+                {
+                    required: true,
+                    message: translate(
+                        'v6y-dependency-status-helps.fields.dependency-status-help-title.error',
+                    ),
+                },
+            ],
+        },
+        {
+            id: 'dependency-status-help-description',
+            name: 'dependency-status-help-description',
+            label: translate(
+                'v6y-dependency-status-helps.fields.dependency-status-help-description.label',
+            ),
+            placeholder: translate(
+                'v6y-dependency-status-helps.fields.dependency-status-help-description.placeholder',
+            ),
+            rules: [
+                {
+                    required: true,
+                    message: translate(
+                        'v6y-dependency-status-helps.fields.dependency-status-help-description.error',
+                    ),
+                },
+            ],
+        },
+    ];
+};
+
+export const dependencyStatusHelpCreateEditItems = (translate) => {
+    return [
+        <VitalityInputFieldSet
+            key={translate('v6y-dependency-status-helps.fields.dependency-status-help-infos-group')}
+            groupTitle={translate(
+                'v6y-dependency-status-helps.fields.dependency-status-help-infos-group',
+            )}
+            items={dependencyStatusHelpInfosFormItems(translate)}
+        />,
+    ];
+};
+
+export const dependencyStatusHelpCreateOrEditFormInAdapter = (params) => ({
+    dependencyStatusHelpId: params?.id,
+    'dependency-status-help-category': params?.['category'],
+    'dependency-status-help-title': params?.['title'],
+    'dependency-status-help-description': params?.['description'],
+});
+
+export const dependencyStatusHelpCreateOrEditFormOutputAdapter = (params) => ({
+    dependencyStatusHelpInput: {
+        dependencyStatusHelpId: params?.['dependencyStatusHelpId'],
+        category: params?.['dependency-status-help-category'],
+        title: params?.['dependency-status-help-title'],
+        description: params?.['dependency-status-help-description'],
+    },
+});
+
+export const deprecatedDependencyInfosFormItems = (translate) => {
+    return [
+        {
+            id: 'deprecated-dependency-name',
+            name: 'deprecated-dependency-name',
+            label: translate('v6y-deprecated-dependencies.fields.deprecated-dependency-name.label'),
+            placeholder: translate(
+                'v6y-deprecated-dependencies.fields.deprecated-dependency-name.placeholder',
+            ),
+            rules: [
+                {
+                    required: true,
+                    message: translate(
+                        'v6y-deprecated-dependencies.fields.deprecated-dependency-name.error',
+                    ),
+                },
+            ],
+        },
+    ];
+};
+
+export const deprecatedDependencyCreateEditItems = (translate) => {
+    return [
+        <VitalityInputFieldSet
+            key={translate('v6y-deprecated-dependencies.fields.deprecated-dependency-infos-group')}
+            groupTitle={translate(
+                'v6y-deprecated-dependencies.fields.deprecated-dependency-infos-group',
+            )}
+            items={deprecatedDependencyInfosFormItems(translate)}
+        />,
+    ];
+};
+
+export const deprecatedDependencyCreateOrEditFormInAdapter = (params) => ({
+    deprecatedDependencyId: params?.id,
+    'deprecated-dependency-name': params?.['name'],
+});
+
+export const deprecatedDependencyCreateOrEditFormOutputAdapter = (params) => ({
+    deprecatedDependencyInput: {
+        deprecatedDependencyId: params?.['deprecatedDependencyId'],
+        name: params?.['deprecated-dependency-name'],
     },
 });

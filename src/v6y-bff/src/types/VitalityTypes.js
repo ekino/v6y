@@ -36,6 +36,7 @@ import EvolutionHelpDeleteInput from './evolution/help/EvolutionHelpDeleteInput.
 import EvolutionHelpDeleteOutput from './evolution/help/EvolutionHelpDeleteOutput.js';
 import EvolutionHelpMutationsType from './evolution/help/EvolutionHelpMutationsType.js';
 import EvolutionHelpQueriesType from './evolution/help/EvolutionHelpQueriesType.js';
+import EvolutionHelpStatusType from './evolution/help/EvolutionHelpStatusType.js';
 import EvolutionHelpType from './evolution/help/EvolutionHelpType.js';
 import FaqCreateOrEditInput from './faq/FaqCreateOrEditInput.js';
 import FaqDeleteInput from './faq/FaqDeleteInput.js';
@@ -69,6 +70,7 @@ const VitalityTypes = gql`
 
     # outputted schemas
     ${ModuleType}
+    ${EvolutionHelpStatusType}
     ${EvolutionHelpType}
     ${EvolutionType}
     ${AppType}

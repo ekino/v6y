@@ -2,10 +2,10 @@ import { AppLogger, DependencyStatusHelpProvider } from '@v6y/commons';
 
 const getDependencyStatusHelpListByPageAndParams = async (_, args) => {
     try {
-        const { offset, limit, where, sort } = args || {};
+        const { start, limit, where, sort } = args || {};
 
         AppLogger.info(
-            `[DependencyStatusHelpQueries - getDependencyStatusHelpListByPageAndParams] offset : ${offset}`,
+            `[DependencyStatusHelpQueries - getDependencyStatusHelpListByPageAndParams] start : ${start}`,
         );
         AppLogger.info(
             `[DependencyStatusHelpQueries - getDependencyStatusHelpListByPageAndParams] limit : ${limit}`,
@@ -19,7 +19,7 @@ const getDependencyStatusHelpListByPageAndParams = async (_, args) => {
 
         const dependencyStatusHelpList =
             await DependencyStatusHelpProvider.getDependencyStatusHelpListByPageAndParams({
-                offset,
+                start,
                 limit,
                 where,
                 sort,

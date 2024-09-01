@@ -5,6 +5,7 @@ import {
 } from '../../../commons/config/VitalityTableConfig.jsx';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter.js';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper.jsx';
+import DeleteFaq from '../apis/deleteFaq.js';
 import GetFaqListByPageAndParams from '../apis/getFaqListByPageAndParams.js';
 
 export default function VitalityFaqListView() {
@@ -16,7 +17,7 @@ export default function VitalityFaqListView() {
             subTitle=""
             defaultSorter={[
                 {
-                    field: 'name',
+                    field: 'title',
                     order: 'asc',
                 },
             ]}
@@ -27,7 +28,10 @@ export default function VitalityFaqListView() {
             renderTable={(dataSource) => (
                 <VitalityTable
                     dataSource={buildCommonTableDataSource(dataSource)}
-                    columns={buildCommonTableColumns(dataSource)}
+                    columns={buildCommonTableColumns(dataSource, [], {
+                        gqlMutation: DeleteFaq,
+                        operation: 'deleteFaq',
+                    })}
                 />
             )}
         />
