@@ -1,11 +1,13 @@
 import {
     AppLogger,
-    AppProvider,
+    ApplicationProvider,
     AuditProvider,
     DataBaseManager,
+    DependencyProvider,
+    EvolutionProvider,
     KeywordProvider,
 } from '@v6y/commons';
-import { parentPort, workerData } from 'worker_threads';
+import { parentPort } from 'worker_threads';
 
 import AppManager from '../managers/AppManager.js';
 
@@ -14,15 +16,15 @@ const { buildAppList } = AppManager;
 AppLogger.info('******************** Starting background APP updates **************************');
 
 try {
-    const { databaseUri } = workerData || {};
-
     // *********************************************** Database Configuration and Connection ***********************************************
-    await DataBaseManager.connect(databaseUri);
+    await DataBaseManager.connect();
 
     // Clear existing data in preparation for updates
-    await KeywordProvider.deleteKeywordsList();
-    await AuditProvider.deleteAuditsList();
-    await AppProvider.deleteApplicationList();
+    await KeywordProvider.deleteKeywordList();
+    await AuditProvider.deleteAuditList();
+    await DependencyProvider.deleteDependencyList();
+    await EvolutionProvider.deleteEvolutionList();
+    await ApplicationProvider.deleteApplicationList();
 
     // *********************************************** Update APP List ***********************************************
     await buildAppList({

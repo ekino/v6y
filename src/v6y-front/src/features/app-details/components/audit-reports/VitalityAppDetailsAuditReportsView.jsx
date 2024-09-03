@@ -51,14 +51,18 @@ const VitalityAppDetailsAuditReportsView = ({}) => {
                 onRenderChildren={(group, data) => (
                     <div id="audit_reports_grouper_tab_content">
                         {group === AUDIT_REPORT_TYPES.lighthouse && (
-                            <VitalityLighthouseReportsView reports={data} />
+                            <VitalityLighthouseReportsView
+                                reports={data?.filter((report) => report?.auditHelp?.title)}
+                            />
                         )}
                         {(group === AUDIT_REPORT_TYPES.codeCompliance ||
                             group === AUDIT_REPORT_TYPES.codeComplexity ||
                             group === AUDIT_REPORT_TYPES.codeCoupling ||
                             group === AUDIT_REPORT_TYPES.codeSecurity ||
                             group === AUDIT_REPORT_TYPES.codeDuplication) && (
-                            <VitalityCodeStatusReportsView reports={data} />
+                            <VitalityCodeStatusReportsView
+                                reports={data?.filter((report) => report?.auditHelp?.title)}
+                            />
                         )}
                     </div>
                 )}

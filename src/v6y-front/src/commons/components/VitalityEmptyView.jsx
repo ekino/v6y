@@ -2,7 +2,6 @@ import { Empty, Typography } from 'antd';
 
 import VitalityTerms from '../config/VitalityTerms.js';
 
-
 const VitalityEmptyView = ({ message }) => (
     <Empty
         description={

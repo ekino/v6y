@@ -29,8 +29,13 @@ export default function VitalityDeprecatedDependencyListView() {
                 <VitalityTable
                     dataSource={buildCommonTableDataSource(dataSource)}
                     columns={buildCommonTableColumns(dataSource, ['id'], {
-                        gqlMutation: DeleteDeprecatedDependency,
-                        operation: 'deleteDeprecatedDependency',
+                        enableEdit: true,
+                        enableShow: true,
+                        enableDelete: true,
+                        deleteMetaQuery: {
+                            gqlMutation: DeleteDeprecatedDependency,
+                            operation: 'deleteDeprecatedDependency',
+                        },
                     })}
                 />
             )}

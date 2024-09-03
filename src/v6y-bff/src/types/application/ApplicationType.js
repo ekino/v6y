@@ -1,5 +1,5 @@
-const AppType = `
-  type AppType {
+const ApplicationType = `
+  type ApplicationType {
     """ App Unique id """
     _id: String!
     
@@ -26,4 +26,4 @@ const AppType = `
   }
 `;
 
-export default AppType;
+export default ApplicationType;

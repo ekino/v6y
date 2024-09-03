@@ -3,10 +3,15 @@ import { Button, Flex, List } from 'antd';
 
 import VitalityTerms from '../config/VitalityTerms.js';
 
-
-const VitalityLoadMoreList = ({ isDataSourceLoading, dataSource, renderItem, onLoadMore }) => (
+const VitalityLoadMoreList = ({
+    isDataSourceLoading,
+    bordered = true,
+    dataSource,
+    renderItem,
+    onLoadMore,
+}) => (
     <List
-        bordered
+        bordered={bordered}
         style={{ marginBottom: '1rem' }}
         loading={isDataSourceLoading}
         itemLayout="horizontal"
@@ -18,7 +23,7 @@ const VitalityLoadMoreList = ({ isDataSourceLoading, dataSource, renderItem, onL
                         type="default"
                         icon={<SyncOutlined />}
                         iconPosition="end"
-                        onClick={onLoadMore}
+                        onClick={onLoadMore ? onLoadMore : () => {}}
                     >
                         {VitalityTerms.VITALITY_APP_LIST_LOAD_MORE_LABEL}
                     </Button>

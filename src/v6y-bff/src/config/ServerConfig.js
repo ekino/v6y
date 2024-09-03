@@ -18,7 +18,6 @@ const SERVER_ENV_CONFIGURATION = {
         apiPath: V6Y_API_PATH,
         healthCheckPath: V6Y_HEALTH_CHECK_PATH,
         monitoringPath: V6Y_MONITORING_PATH,
-        databaseUri: '',
         serverTimeout: 900000, // milliseconds
     },
     development: {
@@ -28,8 +27,6 @@ const SERVER_ENV_CONFIGURATION = {
         apiPath: V6Y_API_PATH,
         healthCheckPath: V6Y_HEALTH_CHECK_PATH,
         monitoringPath: V6Y_MONITORING_PATH,
-        databaseUri: '',
-        // databaseUri: '',
         serverTimeout: 900000, // milliseconds
     },
 };

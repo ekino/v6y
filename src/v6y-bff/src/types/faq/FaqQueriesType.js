@@ -1,6 +1,6 @@
 const FaqQueriesType = `
   type Query {
-    getFaqListByPageAndParams(start: Int, offset: Int, limit: Int, keywords: [String], searchText: String, where: JSON, sort: String): [FaqType]
+    getFaqListByPageAndParams(start: Int, limit: Int, sort: String): [FaqType]
     getFaqDetailsByParams(faqId: String!): FaqType
   }
 `;

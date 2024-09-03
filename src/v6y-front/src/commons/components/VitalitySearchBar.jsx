@@ -6,7 +6,6 @@ import React from 'react';
 import useNavigationAdapter from '../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
 import VitalityNavigationPaths from '../config/VitalityNavigationPaths.js';
 
-
 const { Search } = Input;
 
 const VitalitySearchBar = ({ helper, label, status, placeholder }) => {

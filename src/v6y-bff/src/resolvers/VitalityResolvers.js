@@ -1,4 +1,4 @@
-import AppResolvers from './app/AppResolvers.js';
+import ApplicationResolvers from './application/ApplicationResolvers.js';
 import AuditHelpResolvers from './audit/AuditHelpResolvers.js';
 import DeprecatedDependencyResolvers from './dependency/deprecated-status/DeprecatedDependencyResolvers.js';
 import DependencyStatusHelpResolvers from './dependency/status-help/DependencyStatusHelpResolvers.js';
@@ -9,7 +9,7 @@ import NotificationsResolvers from './notifications/NotificationsResolvers.js';
 
 const VitalityResolvers = {
     Query: {
-        ...AppResolvers.Query,
+        ...ApplicationResolvers.Query,
         ...FaqResolvers.Query,
         ...NotificationsResolvers.Query,
         ...KeywordResolvers.Query,
@@ -19,7 +19,7 @@ const VitalityResolvers = {
         ...DeprecatedDependencyResolvers.Query,
     },
     Mutation: {
-        ...AppResolvers.Mutation,
+        ...ApplicationResolvers.Mutation,
         ...FaqResolvers.Mutation,
         ...NotificationsResolvers.Mutation,
         ...EvolutionHelpResolvers.Mutation,

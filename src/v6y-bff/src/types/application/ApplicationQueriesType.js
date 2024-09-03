@@ -1,13 +1,13 @@
-const AppQueriesType = `
+const ApplicationQueriesType = `
   type Query {
-    getApplicationListByPageAndParams(start: Int, offset: Int, limit: Int, keywords: [String], searchText: String, where: JSON, sort: String): [AppType]
+    getApplicationListByPageAndParams(start: Int, offset: Int, limit: Int, keywords: [String], searchText: String, where: JSON, sort: String): [ApplicationType]
     getApplicationStatsByParams(keywords: [String]): [KeywordStatsType]
     getApplicationTotalByParams(keywords: [String], searchText: String): Int
-    getApplicationDetailsByParams(appId: String!): AppType
+    getApplicationDetailsByParams(appId: String!): ApplicationType
     getApplicationDetailsAuditReportsByParams(appId: String!): [AuditReportType]
     getApplicationDetailsEvolutionsByParams(appId: String!): [EvolutionType]
     getApplicationDetailsDependenciesByParams(appId: String!): [DependencyType]
   }
 `;
 
-export default AppQueriesType;
+export default ApplicationQueriesType;

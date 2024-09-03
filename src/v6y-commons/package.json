@@ -33,13 +33,16 @@
     "jest-stare": "=2.5.1"
   },
   "dependencies": {
+    "@sequelize/core": "7.0.0-alpha.37",
     "adm-zip": "=0.5.10",
     "axios": "=1.6.2",
     "axios-retry": "=4.0.0",
     "compare-versions": "=5.0.1",
-    "mongoose": "=7.1.0",
     "morgan": "=1.10.0",
-    "semver": "^7.6.3",
+    "pg": "=8.12.0",
+    "pg-hstore": "=2.3.4",
+    "semver": "=7.6.3",
+    "sequelize": "=6.37.3",
     "spdy": "=4.0.2",
     "superagent": "=8.1.2",
     "winston": "=3.5.1",

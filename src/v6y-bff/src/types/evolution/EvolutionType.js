@@ -14,11 +14,11 @@ const EvolutionType = `
     """ Evolution subCategory (exp: mobile, 3G, 4G, ...) """
     subCategory: String
     
+    """ Evolution help """
+    evolutionHelp: EvolutionHelpType
+    
     """ Evolution Concerned Module """
     module: ModuleType
-    
-    """ Evolution help """
-    evolutionHelp: EvolutionHelpType  
   }
 `;
 

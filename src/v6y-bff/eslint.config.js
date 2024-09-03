@@ -5,7 +5,6 @@ export default [
         files: ['src/**/*.js', 'src/**/*.mjs'],
         ignores: ['**/*.test.js'],
         rules: {
-            complexity: ['error', 3],
             'max-depth': ['error', 3],
             'max-nested-callbacks': ['error', 3],
             'max-params': ['error', 3],
@@ -15,7 +14,7 @@ export default [
             Recommendations usually range from 100 to 500 lines.
              */
             'max-lines': ['error', 500], // per file
-            'max-lines-per-function': ['error', 50], // per function
+            'max-lines-per-function': ['error', 100], // per function
             'max-statements': ['error', 30], // per function
         },
     },

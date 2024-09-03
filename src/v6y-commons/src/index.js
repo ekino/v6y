@@ -7,7 +7,7 @@ import StringUtils from './core/StringUtils.js';
 import TaskUtils from './core/TaskUtils.js';
 import WorkerHelper from './core/WorkerHelper.js';
 import ZipUtils from './core/ZipUtils.js';
-import AppProvider from './database/AppProvider.js';
+import ApplicationProvider from './database/ApplicationProvider.js';
 import AuditHelpProvider from './database/AuditHelpProvider.js';
 import AuditProvider from './database/AuditProvider.js';
 import DataBaseManager from './database/DataBaseManager.js';
@@ -20,6 +20,8 @@ import FaqProvider from './database/FaqProvider.js';
 import KeywordProvider from './database/KeywordProvider.js';
 import NotificationProvider from './database/NotificationProvider.js';
 
+export * from './config/data/EvolutionHelpStatusConfig.js';
+
 export {
     AppLogger,
     Matcher,
@@ -30,7 +32,7 @@ export {
     ServerUtils,
     WorkerHelper,
     ZipUtils,
-    AppProvider,
+    ApplicationProvider,
     KeywordProvider,
     DataBaseManager,
     AuditProvider,

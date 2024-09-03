@@ -29,8 +29,13 @@ export default function VitalityFaqListView() {
                 <VitalityTable
                     dataSource={buildCommonTableDataSource(dataSource)}
                     columns={buildCommonTableColumns(dataSource, [], {
-                        gqlMutation: DeleteFaq,
-                        operation: 'deleteFaq',
+                        enableEdit: true,
+                        enableShow: true,
+                        enableDelete: true,
+                        deleteMetaQuery: {
+                            gqlMutation: DeleteFaq,
+                            operation: 'deleteFaq',
+                        },
                     })}
                 />
             )}

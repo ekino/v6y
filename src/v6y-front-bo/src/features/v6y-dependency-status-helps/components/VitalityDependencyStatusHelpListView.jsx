@@ -5,7 +5,6 @@ import {
 } from '../../../commons/config/VitalityTableConfig.jsx';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter.js';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper.jsx';
-import DeleteDependencyStatusHelp from '../apis/deleteDependencyStatusHelp.js';
 import GetDependencyStatusHelpListByPageAndParams from '../apis/getDependencyStatusHelpListByPageAndParams.js';
 
 export default function VitalityDependencyStatusHelpListView() {
@@ -29,8 +28,9 @@ export default function VitalityDependencyStatusHelpListView() {
                 <VitalityTable
                     dataSource={buildCommonTableDataSource(dataSource)}
                     columns={buildCommonTableColumns(dataSource, ['id'], {
-                        gqlMutation: DeleteDependencyStatusHelp,
-                        operation: 'deleteDependencyStatusHelp',
+                        enableEdit: true,
+                        enableShow: true,
+                        enableDelete: false,
                     })}
                 />
             )}

@@ -7,7 +7,7 @@ const LinkType = `
     value: String!
     
     """ Link description """
-    description: String!
+    description: String
   }
 `;
 

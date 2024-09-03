@@ -7,12 +7,12 @@ const KeywordType = `
     """ Keyword label (exp: React, Angular, Vite, Webpack, Jest, Vitest, ...) """
     label: String!
 
-    """ Keyword version (displayed as: label(version)) """
-    version: String
-      
     """ Possible values for status : error, success, warning """
     status: String!
     
+    """ Keyword version (displayed as: label(version)) """
+    version: String
+
     """ Keyword Concerned Module """
     module: ModuleType
   }

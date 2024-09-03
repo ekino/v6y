@@ -1,12 +1,19 @@
-import { AppLogger, AppProvider } from '@v6y/commons';
+import { AppLogger, ApplicationProvider } from '@v6y/commons';
 
+/**
+ * Retrieves application details based on provided parameters.
+ *
+ * @param _ - Placeholder parameter (not used).
+ * @param args - An object containing query arguments, including `appId`.
+ * @returns An object containing application details or an empty object on error.
+ */
 const getApplicationDetailsByParams = async (_, args) => {
     try {
         const { appId } = args || {};
 
         AppLogger.info(`[AppQueries - getApplicationDetailsByParams] appId : ${appId}`);
 
-        const appDetails = await AppProvider.getApplicationDetailsByParams({
+        const appDetails = await ApplicationProvider.getApplicationDetailsByParams({
             appId,
         });
 
@@ -17,17 +24,24 @@ const getApplicationDetailsByParams = async (_, args) => {
         return appDetails;
     } catch (error) {
         AppLogger.info(`[AppQueries - getApplicationDetailsByParams] error : ${error.message}`);
-        return {};
+        return null;
     }
 };
 
+/**
+ * Fetches audit reports for an application based on provided parameters.
+ *
+ * @param _ - Placeholder parameter (not used).
+ * @param args - An object containing query arguments, including `appId`.
+ * @returns An array of audit reports or an empty array on error.
+ */
 const getApplicationDetailsAuditReportsByParams = async (_, args) => {
     try {
         const { appId } = args || {};
 
         AppLogger.info(`[AppQueries - getApplicationDetailsAuditReports] appId : ${appId}`);
 
-        const auditsReports = await AppProvider.getApplicationDetailsAuditReportsByParams({
+        const auditsReports = await ApplicationProvider.getApplicationDetailsAuditReportsByParams({
             appId,
         });
 
@@ -42,13 +56,20 @@ const getApplicationDetailsAuditReportsByParams = async (_, args) => {
     }
 };
 
+/**
+ * Retrieves application evolutions (changes/updates) based on provided parameters.
+ *
+ * @param _ - Placeholder parameter (not used).
+ * @param args - An object containing query arguments, including `appId`.
+ * @returns An array of application evolutions or an empty array on error
+ */
 const getApplicationDetailsEvolutionsByParams = async (_, args) => {
     try {
         const { appId } = args || {};
 
         AppLogger.info(`[AppQueries - getApplicationDetailsEvolutionsByParams] appId : ${appId}`);
 
-        const evolutions = await AppProvider.getApplicationDetailsEvolutionsByParams({
+        const evolutions = await ApplicationProvider.getApplicationDetailsEvolutionsByParams({
             appId,
         });
 
@@ -65,13 +86,20 @@ const getApplicationDetailsEvolutionsByParams = async (_, args) => {
     }
 };
 
+/**
+ * Fetches application dependencies based on provided parameters.
+ *
+ * @param _ - Placeholder parameter (not used).
+ * @param args - An object containing query arguments, including `appId`.
+ * @returns An array of application dependencies or an empty array on error.
+ */
 const getApplicationDetailsDependenciesByParams = async (_, args) => {
     try {
         const { appId } = args || {};
 
         AppLogger.info(`[AppQueries - getApplicationDetailsDependenciesByParams] appId : ${appId}`);
 
-        const dependencies = await AppProvider.getApplicationDetailsDependenciesByParams({
+        const dependencies = await ApplicationProvider.getApplicationDetailsDependenciesByParams({
             appId,
         });
 
@@ -88,6 +116,13 @@ const getApplicationDetailsDependenciesByParams = async (_, args) => {
     }
 };
 
+/**
+ * Retrieves a list of applications based on pagination and filtering parameters
+ *
+ * @param _ - Placeholder parameter (not used).
+ * @param args - An object containing query arguments including pagination, filtering, and sorting options
+ * @returns An array of applications matching the criteria, or an empty array on error.
+ */
 const getApplicationListByPageAndParams = async (_, args) => {
     try {
         const { start, offset, limit, keywords, searchText, where, sort } = args || {};
@@ -104,7 +139,7 @@ const getApplicationListByPageAndParams = async (_, args) => {
         AppLogger.info(`[AppQueries - getApplicationListByPageAndParams] where : ${where}`);
         AppLogger.info(`[AppQueries - getApplicationListByPageAndParams] sort : ${sort}`);
 
-        const appList = await AppProvider.getApplicationListByPageAndParams({
+        const appList = await ApplicationProvider.getApplicationListByPageAndParams({
             searchText,
             keywords,
             offset: offset || start,
@@ -123,6 +158,13 @@ const getApplicationListByPageAndParams = async (_, args) => {
     }
 };
 
+/**
+ * Fetches application statistics based on provided parameters
+ *
+ * @param _ - Placeholder parameter (not used).
+ * @param args - An object containing query arguments, including `keywords`.
+ * @returns An object containing application statistics or an empty object on error
+ */
 const getApplicationStatsByParams = async (_, args) => {
     try {
         const { keywords } = args || {};
@@ -131,7 +173,7 @@ const getApplicationStatsByParams = async (_, args) => {
             `[AppQueries - getApplicationStatsByParams] keywords : ${keywords?.join?.(',') || ''}`,
         );
 
-        const appsStats = await AppProvider.getApplicationStatsByParams({
+        const appsStats = await ApplicationProvider.getApplicationStatsByParams({
             keywords,
         });
 
@@ -142,10 +184,17 @@ const getApplicationStatsByParams = async (_, args) => {
         return appsStats;
     } catch (error) {
         AppLogger.info(`[AppQueries - getApplicationStatsByParams] error : ${error.message}`);
-        return {};
+        return null;
     }
 };
 
+/**
+ * Retrieves the total number of applications based on provided parameters
+ *
+ * @param _ - Placeholder parameter (not used).
+ * @param args - An object containing query arguments, including 'keywords' and 'searchText'.
+ * @returns The total count of applications or 0 on error.
+ */
 const getApplicationTotalByParams = async (_, args) => {
     try {
         const { keywords, searchText } = args || {};
@@ -155,7 +204,7 @@ const getApplicationTotalByParams = async (_, args) => {
         );
         AppLogger.info(`[AppQueries - getApplicationTotalByParams] searchText : ${searchText}`);
 
-        const appsTotal = await AppProvider.getApplicationTotalByParams({
+        const appsTotal = await ApplicationProvider.getApplicationTotalByParams({
             searchText,
             keywords,
         });
@@ -169,7 +218,7 @@ const getApplicationTotalByParams = async (_, args) => {
     }
 };
 
-const AppQueries = {
+const ApplicationQueries = {
     getApplicationDetailsByParams,
     getApplicationDetailsAuditReportsByParams,
     getApplicationDetailsEvolutionsByParams,
@@ -179,4 +228,4 @@ const AppQueries = {
     getApplicationStatsByParams,
 };
 
-export default AppQueries;
+export default ApplicationQueries;

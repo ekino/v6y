@@ -9,7 +9,6 @@ import { promisify } from 'node:util';
 
 import AppLogger from './AppLogger.js';
 
-
 const __dirname = path.resolve();
 const finished = promisify(stream.finished);
 
@@ -23,6 +22,16 @@ const ZipHttpClient = axios.create({
     }),
 });
 
+/**
+ * Downloads a ZIP file from a given URL to a specified destination directory.
+ *
+ * @param {Object} params - Parameters for downloading the ZIP file.
+ * @param {string} params.zipSourceUrl - The URL of the ZIP file to download.
+ * @param {string} params.zipDestinationDir - The directory where the ZIP file should be saved.
+ * @param {string} params.zipFileName - The name of the ZIP file to be saved.
+ * @returns {Promise<boolean>} A promise that resolves to `true` if the download is successful, `false` otherwise.
+ * @async
+ */
 const downloadZip = async ({ zipSourceUrl, zipDestinationDir, zipFileName }) => {
     try {
         if (!zipSourceUrl?.length || !zipDestinationDir?.length || !zipFileName?.length) {
@@ -67,6 +76,15 @@ const downloadZip = async ({ zipSourceUrl, zipDestinationDir, zipFileName }) => 
     }
 };
 
+/**
+ * Unzips a ZIP file to the specified directory.
+ *
+ * @param {Object} params - Parameters for unzipping the file.
+ * @param {string} params.zipDir - The directory where the ZIP file is located.
+ * @param {string} params.zipFileName - The name of the ZIP file to unzip.
+ * @returns {Promise<boolean>} A promise that resolves to `true` if the unzip is successful, `false` otherwise.
+ * @async
+ */
 const unZipFile = async ({ zipDir, zipFileName }) => {
     try {
         if (!zipDir?.length || !zipFileName?.length) {
@@ -104,6 +122,12 @@ const unZipFile = async ({ zipDir, zipFileName }) => {
     }
 };
 
+/**
+ * Deletes a ZIP file and its directory.
+ *
+ * @param {string} zipDir - The directory where the ZIP file is located.
+ * @returns {boolean} `true` if the deletion is successful or the directory doesn't exist, `false` otherwise.
+ */
 const deleteZip = (zipDir) => {
     try {
         if (!zipDir?.length) {
@@ -131,6 +155,9 @@ const deleteZip = (zipDir) => {
     }
 };
 
+/**
+ * Utilities for working with ZIP files.
+ */
 const ZipUtils = {
     downloadZip,
     unZipFile,

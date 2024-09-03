@@ -7,7 +7,6 @@ import { VITALITY_DASHBOARD_DATASOURCE } from '../../../commons/config/VitalityC
 import VitalityTerms from '../../../commons/config/VitalityTerms.js';
 import VitalityDashboardMenu from './VitalityDashboardMenu.jsx';
 
-
 const VitalityDashboardView = () => (
     <>
         <VitalitySearchBar

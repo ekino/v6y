@@ -1,5 +1,5 @@
-const AppCreateOrEditInput = `
-  input AppCreateOrEditInput {
+const ApplicationCreateOrEditInput = `
+  input ApplicationCreateOrEditInput {
       """ App Unique id """
       appId: String
         
@@ -35,4 +35,4 @@ const AppCreateOrEditInput = `
   }
 `;
 
-export default AppCreateOrEditInput;
+export default ApplicationCreateOrEditInput;

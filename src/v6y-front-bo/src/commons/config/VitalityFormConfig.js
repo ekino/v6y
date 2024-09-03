@@ -1,6 +1,6 @@
 import React from 'react';
 
-import VitalityInputFieldSet from '../components/VitalityInputFieldSet.jsx';
+import VitalityFormFieldSet from '../components/VitalityFormFieldSet.jsx';
 
 export const applicationInfosFormItems = (translate) => {
     return [
@@ -49,6 +49,7 @@ export const applicationInfosFormItems = (translate) => {
             name: 'app-description',
             label: translate('v6y-applications.fields.app-description.label'),
             placeholder: translate('v6y-applications.fields.app-description.placeholder'),
+            type: 'textarea',
             rules: [
                 {
                     required: true,
@@ -140,17 +141,17 @@ export const applicationOptionalLinksFormItems = (translate) => [
 
 export const applicationCreateEditItems = (translate) => {
     return [
-        <VitalityInputFieldSet
+        <VitalityFormFieldSet
             key={translate('v6y-applications.fields.app-infos-group')}
             groupTitle={translate('v6y-applications.fields.app-infos-group')}
             items={applicationInfosFormItems(translate)}
         />,
-        <VitalityInputFieldSet
+        <VitalityFormFieldSet
             key={translate('v6y-applications.fields.app-required-link-group')}
             groupTitle={translate('v6y-applications.fields.app-required-link-group')}
             items={applicationRequiredLinksFormItems(translate)}
         />,
-        <VitalityInputFieldSet
+        <VitalityFormFieldSet
             key={translate('v6y-applications.fields.app-optional-link-group')}
             groupTitle={translate('v6y-applications.fields.app-optional-link-group')}
             items={applicationOptionalLinksFormItems(translate)}
@@ -189,7 +190,7 @@ export const applicationCreateOrEditFormOutputAdapter = (params) => ({
         name: params?.['app-name'],
         contactMail: params?.['app-contact-email'],
         productionLink: params?.['app-production-link-1'],
-        appId: params?.['appId'] || '12345',
+        appId: params?.['appId'],
         codeQualityPlatformLink: params?.['app-code-quality-platform-link'],
         ciPlatformLink: params?.['app-ci-cd-platform-link'],
         deploymentPlatformLink: params?.['app-deployment-platform-link'],
@@ -215,6 +216,7 @@ export const faqInfosFormItems = (translate) => {
             name: 'faq-description',
             label: translate('v6y-faqs.fields.faq-description.label'),
             placeholder: translate('v6y-faqs.fields.faq-description.placeholder'),
+            type: 'textarea',
             rules: [
                 {
                     required: true,
@@ -251,12 +253,12 @@ export const faqOptionalLinksFormItems = (translate) => [
 
 export const faqCreateEditItems = (translate) => {
     return [
-        <VitalityInputFieldSet
+        <VitalityFormFieldSet
             key={translate('v6y-faqs.fields.faq-infos-group')}
             groupTitle={translate('v6y-faqs.fields.faq-infos-group')}
             items={faqInfosFormItems(translate)}
         />,
-        <VitalityInputFieldSet
+        <VitalityFormFieldSet
             key={translate('v6y-faqs.fields.faq-optional-link-group')}
             groupTitle={translate('v6y-faqs.fields.faq-optional-link-group')}
             items={faqOptionalLinksFormItems(translate)}
@@ -330,6 +332,7 @@ export const notificationInfosFormItems = (translate) => {
             name: 'notification-description',
             label: translate('v6y-notifications.fields.notification-description.label'),
             placeholder: translate('v6y-notifications.fields.notification-description.placeholder'),
+            type: 'textarea',
             rules: [
                 {
                     required: true,
@@ -366,12 +369,12 @@ export const notificationOptionalLinksFormItems = (translate) => [
 
 export const notificationCreateEditItems = (translate) => {
     return [
-        <VitalityInputFieldSet
+        <VitalityFormFieldSet
             key={translate('v6y-notifications.fields.notification-infos-group')}
             groupTitle={translate('v6y-notifications.fields.notification-infos-group')}
             items={notificationInfosFormItems(translate)}
         />,
-        <VitalityInputFieldSet
+        <VitalityFormFieldSet
             key={translate('v6y-notifications.fields.notification-optional-link-group')}
             groupTitle={translate('v6y-notifications.fields.notification-optional-link-group')}
             items={notificationOptionalLinksFormItems(translate)}
@@ -420,6 +423,7 @@ export const evolutionHelpInfosFormItems = (translate) => {
             placeholder: translate(
                 'v6y-evolution-helps.fields.evolution-help-description.placeholder',
             ),
+            type: 'textarea',
             rules: [
                 {
                     required: true,
@@ -458,13 +462,13 @@ export const evolutionHelpOptionalLinksFormItems = (translate) => [
 
 export const evolutionHelpCreateEditItems = (translate, selectOptions) => {
     return [
-        <VitalityInputFieldSet
+        <VitalityFormFieldSet
             key={translate('v6y-evolution-helps.fields.evolution-help-infos-group')}
             groupTitle={translate('v6y-evolution-helps.fields.evolution-help-infos-group')}
             items={evolutionHelpInfosFormItems(translate)}
             selectOptions={selectOptions}
         />,
-        <VitalityInputFieldSet
+        <VitalityFormFieldSet
             key={translate('v6y-evolution-helps.fields.evolution-help-optional-link-group')}
             groupTitle={translate('v6y-evolution-helps.fields.evolution-help-optional-link-group')}
             items={evolutionHelpOptionalLinksFormItems(translate)}
@@ -528,6 +532,7 @@ export const auditHelpInfosFormItems = (translate) => {
             name: 'audit-help-description',
             label: translate('v6y-audit-helps.fields.audit-help-description.label'),
             placeholder: translate('v6y-audit-helps.fields.audit-help-description.placeholder'),
+            type: 'textarea',
             rules: [
                 {
                     required: true,
@@ -552,7 +557,7 @@ export const auditHelpInfosFormItems = (translate) => {
 
 export const auditHelpCreateEditItems = (translate) => {
     return [
-        <VitalityInputFieldSet
+        <VitalityFormFieldSet
             key={translate('v6y-audit-helps.fields.audit-help-infos-group')}
             groupTitle={translate('v6y-audit-helps.fields.audit-help-infos-group')}
             items={auditHelpInfosFormItems(translate)}
@@ -616,6 +621,7 @@ export const dependencyStatusHelpInfosFormItems = (translate) => {
             placeholder: translate(
                 'v6y-dependency-status-helps.fields.dependency-status-help-description.placeholder',
             ),
+            type: 'textarea',
             rules: [
                 {
                     required: true,
@@ -630,7 +636,7 @@ export const dependencyStatusHelpInfosFormItems = (translate) => {
 
 export const dependencyStatusHelpCreateEditItems = (translate) => {
     return [
-        <VitalityInputFieldSet
+        <VitalityFormFieldSet
             key={translate('v6y-dependency-status-helps.fields.dependency-status-help-infos-group')}
             groupTitle={translate(
                 'v6y-dependency-status-helps.fields.dependency-status-help-infos-group',
@@ -679,7 +685,7 @@ export const deprecatedDependencyInfosFormItems = (translate) => {
 
 export const deprecatedDependencyCreateEditItems = (translate) => {
     return [
-        <VitalityInputFieldSet
+        <VitalityFormFieldSet
             key={translate('v6y-deprecated-dependencies.fields.deprecated-dependency-infos-group')}
             groupTitle={translate(
                 'v6y-deprecated-dependencies.fields.deprecated-dependency-infos-group',

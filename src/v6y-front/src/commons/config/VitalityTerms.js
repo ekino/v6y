@@ -18,6 +18,7 @@ const VitalityTerms = {
     VITALITY_APP_LIST_PAGE_TITLE: 'Applications Vitality',
     VITALITY_APP_LIST_TOTAL_LABEL: 'TOTAL Applications: ',
     VITALITY_APP_LIST_EXPORT_LABEL: 'Export Applications',
+    VITALITY_APP_LIST_CONTACT_EMAIL: ' Contact The Team',
 
     VITALITY_APP_DETAILS_PAGE_TITLE: 'Application Vitality',
     VITALITY_APP_DETAILS_QUALITY_STATUS_TITLE: 'Quality Status',

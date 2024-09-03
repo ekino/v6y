@@ -1,6 +1,5 @@
 import AppLogger from './AppLogger.js';
 
-
 /**
  * encode value to base 64
  * @param {string} value

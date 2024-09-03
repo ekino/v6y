@@ -133,3 +133,5 @@ dist
 *.xml
 .nx/cache
 .nx/workspace-data
+
+database/psql/**

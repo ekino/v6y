@@ -5,7 +5,6 @@ import VitalityPageLayout from '../commons/components/layout/VitalityPageLayout.
 import { VitalityRoutes } from '../commons/config/VitalityNavigationConfig.js';
 import { AppProvider } from '../infrastructure/providers/AppProvider.jsx';
 
-
 export const metadata = {
     title: 'Vitality Back Office (V6Y BO)',
     description:

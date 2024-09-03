@@ -8,7 +8,6 @@ import VitalityAppDetailsInfosView from './VitalityAppDetailsInfosView.jsx';
 import VitalityAppDetailsAuditReportsView from './audit-reports/VitalityAppDetailsAuditReportsView.jsx';
 import VitalityAppDetailsDependenciesView from './dependencies/VitalityAppDetailsDependenciesView.jsx';
 
-
 const VitalityAppDetailsView = () => {
     return (
         <>

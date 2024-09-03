@@ -1,5 +1,10 @@
 import { AppLogger, KeywordProvider } from '@v6y/commons';
 
+/**
+ * Retrieves a list of keywords.
+ *
+ * @returns An array of keywords or an empty array on error.
+ */
 const getKeywordListByParams = async () => {
     try {
         const keywordsList = await KeywordProvider.getKeywordListByParams({});
@@ -15,6 +20,9 @@ const getKeywordListByParams = async () => {
     }
 };
 
+/**
+ * An object containing keyword query functions.
+ */
 const KeywordQueries = {
     getKeywordListByParams,
 };

@@ -29,8 +29,13 @@ export default function VitalityApplicationListView() {
                 <VitalityTable
                     dataSource={buildCommonTableDataSource(dataSource)}
                     columns={buildCommonTableColumns(dataSource, [], {
-                        gqlMutation: DeleteApplication,
-                        operation: 'deleteApplication',
+                        enableEdit: true,
+                        enableShow: true,
+                        enableDelete: true,
+                        deleteMetaQuery: {
+                            gqlMutation: DeleteApplication,
+                            operation: 'deleteApplication',
+                        },
                     })}
                 />
             )}

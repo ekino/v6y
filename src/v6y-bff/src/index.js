@@ -11,7 +11,6 @@ import ServerConfig from './config/ServerConfig.js';
 import VitalityResolvers from './resolvers/VitalityResolvers.js';
 import VitalityTypes from './types/VitalityTypes.js';
 
-
 const { createServer } = ServerUtils;
 
 const { getCurrentConfig } = ServerConfig;
@@ -76,7 +75,7 @@ app.get(healthCheckPath, (req, res) => {
 
 // *********************************************** DataBase Config & Launch ***********************************************
 
-await DataBaseManager.connect(databaseUri);
+await DataBaseManager.connect();
 
 // *********************************************** Server Config & Launch ***********************************************
 

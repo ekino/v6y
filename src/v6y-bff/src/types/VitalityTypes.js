@@ -1,11 +1,11 @@
 import gql from 'graphql-tag';
 
-import AppCreateOrEditInput from './app/AppCreateOrEditInput.js';
-import AppDeleteInput from './app/AppDeleteInput.js';
-import AppDeleteOutput from './app/AppDeleteOutput.js';
-import AppMutationsType from './app/AppMutationsType.js';
-import AppQueriesType from './app/AppQueriesType.js';
-import AppType from './app/AppType.js';
+import ApplicationCreateOrEditInput from './application/ApplicationCreateOrEditInput.js';
+import ApplicationDeleteInput from './application/ApplicationDeleteInput.js';
+import ApplicationDeleteOutput from './application/ApplicationDeleteOutput.js';
+import ApplicationMutationsType from './application/ApplicationMutationsType.js';
+import ApplicationQueriesType from './application/ApplicationQueriesType.js';
+import ApplicationType from './application/ApplicationType.js';
 import AuditReportType from './audit/AuditReportType.js';
 import AuditHelpCreateOrEditInput from './audit/help/AuditHelpCreateOrEditInput.js';
 import AuditHelpDeleteInput from './audit/help/AuditHelpDeleteInput.js';
@@ -73,7 +73,7 @@ const VitalityTypes = gql`
     ${EvolutionHelpStatusType}
     ${EvolutionHelpType}
     ${EvolutionType}
-    ${AppType}
+    ${ApplicationType}
     ${AuditHelpType}
     ${AuditReportType}
     ${FaqType}
@@ -81,7 +81,7 @@ const VitalityTypes = gql`
 
     # the schemas allows the following queries
     ${KeywordQueriesType}
-    ${AppQueriesType}
+    ${ApplicationQueriesType}
     ${FaqQueriesType}
     ${NotificationQueriesType}
     ${EvolutionHelpQueriesType}
@@ -90,10 +90,10 @@ const VitalityTypes = gql`
     ${DeprecatedDependencyQueriesType}
 
     # this schemas allows the following mutations
-    ${AppCreateOrEditInput}
-    ${AppDeleteOutput}
-    ${AppDeleteInput}
-    ${AppMutationsType}
+    ${ApplicationCreateOrEditInput}
+    ${ApplicationDeleteOutput}
+    ${ApplicationDeleteInput}
+    ${ApplicationMutationsType}
 
     ${FaqCreateOrEditInput}
     ${FaqDeleteOutput}

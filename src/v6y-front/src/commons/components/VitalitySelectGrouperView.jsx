@@ -4,7 +4,6 @@ import React, { useEffect } from 'react';
 import useDataGrouper from '../hooks/useDataGrouper.jsx';
 import VitalityEmptyView from './VitalityEmptyView.jsx';
 
-
 const VitalitySelectGrouperView = ({
     dataSource,
     criteria,

@@ -19,7 +19,6 @@ const SERVER_ENV_CONFIGURATION = {
         frontendAuditorApi: 'http://localhost:4002/v6y/bfb-frontend-auditor/app/start-auditor.json',
         healthCheckPath: V6Y_HEALTH_CHECK_PATH,
         monitoringPath: V6Y_MONITORING_PATH,
-        databaseUri: '',
         serverTimeout: 900000, // milliseconds
     },
     development: {
@@ -31,7 +30,6 @@ const SERVER_ENV_CONFIGURATION = {
             'http://localhost:4002/v6y/bfb-frontend-auditor/app/security-auditor.json',
         healthCheckPath: V6Y_HEALTH_CHECK_PATH,
         monitoringPath: V6Y_MONITORING_PATH,
-        databaseUri: '',
         serverTimeout: 900000, // milliseconds
     },
 };

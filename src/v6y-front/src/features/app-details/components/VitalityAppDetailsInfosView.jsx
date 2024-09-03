@@ -1,8 +1,8 @@
 import { InfoOutlined } from '@ant-design/icons';
-import { Space } from 'antd';
 import React from 'react';
 
 import VitalityLinks from '../../../commons/components/VitalityLinks.jsx';
+import VitalityLoadMoreList from '../../../commons/components/VitalityLoadMoreList.jsx';
 import VitalitySectionView from '../../../commons/components/VitalitySectionView.jsx';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig.js';
 import VitalityTerms from '../../../commons/config/VitalityTerms.js';
@@ -40,19 +40,21 @@ const VitalityAppDetailsInfosView = ({}) => {
             description=""
             avatar={<InfoOutlined />}
         >
-            <Space direction="vertical" size="middle">
-                <VitalityAppListItem app={appInfos} canOpenDetails={false} />
-                <VitalityLinks
-                    align="center"
-                    links={[
-                        ...(appInfos?.links || []),
-                        {
-                            label: appInfos?.repo?.name,
-                            value: appInfos?.repo?.webUrl,
-                        },
-                    ]}
-                />
-            </Space>
+            <VitalityLoadMoreList
+                bordered={false}
+                dataSource={[{}]}
+                renderItem={() => <VitalityAppListItem app={appInfos} canOpenDetails={false} />}
+            />
+            <VitalityLinks
+                align="center"
+                links={[
+                    ...(appInfos?.links || []),
+                    {
+                        label: appInfos?.repo?.name,
+                        value: appInfos?.repo?.webUrl,
+                    },
+                ]}
+            />
         </VitalitySectionView>
     );
 };

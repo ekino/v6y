@@ -29,8 +29,13 @@ export default function VitalityNotificationListView() {
                 <VitalityTable
                     dataSource={buildCommonTableDataSource(dataSource)}
                     columns={buildCommonTableColumns(dataSource, [], {
-                        gqlMutation: DeleteNotification,
-                        operation: 'deleteNotification',
+                        enableEdit: true,
+                        enableShow: true,
+                        enableDelete: true,
+                        deleteMetaQuery: {
+                            gqlMutation: DeleteNotification,
+                            operation: 'deleteNotification',
+                        },
                     })}
                 />
             )}

@@ -1,100 +1,288 @@
-import { deprecatedDependencies } from '../config/data/AppMockData.js';
 import AppLogger from '../core/AppLogger.js';
+import DataBaseManager from './DataBaseManager.js';
+import DeprecatedDependencyModel from './models/DeprecatedDependencyModel.js';
 
-const insertDeprecatedDependency = async (dependency) => {
+/**
+ * Creates a new DeprecatedDependency entry in the database.
+ *
+ * @param {Object} deprecatedDependency - The DeprecatedDependency data to be created.
+ * @returns {Object|null} The created DeprecatedDependency object or null on error or if the DeprecatedDependency model is not found.
+ */
+const createDeprecatedDependency = async (deprecatedDependency) => {
     try {
+        AppLogger.info(
+            `[DeprecatedDependencyProvider - createDeprecatedDependency] deprecatedDependency name:  ${deprecatedDependency?.name}`,
+        );
+
+        console.log('here 1: ', deprecatedDependency?.name?.length);
+
+        if (!deprecatedDependency?.name?.length) {
+            return null;
+        }
+
+        const deprecatedDependencyModel = DataBaseManager.getDataBaseSchema(
+            DeprecatedDependencyModel.name,
+        );
+
+        if (!deprecatedDependencyModel) {
+            return null;
+        }
+
+        console.log('here 2');
+
+        const createdDeprecatedDependency =
+            await deprecatedDependencyModel.create(deprecatedDependency);
+        AppLogger.info(
+            `[DeprecatedDependencyProvider - createDeprecatedDependency] createdDeprecatedDependency _id: ${createdDeprecatedDependency?._id}`,
+        );
+
+        return createdDeprecatedDependency;
+    } catch (error) {
+        AppLogger.info(
+            `[DeprecatedDependencyProvider - createDeprecatedDependency] error:  ${error.message}`,
+        );
         return null;
-    } catch (error) {
-        AppLogger.info(
-            `[DeprecatedDependencyProvider - insertDeprecatedDependency] error:  ${error.message}`,
-        );
-        return {};
     }
 };
 
-const insertDeprecatedDependencyList = async (deprecatedDependencyList) => {
+/**
+ * Edits an existing DeprecatedDependency entry in the database.
+ *
+ * @param {Object} deprecatedDependency - The DeprecatedDependency data with updated information.
+ * @returns {Object|null} An object containing the ID of the edited DeprecatedDependency or null on error or if the DeprecatedDependency model is not found.
+ */
+const editDeprecatedDependency = async (deprecatedDependency) => {
     try {
-        if (!deprecatedDependencyList?.length) {
-            return;
+        AppLogger.info(
+            `[DeprecatedDependencyProvider - editDeprecatedDependency] deprecatedDependency id:  ${deprecatedDependency?._id}`,
+        );
+        AppLogger.info(
+            `[DeprecatedDependencyProvider - editDeprecatedDependency] deprecatedDependency name:  ${deprecatedDependency?.name}`,
+        );
+
+        if (!deprecatedDependency?._id || !deprecatedDependency?.name?.length) {
+            return null;
         }
 
-        for (const dependency of deprecatedDependencyList) {
-            await insertDeprecatedDependency(dependency);
+        const deprecatedDependencyModel = DataBaseManager.getDataBaseSchema(
+            DeprecatedDependencyModel.name,
+        );
+
+        if (!deprecatedDependencyModel) {
+            return null;
         }
+
+        const editedDeprecatedDependency = await deprecatedDependencyModel.update(
+            deprecatedDependency,
+            {
+                where: {
+                    _id: deprecatedDependency?._id,
+                },
+            },
+        );
+
+        AppLogger.info(
+            `[DeprecatedDependencyProvider - editDeprecatedDependency] editedDeprecatedDependency: ${editedDeprecatedDependency?._id}`,
+        );
+
+        return {
+            _id: deprecatedDependency?.deprecatedDependencyId,
+        };
     } catch (error) {
         AppLogger.info(
-            `[DeprecatedDependencyProvider - insertDeprecatedDependencyList] error:  ${error.message}`,
+            `[DeprecatedDependencyProvider - editDeprecatedDependency] error:  ${error.message}`,
         );
+        return null;
     }
 };
 
+/**
+ * Deletes an DeprecatedDependency from the database.
+ *
+ * @param {Object} params - An object containing the parameters for deletion.
+ * @param {string} params.deprecatedDependencyId - The ID of the DeprecatedDependency to delete.
+ * @returns {Object|null} An object containing the ID of the deleted DeprecatedDependency, or null on error or if deprecatedDependencyId is not provided or if the DeprecatedDependency model is not found.
+ */
+const deleteDeprecatedDependency = async ({ deprecatedDependencyId }) => {
+    try {
+        AppLogger.info(
+            `[DeprecatedDependencyProvider - deleteDeprecatedDependency] deprecatedDependencyId:  ${deprecatedDependencyId}`,
+        );
+        if (!deprecatedDependencyId) {
+            return null;
+        }
+
+        const deprecatedDependencyModel = DataBaseManager.getDataBaseSchema(
+            DeprecatedDependencyModel.name,
+        );
+
+        if (!deprecatedDependencyModel) {
+            return null;
+        }
+
+        await deprecatedDependencyModel.destroy({
+            where: {
+                _id: deprecatedDependencyId,
+            },
+        });
+
+        return {
+            _id: deprecatedDependencyId,
+        };
+    } catch (error) {
+        AppLogger.info(
+            `[DeprecatedDependencyProvider - deleteDeprecatedDependency] error:  ${error.message}`,
+        );
+        return null;
+    }
+};
+
+/**
+ * Deletes all Deprecated Dependencies from the database
+ *
+ * @returns {boolean} True if the deletion was successful, false otherwise
+ */
 const deleteDeprecatedDependencyList = async () => {
     try {
+        const deprecatedDependencyModel = DataBaseManager.getDataBaseSchema(
+            DeprecatedDependencyModel.name,
+        );
+
+        if (!deprecatedDependencyModel) {
+            return null;
+        }
+
+        await deprecatedDependencyModel.destroy({
+            truncate: true,
+        });
+
+        return true;
     } catch (error) {
         AppLogger.info(
             `[DeprecatedDependencyProvider - deleteDeprecatedDependencyList] error:  ${error.message}`,
         );
+        return false;
     }
 };
 
-const getDeprecatedDependencyDetailsByParams = async ({ deprecatedDependencyId, name }) => {
+/**
+ * Retrieves a list of Deprecated Dependencies, potentially paginated and sorted
+ *
+ * @param {Object} params - An object containing query parameters
+ * @param {number} [params.start] - The starting index for pagination (optional)
+ * @param {number} [params.limit] - The maximum number of Deprecated Dependencies to retrieve (optional)
+ * @param {Object} [params.sort] - An object defining the sorting criteria (optional)
+ * @returns {Array|null} An array of DeprecatedDependency objects or null on error or if the DeprecatedDependency model is not found
+ */
+const getDeprecatedDependencyListByPageAndParams = async ({ start, limit, sort }) => {
     try {
-        AppLogger.info(
-            `[DependencyProvider - getDeprecatedDependencyDetailsByParams] name: ${name}`,
+        const deprecatedDependencyModel = DataBaseManager.getDataBaseSchema(
+            DeprecatedDependencyModel.name,
         );
 
-        if (name?.length) {
-            return deprecatedDependencies.find(
-                (deprecatedDependency) => deprecatedDependency?.name === name,
-            );
+        if (!deprecatedDependencyModel) {
+            return null;
         }
 
-        if (deprecatedDependencyId?.length) {
-            return deprecatedDependencies.find(
-                (deprecatedDependency) => deprecatedDependency?._id === deprecatedDependencyId,
-            );
+        // Construct the query options based on provided arguments
+        const queryOptions = {};
+
+        // Handle pagination
+        if (start !== undefined) {
+            // queryOptions.offset = start;
         }
 
-        return {};
+        if (limit !== undefined) {
+            //    queryOptions.limit = limit;
+        }
+
+        // Handle sorting
+        if (sort) {
+            // queryOptions.order = sort; // Assuming 'sort' specifies the sorting order directly
+        }
+
+        const deprecatedDependencyList = await deprecatedDependencyModel.findAll(queryOptions);
+        AppLogger.info(
+            `[DeprecatedDependencyProvider - getDeprecatedDependencyListByPageAndParams] deprecatedDependencyList: ${deprecatedDependencyList?.length}`,
+        );
+
+        return deprecatedDependencyList;
     } catch (error) {
         AppLogger.info(
-            `[DeprecatedDependencyProvider - getDeprecatedDependencyDetailsByParams] error:  ${error.message}`,
-        );
-        return {};
-    }
-};
-
-const getDeprecatedDependencyListByPageAndParams = async (_, args) => {
-    try {
-        const { start, limit, where, sort } = args || {};
-
-        AppLogger.info(
-            `[DeprecatedDependencyProvider - getDeprecatedDependencyListByPageAndParams] start : ${start}`,
-        );
-        AppLogger.info(
-            `[DeprecatedDependencyProvider - getDeprecatedDependencyListByPageAndParams] limit : ${limit}`,
-        );
-        AppLogger.info(
-            `[DeprecatedDependencyProvider - getDeprecatedDependencyListByPageAndParams] where : ${where}`,
-        );
-        AppLogger.info(
-            `[DeprecatedDependencyProvider - getDeprecatedDependencyListByPageAndParams] sort : ${sort}`,
-        );
-
-        return deprecatedDependencies;
-    } catch (error) {
-        AppLogger.info(
-            `[DeprecatedDependencyProvider - getDeprecatedDependencyListByPageAndParams] error : ${error.message}`,
+            `[DeprecatedDependencyProvider - getDeprecatedDependencyListByPageAndParams] error:  ${error.message}`,
         );
         return [];
     }
 };
 
+/**
+ * Retrieves the details of an DeprecatedDependency by its ID.
+ *
+ * @param {Object} params - An object containing the parameters for the query
+ * @param {string} params.deprecatedDependencyId - The ID of the DeprecatedDependency to retrieve
+ * @param {string} params.name - The name of the DeprecatedDependency to retrieve
+ * @returns {Object|null} The DeprecatedDependency details or null if not found or on error or if the DeprecatedDependency model is not found
+ */
+const getDeprecatedDependencyDetailsByParams = async ({ deprecatedDependencyId, name }) => {
+    try {
+        AppLogger.info(
+            `[DeprecatedDependencyProvider - getDeprecatedDependencyDetailsByParams] deprecatedDependencyId: ${deprecatedDependencyId}`,
+        );
+        AppLogger.info(
+            `[DeprecatedDependencyProvider - getDeprecatedDependencyDetailsByParams] name: ${name}`,
+        );
+
+        const deprecatedDependencyModel = DataBaseManager.getDataBaseSchema(
+            DeprecatedDependencyModel.name,
+        );
+
+        if (!deprecatedDependencyModel) {
+            return null;
+        }
+
+        const deprecatedDependencyDetails = deprecatedDependencyModel?.length
+            ? (
+                  await deprecatedDependencyModel.findOne({
+                      where: {
+                          _id: deprecatedDependencyId,
+                      },
+                  })
+              )?.dataValues
+            : (
+                  await deprecatedDependencyModel.findOne({
+                      where: {
+                          name,
+                      },
+                  })
+              )?.dataValues;
+
+        AppLogger.info(
+            `[DeprecatedDependencyProvider - getDeprecatedDependencyDetailsByParams] deprecatedDependencyDetails _id: ${deprecatedDependencyDetails?._id}`,
+        );
+
+        if (!deprecatedDependencyDetails?._id) {
+            return null;
+        }
+
+        return deprecatedDependencyDetails;
+    } catch (error) {
+        AppLogger.info(
+            `[DeprecatedDependencyProvider - getDeprecatedDependencyDetailsByParams] error: ${error.message}`,
+        );
+        return null;
+    }
+};
+
+/**
+ * An object that provides various operations related to Deprecated Dependencies.
+ */
 const DeprecatedDependencyProvider = {
-    insertDeprecatedDependencyList,
+    createDeprecatedDependency,
+    editDeprecatedDependency,
+    deleteDeprecatedDependency,
     deleteDeprecatedDependencyList,
-    getDeprecatedDependencyDetailsByParams,
     getDeprecatedDependencyListByPageAndParams,
+    getDeprecatedDependencyDetailsByParams,
 };
 
 export default DeprecatedDependencyProvider;

@@ -1,7 +1,7 @@
 import { Form, Input, Select } from 'antd';
 import React from 'react';
 
-const VitalityInputFieldSet = ({ groupTitle, items, selectOptions }) => (
+const VitalityFormFieldSet = ({ groupTitle, items, selectOptions }) => (
     <fieldset>
         <legend>{groupTitle}</legend>
         {items?.map((item) => (
@@ -11,13 +11,23 @@ const VitalityInputFieldSet = ({ groupTitle, items, selectOptions }) => (
                 name={item.name}
                 rules={item.rules}
             >
-                {item.type === 'select' ? (
+                {item.type === 'select' && (
                     <Select
                         disabled={item.disabled || false}
                         placeholder={item.placeholder}
                         options={selectOptions}
                     />
-                ) : (
+                )}
+
+                {item.type === 'textarea' && (
+                    <Input.TextArea
+                        disabled={item.disabled || false}
+                        placeholder={item.placeholder}
+                        rows={4}
+                    />
+                )}
+
+                {!item.type?.length && (
                     <Input disabled={item.disabled || false} placeholder={item.placeholder} />
                 )}
             </Form.Item>
@@ -25,4 +35,4 @@ const VitalityInputFieldSet = ({ groupTitle, items, selectOptions }) => (
     </fieldset>
 );
 
-export default VitalityInputFieldSet;
+export default VitalityFormFieldSet;

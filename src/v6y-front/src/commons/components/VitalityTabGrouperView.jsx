@@ -4,7 +4,6 @@ import React from 'react';
 import useDataGrouper from '../hooks/useDataGrouper.jsx';
 import VitalityEmptyView from './VitalityEmptyView.jsx';
 
-
 const VitalityTabGrouperView = ({
     name,
     hasAllGroup,

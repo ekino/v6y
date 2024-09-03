@@ -6,7 +6,7 @@ export const buildCommonTableDataSource = (dataSource) =>
         key: item.id,
     }));
 
-export const buildCommonTableColumns = (dataSource, excludedKeys, metaQuery) => [
+export const buildCommonTableColumns = (dataSource, excludedKeys, options) => [
     ...(Object.keys(dataSource?.[0] || {})
         ?.filter((key) => key !== 'links' && !excludedKeys?.includes(key))
         ?.map((key) => ({
@@ -18,6 +18,6 @@ export const buildCommonTableColumns = (dataSource, excludedKeys, metaQuery) => 
         title: 'Actions',
         dataIndex: 'actions',
         key: 'actions',
-        render: (_, record) => <VitalityTableRowActions record={record} metaQuery={metaQuery} />,
+        render: (_, record) => <VitalityTableRowActions record={record} options={options} />,
     },
 ];

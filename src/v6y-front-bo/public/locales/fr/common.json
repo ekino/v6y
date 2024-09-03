@@ -157,7 +157,7 @@
         "label": "Application links"
       },
       "app-production-link": {
-        "label": "Application production link * (needed for runtime analysis)",
+        "label": "Application production link (needed for runtime analysis)",
         "placeholder": "Enter your application production link",
         "error": "You should enter at least one application production link!"
       },
