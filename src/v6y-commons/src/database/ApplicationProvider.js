@@ -18,6 +18,7 @@ const formatApplicationInput = (application) => {
         acronym,
         name,
         description,
+        gitOrganization,
         gitUrl,
         gitWebUrl,
         productionLink,
@@ -25,6 +26,7 @@ const formatApplicationInput = (application) => {
         codeQualityPlatformLink,
         ciPlatformLink,
         deploymentPlatformLink,
+        additionalProductionLinks,
     } = application || {};
 
     return {
@@ -33,13 +35,18 @@ const formatApplicationInput = (application) => {
         acronym,
         description,
         contactMail,
-        repo: { webUrl: gitWebUrl, gitUrl },
+        repo: { webUrl: gitWebUrl, gitUrl, organization: gitOrganization },
         links: [
             {
                 label: 'Application production url',
                 value: productionLink,
                 description: '',
             },
+            ...(additionalProductionLinks?.map((link, index) => ({
+                label: `Additional production url (${index + 1})`,
+                value: link,
+                description: '',
+            })) || []),
             {
                 label: 'Application code quality platform url',
                 value: codeQualityPlatformLink,
@@ -217,7 +224,7 @@ const getApplicationDetailsByParams = async ({ appId }) => {
             return null;
         }
 
-        const applicationKeywords = await KeywordProvider.getKeywordListByParams({
+        const applicationKeywords = await KeywordProvider.getKeywordListByPageAndParams({
             appId: application._id,
         });
 

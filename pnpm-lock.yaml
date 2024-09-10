@@ -278,6 +278,9 @@ importers:
       compare-versions:
         specifier: '=5.0.1'
         version: 5.0.1
+      fs-extra:
+        specifier: '=8.1.0'
+        version: 8.1.0
       morgan:
         specifier: '=1.10.0'
         version: 1.10.0

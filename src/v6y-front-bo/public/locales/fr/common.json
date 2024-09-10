@@ -121,7 +121,8 @@
     "v6y-applications": "Applications",
     "fields": {
       "app-infos-group": "Application Information",
-      "app-required-link-group": "Required Link(s)",
+      "app-git-repository-group": "Git Repository Information",
+      "app-required-links-group": "Production Link(s)",
       "app-optional-link-group": "Other Link(s)",
       "app-name": {
         "label": "Application name",
@@ -135,7 +136,7 @@
       },
       "app-acronym": {
         "label": "Application acronym",
-        "placeholder": "Enter your application acronym",
+        "placeholder": "Enter your application acronym (unique)",
         "error": "Application acronym is a mandatory field!"
       },
       "app-contact-email": {
@@ -143,13 +144,18 @@
         "placeholder": "Enter the application contact email",
         "error": "Application contact email is a mandatory field and must be a valid email!"
       },
+      "app-git-organization": {
+        "label": "Application Git Organization (it can be ekino for example and it will be used like this gitlab.ekino.com, generally gitlab.organization.com)",
+        "placeholder": "Enter your application Git Organization",
+        "error": "Application Git Organization is a mandatory field!"
+      },
       "app-git-web-url": {
-        "label": "Application Git Web URL",
+        "label": "Application Git Web URL (browser url to access the repository)",
         "placeholder": "Enter your application Git Web URL",
         "error": "Application Git Web URL is a mandatory field!"
       },
       "app-git-url": {
-        "label": "Application Git URL",
+        "label": "Application Git URL (git url to checkout the repository)",
         "placeholder": "Enter your application Git URL",
         "error": "Application Git URL is a mandatory field!"
       },

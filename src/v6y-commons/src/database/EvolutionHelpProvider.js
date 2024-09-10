@@ -1,4 +1,4 @@
-import { defaultEvolutionHelpStatus } from '../config/data/EvolutionHelpStatusConfig.js';
+import { defaultEvolutionHelpStatus } from '../config/EvolutionHelpStatusConfig.js';
 import AppLogger from '../core/AppLogger.js';
 import DataBaseManager from './DataBaseManager.js';
 import EvolutionHelpModel from './models/EvolutionHelpModel.js';

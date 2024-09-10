@@ -9,11 +9,8 @@ const RepositoryType = `
     """ Repository Name """
     name: String
     
-    """ Repository full name """
-    fullName: String
-    
-    """ Repository owner """
-    owner: String
+     """ Repository Organization """
+    organization: String
         
     """ Repository all related branches """
     allBranches: [String]                  

@@ -1,6 +1,6 @@
 const KeywordQueriesType = `
   type Query {
-    getKeywordListByParams: [KeywordType]
+    getKeywordListByPageAndParams: [KeywordType]
   }
 `;
 

@@ -20,7 +20,7 @@ import FaqProvider from './database/FaqProvider.js';
 import KeywordProvider from './database/KeywordProvider.js';
 import NotificationProvider from './database/NotificationProvider.js';
 
-export * from './config/data/EvolutionHelpStatusConfig.js';
+export * from './config/EvolutionHelpStatusConfig.js';
 
 export {
     AppLogger,

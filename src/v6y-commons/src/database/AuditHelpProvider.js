@@ -1,4 +1,4 @@
-import { defaultAuditHelpStatus } from '../config/data/AuditHelpConfig.js';
+import { defaultAuditHelpStatus } from '../config/AuditHelpConfig.js';
 import AppLogger from '../core/AppLogger.js';
 import DataBaseManager from './DataBaseManager.js';
 import AuditHelpModel from './models/AuditHelpModel.js';

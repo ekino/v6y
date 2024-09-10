@@ -12,6 +12,9 @@ const ApplicationCreateOrEditInput = `
       """ APP Description """
       description: String!
       
+      """ Application repository organization """
+      gitOrganization: String!
+      
       """ Application web repository url """
       gitWebUrl: String!
         
@@ -20,6 +23,9 @@ const ApplicationCreateOrEditInput = `
         
       """ Application production url """
       productionLink: String!
+      
+      """ Additional Application production urls """
+      additionalProductionLinks: [String]
        
       """ APP Contact Mail """
       contactMail: String!

@@ -14,9 +14,11 @@ const createOrEditApplication = async (_, params) => {
             acronym,
             name,
             description,
+            gitOrganization,
             gitUrl,
             gitWebUrl,
             productionLink,
+            additionalProductionLinks,
             contactMail,
             codeQualityPlatformLink,
             ciPlatformLink,
@@ -30,9 +32,15 @@ const createOrEditApplication = async (_, params) => {
         AppLogger.info(`[AppMutations - createOrEditApplication] gitUrl : ${gitUrl}`);
         AppLogger.info(`[AppMutations - createOrEditApplication] gitWebUrl : ${gitWebUrl}`);
         AppLogger.info(
+            `[AppMutations - createOrEditApplication] gitOrganization : ${gitOrganization}`,
+        );
+        AppLogger.info(
             `[AppMutations - createOrEditApplication] productionLink : ${productionLink}`,
         );
         AppLogger.info(`[AppMutations - createOrEditApplication] contactMail : ${contactMail}`);
+        AppLogger.info(
+            `[AppMutations - createOrEditApplication] additionalProductionLinks : ${additionalProductionLinks?.join(',')}`,
+        );
 
         if (appId) {
             const editedApplication = await ApplicationProvider.editApplication({
@@ -40,6 +48,7 @@ const createOrEditApplication = async (_, params) => {
                 acronym,
                 name,
                 description,
+                gitOrganization,
                 gitUrl,
                 gitWebUrl,
                 productionLink,
@@ -47,6 +56,7 @@ const createOrEditApplication = async (_, params) => {
                 codeQualityPlatformLink,
                 ciPlatformLink,
                 deploymentPlatformLink,
+                additionalProductionLinks,
             });
 
             AppLogger.info(
@@ -60,6 +70,7 @@ const createOrEditApplication = async (_, params) => {
             acronym,
             name,
             description,
+            gitOrganization,
             gitUrl,
             gitWebUrl,
             productionLink,
@@ -67,6 +78,7 @@ const createOrEditApplication = async (_, params) => {
             codeQualityPlatformLink,
             ciPlatformLink,
             deploymentPlatformLink,
+            additionalProductionLinks,
         });
 
         AppLogger.info(

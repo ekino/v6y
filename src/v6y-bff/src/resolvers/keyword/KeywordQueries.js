@@ -5,17 +5,17 @@ import { AppLogger, KeywordProvider } from '@v6y/commons';
  *
  * @returns An array of keywords or an empty array on error.
  */
-const getKeywordListByParams = async () => {
+const getKeywordListByPageAndParams = async () => {
     try {
-        const keywordsList = await KeywordProvider.getKeywordListByParams({});
+        const keywordsList = await KeywordProvider.getKeywordListByPageAndParams({});
 
         AppLogger.info(
-            `[AppQueries - getKeywordListByParams] keywordsList : ${keywordsList?.length}`,
+            `[AppQueries - getKeywordListByPageAndParams] keywordsList : ${keywordsList?.length}`,
         );
 
         return keywordsList;
     } catch (error) {
-        AppLogger.info(`[AppQueries - getKeywordListByParams] error : ${error.message}`);
+        AppLogger.info(`[AppQueries - getKeywordListByPageAndParams] error : ${error.message}`);
         return [];
     }
 };
@@ -24,7 +24,7 @@ const getKeywordListByParams = async () => {
  * An object containing keyword query functions.
  */
 const KeywordQueries = {
-    getKeywordListByParams,
+    getKeywordListByPageAndParams,
 };
 
 export default KeywordQueries;

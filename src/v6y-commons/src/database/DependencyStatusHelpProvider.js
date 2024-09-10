@@ -1,4 +1,4 @@
-import { defaultDependencyStatusHelp } from '../config/data/DependencyStatusHelpConfig.js';
+import { defaultDependencyStatusHelp } from '../config/DependencyStatusHelpConfig.js';
 import AppLogger from '../core/AppLogger.js';
 import DataBaseManager from './DataBaseManager.js';
 import DependencyStatusHelpModel from './models/DependencyStatusHelpModel.js';

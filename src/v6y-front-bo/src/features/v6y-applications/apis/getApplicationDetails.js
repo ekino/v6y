@@ -15,8 +15,7 @@ const GetApplicationDetails = gql`
             }
             repo {
                 name
-                owner
-                fullName
+                organization
                 webUrl
                 gitUrl
                 allBranches

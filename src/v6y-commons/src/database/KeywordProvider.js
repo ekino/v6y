@@ -1,4 +1,4 @@
-import { keywordStatus } from '../config/data/KeywordStatusConfig.js';
+import { keywordStatus } from '../config/KeywordStatusConfig.js';
 import AppLogger from '../core/AppLogger.js';
 import DataBaseManager from './DataBaseManager.js';
 import KeywordModel from './models/KeywordModel.js';

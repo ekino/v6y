@@ -60,7 +60,19 @@ export const applicationInfosFormItems = (translate) => {
     ];
 };
 
-export const applicationRequiredLinksFormItems = (translate) => [
+export const applicationGitRepositoryFormItems = (translate) => [
+    {
+        id: 'app-git-organization',
+        name: 'app-git-organization',
+        label: translate('v6y-applications.fields.app-git-organization.label'),
+        placeholder: translate('v6y-applications.fields.app-git-organization.placeholder'),
+        rules: [
+            {
+                required: true,
+                message: translate('v6y-applications.fields.app-git-organization.error'),
+            },
+        ],
+    },
     {
         id: 'app-git-web-url',
         name: 'app-git-web-url',
@@ -85,6 +97,9 @@ export const applicationRequiredLinksFormItems = (translate) => [
             },
         ],
     },
+];
+
+export const applicationRequiredLinksFormItems = (translate) => [
     {
         id: 'app-production-link-1',
         name: `app-production-link-1`,
@@ -147,8 +162,13 @@ export const applicationCreateEditItems = (translate) => {
             items={applicationInfosFormItems(translate)}
         />,
         <VitalityFormFieldSet
-            key={translate('v6y-applications.fields.app-required-link-group')}
-            groupTitle={translate('v6y-applications.fields.app-required-link-group')}
+            key={translate('v6y-applications.fields.app-git-repository-group')}
+            groupTitle={translate('v6y-applications.fields.app-git-repository-group')}
+            items={applicationGitRepositoryFormItems(translate)}
+        />,
+        <VitalityFormFieldSet
+            key={translate('v6y-applications.fields.app-required-links-group')}
+            groupTitle={translate('v6y-applications.fields.app-required-links-group')}
             items={applicationRequiredLinksFormItems(translate)}
         />,
         <VitalityFormFieldSet
@@ -164,11 +184,18 @@ export const applicationCreateOrEditFormInAdapter = (params) => ({
     'app-acronym': params?.['acronym'],
     'app-name': params?.['name'],
     'app-description': params?.['description'],
+    'app-git-organization': params?.['repo']?.organization,
     'app-git-web-url': params?.['repo']?.webUrl,
     'app-git-url': params?.['repo']?.gitUrl,
     'app-contact-email': params?.['contactMail'],
     'app-production-link-1': params?.['links']?.find?.(
         (item) => item.label === 'Application production url',
+    )?.value,
+    'app-production-link-2': params?.['links']?.find?.(
+        (item) => item.label === 'Additional production url (1)',
+    )?.value,
+    'app-production-link-3': params?.['links']?.find?.(
+        (item) => item.label === 'Additional production url (2)',
     )?.value,
     'app-code-quality-platform-link': params?.['links']?.find?.(
         (item) => item.label === 'Application code quality platform url',
@@ -185,11 +212,16 @@ export const applicationCreateOrEditFormOutputAdapter = (params) => ({
     applicationInput: {
         acronym: params?.['app-acronym'],
         description: params?.['app-description'],
+        gitOrganization: params?.['app-git-organization'],
         gitWebUrl: params?.['app-git-web-url'],
         gitUrl: params?.['app-git-url'],
         name: params?.['app-name'],
         contactMail: params?.['app-contact-email'],
         productionLink: params?.['app-production-link-1'],
+        additionalProductionLinks: [
+            params?.['app-production-link-2'],
+            params?.['app-production-link-3'],
+        ]?.filter((item) => item),
         appId: params?.['appId'],
         codeQualityPlatformLink: params?.['app-code-quality-platform-link'],
         ciPlatformLink: params?.['app-ci-cd-platform-link'],

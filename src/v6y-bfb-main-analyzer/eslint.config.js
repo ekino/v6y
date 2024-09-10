@@ -5,7 +5,6 @@ export default [
         files: ['src/**/*.js', 'src/**/*.mjs'],
         ignores: ['**/*.test.js'],
         rules: {
-            complexity: ['error', 3],
             'max-depth': ['error', 3],
             'max-nested-callbacks': ['error', 3],
             'max-params': ['error', 3],

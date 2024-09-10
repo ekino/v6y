@@ -1,6 +1,5 @@
 import {
     AppLogger,
-    ApplicationProvider,
     AuditProvider,
     DataBaseManager,
     DependencyProvider,
@@ -9,9 +8,9 @@ import {
 } from '@v6y/commons';
 import { parentPort } from 'worker_threads';
 
-import AppManager from '../managers/AppManager.js';
+import ApplicationManager from '../managers/ApplicationManager.js';
 
-const { buildAppList } = AppManager;
+const { buildApplicationList } = ApplicationManager;
 
 AppLogger.info('******************** Starting background APP updates **************************');
 
@@ -19,16 +18,14 @@ try {
     // *********************************************** Database Configuration and Connection ***********************************************
     await DataBaseManager.connect();
 
-    // Clear existing data in preparation for updates
+    // Clear dynamic data in preparation for updates
     await KeywordProvider.deleteKeywordList();
     await AuditProvider.deleteAuditList();
     await DependencyProvider.deleteDependencyList();
     await EvolutionProvider.deleteEvolutionList();
-    await ApplicationProvider.deleteApplicationList();
 
     // *********************************************** Update APP List ***********************************************
-    await buildAppList({
-        enablePersist: true,
+    await buildApplicationList({
         // start: 0, // Optionally limit analysis range (start index)
         // end: 5,   // Optionally limit analysis range (end index)
     });

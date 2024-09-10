@@ -9,7 +9,7 @@ import useNavigationAdapter from '../../../infrastructure/adapters/navigation/us
 import VitalityApiConfig from '../../config/VitalityApiConfig.js';
 import VitalityEmptyView from '../VitalityEmptyView.jsx';
 import VitalityLoader from '../VitalityLoader.jsx';
-import GetKeywordListByParams from './getKeywordListByParams.js';
+import GetKeywordListByPageAndParams from './getKeywordListByPageAndParams.js';
 
 const VitalityKeywords = () => {
     const [selectedKeywords, setSelectedKeywords] = useState([]);
@@ -20,23 +20,23 @@ const VitalityKeywords = () => {
     const [keywordsUrlParams] = getUrlParams(['keywords']);
 
     const { isLoading: isKeywordsLoading, data: dataKeywords } = useClientQuery({
-        queryCacheKey: ['getKeywordListByParams'],
+        queryCacheKey: ['getKeywordListByPageAndParams'],
         queryBuilder: async () =>
             buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
-                queryPath: GetKeywordListByParams,
+                queryPath: GetKeywordListByPageAndParams,
                 queryParams: {},
             }),
     });
 
     useEffect(() => {
-        const data = dataKeywords?.getKeywordListByParams?.map((item) => ({
+        const data = dataKeywords?.getKeywordListByPageAndParams?.map((item) => ({
             ...item,
             value: item.label,
         }));
 
         setKeywordsList(data);
-    }, [dataKeywords?.getKeywordListByParams]);
+    }, [dataKeywords?.getKeywordListByPageAndParams]);
 
     useEffect(() => {
         const defaultSelectedKeywords = keywordsUrlParams?.split(',');

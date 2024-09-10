@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request';
 
-const GetKeywordListByParams = gql`
-    query getKeywordListByParams {
-        getKeywordListByParams {
+const GetKeywordListByPageAndParams = gql`
+    query getKeywordListByPageAndParams {
+        getKeywordListByPageAndParams {
             label
             version
             status
@@ -15,4 +15,4 @@ const GetKeywordListByParams = gql`
     }
 `;
 
-export default GetKeywordListByParams;
+export default GetKeywordListByPageAndParams;
