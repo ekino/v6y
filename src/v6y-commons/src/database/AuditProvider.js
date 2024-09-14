@@ -36,6 +36,32 @@ const createAudit = async (audit) => {
 };
 
 /**
+ * Bulk insert of audit list
+ * @param {Array} auditList
+ * @returns {Promise<null>}
+ */
+const insertAuditList = async (auditList) => {
+    try {
+        AppLogger.info(`[AuditProvider - insertAuditList] auditList:  ${auditList?.length}`);
+        if (!auditList?.length) {
+            return null;
+        }
+
+        const auditModel = DataBaseManager.getDataBaseSchema(AuditModel.name);
+
+        if (!auditModel) {
+            return null;
+        }
+
+        await auditModel.bulkCreate(auditList);
+
+        AppLogger.info(`[AuditProvider - insertAuditList] audit reports inserted successfully`);
+    } catch (error) {
+        AppLogger.info(`[AuditProvider - insertAuditList] error:  ${error.message}`);
+    }
+};
+
+/**
  * Edits an existing Audit entry in the database.
  *
  * @param {Object} audit - The Audit data with updated information.
@@ -173,6 +199,7 @@ const getAuditListByPageAndParams = async ({ appId }) => {
  */
 const AuditProvider = {
     createAudit,
+    insertAuditList,
     editAudit,
     deleteAudit,
     deleteAuditList,

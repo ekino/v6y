@@ -36,7 +36,7 @@ const auditModelOptions = {
 };
 
 const AuditModel = {
-    name: 'Audit',
+    name: 'AuditReport',
     schema: auditModelSchema,
     options: auditModelOptions,
 };

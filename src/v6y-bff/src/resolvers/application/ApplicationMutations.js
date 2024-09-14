@@ -43,7 +43,7 @@ const createOrEditApplication = async (_, params) => {
         );
 
         if (appId) {
-            const editedApplication = await ApplicationProvider.editApplication({
+            const editedApplication = await ApplicationProvider.editFormApplication({
                 appId,
                 acronym,
                 name,
@@ -66,7 +66,7 @@ const createOrEditApplication = async (_, params) => {
             return editedApplication;
         }
 
-        const createdApplication = await ApplicationProvider.createApplication({
+        const createdApplication = await ApplicationProvider.createFormApplication({
             acronym,
             name,
             description,

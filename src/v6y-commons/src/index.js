@@ -1,4 +1,6 @@
+import RepositoryApi from './apis/RepositoryApi.js';
 import AppLogger from './core/AppLogger.js';
+import AuditUtils from './core/AuditUtils.js';
 import Matcher from './core/Matcher.js';
 import PerformancesUtils from './core/PerformancesUtils.js';
 import SemverUtils from './core/SemverUtils.js';
@@ -30,6 +32,7 @@ export {
     StringUtils,
     TaskUtils,
     ServerUtils,
+    AuditUtils,
     WorkerHelper,
     ZipUtils,
     ApplicationProvider,
@@ -44,4 +47,5 @@ export {
     DependencyProvider,
     DependencyStatusHelpProvider,
     DeprecatedDependencyProvider,
+    RepositoryApi,
 };

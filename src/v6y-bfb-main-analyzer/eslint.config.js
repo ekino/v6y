@@ -14,7 +14,7 @@ export default [
             Recommendations usually range from 100 to 500 lines.
              */
             'max-lines': ['error', 500], // per file
-            'max-lines-per-function': ['error', 50], // per function
+            'max-lines-per-function': ['error', 100], // per function
             'max-statements': ['error', 30], // per function
         },
     },

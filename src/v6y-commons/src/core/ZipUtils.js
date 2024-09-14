@@ -164,7 +164,7 @@ const unZipFile = async ({ zipOriginalSourceDir, zipOriginalFileName, zipNewSour
         // Extract the zip file to the destination directory
         originalZip.extractAllTo(zipNewSourceDirPath, true, false, null);
 
-        // Clean up the original zip file (assuming deleteZip is defined elsewhere)
+        // Clean up the original zip file
         deleteZip({
             zipDirFullPath: zipOriginalFileNamePath,
         });
@@ -176,7 +176,7 @@ const unZipFile = async ({ zipOriginalSourceDir, zipOriginalFileName, zipNewSour
         await fs.move(mvSource, mvDestination, { overwrite: false });
         await fs.promises.rename(mvDestination, mvDestination?.replace('-temp', ''));
 
-        // Clean up any empty folders in the original source directory (assuming cleanZipWorkspace is defined elsewhere)
+        // Clean up any empty folders in the original source directory
         await cleanZipWorkspace(zipOriginalSourceDirPath);
 
         AppLogger.info('[ZipUtils - unZipFile] 🎉 end unzipping file');
@@ -216,7 +216,7 @@ const deleteZip = ({ zipDir, zipDirFullPath }) => {
             force: true,
         });
 
-        AppLogger.info('[ZipUtils - unZipFile] 🎉 end of deleting zip file');
+        AppLogger.info('[ZipUtils - deleteZip] 🎉 end of deleting zip file');
 
         return true;
     } catch (error) {
@@ -232,6 +232,7 @@ const ZipUtils = {
     downloadZip,
     unZipFile,
     deleteZip,
+    cleanZipWorkspace,
 };
 
 export default ZipUtils;

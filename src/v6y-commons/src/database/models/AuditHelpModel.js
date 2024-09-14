@@ -28,10 +28,10 @@ const auditHelpModelOptions = {
     indexes: [{ unique: true, fields: ['category', 'title'] }],
 };
 
-const AuditHelpModelModel = {
+const AuditHelpModel = {
     name: 'AuditHelp',
     schema: auditHelpModelSchema,
     options: auditHelpModelOptions,
 };
 
-export default AuditHelpModelModel;
+export default AuditHelpModel;

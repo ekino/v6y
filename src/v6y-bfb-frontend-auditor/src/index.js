@@ -5,8 +5,9 @@ import cors from 'cors';
 import express from 'express';
 import expressStatusMonitor from 'express-status-monitor';
 
+import FrontendAuditorManager from './auditors/FrontendAuditorManager.js';
 import ServerConfig from './commons/ServerConfig.js';
-import AppAuditorRouter from './routes/AppAuditorRouter.js';
+import FrontendAuditorRouter from './routes/FrontendAuditorRouter.js';
 
 const { createServer } = ServerUtils;
 const { getCurrentConfig } = ServerConfig;
@@ -17,7 +18,7 @@ const {
     hostname,
     port,
     healthCheckPath,
-    appAuditorApiPath,
+    frontendAuditorApiPath,
     serverTimeout,
     serverUrl,
 } = getCurrentConfig() || {}; // Destructuring with defaults
@@ -44,7 +45,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Body Parser: Parses incoming request bodies in different formats (URL-encoded, JSON).
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // *********************************************** Monitoring ***********************************************
@@ -72,7 +72,7 @@ app.get(healthCheckPath, (req, res) => {
 });
 
 // *********************************************** App Auditor Routes ***********************************************
-app.use(appAuditorApiPath, AppAuditorRouter);
+app.use(frontendAuditorApiPath, FrontendAuditorRouter);
 
 // *********************************************** Default Route (404) ***********************************************
 
@@ -93,5 +93,9 @@ httpServer.timeout = serverTimeout; // Set server timeout
 
 AppLogger.info(`🚀 Server started at ${serverUrl}`);
 
-// (Optional) Mock Start:
-// AppAuditorManager.startAudits();
+/* mock start */
+await FrontendAuditorManager.startFrontendAudit({
+    applicationId: '6',
+    workspaceFolder:
+        '/Users/hela.ben-khalfallah/Desktop/github_workspace/v6y/src/code-analysis-workspace/mfs/loader',
+});

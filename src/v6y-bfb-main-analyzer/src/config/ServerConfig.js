@@ -16,7 +16,8 @@ const SERVER_ENV_CONFIGURATION = {
         port: 4003,
         hostname: 'localhost',
         apiPath: V6Y_API_PATH,
-        frontendAuditorApi: 'http://localhost:4002/v6y/bfb-frontend-auditor/app/start-auditor.json',
+        frontendAuditorApi:
+            'http://localhost:4002/v6y/bfb-frontend-auditor/auditor/start-frontend-auditor.json',
         healthCheckPath: V6Y_HEALTH_CHECK_PATH,
         monitoringPath: V6Y_MONITORING_PATH,
         serverTimeout: 900000, // milliseconds
@@ -27,7 +28,7 @@ const SERVER_ENV_CONFIGURATION = {
         hostname: 'localhost',
         apiPath: V6Y_API_PATH,
         frontendAuditorApi:
-            'http://localhost:4002/v6y/bfb-frontend-auditor/app/security-auditor.json',
+            'http://localhost:4002/v6y/bfb-frontend-auditor/auditor/start-frontend-auditor.json',
         healthCheckPath: V6Y_HEALTH_CHECK_PATH,
         monitoringPath: V6Y_MONITORING_PATH,
         serverTimeout: 900000, // milliseconds

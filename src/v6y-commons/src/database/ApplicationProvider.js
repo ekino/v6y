@@ -67,12 +67,12 @@ const formatApplicationInput = (application) => {
 };
 
 /**
- * Creates a new application in the database
+ * Creates a new application in the database from form data.
  *
  * @param {Object} application - The application data to be created
  * @returns {Object|null} The created application object or null on error or if the application model is not found
  */
-const createApplication = async (application) => {
+const createFormApplication = async (application) => {
     try {
         const applicationModel = DataBaseManager.getDataBaseSchema(ApplicationModel.name);
 
@@ -85,23 +85,23 @@ const createApplication = async (application) => {
         );
 
         AppLogger.info(
-            `[ApplicationProvider - createApplication] createdApplication: ${createdApplication?._id}`,
+            `[ApplicationProvider - createFormApplication] createdApplication: ${createdApplication?._id}`,
         );
 
         return createdApplication;
     } catch (error) {
-        AppLogger.info(`[ApplicationProvider - createApplication] error: ${error.message}`);
+        AppLogger.info(`[ApplicationProvider - createFormApplication] error: ${error.message}`);
         return null;
     }
 };
 
 /**
- * Edits an existing application in the database.
+ * Edits an existing application in the database from form data.
  *
  * @param {Object} application - The application data with updated information.
  * @returns {Object|null} An object containing the ID of the edited application or null on error or if the application model is not found
  */
-const editApplication = async (application) => {
+const editFormApplication = async (application) => {
     try {
         if (!application?.appId) {
             return null;
@@ -122,11 +122,47 @@ const editApplication = async (application) => {
         );
 
         AppLogger.info(
-            `[ApplicationProvider - editApplication] editedApplication: ${editedApplication?._id}`,
+            `[ApplicationProvider - editFormApplication] editedApplication: ${editedApplication?._id}`,
         );
 
         return {
             _id: application?.appId,
+        };
+    } catch (error) {
+        AppLogger.info(`[ApplicationProvider - editFormApplication] error: ${error.message}`);
+        return null;
+    }
+};
+
+/**
+ * Edits an existing application in the database.
+ *
+ * @param {Object} application - The application data with updated information.
+ * @returns {Object|null} An object containing the ID of the edited application or null on error or if the application model is not found
+ */
+const editApplication = async (application) => {
+    try {
+        if (!application?._id) {
+            return null;
+        }
+
+        const applicationModel = DataBaseManager.getDataBaseSchema(ApplicationModel.name);
+        if (!applicationModel) {
+            return null;
+        }
+
+        const editedApplication = await applicationModel.update(application, {
+            where: {
+                _id: application?._id,
+            },
+        });
+
+        AppLogger.info(
+            `[ApplicationProvider - editApplication] editedApplication: ${editedApplication?._id}`,
+        );
+
+        return {
+            _id: application?._id,
         };
     } catch (error) {
         AppLogger.info(`[ApplicationProvider - editApplication] error: ${error.message}`);
@@ -444,7 +480,8 @@ const getApplicationStatsByParams = async ({ keywords }) => {
  * A helper that provides various operations related to applications
  */
 const ApplicationProvider = {
-    createApplication,
+    createFormApplication,
+    editFormApplication,
     editApplication,
     deleteApplication,
     deleteApplicationList,

@@ -1,7 +1,6 @@
 import react from '@vitejs/plugin-react';
 import { configDefaults, defineConfig } from 'vitest/config';
 
-
 /**
  * https://vitest.dev/config/#configuration
  */

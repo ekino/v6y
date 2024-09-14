@@ -4,6 +4,7 @@ export const auditStatus = {
     success: 'success',
     warning: 'warning',
     error: 'error',
+    info: 'info',
 };
 
 export const defaultAuditHelpStatus = [
@@ -80,7 +81,61 @@ export const defaultAuditHelpStatus = [
         explanation: '',
     },
     {
+        category: `${codeSmellTypes['Code-Complexity']}-${codeSmellCategories['maintainability-index-project-average']}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
+    {
         category: `${codeSmellTypes['Code-Complexity']}-${codeSmellCategories['cyclomatic-complexity']}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
+    {
+        category: `${codeSmellTypes['Code-Complexity']}-${codeSmellCategories['halstead-program-length']}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
+    {
+        category: `${codeSmellTypes['Code-Complexity']}-${codeSmellCategories['halstead-program-volume']}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
+    {
+        category: `${codeSmellTypes['Code-Complexity']}-${codeSmellCategories['halstead-program-difficulty']}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
+    {
+        category: `${codeSmellTypes['Code-Complexity']}-${codeSmellCategories['halstead-program-effort']}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
+    {
+        category: `${codeSmellTypes['Code-Complexity']}-${codeSmellCategories['halstead-program-estimated-bugs']}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
+    {
+        category: `${codeSmellTypes['Code-Complexity']}-${codeSmellCategories['halstead-program-time-to-implement']}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
+    {
+        category: `${codeSmellTypes['Code-Complexity']}-${codeSmellCategories['physical-sloc']}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
+    {
+        category: `${codeSmellTypes['Code-Complexity']}-${codeSmellCategories['logical-sloc']}`,
         title: 'Default Title',
         description: 'Default Description',
         explanation: '',

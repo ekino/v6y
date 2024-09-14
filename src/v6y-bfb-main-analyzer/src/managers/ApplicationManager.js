@@ -1,161 +1,179 @@
-import { AppLogger, ApplicationProvider, ZipUtils } from '@v6y/commons';
+import { AppLogger, ApplicationProvider, RepositoryApi, ZipUtils } from '@v6y/commons';
 
+import ServerConfig from '../config/ServerConfig.js';
+
+const { getRepositoryDetails, getRepositoryBranches, prepareGitBranchZipConfig } = RepositoryApi;
+const { getCurrentConfig } = ServerConfig;
+const { frontendAuditorApi } = getCurrentConfig() || {};
 const ZIP_BASE_DIR = '../code-analysis-workspace';
 
-const buildQueryOptions = ({ organization }) => ({
-    baseURL: `https://gitlab.${organization}.com`,
-    headers: {
-        'PRIVATE-TOKEN': 'JyeFxrbBR8_zZrKQGegZ',
-        'Content-Type': 'application/json',
-    },
-    api: 'api/v4',
-});
-
-const getRepositoryDetails = async ({ organization, gitRepositoryName }) => {
+/**
+ * Builds the backend of an application based on a specific branch.
+ *
+ * @param {Object} options - The options object.
+ * @param {string} options.applicationId - The ID of the application.
+ * @param {string} options.workspaceFolder - The folder where the application code is located.
+ * @returns {Promise<boolean>} True if the build was successful, false otherwise.
+ */
+const buildApplicationBackendByBranch = async ({ applicationId, workspaceFolder }) => {
     try {
-        const queryOptions = buildQueryOptions({ organization });
-
-        const repositoryResponse = await fetch(
-            `${queryOptions.baseURL}/${queryOptions.api}/projects?search=${gitRepositoryName}`,
-            {
-                method: 'GET',
-                headers: queryOptions.headers,
-            },
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationFrontendByBranch] applicationId: ',
+            applicationId,
         );
-
-        const repositoryJsonResponse = await repositoryResponse.json();
-
-        if (!repositoryJsonResponse || !Array.isArray(repositoryJsonResponse)) {
-            return null;
-        }
-
-        return repositoryJsonResponse[0];
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationFrontendByBranch] workspaceFolder: ',
+            workspaceFolder,
+        );
+        return true;
     } catch (error) {
-        AppLogger.info(`[ApplicationManager - getRepositoryDetails] error:  ${error.message}`);
+        AppLogger.info(
+            `[ApplicationManager - buildApplicationBackendByBranch] error:  ${error.message}`,
+        );
+        return false;
     }
 };
 
-const getRepositoryBranches = async ({ repoBranchesUrl }) => {
+/**
+ * Builds the frontend of an application based on a specific branch and starts the frontend analyzer service.
+ *
+ * @param {Object} options - The options object.
+ * @param {string} options.applicationId - The ID of the application.
+ * @param {string} options.workspaceFolder - The folder where the application code is located.
+ * @returns {Promise<boolean>} True if the build and analyzer start were successful, false otherwise.
+ */
+const buildApplicationFrontendByBranch = async ({ applicationId, workspaceFolder }) => {
     try {
-        const queryOptions = buildQueryOptions({ organization: null });
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationFrontendByBranch] applicationId: ',
+            applicationId,
+        );
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationFrontendByBranch] workspaceFolder: ',
+            workspaceFolder,
+        );
 
-        const repositoryResponse = await fetch(repoBranchesUrl, {
-            method: 'GET',
-            headers: queryOptions.headers,
+        await fetch(frontendAuditorApi, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ applicationId, workspaceFolder }),
         });
 
-        return await repositoryResponse.json();
+        return true;
     } catch (error) {
-        AppLogger.info(`[ApplicationManager - getRepositoryDetails] error:  ${error.message}`);
+        AppLogger.info(
+            `[ApplicationManager - buildApplicationFrontendByBranch] error:  ${error.message}`,
+        );
+        return false;
     }
 };
 
-const prepareGitBranchZipConfig = ({ application, branchName }) => {
-    try {
-        AppLogger.info(`[ApplicationManager - prepareGitZipConfig] branchName:  ${branchName}`);
-
-        if (!application || !branchName?.length) {
-            return null;
-        }
-
-        const normalizedBranchName = branchName?.split('/')?.pop()?.replaceAll(' ', '-');
-        AppLogger.info(
-            `[ApplicationManager - prepareGitZipConfig] normalizedBranchName:  ${normalizedBranchName}`,
-        );
-
-        const zipFileName = `${normalizedBranchName || branchName}.zip`;
-        AppLogger.info(`[ApplicationManager - prepareGitZipConfig] zipFileName:  ${zipFileName}`);
-
-        const { repo } = application;
-
-        const zipSourceUrl = `${repo?.webUrl}/-/archive/refs/heads/${branchName}/${zipFileName}`;
-        AppLogger.info(`[ApplicationManager - prepareGitZipConfig] zipSourceUrl:  ${zipSourceUrl}`);
-
-        const zipDestinationDir = `${ZIP_BASE_DIR}/${application?.acronym}`;
-        AppLogger.info(
-            `[ApplicationManager - prepareGitZipConfig] zipDestinationDir:  ${zipDestinationDir}`,
-        );
-
-        const zipBaseFileName = `${ZIP_BASE_DIR}/${application?.acronym}/${normalizedBranchName}`;
-        AppLogger.info(
-            `[ApplicationManager - prepareGitZipConfig] zipDestinationDir:  ${zipBaseFileName}`,
-        );
-
-        return {
-            zipSourceUrl,
-            zipFileName,
-            zipBaseFileName,
-            zipDestinationDir,
-        };
-    } catch (error) {
-        AppLogger.info(`[ApplicationManager - prepareGitZipConfig] error:  ${error.message}`);
-        return null;
-    }
-};
-
-// comparison avec bisto pour les versions
-// lancement snyk ?
-
-const buildApplicationDependenciesAnalysis = async ({ application, branch, workspace }) => {};
-
+/**
+ * Builds the details of an application based on a specific branch, including downloading, unzipping,
+ * and analyzing the code.
+ *
+ * @param {Object} options - The options object
+ * @param {Object} options.application - The application object
+ * @param {Object} options.branch - The branch object
+ * @returns {Promise<boolean>} True if the build was successful, false otherwise
+ */
 const buildApplicationDetailsByBranch = async ({ application, branch }) => {
     try {
-        // prepare zip config
-        const { zipSourceUrl, zipDestinationDir, zipFileName, zipBaseFileName } =
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationDetailsByBranch] application: ',
+            application,
+        );
+        AppLogger.info('[ApplicationManager - buildApplicationDetailsByBranch] branch: ', branch);
+
+        const { zipSourceUrl, zipDestinationDir, zipFileName, zipBaseFileName, zipOptions } =
             prepareGitBranchZipConfig({
+                zipBaseDir: ZIP_BASE_DIR,
                 application,
                 branchName: branch?.name,
             });
 
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationDetailsByBranch] zipSourceUrl: ',
+            zipSourceUrl,
+        );
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationDetailsByBranch] zipDestinationDir: ',
+            zipDestinationDir,
+        );
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationDetailsByBranch] zipFileName: ',
+            zipFileName,
+        );
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationDetailsByBranch] zipBaseFileName: ',
+            zipBaseFileName,
+        );
+
         if (!zipSourceUrl?.length || !zipDestinationDir?.length || !zipFileName?.length) {
-            return null;
+            return false;
         }
 
-        // zip download
         const zipDownloadStatus = await ZipUtils.downloadZip({
             zipSourceUrl,
             zipDestinationDir,
             zipFileName,
-            zipOptions: {
-                headers: buildQueryOptions({})?.headers,
-            },
+            zipOptions,
         });
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationDetailsByBranch] zipDownloadStatus: ',
+            zipDownloadStatus,
+        );
 
         if (!zipDownloadStatus) {
-            return null;
+            return false;
         }
 
-        // unzip file
         const workspaceFolder = await ZipUtils.unZipFile({
             zipOriginalSourceDir: zipDestinationDir,
             zipOriginalFileName: zipFileName,
             zipNewSourceDir: zipBaseFileName,
         });
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationDetailsByBranch] workspaceFolder: ',
+            workspaceFolder,
+        );
 
+        console.log('workspaceFolder: ', workspaceFolder);
         if (!workspaceFolder) {
-            return null;
+            return false;
         }
 
-        await buildApplicationDependenciesAnalysis({
-            application,
-            branch,
-            workspace: workspaceFolder,
+        await buildApplicationFrontendByBranch({
+            applicationId: application?._id,
+            workspaceFolder,
         });
 
-        return {};
+        await buildApplicationBackendByBranch({
+            applicationId: application?.id,
+            workspaceFolder,
+        });
+
+        /*ZipUtils.deleteZip({
+            zipDirFullPath: zipDestinationDir,
+        });*/
+
+        return true;
     } catch (error) {
         AppLogger.info(
             `[ApplicationManager - buildApplicationDetailsByBranch] error:  ${error.message}`,
         );
+        return false;
     }
 };
 
+/**
+ * Builds the details of an application, including fetching repository details, branches, and analyzing each branch
+ *
+ * @param {Object} application The application object
+ * @returns {Promise<boolean>} True if the build was successful, false otherwise
+ */
 const buildApplicationDetails = async (application) => {
     try {
-        // 1. for each application:
-        // 1.1. download zip for repo and branch
-        // 1.2. analyse each repo-branch-zip
-        // 1.3. delete zip
         if (
             !application?.name?.length ||
             !application?.acronym?.length ||
@@ -167,7 +185,6 @@ const buildApplicationDetails = async (application) => {
             return false;
         }
 
-        // 1. get list of branches
         const { organization, gitUrl } = application?.repo;
         const gitRepositoryName = gitUrl?.split('/')?.pop()?.replace('.git', '');
 
@@ -194,15 +211,21 @@ const buildApplicationDetails = async (application) => {
             return false;
         }
 
+        ApplicationProvider.editApplication({
+            ...application,
+            repo: {
+                ...application?.repo,
+                allBranches: repositoryBranches.map((branch) => branch?.name),
+            },
+        });
+
         for (const branch of repositoryBranches) {
-            const applicationDetailsByBranch = buildApplicationDetailsByBranch({
+            AppLogger.info('[ApplicationManager - buildApplicationDetails] branch: ', branch);
+
+            await buildApplicationDetailsByBranch({
                 application,
                 branch,
             });
-
-            if (applicationDetailsByBranch) {
-                // update application branches and status
-            }
         }
 
         return true;
@@ -212,9 +235,14 @@ const buildApplicationDetails = async (application) => {
     }
 };
 
+/**
+ * Builds the details for all applications in the system
+ *
+ * @param {Object} options Options for building the application list
+ * @returns {Promise<boolean>} True if the build was successful for all applications, false otherwise
+ */
 const buildApplicationList = async (options) => {
     try {
-        // 0. read available applications
         const applications = await ApplicationProvider.getApplicationListByPageAndParams({});
         AppLogger.info(
             '[ApplicationManager -  buildApplicationList] applications: ',
@@ -225,10 +253,6 @@ const buildApplicationList = async (options) => {
             return false;
         }
 
-        // 1. for each application:
-        // 1.1. download zip for repo and branch
-        // 1.2. analyse each repo-branch-zip
-        // 1.3. delete zip
         for (const application of applications) {
             await buildApplicationDetails(application);
         }

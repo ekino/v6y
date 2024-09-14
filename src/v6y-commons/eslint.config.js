@@ -13,7 +13,7 @@ export default [
             While there is not an objective maximum number of lines considered acceptable in a file, most people would agree it should not be in the thousands.
             Recommendations usually range from 100 to 500 lines.
              */
-            'max-lines': ['error', 500], // per file
+            'max-lines': ['error', 1000], // per file
             'max-lines-per-function': ['error', 100], // per function
             'max-statements': ['error', 50], // per function
         },

@@ -29,6 +29,15 @@ importers:
       axios-retry:
         specifier: '=4.0.0'
         version: 4.0.0(axios@1.6.2)
+      body-parser:
+        specifier: '=1.20.1'
+        version: 1.20.1
+      cookie-parser:
+        specifier: '=1.4.6'
+        version: 1.4.6
+      cors:
+        specifier: '=2.8.5'
+        version: 2.8.5
       cron:
         specifier: '=2.2.0'
         version: 2.2.0
@@ -50,6 +59,24 @@ importers:
       globby:
         specifier: '=10.0.1'
         version: 10.0.1
+      graphology:
+        specifier: '=0.25.4'
+        version: 0.25.4(graphology-types@0.24.7)
+      graphology-canvas:
+        specifier: '=0.4.2'
+        version: 0.4.2(graphology-types@0.24.7)
+      graphology-communities-louvain:
+        specifier: '=2.0.1'
+        version: 2.0.1(graphology-types@0.24.7)
+      graphology-components:
+        specifier: '=1.5.4'
+        version: 1.5.4(graphology-types@0.24.7)
+      graphology-metrics:
+        specifier: '=2.3.1'
+        version: 2.3.1(graphology-types@0.24.7)
+      graphology-svg:
+        specifier: '=0.1.3'
+        version: 0.1.3(graphology-types@0.24.7)
       jscpd:
         specifier: '=4.0.4'
         version: 4.0.4
@@ -68,6 +95,9 @@ importers:
       unixify:
         specifier: '=1.0.0'
         version: 1.0.0
+      xml2js:
+        specifier: '=0.6.2'
+        version: 0.6.2
     devDependencies:
       '@babel/core':
         specifier: '=7.18.6'
@@ -281,6 +311,15 @@ importers:
       fs-extra:
         specifier: '=8.1.0'
         version: 8.1.0
+      globals:
+        specifier: '=15.3.0'
+        version: 15.3.0
+      globby:
+        specifier: '=10.0.1'
+        version: 10.0.1
+      lodash:
+        specifier: '=4.17.21'
+        version: 4.17.21
       morgan:
         specifier: '=1.10.0'
         version: 1.10.0
@@ -302,6 +341,9 @@ importers:
       superagent:
         specifier: '=8.1.2'
         version: 8.1.2
+      unixify:
+        specifier: '=1.0.0'
+        version: 1.0.0
       winston:
         specifier: '=3.5.1'
         version: 3.5.1
@@ -2703,6 +2745,9 @@ packages:
     resolution: {integrity: sha512-aiATs7pSutzda/rq8fnuPwTglyVwjM22bNnK2ZgjrpAjQHSSl3lztd2f9evst1W/qnC58DRz7T7QndUDumAR4Q==}
     engines: {node: '>=14.15.0'}
 
+  '@yomguithereal/helpers@1.1.1':
+    resolution: {integrity: sha512-UYvAq/XCA7xoh1juWDYsq3W0WywOB+pz8cgVnE1b45ZfdMhBvHDrgmSFG3jXeZSr2tMTYLGHFHON+ekG05Jebg==}
+
   '@zkochan/js-yaml@0.0.7':
     resolution: {integrity: sha512-nrUSn7hzt7J6JWgWGz78ZYI8wj+gdIJdk0Ynjpp8l+trkn58Uqsf6RYrYkEK+3X18EX+TNdtJI0WxAtc+L84SQ==}
     hasBin: true
@@ -4272,6 +4317,10 @@ packages:
   eventemitter3@5.0.1:
     resolution: {integrity: sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==}
 
+  events@3.3.0:
+    resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
+    engines: {node: '>=0.8.x'}
+
   execa@4.1.0:
     resolution: {integrity: sha512-j5W0//W7f8UxAn8hXVnwG8tLwdiUy4FJLcSupCg6maBYZDpyBvTApK7KyuI4bKj8KOh1r2YH+6ucuYtJv1bTZA==}
     engines: {node: '>=10'}
@@ -4674,6 +4723,61 @@ packages:
 
   graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
+
+  graphology-canvas@0.4.2:
+    resolution: {integrity: sha512-7YJCw/8mMXvFiLP1ujEgpFOM5lmj5/AQG+9H1S/ErFvAQ1eyoLsTK/OzyLJjXzhHsBEl0fF4rN//TDsvuvkfPg==}
+    peerDependencies:
+      canvas: '*'
+      graphology-types: '>=0.20.0'
+    peerDependenciesMeta:
+      canvas:
+        optional: true
+
+  graphology-communities-louvain@2.0.1:
+    resolution: {integrity: sha512-JxEH8uxao6FcWp3UXNDJIRjU3pamzp9aqIWgpfAqWE66aPwHeBIB39YnqTgbe4baUJRdpbcp1u8jJiYvojHGIQ==}
+    peerDependencies:
+      graphology-types: '>=0.19.0'
+
+  graphology-components@1.5.4:
+    resolution: {integrity: sha512-O37vC226wgnN0C6FUWHNe4fbTzaF51CcQjwX3naId/QTzH/PkUtXaanCShj9ws5Vju+z4u3zvSeEZE84Bo9jlA==}
+    peerDependencies:
+      graphology-types: '>=0.19.0'
+
+  graphology-indices@0.17.0:
+    resolution: {integrity: sha512-A7RXuKQvdqSWOpn7ZVQo4S33O0vCfPBnUSf7FwE0zNCasqwZVUaCXePuWo5HBpWw68KJcwObZDHpFk6HKH6MYQ==}
+    peerDependencies:
+      graphology-types: '>=0.20.0'
+
+  graphology-layout@0.6.0:
+    resolution: {integrity: sha512-QZIminJVOqOFHBOf6qEjcMp0m+BNP4/XqY1jrnJhH+fmUHFtNDdTPSXYhVa8Hr3AN5bOPP1Zte5oY1ZzOyzhvA==}
+    peerDependencies:
+      graphology-types: '>=0.19.0'
+
+  graphology-metrics@2.3.1:
+    resolution: {integrity: sha512-131GRSKUR8DrGkLZSYKM3cwxEg+jqXvv1yLh/KgO0My7BOiuo80r0Qrsnv2N3ZjcOlh8namUS4sSk+cCVnTgKA==}
+    peerDependencies:
+      graphology-types: '>=0.20.0'
+
+  graphology-shortest-path@2.1.0:
+    resolution: {integrity: sha512-KbT9CTkP/u72vGEJzyRr24xFC7usI9Es3LMmCPHGwQ1KTsoZjxwA9lMKxfU0syvT/w+7fZUdB/Hu2wWYcJBm6Q==}
+    peerDependencies:
+      graphology-types: '>=0.20.0'
+
+  graphology-svg@0.1.3:
+    resolution: {integrity: sha512-bvsLnL9pIElvWgr/nPYKsqLWE1VPqG6wTFolmS9DxkAr9256hqzlb1ATfDGn52iyljJb+HTu9z6XMHrfRJ4Ggg==}
+
+  graphology-types@0.24.7:
+    resolution: {integrity: sha512-tdcqOOpwArNjEr0gNQKCXwaNCWnQJrog14nJNQPeemcLnXQUUGrsCWpWkVKt46zLjcS6/KGoayeJfHHyPDlvwA==}
+
+  graphology-utils@2.5.2:
+    resolution: {integrity: sha512-ckHg8MXrXJkOARk56ZaSCM1g1Wihe2d6iTmz1enGOz4W/l831MBCKSayeFQfowgF8wd+PQ4rlch/56Vs/VZLDQ==}
+    peerDependencies:
+      graphology-types: '>=0.23.0'
+
+  graphology@0.25.4:
+    resolution: {integrity: sha512-33g0Ol9nkWdD6ulw687viS8YJQBxqG5LWII6FI6nul0pq6iM2t5EKquOTFDbyTblRB3O9I+7KX4xI8u5ffekAQ==}
+    peerDependencies:
+      graphology-types: '>=0.24.0'
 
   graphql-request@6.1.0:
     resolution: {integrity: sha512-p+XPfS4q7aIpKVcgmnZKhMNqhltk20hfXtkaIkTfjjmiKMJ5xrt5c743cL03y/K7y1rg3WrIC49xGiEQ4mxdNw==}
@@ -5899,6 +6003,9 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  mnemonist@0.39.8:
+    resolution: {integrity: sha512-vyWo2K3fjrUw8YeeZ1zF0fy6Mu59RHokURlld8ymdUPjMlD9EC9ov1/YPqTgqRvUN9nTr3Gqfz29LYAmu0PHPQ==}
+
   module-definition@5.0.1:
     resolution: {integrity: sha512-kvw3B4G19IXk+BOXnYq/D/VeO9qfHaapMeuS7w7sNUqmGaA6hywdFHMi+VWeR9wUScXM7XjoryTffCZ5B0/8IA==}
     engines: {node: '>=14'}
@@ -6195,6 +6302,9 @@ packages:
     resolution: {integrity: sha512-yBYjY9QX2hnRmZHAjG/f13MzmBzxzYgQhFrke06TTyKY5zSTEqkOeukBzIdVA3j3ulu8Qa3MbVFShV7T2RmGtQ==}
     engines: {node: '>= 0.4'}
 
+  obliterator@2.0.4:
+    resolution: {integrity: sha512-lgHwxlxV1qIg1Eap7LgIeoBWIMFibOjbrYPIPJZcI1mmGAI2m3lNYpK12Y+GBdPQ0U1hRwSord7GIaawz962qQ==}
+
   obuf@1.1.2:
     resolution: {integrity: sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==}
 
@@ -6296,6 +6406,12 @@ packages:
 
   pako@0.2.9:
     resolution: {integrity: sha512-NUcwaKxUxWrZLpDG+z/xZaCgQITkA/Dv4V/T6bw7VON6l1Xz/VnrBqrYjZQ12TamKHzITTfOEIYUj48y2KXImA==}
+
+  pandemonium@1.5.0:
+    resolution: {integrity: sha512-9PU9fy93rJhZHLMjX+4M1RwZPEYl6g7DdWKGmGNhkgBZR5+tOBVExNZc00kzdEGMxbaAvWdQy9MqGAScGwYlcA==}
+
+  pandemonium@2.4.1:
+    resolution: {integrity: sha512-wRqjisUyiUfXowgm7MFH2rwJzKIr20rca5FsHXCMNm1W5YPP1hCtrZfgmQ62kP7OZ7Xt+cR858aB28lu5NX55g==}
 
   papaparse@5.4.1:
     resolution: {integrity: sha512-HipMsgJkZu8br23pW15uvo6sib6wne/4woLZPlFf3rpDyMe9ywEXUsuD7+6K9PRkJlVT51j/sCOYDKGGS3ZJrw==}
@@ -8502,8 +8618,16 @@ packages:
     resolution: {integrity: sha512-EvGK8EJ3DhaHfbRlETOWAS5pO9MZITeauHKJyb8wyajUfQUenkIg2MvLDTZ4T/TgIcm3HU0TFBgWWboAZ30UHg==}
     engines: {node: '>=18'}
 
+  xml2js@0.6.2:
+    resolution: {integrity: sha512-T4rieHaC1EXcES0Kxxj4JWgaUQHDk+qwHcYOCFHfiwKz7tOVPLq7Hjq9dM1WCMhylqMEfP7hMcOIChvotiZegA==}
+    engines: {node: '>=4.0.0'}
+
   xml@1.0.1:
     resolution: {integrity: sha512-huCv9IH9Tcf95zuYCsQraZtWnJvBtLVE0QHMOs8bWyZAFZNDcYjsPq1nEx8jKA9y+Beo9v+7OBPRisQTjinQMw==}
+
+  xmlbuilder@11.0.1:
+    resolution: {integrity: sha512-fDlsI/kFEx7gLvbecc0/ohLG50fugQp8ryHzMTuW9vSa1GJ0XYWKnhsUx7oie3G98+r56aTQIUB4kht42R3JvA==}
+    engines: {node: '>=4.0'}
 
   xmlchars@2.2.0:
     resolution: {integrity: sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==}
@@ -8734,7 +8858,7 @@ snapshots:
       '@types/express-serve-static-core': 4.19.5
       '@types/node-fetch': 2.6.11
       async-retry: 1.3.3
-      body-parser: 1.20.1
+      body-parser: 1.20.2
       cors: 2.8.5
       express: 4.18.2
       graphql: 16.5.0
@@ -11839,6 +11963,8 @@ snapshots:
       js-yaml: 3.14.1
       tslib: 2.7.0
 
+  '@yomguithereal/helpers@1.1.1': {}
+
   '@zkochan/js-yaml@0.0.7':
     dependencies:
       argparse: 2.0.1
@@ -13848,6 +13974,8 @@ snapshots:
 
   eventemitter3@5.0.1: {}
 
+  events@3.3.0: {}
+
   execa@4.1.0:
     dependencies:
       cross-spawn: 7.0.3
@@ -14381,6 +14509,72 @@ snapshots:
   grapheme-splitter@1.0.4: {}
 
   graphemer@1.4.0: {}
+
+  graphology-canvas@0.4.2(graphology-types@0.24.7):
+    dependencies:
+      graphology-layout: 0.6.0(graphology-types@0.24.7)
+      graphology-types: 0.24.7
+      graphology-utils: 2.5.2(graphology-types@0.24.7)
+
+  graphology-communities-louvain@2.0.1(graphology-types@0.24.7):
+    dependencies:
+      graphology-indices: 0.17.0(graphology-types@0.24.7)
+      graphology-types: 0.24.7
+      graphology-utils: 2.5.2(graphology-types@0.24.7)
+      mnemonist: 0.39.8
+      pandemonium: 2.4.1
+
+  graphology-components@1.5.4(graphology-types@0.24.7):
+    dependencies:
+      graphology-indices: 0.17.0(graphology-types@0.24.7)
+      graphology-types: 0.24.7
+      graphology-utils: 2.5.2(graphology-types@0.24.7)
+
+  graphology-indices@0.17.0(graphology-types@0.24.7):
+    dependencies:
+      graphology-types: 0.24.7
+      graphology-utils: 2.5.2(graphology-types@0.24.7)
+      mnemonist: 0.39.8
+
+  graphology-layout@0.6.0(graphology-types@0.24.7):
+    dependencies:
+      graphology-types: 0.24.7
+      graphology-utils: 2.5.2(graphology-types@0.24.7)
+      pandemonium: 1.5.0
+
+  graphology-metrics@2.3.1(graphology-types@0.24.7):
+    dependencies:
+      graphology-indices: 0.17.0(graphology-types@0.24.7)
+      graphology-shortest-path: 2.1.0(graphology-types@0.24.7)
+      graphology-types: 0.24.7
+      graphology-utils: 2.5.2(graphology-types@0.24.7)
+      mnemonist: 0.39.8
+
+  graphology-shortest-path@2.1.0(graphology-types@0.24.7):
+    dependencies:
+      '@yomguithereal/helpers': 1.1.1
+      graphology-indices: 0.17.0(graphology-types@0.24.7)
+      graphology-types: 0.24.7
+      graphology-utils: 2.5.2(graphology-types@0.24.7)
+      mnemonist: 0.39.8
+
+  graphology-svg@0.1.3(graphology-types@0.24.7):
+    dependencies:
+      graphology-utils: 2.5.2(graphology-types@0.24.7)
+    transitivePeerDependencies:
+      - graphology-types
+
+  graphology-types@0.24.7: {}
+
+  graphology-utils@2.5.2(graphology-types@0.24.7):
+    dependencies:
+      graphology-types: 0.24.7
+
+  graphology@0.25.4(graphology-types@0.24.7):
+    dependencies:
+      events: 3.3.0
+      graphology-types: 0.24.7
+      obliterator: 2.0.4
 
   graphql-request@6.1.0(graphql@16.8.1):
     dependencies:
@@ -15903,6 +16097,10 @@ snapshots:
 
   mkdirp@1.0.4: {}
 
+  mnemonist@0.39.8:
+    dependencies:
+      obliterator: 2.0.4
+
   module-definition@5.0.1:
     dependencies:
       ast-module-types: 5.0.0
@@ -16265,6 +16463,8 @@ snapshots:
       define-properties: 1.2.1
       es-object-atoms: 1.0.0
 
+  obliterator@2.0.4: {}
+
   obuf@1.1.2: {}
 
   omit.js@2.0.2: {}
@@ -16393,6 +16593,12 @@ snapshots:
   package-json-from-dist@1.0.0: {}
 
   pako@0.2.9: {}
+
+  pandemonium@1.5.0: {}
+
+  pandemonium@2.4.1:
+    dependencies:
+      mnemonist: 0.39.8
 
   papaparse@5.4.1: {}
 
@@ -18898,7 +19104,14 @@ snapshots:
 
   xml-name-validator@5.0.0: {}
 
+  xml2js@0.6.2:
+    dependencies:
+      sax: 1.4.1
+      xmlbuilder: 11.0.1
+
   xml@1.0.1: {}
+
+  xmlbuilder@11.0.1: {}
 
   xmlchars@2.2.0: {}
 

@@ -5,7 +5,8 @@ import AuditHelpProvider from './AuditHelpProvider.js';
 import DependencyStatusHelpProvider from './DependencyStatusHelpProvider.js';
 import EvolutionHelpProvider from './EvolutionHelpProvider.js';
 import ApplicationModel from './models/ApplicationModel.js';
-import AuditHelpModelModel from './models/AuditHelpModel.js';
+import AuditHelpModel from './models/AuditHelpModel.js';
+import AuditModel from './models/AuditModel.js';
 import DependencyStatusHelpModel from './models/DependencyStatusHelpModel.js';
 import DeprecatedDependencyModel from './models/DeprecatedDependencyModel.js';
 import EvolutionHelpModelModel from './models/EvolutionHelpModel.js';
@@ -83,10 +84,15 @@ const registerModels = async () => {
         ApplicationModel.schema,
         ApplicationModel.options,
     );
-    postgresDataBaseSchema[AuditHelpModelModel.name] = postgresDataBase?.define(
-        AuditHelpModelModel.name,
-        AuditHelpModelModel.schema,
-        AuditHelpModelModel.options,
+    postgresDataBaseSchema[AuditModel.name] = postgresDataBase?.define(
+        AuditModel.name,
+        AuditModel.schema,
+        AuditModel.options,
+    );
+    postgresDataBaseSchema[AuditHelpModel.name] = postgresDataBase?.define(
+        AuditHelpModel.name,
+        AuditHelpModel.schema,
+        AuditHelpModel.options,
     );
     postgresDataBaseSchema[DependencyStatusHelpModel.name] = postgresDataBase?.define(
         DependencyStatusHelpModel.name,
