@@ -5,32 +5,6 @@ import CodeCouplingUtils from './CodeCouplingUtils.js';
 
 const { formatCodeCouplingReports } = CodeCouplingUtils;
 
-const defaultOptions = {
-    fileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-    excludeRegExp: [
-        '.*node_modules/.*',
-        '.*target/.*',
-        '.*dist/.*',
-        '.*__mocks__/.*',
-        '.*husky/.*',
-        '.*husky/.*',
-        '.*vscode/.*',
-        '.*idea/.*',
-        '.*next/.*',
-        '.*gitlab/.*',
-        '.*github/.*',
-        '.*eslint.*',
-        '.*jest.*',
-        '.*test.*',
-        '.*babel.*',
-        '.*webpack.*',
-        '.*.config.*',
-        '.*.types.*',
-        '.*.svg',
-        '.*.d.ts.*',
-    ],
-};
-
 const startAuditorAnalysis = async ({ applicationId, workspaceFolder }) => {
     try {
         AppLogger.info(
@@ -56,18 +30,9 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }) => {
             `[CodeCouplingAuditor - startAuditorAnalysis] application _id:  ${application?._id}`,
         );
 
-        const dependenciesParseResult = await Madge(workspaceFolder, defaultOptions);
-
-        if (!dependenciesParseResult) {
-            return {};
-        }
-
-        const auditReports = formatCodeCouplingReports({
+        const auditReports = await formatCodeCouplingReports({
             application,
             workspaceFolder,
-            dependenciesTree: dependenciesParseResult.obj(),
-            circular: dependenciesParseResult.circular(),
-            circularGraph: dependenciesParseResult.circularGraph(),
         });
 
         await AuditProvider.insertAuditList(auditReports);

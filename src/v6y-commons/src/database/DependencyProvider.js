@@ -1,22 +1,7 @@
-import { dependencyStatus } from '../config/DependencyStatusHelpConfig.js';
 import AppLogger from '../core/AppLogger.js';
 import DataBaseManager from './DataBaseManager.js';
 import DependencyStatusHelpProvider from './DependencyStatusHelpProvider.js';
-import DeprecatedDependencyProvider from './DeprecatedDependencyProvider.js';
 import DependencyModel from './models/DependencyModel.js';
-
-const dependencyRecommendedVersions = {
-    react: '17.0.2',
-    'react-dom': '17.0.2',
-    'react-hot-loader': '4.13.0',
-    'react-router-dom': '5.3.0',
-    '@babel/preset-typescript': '7.16.7',
-    '@types/chai': '4.3.1',
-    '@types/enzyme': '3.10.12',
-    '@types/jest': '27.5.1',
-    '@typescript-eslint/eslint-plugin': '5.12.1',
-    '@typescript-eslint/parser': '5.12.1',
-};
 
 /**
  * Creates a new Dependency entry in the database.
@@ -59,6 +44,36 @@ const createDependency = async (dependency) => {
     } catch (error) {
         AppLogger.info(`[DependencyProvider - createDependency] error:  ${error.message}`);
         return null;
+    }
+};
+
+/**
+ * Bulk insert of dependencyList list
+ * @param {Array} dependencyList
+ * @returns {Promise<null>}
+ */
+const insertDependencyList = async (dependencyList) => {
+    try {
+        AppLogger.info(
+            `[DependencyProvider - insertDependencyList] dependencyList:  ${dependencyList?.length}`,
+        );
+        if (!dependencyList?.length) {
+            return null;
+        }
+
+        const dependencyModel = DataBaseManager.getDataBaseSchema(DependencyModel.name);
+
+        if (!dependencyModel) {
+            return null;
+        }
+
+        await dependencyModel.bulkCreate(dependencyList);
+
+        AppLogger.info(
+            `[DependencyProvider - insertDependencyList] dependencyList list inserted successfully`,
+        );
+    } catch (error) {
+        AppLogger.info(`[DependencyProvider - insertDependencyList] error:  ${error.message}`);
     }
 };
 
@@ -176,44 +191,6 @@ const deleteDependencyList = async () => {
 };
 
 /**
- * Prepares dependency information including its status, help message, and recommended version.
- *
- * @param {Object} params - Parameters object.
- * @param {Object} params.dependency - The dependency object containing details such as name.
- * @returns {Promise<Object>} A Promise resolving to an object containing the dependency's status,
- * status help message, and recommended version.
- * @async
- */
-const prepareDependency = async ({ dependency }) => {
-    const isDeprecated = await DeprecatedDependencyProvider.getDeprecatedDependencyDetailsByParams({
-        name: dependency.name,
-    });
-
-    const isOutDated = false; // TODO: semver compare with bistro
-
-    let depStatus = dependencyStatus['up-to-date'];
-    if (isDeprecated) {
-        depStatus = dependencyStatus.deprecated;
-    } else if (isOutDated) {
-        depStatus = dependencyStatus.outdated;
-    }
-
-    const depStatusHelp = await DependencyStatusHelpProvider.getDependencyStatusHelpDetailsByParams(
-        {
-            category: depStatus,
-        },
-    );
-
-    const depRecommendedVersion = dependencyRecommendedVersions[dependency.name] || '';
-
-    return {
-        status: depStatus,
-        statusHelp: depStatusHelp,
-        recommendedVersion: depRecommendedVersion,
-    };
-};
-
-/**
  * Retrieves a list of dependencies based on the provided appId.
  *
  * @param {Object} params - Parameters object containing the appId.
@@ -244,10 +221,14 @@ const getDependencyListByPageAndParams = async ({ appId }) => {
         const dependencyList = [];
 
         for (const dependency of dependencyListByParams) {
-            const updatedDependency = await prepareDependency(dependency);
+            const depStatusHelp =
+                await DependencyStatusHelpProvider.getDependencyStatusHelpDetailsByParams({
+                    category: dependency.status,
+                });
+
             dependencyList.push({
                 ...dependency,
-                ...(updatedDependency || {}),
+                statusHelp: depStatusHelp,
             });
         }
 
@@ -265,6 +246,7 @@ const getDependencyListByPageAndParams = async ({ appId }) => {
  */
 const DependencyProvider = {
     createDependency,
+    insertDependencyList,
     editDependency,
     deleteDependency,
     deleteDependencyList,

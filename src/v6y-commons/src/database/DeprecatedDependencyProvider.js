@@ -236,7 +236,7 @@ const getDeprecatedDependencyDetailsByParams = async ({ deprecatedDependencyId, 
             return null;
         }
 
-        const deprecatedDependencyDetails = deprecatedDependencyModel?.length
+        const deprecatedDependencyDetails = deprecatedDependencyId
             ? (
                   await deprecatedDependencyModel.findOne({
                       where: {

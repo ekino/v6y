@@ -267,7 +267,7 @@ const formatCodeModularityReports = ({ application, workspaceFolder, modularityS
         return auditReports;
     } catch (error) {
         AppLogger.info(
-            `[CodeModularityUtils - formatCodeModularityReports] reading main folder error:  ${error.message}`,
+            `[CodeModularityUtils - formatCodeModularityReports] error:  ${error.message}`,
         );
         return [];
     }

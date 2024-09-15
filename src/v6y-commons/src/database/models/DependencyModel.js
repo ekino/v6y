@@ -25,9 +25,7 @@ const dependencyModelSchema = {
     module: DataTypes.JSON,
 };
 
-const dependencyModelOptions = {
-    indexes: [{ unique: true, fields: ['type', 'name', 'status'] }],
-};
+const dependencyModelOptions = {};
 
 const DependencyModel = {
     name: 'Dependency',

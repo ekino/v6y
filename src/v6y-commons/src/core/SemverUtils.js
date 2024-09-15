@@ -13,7 +13,18 @@ const SEMVER_OPERATORS = ['^', '~', '*', '='];
  * @param {string} operator - The comparison operator (e.g., '>', '<', '=', '^', '~').
  * @returns {boolean} True if the comparison is successful, false otherwise.
  */
-const compareVersions = (version1, version2, operator) => compare(version1, version2, operator);
+const compareVersions = (version1, version2, operator) => {
+    try {
+        AppLogger.info(`[compareVersions] version1: ${version1}`);
+        AppLogger.info(`[compareVersions] version2: ${version2}`);
+        AppLogger.info(`[compareVersions] operator: ${operator}`);
+
+        return compare(version1, version2, operator);
+    } catch (error) {
+        AppLogger.info(`[compareVersions] error: ${error.message}`);
+        return false;
+    }
+};
 
 /**
  * Normalizes a version string, removing any leading semver operators and cleaning the version.

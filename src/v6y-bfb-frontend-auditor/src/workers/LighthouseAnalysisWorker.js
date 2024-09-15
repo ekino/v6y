@@ -15,11 +15,11 @@ try {
 
     // *********************************************** Audit Configuration and Launch ***********************************************
     PerformancesUtils.startMeasure('LighthouseAnalysisWorker-startAuditorAnalysis');
-    /*await LighthouseAuditor.startAuditorAnalysis({
+    await LighthouseAuditor.startAuditorAnalysis({
         applicationId,
         workspaceFolder,
         browserPath: chromeExecutablePath,
-    });*/
+    });
     PerformancesUtils.endMeasure('LighthouseAnalysisWorker-startAuditorAnalysis');
 
     AppLogger.info('******************** Audit completed successfully ********************');

@@ -408,6 +408,7 @@ const AuditUtils = {
     isNonCompliantFile,
     deleteAuditFile,
     getAuditEligibleFiles,
+    getFilesRecursively,
 };
 
 export default AuditUtils;

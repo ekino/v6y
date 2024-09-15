@@ -63,22 +63,22 @@
     "date-fns": "=3.2.0",
     "express": "=4.18.2",
     "express-status-monitor": "=1.3.4",
+    "fs-extra": "=8.1.0",
+    "globals": "=15.3.0",
+    "globby": "=10.0.1",
     "graphology": "=0.25.4",
     "graphology-canvas": "=0.4.2",
     "graphology-communities-louvain": "=2.0.1",
     "graphology-components": "=1.5.4",
     "graphology-metrics": "=2.3.1",
     "graphology-svg": "=0.1.3",
-    "fs-extra": "=8.1.0",
-    "globals": "=15.3.0",
-    "globby": "=10.0.1",
+    "jscpd": "=4.0.4",
+    "jsinspect": "=0.12.7",
     "lodash": "=4.17.21",
     "madge": "=7.0.0",
     "typhonjs-escomplex": "=0.1.0",
     "unixify": "=1.0.0",
-    "xml2js": "=0.6.2",
-    "jscpd": "=4.0.4",
-    "jsinspect": "=0.12.7"
+    "xml2js": "=0.6.2"
   },
   "jest-junit": {
     "output": "target/jest-sonar/test-report.junit.xml"

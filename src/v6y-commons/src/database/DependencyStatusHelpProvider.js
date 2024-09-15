@@ -254,7 +254,7 @@ const getDependencyStatusHelpDetailsByParams = async ({ dependencyStatusHelpId, 
             return null;
         }
 
-        const dependencyStatusHelpDetails = dependencyStatusHelpId?.length
+        const dependencyStatusHelpDetails = dependencyStatusHelpId
             ? (
                   await dependencyStatusHelpModel.findOne({
                       where: {

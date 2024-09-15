@@ -74,7 +74,6 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }) => {
 
         // execute audit
         const codeDuplicationCommand = `jscpd --silent --mode "${defaultOptions.mode}" --threshold ${defaultOptions.threshold} --reporters "json" --output "${workspaceFolder}" --format "${defaultOptions.format}" --ignore "${defaultOptions.ignore.join(',')}" ${workspaceFolder}`;
-
         AppLogger.info(
             `[CodeDuplicationAuditor - startAuditorAnalysis] jscpd script:  ${codeDuplicationCommand}`,
         );

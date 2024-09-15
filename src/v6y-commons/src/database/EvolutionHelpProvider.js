@@ -235,7 +235,7 @@ const getEvolutionHelpDetailsByParams = async ({ evolutionHelpId, category }) =>
             return null;
         }
 
-        const evolutionHelpDetails = evolutionHelpId?.length
+        const evolutionHelpDetails = evolutionHelpId
             ? (
                   await evolutionHelpModel.findOne({
                       where: {

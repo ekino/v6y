@@ -1,5 +1,32 @@
 import { AppLogger } from '@v6y/commons';
 import { auditStatus } from '@v6y/commons/src/config/AuditHelpConfig.js';
+import Madge from 'madge';
+
+const defaultOptions = {
+    fileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+    excludeRegExp: [
+        '.*node_modules/.*',
+        '.*target/.*',
+        '.*dist/.*',
+        '.*__mocks__/.*',
+        '.*husky/.*',
+        '.*husky/.*',
+        '.*vscode/.*',
+        '.*idea/.*',
+        '.*next/.*',
+        '.*gitlab/.*',
+        '.*github/.*',
+        '.*eslint.*',
+        '.*jest.*',
+        '.*test.*',
+        '.*babel.*',
+        '.*webpack.*',
+        '.*.config.*',
+        '.*.types.*',
+        '.*.svg',
+        '.*.d.ts.*',
+    ],
+};
 
 /**
  * Formats coupling reports based on dependency analysis.
@@ -7,18 +34,9 @@ import { auditStatus } from '@v6y/commons/src/config/AuditHelpConfig.js';
  * @param {Object} options - The options object containing data for generating coupling reports.
  * @param {Object} options.application - The application object containing metadata (e.g., ID, repository URL).
  * @param {string} options.workspaceFolder - The path to the workspace folder being analyzed.
- * @param {Object} options.dependenciesTree - A tree structure representing dependencies between files.
- * @param {boolean} options.circular - Indicates if circular dependencies were found.
- * @param {Object} options.circularGraph - A graph representing circular dependencies.
- * @returns {Array} An array of audit reports containing coupling metrics and details.
+ * @returns {Promise<{}|*[]>} An array of audit reports containing coupling metrics and details.
  */
-const formatCodeCouplingReports = ({
-    application,
-    workspaceFolder,
-    dependenciesTree,
-    circular,
-    circularGraph,
-}) => {
+const formatCodeCouplingReports = async ({ application, workspaceFolder }) => {
     try {
         AppLogger.info(
             `[CodeCouplingUtils - formatCodeCouplingReports] application:  ${application}`,
@@ -26,13 +44,32 @@ const formatCodeCouplingReports = ({
         AppLogger.info(
             `[CodeCouplingUtils - formatCodeCouplingReports] workspaceFolder:  ${workspaceFolder}`,
         );
-        AppLogger.info(`[CodeCouplingUtils - formatCodeCouplingReports] circular:  ${circular}`);
+
+        if (!application || !workspaceFolder) {
+            return [];
+        }
+
+        const dependenciesParseResult = await Madge(workspaceFolder, defaultOptions);
         AppLogger.info(
-            `[CodeCouplingUtils - formatCodeCouplingReports] circularGraph:  ${circularGraph}`,
+            `[CodeCouplingUtils - formatCodeCouplingReports] dependenciesParseResult:  ${dependenciesParseResult}`,
         );
+
+        if (!dependenciesParseResult) {
+            return {};
+        }
+
+        const dependenciesTree = dependenciesParseResult.obj();
+        const circularGraph = dependenciesParseResult.circularGraph();
         AppLogger.info(
             `[CodeCouplingUtils - formatCodeCouplingReports] dependenciesTree:  ${dependenciesTree}`,
         );
+        AppLogger.info(
+            `[CodeCouplingUtils - formatCodeCouplingReports] circularGraph:  ${circularGraph}`,
+        );
+
+        if (!dependenciesTree || !circularGraph) {
+            return {};
+        }
 
         const auditReports = [];
 
@@ -159,9 +196,7 @@ const formatCodeCouplingReports = ({
 
         return auditReports;
     } catch (error) {
-        AppLogger.info(
-            `[CodeCouplingUtils - formatCodeCouplingReports] reading main folder error:  ${error.message}`,
-        );
+        AppLogger.info(`[CodeCouplingUtils - formatCodeCouplingReports] error:  ${error.message}`);
         return [];
     }
 };

@@ -409,7 +409,7 @@ const formatCodeComplexityReports = ({ workspaceFolder, application }) => {
         return auditReports;
     } catch (error) {
         AppLogger.info(
-            `[CodeComplexityUtils - buildModuleComplexityReport] reading main folder error:  ${error.message}`,
+            `[CodeComplexityUtils - buildModuleComplexityReport] error:  ${error.message}`,
         );
         return [];
     }

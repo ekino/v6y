@@ -177,7 +177,7 @@ export const defaultAuditHelpStatus = [
         explanation: '',
     },
     {
-        category: `${codeSmellTypes['Code-Modularity']}-${codeSmellCategories['interaction-files-ratio']}`,
+        category: `${codeSmellTypes['Code-Modularity']}-${codeSmellCategories['independent-files-ratio']}`,
         title: 'Default Title',
         description: 'Default Description',
         explanation: '',

@@ -202,7 +202,7 @@ const getAuditHelpDetailsByParams = async ({ auditHelpId, category }) => {
             return null;
         }
 
-        const auditHelpDetails = auditHelpId?.length
+        const auditHelpDetails = auditHelpId
             ? (
                   await auditHelpModel.findOne({
                       where: {

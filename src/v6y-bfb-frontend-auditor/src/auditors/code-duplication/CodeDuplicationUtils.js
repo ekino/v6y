@@ -88,7 +88,7 @@ const formatCodeDuplicationReports = ({
         return auditReports;
     } catch (error) {
         AppLogger.info(
-            `[CodeDuplicationUtils - formatCodeDuplicationReports] reading main folder error:  ${error.message}`,
+            `[CodeDuplicationUtils - formatCodeDuplicationReports] error:  ${error.message}`,
         );
         return [];
     }

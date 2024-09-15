@@ -4,20 +4,26 @@ import { securityAntiPatterns } from '@v6y/commons/src/config/CodeSmellConfig.js
 
 const { getFiles, parseFile, isNonCompliantFile } = AuditUtils;
 
-const CODE_SECURITY_OPTIONS = {};
+const defaultOptions = {};
 
 const formatCodeModularityReports = async ({ application, workspaceFolder }) => {
     try {
         AppLogger.info(
             `[CodeSecurityUtils - formatCodeModularityReports] workspaceFolder:  ${workspaceFolder}`,
         );
+        AppLogger.info(
+            `[CodeDuplicationUtils - formatCodeDuplicationReports] application:  ${application}`,
+        );
+        if (!application || !workspaceFolder) {
+            return [];
+        }
 
         const { files, basePath } = getFiles(workspaceFolder);
         AppLogger.info(
             `[CodeSecurityUtils - formatCodeModularityReports] files:  ${files?.length}`,
         );
-        AppLogger.info(`[CodeSecurityUtils - formatCodeModularityReports] basePath:  ${basePath}`);
 
+        AppLogger.info(`[CodeSecurityUtils - formatCodeModularityReports] basePath:  ${basePath}`);
         if (!files?.length) {
             return [];
         }
@@ -31,7 +37,7 @@ const formatCodeModularityReports = async ({ application, workspaceFolder }) => 
         };
 
         for (const file of files) {
-            const report = parseFile(file, basePath, CODE_SECURITY_OPTIONS);
+            const report = parseFile(file, basePath, defaultOptions);
             if (!report) {
                 continue;
             }
@@ -81,6 +87,9 @@ const formatCodeModularityReports = async ({ application, workspaceFolder }) => 
 
         return securityAuditReports;
     } catch (error) {
+        AppLogger.info(
+            `[CodeSecurityUtils - formatCodeModularityReports] error:  ${error.message}`,
+        );
         return [];
     }
 };
