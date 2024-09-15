@@ -1,4 +1,5 @@
 import { AppLogger, Matcher } from '@v6y/commons';
+import { auditStatus } from '@v6y/commons/src/config/AuditHelpConfig.js';
 
 const isAuditFailed = (status) => status === 'warning' || status === 'error';
 
@@ -35,7 +36,6 @@ const formatAuditCategory = (auditCategory) => {
         description,
         status,
         score: currentScore,
-        scorePercent: currentScore,
         scoreUnit: '%',
         scoreMin: 0,
         scoreMax: 100,
@@ -54,13 +54,8 @@ const formatAuditMetric = (auditMetric) => {
     const indicatorScoreUnit = numericUnit !== 'unitless' ? 's' : '';
 
     let indicatorColor = null;
-    let indicatorMaxValue = 0;
-    let indicatorMinValue = 0;
 
-    // metricScore en seconde
     if (id === 'largest-contentful-paint') {
-        indicatorMinValue = 0;
-        indicatorMaxValue = 6;
         indicatorColor = Matcher()
             .on(
                 () => indicatorScore < 2.5,
@@ -77,10 +72,7 @@ const formatAuditMetric = (auditMetric) => {
             .otherwise(() => 'info');
     }
 
-    // metricScore en seconde
     if (id === 'first-contentful-paint') {
-        indicatorMinValue = 0;
-        indicatorMaxValue = 5;
         indicatorColor = Matcher()
             .on(
                 () => indicatorScore < 1.8,
@@ -97,10 +89,7 @@ const formatAuditMetric = (auditMetric) => {
             .otherwise(() => 'info');
     }
 
-    // metricScore en seconde
     if (id === 'total-blocking-time') {
-        indicatorMinValue = 0;
-        indicatorMaxValue = 1;
         indicatorColor = Matcher()
             .on(
                 () => indicatorScore < 0.2,
@@ -117,10 +106,7 @@ const formatAuditMetric = (auditMetric) => {
             .otherwise(() => 'info');
     }
 
-    // metricScore en seconde
     if (id === 'speed-index') {
-        indicatorMinValue = 0;
-        indicatorMaxValue = 8;
         indicatorColor = Matcher()
             .on(
                 () => indicatorScore < 3.4,
@@ -137,10 +123,7 @@ const formatAuditMetric = (auditMetric) => {
             .otherwise(() => 'info');
     }
 
-    // metricScore sans unité
     if (id === 'cumulative-layout-shift') {
-        indicatorMinValue = 0;
-        indicatorMaxValue = 1;
         indicatorColor = Matcher()
             .on(
                 () => indicatorScore < 0.1,
@@ -163,17 +146,17 @@ const formatAuditMetric = (auditMetric) => {
         status: indicatorColor,
         description,
         score: indicatorScore.toFixed(2),
-        scorePercent: (indicatorScore / indicatorMaxValue) * 100,
+        // scorePercent: (indicatorScore / indicatorMaxValue) * 100,
         scoreUnit: indicatorScoreUnit,
-        scoreMin: indicatorMinValue || 0,
-        scoreMax: indicatorMaxValue || 0,
         branch: null,
     };
 };
 
 const parseLighthouseAuditReport = (auditReportData) => {
     try {
-        AppLogger.info(`[parseLighthouseAuditReport] data:  ${auditReportData?.length}`);
+        AppLogger.info(
+            `[LighthouseUtils - parseLighthouseAuditReport] data:  ${auditReportData?.length}`,
+        );
 
         if (!auditReportData?.length) {
             return [];
@@ -181,7 +164,7 @@ const parseLighthouseAuditReport = (auditReportData) => {
 
         const jsonData = JSON.parse(auditReportData);
         AppLogger.info(
-            `[parseLighthouseAuditReport] jsonData:  ${Object.keys(jsonData)?.join?.(',')}`,
+            `[LighthouseUtils - parseLighthouseAuditReport] jsonData:  ${Object.keys(jsonData)?.join?.(',')}`,
         );
 
         if (!jsonData || !Object.keys(jsonData)?.length) {
@@ -190,11 +173,15 @@ const parseLighthouseAuditReport = (auditReportData) => {
 
         const { categories, audits, runtimeError } = jsonData || {};
 
-        AppLogger.info(`[parseLighthouseAuditReport] runtimeError:  ${runtimeError?.code}`);
         AppLogger.info(
-            `[parseLighthouseAuditReport] categories:  ${Object.keys(categories)?.join?.(',')}`,
+            `[LighthouseUtils - parseLighthouseAuditReport] runtimeError:  ${runtimeError?.code}`,
         );
-        AppLogger.info(`[parseLighthouseAuditReport] audits:  ${Object.keys(audits)?.join?.(',')}`);
+        AppLogger.info(
+            `[LighthouseUtils - parseLighthouseAuditReport] categories:  ${Object.keys(categories)?.join?.(',')}`,
+        );
+        AppLogger.info(
+            `[LighthouseUtils - parseLighthouseAuditReport] audits:  ${Object.keys(audits)?.join?.(',')}`,
+        );
 
         if (runtimeError?.code === 'ERRORED_DOCUMENT_REQUEST') {
             return [];
@@ -203,10 +190,10 @@ const parseLighthouseAuditReport = (auditReportData) => {
         const { performance, accessibility } = categories || {};
 
         AppLogger.info(
-            `[parseLighthouseAuditReport] performance:  ${Object.keys(performance)?.join?.(',')}`,
+            `[LighthouseUtils - parseLighthouseAuditReport] performance:  ${Object.keys(performance)?.join?.(',')}`,
         );
         AppLogger.info(
-            `[parseLighthouseAuditReport] accessibility:  ${Object.keys(accessibility)?.join?.(',')}`,
+            `[LighthouseUtils - parseLighthouseAuditReport] accessibility:  ${Object.keys(accessibility)?.join?.(',')}`,
         );
 
         const auditCategories = [performance, accessibility].map(formatAuditCategory);
@@ -228,14 +215,61 @@ const parseLighthouseAuditReport = (auditReportData) => {
 
         return [...(validCategories || []), ...(validMetrics || [])];
     } catch (error) {
+        AppLogger.info(`[LighthouseUtils - parseLighthouseAuditReport] error:  ${error.message}`);
         return [];
     }
 };
 
+const formatLighthouseReports = ({ reports, application, workspaceFolder }) => {
+    try {
+        if (!reports?.length) {
+            return null;
+        }
+
+        const auditReports = [];
+
+        for (const report of reports) {
+            const { appLink: webUrl, data, subCategory } = report || {};
+
+            const results = parseLighthouseAuditReport(data);
+
+            if (!results?.length) {
+                continue;
+            }
+
+            for (const result of results) {
+                auditReports.push({
+                    type: 'Lighthouse',
+                    category: result.category,
+                    subCategory,
+                    status: auditStatus.error,
+                    score: result.score,
+                    scoreUnit: result.scoreUnit,
+                    module: {
+                        appId: application?._id,
+                        url: webUrl,
+                        branch: workspaceFolder.split('/').pop(),
+                        path: webUrl,
+                    },
+                });
+            }
+        }
+
+        AppLogger.info(
+            `[LighthouseUtils - formatLighthouseReports] auditReports:  ${auditReports?.length}`,
+        );
+
+        return auditReports;
+    } catch (error) {
+        AppLogger.info(`[LighthouseUtils - formatLighthouseReports] error:  ${error.message}`);
+        return null;
+    }
+};
+
 const LighthouseUtils = {
+    formatLighthouseReports,
     isAuditPerformanceFailed,
     isAuditAccessibilityFailed,
-    parseLighthouseAuditReport,
 };
 
 export default LighthouseUtils;

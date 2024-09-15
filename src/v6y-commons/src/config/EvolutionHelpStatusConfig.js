@@ -113,13 +113,6 @@ export const defaultEvolutionHelpStatus = [
         links: [],
     },
     {
-        category: `${codeSmellTypes['Code-Compliance']}`,
-        status: evolutionHelpStatus.important,
-        title: 'Default Title',
-        description: 'Default Description',
-        links: [],
-    },
-    {
         category: `${codeSmellTypes['Code-Security']}`,
         status: evolutionHelpStatus.recommended,
         title: 'Default Title',

@@ -1,23 +1,20 @@
-import { AppLogger, ApplicationProvider } from '@v6y/commons';
+import { AppLogger, ApplicationProvider, AuditProvider } from '@v6y/commons';
 import lighthouse from 'lighthouse';
 import puppeteer from 'puppeteer-core';
 
 import LighthouseConfig from './LighthouseConfig.js';
+import LighthouseUtils from './LighthouseUtils.js';
 
-const {
-    LIGHTHOUSE_DEVICE_CONFIG,
-    PUPPETEER_SETTINGS,
-    PUPPETEER_PAGE_SETTINGS,
-    LIGHTHOUSE_FLAGS,
-    formatLighthouseReports,
-    formatLighthouseKeywords,
-    formatLighthouseEvolutions,
-} = LighthouseConfig;
+const { LIGHTHOUSE_DEVICE_CONFIG, PUPPETEER_SETTINGS, PUPPETEER_PAGE_SETTINGS, LIGHTHOUSE_FLAGS } =
+    LighthouseConfig;
+
+const { formatLighthouseReports, isAuditPerformanceFailed, isAuditAccessibilityFailed } =
+    LighthouseUtils;
 
 const startLighthouseAudit = async (auditConfig) => {
     try {
         // open browser
-        const { link, user, browserPath, lightHouseConfig } = auditConfig || {};
+        const { link, browserPath, lightHouseConfig } = auditConfig || {};
 
         const browser = await puppeteer.launch({
             ...PUPPETEER_SETTINGS,
@@ -39,7 +36,7 @@ const startLighthouseAudit = async (auditConfig) => {
         await page.evaluate((args) => {
             window.scroll(0, 0);
             sessionStorage.setItem('sgSignIn', JSON.stringify(args));
-        }, user);
+        }, {});
 
         AppLogger.info(
             `[LightHouseAuditor - startLighthouseAudit] reset page scroll & customize cookies if needed`,
@@ -92,29 +89,33 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder, browserPat
 
         const lightHouseReports = [];
 
-        const auditLinks = application?.links;
+        const auditLinks = application?.links?.filter((link) =>
+            link?.label?.includes('production'),
+        );
+        AppLogger.info(
+            `[LightHouseAuditor - startAuditorAnalysis] auditLinks:  ${auditLinks?.length}`,
+        );
 
         if (!auditLinks?.length) {
-            return {};
+            return false;
         }
 
         for (const auditLink of auditLinks) {
             AppLogger.info(
-                `[LightHouseAuditor - startAuditorAnalysis] auditLink:  ${auditLink?.link}`,
+                `[LightHouseAuditor - startAuditorAnalysis] auditLink:  ${auditLink?.value}`,
             );
 
-            if (!auditLink?.link?.length) {
+            if (!auditLink?.value?.length) {
                 continue;
             }
 
-            const { link, user } = auditLink;
+            const { value: linkValue } = auditLink;
 
             for (const device of Object.keys(LIGHTHOUSE_DEVICE_CONFIG)) {
                 AppLogger.info(`[LightHouseAuditor - startAuditorAnalysis] device:  ${device}`);
 
                 const report = await startLighthouseAudit({
-                    link,
-                    user,
+                    link: linkValue,
                     browserPath,
                     lightHouseConfig: LIGHTHOUSE_DEVICE_CONFIG[device],
                 });
@@ -124,7 +125,7 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder, browserPat
                 }
 
                 lightHouseReports.push({
-                    appLink: link,
+                    appLink: linkValue,
                     subCategory: device,
                     data: report,
                 });
@@ -135,20 +136,20 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder, browserPat
             `[LightHouseAuditor - startAuditorAnalysis] lightHouseReports:  ${lightHouseReports?.length}`,
         );
 
-        const auditReports = formatLighthouseReports(lightHouseReports);
+        const auditReports = formatLighthouseReports({
+            reports: lightHouseReports,
+            application,
+            workspaceFolder,
+        });
 
         AppLogger.info(
             `[LightHouseAuditor - startAuditorAnalysis] auditReports:  ${auditReports?.length}`,
         );
 
-        const keywords = formatLighthouseKeywords(auditReports);
-
-        AppLogger.info(`[LightHouseAuditor - startAuditorAnalysis] keywords:  ${keywords?.length}`);
-
-        const evolutions = formatLighthouseEvolutions(keywords);
+        await AuditProvider.insertAuditList(auditReports);
 
         AppLogger.info(
-            `[LightHouseAuditor - startAuditorAnalysis] evolutions:  ${evolutions?.length}`,
+            `[CodeModularityAuditor - startAuditorAnalysis] audit reports inserted successfully`,
         );
 
         return true;

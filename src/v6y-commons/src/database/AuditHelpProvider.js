@@ -246,6 +246,8 @@ const getAuditHelpDetailsByParams = async ({ auditHelpId, category }) => {
  */
 const initDefaultData = async () => {
     try {
+        AppLogger.info(`[AuditHelpProvider - initDefaultData] start`);
+
         const auditHelpModel = DataBaseManager.getDataBaseSchema(AuditHelpModel.name);
 
         if (!auditHelpModel) {
@@ -263,6 +265,8 @@ const initDefaultData = async () => {
         for (const auditHelp of defaultAuditHelpStatus) {
             createAuditHelp(auditHelp);
         }
+
+        AppLogger.info(`[AuditHelpProvider - initDefaultData] end`);
 
         return true; // Indicate successful initialization
     } catch (error) {

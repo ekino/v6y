@@ -1,8 +1,6 @@
 import { AppLogger, DataBaseManager, PerformancesUtils } from '@v6y/commons';
 import { parentPort, workerData } from 'worker_threads';
 
-import CodeComplexityAuditor from '../auditors/code-complexity/CodeComplexityAuditor.js';
-import CodeCouplingAuditor from '../auditors/code-coupling/CodeCouplingAuditor.js';
 import CodeDuplicationAuditor from '../auditors/code-duplication/CodeDuplicationAuditor.js';
 import CodeModularityAuditor from '../auditors/code-modularity/CodeModularityAuditor.js';
 import CodeSecurityAuditor from '../auditors/code-security/CodeSecurityAuditor.js';
@@ -20,10 +18,10 @@ try {
     // *********************************************** Audit Configuration and Launch ***********************************************
     PerformancesUtils.startMeasure('CodeQualityAnalysisWorker-startAuditorAnalysis');
     // await CodeComplexityAuditor.startAuditorAnalysis({ applicationId, workspaceFolder });
-    await CodeCouplingAuditor.startAuditorAnalysis({ applicationId, workspaceFolder });
-    /* await CodeDuplicationAuditor.startAuditorAnalysis({ applicationId, workspaceFolder });
-     await CodeModularityAuditor.startAuditorAnalysis({ applicationId, workspaceFolder });
-     await CodeSecurityAuditor.startAuditorAnalysis({ applicationId, workspaceFolder });*/
+    //await CodeCouplingAuditor.startAuditorAnalysis({ applicationId, workspaceFolder });
+    // await CodeDuplicationAuditor.startAuditorAnalysis({ applicationId, workspaceFolder });
+    // await CodeModularityAuditor.startAuditorAnalysis({ applicationId, workspaceFolder });
+    // await CodeSecurityAuditor.startAuditorAnalysis({ applicationId, workspaceFolder });
     PerformancesUtils.endMeasure('CodeQualityAnalysisWorker-startAuditorAnalysis');
 
     AppLogger.info('******************** Audit completed successfully ********************');

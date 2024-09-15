@@ -15,7 +15,7 @@ try {
 
     // *********************************************** Audit Configuration and Launch ***********************************************
     PerformancesUtils.startMeasure('DependenciesAnalysisWorker-startAuditorAnalysis');
-    //await DependenciesAuditor.startAuditorAnalysis({ applicationId, workspaceFolder });
+    await DependenciesAuditor.startAuditorAnalysis({ applicationId, workspaceFolder });
     PerformancesUtils.endMeasure('DependenciesAnalysisWorker-startAuditorAnalysis');
 
     AppLogger.info('******************** Audit completed successfully ********************');

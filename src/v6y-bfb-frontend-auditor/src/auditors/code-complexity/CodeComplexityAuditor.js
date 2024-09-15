@@ -2,7 +2,7 @@ import { AppLogger, ApplicationProvider, AuditProvider } from '@v6y/commons';
 
 import CodeComplexityUtils from './CodeComplexityUtils.js';
 
-const { buildFilesComplexityReports } = CodeComplexityUtils;
+const { formatCodeComplexityReports } = CodeComplexityUtils;
 
 const startAuditorAnalysis = async ({ applicationId, workspaceFolder }) => {
     try {
@@ -29,7 +29,7 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }) => {
             `[CodeComplexityAuditor - startAuditorAnalysis] application _id:  ${application?._id}`,
         );
 
-        const auditReports = buildFilesComplexityReports({ workspaceFolder, application }) || {};
+        const auditReports = formatCodeComplexityReports({ workspaceFolder, application }) || {};
         AppLogger.info(
             `[CodeComplexityAuditor - startAuditorAnalysis] auditReports:  ${auditReports?.length}`,
         );

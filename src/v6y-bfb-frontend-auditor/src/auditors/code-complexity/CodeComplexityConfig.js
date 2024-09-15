@@ -50,7 +50,6 @@ const formatHalsteadReports = ({ halsteadMetrics, application, analyzedFile, ana
             subCategory: null,
             status: null,
             score: length,
-            scorePercent: null,
             scoreUnit: '',
             module,
         });
@@ -62,7 +61,6 @@ const formatHalsteadReports = ({ halsteadMetrics, application, analyzedFile, ana
             category: 'halstead-program-volume',
             status: null,
             score: volume,
-            scorePercent: null,
             scoreUnit: 'bit',
             module,
         });
@@ -74,7 +72,6 @@ const formatHalsteadReports = ({ halsteadMetrics, application, analyzedFile, ana
             category: 'halstead-program-difficulty',
             status: null,
             score: difficulty,
-            scorePercent: null,
             scoreUnit: '',
             module,
         });
@@ -86,7 +83,6 @@ const formatHalsteadReports = ({ halsteadMetrics, application, analyzedFile, ana
             category: 'halstead-program-effort',
             status: null,
             score: effort,
-            scorePercent: null,
             scoreUnit: 'bit',
             module,
         });
@@ -98,7 +94,6 @@ const formatHalsteadReports = ({ halsteadMetrics, application, analyzedFile, ana
             category: 'halstead-program-estimated-bugs',
             status: null,
             score: bugs,
-            scorePercent: null,
             scoreUnit: '',
             module,
         });
@@ -110,7 +105,6 @@ const formatHalsteadReports = ({ halsteadMetrics, application, analyzedFile, ana
             category: 'halstead-program-time-to-implement',
             status: null,
             score: time,
-            scorePercent: null,
             scoreUnit: 's',
             module,
         });
@@ -164,7 +158,6 @@ const formatCyclomaticComplexityReport = ({
         category: 'cyclomatic-complexity',
         status: complexityStatus,
         score: cyclomaticMetric,
-        scorePercent: null,
         scoreUnit: '',
         module,
     };
@@ -195,8 +188,7 @@ const formatMaintainabilityIndexReport = ({
         type: 'Code-Complexity',
         category: 'maintainability-index',
         status: formatMaintainabilityStatus(fileMaintainability),
-        score: null,
-        scorePercent: fileMaintainability,
+        score: fileMaintainability,
         scoreUnit: '%',
         module,
     };
@@ -240,7 +232,6 @@ const formatFileSLOCIndicators = ({ fileSLOC, application, analyzedFile, analyze
             category: 'physical-sloc',
             status: null,
             score: fileSLOC.physical || 0,
-            scorePercent: null,
             scoreUnit: '',
             module,
         });
@@ -250,7 +241,6 @@ const formatFileSLOCIndicators = ({ fileSLOC, application, analyzedFile, analyze
             category: 'logical-sloc',
             status: null,
             score: fileSLOC.logical || 0,
-            scorePercent: null,
             scoreUnit: '',
             module,
         });
@@ -283,8 +273,7 @@ const formatCodeComplexitySummary = ({ summary, application, analyzedFile, analy
         type: 'Code-Complexity',
         category: 'maintainability-index-project-average',
         status: formatMaintainabilityStatus(summary?.average?.maintainability),
-        score: null,
-        scorePercent: summary?.average?.maintainability,
+        score: summary?.average?.maintainability,
         scoreUnit: '%',
         module,
     };

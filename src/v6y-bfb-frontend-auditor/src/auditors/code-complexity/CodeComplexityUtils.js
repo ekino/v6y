@@ -295,13 +295,13 @@ const inspectDirectory = ({ srcDir, options }) => {
  * @param {Object} application
  * @return {null|Array}
  */
-const buildFilesComplexityReports = ({ workspaceFolder, application }) => {
+const formatCodeComplexityReports = ({ workspaceFolder, application }) => {
     try {
         AppLogger.info(
-            `[CodeComplexityUtils - buildFilesComplexityReports] workspaceFolder:  ${workspaceFolder}`,
+            `[CodeComplexityUtils - formatCodeComplexityReports] workspaceFolder:  ${workspaceFolder}`,
         );
         AppLogger.info(
-            `[CodeComplexityUtils - buildFilesComplexityReports] application:  ${Object.keys(application || {})?.length}`,
+            `[CodeComplexityUtils - formatCodeComplexityReports] application:  ${Object.keys(application || {})?.length}`,
         );
 
         if (!workspaceFolder?.length || !application) {
@@ -319,10 +319,10 @@ const buildFilesComplexityReports = ({ workspaceFolder, application }) => {
         });
 
         AppLogger.info(
-            `[CodeComplexityUtils - buildFilesComplexityReports] files:  ${files?.length}`,
+            `[CodeComplexityUtils - formatCodeComplexityReports] files:  ${files?.length}`,
         );
         AppLogger.info(
-            `[CodeComplexityUtils - buildFilesComplexityReports] summary:  ${Object.keys(summary || {})?.length}`,
+            `[CodeComplexityUtils - formatCodeComplexityReports] summary:  ${Object.keys(summary || {})?.length}`,
         );
 
         if (!files?.length) {
@@ -337,7 +337,7 @@ const buildFilesComplexityReports = ({ workspaceFolder, application }) => {
             .sort((a, b) => (a.fileMaintainability > b.fileMaintainability ? 1 : -1));
 
         AppLogger.info(
-            `[CodeComplexityUtils - buildFilesComplexityReports] auditableFiles:  ${auditableFiles?.length}`,
+            `[CodeComplexityUtils - formatCodeComplexityReports] auditableFiles:  ${auditableFiles?.length}`,
         );
 
         if (!auditableFiles?.length) {
@@ -361,7 +361,7 @@ const buildFilesComplexityReports = ({ workspaceFolder, application }) => {
         for (const auditableFile of auditableFiles) {
             const { file, fileMaintainability, fileComplexity, fileSLOC } = auditableFile || {};
 
-            AppLogger.info(`[CodeComplexityUtils - buildFilesComplexityReports] file:  ${file}`);
+            AppLogger.info(`[CodeComplexityUtils - formatCodeComplexityReports] file:  ${file}`);
 
             if (!file?.length) {
                 continue;
@@ -416,7 +416,7 @@ const buildFilesComplexityReports = ({ workspaceFolder, application }) => {
 };
 
 const CodeComplexityUtils = {
-    buildFilesComplexityReports,
+    formatCodeComplexityReports,
 };
 
 export default CodeComplexityUtils;

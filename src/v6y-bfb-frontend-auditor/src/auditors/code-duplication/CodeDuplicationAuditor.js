@@ -1,7 +1,11 @@
-import { AppLogger, ApplicationProvider, AuditUtils } from '@v6y/commons';
+import { AppLogger, ApplicationProvider, AuditProvider, AuditUtils } from '@v6y/commons';
 import { execSync } from 'child_process';
 
+import CodeDuplicationUtils from './CodeDuplicationUtils.js';
+
 const { getFileContent, deleteAuditFile } = AuditUtils;
+
+const { formatCodeDuplicationReports } = CodeDuplicationUtils;
 
 const defaultOptions = {
     mode: 'strict',
@@ -100,7 +104,24 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }) => {
 
         deleteAuditFile({ fileFullPath: jscpdReportFilePath });
 
-        // save to database
+        const jscpdFileAnalysisResultJson = JSON.parse(jscpdFileAnalysisResult);
+
+        if (!jscpdFileAnalysisResultJson) {
+            return false;
+        }
+
+        const auditReports = formatCodeDuplicationReports({
+            application,
+            workspaceFolder,
+            duplicationTotalSummary: jscpdFileAnalysisResultJson?.statistics?.total,
+            duplicationFiles: jscpdFileAnalysisResultJson?.duplicates,
+        });
+
+        await AuditProvider.insertAuditList(auditReports);
+
+        AppLogger.info(
+            `[CodeDuplicationAuditor - startAuditorAnalysis] audit reports inserted successfully`,
+        );
 
         return true;
     } catch (error) {

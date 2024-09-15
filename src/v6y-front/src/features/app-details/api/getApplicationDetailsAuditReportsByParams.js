@@ -9,8 +9,8 @@ const GetApplicationDetailsAuditReportsByParams = gql`
             subCategory
             status
             score
-            scorePercent
             scoreUnit
+            extraInfos
             module {
                 branch
                 path

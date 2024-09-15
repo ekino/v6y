@@ -70,9 +70,17 @@ const getDataBaseSchema = (schemaName) => postgresDataBaseSchema?.[schemaName];
  * to ensure that the necessary default data is present in the database.
  */
 const initDefaultData = async () => {
-    await EvolutionHelpProvider.initDefaultData();
-    await AuditHelpProvider.initDefaultData();
-    await DependencyStatusHelpProvider.initDefaultData();
+    try {
+        await EvolutionHelpProvider.initDefaultData();
+    } catch {}
+
+    try {
+        await AuditHelpProvider.initDefaultData();
+    } catch {}
+
+    try {
+        await DependencyStatusHelpProvider.initDefaultData();
+    } catch {}
 };
 
 /**
@@ -143,7 +151,7 @@ const connect = async () => {
         await registerModels();
         AppLogger.info(`[DataBaseManager - connect] PSQL registering models made successfully`);
 
-        await postgresDataBase.sync({ force: false });
+        await postgresDataBase.sync({ alter: true });
         AppLogger.info(`[DataBaseManager - connect] PSQL synchronizing models made successfully`);
 
         await initDefaultData();

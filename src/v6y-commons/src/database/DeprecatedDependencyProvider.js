@@ -14,8 +14,6 @@ const createDeprecatedDependency = async (deprecatedDependency) => {
             `[DeprecatedDependencyProvider - createDeprecatedDependency] deprecatedDependency name:  ${deprecatedDependency?.name}`,
         );
 
-        console.log('here 1: ', deprecatedDependency?.name?.length);
-
         if (!deprecatedDependency?.name?.length) {
             return null;
         }
@@ -27,8 +25,6 @@ const createDeprecatedDependency = async (deprecatedDependency) => {
         if (!deprecatedDependencyModel) {
             return null;
         }
-
-        console.log('here 2');
 
         const createdDeprecatedDependency =
             await deprecatedDependencyModel.create(deprecatedDependency);

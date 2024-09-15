@@ -1,8 +1,8 @@
-import { AppLogger, ApplicationProvider } from '@v6y/commons';
+import { AppLogger, ApplicationProvider, AuditProvider } from '@v6y/commons';
 
 import CodeSecurityUtils from './CodeSecurityUtils.js';
 
-const { inspectDirectory } = CodeSecurityUtils;
+const { formatCodeModularityReports } = CodeSecurityUtils;
 
 const startAuditorAnalysis = async ({ applicationId, workspaceFolder }) => {
     try {
@@ -29,12 +29,16 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }) => {
             `[CodeSecurityAuditor - startAuditorAnalysis] application _id:  ${application?._id}`,
         );
 
-        const securityAuditReports = await inspectDirectory({
-            srcDir: workspaceFolder,
+        const securityAuditReports = await formatCodeModularityReports({
+            application,
+            workspaceFolder,
         });
 
-        console.log('securityAuditReports: ', securityAuditReports);
+        await AuditProvider.insertAuditList(securityAuditReports);
 
+        AppLogger.info(
+            `[CodeModularityAuditor - startAuditorAnalysis] audit reports inserted successfully`,
+        );
         return true;
     } catch (error) {
         AppLogger.error(

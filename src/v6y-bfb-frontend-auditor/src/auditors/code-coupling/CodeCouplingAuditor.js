@@ -3,7 +3,7 @@ import Madge from 'madge';
 
 import CodeCouplingUtils from './CodeCouplingUtils.js';
 
-const { formatCouplingReports } = CodeCouplingUtils;
+const { formatCodeCouplingReports } = CodeCouplingUtils;
 
 const defaultOptions = {
     fileExtensions: ['ts', 'tsx', 'js', 'jsx'],
@@ -62,7 +62,7 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }) => {
             return {};
         }
 
-        const auditReports = formatCouplingReports({
+        const auditReports = formatCodeCouplingReports({
             application,
             workspaceFolder,
             dependenciesTree: dependenciesParseResult.obj(),

@@ -12,7 +12,7 @@ import { auditStatus } from '@v6y/commons/src/config/AuditHelpConfig.js';
  * @param {Object} options.circularGraph - A graph representing circular dependencies.
  * @returns {Array} An array of audit reports containing coupling metrics and details.
  */
-const formatCouplingReports = ({
+const formatCodeCouplingReports = ({
     application,
     workspaceFolder,
     dependenciesTree,
@@ -20,16 +20,18 @@ const formatCouplingReports = ({
     circularGraph,
 }) => {
     try {
-        AppLogger.info(`[CodeCouplingUtils - formatCouplingReports] application:  ${application}`);
         AppLogger.info(
-            `[CodeCouplingUtils - formatCouplingReports] workspaceFolder:  ${workspaceFolder}`,
-        );
-        AppLogger.info(`[CodeCouplingUtils - formatCouplingReports] circular:  ${circular}`);
-        AppLogger.info(
-            `[CodeCouplingUtils - formatCouplingReports] circularGraph:  ${circularGraph}`,
+            `[CodeCouplingUtils - formatCodeCouplingReports] application:  ${application}`,
         );
         AppLogger.info(
-            `[CodeCouplingUtils - formatCouplingReports] dependenciesTree:  ${dependenciesTree}`,
+            `[CodeCouplingUtils - formatCodeCouplingReports] workspaceFolder:  ${workspaceFolder}`,
+        );
+        AppLogger.info(`[CodeCouplingUtils - formatCodeCouplingReports] circular:  ${circular}`);
+        AppLogger.info(
+            `[CodeCouplingUtils - formatCodeCouplingReports] circularGraph:  ${circularGraph}`,
+        );
+        AppLogger.info(
+            `[CodeCouplingUtils - formatCodeCouplingReports] dependenciesTree:  ${dependenciesTree}`,
         );
 
         const auditReports = [];
@@ -56,7 +58,6 @@ const formatCouplingReports = ({
                     category: 'circular-dependencies',
                     status: auditStatus.error,
                     score: null,
-                    scorePercent: null,
                     scoreUnit: '',
                     module: {
                         ...module,
@@ -77,9 +78,9 @@ const formatCouplingReports = ({
 
         for (const dependenciesCouplingReport of dependenciesCouplingReports) {
             const { file, dependencies: outgoingDependencies } = dependenciesCouplingReport;
-            AppLogger.info(`[CodeCouplingUtils - formatCouplingReports] file:  ${file}`);
+            AppLogger.info(`[CodeCouplingUtils - formatCodeCouplingReports] file:  ${file}`);
             AppLogger.info(
-                `[CodeCouplingUtils - formatCouplingReports] outgoingDependencies:  ${outgoingDependencies?.length}`,
+                `[CodeCouplingUtils - formatCodeCouplingReports] outgoingDependencies:  ${outgoingDependencies?.length}`,
             );
 
             // Efferent Coupling (Ce): This is the number of classes in other packages that the classes in the package depend upon.
@@ -87,14 +88,13 @@ const formatCouplingReports = ({
             // In other words, it measures the outgoing dependencies.
             const efferentCoupling = outgoingDependencies?.length || 0;
             AppLogger.info(
-                `[CodeCouplingUtils - formatCouplingReports] efferentCoupling:  ${efferentCoupling}`,
+                `[CodeCouplingUtils - formatCodeCouplingReports] efferentCoupling:  ${efferentCoupling}`,
             );
             auditReports.push({
                 type: 'Code-Coupling',
                 category: 'efferent-coupling',
                 status: auditStatus.info,
                 score: efferentCoupling,
-                scorePercent: null,
                 scoreUnit: '',
                 module: {
                     ...module,
@@ -112,22 +112,21 @@ const formatCouplingReports = ({
             const formattedIncomingDependencies = incomingDependencies?.map((item) => item.file);
 
             AppLogger.info(
-                `[CodeCouplingUtils - formatCouplingReports] incomingDependencies:  ${incomingDependencies?.length}`,
+                `[CodeCouplingUtils - formatCodeCouplingReports] incomingDependencies:  ${incomingDependencies?.length}`,
             );
             AppLogger.info(
-                `[CodeCouplingUtils - formatCouplingReports] formattedIncomingDependencies:  ${formattedIncomingDependencies?.length}`,
+                `[CodeCouplingUtils - formatCodeCouplingReports] formattedIncomingDependencies:  ${formattedIncomingDependencies?.length}`,
             );
 
             const afferentCoupling = incomingDependencies?.length || 0;
             AppLogger.info(
-                `[CodeCouplingUtils - formatCouplingReports] afferentCoupling:  ${afferentCoupling}`,
+                `[CodeCouplingUtils - formatCodeCouplingReports] afferentCoupling:  ${afferentCoupling}`,
             );
             auditReports.push({
                 type: 'Code-Coupling',
                 category: 'afferent-coupling',
                 status: auditStatus.info,
                 score: afferentCoupling,
-                scorePercent: null,
                 scoreUnit: '',
                 module: {
                     ...module,
@@ -141,7 +140,7 @@ const formatCouplingReports = ({
                 efferentCoupling / (efferentCoupling + afferentCoupling) || 0
             )?.toFixed(2);
             AppLogger.info(
-                `[CodeCouplingUtils - formatCouplingReports] instabilityIndex:  ${instabilityIndex}`,
+                `[CodeCouplingUtils - formatCodeCouplingReports] instabilityIndex:  ${instabilityIndex}`,
             );
             const isInstabilityIndexError =
                 (efferentCoupling >= 2 || afferentCoupling >= 2) && instabilityIndex > 0.5;
@@ -150,7 +149,6 @@ const formatCouplingReports = ({
                 category: 'instability-index',
                 status: isInstabilityIndexError ? auditStatus.error : auditStatus.info,
                 score: instabilityIndex,
-                scorePercent: null,
                 scoreUnit: '',
                 module: {
                     ...module,
@@ -162,14 +160,14 @@ const formatCouplingReports = ({
         return auditReports;
     } catch (error) {
         AppLogger.info(
-            `[CodeCouplingUtils - formatCouplingReports] reading main folder error:  ${error.message}`,
+            `[CodeCouplingUtils - formatCodeCouplingReports] reading main folder error:  ${error.message}`,
         );
         return [];
     }
 };
 
 const CodeCouplingUtils = {
-    formatCouplingReports,
+    formatCodeCouplingReports,
 };
 
 export default CodeCouplingUtils;

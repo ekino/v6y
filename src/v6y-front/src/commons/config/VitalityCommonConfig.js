@@ -51,7 +51,7 @@ export const VITALITY_DASHBOARD_DATASOURCE = [
 
 export const AUDIT_REPORT_TYPES = {
     lighthouse: 'Lighthouse',
-    codeCompliance: 'Code-Compliance',
+    codeModularity: 'Code-Modularity',
     codeComplexity: 'Code-Complexity',
     codeCoupling: 'Code-Coupling',
     codeSecurity: 'Code-Security',

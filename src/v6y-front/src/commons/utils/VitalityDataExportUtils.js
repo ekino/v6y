@@ -29,7 +29,6 @@ export const exportAppListDataToCSV = ({ appList = [] }) => {
 
         return true;
     } catch (error) {
-        console.log('exportAppListDataToCSV error: ', error);
         return false;
     }
 };

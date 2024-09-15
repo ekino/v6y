@@ -53,11 +53,11 @@ const buildApplicationFrontendByBranch = async ({ applicationId, workspaceFolder
             workspaceFolder,
         );
 
-        await fetch(frontendAuditorApi, {
+        /*await fetch(frontendAuditorApi, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ applicationId, workspaceFolder }),
-        });
+        }); */
 
         return true;
     } catch (error) {
@@ -138,7 +138,6 @@ const buildApplicationDetailsByBranch = async ({ application, branch }) => {
             workspaceFolder,
         );
 
-        console.log('workspaceFolder: ', workspaceFolder);
         if (!workspaceFolder) {
             return false;
         }

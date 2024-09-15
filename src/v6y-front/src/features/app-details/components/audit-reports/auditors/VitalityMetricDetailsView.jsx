@@ -38,9 +38,21 @@ const VitalityMetricDetailsView = ({ metric }) => (
             <Typography.Text>{`${metric.score || 0}${metric.scoreUnit || ''}`}</Typography.Text>
         </Descriptions.Item>
 
-        {metric?.module?.branch?.length && metric?.module?.path?.length && (
+        {metric?.module?.branch?.length && (
+            <Descriptions.Item label={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_METRIC_BRANCH}>
+                <Typography.Text>{metric?.module?.branch}</Typography.Text>
+            </Descriptions.Item>
+        )}
+
+        {metric?.module?.path?.length && (
             <Descriptions.Item label={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_METRIC_MODULE}>
-                <Typography.Text>{`${metric?.module?.path} (${metric?.module?.branch})`}</Typography.Text>
+                <Typography.Text>{metric?.module?.path}</Typography.Text>
+            </Descriptions.Item>
+        )}
+
+        {metric.extraInfos?.length && (
+            <Descriptions.Item label={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_MORE_DETAILS}>
+                <Typography.Text>{metric.extraInfos}</Typography.Text>
             </Descriptions.Item>
         )}
     </Descriptions>

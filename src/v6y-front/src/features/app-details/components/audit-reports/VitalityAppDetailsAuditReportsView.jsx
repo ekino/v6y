@@ -55,7 +55,7 @@ const VitalityAppDetailsAuditReportsView = ({}) => {
                                 reports={data?.filter((report) => report?.auditHelp?.title)}
                             />
                         )}
-                        {(group === AUDIT_REPORT_TYPES.codeCompliance ||
+                        {(group === AUDIT_REPORT_TYPES.codeModularity ||
                             group === AUDIT_REPORT_TYPES.codeComplexity ||
                             group === AUDIT_REPORT_TYPES.codeCoupling ||
                             group === AUDIT_REPORT_TYPES.codeSecurity ||

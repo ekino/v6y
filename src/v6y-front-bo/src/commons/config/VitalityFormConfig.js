@@ -321,7 +321,6 @@ export const faqCreateOrEditFormOutputAdapter = (params) => ({
 });
 
 export const notificationCreateOrEditFormInAdapter = (params) => {
-    console.log({ params });
     return {
         notificationId: params?.id,
         'notification-title': params?.['title'],
@@ -520,8 +519,6 @@ export const evolutionHelpCreateOrEditFormInAdapter = (params) => ({
 });
 
 export const evolutionHelpCreateOrEditFormOutputAdapter = (params) => {
-    console.log({ params });
-
     return {
         evolutionHelpInput: {
             evolutionHelpId: params?.['evolutionHelpId'],

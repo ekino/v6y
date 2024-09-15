@@ -1,4 +1,5 @@
 import { AppLogger } from '@v6y/commons';
+import { auditStatus } from '@v6y/commons/src/config/AuditHelpConfig.js';
 import xml2js from 'xml2js';
 
 /**
@@ -50,7 +51,7 @@ const GRAPH_OPTIONS = {
  * @property {number} resolution - Resolution parameter for the Louvain algorithm (default: 1).
  */
 const LOUVAIN_ALGO_OPTIONS = {
-    resolution: 0.98,
+    resolution: 1,
 };
 
 /**
@@ -127,12 +128,158 @@ const normalizeProjectTree = (tree) => {
     }, {});
 };
 
+const formatCodeModularityReports = ({ application, workspaceFolder, modularitySummary }) => {
+    try {
+        AppLogger.info(
+            `[CodeModularityUtils - formatCodeModularityReports] application:  ${application}`,
+        );
+        AppLogger.info(
+            `[CodeModularityUtils - formatCodeModularityReports] workspaceFolder:  ${workspaceFolder}`,
+        );
+        AppLogger.info(
+            `[CodeModularityUtils - formatCodeModularityReports] modularitySummary:  ${modularitySummary}`,
+        );
+
+        if (!modularitySummary || !application || !workspaceFolder) {
+            return [];
+        }
+
+        const {
+            projectLouvainDetails,
+            projectDegreeCentrality,
+            projectInDegreeCentrality,
+            projectOutDegreeCentrality,
+        } = modularitySummary;
+
+        const auditReports = [];
+        const module = {
+            appId: application?._id,
+            url: application?.repo?.webUrl,
+            branch: workspaceFolder.split('/').pop(),
+            path: '',
+        };
+
+        const { communities: interactionCommunities, modularity: interactionDensity } =
+            projectLouvainDetails || {};
+
+        if (interactionDensity) {
+            const independentFileRatio = 1 - interactionDensity;
+            auditReports.push({
+                type: 'Code-Modularity',
+                category: 'interaction-density',
+                status: interactionDensity > 0.5 ? auditStatus.error : auditStatus.info,
+                score: interactionDensity,
+                scoreUnit: '%',
+                module: {
+                    ...module,
+                    path: workspaceFolder,
+                },
+            });
+            auditReports.push({
+                type: 'Code-Modularity',
+                category: 'independent-files-ratio',
+                status: independentFileRatio < 0.5 ? auditStatus.error : auditStatus.info,
+                score: independentFileRatio,
+                scoreUnit: '%',
+                module: {
+                    ...module,
+                    path: workspaceFolder,
+                },
+            });
+        }
+
+        if (Object.keys(interactionCommunities || {})?.length) {
+            const interactionCommunitiesGroups = Object.keys(interactionCommunities).reduce(
+                (acc, next) => ({
+                    ...acc,
+                    [`group-${interactionCommunities[next]}`]: [
+                        ...(acc[`group-${interactionCommunities[next]}`] || []),
+                        next,
+                    ],
+                }),
+                {},
+            );
+
+            for (const interactionCommunitiesGroup of Object.keys(interactionCommunitiesGroups)) {
+                auditReports.push({
+                    type: 'Code-Modularity',
+                    category: 'interaction-groups',
+                    status: auditStatus.info,
+                    score: null,
+                    extraInfos: interactionCommunitiesGroup,
+                    scoreUnit: '',
+                    module: {
+                        ...module,
+                        path: `[${interactionCommunitiesGroups[interactionCommunitiesGroup].join(', ')}]`,
+                    },
+                });
+            }
+        }
+
+        if (Object.keys(projectDegreeCentrality || {})?.length) {
+            for (const fileDegreeCentrality of Object.keys(projectDegreeCentrality)) {
+                auditReports.push({
+                    type: 'Code-Modularity',
+                    category: 'file-degree-centrality',
+                    status: auditStatus.info,
+                    score: projectDegreeCentrality[fileDegreeCentrality],
+                    scoreUnit: '',
+                    module: {
+                        ...module,
+                        path: fileDegreeCentrality,
+                    },
+                });
+            }
+        }
+
+        if (Object.keys(projectInDegreeCentrality || {})?.length) {
+            for (const fileInDegreeCentrality of Object.keys(projectInDegreeCentrality)) {
+                auditReports.push({
+                    type: 'Code-Modularity',
+                    category: 'file-in-degree-centrality',
+                    status: auditStatus.info,
+                    score: projectInDegreeCentrality[fileInDegreeCentrality],
+                    scoreUnit: '',
+                    module: {
+                        ...module,
+                        path: fileInDegreeCentrality,
+                    },
+                });
+            }
+        }
+
+        if (Object.keys(projectOutDegreeCentrality || {})?.length) {
+            for (const fileOutDegreeCentrality of Object.keys(projectOutDegreeCentrality)) {
+                auditReports.push({
+                    type: 'Code-Modularity',
+                    category: 'file-out-degree-centrality',
+                    status: auditStatus.info,
+                    score: projectOutDegreeCentrality[fileOutDegreeCentrality],
+                    scoreUnit: '',
+                    module: {
+                        ...module,
+                        path: fileOutDegreeCentrality,
+                    },
+                });
+            }
+        }
+
+        return auditReports;
+    } catch (error) {
+        AppLogger.info(
+            `[CodeModularityUtils - formatCodeModularityReports] reading main folder error:  ${error.message}`,
+        );
+        return [];
+    }
+};
+
 const CodeModularityUtils = {
     GRAPH_OPTIONS,
     LOUVAIN_ALGO_OPTIONS,
     defaultOptions,
     normalizeProjectTree,
     retrieveProjectTreeData,
+    formatCodeModularityReports,
 };
 
 export default CodeModularityUtils;

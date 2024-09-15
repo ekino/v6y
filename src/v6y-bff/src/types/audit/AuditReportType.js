@@ -17,13 +17,13 @@ const AuditReportType = `
         
     """ Audit score (success, warning, error) """
     score: Float 
-
-    """ Audit score percent """
-    scorePercent: Float
     
     """ Audit metric score unit """
     scoreUnit: String  
-    
+   
+    """ Audit extra infos """
+    extraInfos: String  
+     
     """ Audit Concerned Module """
     module: ModuleType
     

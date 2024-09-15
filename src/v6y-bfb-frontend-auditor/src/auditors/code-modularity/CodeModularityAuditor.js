@@ -1,4 +1,4 @@
-import { AppLogger, ApplicationProvider } from '@v6y/commons';
+import { AppLogger, ApplicationProvider, AuditProvider } from '@v6y/commons';
 import Graph from 'graphology';
 import louvain from 'graphology-communities-louvain';
 import {
@@ -17,6 +17,7 @@ const {
     defaultOptions,
     normalizeProjectTree,
     retrieveProjectTreeData,
+    formatCodeModularityReports,
 } = CodeModularityUtils;
 
 const startAuditorAnalysis = async ({ applicationId, workspaceFolder }) => {
@@ -115,20 +116,25 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }) => {
             `[CodeModularityAuditor - startAuditorAnalysis] louvainDetails:  ${louvainDetails}`,
         );
 
-        const codeModularityAudit = {
-            projectTree,
-            projectGraph,
-            projectLouvainDetails: louvainDetails,
-            projectDensity: density(projectGraph),
-            projectDegreeCentrality: degreeCentrality(projectGraph),
-            projectInDegreeCentrality: inDegreeCentrality(projectGraph),
-            projectOutDegreeCentrality: outDegreeCentrality(projectGraph),
-        };
+        const auditReports = formatCodeModularityReports({
+            application,
+            workspaceFolder,
+            modularitySummary: {
+                projectTree,
+                projectGraph,
+                projectLouvainDetails: louvainDetails,
+                projectDensity: density(projectGraph),
+                projectDegreeCentrality: degreeCentrality(projectGraph),
+                projectInDegreeCentrality: inDegreeCentrality(projectGraph),
+                projectOutDegreeCentrality: outDegreeCentrality(projectGraph),
+            },
+        });
 
-        console.log('codeModularityAudit: ', codeModularityAudit);
+        await AuditProvider.insertAuditList(auditReports);
 
-        // save to database
-
+        AppLogger.info(
+            `[CodeModularityAuditor - startAuditorAnalysis] audit reports inserted successfully`,
+        );
         return true;
     } catch (error) {
         AppLogger.error(

@@ -21,19 +21,17 @@ const auditModelSchema = {
     score: {
         type: DataTypes.FLOAT,
     },
-    scorePercent: {
-        type: DataTypes.FLOAT,
-    },
     scoreUnit: {
+        type: DataTypes.TEXT,
+    },
+    extraInfos: {
         type: DataTypes.TEXT,
     },
     module: DataTypes.JSON,
     auditHelp: DataTypes.JSON,
 };
 
-const auditModelOptions = {
-    indexes: [{ unique: true, fields: ['type', 'category', 'subCategory'] }],
-};
+const auditModelOptions = {};
 
 const AuditModel = {
     name: 'AuditReport',

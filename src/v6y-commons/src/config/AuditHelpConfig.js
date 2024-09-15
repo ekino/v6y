@@ -1,4 +1,4 @@
-import { codeSmellCategories, codeSmellTypes } from './CodeSmellConfig.js';
+import { codeSmellCategories, codeSmellTypes, securityAntiPatterns } from './CodeSmellConfig.js';
 
 export const auditStatus = {
     success: 'success',
@@ -9,12 +9,6 @@ export const auditStatus = {
 
 export const defaultAuditHelpStatus = [
     {
-        category: `${codeSmellTypes.Lighthouse}-${codeSmellCategories.performance}`,
-        title: 'Default Title',
-        description: 'Default Description',
-        explanation: '',
-    },
-    {
         category: `${codeSmellTypes.Lighthouse}-${codeSmellCategories.seo}`,
         title: 'Default Title',
         description: 'Default Description',
@@ -24,6 +18,12 @@ export const defaultAuditHelpStatus = [
         title: '',
         category: `${codeSmellTypes.Lighthouse}-${codeSmellCategories.accessibility}`,
         description: '',
+        explanation: '',
+    },
+    {
+        category: `${codeSmellTypes.Lighthouse}-${codeSmellCategories.performance}`,
+        title: 'Default Title',
+        description: 'Default Description',
         explanation: '',
     },
     {
@@ -40,6 +40,18 @@ export const defaultAuditHelpStatus = [
     },
     {
         category: `${codeSmellTypes.Lighthouse}-${codeSmellCategories['cumulative-layout-shift']}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
+    {
+        category: `${codeSmellTypes.Lighthouse}-${codeSmellCategories['total-blocking-time']}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
+    {
+        category: `${codeSmellTypes.Lighthouse}-${codeSmellCategories['speed-index']}`,
         title: 'Default Title',
         description: 'Default Description',
         explanation: '',
@@ -69,7 +81,19 @@ export const defaultAuditHelpStatus = [
         explanation: '',
     },
     {
-        category: `${codeSmellTypes['Code-Duplication']}`,
+        category: `${codeSmellTypes['Code-Duplication']}-${codeSmellCategories['code-duplication-percent']}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
+    {
+        category: `${codeSmellTypes['Code-Duplication']}-${codeSmellCategories['code-duplication-total-duplicated-lines']}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
+    {
+        category: `${codeSmellTypes['Code-Duplication']}-${codeSmellCategories['code-duplication-file']}`,
         title: 'Default Title',
         description: 'Default Description',
         explanation: '',
@@ -141,15 +165,45 @@ export const defaultAuditHelpStatus = [
         explanation: '',
     },
     {
-        category: `${codeSmellTypes['Code-Compliance']}`,
+        category: `${codeSmellTypes['Code-Modularity']}-${codeSmellCategories['interaction-density']}`,
         title: 'Default Title',
         description: 'Default Description',
         explanation: '',
     },
     {
-        category: `${codeSmellTypes['Code-Security']}`,
+        category: `${codeSmellTypes['Code-Modularity']}-${codeSmellCategories['interaction-groups']}`,
         title: 'Default Title',
         description: 'Default Description',
         explanation: '',
     },
+    {
+        category: `${codeSmellTypes['Code-Modularity']}-${codeSmellCategories['interaction-files-ratio']}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
+    {
+        category: `${codeSmellTypes['Code-Modularity']}-${codeSmellCategories['file-degree-centrality']}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
+    {
+        category: `${codeSmellTypes['Code-Modularity']}-${codeSmellCategories['file-in-degree-centrality']}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
+    {
+        category: `${codeSmellTypes['Code-Modularity']}-${codeSmellCategories['file-out-degree-centrality']}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
+    ...securityAntiPatterns.map(({ category }) => ({
+        category: `${codeSmellTypes['Code-Security']}-${category}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    })),
 ];

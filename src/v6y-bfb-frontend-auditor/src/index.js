@@ -95,7 +95,7 @@ AppLogger.info(`🚀 Server started at ${serverUrl}`);
 
 /* mock start */
 await FrontendAuditorManager.startFrontendAudit({
-    applicationId: '6',
+    applicationId: '1',
     workspaceFolder:
         '/Users/hela.ben-khalfallah/Desktop/github_workspace/v6y/src/code-analysis-workspace/mfs/loader',
 });
