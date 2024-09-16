@@ -2,10 +2,16 @@ import { AppLogger } from '@v6y/commons';
 
 const startAuditorAnalysis = async ({ applicationId, workspaceFolder }) => {
     try {
-        AppLogger.info(`[KeywordsAuditor - startAuditorAnalysis] applicationId:  ${applicationId}`);
         AppLogger.info(
-            `[KeywordsAuditor - startAuditorAnalysis] workspaceFolder:  ${workspaceFolder}`,
+            `[EvolutionsAuditor - startAuditorAnalysis] applicationId:  ${applicationId}`,
         );
+        AppLogger.info(
+            `[EvolutionsAuditor - startAuditorAnalysis] workspaceFolder:  ${workspaceFolder}`,
+        );
+
+        if (applicationId === undefined || !workspaceFolder?.length) {
+            return false;
+        }
 
         // get list deps by appId => keyword for deprecated and outdated deps
         // get list audits by appId => keyword for bad score / bad pattern

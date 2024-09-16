@@ -67,7 +67,9 @@ const insertDependencyList = async (dependencyList) => {
             return null;
         }
 
-        await dependencyModel.bulkCreate(dependencyList);
+        for (const dependency of dependencyList) {
+            await createDependency(dependency);
+        }
 
         AppLogger.info(
             `[DependencyProvider - insertDependencyList] dependencyList list inserted successfully`,

@@ -66,6 +66,38 @@ const createKeyword = async (keyword) => {
 };
 
 /**
+ * Bulk insert of keywordList list
+ * @param {Array} keywordList
+ * @returns {Promise<null>}
+ */
+const insertKeywordList = async (keywordList) => {
+    try {
+        AppLogger.info(
+            `[KeywordProvider - insertKeywordList] keywordList:  ${keywordList?.length}`,
+        );
+        if (!keywordList?.length) {
+            return null;
+        }
+
+        const keywordModel = DataBaseManager.getDataBaseSchema(KeywordModel.name);
+
+        if (!keywordModel) {
+            return null;
+        }
+
+        for (const keyword of keywordList) {
+            await createKeyword(keyword);
+        }
+
+        AppLogger.info(
+            `[KeywordProvider - insertKeywordList] keywordList list inserted successfully`,
+        );
+    } catch (error) {
+        AppLogger.info(`[KeywordProvider - insertKeywordList] error:  ${error.message}`);
+    }
+};
+
+/**
  * Edits an existing Keyword entry in the database.
  *
  * @param {Object} keyword - The Keyword data with updated information.
@@ -176,11 +208,7 @@ const getKeywordListByPageAndParams = async ({ appId }) => {
             return null;
         }
 
-        const keywordList = await keywordModel.findAll({
-            where: {
-                _id: appId,
-            },
-        });
+        const keywordList = await keywordModel.findAll();
 
         AppLogger.info(
             `[KeywordProvider - getKeywordListByPageAndParams] keywordList: ${keywordList?.length}`,
@@ -188,6 +216,10 @@ const getKeywordListByPageAndParams = async ({ appId }) => {
 
         if (!keywordList?.length) {
             return null;
+        }
+
+        if (appId) {
+            return keywordList.filter((keyword) => keyword.module?.appId === appId);
         }
 
         return keywordList;
@@ -228,6 +260,7 @@ const getKeywordsStatsByParams = async ({ keywords }) => {
  */
 const KeywordProvider = {
     createKeyword,
+    insertKeywordList,
     editKeyword,
     deleteKeyword,
     deleteKeywordList,

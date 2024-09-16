@@ -1,3 +1,5 @@
+import { Op } from 'sequelize';
+
 import AppLogger from '../core/AppLogger.js';
 import AuditProvider from './AuditProvider.js';
 import DataBaseManager from './DataBaseManager.js';
@@ -399,17 +401,43 @@ const getApplicationListByPageAndParams = async ({
             return null;
         }
 
-        const applications = await applicationModel.findAll();
+        const applications = await applicationModel.findAll({
+            offset,
+            limit,
+            where: {
+                name: {
+                    [Op.substring]: searchText,
+                },
+                acronym: {
+                    [Op.substring]: searchText,
+                },
+                description: {
+                    [Op.substring]: searchText,
+                },
+            },
+        });
         AppLogger.info(
             `[ApplicationProvider - getApplicationListByPageAndParams] applications: ${applications?.length}`,
         );
+        if (!applications?.length) {
+            return null;
+        }
 
-        return applications?.map((application) => ({
-            ...(application?.dataValues || {}),
+        const fullApplications = applications.map((application) => ({
+            ...(application.dataValues || {}),
             keywords: KeywordProvider.getKeywordListByPageAndParams({
                 appId: application._id,
             }),
         }));
+
+        if (keywords?.length) {
+            const keywordFilter = (app) => {
+                return app.keywords.some((keyword) => keywords.includes(keyword.label));
+            };
+            return fullApplications.filter(keywordFilter);
+        }
+
+        return fullApplications;
     } catch (error) {
         AppLogger.info(
             `[ApplicationProvider - getApplicationListByPageAndParams] error: ${error.message}`,

@@ -20,9 +20,7 @@ const keywordModelSchema = {
     module: DataTypes.JSON,
 };
 
-const keywordModelOptions = {
-    indexes: [{ unique: true, fields: ['label', 'status'] }],
-};
+const keywordModelOptions = {};
 
 const KeywordModel = {
     name: 'Keyword',

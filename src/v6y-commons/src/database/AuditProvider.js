@@ -53,7 +53,9 @@ const insertAuditList = async (auditList) => {
             return null;
         }
 
-        await auditModel.bulkCreate(auditList);
+        for (const audit of auditList) {
+            await createAudit(audit);
+        }
 
         AppLogger.info(`[AuditProvider - insertAuditList] audit reports inserted successfully`);
     } catch (error) {

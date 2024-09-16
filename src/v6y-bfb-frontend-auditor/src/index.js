@@ -5,7 +5,7 @@ import cors from 'cors';
 import express from 'express';
 import expressStatusMonitor from 'express-status-monitor';
 
-//import FrontendAuditorManager from './auditors/FrontendAuditorManager.js';
+import FrontendAuditorManager from './auditors/FrontendAuditorManager.js';
 import ServerConfig from './commons/ServerConfig.js';
 import FrontendAuditorRouter from './routes/FrontendAuditorRouter.js';
 
@@ -94,10 +94,8 @@ httpServer.timeout = serverTimeout; // Set server timeout
 AppLogger.info(`🚀 Server started at ${serverUrl}`);
 
 /* mock start */
-/*
 await FrontendAuditorManager.startFrontendAudit({
     applicationId: '1',
     workspaceFolder:
         '/Users/hela.ben-khalfallah/Desktop/github_workspace/v6y/src/code-analysis-workspace/mfs/loader',
 });
-*/

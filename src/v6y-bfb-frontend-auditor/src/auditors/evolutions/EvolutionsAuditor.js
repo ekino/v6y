@@ -9,6 +9,10 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }) => {
             `[EvolutionsAuditor - startAuditorAnalysis] workspaceFolder:  ${workspaceFolder}`,
         );
 
+        if (applicationId === undefined || !workspaceFolder?.length) {
+            return false;
+        }
+
         // get list deps by appId => evolution for deprecated and outdated deps
         // get list audits by appId => evolution for bad score / bad pattern
 

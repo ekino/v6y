@@ -39,6 +39,38 @@ const createEvolution = async (evolution) => {
 };
 
 /**
+ * Bulk insert of evolutionList list
+ * @param {Array} evolutionList
+ * @returns {Promise<null>}
+ */
+const insertEvolutionList = async (evolutionList) => {
+    try {
+        AppLogger.info(
+            `[EvolutionProvider - insertEvolutionList] evolutionList:  ${evolutionList?.length}`,
+        );
+        if (!evolutionList?.length) {
+            return null;
+        }
+
+        const evolutionModel = DataBaseManager.getDataBaseSchema(EvolutionModel.name);
+
+        if (!evolutionModel) {
+            return null;
+        }
+
+        for (const evolution of evolutionList) {
+            await createEvolution(evolution);
+        }
+
+        AppLogger.info(
+            `[EvolutionProvider - insertEvolutionList] evolutionList list inserted successfully`,
+        );
+    } catch (error) {
+        AppLogger.info(`[EvolutionProvider - insertEvolutionList] error:  ${error.message}`);
+    }
+};
+
+/**
  * Edits an existing Evolution entry in the database.
  *
  * @param {Object} evolution - The Evolution data with updated information.
@@ -194,6 +226,7 @@ const getEvolutionListByPageAndParams = async ({ appId }) => {
  */
 const EvolutionProvider = {
     createEvolution,
+    insertEvolutionList,
     editEvolution,
     deleteEvolution,
     deleteEvolutionList,

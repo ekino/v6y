@@ -11,7 +11,9 @@ import DependencyModel from './models/DependencyModel.js';
 import DependencyStatusHelpModel from './models/DependencyStatusHelpModel.js';
 import DeprecatedDependencyModel from './models/DeprecatedDependencyModel.js';
 import EvolutionHelpModelModel from './models/EvolutionHelpModel.js';
+import EvolutionModel from './models/EvolutionModel.js';
 import FaqModel from './models/FaqModel.js';
+import KeywordModel from './models/KeywordModel.js';
 import NotificationModel from './models/NotificationModel.js';
 
 let postgresDataBase = null;
@@ -107,6 +109,16 @@ const registerModels = async () => {
         DependencyModel.name,
         DependencyModel.schema,
         DependencyModel.options,
+    );
+    postgresDataBaseSchema[KeywordModel.name] = postgresDataBase?.define(
+        KeywordModel.name,
+        KeywordModel.schema,
+        KeywordModel.options,
+    );
+    postgresDataBaseSchema[EvolutionModel.name] = postgresDataBase?.define(
+        EvolutionModel.name,
+        EvolutionModel.schema,
+        EvolutionModel.options,
     );
     postgresDataBaseSchema[DependencyStatusHelpModel.name] = postgresDataBase?.define(
         DependencyStatusHelpModel.name,

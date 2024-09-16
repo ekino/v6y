@@ -53,13 +53,16 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }) => {
             `[CodeDuplicationAuditor - startAuditorAnalysis] workspaceFolder:  ${workspaceFolder}`,
         );
 
-        if (!applicationId?.length || !workspaceFolder?.length) {
+        if (applicationId === undefined || !workspaceFolder?.length) {
             return false;
         }
 
         const application = await ApplicationProvider.getApplicationDetailsByParams({
             appId: applicationId,
         });
+        AppLogger.info(
+            `[CodeDuplicationAuditor - startAuditorAnalysis] application _id:  ${application?._id}`,
+        );
 
         if (!application?._id) {
             return false;

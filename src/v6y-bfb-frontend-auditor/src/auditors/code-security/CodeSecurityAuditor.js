@@ -13,13 +13,16 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }) => {
             `[CodeSecurityAuditor - startAuditorAnalysis] workspaceFolder:  ${workspaceFolder}`,
         );
 
-        if (!applicationId?.length || !workspaceFolder?.length) {
+        if (applicationId === undefined || !workspaceFolder?.length) {
             return false;
         }
 
         const application = await ApplicationProvider.getApplicationDetailsByParams({
             appId: applicationId,
         });
+        AppLogger.info(
+            `[CodeSecurityAuditor - startAuditorAnalysis] application _id:  ${application?._id}`,
+        );
 
         if (!application?._id) {
             return false;

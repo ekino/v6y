@@ -29,7 +29,7 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }) => {
             `[CodeModularityAuditor - startAuditorAnalysis] workspaceFolder:  ${workspaceFolder}`,
         );
 
-        if (!applicationId?.length || !workspaceFolder?.length) {
+        if (applicationId === undefined || !workspaceFolder?.length) {
             return false;
         }
 

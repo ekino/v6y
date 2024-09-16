@@ -28,7 +28,7 @@ const startFrontendAudit = async ({ applicationId, workspaceFolder }) => {
             workspaceFolder,
         };
 
-        await forkWorker('./src/workers/DependenciesAnalysisWorker.js', workerConfig);
+        /*await forkWorker('./src/workers/DependenciesAnalysisWorker.js', workerConfig);
         AppLogger.info(
             '[FrontendAuditorManager - startFrontendAudit] Dependencies Audit have completed successfully.',
         );
@@ -43,14 +43,14 @@ const startFrontendAudit = async ({ applicationId, workspaceFolder }) => {
             '[FrontendAuditorManager - startFrontendAudit] Lighthouse Audit have completed successfully.',
         );
 
-        await forkWorker('./src/workers/KeywordsAnalysisWorker.js', workerConfig);
-        AppLogger.info(
-            '[FrontendAuditorManager - startFrontendAudit] Keywords analysis have completed successfully.',
-        );
-
         await forkWorker('./src/workers/EvolutionsAnalysisWorker.js', workerConfig);
         AppLogger.info(
             '[FrontendAuditorManager - startFrontendAudit] Evolutions analysis have completed successfully.',
+        );*/
+
+        await forkWorker('./src/workers/KeywordsAnalysisWorker.js', workerConfig);
+        AppLogger.info(
+            '[FrontendAuditorManager - startFrontendAudit] Keywords analysis have completed successfully.',
         );
 
         return true; // Indicates successful initiation of audits

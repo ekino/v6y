@@ -21,9 +21,7 @@ const evolutionModelSchema = {
     module: DataTypes.JSON,
 };
 
-const evolutionModelOptions = {
-    indexes: [{ unique: true, fields: ['type', 'category', 'subCategory'] }],
-};
+const evolutionModelOptions = {};
 
 const EvolutionModel = {
     name: 'Evolution',
