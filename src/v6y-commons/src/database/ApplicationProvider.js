@@ -401,24 +401,43 @@ const getApplicationListByPageAndParams = async ({
             return null;
         }
 
-        const applications = await applicationModel.findAll({
-            offset,
-            limit,
-            where: {
-                name: {
-                    [Op.substring]: searchText,
-                },
-                acronym: {
-                    [Op.substring]: searchText,
-                },
-                description: {
-                    [Op.substring]: searchText,
-                },
-            },
-        });
+        const queryOptions = {};
+
+        if (offset) {
+            queryOptions.offset = offset;
+        }
+
+        if (limit) {
+            queryOptions.limit = limit;
+        }
+
+        if (searchText) {
+            queryOptions.where = {
+                [Op.or]: [
+                    {
+                        name: {
+                            [Op.substring]: searchText,
+                        },
+                    },
+                    {
+                        acronym: {
+                            [Op.substring]: searchText,
+                        },
+                    },
+                    {
+                        description: {
+                            [Op.substring]: searchText,
+                        },
+                    },
+                ],
+            };
+        }
+
+        const applications = await applicationModel.findAll(queryOptions);
         AppLogger.info(
             `[ApplicationProvider - getApplicationListByPageAndParams] applications: ${applications?.length}`,
         );
+
         if (!applications?.length) {
             return null;
         }
@@ -431,10 +450,9 @@ const getApplicationListByPageAndParams = async ({
         }));
 
         if (keywords?.length) {
-            const keywordFilter = (app) => {
+            return fullApplications.filter((app) => {
                 return app.keywords.some((keyword) => keywords.includes(keyword.label));
-            };
-            return fullApplications.filter(keywordFilter);
+            });
         }
 
         return fullApplications;

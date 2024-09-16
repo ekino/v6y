@@ -21,7 +21,7 @@ const formatMaintainabilityStatus = (fileMaintainability) =>
                 Math.round(fileMaintainability || 0) < 85,
             () => auditStatus.warning,
         )
-        .otherwise(() => '');
+        .otherwise(() => auditStatus.info);
 
 /**
  * Format Halstead Metrics Reports
@@ -48,7 +48,7 @@ const formatHalsteadReports = ({ halsteadMetrics, application, analyzedFile, ana
             type: 'Code-Complexity',
             category: 'halstead-program-length',
             subCategory: null,
-            status: null,
+            status: auditStatus.info,
             score: length,
             scoreUnit: '',
             module,
@@ -59,7 +59,7 @@ const formatHalsteadReports = ({ halsteadMetrics, application, analyzedFile, ana
         halsteadReports.push({
             type: 'Code-Complexity',
             category: 'halstead-program-volume',
-            status: null,
+            status: auditStatus.info,
             score: volume,
             scoreUnit: 'bit',
             module,
@@ -70,7 +70,7 @@ const formatHalsteadReports = ({ halsteadMetrics, application, analyzedFile, ana
         halsteadReports.push({
             type: 'Code-Complexity',
             category: 'halstead-program-difficulty',
-            status: null,
+            status: auditStatus.info,
             score: difficulty,
             scoreUnit: '',
             module,
@@ -81,7 +81,7 @@ const formatHalsteadReports = ({ halsteadMetrics, application, analyzedFile, ana
         halsteadReports.push({
             type: 'Code-Complexity',
             category: 'halstead-program-effort',
-            status: null,
+            status: auditStatus.info,
             score: effort,
             scoreUnit: 'bit',
             module,
@@ -92,7 +92,7 @@ const formatHalsteadReports = ({ halsteadMetrics, application, analyzedFile, ana
         halsteadReports.push({
             type: 'Code-Complexity',
             category: 'halstead-program-estimated-bugs',
-            status: null,
+            status: auditStatus.info,
             score: bugs,
             scoreUnit: '',
             module,
@@ -103,7 +103,7 @@ const formatHalsteadReports = ({ halsteadMetrics, application, analyzedFile, ana
         halsteadReports.push({
             type: 'Code-Complexity',
             category: 'halstead-program-time-to-implement',
-            status: null,
+            status: auditStatus.info,
             score: time,
             scoreUnit: 's',
             module,
@@ -230,7 +230,7 @@ const formatFileSLOCIndicators = ({ fileSLOC, application, analyzedFile, analyze
         codeSLOCIndicators.push({
             type: 'Code-Complexity',
             category: 'physical-sloc',
-            status: null,
+            status: auditStatus.info,
             score: fileSLOC.physical || 0,
             scoreUnit: '',
             module,
@@ -239,7 +239,7 @@ const formatFileSLOCIndicators = ({ fileSLOC, application, analyzedFile, analyze
         codeSLOCIndicators.push({
             type: 'Code-Complexity',
             category: 'logical-sloc',
-            status: null,
+            status: auditStatus.info,
             score: fileSLOC.logical || 0,
             scoreUnit: '',
             module,
@@ -281,6 +281,7 @@ const formatCodeComplexitySummary = ({ summary, application, analyzedFile, analy
 
 const CodeComplexityConfig = {
     formatHalsteadReports,
+    formatMaintainabilityStatus,
     formatMaintainabilityIndexReport,
     formatCyclomaticComplexityReport,
     formatFileSLOCIndicators,

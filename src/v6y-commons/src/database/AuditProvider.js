@@ -1,6 +1,7 @@
 import AppLogger from '../core/AppLogger.js';
 import AuditHelpProvider from './AuditHelpProvider.js';
 import DataBaseManager from './DataBaseManager.js';
+import DependencyStatusHelpProvider from './DependencyStatusHelpProvider.js';
 import AuditModel from './models/AuditModel.js';
 
 /**
@@ -165,31 +166,51 @@ const deleteAuditList = async () => {
  *
  * @param {Object} params - Parameters object containing the appId.
  * @param {string} params.appId - The ID of the application to retrieve audits for.
+ * @param {boolean} params.fullReport - If reports should be full or not.
  * @returns {Promise<Array>} A Promise resolving to an array of audits, or an empty array in case of an error.
  */
-const getAuditListByPageAndParams = async ({ appId }) => {
+const getAuditListByPageAndParams = async ({ appId, fullReport = true }) => {
     try {
+        AppLogger.info(`[AuditProvider - getAuditListByPageAndParams] appId: ${appId}`);
+
         const auditModel = DataBaseManager.getDataBaseSchema(AuditModel.name);
         if (!auditModel) {
             return null;
         }
 
-        const auditList = await auditModel.findAll({
-            where: {
-                _id: appId,
-            },
-        });
-
+        const auditList = await auditModel.findAll();
         AppLogger.info(
             `[AuditProvider - getAuditListByPageAndParams] auditList: ${auditList?.length}`,
         );
 
-        return auditList?.map((audit) => ({
-            ...audit,
-            auditHelp: AuditHelpProvider.getAuditHelpDetailsByParams({
-                category: [`${audit.type}-${audit.category}`],
-            }),
-        }));
+        if (!auditList?.length) {
+            return null;
+        }
+
+        const fullAuditReports = [];
+
+        for (const audit of auditList) {
+            if (appId && audit.module?.appId !== Number.parseInt(appId, 10)) {
+                continue;
+            }
+
+            if (fullReport) {
+                const auditHelp = await AuditHelpProvider.getAuditHelpDetailsByParams({
+                    category: [`${audit.type}-${audit.category}`],
+                });
+
+                fullAuditReports.push({
+                    ...audit,
+                    auditHelp,
+                });
+
+                continue;
+            }
+
+            fullAuditReports.push(audit);
+        }
+
+        return fullAuditReports;
     } catch (error) {
         AppLogger.info(`[AuditProvider - getAuditListByPageAndParams] error:  ${error.message}`);
         return [];

@@ -191,6 +191,16 @@ const deleteDependencyStatusHelpList = async () => {
  */
 const getDependencyStatusHelpListByPageAndParams = async ({ start, limit, sort }) => {
     try {
+        AppLogger.info(
+            `[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] start: ${start}`,
+        );
+        AppLogger.info(
+            `[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] limit: ${limit}`,
+        );
+        AppLogger.info(
+            `[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] sort: ${sort}`,
+        );
+
         const dependencyStatusHelpModel = DataBaseManager.getDataBaseSchema(
             DependencyStatusHelpModel.name,
         );
@@ -202,17 +212,12 @@ const getDependencyStatusHelpListByPageAndParams = async ({ start, limit, sort }
         const queryOptions = {};
 
         // Handle pagination
-        if (start !== undefined) {
-            //    queryOptions.offset = start;
+        if (start) {
+            queryOptions.offset = start;
         }
 
-        if (limit !== undefined) {
-            //  queryOptions.limit = limit;
-        }
-
-        // Handle sorting
-        if (sort) {
-            // queryOptions.order = sort; // Assuming 'sort' specifies the sorting order directly
+        if (limit) {
+            queryOptions.limit = limit;
         }
 
         const dependencyStatusHelpList = await dependencyStatusHelpModel.findAll(queryOptions);

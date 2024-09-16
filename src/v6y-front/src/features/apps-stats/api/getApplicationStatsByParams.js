@@ -5,8 +5,6 @@ const GetApplicationStatsByParams = gql`
         getApplicationStatsByParams(keywords: $keywords) {
             keyword {
                 label
-                version
-                status
             }
             total
         }

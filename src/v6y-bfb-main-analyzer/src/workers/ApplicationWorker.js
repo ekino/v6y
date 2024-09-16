@@ -19,10 +19,8 @@ try {
     await DataBaseManager.connect();
 
     // Clear dynamic data in preparation for updates
-    await KeywordProvider.deleteKeywordList();
     await AuditProvider.deleteAuditList();
     await DependencyProvider.deleteDependencyList();
-    await EvolutionProvider.deleteEvolutionList();
 
     // *********************************************** Update APP List ***********************************************
     await buildApplicationList({

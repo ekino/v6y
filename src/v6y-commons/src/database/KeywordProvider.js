@@ -1,38 +1,8 @@
-import { keywordStatus } from '../config/KeywordStatusConfig.js';
+import { Op } from 'sequelize';
+
 import AppLogger from '../core/AppLogger.js';
 import DataBaseManager from './DataBaseManager.js';
 import KeywordModel from './models/KeywordModel.js';
-
-const keywordsStats = [
-    {
-        keyword: {
-            _id: '1a1a1a1a1a1a1a1a1a1a1a1a',
-            label: 'React',
-            version: '16.8.0',
-            status: keywordStatus.error,
-            module: {
-                appId: '5',
-                branch: 'feature/customer-analytics',
-                path: 'front-js',
-            },
-        },
-        total: 2,
-    },
-    {
-        keyword: {
-            _id: '2a2a2a2a2a2a2a2a2a2a2a2a',
-            label: 'Next.js',
-            version: '13.0.0',
-            status: keywordStatus.warning,
-            module: {
-                appId: '5',
-                branch: 'feature/customer-analytics',
-                path: 'front-js',
-            },
-        },
-        total: 5,
-    },
-];
 
 /**
  * Creates a new Keyword entry in the database.
@@ -203,6 +173,8 @@ const deleteKeywordList = async () => {
  */
 const getKeywordListByPageAndParams = async ({ appId }) => {
     try {
+        AppLogger.info(`[KeywordProvider - getKeywordListByPageAndParams] appId: ${appId}`);
+
         const keywordModel = DataBaseManager.getDataBaseSchema(KeywordModel.name);
         if (!keywordModel) {
             return null;
@@ -246,7 +218,45 @@ const getKeywordsStatsByParams = async ({ keywords }) => {
             `[KeywordProvider - getKeywordsStatsByParams] keywords: ${keywords?.join('\r\n')}`,
         );
 
-        // read from DB
+        if (!keywords?.length) {
+            return [];
+        }
+
+        const keywordModel = DataBaseManager.getDataBaseSchema(KeywordModel.name);
+        if (!keywordModel) {
+            return null;
+        }
+
+        const keywordsStats = [];
+
+        for (const keyword of keywords) {
+            const keywordStats = await keywordModel.findAll({
+                where: {
+                    label: keyword,
+                },
+            });
+
+            if (!keywordStats?.length) {
+                keywordsStats.push({
+                    keyword: {
+                        label: keyword,
+                    },
+                    total: 0,
+                });
+                continue;
+            }
+
+            const totalApplications = [
+                ...new Set(keywordStats.map((keywordStat) => keywordStat?.module?.appId) || []),
+            ]?.length;
+
+            keywordsStats.push({
+                keyword: {
+                    label: keywordStats?.[0]?.label,
+                },
+                total: totalApplications,
+            });
+        }
 
         return keywordsStats;
     } catch (error) {

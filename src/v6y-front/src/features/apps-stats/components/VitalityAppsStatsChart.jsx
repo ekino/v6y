@@ -51,7 +51,7 @@ const VitalityAppsStatsChart = () => {
     const chartDataSource = (
         !keywords?.length ? [] : dataAppsStats?.getApplicationStatsByParams
     ).map((item) => ({
-        label: `${item.keyword?.label}${item.keyword?.version?.length ? ` (${item.keyword?.version})` : ''}`,
+        label: item.keyword?.label,
         total: item.total,
     }));
 

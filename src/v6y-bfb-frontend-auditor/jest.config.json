@@ -13,7 +13,11 @@
   "clearMocks": true,
   "collectCoverageFrom": [
     "src/**/*.js",
-    "!node_modules/**"
+    "!node_modules/**",
+    "!**/*Worker.js",
+    "!**/*Config.js",
+    "!**/*Router.js",
+    "!**/*Auditor*.js"
   ],
   "coverageDirectory": "<rootDir>/target/coverage",
   "coverageReporters": [

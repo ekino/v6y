@@ -196,45 +196,53 @@ const deleteDependencyList = async () => {
  * Retrieves a list of dependencies based on the provided appId.
  *
  * @param {Object} params - Parameters object containing the appId.
- * @param {string} params.appId - The ID of the application to retrieve dependencies for.
+ * @param {string | undefined} params.appId - The ID of the application to retrieve dependencies for.
+ * @param {boolean} params.fullReport - If reports should be full or not.
  * @returns {Promise<Array>} A Promise resolving to an array of dependencies, or an empty array in case of an error.
  */
-const getDependencyListByPageAndParams = async ({ appId }) => {
+const getDependencyListByPageAndParams = async ({ appId, fullReport = true }) => {
     try {
+        AppLogger.info(`[DependencyProvider - getDependencyListByPageAndParams] appId: ${appId}`);
+
         const dependencyModel = DataBaseManager.getDataBaseSchema(DependencyModel.name);
         if (!dependencyModel) {
             return null;
         }
 
-        const dependencyListByParams = await dependencyModel.findAll({
-            where: {
-                _id: appId,
-            },
-        });
-
+        const dependencyList = await dependencyModel.findAll();
         AppLogger.info(
-            `[DependencyProvider - getDependencyListByPageAndParams] dependencyListByParams: ${dependencyListByParams?.length}`,
+            `[DependencyProvider - getDependencyListByPageAndParams] dependencyList: ${dependencyList?.length}`,
         );
 
-        if (!dependencyListByParams?.length) {
+        if (!dependencyList?.length) {
             return null;
         }
 
-        const dependencyList = [];
+        const fullDependencyList = [];
 
-        for (const dependency of dependencyListByParams) {
-            const depStatusHelp =
-                await DependencyStatusHelpProvider.getDependencyStatusHelpDetailsByParams({
-                    category: dependency.status,
+        for (const dependency of dependencyList) {
+            if (appId && dependency.module?.appId !== Number.parseInt(appId, 10)) {
+                continue;
+            }
+
+            if (fullReport) {
+                const depStatusHelp =
+                    await DependencyStatusHelpProvider.getDependencyStatusHelpDetailsByParams({
+                        category: dependency.status,
+                    });
+
+                fullDependencyList.push({
+                    ...dependency,
+                    statusHelp: depStatusHelp,
                 });
 
-            dependencyList.push({
-                ...dependency,
-                statusHelp: depStatusHelp,
-            });
+                continue;
+            }
+
+            fullDependencyList.push(dependency);
         }
 
-        return dependencyList;
+        return fullDependencyList;
     } catch (error) {
         AppLogger.info(
             `[DependencyProvider - getDependencyListByPageAndParams] error:  ${error.message}`,

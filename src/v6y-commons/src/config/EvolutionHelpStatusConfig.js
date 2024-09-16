@@ -177,4 +177,18 @@ export const defaultEvolutionHelpStatus = [
         status: evolutionHelpStatus.recommended,
         links: [],
     },
+    {
+        category: `${codeSmellTypes.Dependency}-${codeSmellCategories['deprecated']}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        status: evolutionHelpStatus.important,
+        links: [],
+    },
+    {
+        category: `${codeSmellTypes.Dependency}-${codeSmellCategories['outdated']}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        status: evolutionHelpStatus.recommended,
+        links: [],
+    },
 ];

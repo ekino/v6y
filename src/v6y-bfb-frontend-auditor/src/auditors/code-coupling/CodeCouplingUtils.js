@@ -2,6 +2,12 @@ import { AppLogger } from '@v6y/commons';
 import { auditStatus } from '@v6y/commons/src/config/AuditHelpConfig.js';
 import Madge from 'madge';
 
+/**
+ * Default options for Madge dependency parser.
+ * @type {Object}
+ * @property {string[]} fileExtensions - List of file extensions to include in the analysis.
+ * @property {string[]} excludeRegExp - List of regular expressions to exclude certain files or directories.
+ */
 const defaultOptions = {
     fileExtensions: ['ts', 'tsx', 'js', 'jsx'],
     excludeRegExp: [
@@ -85,7 +91,6 @@ const formatCodeCouplingReports = async ({ application, workspaceFolder }) => {
         if (Object.keys(circularGraph || {}).length) {
             for (const circularDepSource of Object.keys(circularGraph)) {
                 const circularDepDestinations = circularGraph[circularDepSource];
-
                 if (!circularDepDestinations?.length) {
                     continue;
                 }

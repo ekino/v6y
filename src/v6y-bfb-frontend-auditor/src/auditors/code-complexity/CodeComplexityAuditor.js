@@ -4,6 +4,13 @@ import CodeComplexityUtils from './CodeComplexityUtils.js';
 
 const { formatCodeComplexityReports } = CodeComplexityUtils;
 
+/**
+ * Starts the auditor analysis process.
+ * @param {Object} params - The parameters for the analysis.
+ * @param {string} params.applicationId - The ID of the application to analyze.
+ * @param {string} params.workspaceFolder - The path to the workspace folder.
+ * @returns {Promise<boolean>} - Returns a promise that resolves to true if the analysis was successful, otherwise false.
+ */
 const startAuditorAnalysis = async ({ applicationId, workspaceFolder }) => {
     try {
         AppLogger.info(

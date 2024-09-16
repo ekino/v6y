@@ -4,6 +4,14 @@ import CodeSecurityUtils from './CodeSecurityUtils.js';
 
 const { formatCodeModularityReports } = CodeSecurityUtils;
 
+/**
+ * Starts the auditor analysis for the given application and workspace folder.
+ *
+ * @param {Object} params - The parameters for the analysis.
+ * @param {string} params.applicationId - The ID of the application to analyze.
+ * @param {string} params.workspaceFolder - The workspace folder path.
+ * @returns {Promise<boolean>} - Returns true if the analysis was successful, otherwise false.
+ */
 const startAuditorAnalysis = async ({ applicationId, workspaceFolder }) => {
     try {
         AppLogger.info(

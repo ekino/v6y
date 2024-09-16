@@ -128,6 +128,15 @@ const normalizeProjectTree = (tree) => {
     }, {});
 };
 
+/**
+ * Formats code modularity reports.
+ * @function formatCodeModularityReports
+ * @param {Object} params - The parameters for the function.
+ * @param {Object} params.application - The application details.
+ * @param {string} params.workspaceFolder - The path to the workspace folder.
+ * @param {Object} params.modularitySummary - The summary of the modularity analysis.
+ * @returns {Array<Object>} - An array of audit report objects.
+ */
 const formatCodeModularityReports = ({ application, workspaceFolder, modularitySummary }) => {
     try {
         AppLogger.info(

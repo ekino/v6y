@@ -176,43 +176,51 @@ const deleteEvolutionList = async () => {
  *
  * @param {Object} params - Parameters object containing the appId.
  * @param {string} params.appId - The ID of the application to retrieve evolutions for.
+ * @param {boolean} params.fullReport - If reports should be full or not.
  * @returns {Promise<Array>} A Promise resolving to an array of evolutions, or an empty array in case of an error.
  */
-const getEvolutionListByPageAndParams = async ({ appId }) => {
+const getEvolutionListByPageAndParams = async ({ appId, fullReport = true }) => {
     try {
+        AppLogger.info(`[EvolutionProvider - getEvolutionListByPageAndParams] appId: ${appId}`);
+
         const evolutionModel = DataBaseManager.getDataBaseSchema(EvolutionModel.name);
         if (!evolutionModel) {
             return null;
         }
 
-        const evolutionListByParams = await evolutionModel.findAll({
-            where: {
-                _id: appId,
-            },
-        });
-
+        const evolutionList = await evolutionModel.findAll();
         AppLogger.info(
             `[EvolutionProvider - getEvolutionListByPageAndParams] evolutionListByParams: ${evolutionListByParams?.length}`,
         );
 
-        if (!evolutionListByParams?.length) {
+        if (!evolutionList?.length) {
             return null;
         }
 
-        const evolutionList = [];
+        const fullEvolutionList = [];
 
-        for (const evolution of evolutionListByParams) {
-            const evolutionHelp = await EvolutionHelpProvider.getEvolutionHelpDetailsByParams({
-                category: `${evolution.type}-${evolution.category}`,
-            });
+        for (const evolution of evolutionList) {
+            if (appId && evolution.module?.appId !== Number.parseInt(appId, 10)) {
+                continue;
+            }
 
-            evolutionList.push({
-                ...evolution,
-                evolutionHelp,
-            });
+            if (fullReport) {
+                const evolutionHelp = await EvolutionHelpProvider.getEvolutionHelpDetailsByParams({
+                    category: `${evolution.type}-${evolution.category}`,
+                });
+
+                fullEvolutionList.push({
+                    ...evolution,
+                    evolutionHelp,
+                });
+
+                continue;
+            }
+
+            fullEvolutionList.push(evolution);
         }
 
-        return evolutionList;
+        return fullEvolutionList;
     } catch (error) {
         AppLogger.info(
             `[EvolutionProvider - getEvolutionListByPageAndParams] error:  ${error.message}`,

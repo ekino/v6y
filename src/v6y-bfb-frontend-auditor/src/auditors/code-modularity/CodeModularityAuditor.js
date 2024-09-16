@@ -20,6 +20,14 @@ const {
     formatCodeModularityReports,
 } = CodeModularityUtils;
 
+/**
+ * Starts the auditor analysis for code modularity.
+ *
+ * @param {Object} params - The parameters for the analysis.
+ * @param {string} params.applicationId - The ID of the application.
+ * @param {string} params.workspaceFolder - The path to the workspace folder.
+ * @returns {Promise<boolean>} - Returns true if the analysis was successful, otherwise false.
+ */
 const startAuditorAnalysis = async ({ applicationId, workspaceFolder }) => {
     try {
         AppLogger.info(

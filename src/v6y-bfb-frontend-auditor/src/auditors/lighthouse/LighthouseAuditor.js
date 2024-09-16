@@ -11,6 +11,15 @@ const { LIGHTHOUSE_DEVICE_CONFIG, PUPPETEER_SETTINGS, PUPPETEER_PAGE_SETTINGS, L
 const { formatLighthouseReports, isAuditPerformanceFailed, isAuditAccessibilityFailed } =
     LighthouseUtils;
 
+/**
+ * Starts a Lighthouse audit for a given configuration.
+ *
+ * @param {Object} auditConfig - The configuration for the audit.
+ * @param {string} auditConfig.link - The URL to audit.
+ * @param {string} auditConfig.browserPath - The path to the browser executable.
+ * @param {Object} auditConfig.lightHouseConfig - The Lighthouse configuration.
+ * @returns {Promise<string|null>} - The Lighthouse report or null if an error occurs.
+ */
 const startLighthouseAudit = async (auditConfig) => {
     try {
         // open browser
@@ -61,6 +70,15 @@ const startLighthouseAudit = async (auditConfig) => {
     }
 };
 
+/**
+ * Starts the auditor analysis for a given application and workspace folder.
+ *
+ * @param {Object} params - The parameters for the auditor analysis.
+ * @param {string} params.applicationId - The ID of the application.
+ * @param {string} params.workspaceFolder - The path to the workspace folder.
+ * @param {string} params.browserPath - The path to the browser executable.
+ * @returns {Promise<boolean>} - Returns true if the analysis is successful, otherwise false.
+ */
 const startAuditorAnalysis = async ({ applicationId, workspaceFolder, browserPath }) => {
     try {
         AppLogger.info(

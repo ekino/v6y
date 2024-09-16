@@ -297,6 +297,7 @@ const inspectDirectory = ({ srcDir, options }) => {
  */
 const formatCodeComplexityReports = ({ workspaceFolder, application }) => {
     try {
+        console.log({ workspaceFolder, application });
         AppLogger.info(
             `[CodeComplexityUtils - formatCodeComplexityReports] workspaceFolder:  ${workspaceFolder}`,
         );
@@ -317,6 +318,7 @@ const formatCodeComplexityReports = ({ workspaceFolder, application }) => {
                 title: workspaceFolder,
             },
         });
+        console.log({ summary, files });
 
         AppLogger.info(
             `[CodeComplexityUtils - formatCodeComplexityReports] files:  ${files?.length}`,
@@ -336,6 +338,7 @@ const formatCodeComplexityReports = ({ workspaceFolder, application }) => {
             })
             .sort((a, b) => (a.fileMaintainability > b.fileMaintainability ? 1 : -1));
 
+        console.log({ auditableFiles });
         AppLogger.info(
             `[CodeComplexityUtils - formatCodeComplexityReports] auditableFiles:  ${auditableFiles?.length}`,
         );
@@ -405,6 +408,8 @@ const formatCodeComplexityReports = ({ workspaceFolder, application }) => {
                 }),
             );
         }
+
+        console.log({ auditReports });
 
         return auditReports;
     } catch (error) {

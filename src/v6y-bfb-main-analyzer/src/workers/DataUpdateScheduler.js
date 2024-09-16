@@ -10,7 +10,12 @@ const { getCurrentConfig } = ServerConfig;
 const startUpdateWorkers = () => {
     (async () => {
         const currentConfig = getCurrentConfig();
-        await forkWorker('./src/workers/ApplicationWorker.js', currentConfig); // Start worker thread
+
+        // *********************************************** Update APP List ***********************************************
+        // await forkWorker('./src/workers/ApplicationWorker.js', currentConfig); // Start worker thread
+
+        // *********************************************** Update Keywords & Evolutions List ******************************************
+        await forkWorker('./src/workers/KeywordEvolutionWorker.js', currentConfig); // Start worker thread
     })();
 };
 

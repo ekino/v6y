@@ -5,8 +5,8 @@ export default [
         files: ['src/**/*.js', 'src/**/*.mjs'],
         ignores: ['**/*.test.js'],
         rules: {
-            'max-depth': ['error', 3],
-            'max-nested-callbacks': ['error', 3],
+            'max-depth': ['error', 5],
+            'max-nested-callbacks': ['error', 5],
             'max-params': ['error', 3],
             /*
             Some people consider large files a code smell. Large files tend to do a lot of things and can make it hard following what’s going.

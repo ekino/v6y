@@ -8,6 +8,12 @@ const { compareVersions } = SemverUtils;
 
 const DEPENDENCIES_REFERENCE_API = 'https://skimdb.npmjs.com/registry/';
 
+/**
+ * Fetches the reference information for a given dependency from the npm registry.
+ *
+ * @param {string} dependencyName - The name of the dependency.
+ * @returns {Promise<Object>} - The reference information of the dependency.
+ */
 const getDependenciesReference = async (dependencyName) => {
     try {
         // https://skimdb.npmjs.com/registry/react-cookie
@@ -35,6 +41,15 @@ const getDependenciesReference = async (dependencyName) => {
     }
 };
 
+/**
+ * Builds an audit report for a given dependency.
+ *
+ * @param {Object} params - The parameters for building the audit report.
+ * @param {string} params.dependencyName - The name of the dependency.
+ * @param {string} params.dependencyVersion - The version of the dependency.
+ * @param {Object} params.module - The module information.
+ * @returns {Promise<Object>} - The audit report of the dependency.
+ */
 const buildDependencyAuditReport = async ({ dependencyName, dependencyVersion, module }) => {
     try {
         AppLogger.info(
@@ -90,6 +105,14 @@ const buildDependencyAuditReport = async ({ dependencyName, dependencyVersion, m
     }
 };
 
+/**
+ * Builds audit reports for all dependencies of a given module.
+ *
+ * @param {Object} params - The parameters for building the audit reports.
+ * @param {Object} params.dependencies - The dependencies of the module.
+ * @param {Object} params.module - The module information.
+ * @returns {Promise<Object[]>} - The audit reports of the dependencies.
+ */
 const buildModuleDependenciesAuditReports = async ({ dependencies, module }) => {
     try {
         AppLogger.info(
@@ -122,6 +145,14 @@ const buildModuleDependenciesAuditReports = async ({ dependencies, module }) => 
     }
 };
 
+/**
+ * Formats the dependencies reports for a given application and workspace folder.
+ *
+ * @param {Object} params - The parameters for formatting the dependencies reports.
+ * @param {Object} params.application - The application details.
+ * @param {string} params.workspaceFolder - The path to the workspace folder.
+ * @returns {Promise<Object[]>} - The formatted dependencies reports.
+ */
 const formatDependenciesReports = async ({ application, workspaceFolder }) => {
     try {
         AppLogger.info(

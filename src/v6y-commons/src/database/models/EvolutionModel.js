@@ -17,8 +17,8 @@ const evolutionModelSchema = {
     subCategory: {
         type: DataTypes.TEXT,
     },
-    evolutionHelp: DataTypes.JSON,
     module: DataTypes.JSON,
+    evolutionHelp: DataTypes.JSON,
 };
 
 const evolutionModelOptions = {};

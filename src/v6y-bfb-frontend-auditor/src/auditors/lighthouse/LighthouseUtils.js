@@ -1,14 +1,39 @@
-import { AppLogger, Matcher } from '@v6y/commons';
+import { AppLogger } from '@v6y/commons';
 import { auditStatus } from '@v6y/commons/src/config/AuditHelpConfig.js';
+import Matcher from '@v6y/commons/src/core/Matcher.js';
 
-const isAuditFailed = (status) => status === 'warning' || status === 'error';
+/**
+ * Helper function to check if an audit status indicates a failure.
+ * @function isAuditFailed
+ * @param {string} status - The audit status.
+ * @returns {boolean} - True if the status is 'warning' or 'error'.
+ */
+const isAuditFailed = (status) => status === auditStatus.warning || status === auditStatus.error;
 
+/**
+ * Checks if an audit report indicates a performance failure.
+ * @function isAuditPerformanceFailed
+ * @param {Object} report - The audit report object.
+ * @returns {boolean} - True if the audit report's category is 'performance' and its status is 'warning' or 'error'.
+ */
 const isAuditPerformanceFailed = (report) =>
     report.category === 'performance' && isAuditFailed(report.status);
 
+/**
+ * Checks if an audit report indicates an accessibility failure.
+ * @function isAuditAccessibilityFailed
+ * @param {Object} report - The audit report object.
+ * @returns {boolean} - True if the audit report's category is 'accessibility' and its status is 'warning' or 'error'.
+ */
 const isAuditAccessibilityFailed = (report) =>
     report.category === 'accessibility' && isAuditFailed(report.status);
 
+/**
+ * Formats an audit category object.
+ * @function formatAuditCategory
+ * @param {Object} auditCategory - The audit category object.
+ * @returns {Object|null} - The formatted audit category object or null if the input is invalid.
+ */
 const formatAuditCategory = (auditCategory) => {
     if (!auditCategory) return null;
 
@@ -18,17 +43,17 @@ const formatAuditCategory = (auditCategory) => {
     const status = Matcher()
         .on(
             () => currentScore < 50,
-            () => 'error',
+            () => auditStatus.error,
         )
         .on(
             () => currentScore > 50 && currentScore < 70,
-            () => 'warning',
+            () => auditStatus.warning,
         )
         .on(
             () => currentScore > 70,
-            () => 'success',
+            () => auditStatus.success,
         )
-        .otherwise(() => 'normal');
+        .otherwise(() => auditStatus.info);
 
     return {
         category: id,
@@ -37,12 +62,16 @@ const formatAuditCategory = (auditCategory) => {
         status,
         score: currentScore,
         scoreUnit: '%',
-        scoreMin: 0,
-        scoreMax: 100,
         branch: null,
     };
 };
 
+/**
+ * Formats an audit metric object.
+ * @function formatAuditMetric
+ * @param {Object} auditMetric - The audit metric object.
+ * @returns {Object|null} - The formatted audit metric object or null if the input is invalid.
+ */
 const formatAuditMetric = (auditMetric) => {
     if (!auditMetric) return null;
 
@@ -53,105 +82,110 @@ const formatAuditMetric = (auditMetric) => {
 
     const indicatorScoreUnit = numericUnit !== 'unitless' ? 's' : '';
 
-    let indicatorColor = null;
+    let indicatorStatus = null;
 
     if (id === 'largest-contentful-paint') {
-        indicatorColor = Matcher()
+        indicatorStatus = Matcher()
             .on(
                 () => indicatorScore < 2.5,
-                () => 'success',
+                () => auditStatus.success,
             )
             .on(
                 () => indicatorScore >= 2.5 && indicatorScore < 4,
-                () => 'warning',
+                () => auditStatus.warning,
             )
             .on(
                 () => indicatorScore >= 4,
-                () => 'error',
+                () => auditStatus.error,
             )
-            .otherwise(() => 'info');
+            .otherwise(() => auditStatus.info);
     }
 
     if (id === 'first-contentful-paint') {
-        indicatorColor = Matcher()
+        indicatorStatus = Matcher()
             .on(
                 () => indicatorScore < 1.8,
-                () => 'success',
+                () => auditStatus.success,
             )
             .on(
                 () => indicatorScore >= 1.8 && indicatorScore < 3,
-                () => 'warning',
+                () => auditStatus.warning,
             )
             .on(
                 () => indicatorScore >= 3,
-                () => 'error',
+                () => auditStatus.error,
             )
-            .otherwise(() => 'info');
+            .otherwise(() => auditStatus.info);
     }
 
     if (id === 'total-blocking-time') {
-        indicatorColor = Matcher()
+        indicatorStatus = Matcher()
             .on(
                 () => indicatorScore < 0.2,
-                () => 'success',
+                () => auditStatus.success,
             )
             .on(
                 () => indicatorScore >= 0.2 && indicatorScore < 0.6,
-                () => 'warning',
+                () => auditStatus.warning,
             )
             .on(
                 () => indicatorScore >= 0.6,
-                () => 'error',
+                () => auditStatus.error,
             )
-            .otherwise(() => 'info');
+            .otherwise(() => auditStatus.info);
     }
 
     if (id === 'speed-index') {
-        indicatorColor = Matcher()
+        indicatorStatus = Matcher()
             .on(
                 () => indicatorScore < 3.4,
-                () => 'success',
+                () => auditStatus.success,
             )
             .on(
                 () => indicatorScore >= 3.4 && indicatorScore < 5.8,
-                () => 'warning',
+                () => auditStatus.warning,
             )
             .on(
                 () => indicatorScore >= 5.8,
-                () => 'error',
+                () => auditStatus.error,
             )
-            .otherwise(() => 'info');
+            .otherwise(() => auditStatus.info);
     }
 
     if (id === 'cumulative-layout-shift') {
-        indicatorColor = Matcher()
+        indicatorStatus = Matcher()
             .on(
                 () => indicatorScore < 0.1,
-                () => 'success',
+                () => auditStatus.success,
             )
             .on(
                 () => indicatorScore >= 0.1 && indicatorScore < 0.25,
-                () => 'warning',
+                () => auditStatus.warning,
             )
             .on(
                 () => indicatorScore >= 0.25,
-                () => 'error',
+                () => auditStatus.error,
             )
-            .otherwise(() => 'info');
+            .otherwise(() => auditStatus.info);
     }
 
     return {
         category: id,
         title: `${title || ''}`,
-        status: indicatorColor,
+        status: indicatorStatus,
         description,
         score: indicatorScore.toFixed(2),
-        // scorePercent: (indicatorScore / indicatorMaxValue) * 100,
         scoreUnit: indicatorScoreUnit,
         branch: null,
     };
 };
 
+/**
+ * Parses a Lighthouse audit report and extracts relevant data.
+ * @function parseLighthouseAuditReport
+ * @param {string} auditReportData - The raw audit report data as a JSON string.
+ * @returns {Array} - An array of extracted audit results.
+ */
 const parseLighthouseAuditReport = (auditReportData) => {
     try {
         AppLogger.info(
@@ -196,7 +230,9 @@ const parseLighthouseAuditReport = (auditReportData) => {
             `[LighthouseUtils - parseLighthouseAuditReport] accessibility:  ${Object.keys(accessibility)?.join?.(',')}`,
         );
 
-        const auditCategories = [performance, accessibility].map(formatAuditCategory);
+        const auditCategories = [performance, accessibility]
+            .map(formatAuditCategory)
+            .filter(Boolean);
 
         const auditMetrics = [
             audits?.['first-contentful-paint'],
@@ -204,7 +240,13 @@ const parseLighthouseAuditReport = (auditReportData) => {
             audits?.['cumulative-layout-shift'],
             audits?.['total-blocking-time'],
             audits?.['speed-index'],
-        ].map(formatAuditMetric);
+        ]
+            .map(formatAuditMetric)
+            .filter(Boolean);
+
+        if (!auditCategories?.length && !auditMetrics?.length) {
+            return [];
+        }
 
         const validCategories = auditCategories.filter((category) => category?.score !== null);
         const validMetrics = auditMetrics.filter((metric) => metric?.score !== null);
@@ -220,10 +262,19 @@ const parseLighthouseAuditReport = (auditReportData) => {
     }
 };
 
+/**
+ * Formats Lighthouse audit reports into a standardized structure.
+ * @function formatLighthouseReports
+ * @param {Object} options - An object containing the reports, application, and workspaceFolder.
+ * @param {Array} options.reports - An array of Lighthouse audit reports.
+ * @param {Object} options.application - The application object.
+ * @param {string} options.workspaceFolder - The workspace folder path.
+ * @returns {Array|null} - An array of formatted audit reports or null if no valid reports are found.
+ */
 const formatLighthouseReports = ({ reports, application, workspaceFolder }) => {
     try {
         if (!reports?.length) {
-            return null;
+            return [];
         }
 
         const auditReports = [];
@@ -242,7 +293,7 @@ const formatLighthouseReports = ({ reports, application, workspaceFolder }) => {
                     type: 'Lighthouse',
                     category: result.category,
                     subCategory,
-                    status: auditStatus.error,
+                    status: result.status,
                     score: result.score,
                     scoreUnit: result.scoreUnit,
                     module: {
@@ -259,15 +310,19 @@ const formatLighthouseReports = ({ reports, application, workspaceFolder }) => {
             `[LighthouseUtils - formatLighthouseReports] auditReports:  ${auditReports?.length}`,
         );
 
-        return auditReports;
+        return auditReports || [];
     } catch (error) {
         AppLogger.info(`[LighthouseUtils - formatLighthouseReports] error:  ${error.message}`);
-        return null;
+        return [];
     }
 };
 
 const LighthouseUtils = {
+    isAuditFailed,
+    formatAuditCategory,
+    parseLighthouseAuditReport,
     formatLighthouseReports,
+    formatAuditMetric,
     isAuditPerformanceFailed,
     isAuditAccessibilityFailed,
 };

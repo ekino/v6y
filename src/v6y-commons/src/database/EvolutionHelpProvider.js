@@ -178,6 +178,16 @@ const deleteEvolutionHelpList = async () => {
  */
 const getEvolutionHelpListByPageAndParams = async ({ start, limit, sort }) => {
     try {
+        AppLogger.info(
+            `[EvolutionHelpProvider - getEvolutionHelpListByPageAndParams] start: ${start}`,
+        );
+        AppLogger.info(
+            `[EvolutionHelpProvider - getEvolutionHelpListByPageAndParams] limit: ${limit}`,
+        );
+        AppLogger.info(
+            `[EvolutionHelpProvider - getEvolutionHelpListByPageAndParams] sort: ${sort}`,
+        );
+
         const evolutionHelpModel = DataBaseManager.getDataBaseSchema(EvolutionHelpModel.name);
         if (!evolutionHelpModel) {
             return null;
@@ -187,19 +197,16 @@ const getEvolutionHelpListByPageAndParams = async ({ start, limit, sort }) => {
         const queryOptions = {};
 
         // Handle pagination
-        if (start !== undefined) {
-            // queryOptions.offset = start;
-        }
-        if (limit !== undefined) {
-            // queryOptions.limit = limit;
+        if (start) {
+            queryOptions.offset = start;
         }
 
-        // Handle sorting
-        if (sort) {
-            // queryOptions.order = sort; // Assuming 'sort' specifies the sorting order directly
+        if (limit) {
+            queryOptions.limit = limit;
         }
 
         const evolutionHelpList = await evolutionHelpModel.findAll(queryOptions);
+
         AppLogger.info(
             `[EvolutionHelpProvider - getEvolutionHelpListByPageAndParams] evolutionHelpList: ${evolutionHelpList?.length}`,
         );

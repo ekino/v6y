@@ -12,10 +12,10 @@ const AuditReportType = `
     """ Audit sub category (mobile, desktop, 3G, 4G, ...) """
     subCategory: String
 
-    """ Audit status """
+    """ Audit status (success, warning, error, info) """
     status: String
         
-    """ Audit score (success, warning, error) """
+    """ Audit score """
     score: Float 
     
     """ Audit metric score unit """

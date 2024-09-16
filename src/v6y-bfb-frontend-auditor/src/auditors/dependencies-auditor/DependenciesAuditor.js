@@ -4,6 +4,14 @@ import DependenciesUtils from './DependenciesUtils.js';
 
 const { formatDependenciesReports } = DependenciesUtils;
 
+/**
+ * Starts the auditor analysis for dependencies.
+ *
+ * @param {Object} params - The parameters for the auditor analysis.
+ * @param {string} params.applicationId - The ID of the application.
+ * @param {string} params.workspaceFolder - The path to the workspace folder.
+ * @returns {Promise<boolean>} - Returns a promise that resolves to a boolean indicating success or failure.
+ */
 const startAuditorAnalysis = async ({ applicationId, workspaceFolder }) => {
     try {
         AppLogger.info(

@@ -145,6 +145,10 @@ const deleteAuditHelpList = async () => {
  */
 const getAuditHelpListByPageAndParams = async ({ start, limit, sort }) => {
     try {
+        AppLogger.info(`[AuditHelpProvider - getAuditHelpListByPageAndParams] start: ${start}`);
+        AppLogger.info(`[AuditHelpProvider - getAuditHelpListByPageAndParams] limit: ${limit}`);
+        AppLogger.info(`[AuditHelpProvider - getAuditHelpListByPageAndParams] sort: ${sort}`);
+
         const auditHelpModel = DataBaseManager.getDataBaseSchema(AuditHelpModel.name);
         if (!auditHelpModel) {
             return null;
@@ -154,17 +158,12 @@ const getAuditHelpListByPageAndParams = async ({ start, limit, sort }) => {
         const queryOptions = {};
 
         // Handle pagination
-        if (start !== undefined) {
-            //queryOptions.offset = start;
+        if (start) {
+            queryOptions.offset = start;
         }
 
-        if (limit !== undefined) {
-            // queryOptions.limit = limit;
-        }
-
-        // Handle sorting
-        if (sort) {
-            // queryOptions.order = sort; // Assuming 'sort' specifies the sorting order directly
+        if (limit) {
+            queryOptions.limit = limit;
         }
 
         const auditHelpList = await auditHelpModel.findAll(queryOptions);

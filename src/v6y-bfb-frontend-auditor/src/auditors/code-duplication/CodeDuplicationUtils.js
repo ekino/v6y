@@ -1,6 +1,9 @@
 import { AppLogger } from '@v6y/commons';
 import { auditStatus } from '@v6y/commons/src/config/AuditHelpConfig.js';
 
+/**
+ * Utility functions for code duplication analysis.
+ */
 const formatCodeDuplicationReports = ({
     application,
     workspaceFolder,
@@ -61,6 +64,7 @@ const formatCodeDuplicationReports = ({
                     path: workspaceFolder,
                 },
             });
+            console.log('inside duplicationTotalSummary: ', duplicationTotalSummary);
         }
 
         for (const duplicationFile of duplicationFiles) {

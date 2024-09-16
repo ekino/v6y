@@ -4,13 +4,6 @@ const GetKeywordListByPageAndParams = gql`
     query getKeywordListByPageAndParams {
         getKeywordListByPageAndParams {
             label
-            version
-            status
-            module {
-                branch
-                path
-                url
-            }
         }
     }
 `;

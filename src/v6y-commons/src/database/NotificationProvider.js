@@ -174,6 +174,14 @@ const deleteNotificationList = async () => {
  */
 const getNotificationListByPageAndParams = async ({ start, limit, sort }) => {
     try {
+        AppLogger.info(
+            `[NotificationProvider - getNotificationListByPageAndParams] start: ${start}`,
+        );
+        AppLogger.info(
+            `[NotificationProvider - getNotificationListByPageAndParams] limit: ${limit}`,
+        );
+        AppLogger.info(`[NotificationProvider - getNotificationListByPageAndParams] sort: ${sort}`);
+
         const notificationModel = DataBaseManager.getDataBaseSchema(NotificationModel.name);
         if (!notificationModel) {
             return null;
@@ -183,17 +191,12 @@ const getNotificationListByPageAndParams = async ({ start, limit, sort }) => {
         const queryOptions = {};
 
         // Handle pagination
-        if (start !== undefined) {
-            // queryOptions.offset = start;
+        if (start) {
+            queryOptions.offset = start;
         }
 
-        if (limit !== undefined) {
-            // queryOptions.limit = limit;
-        }
-
-        // Handle sorting
-        if (sort) {
-            //  queryOptions.order = sort; // Assuming 'sort' specifies the sorting order directly
+        if (limit) {
+            queryOptions.limit = limit;
         }
 
         const notificationList = await notificationModel.findAll(queryOptions);

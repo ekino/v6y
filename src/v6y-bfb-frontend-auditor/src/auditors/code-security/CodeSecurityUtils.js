@@ -6,6 +6,14 @@ const { getFiles, parseFile, isNonCompliantFile } = AuditUtils;
 
 const defaultOptions = {};
 
+/**
+ * Formats code modularity reports for the given application and workspace folder.
+ *
+ * @param {Object} params - The parameters for the report formatting.
+ * @param {Object} params.application - The application details.
+ * @param {string} params.workspaceFolder - The workspace folder path.
+ * @returns {Promise<Array>} - Returns a promise that resolves to an array of security audit reports.
+ */
 const formatCodeModularityReports = async ({ application, workspaceFolder }) => {
     try {
         AppLogger.info(

@@ -156,6 +156,10 @@ const deleteFaqList = async () => {
  */
 const getFaqListByPageAndParams = async ({ start, limit, sort }) => {
     try {
+        AppLogger.info(`[FaqProvider - getFaqListByPageAndParams] start: ${start}`);
+        AppLogger.info(`[FaqProvider - getFaqListByPageAndParams] limit: ${limit}`);
+        AppLogger.info(`[FaqProvider - getFaqListByPageAndParams] sort: ${sort}`);
+
         const faqModel = DataBaseManager.getDataBaseSchema(FaqModel.name);
         if (!faqModel) {
             return null;
@@ -165,17 +169,12 @@ const getFaqListByPageAndParams = async ({ start, limit, sort }) => {
         const queryOptions = {};
 
         // Handle pagination
-        if (start !== undefined) {
-            // queryOptions.offset = start;
+        if (start) {
+            queryOptions.offset = start;
         }
 
-        if (limit !== undefined) {
-            //  queryOptions.limit = limit;
-        }
-
-        // Handle sorting
-        if (sort) {
-            // queryOptions.order = sort; // Assuming 'sort' specifies the sorting order directly
+        if (limit) {
+            queryOptions.limit = limit;
         }
 
         const faqList = await faqModel.findAll(queryOptions);
