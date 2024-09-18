@@ -3,7 +3,7 @@
 import React, { Suspense } from 'react';
 
 import VitalityLoader from '../../../commons/components/VitalityLoader.jsx';
-import VitalitySelectableIndicators from '../../../commons/components/keywords/VitalitySelectableIndicators.jsx';
+import VitalitySelectableIndicators from '../../../commons/components/indicators/VitalitySelectableIndicators.jsx';
 import VitalityAppList from '../../app-list/components/VitalityAppList.jsx';
 import VitalityAppsStatsChart from './VitalityAppsStatsChart.jsx';
 

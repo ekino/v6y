@@ -7,7 +7,6 @@ import React, { useState } from 'react';
 
 import VitalityNavigationPaths from '../../config/VitalityNavigationPaths.js';
 
-
 const VITALITY_HEADER_MENU_ITEMS = [
     {
         key: 'notification',

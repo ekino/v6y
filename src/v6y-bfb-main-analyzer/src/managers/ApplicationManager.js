@@ -53,6 +53,11 @@ const buildApplicationFrontendByBranch = async ({ applicationId, workspaceFolder
             workspaceFolder,
         );
 
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationFrontendByBranch] frontendStaticAuditorApi: ',
+            frontendStaticAuditorApi,
+        );
+
         await fetch(frontendStaticAuditorApi, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -212,7 +217,12 @@ const buildDynamicReports = async ({ application }) => {
             return false;
         }
 
-        await fetch(frontendStaticAuditorApi, {
+        AppLogger.info(
+            '[ApplicationManager - buildDynamicReports] frontendDynamicAuditorApi: ',
+            frontendDynamicAuditorApi,
+        );
+
+        await fetch(frontendDynamicAuditorApi, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ applicationId: application?._id, workspaceFolder: null }),

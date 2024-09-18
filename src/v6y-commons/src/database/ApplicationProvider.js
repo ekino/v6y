@@ -384,13 +384,10 @@ const getApplicationDetailsKeywordsByParams = async ({ appId }) => {
             `[ApplicationProvider - getApplicationDetailsKeywordsByParams] appId: ${appId}`,
         );
 
-        if (!appId) {
-            return null;
-        }
-
         const keywords = await KeywordProvider.getKeywordListByPageAndParams({
             appId,
         });
+
         AppLogger.info(
             `[ApplicationProvider - getApplicationDetailsKeywordsByParams] keywords: ${keywords?.length}`,
         );

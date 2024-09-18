@@ -1,11 +1,4 @@
-import {
-    DislikeOutlined,
-    FrownOutlined,
-    LikeOutlined,
-    MehOutlined,
-    SmileOutlined,
-    ThunderboltOutlined,
-} from '@ant-design/icons';
+import { DislikeOutlined, LikeOutlined, ThunderboltOutlined } from '@ant-design/icons';
 import Link from 'next/link.js';
 import React from 'react';
 

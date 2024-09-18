@@ -8,6 +8,7 @@ const GetIndicatorListByParams = gql`
                 branch
                 path
                 url
+                status
             }
         }
     }

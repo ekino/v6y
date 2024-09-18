@@ -43,9 +43,6 @@ const VitalityQualityIndicatorsView = () => {
             ...indicator?.module,
         }));
 
-    console.log({
-        dataSource,
-    });
     return (
         <VitalitySectionView
             isLoading={isQualityIndicatorsLoading}

@@ -9,7 +9,7 @@ import VitalitySearchBar from '../../../commons/components/VitalitySearchBar.jsx
 import VitalityTerms from '../../../commons/config/VitalityTerms.js';
 
 const VitalityCheckableKeywords = dynamic(
-    () => import('../../../commons/components/keywords/VitalitySelectableIndicators.jsx'),
+    () => import('../../../commons/components/indicators/VitalitySelectableIndicators.jsx'),
     {
         loading: () => <VitalityLoader />,
     },

@@ -3,11 +3,10 @@ import dynamic from 'next/dynamic.js';
 import React, { useEffect, useState } from 'react';
 
 import VitalityLoader from '../../../../../../commons/components/VitalityLoader.jsx';
-import VitalityModulesView from '../../../../../../commons/components/modules/VitalityModulesView.jsx';
 import useDataGrouper from '../../../../../../commons/hooks/useDataGrouper.jsx';
 
-const VitalityAuditReportsHelpView = dynamic(
-    () => import('../help/VitalityAuditReportsHelpView.jsx'),
+const VitalityModulesView = dynamic(
+    () => import('../../../../../../commons/components/modules/VitalityModulesView.jsx'),
     {
         loading: () => <VitalityLoader />,
     },
@@ -15,8 +14,6 @@ const VitalityAuditReportsHelpView = dynamic(
 
 const VitalityCodeStatusReportsSmellGrouper = ({ reports }) => {
     const [selectedSmells, setSelectedSmells] = useState([]);
-    const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
-
     const { criteriaGroups } = useDataGrouper({
         dataSource: reports,
         criteria: 'category',
@@ -45,11 +42,6 @@ const VitalityCodeStatusReportsSmellGrouper = ({ reports }) => {
                 </Row>
             </Card>
             <VitalityModulesView modules={selectedReports} source="smells" />
-            <VitalityAuditReportsHelpView
-                isOpen={isHelpModalOpen}
-                reports={selectedReports}
-                onClose={() => setIsHelpModalOpen(false)}
-            />
         </>
     );
 };

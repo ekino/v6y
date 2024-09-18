@@ -2,7 +2,6 @@ import { AgCharts } from 'ag-charts-react';
 import { Col, Row } from 'antd';
 import React, { useEffect } from 'react';
 
-import VitalityEmptyView from '../../../commons/components/VitalityEmptyView.jsx';
 import VitalityLoader from '../../../commons/components/VitalityLoader.jsx';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig.js';
 import VitalityTerms from '../../../commons/config/VitalityTerms.js';
@@ -45,7 +44,7 @@ const VitalityAppsStatsChart = () => {
     }
 
     if (!dataAppsStats?.getApplicationStatsByParams?.length) {
-        return <VitalityEmptyView />;
+        // return <VitalityEmptyView />;
     }
 
     const chartDataSource = (
@@ -67,7 +66,20 @@ const VitalityAppsStatsChart = () => {
                     options={{
                         autoSize: true,
                         theme: 'ag-vivid-dark',
-                        data: chartDataSource,
+                        data: [
+                            {
+                                label: 'Code-Complexity-maintainability-index-project-average',
+                                total: 10,
+                            },
+                            {
+                                label: 'Code-Complexity-maintainability-index',
+                                total: 10,
+                            },
+                            {
+                                label: 'Code-Complexity-cyclomatic-complexity',
+                                total: 10,
+                            },
+                        ],
                         title: {
                             text: VitalityTerms.VITALITY_APP_STATS_GRAPH_TITLE,
                         },

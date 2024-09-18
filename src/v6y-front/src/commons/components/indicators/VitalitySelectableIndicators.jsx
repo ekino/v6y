@@ -32,10 +32,12 @@ const VitalitySelectableIndicators = () => {
     });
 
     useEffect(() => {
-        const data = dataIndicators?.getApplicationDetailsKeywordsByParams?.map((item) => ({
-            ...item,
-            value: item.label,
-        }));
+        const data = [
+            ...(new Set(
+                dataIndicators?.getApplicationDetailsKeywordsByParams?.map((item) => item.label) ||
+                    [],
+            ) || []),
+        ].map((item) => ({ label: item, value: item }));
 
         setIndicatorsList(data);
     }, [dataIndicators?.getApplicationDetailsKeywordsByParams]);

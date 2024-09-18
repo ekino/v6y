@@ -1,10 +1,17 @@
 import { InfoCircleOutlined, PushpinOutlined } from '@ant-design/icons';
-import { Avatar, Button, Card, Divider, Drawer, List, Space, Statistic, Typography } from 'antd';
+import { Avatar, Button, Card, Divider, List, Space, Statistic, Typography } from 'antd';
+import dynamic from 'next/dynamic.js';
 import React, { useEffect, useState } from 'react';
 
 import { QUALITY_METRIC_ICONS, QUALITY_METRIC_STATUS } from '../../config/VitalityCommonConfig.js';
 import VitalityTerms from '../../config/VitalityTerms.js';
+import VitalityLoader from '../VitalityLoader.jsx';
+import VitalityModal from '../VitalityModal.jsx';
 import VitalityPaginatedList from '../VitalityPaginatedList.jsx';
+
+const VitalityHelpView = dynamic(() => import('../help/VitalityHelpView.jsx'), {
+    loading: () => <VitalityLoader />,
+});
 
 const VitalityModulesView = ({ modules, source, status }) => {
     const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
@@ -30,28 +37,31 @@ const VitalityModulesView = ({ modules, source, status }) => {
                         module.name ||
                         module.label ||
                         `${module.type ? `${module.type}-` : ''}${module.category}`;
-                    const pathComponents = module.path?.split('/') || [];
-                    const pathLabel = `${pathComponents[pathComponents.length - 2]}/${pathComponents[pathComponents.length - 1]}`;
                     const moduleScore = module.score
                         ? `${module.score || 0} ${module.scoreUnit || ''}`
                         : '';
+                    const hasAuditHelp = Object.keys(module?.auditHelp || {}).length > 0;
+                    const hasDependencyStatusHelp =
+                        Object.keys(module?.statusHelp || {}).length > 0;
+                    const hasEvolutionHelp = Object.keys(module?.evolutionHelp || {}).length > 0;
 
-                    console.log({
-                        status: module.status,
-                    });
                     return (
                         <List.Item>
                             <List.Item.Meta
                                 title={
                                     <Space direction="horizontal" size="middle">
                                         {patternName}
-                                        <Button
-                                            type="text"
-                                            icon={<InfoCircleOutlined />}
-                                            onClick={() => {
-                                                setHelpDetails(module);
-                                            }}
-                                        />
+                                        {(hasAuditHelp ||
+                                            hasDependencyStatusHelp ||
+                                            hasEvolutionHelp) && (
+                                            <Button
+                                                type="text"
+                                                icon={<InfoCircleOutlined />}
+                                                onClick={() => {
+                                                    setHelpDetails(module);
+                                                }}
+                                            />
+                                        )}
                                     </Space>
                                 }
                                 avatar={
@@ -87,7 +97,7 @@ const VitalityModulesView = ({ modules, source, status }) => {
                                             )}
                                             {module.branch?.length > 0 && (
                                                 <Typography.Text style={{ fontWeight: 'bold' }}>
-                                                    {`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_DETECT_ON_BRANCHES_LABEL}: `}
+                                                    {`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_DETECT_ON_BRANCH_LABEL}: `}
                                                     <Typography.Text
                                                         style={{ fontWeight: 'normal' }}
                                                     >
@@ -95,13 +105,13 @@ const VitalityModulesView = ({ modules, source, status }) => {
                                                     </Typography.Text>
                                                 </Typography.Text>
                                             )}
-                                            {pathComponents?.length > 0 && (
+                                            {module.path?.length > 0 && (
                                                 <Typography.Text style={{ fontWeight: 'bold' }}>
-                                                    {`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_DETECT_ON_PATHS_LABEL}: `}
+                                                    {`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_DETECT_ON_PATH_LABEL}: `}
                                                     <Typography.Text
                                                         style={{ fontWeight: 'normal' }}
                                                     >
-                                                        {pathLabel}
+                                                        {module.path?.replaceAll(' -> []', '')}
                                                     </Typography.Text>
                                                 </Typography.Text>
                                             )}
@@ -114,14 +124,17 @@ const VitalityModulesView = ({ modules, source, status }) => {
                     );
                 }}
             />
-            <Drawer
-                size="large"
-                title={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_MODULE_HELP_TITLE}
-                onClose={() => setHelpDetails({})}
-                open={isHelpModalOpen}
+            <VitalityModal
+                title={
+                    <Typography.Title level={5}>
+                        {VitalityTerms.VITALITY_APP_DETAILS_AUDIT_MODULE_HELP_TITLE}
+                    </Typography.Title>
+                }
+                onCloseModal={() => setHelpDetails({})}
+                isOpen={isHelpModalOpen}
             >
-                sss
-            </Drawer>
+                <VitalityHelpView module={helpDetails} />
+            </VitalityModal>
         </>
     );
 };

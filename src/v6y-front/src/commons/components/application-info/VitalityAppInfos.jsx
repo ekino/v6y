@@ -1,4 +1,4 @@
-import { Col, List, Row, Space, Tag, Typography } from 'antd';
+import { Col, List, Row, Tag, Typography } from 'antd';
 import Link from 'next/link';
 import React from 'react';
 

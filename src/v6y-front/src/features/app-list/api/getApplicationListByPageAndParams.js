@@ -23,6 +23,12 @@ const GetApplicationListByPageAndParams = gql`
                 value
                 description
             }
+            repo {
+                name
+                webUrl
+                gitUrl
+                allBranches
+            }
         }
     }
 `;
