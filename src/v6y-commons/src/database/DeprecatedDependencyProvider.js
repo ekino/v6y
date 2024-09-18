@@ -6,7 +6,7 @@ import DeprecatedDependencyModel from './models/DeprecatedDependencyModel.js';
  * Creates a new DeprecatedDependency entry in the database.
  *
  * @param {Object} deprecatedDependency - The DeprecatedDependency data to be created.
- * @returns {Object|null} The created DeprecatedDependency object or null on error or if the DeprecatedDependency model is not found.
+ * @returns {Promise<*|null>} The created DeprecatedDependency object or null on error or if the DeprecatedDependency model is not found.
  */
 const createDeprecatedDependency = async (deprecatedDependency) => {
     try {
@@ -45,7 +45,7 @@ const createDeprecatedDependency = async (deprecatedDependency) => {
  * Edits an existing DeprecatedDependency entry in the database.
  *
  * @param {Object} deprecatedDependency - The DeprecatedDependency data with updated information.
- * @returns {Object|null} An object containing the ID of the edited DeprecatedDependency or null on error or if the DeprecatedDependency model is not found.
+ * @returns {Promise<*|null>} An object containing the ID of the edited DeprecatedDependency or null on error or if the DeprecatedDependency model is not found.
  */
 const editDeprecatedDependency = async (deprecatedDependency) => {
     try {
@@ -97,7 +97,7 @@ const editDeprecatedDependency = async (deprecatedDependency) => {
  *
  * @param {Object} params - An object containing the parameters for deletion.
  * @param {string} params.deprecatedDependencyId - The ID of the DeprecatedDependency to delete.
- * @returns {Object|null} An object containing the ID of the deleted DeprecatedDependency, or null on error or if deprecatedDependencyId is not provided or if the DeprecatedDependency model is not found.
+ * @returns {Promise<*|null>} An object containing the ID of the deleted DeprecatedDependency, or null on error or if deprecatedDependencyId is not provided or if the DeprecatedDependency model is not found.
  */
 const deleteDeprecatedDependency = async ({ deprecatedDependencyId }) => {
     try {
@@ -136,7 +136,7 @@ const deleteDeprecatedDependency = async ({ deprecatedDependencyId }) => {
 /**
  * Deletes all Deprecated Dependencies from the database
  *
- * @returns {boolean} True if the deletion was successful, false otherwise
+ * @returns {Promise<*|null>} True if the deletion was successful, false otherwise
  */
 const deleteDeprecatedDependencyList = async () => {
     try {
@@ -168,7 +168,7 @@ const deleteDeprecatedDependencyList = async () => {
  * @param {number} [params.start] - The starting index for pagination (optional)
  * @param {number} [params.limit] - The maximum number of Deprecated Dependencies to retrieve (optional)
  * @param {Object} [params.sort] - An object defining the sorting criteria (optional)
- * @returns {Array|null} An array of DeprecatedDependency objects or null on error or if the DeprecatedDependency model is not found
+ * @returns {Promise<*|null>} An array of DeprecatedDependency objects or null on error or if the DeprecatedDependency model is not found
  */
 const getDeprecatedDependencyListByPageAndParams = async ({ start, limit, sort }) => {
     try {
@@ -217,7 +217,7 @@ const getDeprecatedDependencyListByPageAndParams = async ({ start, limit, sort }
  * @param {Object} params - An object containing the parameters for the query
  * @param {string} params.deprecatedDependencyId - The ID of the DeprecatedDependency to retrieve
  * @param {string} params.name - The name of the DeprecatedDependency to retrieve
- * @returns {Object|null} The DeprecatedDependency details or null if not found or on error or if the DeprecatedDependency model is not found
+ * @returns {Promise<*|null>} The DeprecatedDependency details or null if not found or on error or if the DeprecatedDependency model is not found
  */
 const getDeprecatedDependencyDetailsByParams = async ({ deprecatedDependencyId, name }) => {
     try {

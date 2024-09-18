@@ -5,6 +5,7 @@ import { Typography } from 'antd';
 
 import { useTranslation } from '../../infrastructure/adapters/translation/TranslationAdapter.js';
 
+
 export const VitalityAuthForgotPasswordView = () => {
     const { translate } = useTranslation();
 

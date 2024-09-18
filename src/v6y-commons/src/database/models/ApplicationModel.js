@@ -24,8 +24,12 @@ const applicationSchema = {
         type: DataTypes.TEXT,
         allowNull: false,
     },
-    repo: DataTypes.JSON,
-    links: DataTypes.JSON,
+    repo: {
+        type: DataTypes.JSON,
+    },
+    links: {
+        type: DataTypes.JSON,
+    },
 };
 
 const applicationOptions = {

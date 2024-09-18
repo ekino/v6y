@@ -4,7 +4,7 @@ import ServerConfig from '../config/ServerConfig.js';
 
 const { getRepositoryDetails, getRepositoryBranches, prepareGitBranchZipConfig } = RepositoryApi;
 const { getCurrentConfig } = ServerConfig;
-const { frontendAuditorApi } = getCurrentConfig() || {};
+const { frontendStaticAuditorApi, frontendDynamicAuditorApi } = getCurrentConfig() || {};
 const ZIP_BASE_DIR = '../code-analysis-workspace';
 
 /**
@@ -53,7 +53,7 @@ const buildApplicationFrontendByBranch = async ({ applicationId, workspaceFolder
             workspaceFolder,
         );
 
-        await fetch(frontendAuditorApi, {
+        await fetch(frontendStaticAuditorApi, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ applicationId, workspaceFolder }),
@@ -166,12 +166,70 @@ const buildApplicationDetailsByBranch = async ({ application, branch }) => {
 };
 
 /**
- * Builds the details of an application, including fetching repository details, branches, and analyzing each branch
+ * Builds the static reports for all branches of an application
+ * @param {object} application
+ * @param {Array} branches
+ * @returns {Promise<boolean>}
+ */
+const buildStaticReports = async ({ application, branches }) => {
+    try {
+        AppLogger.info('[ApplicationManager - buildStaticReports] branches: ', branches?.length);
+        AppLogger.info('[ApplicationManager - buildStaticReports] application: ', application);
+
+        if (!branches?.length || !application) {
+            return false;
+        }
+
+        for (const branch of branches) {
+            AppLogger.info('[ApplicationManager - buildStaticReports] branch: ', branch);
+
+            await buildApplicationDetailsByBranch({
+                application,
+                branch,
+            });
+        }
+
+        return true;
+    } catch (error) {
+        AppLogger.info(`[ApplicationManager - buildStaticReports] error:  ${error.message}`);
+        return false;
+    }
+};
+
+/**
+ * Build dynamic reports for an application
+ * @param {object} application
+ * @returns {Promise<boolean>}
+ */
+const buildDynamicReports = async ({ application }) => {
+    try {
+        AppLogger.info(
+            '[ApplicationManager - buildDynamicReports] application: ',
+            application?._id,
+        );
+
+        if (!application) {
+            return false;
+        }
+
+        await fetch(frontendStaticAuditorApi, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ applicationId: application?._id, workspaceFolder: null }),
+        });
+    } catch (error) {
+        AppLogger.info(`[ApplicationManager - buildDynamicReports] error:  ${error.message}`);
+        return false;
+    }
+};
+
+/**
+ * Builds application reports
  *
  * @param {Object} application The application object
  * @returns {Promise<boolean>} True if the build was successful, false otherwise
  */
-const buildApplicationDetails = async (application) => {
+const buildApplicationReports = async (application) => {
     try {
         if (
             !application?.name?.length ||
@@ -210,7 +268,7 @@ const buildApplicationDetails = async (application) => {
             return false;
         }
 
-        ApplicationProvider.editApplication({
+        await ApplicationProvider.editApplication({
             ...application,
             repo: {
                 ...application?.repo,
@@ -218,14 +276,22 @@ const buildApplicationDetails = async (application) => {
             },
         });
 
-        for (const branch of repositoryBranches) {
-            AppLogger.info('[ApplicationManager - buildApplicationDetails] branch: ', branch);
+        AppLogger.info('[ApplicationManager - buildApplicationDetails] start of static analysis');
 
-            await buildApplicationDetailsByBranch({
-                application,
-                branch,
-            });
-        }
+        await buildStaticReports({
+            application,
+            branches: repositoryBranches,
+        });
+
+        AppLogger.info('[ApplicationManager - buildApplicationDetails] end of static analysis');
+
+        AppLogger.info('[ApplicationManager - buildApplicationDetails] start of dynamic analysis');
+
+        await buildDynamicReports({
+            application,
+        });
+
+        AppLogger.info('[ApplicationManager - buildApplicationDetails] end of dynamic analysis');
 
         return true;
     } catch (error) {
@@ -253,7 +319,7 @@ const buildApplicationList = async (options) => {
         }
 
         for (const application of applications) {
-            await buildApplicationDetails(application);
+            await buildApplicationReports(application);
         }
 
         return true;

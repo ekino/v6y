@@ -9,14 +9,14 @@ const { getCurrentConfig } = ServerConfig;
  * Starts frontend audit process for the given application.
  * @returns {Promise<boolean>} Indicates whether the audit process was initiated successfully.
  */
-const startFrontendAudit = async ({ applicationId, workspaceFolder }) => {
+const startFrontendStaticAudit = async ({ applicationId, workspaceFolder }) => {
     try {
         AppLogger.info(
-            '[FrontendAuditorManager - startFrontendAudit] applicationId: ',
+            '[FrontendAuditorManager - startFrontendStaticAudit] applicationId: ',
             applicationId,
         );
         AppLogger.info(
-            '[FrontendAuditorManager - startFrontendAudit] workspaceFolder: ',
+            '[FrontendAuditorManager - startFrontendStaticAudit] workspaceFolder: ',
             workspaceFolder,
         );
 
@@ -30,31 +30,26 @@ const startFrontendAudit = async ({ applicationId, workspaceFolder }) => {
 
         await forkWorker('./src/workers/DependenciesAnalysisWorker.js', workerConfig);
         AppLogger.info(
-            '[FrontendAuditorManager - startFrontendAudit] Dependencies Audit have completed successfully.',
+            '[FrontendAuditorManager - startFrontendStaticAudit] Dependencies Audit have completed successfully.',
         );
 
         await forkWorker('./src/workers/CodeQualityAnalysisWorker.js', workerConfig);
         AppLogger.info(
-            '[FrontendAuditorManager - startFrontendAudit] CodeQuality Audit have completed successfully.',
-        );
-
-        await forkWorker('./src/workers/LighthouseAnalysisWorker.js', workerConfig);
-        AppLogger.info(
-            '[FrontendAuditorManager - startFrontendAudit] Lighthouse Audit have completed successfully.',
+            '[FrontendAuditorManager - startFrontendStaticAudit] CodeQuality Audit have completed successfully.',
         );
 
         return true; // Indicates successful initiation of audits
     } catch (error) {
         AppLogger.info(
-            '[FrontendAuditorManager - startFrontendAudit] An exception occurred during the app audits: ',
+            '[FrontendAuditorManager - startFrontendStaticAudit] An exception occurred during the app audits: ',
             error,
         );
         return false; // Indicates failure to initiate audits
     }
 };
 
-const FrontendAuditorManager = {
-    startFrontendAudit,
+const FrontendStaticStatusAuditorManager = {
+    startFrontendStaticAudit,
 };
 
-export default FrontendAuditorManager;
+export default FrontendStaticStatusAuditorManager;

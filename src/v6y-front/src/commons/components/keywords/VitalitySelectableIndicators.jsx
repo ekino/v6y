@@ -9,41 +9,43 @@ import useNavigationAdapter from '../../../infrastructure/adapters/navigation/us
 import VitalityApiConfig from '../../config/VitalityApiConfig.js';
 import VitalityEmptyView from '../VitalityEmptyView.jsx';
 import VitalityLoader from '../VitalityLoader.jsx';
-import GetKeywordListByPageAndParams from './getKeywordListByPageAndParams.js';
+import GetIndicatorListByParams from './getIndicatorListByParams.js';
 
-const VitalityKeywords = () => {
-    const [selectedKeywords, setSelectedKeywords] = useState([]);
-    const [keywordsList, setKeywordsList] = useState([]);
+const VitalitySelectableIndicators = () => {
+    const [selectedIndicators, setSelectedIndicators] = useState([]);
+    const [indicatorsList, setIndicatorsList] = useState([]);
 
     const { router, pathname, getUrlParams, creatUrlQueryParam, removeUrlQueryParam } =
         useNavigationAdapter();
     const [keywordsUrlParams] = getUrlParams(['keywords']);
 
-    const { isLoading: isKeywordsLoading, data: dataKeywords } = useClientQuery({
-        queryCacheKey: ['getKeywordListByPageAndParams'],
+    const { isLoading: isIndicatorsLoading, data: dataIndicators } = useClientQuery({
+        queryCacheKey: ['getIndicatorListByParams'],
         queryBuilder: async () =>
             buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
-                queryPath: GetKeywordListByPageAndParams,
-                queryParams: {},
+                queryPath: GetIndicatorListByParams,
+                queryParams: {
+                    appId: null,
+                },
             }),
     });
 
     useEffect(() => {
-        const data = dataKeywords?.getKeywordListByPageAndParams?.map((item) => ({
+        const data = dataIndicators?.getApplicationDetailsKeywordsByParams?.map((item) => ({
             ...item,
             value: item.label,
         }));
 
-        setKeywordsList(data);
-    }, [dataKeywords?.getKeywordListByPageAndParams]);
+        setIndicatorsList(data);
+    }, [dataIndicators?.getApplicationDetailsKeywordsByParams]);
 
     useEffect(() => {
-        const defaultSelectedKeywords = keywordsUrlParams?.split(',');
-        setSelectedKeywords(defaultSelectedKeywords);
+        const defaultSelectedIndicators = keywordsUrlParams?.split(',');
+        setSelectedIndicators(defaultSelectedIndicators);
     }, [keywordsUrlParams]);
 
-    const handleSelectedKeyword = (values) => {
+    const handleSelectedIndicator = (values) => {
         if (values?.length) {
             const queryParams = creatUrlQueryParam('keywords', values?.join(','));
             router.replace(`${pathname}?${queryParams}`);
@@ -53,21 +55,21 @@ const VitalityKeywords = () => {
         }
     };
 
-    if (isKeywordsLoading) {
+    if (isIndicatorsLoading) {
         return <VitalityLoader />;
     }
 
-    if (!keywordsList?.length) {
+    if (!indicatorsList?.length) {
         return <VitalityEmptyView />;
     }
 
     return (
         <Checkbox.Group
-            value={selectedKeywords}
-            options={keywordsList}
-            onChange={(values) => handleSelectedKeyword(values)}
+            value={selectedIndicators}
+            options={indicatorsList}
+            onChange={(values) => handleSelectedIndicator(values)}
         />
     );
 };
 
-export default VitalityKeywords;
+export default VitalitySelectableIndicators;

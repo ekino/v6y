@@ -8,6 +8,7 @@ import { useTranslation } from '../../../infrastructure/adapters/translation/Tra
 import RefineShowWrapper from '../../../infrastructure/components/RefineShowWrapper.jsx';
 import GetEvolutionHelpDetailsByParams from '../apis/getEvolutionHelpDetailsByParams.js';
 
+
 export default function VitalityEvolutionHelpDetailsView() {
     const { translate } = useTranslation();
 

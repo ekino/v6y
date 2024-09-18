@@ -26,7 +26,7 @@ const formatDependencyStatusHelpInput = (dependencyStatusHelp) => ({
  * Creates a new DependencyStatusHelp entry in the database.
  *
  * @param {Object} dependencyStatusHelp - The DependencyStatusHelp data to be created.
- * @returns {Object|null} The created DependencyStatusHelp object or null on error or if the DependencyStatusHelp model is not found.
+ * @returns {Promise<*|null>} The created DependencyStatusHelp object or null on error or if the DependencyStatusHelp model is not found.
  */
 const createDependencyStatusHelp = async (dependencyStatusHelp) => {
     try {
@@ -65,7 +65,7 @@ const createDependencyStatusHelp = async (dependencyStatusHelp) => {
  * Edits an existing DependencyStatusHelp entry in the database.
  *
  * @param {Object} dependencyStatusHelp - The DependencyStatusHelp data with updated information.
- * @returns {Object|null} An object containing the ID of the edited DependencyStatusHelp or null on error or if the DependencyStatusHelp model is not found.
+ * @returns {Promise<*|null>} An object containing the ID of the edited DependencyStatusHelp or null on error or if the DependencyStatusHelp model is not found.
  */
 const editDependencyStatusHelp = async (dependencyStatusHelp) => {
     try {
@@ -117,7 +117,7 @@ const editDependencyStatusHelp = async (dependencyStatusHelp) => {
  *
  * @param {Object} params - An object containing the parameters for deletion.
  * @param {string} params.dependencyStatusHelpId - The ID of the DependencyStatusHelp to delete.
- * @returns {Object|null} An object containing the ID of the deleted DependencyStatusHelp, or null on error or if dependencyStatusHelpId is not provided or if the DependencyStatusHelp model is not found.
+ * @returns {Promise<*|null>} An object containing the ID of the deleted DependencyStatusHelp, or null on error or if dependencyStatusHelpId is not provided or if the DependencyStatusHelp model is not found.
  */
 const deleteDependencyStatusHelp = async ({ dependencyStatusHelpId }) => {
     try {
@@ -156,7 +156,7 @@ const deleteDependencyStatusHelp = async ({ dependencyStatusHelpId }) => {
 /**
  * Deletes all DependencyStatusHelps from the database
  *
- * @returns {boolean} True if the deletion was successful, false otherwise
+ * @returns {Promise<boolean|null>} True if the deletion was successful, false otherwise
  */
 const deleteDependencyStatusHelpList = async () => {
     try {
@@ -240,7 +240,7 @@ const getDependencyStatusHelpListByPageAndParams = async ({ start, limit, sort }
  * @param {Object} params - An object containing the parameters for the query
  * @param {string} params.dependencyStatusHelpId - The ID of the DependencyStatusHelp to retrieve
  * @param {string} params.category - The category of the DependencyStatusHelp to retrieve
- * @returns {Object|null} The DependencyStatusHelp details or null if not found or on error or if the DependencyStatusHelp model is not found
+ * @returns {Promise<TModelAttributes|null>} The DependencyStatusHelp details or null if not found or on error or if the DependencyStatusHelp model is not found
  */
 const getDependencyStatusHelpDetailsByParams = async ({ dependencyStatusHelpId, category }) => {
     try {
@@ -324,7 +324,7 @@ const initDefaultData = async () => {
         }
 
         for (const dependencyStatusHelp of defaultDependencyStatusHelp) {
-            createDependencyStatusHelp(dependencyStatusHelp); // Assuming 'createDependencyStatusHelp' is defined elsewhere
+            await createDependencyStatusHelp(dependencyStatusHelp); // Assuming 'createDependencyStatusHelp' is defined elsewhere
         }
 
         return true;

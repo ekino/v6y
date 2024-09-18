@@ -15,7 +15,9 @@ const faqSchema = {
         type: DataTypes.TEXT,
         allowNull: false,
     },
-    links: DataTypes.JSON,
+    links: {
+        type: DataTypes.JSON,
+    },
 };
 
 const faqOptions = {

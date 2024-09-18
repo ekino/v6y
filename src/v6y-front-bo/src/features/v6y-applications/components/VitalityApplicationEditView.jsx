@@ -26,7 +26,7 @@ export default function VitalityApplicationEditView() {
             queryOptions={{
                 queryFormAdapter: applicationCreateOrEditFormInAdapter,
                 query: GetApplicationDetails,
-                queryResource: 'getApplicationDetailsByParams',
+                queryResource: 'getApplicationDetailsInfoByParams',
                 queryParams: {
                     appId: id,
                 },

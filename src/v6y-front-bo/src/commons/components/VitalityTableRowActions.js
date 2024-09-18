@@ -1,6 +1,7 @@
 import { DeleteButton, EditButton, ShowButton } from '@refinedev/antd';
 import { Space } from 'antd';
 
+
 const VitalityTableRowActions = ({ record, options }) => (
     <Space>
         {options?.enableEdit && <EditButton hideText size="small" recordItemId={record.id} />}

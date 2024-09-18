@@ -27,7 +27,7 @@ const formatEvolutionHelpInput = (evolutionHelp) => ({
  * Creates a new EvolutionHelp entry in the database.
  *
  * @param {Object} evolutionHelp - The EvolutionHelp data to be created.
- * @returns {Object|null} The created EvolutionHelp object or null on error or if the EvolutionHelp model is not found.
+ * @returns {Promise<*|null>} The created EvolutionHelp object or null on error or if the EvolutionHelp model is not found.
  */
 const createEvolutionHelp = async (evolutionHelp) => {
     try {
@@ -62,7 +62,7 @@ const createEvolutionHelp = async (evolutionHelp) => {
  * Edits an existing EvolutionHelp entry in the database.
  *
  * @param {Object} evolutionHelp - The EvolutionHelp data with updated information.
- * @returns {Object|null} An object containing the ID of the edited EvolutionHelp or null on error or if the EvolutionHelp model is not found.
+ * @returns {Promise<*|null>} An object containing the ID of the edited EvolutionHelp or null on error or if the EvolutionHelp model is not found.
  */
 const editEvolutionHelp = async (evolutionHelp) => {
     try {
@@ -110,7 +110,7 @@ const editEvolutionHelp = async (evolutionHelp) => {
  *
  * @param {Object} params - An object containing the parameters for deletion.
  * @param {string} params.evolutionHelpId - The ID of the EvolutionHelp to delete.
- * @returns {Object|null} An object containing the ID of the deleted EvolutionHelp, or null on error or if evolutionHelpId is not provided or if the EvolutionHelp model is not found.
+ * @returns {Promise<*|null>} An object containing the ID of the deleted EvolutionHelp, or null on error or if evolutionHelpId is not provided or if the EvolutionHelp model is not found.
  */
 const deleteEvolutionHelp = async ({ evolutionHelpId }) => {
     try {
@@ -145,7 +145,7 @@ const deleteEvolutionHelp = async ({ evolutionHelpId }) => {
 /**
  * Deletes all EvolutionHelps from the database
  *
- * @returns {boolean} True if the deletion was successful, false otherwise
+ * @returns {Promise<*|null>} True if the deletion was successful, false otherwise
  */
 const deleteEvolutionHelpList = async () => {
     try {
@@ -174,7 +174,7 @@ const deleteEvolutionHelpList = async () => {
  * @param {number} [params.start] - The starting index for pagination (optional)
  * @param {number} [params.limit] - The maximum number of EvolutionHelps to retrieve (optional)
  * @param {Object} [params.sort] - An object defining the sorting criteria (optional)
- * @returns {Array|null} An array of EvolutionHelp objects or null on error or if the EvolutionHelp model is not found
+ * @returns {Promise<*|null>} An array of EvolutionHelp objects or null on error or if the EvolutionHelp model is not found
  */
 const getEvolutionHelpListByPageAndParams = async ({ start, limit, sort }) => {
     try {
@@ -226,7 +226,7 @@ const getEvolutionHelpListByPageAndParams = async ({ start, limit, sort }) => {
  * @param {Object} params - An object containing the parameters for the query
  * @param {string} params.evolutionHelpId - The ID of the EvolutionHelp to retrieve
  * @param {string} params.category - The category of the EvolutionHelp to retrieve
- * @returns {Object|null} The EvolutionHelp details or null if not found or on error or if the EvolutionHelp model is not found
+ * @returns {Promise<*|null>} The EvolutionHelp details or null if not found or on error or if the EvolutionHelp model is not found
  */
 const getEvolutionHelpDetailsByParams = async ({ evolutionHelpId, category }) => {
     try {
@@ -305,7 +305,7 @@ const initDefaultData = async () => {
         }
 
         for (const evolutionHelp of defaultEvolutionHelpStatus) {
-            createEvolutionHelp(evolutionHelp);
+            await createEvolutionHelp(evolutionHelp);
         }
 
         return true;

@@ -4,6 +4,7 @@ import React from 'react';
 import VitalityEmptyView from './VitalityEmptyView.jsx';
 import VitalityLoader from './VitalityLoader.jsx';
 
+
 const VitalitySectionView = ({ isLoading, isEmpty, title, description, avatar, children }) => (
     <Row
         justify="center"

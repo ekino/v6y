@@ -6,6 +6,10 @@ const auditModelSchema = {
         autoIncrement: true,
         primaryKey: true,
     },
+    appId: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
     type: {
         type: DataTypes.TEXT,
     },
@@ -27,8 +31,12 @@ const auditModelSchema = {
     extraInfos: {
         type: DataTypes.TEXT,
     },
-    module: DataTypes.JSON,
-    auditHelp: DataTypes.JSON,
+    auditHelp: {
+        type: DataTypes.JSON,
+    },
+    module: {
+        type: DataTypes.JSON,
+    },
 };
 
 const auditModelOptions = {};

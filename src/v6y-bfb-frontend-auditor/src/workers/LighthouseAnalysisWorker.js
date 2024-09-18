@@ -17,7 +17,6 @@ try {
     PerformancesUtils.startMeasure('LighthouseAnalysisWorker-startAuditorAnalysis');
     await LighthouseAuditor.startAuditorAnalysis({
         applicationId,
-        workspaceFolder,
         browserPath: chromeExecutablePath,
     });
     PerformancesUtils.endMeasure('LighthouseAnalysisWorker-startAuditorAnalysis');

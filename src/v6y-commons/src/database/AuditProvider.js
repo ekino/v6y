@@ -1,14 +1,13 @@
 import AppLogger from '../core/AppLogger.js';
 import AuditHelpProvider from './AuditHelpProvider.js';
 import DataBaseManager from './DataBaseManager.js';
-import DependencyStatusHelpProvider from './DependencyStatusHelpProvider.js';
 import AuditModel from './models/AuditModel.js';
 
 /**
  * Creates a new Audit entry in the database.
  *
  * @param {Object} audit - The Audit data to be created.
- * @returns {Object|null} The created Audit object or null on error or if the Audit model is not found.
+ * @returns {Promise<*|null>} The created Audit object or null on error or if the Audit model is not found.
  */
 const createAudit = async (audit) => {
     try {
@@ -26,7 +25,15 @@ const createAudit = async (audit) => {
             return null;
         }
 
-        const createdAudit = await auditModel.create(audit);
+        const auditHelp = await AuditHelpProvider.getAuditHelpDetailsByParams({
+            category: `${audit.type}-${audit.category}`,
+        });
+
+        const createdAudit = await auditModel.create({
+            ...audit,
+            appId: audit.module?.appId,
+            auditHelp,
+        });
         AppLogger.info(`[AuditProvider - createAudit] createdAudit: ${createdAudit?._id}`);
 
         return createdAudit;
@@ -39,19 +46,19 @@ const createAudit = async (audit) => {
 /**
  * Bulk insert of audit list
  * @param {Array} auditList
- * @returns {Promise<null>}
+ * @returns {Promise<boolean>}
  */
 const insertAuditList = async (auditList) => {
     try {
         AppLogger.info(`[AuditProvider - insertAuditList] auditList:  ${auditList?.length}`);
         if (!auditList?.length) {
-            return null;
+            return false;
         }
 
         const auditModel = DataBaseManager.getDataBaseSchema(AuditModel.name);
 
         if (!auditModel) {
-            return null;
+            return false;
         }
 
         for (const audit of auditList) {
@@ -59,8 +66,11 @@ const insertAuditList = async (auditList) => {
         }
 
         AppLogger.info(`[AuditProvider - insertAuditList] audit reports inserted successfully`);
+
+        return true;
     } catch (error) {
         AppLogger.info(`[AuditProvider - insertAuditList] error:  ${error.message}`);
+        return false;
     }
 };
 
@@ -68,7 +78,7 @@ const insertAuditList = async (auditList) => {
  * Edits an existing Audit entry in the database.
  *
  * @param {Object} audit - The Audit data with updated information.
- * @returns {Object|null} An object containing the ID of the edited Audit or null on error or if the Audit model is not found.
+ * @returns {Promise<{_id: *}|null>} An object containing the ID of the edited Audit or null on error or if the Audit model is not found.
  */
 const editAudit = async (audit) => {
     try {
@@ -108,7 +118,7 @@ const editAudit = async (audit) => {
  *
  * @param {Object} params - An object containing the parameters for deletion.
  * @param {string} params.auditId - The ID of the Audit to delete.
- * @returns {Object|null} An object containing the ID of the deleted Audit, or null on error or if auditId is not provided or if the Audit model is not found.
+ * @returns {Promise<{_id}|null>}An object containing the ID of the deleted Audit, or null on error or if auditId is not provided or if the Audit model is not found.
  */
 const deleteAudit = async ({ auditId }) => {
     try {
@@ -166,10 +176,9 @@ const deleteAuditList = async () => {
  *
  * @param {Object} params - Parameters object containing the appId.
  * @param {string} params.appId - The ID of the application to retrieve audits for.
- * @param {boolean} params.fullReport - If reports should be full or not.
  * @returns {Promise<Array>} A Promise resolving to an array of audits, or an empty array in case of an error.
  */
-const getAuditListByPageAndParams = async ({ appId, fullReport = true }) => {
+const getAuditListByPageAndParams = async ({ appId }) => {
     try {
         AppLogger.info(`[AuditProvider - getAuditListByPageAndParams] appId: ${appId}`);
 
@@ -178,39 +187,20 @@ const getAuditListByPageAndParams = async ({ appId, fullReport = true }) => {
             return null;
         }
 
-        const auditList = await auditModel.findAll();
+        const queryOptions = {};
+
+        if (appId) {
+            queryOptions.where = {
+                appId,
+            };
+        }
+
+        const auditList = await auditModel.findAll(queryOptions);
         AppLogger.info(
             `[AuditProvider - getAuditListByPageAndParams] auditList: ${auditList?.length}`,
         );
 
-        if (!auditList?.length) {
-            return null;
-        }
-
-        const fullAuditReports = [];
-
-        for (const audit of auditList) {
-            if (appId && audit.module?.appId !== Number.parseInt(appId, 10)) {
-                continue;
-            }
-
-            if (fullReport) {
-                const auditHelp = await AuditHelpProvider.getAuditHelpDetailsByParams({
-                    category: [`${audit.type}-${audit.category}`],
-                });
-
-                fullAuditReports.push({
-                    ...audit,
-                    auditHelp,
-                });
-
-                continue;
-            }
-
-            fullAuditReports.push(audit);
-        }
-
-        return fullAuditReports;
+        return auditList;
     } catch (error) {
         AppLogger.info(`[AuditProvider - getAuditListByPageAndParams] error:  ${error.message}`);
         return [];

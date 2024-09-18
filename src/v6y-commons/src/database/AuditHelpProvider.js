@@ -7,7 +7,7 @@ import AuditHelpModel from './models/AuditHelpModel.js';
  * Creates a new AuditHelp entry in the database.
  *
  * @param {Object} auditHelp - The AuditHelp data to be created.
- * @returns {Object|null} The created AuditHelp object or null on error or if the AuditHelp model is not found.
+ * @returns {Promise<*|null>} The created AuditHelp object or null on error or if the AuditHelp model is not found.
  */
 const createAuditHelp = async (auditHelp) => {
     try {
@@ -40,7 +40,7 @@ const createAuditHelp = async (auditHelp) => {
  * Edits an existing AuditHelp entry in the database.
  *
  * @param {Object} auditHelp - The AuditHelp data with updated information.
- * @returns {Object|null} An object containing the ID of the edited AuditHelp or null on error or if the AuditHelp model is not found.
+ * @returns {Promise<*|null>} An object containing the ID of the edited AuditHelp or null on error or if the AuditHelp model is not found.
  */
 const editAuditHelp = async (auditHelp) => {
     try {
@@ -81,7 +81,7 @@ const editAuditHelp = async (auditHelp) => {
  *
  * @param {Object} params - An object containing the parameters for deletion.
  * @param {string} params.auditHelpId - The ID of the AuditHelp to delete.
- * @returns {Object|null} An object containing the ID of the deleted AuditHelp, or null on error or if auditHelpId is not provided or if the AuditHelp model is not found.
+ * @returns {Promise<*|null>} An object containing the ID of the deleted AuditHelp, or null on error or if auditHelpId is not provided or if the AuditHelp model is not found.
  */
 const deleteAuditHelp = async ({ auditHelpId }) => {
     try {
@@ -114,7 +114,7 @@ const deleteAuditHelp = async ({ auditHelpId }) => {
 /**
  * Deletes all AuditHelps from the database
  *
- * @returns {boolean} True if the deletion was successful, false otherwise
+ * @returns {Promise<boolean|null>}True if the deletion was successful, false otherwise
  */
 const deleteAuditHelpList = async () => {
     try {
@@ -186,7 +186,7 @@ const getAuditHelpListByPageAndParams = async ({ start, limit, sort }) => {
  * @param {Object} params - An object containing the parameters for the query
  * @param {string} params.auditHelpId - The ID of the AuditHelp to retrieve
  * @param {string} params.category - The category of the AuditHelp to retrieve
- * @returns {Object|null} The AuditHelp details or null if not found or on error or if the AuditHelp model is not found
+ * @returns {Promise<TModelAttributes|null>} The AuditHelp details or null if not found or on error or if the AuditHelp model is not found
  */
 const getAuditHelpDetailsByParams = async ({ auditHelpId, category }) => {
     try {
@@ -262,7 +262,7 @@ const initDefaultData = async () => {
         }
 
         for (const auditHelp of defaultAuditHelpStatus) {
-            createAuditHelp(auditHelp);
+            await createAuditHelp(auditHelp);
         }
 
         AppLogger.info(`[AuditHelpProvider - initDefaultData] end`);

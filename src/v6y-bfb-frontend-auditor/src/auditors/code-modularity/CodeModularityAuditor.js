@@ -41,7 +41,7 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }) => {
             return false;
         }
 
-        const application = await ApplicationProvider.getApplicationDetailsByParams({
+        const application = await ApplicationProvider.getApplicationDetailsInfoByParams({
             appId: applicationId,
         });
         AppLogger.info(

@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 import VitalityCollapse from '../VitalityCollapse.jsx';
 
+
 const dataSource = [
     {
         title: 'Vitality Update Available!',

@@ -5,6 +5,7 @@ import { Checkbox, Form, Typography } from 'antd';
 
 import { useTranslation } from '../../infrastructure/adapters/translation/TranslationAdapter.js';
 
+
 export const VitalityAuthLoginView = () => {
     const { translate } = useTranslation();
 

@@ -10,8 +10,14 @@ const ModuleType = `
     """ Module Application Path """
     path: String
     
-    """ Module Url """
+    """ Module Application Url """
     url: String
+    
+    """ Module Status """
+    status: String
+    
+    """ Module Version """
+    version: String
   }
 `;
 

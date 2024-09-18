@@ -15,7 +15,9 @@ const notificationSchema = {
         type: DataTypes.TEXT,
         allowNull: false,
     },
-    links: DataTypes.JSON,
+    links: {
+        type: DataTypes.JSON,
+    },
 };
 
 const notificationOptions = {

@@ -4,6 +4,7 @@ import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 import VitalityLoadMoreList from '../../../commons/components/VitalityLoadMoreList.jsx';
+import VitalityAppInfos from '../../../commons/components/application-info/VitalityAppInfos.jsx';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig.js';
 import { exportAppListDataToCSV } from '../../../commons/utils/VitalityDataExportUtils.js';
 import {
@@ -13,7 +14,6 @@ import {
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
 import GetApplicationListByPageAndParams from '../api/getApplicationListByPageAndParams.js';
 import VitalityAppListHeader from './VitalityAppListHeader.jsx';
-import VitalityAppListItem from './VitalityAppListItem.jsx';
 
 let currentAppListPage = 0;
 
@@ -86,7 +86,7 @@ const VitalityAppList = ({ source }) => {
                     isDataSourceLoading={isAppListLoading}
                     dataSource={appList}
                     renderItem={(app) => (
-                        <VitalityAppListItem key={app._id} app={app} source={source} />
+                        <VitalityAppInfos key={app._id} app={app} source={source} />
                     )}
                     onLoadMore={onLoadMore}
                 />

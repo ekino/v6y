@@ -10,7 +10,7 @@ const VitalityDetailsView = ({ details, error }) => (
             <Descriptions bordered size="middle" column={1}>
                 {Object.keys(details).map((itemKey, index) => (
                     <Descriptions.Item key={`${itemKey}-${index}`} label={itemKey}>
-                        <Typography.Text level={4}>{details[itemKey]}</Typography.Text>
+                        <Typography.Text>{details[itemKey]}</Typography.Text>
                     </Descriptions.Item>
                 ))}
             </Descriptions>

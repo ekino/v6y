@@ -155,11 +155,9 @@ describe('LighthouseUtils', () => {
             },
         ];
         const application = { _id: 'app1', repo: { webUrl: 'http://example.com' } };
-        const workspaceFolder = 'some/path';
         const formattedReports = LighthouseUtils.formatLighthouseReports({
             reports,
             application,
-            workspaceFolder,
         });
 
         expect(formattedReports).toEqual([

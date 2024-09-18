@@ -6,7 +6,11 @@ import AppLogger from './AppLogger.js';
  * @param {string} measureName - The name of the performance measurement.
  */
 const startMeasure = (measureName) => {
-    performance.mark(`${measureName}-start`);
+    try {
+        performance.mark(`${measureName}-start`);
+    } catch (error) {
+        AppLogger.info(`Error starting performance measurement: ${error.message}`);
+    }
 };
 
 /**
@@ -15,11 +19,15 @@ const startMeasure = (measureName) => {
  * @param {string} measureName - The name of the performance measurement to end.
  */
 const endMeasure = (measureName) => {
-    performance.mark(`${measureName}-end`);
-    performance.measure(measureName, `${measureName}-start`, `${measureName}-end`);
-    performance.getEntriesByType('measure').forEach((entry) => {
-        AppLogger.info(`Duration of ${entry.name}: ${entry.duration} ms`);
-    });
+    try {
+        performance.mark(`${measureName}-end`);
+        performance.measure(measureName, `${measureName}-start`, `${measureName}-end`);
+        performance.getEntriesByType('measure').forEach((entry) => {
+            AppLogger.info(`Duration of ${entry.name}: ${entry.duration} ms`);
+        });
+    } catch (error) {
+        AppLogger.info(`Error ending performance measurement: ${error.message}`);
+    }
 };
 
 /**

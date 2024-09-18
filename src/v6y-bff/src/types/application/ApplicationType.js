@@ -20,9 +20,6 @@ const ApplicationType = `
     
     """ Application links: prod, gitlab, github, aws """
     links: [LinkType]
-    
-    """ Application keywords """
-    keywords: [KeywordType]
   }
 `;
 

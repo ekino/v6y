@@ -1,12 +1,23 @@
 'use client';
 
 import { Col, Row } from 'antd';
+import dynamic from 'next/dynamic.js';
 import React from 'react';
 
+import VitalityLoader from '../../../commons/components/VitalityLoader.jsx';
 import VitalitySearchBar from '../../../commons/components/VitalitySearchBar.jsx';
-import VitalityKeywords from '../../../commons/components/keywords/VitalityKeywords.jsx';
 import VitalityTerms from '../../../commons/config/VitalityTerms.js';
-import VitalityAppList from './VitalityAppList.jsx';
+
+const VitalityCheckableKeywords = dynamic(
+    () => import('../../../commons/components/keywords/VitalitySelectableIndicators.jsx'),
+    {
+        loading: () => <VitalityLoader />,
+    },
+);
+
+const VitalityAppList = dynamic(() => import('./VitalityAppList.jsx'), {
+    loading: () => <VitalityLoader />,
+});
 
 const VitalityAppListView = () => {
     return (
@@ -18,10 +29,10 @@ const VitalityAppListView = () => {
                     label={VitalityTerms.VITALITY_SEARCHBAR_INPUT_LABEL}
                 />
             </Col>
-            <Col span={20}>
-                <VitalityKeywords />
+            <Col span={22}>
+                <VitalityCheckableKeywords />
             </Col>
-            <Col span={20}>
+            <Col span={22}>
                 <VitalityAppList />
             </Col>
         </Row>

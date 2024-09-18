@@ -8,8 +8,7 @@ import LighthouseUtils from './LighthouseUtils.js';
 const { LIGHTHOUSE_DEVICE_CONFIG, PUPPETEER_SETTINGS, PUPPETEER_PAGE_SETTINGS, LIGHTHOUSE_FLAGS } =
     LighthouseConfig;
 
-const { formatLighthouseReports, isAuditPerformanceFailed, isAuditAccessibilityFailed } =
-    LighthouseUtils;
+const { formatLighthouseReports } = LighthouseUtils;
 
 /**
  * Starts a Lighthouse audit for a given configuration.
@@ -44,7 +43,7 @@ const startLighthouseAudit = async (auditConfig) => {
         // reset scroll & customize cookies
         await page.evaluate((args) => {
             window.scroll(0, 0);
-            sessionStorage.setItem('sgSignIn', JSON.stringify(args));
+            // sessionStorage.setItem('user', JSON.stringify(args));
         }, {});
 
         AppLogger.info(
@@ -75,25 +74,21 @@ const startLighthouseAudit = async (auditConfig) => {
  *
  * @param {Object} params - The parameters for the auditor analysis.
  * @param {string} params.applicationId - The ID of the application.
- * @param {string} params.workspaceFolder - The path to the workspace folder.
  * @param {string} params.browserPath - The path to the browser executable.
  * @returns {Promise<boolean>} - Returns true if the analysis is successful, otherwise false.
  */
-const startAuditorAnalysis = async ({ applicationId, workspaceFolder, browserPath }) => {
+const startAuditorAnalysis = async ({ applicationId, browserPath }) => {
     try {
         AppLogger.info(
             `[LighthouseAuditor - startAuditorAnalysis] applicationId:  ${applicationId}`,
         );
-        AppLogger.info(
-            `[LighthouseAuditor - startAuditorAnalysis] workspaceFolder:  ${workspaceFolder}`,
-        );
         AppLogger.info(`[LighthouseAuditor - startAuditorAnalysis] browserPath:  ${browserPath}`);
 
-        if (applicationId === undefined || !workspaceFolder?.length) {
+        if (applicationId === undefined) {
             return false;
         }
 
-        const application = await ApplicationProvider.getApplicationDetailsByParams({
+        const application = await ApplicationProvider.getApplicationDetailsInfoByParams({
             appId: applicationId,
         });
         AppLogger.info(
@@ -160,7 +155,6 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder, browserPat
         const auditReports = formatLighthouseReports({
             reports: lightHouseReports,
             application,
-            workspaceFolder,
         });
 
         AppLogger.info(

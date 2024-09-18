@@ -6,18 +6,17 @@ const keywordModelSchema = {
         autoIncrement: true,
         primaryKey: true,
     },
+    appId: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
     label: {
         type: DataTypes.TEXT,
         allowNull: false,
     },
-    status: {
-        type: DataTypes.TEXT,
-        allowNull: false,
+    module: {
+        type: DataTypes.JSON,
     },
-    version: {
-        type: DataTypes.TEXT,
-    },
-    module: DataTypes.JSON,
 };
 
 const keywordModelOptions = {};

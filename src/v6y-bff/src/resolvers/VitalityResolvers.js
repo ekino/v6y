@@ -4,7 +4,6 @@ import DeprecatedDependencyResolvers from './dependency/deprecated-status/Deprec
 import DependencyStatusHelpResolvers from './dependency/status-help/DependencyStatusHelpResolvers.js';
 import EvolutionHelpResolvers from './evolutions/EvolutionHelpResolvers.js';
 import FaqResolvers from './faq/FaqResolvers.js';
-import KeywordResolvers from './keyword/KeywordResolvers.js';
 import NotificationsResolvers from './notifications/NotificationsResolvers.js';
 
 const VitalityResolvers = {
@@ -12,7 +11,6 @@ const VitalityResolvers = {
         ...ApplicationResolvers.Query,
         ...FaqResolvers.Query,
         ...NotificationsResolvers.Query,
-        ...KeywordResolvers.Query,
         ...EvolutionHelpResolvers.Query,
         ...AuditHelpResolvers.Query,
         ...DependencyStatusHelpResolvers.Query,

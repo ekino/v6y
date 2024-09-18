@@ -2,6 +2,7 @@ import { Collapse } from 'antd';
 
 import VitalityEmptyView from './VitalityEmptyView.jsx';
 
+
 const VitalityCollapse = ({ bordered, accordion, dataSource }) => {
     return (
         <>

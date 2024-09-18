@@ -6,7 +6,7 @@ const evolutionModelSchema = {
         autoIncrement: true,
         primaryKey: true,
     },
-    type: {
+    appId: {
         type: DataTypes.TEXT,
         allowNull: false,
     },
@@ -14,11 +14,12 @@ const evolutionModelSchema = {
         type: DataTypes.TEXT,
         allowNull: false,
     },
-    subCategory: {
-        type: DataTypes.TEXT,
+    evolutionHelp: {
+        type: DataTypes.JSON,
     },
-    module: DataTypes.JSON,
-    evolutionHelp: DataTypes.JSON,
+    module: {
+        type: DataTypes.JSON,
+    },
 };
 
 const evolutionModelOptions = {};

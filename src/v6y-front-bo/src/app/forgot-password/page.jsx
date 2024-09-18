@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { VitalityAuthForgotPasswordView } from '../../features/v6y-auth/VitalityAuthForgotPasswordView.jsx';
 import { AuthServerProvider } from '../../infrastructure/providers/AuthServerProvider.js';
 
+
 export default async function ForgotPassword() {
     const data = await getData();
 

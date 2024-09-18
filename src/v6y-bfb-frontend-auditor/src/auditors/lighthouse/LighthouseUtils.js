@@ -265,13 +265,12 @@ const parseLighthouseAuditReport = (auditReportData) => {
 /**
  * Formats Lighthouse audit reports into a standardized structure.
  * @function formatLighthouseReports
- * @param {Object} options - An object containing the reports, application, and workspaceFolder.
+ * @param {Object} options - An object containing the reports, application
  * @param {Array} options.reports - An array of Lighthouse audit reports.
  * @param {Object} options.application - The application object.
- * @param {string} options.workspaceFolder - The workspace folder path.
  * @returns {Array|null} - An array of formatted audit reports or null if no valid reports are found.
  */
-const formatLighthouseReports = ({ reports, application, workspaceFolder }) => {
+const formatLighthouseReports = ({ reports, application }) => {
     try {
         if (!reports?.length) {
             return [];
@@ -299,8 +298,8 @@ const formatLighthouseReports = ({ reports, application, workspaceFolder }) => {
                     module: {
                         appId: application?._id,
                         url: webUrl,
-                        branch: workspaceFolder.split('/').pop(),
                         path: webUrl,
+                        branch: null,
                     },
                 });
             }

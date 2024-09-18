@@ -18,6 +18,7 @@ import React, { useContext } from 'react';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter.js';
 import { ColorModeContext } from '../../../infrastructure/providers/ColorModeProvider.jsx';
 
+
 export const VitalityPageHeader = () => {
     const { getLocale, changeLocale } = useTranslation();
     const currentLocale = getLocale();

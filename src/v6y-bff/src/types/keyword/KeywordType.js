@@ -4,14 +4,11 @@ const KeywordType = `
     """ Keyword Unique id """
     _id: String!
 
+    """ Keyword Related App Id """
+    appId: String!
+    
     """ Keyword label (exp: React, Angular, Vite, Webpack, Jest, Vitest, ...) """
     label: String!
-
-    """ Possible values for status : error, success, warning """
-    status: String!
-    
-    """ Keyword version (displayed as: label(version)) """
-    version: String
 
     """ Keyword Concerned Module """
     module: ModuleType

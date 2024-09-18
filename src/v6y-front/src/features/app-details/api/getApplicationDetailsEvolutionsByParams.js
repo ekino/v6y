@@ -4,15 +4,14 @@ const GetApplicationDetailsEvolutionsByParams = gql`
     query getApplicationDetailsEvolutionsByParams($appId: String!) {
         getApplicationDetailsEvolutionsByParams(appId: $appId) {
             _id
-            type
             category
-            subCategory
             module {
                 branch
                 path
                 url
             }
             evolutionHelp {
+                _id
                 title
                 description
                 category

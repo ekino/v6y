@@ -23,16 +23,6 @@ const GetApplicationListByPageAndParams = gql`
                 value
                 description
             }
-            keywords {
-                label
-                version
-                status
-                module {
-                    branch
-                    path
-                    url
-                }
-            }
         }
     }
 `;

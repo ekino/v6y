@@ -1,7 +1,15 @@
+import {
+    DislikeOutlined,
+    FrownOutlined,
+    LikeOutlined,
+    MehOutlined,
+    SmileOutlined,
+    ThunderboltOutlined,
+} from '@ant-design/icons';
 import Link from 'next/link.js';
+import React from 'react';
 
 import { Matcher } from '../../infrastructure/utils/Matcher.js';
-import VitalityLegend from '../components/VitalityLegend.jsx';
 import VitalityNavigationPaths from './VitalityNavigationPaths.js';
 import VitalityTerms from './VitalityTerms.js';
 import VitalityTheme from './VitalityTheme.js';
@@ -66,15 +74,15 @@ export const AUDIT_STATUS_COLORS = {
 
 export const DEPENDENCIES_STATUS_INFOS = {
     'up-to-date': {
-        statusColor: 'success',
+        statusColor: VitalityTheme.token.colorSuccess,
         statusLabel: 'Up-to-date',
     },
     outdated: {
-        statusColor: 'error',
+        statusColor: VitalityTheme.token.colorWarning,
         statusLabel: 'Outdated',
     },
     deprecated: {
-        statusColor: 'warning',
+        statusColor: VitalityTheme.token.colorError,
         statusLabel: 'Deprecated',
     },
 };
@@ -95,21 +103,31 @@ export const EVOLUTIONS_STATUS_INFOS = {
     },
 };
 
-export const normalizeDependencyVersion = (version) => version?.replace('=', '');
+export const QUALITY_METRIC_STATUS = {
+    success: VitalityTheme.token.colorSuccess,
+    warning: VitalityTheme.token.colorWarning,
+    error: VitalityTheme.token.colorError,
+    'up-to-date': VitalityTheme.token.colorSuccess,
+    outdated: VitalityTheme.token.colorWarning,
+    deprecated: VitalityTheme.token.colorError,
+    default: VitalityTheme.token.colorInfo,
+    important: VitalityTheme.token.colorWarning,
+    critical: VitalityTheme.token.colorError,
+    recommended: VitalityTheme.token.colorInfo,
+};
 
-export const formatHelpOptions = (options) => {
-    if (!options?.length) {
-        return [];
-    }
-
-    return options
-        .filter((option) => option.title?.length)
-        .map((option) => ({
-            key: option.title,
-            label: `${option.title}${option.branch?.length ? ` - (branch: ${option.branch})` : ''}`,
-            children: <VitalityLegend legend={option} />,
-            showArrow: true,
-        }));
+export const QUALITY_METRIC_ICONS = {
+    success: <LikeOutlined />,
+    warning: <DislikeOutlined />,
+    error: <DislikeOutlined />,
+    'up-to-date': <LikeOutlined />,
+    outdated: <DislikeOutlined />,
+    deprecated: <DislikeOutlined />,
+    default: <ThunderboltOutlined />,
+    info: <ThunderboltOutlined />,
+    important: <ThunderboltOutlined />,
+    critical: <ThunderboltOutlined />,
+    recommended: <ThunderboltOutlined />,
 };
 
 export const buildBreadCrumbItems = ({ currentPage, lastPage, urlParams }) => {
@@ -210,3 +228,33 @@ export const buildPageTitle = (pathname) =>
         [VitalityNavigationPaths.APP_DETAILS]: VitalityTerms.VITALITY_APP_DETAILS_PAGE_TITLE,
         [VitalityNavigationPaths.APPS_STATS]: VitalityTerms.VITALITY_APP_STATS_PAGE_TITLE,
     })[pathname] || [];
+
+export const normalizeDependencyVersion = (version) => version?.replace('=', '');
+
+export const buildUniqueBranches = (moduleKey, modules) => [
+    ...(new Set(
+        modules
+            ?.filter(
+                (module) =>
+                    module.branch?.length &&
+                    (moduleKey === module.name ||
+                        moduleKey === module.category ||
+                        moduleKey === module.label),
+            )
+            ?.map((module) => `${module.branch}XXX${module.status}`),
+    ) || []),
+];
+
+export const buildUniquePaths = (moduleKey, modules) => [
+    ...(new Set(
+        modules
+            ?.filter(
+                (module) =>
+                    module.path &&
+                    (moduleKey === module.name ||
+                        moduleKey === module.category ||
+                        moduleKey === module.label),
+            )
+            ?.map((module) => `${module.path}XXX${module.status}`),
+    ) || []),
+];

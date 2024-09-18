@@ -7,6 +7,7 @@ import React from 'react';
 import VitalityPageFooter from './VitalityPageFooter.jsx';
 import { VitalityPageHeader } from './VitalityPageHeader.jsx';
 
+
 const VitalityPageLayout = ({ children }) => {
     return (
         <ThemedLayoutV2

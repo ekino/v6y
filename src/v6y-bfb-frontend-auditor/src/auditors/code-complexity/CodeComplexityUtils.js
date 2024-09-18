@@ -409,8 +409,6 @@ const formatCodeComplexityReports = ({ workspaceFolder, application }) => {
             );
         }
 
-        console.log({ auditReports });
-
         return auditReports;
     } catch (error) {
         AppLogger.info(

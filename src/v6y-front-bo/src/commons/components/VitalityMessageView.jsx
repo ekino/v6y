@@ -3,6 +3,7 @@ import { Result } from 'antd';
 
 import { useTranslation } from '../../infrastructure/adapters/translation/TranslationAdapter.js';
 
+
 const VitalityMessageView = ({ type }) => {
     const { translate } = useTranslation();
     return (

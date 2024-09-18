@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { VitalityAuthUpdatePasswordView } from '../../features/v6y-auth/VitalityAuthUpdatePasswordView.jsx';
 import { AuthServerProvider } from '../../infrastructure/providers/AuthServerProvider.js';
 
+
 export default async function UpdatePassword() {
     const data = await getData();
 

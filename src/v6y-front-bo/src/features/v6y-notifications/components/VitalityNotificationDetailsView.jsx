@@ -8,6 +8,7 @@ import { useTranslation } from '../../../infrastructure/adapters/translation/Tra
 import RefineShowWrapper from '../../../infrastructure/components/RefineShowWrapper.jsx';
 import GetNotificationDetailsByParams from '../apis/getNotificationDetailsByParams.js';
 
+
 export default function VitalityNotificationDetailsView() {
     const { translate } = useTranslation();
 

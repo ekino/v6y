@@ -1,11 +1,4 @@
-import {
-    AppLogger,
-    AuditProvider,
-    DataBaseManager,
-    DependencyProvider,
-    EvolutionProvider,
-    KeywordProvider,
-} from '@v6y/commons';
+import { AppLogger, AuditProvider, DataBaseManager, DependencyProvider } from '@v6y/commons';
 import { parentPort } from 'worker_threads';
 
 import ApplicationManager from '../managers/ApplicationManager.js';

@@ -11,6 +11,7 @@ const VitalitySelectGrouperView = ({
     label,
     helper,
     name = 'criteria_grouper_select',
+    disabled,
     hasAllGroup,
     onRenderChildren,
 }) => {
@@ -47,6 +48,7 @@ const VitalitySelectGrouperView = ({
                 <Form
                     layout="vertical"
                     form={selectGroupForm}
+                    disabled={disabled}
                     onValuesChange={(values) =>
                         setSelectedCriteria({
                             value: values?.[name],

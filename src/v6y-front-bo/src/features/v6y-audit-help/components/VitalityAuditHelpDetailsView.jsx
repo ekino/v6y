@@ -8,6 +8,7 @@ import { useTranslation } from '../../../infrastructure/adapters/translation/Tra
 import RefineShowWrapper from '../../../infrastructure/components/RefineShowWrapper.jsx';
 import GetAuditHelpDetailsByParams from '../apis/getAuditHelpDetailsByParams.js';
 
+
 export default function VitalityAuditHelpDetailsView() {
     const { translate } = useTranslation();
 

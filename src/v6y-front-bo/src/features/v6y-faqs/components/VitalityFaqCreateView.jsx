@@ -9,6 +9,7 @@ import { useTranslation } from '../../../infrastructure/adapters/translation/Tra
 import RefineCreateWrapper from '../../../infrastructure/components/RefineCreateWrapper.jsx';
 import CreateOrEditFaq from '../apis/createOrEditFaq.js';
 
+
 export default function VitalityFaqCreateView() {
     const { translate } = useTranslation();
 

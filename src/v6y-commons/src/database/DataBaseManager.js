@@ -20,7 +20,7 @@ let postgresDataBase = null;
 let postgresDataBaseSchema = {};
 
 /**
- * Creates a Sequelize instance to connect to a PostgreSQL database.
+ * Creates a Sequelize instance to connect to a PostgresSQL database.
  *
  * @param {Object} dbOptions - An object containing database connection options:
  *   - dbName (string): The name of the database.
@@ -52,14 +52,14 @@ const postgresDataBaseConnector = (dbOptions) => {
 };
 
 /**
- * Gets the current PostgreSQL database instance
+ * Gets the current PostgresSQL database instance
  *
- * @returns {Sequelize|null} The PostgreSQL database instance or null if not connected
+ * @returns {Sequelize|null} The PostgresSQL database instance or null if not connected
  */
 const getDataBaseInstance = () => postgresDataBase;
 
 /**
- * Gets a specific schema from the PostgreSQL database
+ * Gets a specific schema from the PostgresSQL database
  *
  * @param {string} schemaName - The name of the schema to retrieve
  * @returns {Object|undefined} The schema object or undefined if not found
@@ -148,7 +148,7 @@ const registerModels = async () => {
 };
 
 /**
- * Establishes a connection to the PostgreSQL database, registers models, and synchronizes them
+ * Establishes a connection to the PostgresSQL database, registers models, and synchronizes them
  * @returns {Promise<void>}
  */
 const connect = async () => {
@@ -183,12 +183,12 @@ const connect = async () => {
 };
 
 /**
- * Disconnects from the PostgreSQL database. (Currently not implemented)
+ * Disconnects from the PostgresSQL database. (Currently not implemented)
  */
 const disconnect = async () => {};
 
 /**
- * An object that manages the connection to and interaction with the PostgreSQL database
+ * An object that manages the connection to and interaction with the PostgresSQL database
  */
 const DataBaseManager = {
     connect,

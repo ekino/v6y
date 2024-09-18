@@ -24,7 +24,7 @@ const formatNotificationInput = (notification) => ({
  * Creates a new Notification entry in the database.
  *
  * @param {Object} notification - The Notification data to be created.
- * @returns {Object|null} The created Notification object or null on error or if the Notification model is not found.
+ * @returns {Promise<*|null>} The created Notification object or null on error or if the Notification model is not found.
  */
 const createNotification = async (notification) => {
     try {
@@ -60,7 +60,7 @@ const createNotification = async (notification) => {
  * Edits an existing Notification entry in the database.
  *
  * @param {Object} notification - The Notification data with updated information.
- * @returns {Object|null} An object containing the ID of the edited Notification or null on error or if the Notification model is not found.
+ * @returns {Promise<*|null>} An object containing the ID of the edited Notification or null on error or if the Notification model is not found.
  */
 const editNotification = async (notification) => {
     try {
@@ -104,11 +104,11 @@ const editNotification = async (notification) => {
 };
 
 /**
- * Deletes an Notification from the database.
+ * Deletes a Notification from the database.
  *
  * @param {Object} params - An object containing the parameters for deletion.
  * @param {string} params.notificationId - The ID of the Notification to delete.
- * @returns {Object|null} An object containing the ID of the deleted Notification, or null on error or if notificationId is not provided or if the Notification model is not found.
+ * @returns {Promise<*|null>} An object containing the ID of the deleted Notification, or null on error or if notificationId is not provided or if the Notification model is not found.
  */
 const deleteNotification = async ({ notificationId }) => {
     try {
@@ -143,7 +143,7 @@ const deleteNotification = async ({ notificationId }) => {
 /**
  * Deletes all Notifications from the database
  *
- * @returns {boolean} True if the deletion was successful, false otherwise
+ * @returns {Promise<*|null>} True if the deletion was successful, false otherwise
  */
 const deleteNotificationList = async () => {
     try {
@@ -170,7 +170,7 @@ const deleteNotificationList = async () => {
  * @param {number} [params.start] - The starting index for pagination (optional)
  * @param {number} [params.limit] - The maximum number of Notifications to retrieve (optional)
  * @param {Object} [params.sort] - An object defining the sorting criteria (optional)
- * @returns {Array|null} An array of Notification objects or null on error or if the Notification model is not found
+ * @returns {Promise<*|null>} An array of Notification objects or null on error or if the Notification model is not found
  */
 const getNotificationListByPageAndParams = async ({ start, limit, sort }) => {
     try {
@@ -192,11 +192,11 @@ const getNotificationListByPageAndParams = async ({ start, limit, sort }) => {
 
         // Handle pagination
         if (start) {
-            queryOptions.offset = start;
+            // queryOptions.offset = start;
         }
 
         if (limit) {
-            queryOptions.limit = limit;
+            // queryOptions.limit = limit;
         }
 
         const notificationList = await notificationModel.findAll(queryOptions);
@@ -214,11 +214,11 @@ const getNotificationListByPageAndParams = async ({ start, limit, sort }) => {
 };
 
 /**
- * Retrieves the details of an Notification by its ID.
+ * Retrieves the details of a Notification by its ID.
  *
  * @param {Object} params - An object containing the parameters for the query
  * @param {string} params.notificationId - The ID of the Notification to retrieve
- * @returns {Object|null} The Notification details or null if not found or on error or if the Notification model is not found
+ * @returns {Promise<*|null>}The Notification details or null if not found or on error or if the Notification model is not found
  */
 const getNotificationDetailsByParams = async ({ notificationId }) => {
     try {

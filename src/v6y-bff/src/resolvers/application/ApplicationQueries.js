@@ -1,29 +1,31 @@
 import { AppLogger, ApplicationProvider } from '@v6y/commons';
 
 /**
- * Retrieves application details based on provided parameters.
+ * Retrieves application details info based on provided parameters.
  *
  * @param _ - Placeholder parameter (not used).
  * @param args - An object containing query arguments, including `appId`.
  * @returns An object containing application details or an empty object on error.
  */
-const getApplicationDetailsByParams = async (_, args) => {
+const getApplicationDetailsInfoByParams = async (_, args) => {
     try {
         const { appId } = args || {};
 
-        AppLogger.info(`[AppQueries - getApplicationDetailsByParams] appId : ${appId}`);
+        AppLogger.info(`[ApplicationQueries - getApplicationDetailsInfoByParams] appId : ${appId}`);
 
-        const appDetails = await ApplicationProvider.getApplicationDetailsByParams({
+        const appDetails = await ApplicationProvider.getApplicationDetailsInfoByParams({
             appId,
         });
 
         AppLogger.info(
-            `[AppQueries - getApplicationDetailsByParams] appDetails : ${appDetails?._id}`,
+            `[ApplicationQueries - getApplicationDetailsInfoByParams] appDetails : ${appDetails?._id}`,
         );
 
         return appDetails;
     } catch (error) {
-        AppLogger.info(`[AppQueries - getApplicationDetailsByParams] error : ${error.message}`);
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationDetailsInfoByParams] error : ${error.message}`,
+        );
         return null;
     }
 };
@@ -39,19 +41,21 @@ const getApplicationDetailsAuditReportsByParams = async (_, args) => {
     try {
         const { appId } = args || {};
 
-        AppLogger.info(`[AppQueries - getApplicationDetailsAuditReports] appId : ${appId}`);
+        AppLogger.info(`[ApplicationQueries - getApplicationDetailsAuditReports] appId : ${appId}`);
 
         const auditsReports = await ApplicationProvider.getApplicationDetailsAuditReportsByParams({
             appId,
         });
 
         AppLogger.info(
-            `[AppQueries - getApplicationDetailsAuditReports] auditsReports : ${auditsReports?.length}`,
+            `[ApplicationQueries - getApplicationDetailsAuditReports] auditsReports : ${auditsReports?.length}`,
         );
 
         return auditsReports;
     } catch (error) {
-        AppLogger.info(`[AppQueries - getApplicationDetailsAuditReports] error : ${error.message}`);
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationDetailsAuditReports] error : ${error.message}`,
+        );
         return [];
     }
 };
@@ -67,20 +71,22 @@ const getApplicationDetailsEvolutionsByParams = async (_, args) => {
     try {
         const { appId } = args || {};
 
-        AppLogger.info(`[AppQueries - getApplicationDetailsEvolutionsByParams] appId : ${appId}`);
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationDetailsEvolutionsByParams] appId : ${appId}`,
+        );
 
         const evolutions = await ApplicationProvider.getApplicationDetailsEvolutionsByParams({
             appId,
         });
 
         AppLogger.info(
-            `[AppQueries - getApplicationDetailsEvolutionsByParams] evolutions : ${evolutions?.length}`,
+            `[ApplicationQueries - getApplicationDetailsEvolutionsByParams] evolutions : ${evolutions?.length}`,
         );
 
         return evolutions;
     } catch (error) {
         AppLogger.info(
-            `[AppQueries - getApplicationDetailsEvolutionsByParams] error : ${error.message}`,
+            `[ApplicationQueries - getApplicationDetailsEvolutionsByParams] error : ${error.message}`,
         );
         return [];
     }
@@ -97,20 +103,54 @@ const getApplicationDetailsDependenciesByParams = async (_, args) => {
     try {
         const { appId } = args || {};
 
-        AppLogger.info(`[AppQueries - getApplicationDetailsDependenciesByParams] appId : ${appId}`);
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationDetailsDependenciesByParams] appId : ${appId}`,
+        );
 
         const dependencies = await ApplicationProvider.getApplicationDetailsDependenciesByParams({
             appId,
         });
 
         AppLogger.info(
-            `[AppQueries - getApplicationDetailsDependenciesByParams] dependencies : ${dependencies?.length}`,
+            `[ApplicationQueries - getApplicationDetailsDependenciesByParams] dependencies : ${dependencies?.length}`,
         );
 
         return dependencies;
     } catch (error) {
         AppLogger.info(
-            `[AppQueries - getApplicationDetailsDependenciesByParams] error : ${error.message}`,
+            `[ApplicationQueries - getApplicationDetailsDependenciesByParams] error : ${error.message}`,
+        );
+        return [];
+    }
+};
+
+/**
+ * Fetches application keywords based on provided parameters.
+ *
+ * @param _ - Placeholder parameter (not used).
+ * @param args - An object containing query arguments, including `appId`.
+ * @returns {Promise<Array|null|*[]>}
+ */
+const getApplicationDetailsKeywordsByParams = async (_, args) => {
+    try {
+        const { appId } = args || {};
+
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationDetailsKeywordsByParams] appId : ${appId}`,
+        );
+
+        const keywords = await ApplicationProvider.getApplicationDetailsKeywordsByParams({
+            appId,
+        });
+
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationDetailsKeywordsByParams] keywords : ${keywords?.length}`,
+        );
+
+        return keywords;
+    } catch (error) {
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationDetailsKeywordsByParams] error : ${error.message}`,
         );
         return [];
     }
@@ -127,17 +167,19 @@ const getApplicationListByPageAndParams = async (_, args) => {
     try {
         const { start, offset, limit, keywords, searchText, where, sort } = args || {};
 
-        AppLogger.info(`[AppQueries - getApplicationListByPageAndParams] start : ${start}`);
-        AppLogger.info(`[AppQueries - getApplicationListByPageAndParams] offset : ${offset}`);
-        AppLogger.info(`[AppQueries - getApplicationListByPageAndParams] limit : ${limit}`);
+        AppLogger.info(`[ApplicationQueries - getApplicationListByPageAndParams] start : ${start}`);
         AppLogger.info(
-            `[AppQueries - getApplicationListByPageAndParams] keywords : ${keywords?.join?.(',') || ''}`,
+            `[ApplicationQueries - getApplicationListByPageAndParams] offset : ${offset}`,
+        );
+        AppLogger.info(`[ApplicationQueries - getApplicationListByPageAndParams] limit : ${limit}`);
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationListByPageAndParams] keywords : ${keywords?.join?.(',') || ''}`,
         );
         AppLogger.info(
-            `[AppQueries - getApplicationListByPageAndParams] searchText : ${searchText}`,
+            `[ApplicationQueries - getApplicationListByPageAndParams] searchText : ${searchText}`,
         );
-        AppLogger.info(`[AppQueries - getApplicationListByPageAndParams] where : ${where}`);
-        AppLogger.info(`[AppQueries - getApplicationListByPageAndParams] sort : ${sort}`);
+        AppLogger.info(`[ApplicationQueries - getApplicationListByPageAndParams] where : ${where}`);
+        AppLogger.info(`[ApplicationQueries - getApplicationListByPageAndParams] sort : ${sort}`);
 
         const appList = await ApplicationProvider.getApplicationListByPageAndParams({
             searchText,
@@ -148,12 +190,14 @@ const getApplicationListByPageAndParams = async (_, args) => {
         });
 
         AppLogger.info(
-            `[AppQueries - getApplicationListByPageAndParams] appList : ${appList?.length}`,
+            `[ApplicationQueries - getApplicationListByPageAndParams] appList : ${appList?.length}`,
         );
 
         return appList;
     } catch (error) {
-        AppLogger.info(`[AppQueries - getApplicationListByPageAndParams] error : ${error.message}`);
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationListByPageAndParams] error : ${error.message}`,
+        );
         return [];
     }
 };
@@ -170,7 +214,7 @@ const getApplicationStatsByParams = async (_, args) => {
         const { keywords } = args || {};
 
         AppLogger.info(
-            `[AppQueries - getApplicationStatsByParams] keywords : ${keywords?.join?.(',') || ''}`,
+            `[ApplicationQueries - getApplicationStatsByParams] keywords : ${keywords?.join?.(',') || ''}`,
         );
 
         const appsStats = await ApplicationProvider.getApplicationStatsByParams({
@@ -178,12 +222,14 @@ const getApplicationStatsByParams = async (_, args) => {
         });
 
         AppLogger.info(
-            `[AppQueries - getApplicationStatsByParams] appsStats : ${appsStats?.data?.length}`,
+            `[ApplicationQueries - getApplicationStatsByParams] appsStats : ${appsStats?.data?.length}`,
         );
 
         return appsStats;
     } catch (error) {
-        AppLogger.info(`[AppQueries - getApplicationStatsByParams] error : ${error.message}`);
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationStatsByParams] error : ${error.message}`,
+        );
         return null;
     }
 };
@@ -200,29 +246,36 @@ const getApplicationTotalByParams = async (_, args) => {
         const { keywords, searchText } = args || {};
 
         AppLogger.info(
-            `[AppQueries - getApplicationTotalByParams] keywords : ${keywords?.join?.(',') || ''}`,
+            `[ApplicationQueries - getApplicationTotalByParams] keywords : ${keywords?.join?.(',') || ''}`,
         );
-        AppLogger.info(`[AppQueries - getApplicationTotalByParams] searchText : ${searchText}`);
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationTotalByParams] searchText : ${searchText}`,
+        );
 
         const appsTotal = await ApplicationProvider.getApplicationTotalByParams({
             searchText,
             keywords,
         });
 
-        AppLogger.info(`[AppQueries - getApplicationTotalByParams] apps Total : ${appsTotal}`);
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationTotalByParams] apps Total : ${appsTotal}`,
+        );
 
         return appsTotal;
     } catch (error) {
-        AppLogger.info(`[AppQueries - getApplicationTotalByParams] error : ${error.message}`);
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationTotalByParams] error : ${error.message}`,
+        );
         return 0;
     }
 };
 
 const ApplicationQueries = {
-    getApplicationDetailsByParams,
+    getApplicationDetailsInfoByParams,
     getApplicationDetailsAuditReportsByParams,
     getApplicationDetailsEvolutionsByParams,
     getApplicationDetailsDependenciesByParams,
+    getApplicationDetailsKeywordsByParams,
     getApplicationTotalByParams,
     getApplicationListByPageAndParams,
     getApplicationStatsByParams,

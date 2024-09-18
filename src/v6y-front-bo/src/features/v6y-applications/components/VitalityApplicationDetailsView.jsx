@@ -8,6 +8,7 @@ import { useTranslation } from '../../../infrastructure/adapters/translation/Tra
 import RefineShowWrapper from '../../../infrastructure/components/RefineShowWrapper.jsx';
 import GetApplicationDetails from '../apis/getApplicationDetails.js';
 
+
 export default function VitalityApplicationDetailsView() {
     const { translate } = useTranslation();
 
@@ -21,7 +22,7 @@ export default function VitalityApplicationDetailsView() {
                 </Typography.Title>
             }
             queryOptions={{
-                resource: 'getApplicationDetailsByParams',
+                resource: 'getApplicationDetailsInfoByParams',
                 query: GetApplicationDetails,
                 queryParams: {
                     appId: id,

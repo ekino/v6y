@@ -18,7 +18,9 @@ const dependencyStatusHelpModelSchema = {
     description: {
         type: DataTypes.TEXT,
     },
-    links: DataTypes.JSON,
+    links: {
+        type: DataTypes.JSON,
+    },
 };
 
 const dependencyStatusHelpModelOptions = {

@@ -6,6 +6,10 @@ const dependencyModelSchema = {
         autoIncrement: true,
         primaryKey: true,
     },
+    appId: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
     type: {
         type: DataTypes.TEXT,
     },
@@ -21,8 +25,12 @@ const dependencyModelSchema = {
     status: {
         type: DataTypes.TEXT,
     },
-    statusHelp: DataTypes.JSON,
-    module: DataTypes.JSON,
+    statusHelp: {
+        type: DataTypes.JSON,
+    },
+    module: {
+        type: DataTypes.JSON,
+    },
 };
 
 const dependencyModelOptions = {};

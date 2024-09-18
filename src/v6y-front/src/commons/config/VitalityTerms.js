@@ -19,17 +19,21 @@ const VitalityTerms = {
     VITALITY_APP_LIST_TOTAL_LABEL: 'TOTAL Applications: ',
     VITALITY_APP_LIST_EXPORT_LABEL: 'Export Applications',
     VITALITY_APP_LIST_CONTACT_EMAIL: ' Contact The Team',
+    VITALITY_APP_LIST_NB_BRANCHES: 'Number of opened branches: ',
 
     VITALITY_APP_DETAILS_PAGE_TITLE: 'Application Vitality',
-    VITALITY_APP_DETAILS_QUALITY_STATUS_TITLE: 'Quality Status',
+
+    VITALITY_APP_DETAILS_QUALITY_STATUS_TITLE: 'Quality Indicators',
     VITALITY_APP_DETAILS_QUALITY_SELECT_LABEL: 'Select a branch',
-    VITALITY_APP_DETAILS_QUALITY_SELECT_HELPER: 'Select a branch to filter quality status',
+    VITALITY_APP_DETAILS_QUALITY_SELECT_HELPER: 'Select a branch to filter quality indicators',
     VITALITY_APP_DETAILS_QUALITY_SELECT_PLACEHOLDER: 'All',
     VITALITY_APP_DETAILS_INFOS_TITLE: 'General Information and Status',
+
     VITALITY_APP_DETAILS_EVOLUTIONS_TITLE: 'Recommendations and Evolutions',
     VITALITY_APP_DETAILS_EVOLUTIONS_SELECT_LABEL: 'Select a branch',
     VITALITY_APP_DETAILS_EVOLUTIONS_SELECT_HELPER: 'Select a branch to filter evolutions',
     VITALITY_APP_DETAILS_EVOLUTIONS_SELECT_PLACEHOLDER: 'All',
+
     VITALITY_APP_DETAILS_DEPENDENCIES_TITLE: 'Dependencies analysis',
     VITALITY_APP_DETAILS_DEPENDENCIES_SELECT_LABEL: 'Select a branch',
     VITALITY_APP_DETAILS_DEPENDENCIES_SELECT_HELPER: 'Select a branch to filter dependencies',
@@ -42,6 +46,21 @@ const VitalityTerms = {
         "This dependency doesn't require any action.",
 
     VITALITY_APP_DETAILS_AUDIT_REPORTS_TITLE: 'Audit reports',
+
+    VITALITY_APP_DETAILS_AUDIT_SELECT_LABEL: 'Select a branch',
+    VITALITY_APP_DETAILS_AUDIT_SELECT_HELPER: 'Select a branch to filter metrics',
+    VITALITY_APP_DETAILS_AUDIT_SELECT_PLACEHOLDER: 'All',
+
+    VITALITY_APP_DETAILS_AUDIT_DETECT_ON_BRANCHES_LABEL: 'Affected branch',
+    VITALITY_APP_DETAILS_AUDIT_DETECT_ON_PATHS_LABEL: 'Affected file/module',
+    VITALITY_APP_DETAILS_AUDIT_INDICATOR_SCORE_LABEL: 'Indicator score',
+    VITALITY_APP_DETAILS_AUDIT_DETECT_ON_URLS_LABEL: 'Affected url',
+    VITALITY_APP_DETAILS_AUDIT_MODULE_HELP_TITLE: 'More details about modules',
+
+    VITALITY_APP_DETAILS_AUDIT_URL_SELECT_LABEL: 'Select an url',
+    VITALITY_APP_DETAILS_AUDIT_URL_SELECT_HELPER: 'Select an url to filter metrics',
+    VITALITY_APP_DETAILS_AUDIT_URL_SELECT_PLACEHOLDER: 'All',
+
     VITALITY_APP_DETAILS_AUDIT_OPEN_APP_LABEL: 'Open application',
     VITALITY_APP_DETAILS_AUDIT_HELP_LABEL: 'More details',
     VITALITY_APP_DETAILS_AUDIT_HELP_TITLE: 'More details about metrics and issues',

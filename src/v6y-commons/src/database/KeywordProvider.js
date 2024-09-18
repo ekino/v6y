@@ -1,5 +1,3 @@
-import { Op } from 'sequelize';
-
 import AppLogger from '../core/AppLogger.js';
 import DataBaseManager from './DataBaseManager.js';
 import KeywordModel from './models/KeywordModel.js';
@@ -8,14 +6,13 @@ import KeywordModel from './models/KeywordModel.js';
  * Creates a new Keyword entry in the database.
  *
  * @param {Object} keyword - The Keyword data to be created.
- * @returns {Object|null} The created Keyword object or null on error or if the Keyword model is not found.
+ * @returns {Promise<*|null>} The created Keyword object or null on error or if the Keyword model is not found.
  */
 const createKeyword = async (keyword) => {
     try {
         AppLogger.info(`[KeywordProvider - createKeyword] keyword label:  ${keyword?.label}`);
-        AppLogger.info(`[KeywordProvider - createKeyword] keyword status:  ${keyword?.status}`);
 
-        if (!keyword?.label?.length || !keyword?.status?.length) {
+        if (!keyword?.label?.length) {
             return null;
         }
 
@@ -25,7 +22,10 @@ const createKeyword = async (keyword) => {
             return null;
         }
 
-        const createdKeyword = await keywordModel.create(keyword);
+        const createdKeyword = await keywordModel.create({
+            ...keyword,
+            appId: keyword.module?.appId,
+        });
         AppLogger.info(`[KeywordProvider - createKeyword] createdKeyword: ${createdKeyword?._id}`);
 
         return createdKeyword;
@@ -71,15 +71,14 @@ const insertKeywordList = async (keywordList) => {
  * Edits an existing Keyword entry in the database.
  *
  * @param {Object} keyword - The Keyword data with updated information.
- * @returns {Object|null} An object containing the ID of the edited Keyword or null on error or if the Keyword model is not found.
+ * @returns {Promise<*|null>} An object containing the ID of the edited Keyword or null on error or if the Keyword model is not found.
  */
 const editKeyword = async (keyword) => {
     try {
         AppLogger.info(`[KeywordProvider - createKeyword] keyword _id:  ${keyword?._id}`);
         AppLogger.info(`[KeywordProvider - createKeyword] keyword label:  ${keyword?.label}`);
-        AppLogger.info(`[KeywordProvider - createKeyword] keyword status:  ${keyword?.status}`);
 
-        if (!keyword?._id || !keyword?.label?.length || !keyword?.status?.length) {
+        if (!keyword?._id || !keyword?.label?.length) {
             return null;
         }
 
@@ -111,7 +110,7 @@ const editKeyword = async (keyword) => {
  *
  * @param {Object} params - An object containing the parameters for deletion.
  * @param {string} params.keywordId - The ID of the Keyword to delete.
- * @returns {Object|null} An object containing the ID of the deleted Keyword, or null on error or if keywordId is not provided or if the Keyword model is not found.
+ * @returns {Promise<*|null>} An object containing the ID of the deleted Keyword, or null on error or if keywordId is not provided or if the Keyword model is not found.
  */
 const deleteKeyword = async ({ keywordId }) => {
     try {
@@ -180,19 +179,19 @@ const getKeywordListByPageAndParams = async ({ appId }) => {
             return null;
         }
 
-        const keywordList = await keywordModel.findAll();
+        const queryOptions = {};
+
+        if (appId) {
+            queryOptions.where = {
+                appId,
+            };
+        }
+
+        const keywordList = await keywordModel.findAll(queryOptions);
 
         AppLogger.info(
             `[KeywordProvider - getKeywordListByPageAndParams] keywordList: ${keywordList?.length}`,
         );
-
-        if (!keywordList?.length) {
-            return null;
-        }
-
-        if (appId) {
-            return keywordList.filter((keyword) => keyword.module?.appId === appId);
-        }
 
         return keywordList;
     } catch (error) {
@@ -227,36 +226,11 @@ const getKeywordsStatsByParams = async ({ keywords }) => {
             return null;
         }
 
+        // based on keywords and dependencies
+
         const keywordsStats = [];
 
-        for (const keyword of keywords) {
-            const keywordStats = await keywordModel.findAll({
-                where: {
-                    label: keyword,
-                },
-            });
-
-            if (!keywordStats?.length) {
-                keywordsStats.push({
-                    keyword: {
-                        label: keyword,
-                    },
-                    total: 0,
-                });
-                continue;
-            }
-
-            const totalApplications = [
-                ...new Set(keywordStats.map((keywordStat) => keywordStat?.module?.appId) || []),
-            ]?.length;
-
-            keywordsStats.push({
-                keyword: {
-                    label: keywordStats?.[0]?.label,
-                },
-                total: totalApplications,
-            });
-        }
+        // count total from modules
 
         return keywordsStats;
     } catch (error) {
@@ -274,8 +248,8 @@ const KeywordProvider = {
     editKeyword,
     deleteKeyword,
     deleteKeywordList,
-    getKeywordListByPageAndParams,
     getKeywordsStatsByParams,
+    getKeywordListByPageAndParams,
 };
 
 export default KeywordProvider;

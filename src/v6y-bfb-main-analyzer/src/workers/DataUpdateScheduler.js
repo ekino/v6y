@@ -12,7 +12,7 @@ const startUpdateWorkers = () => {
         const currentConfig = getCurrentConfig();
 
         // *********************************************** Update APP List ***********************************************
-        // await forkWorker('./src/workers/ApplicationWorker.js', currentConfig); // Start worker thread
+        await forkWorker('./src/workers/ApplicationWorker.js', currentConfig); // Start worker thread
 
         // *********************************************** Update Keywords & Evolutions List ******************************************
         await forkWorker('./src/workers/KeywordEvolutionWorker.js', currentConfig); // Start worker thread

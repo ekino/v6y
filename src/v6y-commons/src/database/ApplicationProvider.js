@@ -72,7 +72,7 @@ const formatApplicationInput = (application) => {
  * Creates a new application in the database from form data.
  *
  * @param {Object} application - The application data to be created
- * @returns {Object|null} The created application object or null on error or if the application model is not found
+ * @returns {Promise<*|null>} The created application object or null on error or if the application model is not found
  */
 const createFormApplication = async (application) => {
     try {
@@ -101,7 +101,7 @@ const createFormApplication = async (application) => {
  * Edits an existing application in the database from form data.
  *
  * @param {Object} application - The application data with updated information.
- * @returns {Object|null} An object containing the ID of the edited application or null on error or if the application model is not found
+ * @returns {Promise<*|null>} An object containing the ID of the edited application or null on error or if the application model is not found
  */
 const editFormApplication = async (application) => {
     try {
@@ -140,7 +140,7 @@ const editFormApplication = async (application) => {
  * Edits an existing application in the database.
  *
  * @param {Object} application - The application data with updated information.
- * @returns {Object|null} An object containing the ID of the edited application or null on error or if the application model is not found
+ * @returns {Promise<*|null>} An object containing the ID of the edited application or null on error or if the application model is not found
  */
 const editApplication = async (application) => {
     try {
@@ -177,7 +177,7 @@ const editApplication = async (application) => {
  *
  * @param {Object} params - An object containing the parameters for deletion.
  * @param {string} params.appId - The ID of the application to delete
- * @returns {Object|null} An object containing the ID of the deleted application, or null on error or if appId is not provided or if application model is not found.
+ * @returns {Promise<*|null>} An object containing the ID of the deleted application, or null on error or if appId is not provided or if application model is not found.
  */
 const deleteApplication = async ({ appId }) => {
     try {
@@ -229,13 +229,13 @@ const deleteApplicationList = async () => {
 };
 
 /**
- * Retrieves the details of an application by its ID, including its keywords
+ * Retrieves the info details of an application by its ID, including its keywords
  *
  * @param {Object} params - An object containing the parameters for the query
  * @param {string} params.appId - The ID of the application to retrieve
- * @returns {Object|null} An object containing the application details and its keywords or null if the application is not found or on error or if the application model is not found
+ * @returns {Promise<*|null>} An object containing the application details and its keywords or null if the application is not found or on error or if the application model is not found
  */
-const getApplicationDetailsByParams = async ({ appId }) => {
+const getApplicationDetailsInfoByParams = async ({ appId }) => {
     try {
         AppLogger.info(`[ApplicationProvider - getApplicationDetailsByParams] appId: ${appId}`);
 
@@ -262,22 +262,7 @@ const getApplicationDetailsByParams = async ({ appId }) => {
             return null;
         }
 
-        const applicationKeywords = await KeywordProvider.getKeywordListByPageAndParams({
-            appId: application._id,
-        });
-
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationListByPageAndParams] applicationKeywords: ${applicationKeywords?.length}`,
-        );
-
-        if (!applicationKeywords?.length) {
-            return application;
-        }
-
-        return {
-            ...application,
-            keywords: applicationKeywords,
-        };
+        return application;
     } catch (error) {
         AppLogger.info(
             `[ApplicationProvider - getApplicationDetailsByParams] error: ${error.message}`,
@@ -299,11 +284,18 @@ const getApplicationDetailsEvolutionsByParams = async ({ appId }) => {
             `[ApplicationProvider - getApplicationDetailsEvolutionsByParams] appId: ${appId}`,
         );
 
-        if (!appId?.length) {
+        if (!appId) {
             return null;
         }
 
-        return EvolutionProvider.getEvolutionListByPageAndParams({ appId });
+        const evolutions = await EvolutionProvider.getEvolutionListByPageAndParams({
+            appId,
+        });
+        AppLogger.info(
+            `[ApplicationProvider - getApplicationDetailsEvolutionsByParams] evolutions: ${evolutions?.length}`,
+        );
+
+        return evolutions;
     } catch (error) {
         AppLogger.info(
             `[ApplicationProvider - getApplicationDetailsEvolutionsByParams] error: ${error.message}`,
@@ -325,11 +317,19 @@ const getApplicationDetailsDependenciesByParams = async ({ appId }) => {
             `[ApplicationProvider - getApplicationDetailsDependenciesByParams] appId: ${appId}`,
         );
 
-        if (!appId?.length) {
+        if (!appId) {
             return null;
         }
 
-        return DependencyProvider.getDependencyListByPageAndParams({ appId });
+        const dependencies = await DependencyProvider.getDependencyListByPageAndParams({
+            appId,
+        });
+
+        AppLogger.info(
+            `[ApplicationProvider - getApplicationDetailsDependenciesByParams] dependencies: ${dependencies?.length}`,
+        );
+
+        return dependencies;
     } catch (error) {
         AppLogger.info(
             `[ApplicationProvider - getApplicationDetailsDependenciesByParams] error: ${error.message}`,
@@ -351,14 +351,54 @@ const getApplicationDetailsAuditReportsByParams = async ({ appId }) => {
             `[ApplicationProvider - getApplicationDetailsAuditReportsByParams] appId: ${appId}`,
         );
 
-        if (!appId?.length) {
+        if (!appId) {
             return null;
         }
 
-        return AuditProvider.getAuditListByPageAndParams({ appId });
+        const auditReports = await AuditProvider.getAuditListByPageAndParams({
+            appId,
+        });
+        AppLogger.info(
+            `[ApplicationProvider - getApplicationDetailsAuditReportsByParams] auditReports: ${auditReports?.length}`,
+        );
+
+        return auditReports;
     } catch (error) {
         AppLogger.info(
             `[ApplicationProvider - getApplicationDetailsAuditReportsByParams] error: ${error.message}`,
+        );
+        return null;
+    }
+};
+
+/**
+ * Retrieves keywords associated with an application
+ *
+ * @param {Object} params - An object containing the parameters for the query
+ * @param {string} params.appId - The ID of the application
+ * @returns {Promise<Array|null>}
+ */
+const getApplicationDetailsKeywordsByParams = async ({ appId }) => {
+    try {
+        AppLogger.info(
+            `[ApplicationProvider - getApplicationDetailsKeywordsByParams] appId: ${appId}`,
+        );
+
+        if (!appId) {
+            return null;
+        }
+
+        const keywords = await KeywordProvider.getKeywordListByPageAndParams({
+            appId,
+        });
+        AppLogger.info(
+            `[ApplicationProvider - getApplicationDetailsKeywordsByParams] keywords: ${keywords?.length}`,
+        );
+
+        return keywords;
+    } catch (error) {
+        AppLogger.info(
+            `[ApplicationProvider - getApplicationDetailsKeywordsByParams] error: ${error.message}`,
         );
         return null;
     }
@@ -404,11 +444,11 @@ const getApplicationListByPageAndParams = async ({
         const queryOptions = {};
 
         if (offset) {
-            queryOptions.offset = offset;
+            // queryOptions.offset = offset;
         }
 
         if (limit) {
-            queryOptions.limit = limit;
+            // queryOptions.limit = limit;
         }
 
         if (searchText) {
@@ -438,24 +478,7 @@ const getApplicationListByPageAndParams = async ({
             `[ApplicationProvider - getApplicationListByPageAndParams] applications: ${applications?.length}`,
         );
 
-        if (!applications?.length) {
-            return null;
-        }
-
-        const fullApplications = applications.map((application) => ({
-            ...(application.dataValues || {}),
-            keywords: KeywordProvider.getKeywordListByPageAndParams({
-                appId: application._id,
-            }),
-        }));
-
-        if (keywords?.length) {
-            return fullApplications.filter((app) => {
-                return app.keywords.some((keyword) => keywords.includes(keyword.label));
-            });
-        }
-
-        return fullApplications;
+        return applications;
     } catch (error) {
         AppLogger.info(
             `[ApplicationProvider - getApplicationListByPageAndParams] error: ${error.message}`,
@@ -502,7 +525,7 @@ const getApplicationTotalByParams = async ({ searchText, keywords }) => {
  *
  * @param {Object} params - An object containing the parameters for the query
  * @param {Array} [params.keywords] - An array of keywords to filter the statistics by
- * @returns {Object} An object containing application statistics
+ * @returns {Promise<*|null>} An object containing application statistics
  */
 const getApplicationStatsByParams = async ({ keywords }) => {
     try {
@@ -510,10 +533,12 @@ const getApplicationStatsByParams = async ({ keywords }) => {
             `[ApplicationProvider - getApplicationStatsByParams] keywords: ${keywords?.join('\r\n')}`,
         );
 
-        // number of apps with each keyword
-        // case of empty keyword
+        const keywordStats = await KeywordProvider.getKeywordsStatsByParams({ keywords });
+        AppLogger.info(
+            `[ApplicationProvider - getApplicationStatsByParams] keywordStats: ${keywordStats?.length}`,
+        );
 
-        return KeywordProvider.getKeywordsStatsByParams({ keywords });
+        return keywordStats;
     } catch (error) {
         AppLogger.info(
             `[ApplicationProvider - getApplicationStatsByParams] error: ${error.message}`,
@@ -531,10 +556,11 @@ const ApplicationProvider = {
     editApplication,
     deleteApplication,
     deleteApplicationList,
-    getApplicationDetailsByParams,
+    getApplicationDetailsInfoByParams,
     getApplicationDetailsEvolutionsByParams,
     getApplicationDetailsDependenciesByParams,
     getApplicationDetailsAuditReportsByParams,
+    getApplicationDetailsKeywordsByParams,
     getApplicationListByPageAndParams,
     getApplicationTotalByParams,
     getApplicationStatsByParams,

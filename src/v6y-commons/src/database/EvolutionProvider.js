@@ -1,22 +1,21 @@
 import AppLogger from '../core/AppLogger.js';
+import { EvolutionHelpProvider } from '../index.js';
 import DataBaseManager from './DataBaseManager.js';
-import EvolutionHelpProvider from './EvolutionHelpProvider.js';
 import EvolutionModel from './models/EvolutionModel.js';
 
 /**
  * Creates a new Evolution entry in the database.
  *
  * @param {Object} evolution - The Evolution data to be created.
- * @returns {Object|null} The created Evolution object or null on error or if the Evolution model is not found.
+ * @returns {Promise<*|null>} The created Evolution object or null on error or if the Evolution model is not found.
  */
 const createEvolution = async (evolution) => {
     try {
-        AppLogger.info(`[EvolutionProvider - createEvolution] evolution type:  ${evolution?.type}`);
         AppLogger.info(
             `[EvolutionProvider - createEvolution] evolution category:  ${evolution?.category}`,
         );
 
-        if (!evolution?.type?.length || !evolution?.category?.length) {
+        if (!evolution?.category?.length) {
             return null;
         }
 
@@ -26,7 +25,15 @@ const createEvolution = async (evolution) => {
             return null;
         }
 
-        const createdEvolution = await evolutionModel.create(evolution);
+        const evolutionHelp = await EvolutionHelpProvider.getEvolutionHelpDetailsByParams({
+            category: evolution?.category,
+        });
+
+        const createdEvolution = await evolutionModel.create({
+            ...evolution,
+            appId: evolution.module?.appId,
+            evolutionHelp,
+        });
         AppLogger.info(
             `[EvolutionProvider - createEvolution] createdEvolution: ${createdEvolution?._id}`,
         );
@@ -74,17 +81,16 @@ const insertEvolutionList = async (evolutionList) => {
  * Edits an existing Evolution entry in the database.
  *
  * @param {Object} evolution - The Evolution data with updated information.
- * @returns {Object|null} An object containing the ID of the edited Evolution or null on error or if the Evolution model is not found.
+ * @returns {Promise<*|null>} An object containing the ID of the edited Evolution or null on error or if the Evolution model is not found.
  */
 const editEvolution = async (evolution) => {
     try {
         AppLogger.info(`[EvolutionProvider - createEvolution] evolution _id:  ${evolution?._id}`);
-        AppLogger.info(`[EvolutionProvider - createEvolution] evolution type:  ${evolution?.type}`);
         AppLogger.info(
             `[EvolutionProvider - createEvolution] evolution category:  ${evolution?.category}`,
         );
 
-        if (!evolution?._id || !evolution?.type?.length || !evolution?.category?.length) {
+        if (!evolution?._id || !evolution?.category?.length) {
             return null;
         }
 
@@ -114,11 +120,11 @@ const editEvolution = async (evolution) => {
 };
 
 /**
- * Deletes a Evolution from the database.
+ * Deletes an Evolution from the database.
  *
  * @param {Object} params - An object containing the parameters for deletion.
  * @param {string} params.evolutionId - The ID of the Evolution to delete.
- * @returns {Object|null} An object containing the ID of the deleted Evolution, or null on error or if evolutionId is not provided or if the Evolution model is not found.
+ * @returns {Promise<*|null>} An object containing the ID of the deleted Evolution, or null on error or if evolutionId is not provided or if the Evolution model is not found.
  */
 const deleteEvolution = async ({ evolutionId }) => {
     try {
@@ -176,10 +182,9 @@ const deleteEvolutionList = async () => {
  *
  * @param {Object} params - Parameters object containing the appId.
  * @param {string} params.appId - The ID of the application to retrieve evolutions for.
- * @param {boolean} params.fullReport - If reports should be full or not.
  * @returns {Promise<Array>} A Promise resolving to an array of evolutions, or an empty array in case of an error.
  */
-const getEvolutionListByPageAndParams = async ({ appId, fullReport = true }) => {
+const getEvolutionListByPageAndParams = async ({ appId }) => {
     try {
         AppLogger.info(`[EvolutionProvider - getEvolutionListByPageAndParams] appId: ${appId}`);
 
@@ -188,39 +193,20 @@ const getEvolutionListByPageAndParams = async ({ appId, fullReport = true }) => 
             return null;
         }
 
-        const evolutionList = await evolutionModel.findAll();
+        const queryOptions = {};
+
+        if (appId) {
+            queryOptions.where = {
+                appId,
+            };
+        }
+
+        const evolutionList = await evolutionModel.findAll(queryOptions);
         AppLogger.info(
-            `[EvolutionProvider - getEvolutionListByPageAndParams] evolutionListByParams: ${evolutionListByParams?.length}`,
+            `[EvolutionProvider - getEvolutionListByPageAndParams] evolutionList: ${evolutionList?.length}`,
         );
 
-        if (!evolutionList?.length) {
-            return null;
-        }
-
-        const fullEvolutionList = [];
-
-        for (const evolution of evolutionList) {
-            if (appId && evolution.module?.appId !== Number.parseInt(appId, 10)) {
-                continue;
-            }
-
-            if (fullReport) {
-                const evolutionHelp = await EvolutionHelpProvider.getEvolutionHelpDetailsByParams({
-                    category: `${evolution.type}-${evolution.category}`,
-                });
-
-                fullEvolutionList.push({
-                    ...evolution,
-                    evolutionHelp,
-                });
-
-                continue;
-            }
-
-            fullEvolutionList.push(evolution);
-        }
-
-        return fullEvolutionList;
+        return evolutionList;
     } catch (error) {
         AppLogger.info(
             `[EvolutionProvider - getEvolutionListByPageAndParams] error:  ${error.message}`,

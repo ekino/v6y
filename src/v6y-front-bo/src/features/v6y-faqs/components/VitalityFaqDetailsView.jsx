@@ -8,6 +8,7 @@ import { useTranslation } from '../../../infrastructure/adapters/translation/Tra
 import RefineShowWrapper from '../../../infrastructure/components/RefineShowWrapper.jsx';
 import GetFaqDetailsByParams from '../apis/getFaqDetailsByParams.js';
 
+
 export default function VitalityFaqDetailsView() {
     const { translate } = useTranslation();
 

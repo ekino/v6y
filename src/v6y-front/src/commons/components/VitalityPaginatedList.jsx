@@ -1,10 +1,19 @@
 import { List, Typography } from 'antd';
 
-const VitalityPaginatedList = ({ dataSource, pageSize = 10, renderItem }) => (
+const VitalityPaginatedList = ({
+    dataSource,
+    pageSize = 10,
+    bordered = true,
+    grid,
+    header,
+    renderItem,
+    style,
+}) => (
     <List
-        bordered
+        bordered={bordered}
         itemLayout="vertical"
         dataSource={dataSource}
+        grid={grid}
         pagination={{
             position: 'bottom',
             align: 'center',
@@ -12,8 +21,12 @@ const VitalityPaginatedList = ({ dataSource, pageSize = 10, renderItem }) => (
             hideOnSinglePage: true,
         }}
         renderItem={renderItem}
+        header={header}
         footer={<Typography.Text strong>{`Total: ${dataSource?.length || 0}`}</Typography.Text>}
-        style={{ marginBottom: '2rem' }}
+        style={{
+            ...(style || {}),
+            marginBottom: '2rem',
+        }}
     />
 );
 

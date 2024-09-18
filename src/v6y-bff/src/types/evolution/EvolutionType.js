@@ -4,15 +4,12 @@ const EvolutionType = `
   type EvolutionType {
     """ Evolution Unique id """
     _id: String!
+
+    """ Evolution Related App Id """
+    appId: String!
     
-    """ Evolution type (exp: lighthouse, dependency, code complexity, code security, ...) """
-    type: String!
-    
-    """ Evolution category (exp: performance, accessibility, ...) """
+    """ Evolution category (exp: lighthouse, dependency, code complexity, code security, performance, accessibility, ...) """
     category: String!
-    
-    """ Evolution subCategory (exp: mobile, 3G, 4G, ...) """
-    subCategory: String
     
     """ Evolution help """
     evolutionHelp: EvolutionHelpType

@@ -16,7 +16,6 @@ import AuditHelpType from './audit/help/AuditHelpType.js';
 import LinkType from './commons/LinkType.js';
 import ModuleType from './commons/ModuleType.js';
 import RepositoryType from './commons/RepositoryType.js';
-import UserType from './commons/UserType.js';
 import DependencyType from './dependency/DependencyType.js';
 import DeprecatedDependencyCreateOrEditInput from './dependency/deprecated-status/DeprecatedDependencyCreateOrEditInput.js';
 import DeprecatedDependencyDeleteInput from './dependency/deprecated-status/DeprecatedDependencyDeleteInput.js';
@@ -44,7 +43,6 @@ import FaqDeleteOutput from './faq/FaqDeleteOutput.js';
 import FaqMutationsType from './faq/FaqMutationsType.js';
 import FaqQueriesType from './faq/FaqQueriesType.js';
 import FaqType from './faq/FaqType.js';
-import KeywordQueriesType from './keyword/KeywordQueriesType.js';
 import KeywordStatsType from './keyword/KeywordStatsType.js';
 import KeywordType from './keyword/KeywordType.js';
 import NotificationCreateOrEditInput from './notifications/NotificationCreateOrEditInput.js';
@@ -65,7 +63,6 @@ const VitalityTypes = gql`
     ${DeprecatedDependencyType}
     ${DependencyStatusHelpType}
     ${DependencyType}
-    ${UserType}
     ${KeywordStatsType}
 
     # outputted schemas
@@ -80,7 +77,6 @@ const VitalityTypes = gql`
     ${NotificationType}
 
     # the schemas allows the following queries
-    ${KeywordQueriesType}
     ${ApplicationQueriesType}
     ${FaqQueriesType}
     ${NotificationQueriesType}

@@ -1,28 +1,50 @@
 'use client';
 
-import React, { Suspense } from 'react';
+import dynamic from 'next/dynamic.js';
+import React from 'react';
 
 import VitalityLoader from '../../../commons/components/VitalityLoader.jsx';
-import VitalityAppDetailsEvolutionsView from './VitalityAppDetailsEvolutionsView.jsx';
-import VitalityAppDetailsInfosView from './VitalityAppDetailsInfosView.jsx';
-import VitalityAppDetailsAuditReportsView from './audit-reports/VitalityAppDetailsAuditReportsView.jsx';
-import VitalityAppDetailsDependenciesView from './dependencies/VitalityAppDetailsDependenciesView.jsx';
+
+const VitalityGeneralInformationView = dynamic(
+    () => import('./infos/VitalityGeneralInformationView.jsx'),
+    {
+        loading: () => <VitalityLoader />,
+    },
+);
+
+const VitalityAuditReportsView = dynamic(
+    () => import('./audit-reports/VitalityAuditReportsView.jsx'),
+    {
+        loading: () => <VitalityLoader />,
+    },
+);
+
+const VitalityQualityIndicatorsView = dynamic(
+    () => import('./quality-indicators/VitalityQualityIndicatorsView.jsx'),
+    {
+        loading: () => <VitalityLoader />,
+    },
+);
+
+const VitalityDependenciesView = dynamic(
+    () => import('./dependencies/VitalityDependenciesView.jsx'),
+    {
+        loading: () => <VitalityLoader />,
+    },
+);
+
+const VitalityEvolutionsView = dynamic(() => import('./evolutions/VitalityEvolutionsView.jsx'), {
+    loading: () => <VitalityLoader />,
+});
 
 const VitalityAppDetailsView = () => {
     return (
         <>
-            <Suspense fallback={<VitalityLoader />}>
-                <VitalityAppDetailsInfosView />
-            </Suspense>
-            <Suspense fallback={<VitalityLoader />}>
-                <VitalityAppDetailsAuditReportsView />
-            </Suspense>
-            <Suspense fallback={<VitalityLoader />}>
-                <VitalityAppDetailsEvolutionsView />
-            </Suspense>
-            <Suspense fallback={<VitalityLoader />}>
-                <VitalityAppDetailsDependenciesView />
-            </Suspense>
+            <VitalityGeneralInformationView />
+            <VitalityQualityIndicatorsView />
+            <VitalityAuditReportsView />
+            <VitalityEvolutionsView />
+            <VitalityDependenciesView />
         </>
     );
 };

@@ -24,7 +24,7 @@ const formatFaqInput = (faq) => ({
  * Creates a new FAQ entry in the database.
  *
  * @param {Object} faq - The FAQ data to be created.
- * @returns {Object|null} The created FAQ object or null on error or if the FAQ model is not found.
+ * @returns {Promise<*|null>} The created FAQ object or null on error or if the FAQ model is not found.
  */
 const createFaq = async (faq) => {
     try {
@@ -53,7 +53,7 @@ const createFaq = async (faq) => {
  * Edits an existing FAQ entry in the database.
  *
  * @param {Object} faq - The FAQ data with updated information.
- * @returns {Object|null} An object containing the ID of the edited FAQ or null on error or if the FAQ model is not found.
+ * @returns {Promise<*|null>} An object containing the ID of the edited FAQ or null on error or if the FAQ model is not found.
  */
 const editFaq = async (faq) => {
     try {
@@ -92,7 +92,7 @@ const editFaq = async (faq) => {
  *
  * @param {Object} params - An object containing the parameters for deletion.
  * @param {string} params.faqId - The ID of the FAQ to delete.
- * @returns {Object|null} An object containing the ID of the deleted FAQ, or null on error or if faqId is not provided or if the FAQ model is not found.
+ * @returns {Promise<*|null>} An object containing the ID of the deleted FAQ, or null on error or if faqId is not provided or if the FAQ model is not found.
  */
 const deleteFaq = async ({ faqId }) => {
     try {
@@ -125,7 +125,7 @@ const deleteFaq = async ({ faqId }) => {
 /**
  * Deletes all FAQs from the database
  *
- * @returns {boolean} True if the deletion was successful, false otherwise
+ * @returns {Promise<*|null>} True if the deletion was successful, false otherwise
  */
 const deleteFaqList = async () => {
     try {
@@ -152,7 +152,7 @@ const deleteFaqList = async () => {
  * @param {number} [params.start] - The starting index for pagination (optional)
  * @param {number} [params.limit] - The maximum number of FAQs to retrieve (optional)
  * @param {Object} [params.sort] - An object defining the sorting criteria (optional)
- * @returns {Array|null} An array of FAQ objects or null on error or if the FAQ model is not found
+ * @returns {Promise<*|null>} An array of FAQ objects or null on error or if the FAQ model is not found
  */
 const getFaqListByPageAndParams = async ({ start, limit, sort }) => {
     try {
@@ -170,11 +170,11 @@ const getFaqListByPageAndParams = async ({ start, limit, sort }) => {
 
         // Handle pagination
         if (start) {
-            queryOptions.offset = start;
+            // queryOptions.offset = start;
         }
 
         if (limit) {
-            queryOptions.limit = limit;
+            // queryOptions.limit = limit;
         }
 
         const faqList = await faqModel.findAll(queryOptions);
@@ -192,7 +192,7 @@ const getFaqListByPageAndParams = async ({ start, limit, sort }) => {
  *
  * @param {Object} params - An object containing the parameters for the query
  * @param {string} params.faqId - The ID of the FAQ to retrieve
- * @returns {Object|null} The FAQ details or null if not found or on error or if the FAQ model is not found
+ * @returns {Promise<*|null>} The FAQ details or null if not found or on error or if the FAQ model is not found
  */
 const getFaqDetailsByParams = async ({ faqId }) => {
     try {
