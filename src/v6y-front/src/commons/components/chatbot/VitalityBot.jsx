@@ -6,6 +6,7 @@ import VitalityLoader from '../VitalityLoader.jsx';
 import { VitalityBotFlow } from './VitalityBotFlow.js';
 import VitalityBotSettings from './VitalityBotSettings.js';
 
+
 const ChatBot = lazy(() => import('react-chatbotify'));
 
 export default function VitalityBot() {

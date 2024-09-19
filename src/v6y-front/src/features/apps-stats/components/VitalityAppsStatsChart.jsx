@@ -12,6 +12,7 @@ import {
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
 import GetApplicationStatsByParams from '../api/getApplicationStatsByParams.js';
 
+
 const VitalityAppsStatsChart = () => {
     const { getUrlParams } = useNavigationAdapter();
     const [keywords] = getUrlParams(['keywords']);

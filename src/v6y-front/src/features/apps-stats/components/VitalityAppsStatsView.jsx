@@ -7,6 +7,7 @@ import VitalitySelectableIndicators from '../../../commons/components/indicators
 import VitalityAppList from '../../app-list/components/VitalityAppList.jsx';
 import VitalityAppsStatsChart from './VitalityAppsStatsChart.jsx';
 
+
 const VitalityAppsStatsView = () => {
     return (
         <>

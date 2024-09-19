@@ -3,6 +3,7 @@ import React from 'react';
 
 import VitalityTerms from '../../config/VitalityTerms.js';
 
+
 const VitalityHelpView = ({ module, header }) => {
     const moduleHelp = module?.auditHelp || module?.statusHelp || module?.evolutionHelp;
     return (

@@ -33,4 +33,18 @@ export const exportAppListDataToCSV = ({ appList = [] }) => {
     }
 };
 
-export const exportAppDetailsDataToCSV = ({ appDetails, open }) => {};
+export const exportAppDetailsDataToCSV = ({ appDetails }) => {
+    try {
+        if (!appDetails) {
+            return false;
+        }
+
+        const csvData = json2csv(appDetails, EXPORT_CSV_OPTIONS);
+        const csvBlob = new Blob([csvData], { type: 'text/plain;charset=utf-8' });
+        FileSaver.saveAs(csvBlob, buildCSVFileName('VitalityAppDetails'));
+
+        return true;
+    } catch (error) {
+        return false;
+    }
+};

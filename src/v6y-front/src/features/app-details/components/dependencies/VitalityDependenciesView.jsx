@@ -6,12 +6,14 @@ import VitalityLoader from '../../../../commons/components/VitalityLoader.jsx';
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView.jsx';
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig.js';
 import VitalityTerms from '../../../../commons/config/VitalityTerms.js';
+import { exportAppDetailsDataToCSV } from '../../../../commons/utils/VitalityDataExportUtils.js';
 import {
     buildClientQuery,
     useClientQuery,
 } from '../../../../infrastructure/adapters/api/useQueryAdapter.jsx';
 import useNavigationAdapter from '../../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
 import GetApplicationDetailsDependenciesByParams from '../../api/getApplicationDetailsDependenciesByParams.js';
+
 
 const VitalityDependenciesBranchGrouper = dynamic(
     () => import('./VitalityDependenciesBranchGrouper.jsx'),
@@ -51,12 +53,23 @@ const VitalityDependenciesView = ({}) => {
             status: dependency.status,
         }));
 
+    const onExportClicked = () => {
+        exportAppDetailsDataToCSV({
+            appDetails: {
+                appId,
+                dependencies,
+            },
+        });
+    };
+
     return (
         <VitalitySectionView
             isLoading={isAppDetailsDependenciesLoading}
             isEmpty={!dependencies?.length}
             title={VitalityTerms.VITALITY_APP_DETAILS_DEPENDENCIES_TITLE}
             avatar={<ProductOutlined />}
+            exportButtonLabel={VitalityTerms.VITALITY_APP_DETAILS_DEPENDENCIES_EXPORT_LABEL}
+            onExportClicked={onExportClicked}
         >
             <VitalityDependenciesBranchGrouper dependencies={dependencies} />
         </VitalitySectionView>

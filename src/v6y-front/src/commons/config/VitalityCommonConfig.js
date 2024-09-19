@@ -1,4 +1,13 @@
-import { DislikeOutlined, LikeOutlined, ThunderboltOutlined } from '@ant-design/icons';
+import {
+    ApiOutlined,
+    AppstoreAddOutlined,
+    DashboardOutlined,
+    DislikeOutlined,
+    LikeOutlined,
+    PieChartOutlined,
+    SplitCellsOutlined,
+    ThunderboltOutlined,
+} from '@ant-design/icons';
 import Link from 'next/link.js';
 import React from 'react';
 
@@ -14,7 +23,8 @@ export const VITALITY_DASHBOARD_DATASOURCE = [
         title: 'React',
         description: 'Choose this option to view React applications.',
         url: VitalityNavigationPaths.APP_LIST + '?keywords=react',
-        imageUrl: '',
+        avatar: <DashboardOutlined />,
+        avatarColor: VitalityTheme.token.colorPrimary,
     },
     {
         autoFocus: false,
@@ -22,7 +32,8 @@ export const VITALITY_DASHBOARD_DATASOURCE = [
         title: 'Angular',
         description: 'Choose this option to view Angular applications.',
         url: VitalityNavigationPaths.APP_LIST + '?keywords=angular',
-        imageUrl: '',
+        avatar: <AppstoreAddOutlined />,
+        avatarColor: VitalityTheme.token.colorSecondary,
     },
     {
         autoFocus: false,
@@ -30,7 +41,8 @@ export const VITALITY_DASHBOARD_DATASOURCE = [
         title: 'React Legacy',
         description: 'Choose this option to view React Legacy applications.',
         url: VitalityNavigationPaths.APP_LIST + '?keywords=legacy-react',
-        imageUrl: '',
+        avatar: <SplitCellsOutlined />,
+        avatarColor: VitalityTheme.token.colorError,
     },
     {
         autoFocus: false,
@@ -38,15 +50,17 @@ export const VITALITY_DASHBOARD_DATASOURCE = [
         title: 'Angular Legacy',
         description: 'Choose this option to view Angular Legacy applications.',
         url: VitalityNavigationPaths.APP_LIST + '?keywords=legacy-angular',
-        imageUrl: '',
+        avatar: <ApiOutlined />,
+        avatarColor: VitalityTheme.token.colorWarning,
     },
     {
         autoFocus: false,
         defaultChecked: false,
         title: VitalityTerms.VITALITY_APP_STATS_PAGE_TITLE,
-        description: 'Choose this option to see stats for all apps.',
+        description: 'Choose this option to see health statistics for all apps.',
         url: VitalityNavigationPaths.APPS_STATS,
-        imageUrl: '',
+        avatar: <PieChartOutlined />,
+        avatarColor: VitalityTheme.token.colorInfo,
     },
 ];
 
@@ -222,32 +236,25 @@ export const buildPageTitle = (pathname) =>
         [VitalityNavigationPaths.APPS_STATS]: VitalityTerms.VITALITY_APP_STATS_PAGE_TITLE,
     })[pathname] || [];
 
-export const normalizeDependencyVersion = (version) => version?.replace('=', '');
+export const formatApplicationDataSource = (pagedData) => {
+    const mergedAppList = pagedData
+        ?.map((page) => {
+            return page?.getApplicationListByPageAndParams;
+        })
+        ?.flat();
 
-export const buildUniqueBranches = (moduleKey, modules) => [
-    ...(new Set(
-        modules
-            ?.filter(
-                (module) =>
-                    module.branch?.length &&
-                    (moduleKey === module.name ||
-                        moduleKey === module.category ||
-                        moduleKey === module.label),
-            )
-            ?.map((module) => `${module.branch}XXX${module.status}`),
-    ) || []),
-];
+    if (!mergedAppList?.length) {
+        return mergedAppList;
+    }
 
-export const buildUniquePaths = (moduleKey, modules) => [
-    ...(new Set(
-        modules
-            ?.filter(
-                (module) =>
-                    module.path &&
-                    (moduleKey === module.name ||
-                        moduleKey === module.category ||
-                        moduleKey === module.label),
-            )
-            ?.map((module) => `${module.path}XXX${module.status}`),
-    ) || []),
-];
+    const newDataSource = [];
+
+    for (const app of mergedAppList) {
+        const isAppExist = newDataSource.some((oldApp) => oldApp._id === app._id);
+        if (!isAppExist) {
+            newDataSource.push(app);
+        }
+    }
+
+    return newDataSource;
+};

@@ -3,6 +3,7 @@ import React from 'react';
 
 import VitalityMessageView from './VitalityMessageView.jsx';
 
+
 const VitalityDetailsView = ({ details, error }) => (
     <>
         {(error || !Object.keys(details || {})?.length) && <VitalityMessageView error={error} />}

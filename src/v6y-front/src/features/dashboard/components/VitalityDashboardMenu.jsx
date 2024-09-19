@@ -4,6 +4,7 @@ import React from 'react';
 import VitalityTerms from '../../../commons/config/VitalityTerms.js';
 import VitalityDashboardMenuItem from './VitalityDashboardMenuItem.jsx';
 
+
 const VitalityDashboardMenu = ({ options }) => {
     return (
         <Row

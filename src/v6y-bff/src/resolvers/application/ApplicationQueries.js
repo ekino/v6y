@@ -184,7 +184,7 @@ const getApplicationListByPageAndParams = async (_, args) => {
         const appList = await ApplicationProvider.getApplicationListByPageAndParams({
             searchText,
             keywords,
-            offset: offset || start,
+            offset: offset !== undefined ? offset : start || 0,
             limit,
             where,
         });

@@ -14,6 +14,7 @@ import {
 import VitalityTerms from '../../../../../../commons/config/VitalityTerms.js';
 import useDataGrouper from '../../../../../../commons/hooks/useDataGrouper.jsx';
 
+
 const VitalityHelpView = dynamic(
     () => import('../../../../../../commons/components/help/VitalityHelpView.jsx'),
     {
@@ -52,7 +53,7 @@ const VitalityLighthouseReportsCategoryGrouper = ({ reports }) => {
                         <List.Item>
                             <Card
                                 key={`${report.type}-${report.category}-${report.subCategory}`}
-                                title={<Typography.Title level={5}>{report.type}</Typography.Title>}
+                                title={<Typography.Title level={4}>{report.type}</Typography.Title>}
                                 actions={[
                                     <Button
                                         key="help-button"

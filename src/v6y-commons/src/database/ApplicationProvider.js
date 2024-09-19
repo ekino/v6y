@@ -401,6 +401,42 @@ const getApplicationDetailsKeywordsByParams = async ({ appId }) => {
     }
 };
 
+const buildSearchQuery = ({ searchText, keywords, offset, limit, where }) => {
+    const queryOptions = {};
+
+    if (offset) {
+        queryOptions.offset = offset;
+    }
+
+    if (limit) {
+        queryOptions.limit = limit;
+    }
+
+    if (searchText) {
+        queryOptions.where = {
+            [Op.or]: [
+                {
+                    name: {
+                        [Op.substring]: searchText,
+                    },
+                },
+                {
+                    acronym: {
+                        [Op.substring]: searchText,
+                    },
+                },
+                {
+                    description: {
+                        [Op.substring]: searchText,
+                    },
+                },
+            ],
+        };
+    }
+
+    return queryOptions;
+};
+
 /**
  * Retrieves a list of applications based on specified parameters.
  *
@@ -438,39 +474,8 @@ const getApplicationListByPageAndParams = async ({
             return null;
         }
 
-        const queryOptions = {};
-
-        if (offset) {
-            // queryOptions.offset = offset;
-        }
-
-        if (limit) {
-            // queryOptions.limit = limit;
-        }
-
-        if (searchText) {
-            queryOptions.where = {
-                [Op.or]: [
-                    {
-                        name: {
-                            [Op.substring]: searchText,
-                        },
-                    },
-                    {
-                        acronym: {
-                            [Op.substring]: searchText,
-                        },
-                    },
-                    {
-                        description: {
-                            [Op.substring]: searchText,
-                        },
-                    },
-                ],
-            };
-        }
-
-        const applications = await applicationModel.findAll(queryOptions);
+        const searchQuery = buildSearchQuery({ searchText, keywords, offset, limit, where });
+        const applications = await applicationModel.findAll(searchQuery);
         AppLogger.info(
             `[ApplicationProvider - getApplicationListByPageAndParams] applications: ${applications?.length}`,
         );
@@ -502,13 +507,19 @@ const getApplicationTotalByParams = async ({ searchText, keywords }) => {
             `[ApplicationProvider - getApplicationTotalByParams] keywords: ${keywords?.join('\r\n')}`,
         );
 
-        const apps = await getApplicationListByPageAndParams({ keywords, searchText });
+        const applicationModel = DataBaseManager.getDataBaseSchema(ApplicationModel.name);
+        if (!applicationModel) {
+            return null;
+        }
+
+        const searchQuery = buildSearchQuery({ searchText, keywords });
+        const applicationsCount = await applicationModel.count(searchQuery);
 
         AppLogger.info(
-            `[ApplicationProvider - getApplicationTotalByParams] apps total: ${apps?.length}`,
+            `[ApplicationProvider - getApplicationTotalByParams] applicationsCount: ${applicationsCount}`,
         );
 
-        return apps?.length;
+        return applicationsCount;
     } catch (error) {
         AppLogger.info(
             `[ApplicationProvider - getApplicationTotalByParams] error: ${error.message}`,

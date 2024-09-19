@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import VitalityLoader from '../../../../../../commons/components/VitalityLoader.jsx';
 import useDataGrouper from '../../../../../../commons/hooks/useDataGrouper.jsx';
 
+
 const VitalityModulesView = dynamic(
     () => import('../../../../../../commons/components/modules/VitalityModulesView.jsx'),
     {

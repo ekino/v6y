@@ -1,11 +1,14 @@
 'use client';
 
 import { Col, Row } from 'antd';
+import dynamic from 'next/dynamic.js';
 import React, { useEffect, useState } from 'react';
 
 import VitalityLoadMoreList from '../../../commons/components/VitalityLoadMoreList.jsx';
+import VitalityLoader from '../../../commons/components/VitalityLoader.jsx';
 import VitalityAppInfos from '../../../commons/components/application-info/VitalityAppInfos.jsx';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig.js';
+import { formatApplicationDataSource } from '../../../commons/config/VitalityCommonConfig.js';
 import { exportAppListDataToCSV } from '../../../commons/utils/VitalityDataExportUtils.js';
 import {
     buildClientQuery,
@@ -13,7 +16,11 @@ import {
 } from '../../../infrastructure/adapters/api/useQueryAdapter.jsx';
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
 import GetApplicationListByPageAndParams from '../api/getApplicationListByPageAndParams.js';
-import VitalityAppListHeader from './VitalityAppListHeader.jsx';
+
+
+const VitalityAppListHeader = dynamic(() => import('./VitalityAppListHeader.jsx'), {
+    loading: () => <VitalityLoader />,
+});
 
 let currentAppListPage = 0;
 
@@ -34,6 +41,7 @@ const VitalityAppList = ({ source }) => {
             'getApplicationListByPageAndParams',
             keywords?.length ? keywords : 'empty_keywords',
             searchText?.length ? searchText : 'empty_search_text',
+            currentAppListPage,
         ],
         queryBuilder: async ({ pageParam = 0 }) =>
             buildClientQuery({
@@ -50,13 +58,7 @@ const VitalityAppList = ({ source }) => {
     });
 
     useEffect(() => {
-        const pagedAppList = dataAppList?.pages;
-        const mergedAppList = pagedAppList
-            ?.map((page) => {
-                return page?.getApplicationListByPageAndParams;
-            })
-            ?.flat();
-        setAppList(mergedAppList);
+        setAppList(formatApplicationDataSource(dataAppList?.pages));
     }, [dataAppList?.pages]);
 
     useEffect(() => {
@@ -81,7 +83,7 @@ const VitalityAppList = ({ source }) => {
             <Col span={24}>
                 <VitalityAppListHeader onExportApplicationsClicked={onExportApplicationsClicked} />
             </Col>
-            <Col span={24}>
+            <Col span={20}>
                 <VitalityLoadMoreList
                     isDataSourceLoading={isAppListLoading}
                     dataSource={appList}

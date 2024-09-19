@@ -1,4 +1,4 @@
-import { Checkbox } from 'antd';
+import { Card, Checkbox } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 import {
@@ -10,6 +10,7 @@ import VitalityApiConfig from '../../config/VitalityApiConfig.js';
 import VitalityEmptyView from '../VitalityEmptyView.jsx';
 import VitalityLoader from '../VitalityLoader.jsx';
 import GetIndicatorListByParams from './getIndicatorListByParams.js';
+
 
 const VitalitySelectableIndicators = () => {
     const [selectedIndicators, setSelectedIndicators] = useState([]);
@@ -66,11 +67,13 @@ const VitalitySelectableIndicators = () => {
     }
 
     return (
-        <Checkbox.Group
-            value={selectedIndicators}
-            options={indicatorsList}
-            onChange={(values) => handleSelectedIndicator(values)}
-        />
+        <Card bordered>
+            <Checkbox.Group
+                value={selectedIndicators}
+                options={indicatorsList}
+                onChange={(values) => handleSelectedIndicator(values)}
+            />
+        </Card>
     );
 };
 

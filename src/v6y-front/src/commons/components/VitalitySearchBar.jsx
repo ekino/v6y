@@ -6,6 +6,7 @@ import React from 'react';
 import useNavigationAdapter from '../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
 import VitalityNavigationPaths from '../config/VitalityNavigationPaths.js';
 
+
 const { Search } = Input;
 
 const VitalitySearchBar = ({ helper, label, status, placeholder }) => {
@@ -31,7 +32,7 @@ const VitalitySearchBar = ({ helper, label, status, placeholder }) => {
 
     return (
         <Row justify="center" align="middle" gutter={[12, 6]}>
-            <Col span={20}>
+            <Col span={22}>
                 <Form layout="vertical">
                     <Form.Item
                         name="vitality_search"

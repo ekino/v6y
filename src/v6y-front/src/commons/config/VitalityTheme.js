@@ -7,12 +7,12 @@ const themeToken = {
     colorTertiary: '#f5f5f5',
     colorBgHeader: 'linear-gradient(135deg, #1976d2 0%, rgb(0,208,130) 100%)',
     colorBgBase: '#fff',
-    colorError: '#880e4f',
-    colorInfo: '#9575cd',
-    colorWarning: '#d50000', // Deeper orange, closer to red
+    colorError: '#d50000',
+    colorInfo: '#1976d2',
+    colorWarning: '#e65100', // Deeper orange, closer to red
     colorSuccess: '#2e7d32', // Darker green
     colorGray: '#eeeeee',
-    colorLink: '#e65100',
+    colorLink: '#880e4f',
     fontFamily: '"Graphik",arial,sans-serif',
     fontSize: 16,
     linkDecoration: 'underline',

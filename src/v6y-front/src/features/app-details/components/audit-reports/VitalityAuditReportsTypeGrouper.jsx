@@ -5,6 +5,7 @@ import VitalityLoader from '../../../../commons/components/VitalityLoader.jsx';
 import VitalityTabGrouperView from '../../../../commons/components/VitalityTabGrouperView.jsx';
 import { AUDIT_REPORT_TYPES } from '../../../../commons/config/VitalityCommonConfig.js';
 
+
 const VitalityCodeStatusReportsBranchGrouper = dynamic(
     () => import('./auditors/code-status/VitalityCodeStatusReportsBranchGrouper.jsx'),
     {

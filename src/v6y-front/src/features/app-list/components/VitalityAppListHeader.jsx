@@ -11,6 +11,7 @@ import {
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter.jsx';
 import GetApplicationTotalByParams from '../api/getApplicationTotalByParams.js';
 
+
 const VitalityAppListHeader = ({ onExportApplicationsClicked }) => {
     const [appsTotal, setAppsTotal] = useState(0);
 
@@ -35,13 +36,12 @@ const VitalityAppListHeader = ({ onExportApplicationsClicked }) => {
     });
 
     useEffect(() => {
-        setAppsTotal(dataAppsTotal?.getApplicationTotalByParams);
-    }, [dataAppsTotal?.getApplicationTotalByParams]);
-
-    useEffect(() => {
-        setAppsTotal(0);
         refetchAppsTotal?.();
     }, [keywords, searchText]);
+
+    useEffect(() => {
+        setAppsTotal(dataAppsTotal?.getApplicationTotalByParams);
+    }, [dataAppsTotal?.getApplicationTotalByParams]);
 
     return (
         <Row justify="space-between" align="middle" gutter={[16, 16]}>

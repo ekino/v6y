@@ -3,6 +3,7 @@
 import { redirect, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 
+
 const useNavigationAdapter = () => {
     const searchParams = useSearchParams();
     const pathname = usePathname();

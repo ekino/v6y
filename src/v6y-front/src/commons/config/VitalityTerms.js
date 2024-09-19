@@ -21,8 +21,13 @@ const VitalityTerms = {
     VITALITY_APP_LIST_CONTACT_EMAIL: ' Contact The Team',
     VITALITY_APP_LIST_NB_BRANCHES: 'Number of opened branches: ',
 
-    VITALITY_APP_DETAILS_PAGE_TITLE: 'Application Vitality',
+    VITALITY_APP_DETAILS_INFOS_EXPORT_LABEL: 'Export Application Infos',
+    VITALITY_APP_DETAILS_QUALITY_INDICATORS_EXPORT_LABEL: 'Export Quality Indicators',
+    VITALITY_APP_DETAILS_EVOLUTIONS_EXPORT_LABEL: 'Export Evolutions',
+    VITALITY_APP_DETAILS_DEPENDENCIES_EXPORT_LABEL: 'Export Dependencies',
+    VITALITY_APP_DETAILS_AUDIT_REPORTS_EXPORT_LABEL: 'Export Audit Reports',
 
+    VITALITY_APP_DETAILS_PAGE_TITLE: 'Application Vitality',
     VITALITY_APP_DETAILS_QUALITY_STATUS_TITLE: 'Quality Indicators',
     VITALITY_APP_DETAILS_QUALITY_SELECT_LABEL: 'Select a branch',
     VITALITY_APP_DETAILS_QUALITY_SELECT_HELPER: 'Select a branch to filter quality indicators',
@@ -72,9 +77,9 @@ const VitalityTerms = {
     VITALITY_NOTIFICATIONS_PAGE_TITLE: 'Notifications',
     VITALITY_SEARCH_PAGE_TITLE: 'Search Application',
 
-    VITALITY_APP_STATS_PAGE_TITLE: 'Tech Stack Stats',
-    VITALITY_APP_STATS_GRAPH_TITLE: 'Tech Stack Stats',
-    VITALITY_APP_STATS_GRAPH_EMPTY_MESSAGE: 'You should select a filter to display stats!',
+    VITALITY_APP_STATS_PAGE_TITLE: 'Health statistics',
+    VITALITY_APP_STATS_GRAPH_TITLE: 'Health statistics',
+    VITALITY_APP_STATS_GRAPH_EMPTY_MESSAGE: 'You should select a filter to display statistics!',
 };
 
 export default VitalityTerms;

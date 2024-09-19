@@ -9,6 +9,7 @@ import VitalityLoader from '../VitalityLoader.jsx';
 import VitalityModal from '../VitalityModal.jsx';
 import VitalityPaginatedList from '../VitalityPaginatedList.jsx';
 
+
 const VitalityHelpView = dynamic(() => import('../help/VitalityHelpView.jsx'), {
     loading: () => <VitalityLoader />,
 });

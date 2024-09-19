@@ -7,6 +7,7 @@ const VitalityPaginatedList = ({
     grid,
     header,
     renderItem,
+    showFooter = true,
     style,
 }) => (
     <List
@@ -22,7 +23,11 @@ const VitalityPaginatedList = ({
         }}
         renderItem={renderItem}
         header={header}
-        footer={<Typography.Text strong>{`Total: ${dataSource?.length || 0}`}</Typography.Text>}
+        footer={
+            showFooter ? (
+                <Typography.Text strong>{`Total: ${dataSource?.length || 0}`}</Typography.Text>
+            ) : null
+        }
         style={{
             ...(style || {}),
             marginBottom: '2rem',
