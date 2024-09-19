@@ -128,3 +128,14 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+*.iml
+*.xml
+.nx/cache
+.nx/workspace-data
+
+database/psql/**
+**/code-analysis-workspace/**
+**/jest-cache/**
+**/jest-stare/**
+**/v6y-logs/**

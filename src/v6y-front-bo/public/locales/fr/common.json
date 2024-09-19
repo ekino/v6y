@@ -1,0 +1,371 @@
+{
+  "pages": {
+    "login": {
+      "title": "Sign in to your account",
+      "signin": "Sign in",
+      "signup": "Sign up",
+      "divider": "or",
+      "fields": {
+        "email": "Email",
+        "password": "Password"
+      },
+      "errors": {
+        "validEmail": "Invalid email address"
+      },
+      "buttons": {
+        "submit": "Login",
+        "forgotPassword": "Forgot password?",
+        "noAccount": "Don’t have an account?",
+        "rememberMe": "Remember me"
+      }
+    },
+    "forgotPassword": {
+      "title": "Forgot your password?",
+      "fields": {
+        "email": "Email"
+      },
+      "errors": {
+        "validEmail": "Invalid email address"
+      },
+      "buttons": {
+        "submit": "Send reset instructions"
+      }
+    },
+    "register": {
+      "title": "Sign up for your account",
+      "fields": {
+        "email": "Email",
+        "password": "Password"
+      },
+      "errors": {
+        "validEmail": "Invalid email address"
+      },
+      "buttons": {
+        "submit": "Register",
+        "haveAccount": "Have an account?"
+      }
+    },
+    "updatePassword": {
+      "title": "Update password",
+      "fields": {
+        "password": "New Password",
+        "confirmPassword": "Confirm new password"
+      },
+      "errors": {
+        "confirmPasswordNotMatch": "Passwords do not match"
+      },
+      "buttons": {
+        "submit": "Update"
+      }
+    },
+    "error": {
+      "info": "You may have forgotten to add the {{action}} component to {{resource}} resource.",
+      "404": "Sorry, the page you visited does not exist.",
+      "resource404": "Are you sure you have created the {{resource}} resource.",
+      "backHome": "Back Home",
+      "general": "An error was occurred",
+      "coming-soon": "Coming soon!"
+    }
+  },
+  "actions": {
+    "list": "List",
+    "create": "Create",
+    "edit": "Edit",
+    "show": "Show"
+  },
+  "buttons": {
+    "create": "Create",
+    "save": "Save",
+    "logout": "Logout",
+    "delete": "Delete",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "confirm": "Are you sure?",
+    "filter": "Filter",
+    "clear": "Clear",
+    "refresh": "Refresh",
+    "show": "Show",
+    "undo": "Undo",
+    "import": "Import",
+    "clone": "Clone",
+    "notAccessTitle": "You don't have permission to access"
+  },
+  "pops": {
+    "delete": {
+      "title": "Are you sure?",
+      "okText": "Confirm",
+      "cancelText": "Cancel"
+    }
+  },
+  "warnWhenUnsavedChanges": "Are you sure you want to leave? You have unsaved changes.",
+  "notifications": {
+    "success": "Successful",
+    "error": "Error (status code: {{statusCode}})",
+    "undoable": "You have {{seconds}} seconds to undo",
+    "createSuccess": "Successfully created {{resource}}",
+    "createError": "There was an error creating {{resource}} (status code: {{statusCode}})",
+    "deleteSuccess": "Successfully deleted {{resource}}",
+    "deleteError": "Error when deleting {{resource}} (status code: {{statusCode}})",
+    "editSuccess": "Successfully edited {{resource}}",
+    "editError": "Error when editing {{resource}} (status code: {{statusCode}})",
+    "importProgress": "Importing: {{processed}}/{{total}}"
+  },
+  "loading": "Loading",
+  "tags": {
+    "clone": "Clone"
+  },
+  "table": {
+    "actions": "Actions"
+  },
+  "v6y-applications": {
+    "v6y-applications": "Applications",
+    "fields": {
+      "app-infos-group": "Application Information",
+      "app-git-repository-group": "Git Repository Information",
+      "app-required-links-group": "Production Link(s)",
+      "app-optional-link-group": "Other Link(s)",
+      "app-name": {
+        "label": "Application name",
+        "placeholder": "Enter your application name",
+        "error": "Application name is a mandatory field!"
+      },
+      "app-description": {
+        "label": "Application description",
+        "placeholder": "Enter your application description",
+        "error": "Application description is a mandatory field!"
+      },
+      "app-acronym": {
+        "label": "Application acronym",
+        "placeholder": "Enter your application acronym (unique)",
+        "error": "Application acronym is a mandatory field!"
+      },
+      "app-contact-email": {
+        "label": "Application contact email",
+        "placeholder": "Enter the application contact email",
+        "error": "Application contact email is a mandatory field and must be a valid email!"
+      },
+      "app-git-organization": {
+        "label": "Application Git Organization (it can be ekino for example and it will be used like this gitlab.ekino.com, generally gitlab.organization.com)",
+        "placeholder": "Enter your application Git Organization",
+        "error": "Application Git Organization is a mandatory field!"
+      },
+      "app-git-web-url": {
+        "label": "Application Git Web URL (browser url to access the repository)",
+        "placeholder": "Enter your application Git Web URL",
+        "error": "Application Git Web URL is a mandatory field!"
+      },
+      "app-git-url": {
+        "label": "Application Git URL (git url to checkout the repository)",
+        "placeholder": "Enter your application Git URL",
+        "error": "Application Git URL is a mandatory field!"
+      },
+      "app-links": {
+        "label": "Application links"
+      },
+      "app-production-link": {
+        "label": "Application production link (needed for runtime analysis)",
+        "placeholder": "Enter your application production link",
+        "error": "You should enter at least one application production link!"
+      },
+      "app-code-quality-platform-link": {
+        "label": "Application code quality platform link",
+        "placeholder": "Enter your application code quality platform link",
+        "error": ""
+      },
+      "app-ci-cd-platform-link": {
+        "label": "Application CI/CD platform link",
+        "placeholder": "Enter your application CI/CD platform link",
+        "error": ""
+      },
+      "app-deployment-platform-link": {
+        "label": "Application deployment platform link",
+        "placeholder": "Enter your application deployment platform link",
+        "error": ""
+      }
+    },
+    "titles": {
+      "create": "Create Application",
+      "edit": "Edit Application",
+      "list": "Applications",
+      "show": "Show Application"
+    }
+  },
+  "v6y-notifications": {
+    "v6y-notifications": "Notifications",
+    "fields": {
+      "notification-infos-group": "Notification Information",
+      "notification-optional-link-group": "Other Link(s)",
+      "notification-title": {
+        "label": "Notification title",
+        "placeholder": "Enter your Notification title",
+        "error": "Notification title is a mandatory field!"
+      },
+      "notification-description": {
+        "label": "Notification description",
+        "placeholder": "Enter your Notification description",
+        "error": "Notification description is a mandatory field!"
+      },
+      "notification-optional-link": {
+        "label": "Notification optional link",
+        "placeholder": "Enter your notification optional link",
+        "error": ""
+      },
+      "notification-links": {
+        "label": "Notification links"
+      }
+    },
+    "titles": {
+      "create": "Create Notification",
+      "edit": "Edit Notification",
+      "list": "Notifications",
+      "show": "Show Notification"
+    }
+  },
+  "v6y-faqs": {
+    "v6y-faqs": "FAQ",
+    "fields": {
+      "faq-infos-group": "Faq Information",
+      "faq-optional-link-group": "Other Link(s)",
+      "faq-title": {
+        "label": "Faq title",
+        "placeholder": "Enter your Faq title",
+        "error": "Faq title is a mandatory field!"
+      },
+      "faq-description": {
+        "label": "Faq description",
+        "placeholder": "Enter your Faq description",
+        "error": "Faq description is a mandatory field!"
+      },
+      "faq-optional-link": {
+        "label": "Faq optional link",
+        "placeholder": "Enter your faq optional link",
+        "error": ""
+      },
+      "faq-links": {
+        "label": "Faq links"
+      }
+    },
+    "titles": {
+      "create": "Create Faq",
+      "edit": "Edit Faq",
+      "list": "Frequent questions",
+      "show": "Show Faq"
+    }
+  },
+  "v6y-evolution-helps": {
+    "v6y-evolution-helps": "Evolution Help List",
+    "fields": {
+      "evolution-help-infos-group": "Evolution Help Information",
+      "evolution-help-optional-link-group": "Other Link(s)",
+      "evolution-help-category": {
+        "label": "Evolution help category"
+      },
+      "evolution-help-status": {
+        "label": "Evolution help status",
+        "placeholder": "Select an Evolution help status",
+        "error": "You should select and Evolution help status"
+      },
+      "evolution-help-title": {
+        "label": "Evolution Help title",
+        "placeholder": "Enter your evolution help title",
+        "error": ""
+      },
+      "evolution-help-description": {
+        "label": "Evolution Help description",
+        "placeholder": "Enter your evolution help description",
+        "error": ""
+      },
+      "evolution-help-link": {
+        "label": "Evolution Help link",
+        "placeholder": "Enter your evolution help link",
+        "error": ""
+      }
+    },
+    "titles": {
+      "create": "Create Evolution Help",
+      "edit": "Edit Evolution Help",
+      "list": "Evolution Help List",
+      "show": "Show Evolution Help"
+    }
+  },
+  "v6y-audit-helps": {
+    "v6y-audit-helps": "Audit Help List",
+    "fields": {
+      "audit-help-infos-group": "Audit Help Information",
+      "audit-help-category": {
+        "label": "Audit Help Category"
+      },
+      "audit-help-title": {
+        "label": "Audit Help Title",
+        "placeholder": "Enter your Audit Help Title",
+        "error": ""
+      },
+      "audit-help-description": {
+        "label": "Audit Help Description",
+        "placeholder": "Enter your Audit Help Description",
+        "error": ""
+      },
+      "audit-help-explanation": {
+        "label": "Audit Help Explanation",
+        "placeholder": "Enter your Audit Help explanation",
+        "error": ""
+      }
+    },
+    "titles": {
+      "create": "Create Audit Help",
+      "edit": "Edit Audit Help",
+      "list": "Audit Help List",
+      "show": "Show Audit Help"
+    }
+  },
+  "v6y-dependency-status-helps": {
+    "v6y-dependency-status-helps": "Dependency Status Help List",
+    "fields": {
+      "dependency-status-help-infos-group": "Dependency Status Help Information",
+      "dependency-status-help-category": {
+        "label": "Dependency Status Help"
+      },
+      "dependency-status-help-title": {
+        "label": "Dependency Status Help Title",
+        "placeholder": "Enter your Dependency Status Help Title",
+        "error": ""
+      },
+      "dependency-status-help-description": {
+        "label": "Dependency Status Help Description",
+        "placeholder": "Enter your Dependency Status Help Description",
+        "error": ""
+      },
+      "dependency-status-help-links": {
+        "label": "Dependency Status Help Link",
+        "placeholder": "Enter your Dependency Status Help Link",
+        "error": ""
+      }
+    },
+    "titles": {
+      "create": "Create Dependency Help",
+      "edit": "Edit Dependency Help",
+      "list": "Dependency Help List",
+      "show": "Show Dependency Help"
+    }
+  },
+  "v6y-deprecated-dependencies": {
+    "v6y-deprecated-dependencies": "Deprecated Dependency List",
+    "fields": {
+      "deprecated-dependency-infos-group": "Deprecated Dependency Information",
+      "deprecated-dependency-name": {
+        "label": "Deprecated Dependency Name",
+        "placeholder": "Enter your Deprecated Dependency Name",
+        "error": ""
+      }
+    },
+    "titles": {
+      "create": "Create Deprecated Dependency",
+      "edit": "Edit Deprecated Dependency",
+      "list": "Deprecated Dependency List",
+      "show": "Show Deprecated Dependency"
+    }
+  },
+  "v6y-authentication": {
+    "title": "Authentication"
+  }
+}

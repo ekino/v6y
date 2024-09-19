@@ -1,0 +1,33 @@
+{
+  "name": "vital",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": true,
+  "author": "ekino",
+  "description": "Vitality (v6y) is a web-based application developed by Ekino, designed to maintain and optimize the health and performance of codebases and applications. While it is primarily used for Ekino projects, it can also be generalized for use by the wider development community.\n\n",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ekino/v6y"
+  },
+  "scripts": {
+    "start": "nx run-many --target=start --all",
+    "stop": "nx run-many --target=stop --all",
+    "build": "nx run-many --target=build --all",
+    "lint": "nx run-many --target=lint --all",
+    "lint:fix": "nx run-many --target=lint:fix --all --verbose",
+    "format": "nx run-many --target=format --all",
+    "test": "nx run-many --target=test --all",
+    "nx:reset": "nx reset",
+    "nx:analyze:graph": "nx graph",
+    "nx:analyze:graph:affected": "nx graph --affected",
+    "nx:clear:cache": "nx reset",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "=9.1.4",
+    "nx": "=19.3.0"
+  },
+  "workspaces": [
+    "src/**"
+  ]
+}
