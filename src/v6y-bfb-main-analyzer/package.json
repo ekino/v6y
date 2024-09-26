@@ -24,22 +24,22 @@
     "lint": "eslint --config ./eslint.config.js --cache-location ./.eslintcache \"./**/*.js\" --cache",
     "lint:fix": "eslint --config ./eslint.config.js --cache-location ./.eslintcache \"./**/*.js\" --cache --fix",
     "format": "prettier --write ./src",
-    "test:dev": "jest --config=jest.config.json --all --coverage",
-    "generate:heapdump": "node ./HeapDump.js"
+    "test": "vitest --coverage --watch false",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui"
   },
   "devDependencies": {
     "es6-plato": "=1.2.3",
     "nodemon": "=2.0.19",
     "pm2": "=5.3.0",
     "@babel/preset-env": "=7.23.6",
-    "babel-jest": "=29.7.0",
     "chai": "=4.3.10",
     "eslint": "=9.0.0",
     "eslint-config-prettier": "=9.1.0",
     "eslint-plugin-prettier": "=5.2.1",
-    "jest": "=29.7.0",
-    "jest-sonar-reporter": "=2.0.0",
-    "jest-stare": "=2.5.1"
+    "@vitest/coverage-v8": "=2.0.5",
+    "@vitest/ui": "=2.0.5",
+    "vitest": "=2.0.5"
   },
   "dependencies": {
     "@v6y/commons": "workspace:^",
@@ -53,8 +53,5 @@
     "mongoose": "=7.1.0",
     "axios": "=1.6.2",
     "axios-retry": "=4.0.0"
-  },
-  "jest-junit": {
-    "output": "target/jest-sonar/test-report.junit.xml"
   }
 }
