@@ -1,12 +1,9 @@
-import react from '@vitejs/plugin-react';
 import { configDefaults, defineConfig } from 'vitest/config';
-
 
 /**
  * https://vitest.dev/config/#configuration
  */
 export default defineConfig({
-    plugins: [react()],
     test: {
         environment: 'jsdom',
         exclude: [...configDefaults.exclude],
@@ -17,7 +14,7 @@ export default defineConfig({
         ],
         coverage: {
             include: ['src/**'],
-            exclude: [...configDefaults.coverage.exclude, 'src/app/**'],
+            exclude: [...configDefaults.coverage.exclude, '**/AppLogger.js'],
         },
     },
 });
