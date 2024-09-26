@@ -1,12 +1,14 @@
-import { defaultDependencyStatusHelp } from '../config/DependencyStatusHelpConfig.js';
-import AppLogger from '../core/AppLogger.js';
-import DataBaseManager from './DataBaseManager.js';
-import DependencyStatusHelpModel from './models/DependencyStatusHelpModel.js';
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const DependencyStatusHelpConfig_1 = require("../config/DependencyStatusHelpConfig");
+const AppLogger_1 = __importDefault(require("../core/AppLogger"));
+const DependencyStatusHelpModel_1 = require("./models/DependencyStatusHelpModel");
 /**
- * Format DependencyStatusHelp
+ * Format the dependency status help input
  * @param dependencyStatusHelp
- * @returns {{description, links: *, _id: *, title}}
  */
 const formatDependencyStatusHelpInput = (dependencyStatusHelp) => ({
     _id: dependencyStatusHelp?._id,
@@ -15,328 +17,176 @@ const formatDependencyStatusHelpInput = (dependencyStatusHelp) => ({
     category: dependencyStatusHelp.category,
     links: dependencyStatusHelp.links
         ?.map((link) => ({
-            label: 'More Information',
-            value: link,
-            description: '',
-        }))
+        label: 'More Information',
+        value: link,
+        description: '',
+    }))
         ?.filter((item) => item?.value),
 });
-
 /**
- * Creates a new DependencyStatusHelp entry in the database.
- *
- * @param {Object} dependencyStatusHelp - The DependencyStatusHelp data to be created.
- * @returns {Promise<*|null>} The created DependencyStatusHelp object or null on error or if the DependencyStatusHelp model is not found.
+ * Create a new dependency status help
+ * @param dependencyStatusHelp
  */
 const createDependencyStatusHelp = async (dependencyStatusHelp) => {
     try {
-        AppLogger.info(
-            `[DependencyStatusHelpProvider - createDependencyStatusHelp] dependencyStatusHelp title:  ${dependencyStatusHelp?.title}`,
-        );
+        AppLogger_1.default.info(`[DependencyStatusHelpProvider - createDependencyStatusHelp] dependencyStatusHelp title:  ${dependencyStatusHelp?.title}`);
         if (!dependencyStatusHelp?.title?.length) {
             return null;
         }
-
-        const dependencyStatusHelpModel = DataBaseManager.getDataBaseSchema(
-            DependencyStatusHelpModel.name,
-        );
-
-        if (!dependencyStatusHelpModel) {
-            return null;
-        }
-
-        const createdDependencyStatusHelp = await dependencyStatusHelpModel.create(
-            formatDependencyStatusHelpInput(dependencyStatusHelp),
-        );
-        AppLogger.info(
-            `[DependencyStatusHelpProvider - createDependencyStatusHelp] createdDependencyStatusHelp: ${createdDependencyStatusHelp?._id}`,
-        );
-
+        const createdDependencyStatusHelp = await DependencyStatusHelpModel_1.DependencyStatusHelpModelType.create(formatDependencyStatusHelpInput(dependencyStatusHelp));
+        AppLogger_1.default.info(`[DependencyStatusHelpProvider - createDependencyStatusHelp] createdDependencyStatusHelp: ${createdDependencyStatusHelp?._id}`);
         return createdDependencyStatusHelp;
-    } catch (error) {
-        AppLogger.info(
-            `[DependencyStatusHelpProvider - createDependencyStatusHelp] error:  ${error.message}`,
-        );
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[DependencyStatusHelpProvider - createDependencyStatusHelp] error:  ${error}`);
         return null;
     }
 };
-
 /**
- * Edits an existing DependencyStatusHelp entry in the database.
- *
- * @param {Object} dependencyStatusHelp - The DependencyStatusHelp data with updated information.
- * @returns {Promise<*|null>} An object containing the ID of the edited DependencyStatusHelp or null on error or if the DependencyStatusHelp model is not found.
+ * Edit an existing dependency status help
+ * @param dependencyStatusHelp
  */
 const editDependencyStatusHelp = async (dependencyStatusHelp) => {
     try {
-        AppLogger.info(
-            `[DependencyStatusHelpProvider - editDependencyStatusHelp] dependencyStatusHelp id:  ${dependencyStatusHelp?._id}`,
-        );
-        AppLogger.info(
-            `[DependencyStatusHelpProvider - editDependencyStatusHelp] dependencyStatusHelp title:  ${dependencyStatusHelp?.title}`,
-        );
-
+        AppLogger_1.default.info(`[DependencyStatusHelpProvider - editDependencyStatusHelp] dependencyStatusHelp id:  ${dependencyStatusHelp?._id}`);
+        AppLogger_1.default.info(`[DependencyStatusHelpProvider - editDependencyStatusHelp] dependencyStatusHelp title:  ${dependencyStatusHelp?.title}`);
         if (!dependencyStatusHelp?._id || !dependencyStatusHelp?.title?.length) {
             return null;
         }
-
-        const dependencyStatusHelpModel = DataBaseManager.getDataBaseSchema(
-            DependencyStatusHelpModel.name,
-        );
-
-        if (!dependencyStatusHelpModel) {
-            return null;
-        }
-
-        const editedDependencyStatusHelp = await dependencyStatusHelpModel.update(
-            formatDependencyStatusHelpInput(dependencyStatusHelp),
-            {
-                where: {
-                    _id: dependencyStatusHelp?._id,
-                },
-            },
-        );
-
-        AppLogger.info(
-            `[DependencyStatusHelpProvider - editDependencyStatusHelp] editedDependencyStatusHelp: ${editedDependencyStatusHelp?._id}`,
-        );
-
-        return {
-            _id: dependencyStatusHelp?.dependencyStatusHelpId,
-        };
-    } catch (error) {
-        AppLogger.info(
-            `[DependencyStatusHelpProvider - editDependencyStatusHelp] error:  ${error.message}`,
-        );
-        return null;
-    }
-};
-
-/**
- * Deletes an DependencyStatusHelp from the database.
- *
- * @param {Object} params - An object containing the parameters for deletion.
- * @param {string} params.dependencyStatusHelpId - The ID of the DependencyStatusHelp to delete.
- * @returns {Promise<*|null>} An object containing the ID of the deleted DependencyStatusHelp, or null on error or if dependencyStatusHelpId is not provided or if the DependencyStatusHelp model is not found.
- */
-const deleteDependencyStatusHelp = async ({ dependencyStatusHelpId }) => {
-    try {
-        AppLogger.info(
-            `[DependencyStatusHelpProvider - deleteDependencyStatusHelp] dependencyStatusHelpId:  ${dependencyStatusHelpId}`,
-        );
-        if (!dependencyStatusHelpId) {
-            return null;
-        }
-
-        const dependencyStatusHelpModel = DataBaseManager.getDataBaseSchema(
-            DependencyStatusHelpModel.name,
-        );
-
-        if (!dependencyStatusHelpModel) {
-            return null;
-        }
-
-        await dependencyStatusHelpModel.destroy({
+        const editedDependencyStatusHelp = await DependencyStatusHelpModel_1.DependencyStatusHelpModelType.update(formatDependencyStatusHelpInput(dependencyStatusHelp), {
             where: {
-                _id: dependencyStatusHelpId,
+                _id: dependencyStatusHelp?._id,
             },
         });
-
+        AppLogger_1.default.info(`[DependencyStatusHelpProvider - editDependencyStatusHelp] editedDependencyStatusHelp: ${editedDependencyStatusHelp?.[0]}`);
         return {
-            _id: dependencyStatusHelpId,
+            _id: dependencyStatusHelp?._id,
         };
-    } catch (error) {
-        AppLogger.info(
-            `[DependencyStatusHelpProvider - deleteDependencyStatusHelp] error:  ${error.message}`,
-        );
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[DependencyStatusHelpProvider - editDependencyStatusHelp] error:  ${error}`);
         return null;
     }
 };
-
 /**
- * Deletes all DependencyStatusHelps from the database
- *
- * @returns {Promise<boolean|null>} True if the deletion was successful, false otherwise
+ * Delete a dependency status help
+ * @param _id
+ */
+const deleteDependencyStatusHelp = async ({ _id }) => {
+    try {
+        AppLogger_1.default.info(`[DependencyStatusHelpProvider - deleteDependencyStatusHelp] _id:  ${_id}`);
+        if (!_id) {
+            return null;
+        }
+        await DependencyStatusHelpModel_1.DependencyStatusHelpModelType.destroy({
+            where: {
+                _id,
+            },
+        });
+        return {
+            _id,
+        };
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[DependencyStatusHelpProvider - deleteDependencyStatusHelp] error:  ${error}`);
+        return null;
+    }
+};
+/**
+ * Delete all dependency status help
  */
 const deleteDependencyStatusHelpList = async () => {
     try {
-        const dependencyStatusHelpModel = DataBaseManager.getDataBaseSchema(
-            DependencyStatusHelpModel.name,
-        );
-        if (!dependencyStatusHelpModel) {
-            return null;
-        }
-
-        await dependencyStatusHelpModel.destroy({
+        await DependencyStatusHelpModel_1.DependencyStatusHelpModelType.destroy({
             truncate: true,
         });
-
         return true;
-    } catch (error) {
-        AppLogger.info(
-            `[DependencyStatusHelpProvider - deleteDependencyStatusHelpList] error:  ${error.message}`,
-        );
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[DependencyStatusHelpProvider - deleteDependencyStatusHelpList] error:  ${error}`);
         return false;
     }
 };
-
 /**
- * Retrieves a list of DependencyStatusHelps, potentially paginated and sorted
- *
- * @param {Object} params - An object containing query parameters
- * @param {number} [params.start] - The starting index for pagination (optional)
- * @param {number} [params.limit] - The maximum number of DependencyStatusHelps to retrieve (optional)
- * @param {Object} [params.sort] - An object defining the sorting criteria (optional)
- * @returns {Promise<Model[]|Attributes<Model>[]|*[]|null>} An array of DependencyStatusHelp objects or null on error or if the DependencyStatusHelp model is not found
+ * Get dependency status help list by page and params
+ * @param start
+ * @param limit
+ * @param sort
  */
-const getDependencyStatusHelpListByPageAndParams = async ({ start, limit, sort }) => {
+const getDependencyStatusHelpListByPageAndParams = async ({ start, limit, sort, }) => {
     try {
-        AppLogger.info(
-            `[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] start: ${start}`,
-        );
-        AppLogger.info(
-            `[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] limit: ${limit}`,
-        );
-        AppLogger.info(
-            `[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] sort: ${sort}`,
-        );
-
-        const dependencyStatusHelpModel = DataBaseManager.getDataBaseSchema(
-            DependencyStatusHelpModel.name,
-        );
-        if (!dependencyStatusHelpModel) {
-            return null;
-        }
-
+        AppLogger_1.default.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] start: ${start}`);
+        AppLogger_1.default.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] limit: ${limit}`);
+        AppLogger_1.default.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] sort: ${sort}`);
         // Construct the query options based on provided arguments
         const queryOptions = {};
-
         // Handle pagination
         if (start) {
             queryOptions.offset = start;
         }
-
         if (limit) {
             queryOptions.limit = limit;
         }
-
-        const dependencyStatusHelpList = await dependencyStatusHelpModel.findAll(queryOptions);
-        AppLogger.info(
-            `[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] dependencyStatusHelpList: ${dependencyStatusHelpList?.length}`,
-        );
-
+        const dependencyStatusHelpList = await DependencyStatusHelpModel_1.DependencyStatusHelpModelType.findAll(queryOptions);
+        AppLogger_1.default.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] dependencyStatusHelpList: ${dependencyStatusHelpList?.length}`);
         return dependencyStatusHelpList;
-    } catch (error) {
-        AppLogger.info(
-            `[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] error:  ${error.message}`,
-        );
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] error:  ${error}`);
         return [];
     }
 };
-
 /**
- * Retrieves the details of an DependencyStatusHelp by its ID.
- *
- * @param {Object} params - An object containing the parameters for the query
- * @param {string} params.dependencyStatusHelpId - The ID of the DependencyStatusHelp to retrieve
- * @param {string} params.category - The category of the DependencyStatusHelp to retrieve
- * @returns {Promise<TModelAttributes|null>} The DependencyStatusHelp details or null if not found or on error or if the DependencyStatusHelp model is not found
+ * Get dependency status help details by params
+ * @param _id
+ * @param category
  */
-const getDependencyStatusHelpDetailsByParams = async ({ dependencyStatusHelpId, category }) => {
+const getDependencyStatusHelpDetailsByParams = async ({ _id, category, }) => {
     try {
-        AppLogger.info(
-            `[DependencyStatusHelpProvider - getDependencyStatusHelpDetailsByParams] dependencyStatusHelpId: ${dependencyStatusHelpId}`,
-        );
-        AppLogger.info(
-            `[DependencyStatusHelpProvider - getDependencyStatusHelpDetailsByParams] category: ${category}`,
-        );
-
-        const dependencyStatusHelpModel = DataBaseManager.getDataBaseSchema(
-            DependencyStatusHelpModel.name,
-        );
-
-        if (!dependencyStatusHelpModel) {
-            return null;
-        }
-
-        const dependencyStatusHelpDetails = dependencyStatusHelpId
-            ? (
-                  await dependencyStatusHelpModel.findOne({
-                      where: {
-                          _id: dependencyStatusHelpId,
-                      },
-                  })
-              )?.dataValues
-            : (
-                  await dependencyStatusHelpModel.findOne({
-                      where: {
-                          category,
-                      },
-                  })
-              )?.dataValues;
-
-        AppLogger.info(
-            `[DependencyStatusHelpProvider - getDependencyStatusHelpDetailsByParams] dependencyStatusHelpDetails _id: ${dependencyStatusHelpDetails?._id}`,
-        );
-
+        AppLogger_1.default.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpDetailsByParams] _id: ${_id}`);
+        AppLogger_1.default.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpDetailsByParams] category: ${category}`);
+        const dependencyStatusHelpDetails = _id
+            ? (await DependencyStatusHelpModel_1.DependencyStatusHelpModelType.findOne({
+                where: {
+                    _id,
+                },
+            }))?.dataValues
+            : (await DependencyStatusHelpModel_1.DependencyStatusHelpModelType.findOne({
+                where: {
+                    category,
+                },
+            }))?.dataValues;
+        AppLogger_1.default.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpDetailsByParams] dependencyStatusHelpDetails _id: ${dependencyStatusHelpDetails?._id}`);
         if (!dependencyStatusHelpDetails?._id) {
             return null;
         }
-
         return dependencyStatusHelpDetails;
-    } catch (error) {
-        AppLogger.info(
-            `[DependencyStatusHelpProvider - getDependencyStatusHelpDetailsByParams] error: ${error.message}`,
-        );
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpDetailsByParams] error: ${error}`);
         return null;
     }
 };
-
 /**
- * Initializes default dependency status help data in the database.
- *
- * This function checks if dependency status help data already exists.
- * If not, it creates new entries using the `defaultDependencyStatusHelp` data.
- *
- * @returns {Promise<boolean|null>} A promise that resolves to:
- *   - `true` if the initialization was successful or data already exists.
- *   - `false` if there was an error during initialization.
- *   - `null` if the `dependencyStatusHelpModel` is not found.
+ * Initialize default data
  */
 const initDefaultData = async () => {
     try {
-        const dependencyStatusHelpModel = DataBaseManager.getDataBaseSchema(
-            DependencyStatusHelpModel.name,
-        );
-
-        if (!dependencyStatusHelpModel) {
-            return null;
-        }
-
-        const dependencyStatusHelpCount = await dependencyStatusHelpModel.count();
-
-        AppLogger.info(
-            `[DependencyStatusHelpProvider - initDefaultData] dependencyStatusHelpCount:  ${dependencyStatusHelpCount}`,
-        );
-
+        const dependencyStatusHelpCount = await DependencyStatusHelpModel_1.DependencyStatusHelpModelType.count();
+        AppLogger_1.default.info(`[DependencyStatusHelpProvider - initDefaultData] dependencyStatusHelpCount:  ${dependencyStatusHelpCount}`);
         if (dependencyStatusHelpCount > 0) {
             return true;
         }
-
-        for (const dependencyStatusHelp of defaultDependencyStatusHelp) {
-            await createDependencyStatusHelp(dependencyStatusHelp); // Assuming 'createDependencyStatusHelp' is defined elsewhere
+        for (const dependencyStatusHelp of DependencyStatusHelpConfig_1.defaultDependencyStatusHelp) {
+            await createDependencyStatusHelp(dependencyStatusHelp);
         }
-
         return true;
-    } catch (error) {
-        AppLogger.info(`[DependencyStatusHelpProvider - initDefaultData] error:  ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[DependencyStatusHelpProvider - initDefaultData] error:  ${error}`);
         return false;
     }
 };
-
-/**
- * An object that provides various operations related to DependencyStatusHelps.
- */
 const DependencyStatusHelpProvider = {
     initDefaultData,
     createDependencyStatusHelp,
@@ -346,5 +196,4 @@ const DependencyStatusHelpProvider = {
     getDependencyStatusHelpListByPageAndParams,
     getDependencyStatusHelpDetailsByParams,
 };
-
-export default DependencyStatusHelpProvider;
+exports.default = DependencyStatusHelpProvider;

@@ -1,33 +1,43 @@
-import { DataTypes } from 'sequelize';
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.EvolutionModelType = void 0;
+const sequelize_1 = require("sequelize");
+class EvolutionModelType extends sequelize_1.Model {
+    _id;
+    appId;
+    category;
+    evolutionHelp;
+    module;
+}
+exports.EvolutionModelType = EvolutionModelType;
 const evolutionModelSchema = {
     _id: {
-        type: DataTypes.INTEGER,
+        type: sequelize_1.DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
     appId: {
-        type: DataTypes.TEXT,
+        type: sequelize_1.DataTypes.TEXT,
         allowNull: false,
     },
     category: {
-        type: DataTypes.TEXT,
+        type: sequelize_1.DataTypes.TEXT,
         allowNull: false,
     },
     evolutionHelp: {
-        type: DataTypes.JSON,
+        type: sequelize_1.DataTypes.JSON,
     },
     module: {
-        type: DataTypes.JSON,
+        type: sequelize_1.DataTypes.JSON,
     },
 };
-
 const evolutionModelOptions = {};
-
-const EvolutionModel = {
-    name: 'Evolution',
-    schema: evolutionModelSchema,
-    options: evolutionModelOptions,
+const initializeEvolutionModel = (sequelize) => {
+    EvolutionModelType.init(evolutionModelSchema, {
+        sequelize,
+        modelName: 'Evolution',
+        ...evolutionModelOptions,
+    });
+    return EvolutionModelType;
 };
-
-export default EvolutionModel;
+exports.default = initializeEvolutionModel;

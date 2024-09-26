@@ -1,55 +1,40 @@
-import HttpClient from 'http';
-import HttpsClient from 'https';
-import HttpStaticClient from 'spdy';
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const http_1 = __importDefault(require("http"));
+const https_1 = __importDefault(require("https"));
+const spdy_1 = __importDefault(require("spdy"));
 /**
  * Creates a static server (presumably for HTTP/2).
- *
- * @param {Object} options - Options for server creation.
- * @param {Object} options.app - The Express application or similar framework instance.
- * @param {Object} options.config - Configuration object containing SSL key and certificate paths.
- * @param {string} options.config.key - Path to the SSL private key file.
- * @param {string} options.config.cert - Path to the SSL certificate file.
- * @returns {Object} The created HTTP/2 server instance.
+ * @param app
+ * @param config
  */
 const createStaticServer = ({ app, config }) => {
-    return HttpStaticClient.createServer(
-        {
-            key: config.key,
-            cert: config.cert,
-        },
-        app,
-    );
+    return spdy_1.default.createServer({
+        key: config.key,
+        cert: config.cert,
+    }, app);
 };
-
 /**
- * Creates an HTTP or HTTPS server based on the provided configuration.
- *
- * @param {Object} options - Options for server creation.
- * @param {Object} options.app - The Express application or similar framework instance.
- * @param {Object} options.config - Configuration object.
- * @param {boolean} options.config.ssl - Whether to create an HTTPS server (true) or HTTP server (false).
- * @param {string} [options.config.key] - Path to the SSL private key file (required if `ssl` is true).
- * @param {string} [options.config.cert] - Path to the SSL certificate file (required if `ssl` is true).
- * @returns {Object} The created HTTP or HTTPS server instance.
+ * Creates a server (HTTP or HTTP/2) based on the configuration.
+ * @param app
+ * @param config
  */
 const createServer = ({ app, config }) => {
     let httpServer;
     if (config.ssl) {
-        httpServer = HttpsClient.createServer(
-            {
-                key: config.key,
-                cert: config.cert,
-            },
-            app,
-        );
-    } else {
-        httpServer = HttpClient.createServer(app);
+        httpServer = https_1.default.createServer({
+            key: config.key,
+            cert: config.cert,
+        }, app);
     }
-
+    else {
+        httpServer = http_1.default.createServer(app);
+    }
     return httpServer;
 };
-
 /**
  * Utilities for creating HTTP and HTTP/2 servers.
  */
@@ -57,5 +42,4 @@ const ServerUtils = {
     createServer,
     createStaticServer,
 };
-
-export default ServerUtils;
+exports.default = ServerUtils;

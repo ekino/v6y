@@ -1,247 +1,157 @@
-import AppLogger from '../core/AppLogger.js';
-import DataBaseManager from './DataBaseManager.js';
-import KeywordModel from './models/KeywordModel.js';
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const AppLogger_1 = __importDefault(require("../core/AppLogger"));
+const KeywordModel_1 = require("./models/KeywordModel");
 /**
- * Creates a new Keyword entry in the database.
- *
- * @param {Object} keyword - The Keyword data to be created.
- * @returns {Promise<*|null>} The created Keyword object or null on error or if the Keyword model is not found.
+ * Create Keyword
+ * @param keyword
  */
 const createKeyword = async (keyword) => {
     try {
-        AppLogger.info(`[KeywordProvider - createKeyword] keyword label:  ${keyword?.label}`);
-
+        AppLogger_1.default.info(`[KeywordProvider - createKeyword] keyword label:  ${keyword?.label}`);
         if (!keyword?.label?.length) {
             return null;
         }
-
-        const keywordModel = DataBaseManager.getDataBaseSchema(KeywordModel.name);
-
-        if (!keywordModel) {
-            return null;
-        }
-
-        const createdKeyword = await keywordModel.create({
+        const createdKeyword = await KeywordModel_1.KeywordModelType.create({
             ...keyword,
             appId: keyword.module?.appId,
         });
-        AppLogger.info(`[KeywordProvider - createKeyword] createdKeyword: ${createdKeyword?._id}`);
-
+        AppLogger_1.default.info(`[KeywordProvider - createKeyword] createdKeyword: ${createdKeyword?._id}`);
         return createdKeyword;
-    } catch (error) {
-        AppLogger.info(`[KeywordProvider - createKeyword] error:  ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[KeywordProvider - createKeyword] error:  ${error}`);
         return null;
     }
 };
-
 /**
- * Bulk insert of keywordList list
- * @param {Array} keywordList
- * @returns {Promise<null>}
+ * Insert Keyword List
+ * @param keywordList
  */
 const insertKeywordList = async (keywordList) => {
     try {
-        AppLogger.info(
-            `[KeywordProvider - insertKeywordList] keywordList:  ${keywordList?.length}`,
-        );
+        AppLogger_1.default.info(`[KeywordProvider - insertKeywordList] keywordList:  ${keywordList?.length}`);
         if (!keywordList?.length) {
             return null;
         }
-
-        const keywordModel = DataBaseManager.getDataBaseSchema(KeywordModel.name);
-
-        if (!keywordModel) {
-            return null;
-        }
-
         for (const keyword of keywordList) {
             await createKeyword(keyword);
         }
-
-        AppLogger.info(
-            `[KeywordProvider - insertKeywordList] keywordList list inserted successfully`,
-        );
-    } catch (error) {
-        AppLogger.info(`[KeywordProvider - insertKeywordList] error:  ${error.message}`);
+        AppLogger_1.default.info(`[KeywordProvider - insertKeywordList] keywordList list inserted successfully`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[KeywordProvider - insertKeywordList] error:  ${error}`);
     }
 };
-
 /**
- * Edits an existing Keyword entry in the database.
- *
- * @param {Object} keyword - The Keyword data with updated information.
- * @returns {Promise<*|null>} An object containing the ID of the edited Keyword or null on error or if the Keyword model is not found.
+ * Edit existing Keyword
+ * @param keyword
  */
 const editKeyword = async (keyword) => {
     try {
-        AppLogger.info(`[KeywordProvider - createKeyword] keyword _id:  ${keyword?._id}`);
-        AppLogger.info(`[KeywordProvider - createKeyword] keyword label:  ${keyword?.label}`);
-
+        AppLogger_1.default.info(`[KeywordProvider - createKeyword] keyword _id:  ${keyword?._id}`);
+        AppLogger_1.default.info(`[KeywordProvider - createKeyword] keyword label:  ${keyword?.label}`);
         if (!keyword?._id || !keyword?.label?.length) {
             return null;
         }
-
-        const keywordModel = DataBaseManager.getDataBaseSchema(KeywordModel.name);
-
-        if (!keywordModel) {
-            return null;
-        }
-
-        const editedKeyword = await keywordModel.update(keyword, {
+        const editedKeyword = await KeywordModel_1.KeywordModelType.update(keyword, {
             where: {
                 _id: keyword?._id,
             },
         });
-
-        AppLogger.info(`[KeywordProvider - editKeyword] editedKeyword: ${editedKeyword?._id}`);
-
+        AppLogger_1.default.info(`[KeywordProvider - editKeyword] editedKeyword: ${editedKeyword?.[0]}`);
         return {
             _id: keyword?._id,
         };
-    } catch (error) {
-        AppLogger.info(`[KeywordProvider - editKeyword] error:  ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[KeywordProvider - editKeyword] error:  ${error}`);
         return null;
     }
 };
-
 /**
- * Deletes a Keyword from the database.
- *
- * @param {Object} params - An object containing the parameters for deletion.
- * @param {string} params.keywordId - The ID of the Keyword to delete.
- * @returns {Promise<*|null>} An object containing the ID of the deleted Keyword, or null on error or if keywordId is not provided or if the Keyword model is not found.
+ * Delete Keyword
+ * @param _id
  */
-const deleteKeyword = async ({ keywordId }) => {
+const deleteKeyword = async ({ _id }) => {
     try {
-        AppLogger.info(`[KeywordProvider - deleteKeyword] keywordId:  ${keywordId}`);
-        if (!keywordId) {
+        AppLogger_1.default.info(`[KeywordProvider - deleteKeyword] _id:  ${_id}`);
+        if (!_id) {
             return null;
         }
-
-        const keywordModel = DataBaseManager.getDataBaseSchema(KeywordModel.name);
-
-        if (!keywordModel) {
-            return null;
-        }
-
-        await keywordModel.destroy({
+        await KeywordModel_1.KeywordModelType.destroy({
             where: {
-                _id: keywordId,
+                _id,
             },
         });
-
         return {
-            _id: keywordId,
+            _id,
         };
-    } catch (error) {
-        AppLogger.info(`[KeywordProvider - deleteKeyword] error:  ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[KeywordProvider - deleteKeyword] error:  ${error}`);
         return null;
     }
 };
-
 /**
- * Deletes all Keywords from the database
- *
- * @returns {Promise<boolean|null>} True if the deletion was successful, false otherwise
+ * Delete Keyword List
  */
 const deleteKeywordList = async () => {
     try {
-        const keywordModel = DataBaseManager.getDataBaseSchema(KeywordModel.name);
-        if (!keywordModel) {
-            return null;
-        }
-
-        await keywordModel.destroy({
+        await KeywordModel_1.KeywordModelType.destroy({
             truncate: true,
         });
-
         return true;
-    } catch (error) {
-        AppLogger.info(`[KeywordProvider - deleteKeywordList] error:  ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[KeywordProvider - deleteKeywordList] error:  ${error}`);
         return false;
     }
 };
-
 /**
- * Retrieves a list of keywords based on the provided appId.
- *
- * @param {Object} params - Parameters object containing the appId.
- * @param {string} params.appId - The ID of the application to retrieve keywords for.
- * @returns {Promise<Array>} A Promise resolving to an array of keywords, or an empty array in case of an error.
+ * Get Keyword List By Parameters
+ * @param appId
  */
 const getKeywordListByPageAndParams = async ({ appId }) => {
     try {
-        AppLogger.info(`[KeywordProvider - getKeywordListByPageAndParams] appId: ${appId}`);
-
-        const keywordModel = DataBaseManager.getDataBaseSchema(KeywordModel.name);
-        if (!keywordModel) {
-            return null;
-        }
-
+        AppLogger_1.default.info(`[KeywordProvider - getKeywordListByPageAndParams] appId: ${appId}`);
         const queryOptions = {};
-
         if (appId) {
             queryOptions.where = {
                 appId,
             };
         }
-
-        const keywordList = await keywordModel.findAll(queryOptions);
-
-        AppLogger.info(
-            `[KeywordProvider - getKeywordListByPageAndParams] keywordList: ${keywordList?.length}`,
-        );
-
+        const keywordList = await KeywordModel_1.KeywordModelType.findAll(queryOptions);
+        AppLogger_1.default.info(`[KeywordProvider - getKeywordListByPageAndParams] keywordList: ${keywordList?.length}`);
         return keywordList;
-    } catch (error) {
-        AppLogger.info(
-            `[KeywordProvider - getKeywordListByPageAndParams] error:  ${error.message}`,
-        );
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[KeywordProvider - getKeywordListByPageAndParams] error:  ${error}`);
         return [];
     }
 };
-
 /**
- * Retrieves statistics for a list of keywords.
- *
- * @param {Object} params - Parameters object containing the keywords.
- * @param {Array<string>} params.keywords - An array of keywords to fetch statistics for.
- * @returns {Promise<Array>} A Promise resolving to an array of keyword statistics (keywordsStats)
- * or an empty array in case of an error.
- * @async
+ * Get Keywords Stats
+ * @param keywords
  */
-const getKeywordsStatsByParams = async ({ keywords }) => {
+const getKeywordsStatsByParams = async ({ keywords, }) => {
     try {
-        AppLogger.info(
-            `[KeywordProvider - getKeywordsStatsByParams] keywords: ${keywords?.join('\r\n')}`,
-        );
-
+        AppLogger_1.default.info(`[KeywordProvider - getKeywordsStatsByParams] keywords: ${keywords?.join('\r\n')}`);
         if (!keywords?.length) {
-            return [];
-        }
-
-        const keywordModel = DataBaseManager.getDataBaseSchema(KeywordModel.name);
-        if (!keywordModel) {
             return null;
         }
-
         // based on keywords and dependencies
-
-        const keywordsStats = [];
-
         // count total from modules
-
-        return keywordsStats;
-    } catch (error) {
-        AppLogger.info(`[KeywordProvider - getKeywordsStatsByParams] error:  ${error.message}`);
-        return [];
+        return null;
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[KeywordProvider - getKeywordsStatsByParams] error:  ${error}`);
+        return null;
     }
 };
-
-/**
- * An object that provides various operations related to Keywords.
- */
 const KeywordProvider = {
     createKeyword,
     insertKeywordList,
@@ -251,5 +161,4 @@ const KeywordProvider = {
     getKeywordsStatsByParams,
     getKeywordListByPageAndParams,
 };
-
-export default KeywordProvider;
+exports.default = KeywordProvider;

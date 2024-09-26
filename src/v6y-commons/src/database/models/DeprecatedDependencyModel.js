@@ -1,26 +1,33 @@
-import { DataTypes } from 'sequelize';
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DeprecatedDependencyModelType = void 0;
+const sequelize_1 = require("sequelize");
+class DeprecatedDependencyModelType extends sequelize_1.Model {
+    _id;
+    name;
+}
+exports.DeprecatedDependencyModelType = DeprecatedDependencyModelType;
 const deprecatedDependencyModelSchema = {
     _id: {
-        type: DataTypes.INTEGER,
+        type: sequelize_1.DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
     name: {
-        type: DataTypes.TEXT,
+        type: sequelize_1.DataTypes.TEXT,
         allowNull: false,
         unique: true,
     },
 };
-
 const deprecatedDependencyModelOptions = {
     indexes: [{ unique: true, fields: ['name'] }],
 };
-
-const DeprecatedDependencyModel = {
-    name: 'DeprecatedDependency',
-    schema: deprecatedDependencyModelSchema,
-    options: deprecatedDependencyModelOptions,
+const initializeDeprecatedDependencyModel = (sequelize) => {
+    DeprecatedDependencyModelType.init(deprecatedDependencyModelSchema, {
+        sequelize,
+        modelName: 'DeprecatedDependency',
+        ...deprecatedDependencyModelOptions,
+    });
+    return DeprecatedDependencyModelType;
 };
-
-export default DeprecatedDependencyModel;
+exports.default = initializeDeprecatedDependencyModel;

@@ -1,50 +1,66 @@
-import { DataTypes } from 'sequelize';
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AuditModelType = void 0;
+const sequelize_1 = require("sequelize");
+const auditModelOptions = {};
+class AuditModelType extends sequelize_1.Model {
+    _id;
+    appId;
+    type;
+    category;
+    subCategory;
+    status;
+    score;
+    scoreUnit;
+    extraInfos;
+    auditHelp;
+    module;
+}
+exports.AuditModelType = AuditModelType;
 const auditModelSchema = {
     _id: {
-        type: DataTypes.INTEGER,
+        type: sequelize_1.DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
     appId: {
-        type: DataTypes.TEXT,
+        type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
     },
     type: {
-        type: DataTypes.TEXT,
+        type: sequelize_1.DataTypes.TEXT,
     },
     category: {
-        type: DataTypes.TEXT,
+        type: sequelize_1.DataTypes.TEXT,
     },
     subCategory: {
-        type: DataTypes.TEXT,
+        type: sequelize_1.DataTypes.TEXT,
     },
     status: {
-        type: DataTypes.TEXT,
+        type: sequelize_1.DataTypes.TEXT,
     },
     score: {
-        type: DataTypes.FLOAT,
+        type: sequelize_1.DataTypes.FLOAT,
     },
     scoreUnit: {
-        type: DataTypes.TEXT,
+        type: sequelize_1.DataTypes.TEXT,
     },
     extraInfos: {
-        type: DataTypes.TEXT,
+        type: sequelize_1.DataTypes.TEXT,
     },
     auditHelp: {
-        type: DataTypes.JSON,
+        type: sequelize_1.DataTypes.JSON,
     },
     module: {
-        type: DataTypes.JSON,
+        type: sequelize_1.DataTypes.JSON,
     },
 };
-
-const auditModelOptions = {};
-
-const AuditModel = {
-    name: 'AuditReport',
-    schema: auditModelSchema,
-    options: auditModelOptions,
+const initializeAuditModel = (sequelize) => {
+    AuditModelType.init(auditModelSchema, {
+        sequelize,
+        modelName: 'AuditReport',
+        ...auditModelOptions,
+    });
+    return AuditModelType;
 };
-
-export default AuditModel;
+exports.default = initializeAuditModel;

@@ -1,44 +1,58 @@
-import { DataTypes } from 'sequelize';
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DependencyModelType = void 0;
+const sequelize_1 = require("sequelize");
+class DependencyModelType extends sequelize_1.Model {
+    _id;
+    appId;
+    type;
+    name;
+    version;
+    recommendedVersion;
+    status;
+    statusHelp;
+    module;
+}
+exports.DependencyModelType = DependencyModelType;
 const dependencyModelSchema = {
     _id: {
-        type: DataTypes.INTEGER,
+        type: sequelize_1.DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
     appId: {
-        type: DataTypes.TEXT,
+        type: sequelize_1.DataTypes.TEXT,
         allowNull: false,
     },
     type: {
-        type: DataTypes.TEXT,
+        type: sequelize_1.DataTypes.TEXT,
     },
     name: {
-        type: DataTypes.TEXT,
+        type: sequelize_1.DataTypes.TEXT,
     },
     version: {
-        type: DataTypes.TEXT,
+        type: sequelize_1.DataTypes.TEXT,
     },
     recommendedVersion: {
-        type: DataTypes.TEXT,
+        type: sequelize_1.DataTypes.TEXT,
     },
     status: {
-        type: DataTypes.TEXT,
+        type: sequelize_1.DataTypes.TEXT,
     },
     statusHelp: {
-        type: DataTypes.JSON,
+        type: sequelize_1.DataTypes.JSON,
     },
     module: {
-        type: DataTypes.JSON,
+        type: sequelize_1.DataTypes.JSON,
     },
 };
-
 const dependencyModelOptions = {};
-
-const DependencyModel = {
-    name: 'Dependency',
-    schema: dependencyModelSchema,
-    options: dependencyModelOptions,
+const initializeDependencyModel = (sequelize) => {
+    DependencyModelType.init(dependencyModelSchema, {
+        sequelize,
+        modelName: 'Dependency',
+        ...dependencyModelOptions,
+    });
+    return DependencyModelType;
 };
-
-export default DependencyModel;
+exports.default = initializeDependencyModel;

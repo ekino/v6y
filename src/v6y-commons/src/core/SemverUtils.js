@@ -1,10 +1,12 @@
-import { compare } from 'compare-versions';
-import { clean, major, minor, patch, valid } from 'semver';
-
-import AppLogger from './AppLogger.js';
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const compare_versions_1 = require("compare-versions");
+const semver_1 = require("semver");
+const AppLogger_1 = __importDefault(require("./AppLogger"));
 const SEMVER_OPERATORS = ['^', '~', '*', '='];
-
 /**
  * Compares two semantic versions using the provided operator.
  *
@@ -15,22 +17,21 @@ const SEMVER_OPERATORS = ['^', '~', '*', '='];
  */
 const compareVersions = (version1, version2, operator) => {
     try {
-        AppLogger.info(`[compareVersions] version1: ${version1}`);
-        AppLogger.info(`[compareVersions] version2: ${version2}`);
-        AppLogger.info(`[compareVersions] operator: ${operator}`);
-
-        return compare(version1, version2, operator);
-    } catch (error) {
-        AppLogger.info(`[compareVersions] error: ${error.message}`);
+        AppLogger_1.default.info(`[compareVersions] version1: ${version1}`);
+        AppLogger_1.default.info(`[compareVersions] version2: ${version2}`);
+        AppLogger_1.default.info(`[compareVersions] operator: ${operator}`);
+        return (0, compare_versions_1.compare)(version1, version2, operator);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[compareVersions] error: ${error}`);
         return false;
     }
 };
-
 /**
  * Normalizes a version string, removing any leading semver operators and cleaning the version.
  *
  * @param {string} version - The version string to normalize.
- * @returns {string|null} The normalized semantic version or null if an error occurs.
+ * @returns {string} The normalized semantic version or null if an error occurs.
  */
 const normalizeVersion = (version) => {
     try {
@@ -38,25 +39,24 @@ const normalizeVersion = (version) => {
             let newVersion = '';
             if (SEMVER_OPERATORS.includes(version.trim().charAt(0))) {
                 newVersion = version.slice(1);
-            } else if (/^\d+$/.test(version.trim().charAt(0))) {
+            }
+            else if (/^\d+$/.test(version.trim().charAt(0))) {
                 newVersion = version;
             }
-
             // clean not work with range https://www.npmjs.com/package/semver
-            const cleanedVersion = clean(newVersion.trim(), {
+            const cleanedVersion = (0, semver_1.clean)(newVersion.trim(), {
                 loose: true,
             });
-
             // return valid semver version
-            return valid(cleanedVersion);
+            return (0, semver_1.valid)(cleanedVersion);
         }
-        return null;
-    } catch (error) {
-        AppLogger.info(`[normalizeVersion] error: ${error.message}`);
-        return null;
+        return '';
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[normalizeVersion] error: ${error}`);
+        return '';
     }
 };
-
 /**
  * Parses a version string and extracts major, minor, and patch components.
  *
@@ -75,21 +75,20 @@ const parseVersion = (version) => {
             if (!validSemverVersion) {
                 return null;
             }
-
             return {
                 semverVersion: validSemverVersion,
-                semverVersionMajor: major(validSemverVersion),
-                semverVersionMinor: minor(validSemverVersion),
-                semverVersionPatch: patch(validSemverVersion),
+                semverVersionMajor: (0, semver_1.major)(validSemverVersion),
+                semverVersionMinor: (0, semver_1.minor)(validSemverVersion),
+                semverVersionPatch: (0, semver_1.patch)(validSemverVersion),
             };
         }
         return null;
-    } catch (error) {
-        AppLogger.info(`[parseVersion] error: ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[parseVersion] error: ${error}`);
         return null;
     }
 };
-
 /**
  * Utilities for working with semantic versions.
  */
@@ -98,5 +97,4 @@ const SemverUtils = {
     normalizeVersion,
     parseVersion,
 };
-
-export default SemverUtils;
+exports.default = SemverUtils;

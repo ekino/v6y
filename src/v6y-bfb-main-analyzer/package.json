@@ -42,7 +42,6 @@
     "vitest": "=2.0.5"
   },
   "dependencies": {
-    "@v6y/commons": "workspace:^",
     "body-parser": "=1.20.1",
     "compare-versions": "=5.0.1",
     "cookie-parser": "=1.4.6",

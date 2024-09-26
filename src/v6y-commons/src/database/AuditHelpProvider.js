@@ -1,282 +1,148 @@
-import { defaultAuditHelpStatus } from '../config/AuditHelpConfig.js';
-import AppLogger from '../core/AppLogger.js';
-import DataBaseManager from './DataBaseManager.js';
-import AuditHelpModel from './models/AuditHelpModel.js';
-
-/**
- * Creates a new AuditHelp entry in the database.
- *
- * @param {Object} auditHelp - The AuditHelp data to be created.
- * @returns {Promise<*|null>} The created AuditHelp object or null on error or if the AuditHelp model is not found.
- */
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const AuditHelpConfig_1 = require("../config/AuditHelpConfig");
+const AppLogger_1 = __importDefault(require("../core/AppLogger"));
+const AuditHelpModel_1 = require("./models/AuditHelpModel");
 const createAuditHelp = async (auditHelp) => {
     try {
-        AppLogger.info(
-            `[AuditHelpProvider - createAuditHelp] auditHelp title:  ${auditHelp?.title}`,
-        );
+        AppLogger_1.default.info(`[AuditHelpProvider - createAuditHelp] auditHelp title:  ${auditHelp?.title}`);
         if (!auditHelp?.title?.length) {
             return null;
         }
-
-        const auditHelpModel = DataBaseManager.getDataBaseSchema(AuditHelpModel.name);
-
-        if (!auditHelpModel) {
-            return null;
-        }
-
-        const createdAuditHelp = await auditHelpModel.create(auditHelp);
-        AppLogger.info(
-            `[AuditHelpProvider - createAuditHelp] createdAuditHelp: ${createdAuditHelp?._id}`,
-        );
-
+        const createdAuditHelp = await AuditHelpModel_1.AuditHelpModelType.create(auditHelp);
+        AppLogger_1.default.info(`[AuditHelpProvider - createAuditHelp] createdAuditHelp: ${createdAuditHelp?._id}`);
         return createdAuditHelp;
-    } catch (error) {
-        AppLogger.info(`[AuditHelpProvider - createAuditHelp] error:  ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[AuditHelpProvider - createAuditHelp] error:  ${error}`);
         return null;
     }
 };
-
-/**
- * Edits an existing AuditHelp entry in the database.
- *
- * @param {Object} auditHelp - The AuditHelp data with updated information.
- * @returns {Promise<*|null>} An object containing the ID of the edited AuditHelp or null on error or if the AuditHelp model is not found.
- */
 const editAuditHelp = async (auditHelp) => {
     try {
-        AppLogger.info(`[AuditHelpProvider - editAuditHelp] auditHelp id:  ${auditHelp?._id}`);
-        AppLogger.info(`[AuditHelpProvider - editAuditHelp] auditHelp title:  ${auditHelp?.title}`);
-
+        AppLogger_1.default.info(`[AuditHelpProvider - editAuditHelp] auditHelp id:  ${auditHelp?._id}`);
+        AppLogger_1.default.info(`[AuditHelpProvider - editAuditHelp] auditHelp title:  ${auditHelp?.title}`);
         if (!auditHelp?._id || !auditHelp?.title?.length) {
             return null;
         }
-
-        const auditHelpModel = DataBaseManager.getDataBaseSchema(AuditHelpModel.name);
-
-        if (!auditHelpModel) {
-            return null;
-        }
-
-        const editedAuditHelp = await auditHelpModel.update(auditHelp, {
+        const editedAuditHelp = await AuditHelpModel_1.AuditHelpModelType.update(auditHelp, {
             where: {
                 _id: auditHelp?._id,
             },
         });
-
-        AppLogger.info(
-            `[AuditHelpProvider - editAuditHelp] editedAuditHelp: ${editedAuditHelp?._id}`,
-        );
-
+        AppLogger_1.default.info(`[AuditHelpProvider - editAuditHelp] editedAuditHelp: ${editedAuditHelp?.[0]}`);
         return {
             _id: auditHelp?._id,
         };
-    } catch (error) {
-        AppLogger.info(`[AuditHelpProvider - editAuditHelp] error:  ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[AuditHelpProvider - editAuditHelp] error:  ${error}`);
         return null;
     }
 };
-
-/**
- * Deletes an AuditHelp from the database.
- *
- * @param {Object} params - An object containing the parameters for deletion.
- * @param {string} params.auditHelpId - The ID of the AuditHelp to delete.
- * @returns {Promise<*|null>} An object containing the ID of the deleted AuditHelp, or null on error or if auditHelpId is not provided or if the AuditHelp model is not found.
- */
-const deleteAuditHelp = async ({ auditHelpId }) => {
+const deleteAuditHelp = async ({ _id }) => {
     try {
-        AppLogger.info(`[AuditHelpProvider - deleteAuditHelp] auditHelpId:  ${auditHelpId}`);
-        if (!auditHelpId) {
+        AppLogger_1.default.info(`[AuditHelpProvider - deleteAuditHelp] _id:  ${_id}`);
+        if (!_id) {
             return null;
         }
-
-        const auditHelpModel = DataBaseManager.getDataBaseSchema(AuditHelpModel.name);
-
-        if (!auditHelpModel) {
-            return null;
-        }
-
-        await auditHelpModel.destroy({
+        await AuditHelpModel_1.AuditHelpModelType.destroy({
             where: {
-                _id: auditHelpId,
+                _id,
             },
         });
-
         return {
-            _id: auditHelpId,
+            _id,
         };
-    } catch (error) {
-        AppLogger.info(`[AuditHelpProvider - deleteAuditHelp] error:  ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[AuditHelpProvider - deleteAuditHelp] error:  ${error}`);
         return null;
     }
 };
-
-/**
- * Deletes all AuditHelps from the database
- *
- * @returns {Promise<boolean|null>}True if the deletion was successful, false otherwise
- */
 const deleteAuditHelpList = async () => {
     try {
-        const auditHelpModel = DataBaseManager.getDataBaseSchema(AuditHelpModel.name);
-        if (!auditHelpModel) {
-            return null;
-        }
-
-        await auditHelpModel.destroy({
+        await AuditHelpModel_1.AuditHelpModelType.destroy({
             truncate: true,
         });
-
         return true;
-    } catch (error) {
-        AppLogger.info(`[AuditHelpProvider - deleteAuditHelpList] error:  ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[AuditHelpProvider - deleteAuditHelpList] error:  ${error}`);
         return false;
     }
 };
-
-/**
- * Retrieves a list of AuditHelps, potentially paginated and sorted
- *
- * @param {Object} params - An object containing query parameters
- * @param {number} [params.start] - The starting index for pagination (optional)
- * @param {number} [params.limit] - The maximum number of AuditHelps to retrieve (optional)
- * @param {Object} [params.sort] - An object defining the sorting criteria (optional)
- * @returns {Promise<Model[]|Attributes<Model>[]|*[]|null>} An array of AuditHelp objects or null on error or if the AuditHelp model is not found
- */
 const getAuditHelpListByPageAndParams = async ({ start, limit, sort }) => {
     try {
-        AppLogger.info(`[AuditHelpProvider - getAuditHelpListByPageAndParams] start: ${start}`);
-        AppLogger.info(`[AuditHelpProvider - getAuditHelpListByPageAndParams] limit: ${limit}`);
-        AppLogger.info(`[AuditHelpProvider - getAuditHelpListByPageAndParams] sort: ${sort}`);
-
-        const auditHelpModel = DataBaseManager.getDataBaseSchema(AuditHelpModel.name);
-        if (!auditHelpModel) {
-            return null;
-        }
-
+        AppLogger_1.default.info(`[AuditHelpProvider - getAuditHelpListByPageAndParams] start: ${start}`);
+        AppLogger_1.default.info(`[AuditHelpProvider - getAuditHelpListByPageAndParams] limit: ${limit}`);
+        AppLogger_1.default.info(`[AuditHelpProvider - getAuditHelpListByPageAndParams] sort: ${sort}`);
         // Construct the query options based on provided arguments
         const queryOptions = {};
-
         // Handle pagination
         if (start) {
             queryOptions.offset = start;
         }
-
         if (limit) {
             queryOptions.limit = limit;
         }
-
-        const auditHelpList = await auditHelpModel.findAll(queryOptions);
-        AppLogger.info(
-            `[AuditHelpProvider - getAuditHelpListByPageAndParams] auditHelpList: ${auditHelpList?.length}`,
-        );
-
+        const auditHelpList = await AuditHelpModel_1.AuditHelpModelType.findAll(queryOptions);
+        AppLogger_1.default.info(`[AuditHelpProvider - getAuditHelpListByPageAndParams] auditHelpList: ${auditHelpList?.length}`);
         return auditHelpList;
-    } catch (error) {
-        AppLogger.info(
-            `[AuditHelpProvider - getAuditHelpListByPageAndParams] error:  ${error.message}`,
-        );
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[AuditHelpProvider - getAuditHelpListByPageAndParams] error:  ${error}`);
         return [];
     }
 };
-
-/**
- * Retrieves the details of an AuditHelp by its ID.
- *
- * @param {Object} params - An object containing the parameters for the query
- * @param {string} params.auditHelpId - The ID of the AuditHelp to retrieve
- * @param {string} params.category - The category of the AuditHelp to retrieve
- * @returns {Promise<TModelAttributes|null>} The AuditHelp details or null if not found or on error or if the AuditHelp model is not found
- */
-const getAuditHelpDetailsByParams = async ({ auditHelpId, category }) => {
+const getAuditHelpDetailsByParams = async ({ _id, category }) => {
     try {
-        AppLogger.info(
-            `[AuditHelpProvider - getAuditHelpDetailsByParams] auditHelpId: ${auditHelpId}`,
-        );
-        AppLogger.info(`[AuditHelpProvider - getAuditHelpDetailsByParams] category: ${category}`);
-
-        const auditHelpModel = DataBaseManager.getDataBaseSchema(AuditHelpModel.name);
-
-        if (!auditHelpModel) {
-            return null;
-        }
-
-        const auditHelpDetails = auditHelpId
-            ? (
-                  await auditHelpModel.findOne({
-                      where: {
-                          _id: auditHelpId,
-                      },
-                  })
-              )?.dataValues
-            : (
-                  await auditHelpModel.findOne({
-                      where: {
-                          category,
-                      },
-                  })
-              )?.dataValues;
-
-        AppLogger.info(
-            `[AuditHelpProvider - getAuditHelpDetailsByParams] auditHelpDetails _id: ${auditHelpDetails?._id}`,
-        );
-
+        AppLogger_1.default.info(`[AuditHelpProvider - getAuditHelpDetailsByParams] _id: ${_id}`);
+        AppLogger_1.default.info(`[AuditHelpProvider - getAuditHelpDetailsByParams] category: ${category}`);
+        const auditHelpDetails = _id
+            ? (await AuditHelpModel_1.AuditHelpModelType.findOne({
+                where: {
+                    _id,
+                },
+            }))?.dataValues
+            : (await AuditHelpModel_1.AuditHelpModelType.findOne({
+                where: {
+                    category,
+                },
+            }))?.dataValues;
+        AppLogger_1.default.info(`[AuditHelpProvider - getAuditHelpDetailsByParams] auditHelpDetails _id: ${auditHelpDetails?._id}`);
         if (!auditHelpDetails?._id) {
             return null;
         }
-
         return auditHelpDetails;
-    } catch (error) {
-        AppLogger.info(`[AuditHelpProvider - getAuditHelpDetailsByParams] error: ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[AuditHelpProvider - getAuditHelpDetailsByParams] error: ${error}`);
         return null;
     }
 };
-
-/**
- * Initializes default audit help data in the database.
- *
- * Checks if audit help data already exists in the database.
- * If not, it creates new audit help entries using the `defaultAuditHelpStatus` data.
- *
- * @returns {Promise<boolean|null>} A promise that resolves to:
- *   - `true` if the initialization was successful or audit help data already exists.
- *   - `false` if there was an error during initialization.
- *   - `null` if the `auditHelpModel` is not found.
- */
 const initDefaultData = async () => {
     try {
-        AppLogger.info(`[AuditHelpProvider - initDefaultData] start`);
-
-        const auditHelpModel = DataBaseManager.getDataBaseSchema(AuditHelpModel.name);
-
-        if (!auditHelpModel) {
-            return null;
-        }
-
-        const auditHelpCount = await auditHelpModel.count();
-
-        AppLogger.info(`[AuditHelpProvider - initDefaultData] auditHelpCount:  ${auditHelpCount}`);
-
+        AppLogger_1.default.info(`[AuditHelpProvider - initDefaultData] start`);
+        const auditHelpCount = await AuditHelpModel_1.AuditHelpModelType.count();
+        AppLogger_1.default.info(`[AuditHelpProvider - initDefaultData] auditHelpCount:  ${auditHelpCount}`);
         if (auditHelpCount > 0) {
             return true;
         }
-
-        for (const auditHelp of defaultAuditHelpStatus) {
+        for (const auditHelp of AuditHelpConfig_1.defaultAuditHelpStatus) {
             await createAuditHelp(auditHelp);
         }
-
-        AppLogger.info(`[AuditHelpProvider - initDefaultData] end`);
-
+        AppLogger_1.default.info(`[AuditHelpProvider - initDefaultData] end`);
         return true; // Indicate successful initialization
-    } catch (error) {
-        AppLogger.info(`[AuditHelpProvider - initDefaultData] error:  ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[AuditHelpProvider - initDefaultData] error:  ${error}`);
         return false;
     }
 };
-
-/**
- * An object that provides various operations related to AuditHelps.
- */
 const AuditHelpProvider = {
     initDefaultData,
     createAuditHelp,
@@ -286,5 +152,4 @@ const AuditHelpProvider = {
     getAuditHelpListByPageAndParams,
     getAuditHelpDetailsByParams,
 };
-
-export default AuditHelpProvider;
+exports.default = AuditHelpProvider;

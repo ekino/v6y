@@ -1,223 +1,143 @@
-import AppLogger from '../core/AppLogger.js';
-import { EvolutionHelpProvider } from '../index.js';
-import DataBaseManager from './DataBaseManager.js';
-import EvolutionModel from './models/EvolutionModel.js';
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const AppLogger_1 = __importDefault(require("../core/AppLogger"));
+const EvolutionHelpProvider_1 = __importDefault(require("./EvolutionHelpProvider"));
+const EvolutionModel_1 = require("./models/EvolutionModel");
 /**
- * Creates a new Evolution entry in the database.
- *
- * @param {Object} evolution - The Evolution data to be created.
- * @returns {Promise<*|null>} The created Evolution object or null on error or if the Evolution model is not found.
+ * Creates a new Evolution in the database
+ * @param evolution
  */
 const createEvolution = async (evolution) => {
     try {
-        AppLogger.info(
-            `[EvolutionProvider - createEvolution] evolution category:  ${evolution?.category}`,
-        );
-
+        AppLogger_1.default.info(`[EvolutionProvider - createEvolution] evolution category:  ${evolution?.category}`);
         if (!evolution?.category?.length) {
             return null;
         }
-
-        const evolutionModel = DataBaseManager.getDataBaseSchema(EvolutionModel.name);
-
-        if (!evolutionModel) {
-            return null;
-        }
-
-        const evolutionHelp = await EvolutionHelpProvider.getEvolutionHelpDetailsByParams({
+        const evolutionHelp = await EvolutionHelpProvider_1.default.getEvolutionHelpDetailsByParams({
             category: evolution?.category,
         });
-
-        const createdEvolution = await evolutionModel.create({
+        const createdEvolution = await EvolutionModel_1.EvolutionModelType.create({
             ...evolution,
             appId: evolution.module?.appId,
             evolutionHelp,
         });
-        AppLogger.info(
-            `[EvolutionProvider - createEvolution] createdEvolution: ${createdEvolution?._id}`,
-        );
-
+        AppLogger_1.default.info(`[EvolutionProvider - createEvolution] createdEvolution: ${createdEvolution?._id}`);
         return createdEvolution;
-    } catch (error) {
-        AppLogger.info(`[EvolutionProvider - createEvolution] error:  ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[EvolutionProvider - createEvolution] error:  ${error}`);
         return null;
     }
 };
-
 /**
- * Bulk insert of evolutionList list
- * @param {Array} evolutionList
- * @returns {Promise<null>}
+ * Inserts a list of Evolutions in the database
+ * @param evolutionList
  */
 const insertEvolutionList = async (evolutionList) => {
     try {
-        AppLogger.info(
-            `[EvolutionProvider - insertEvolutionList] evolutionList:  ${evolutionList?.length}`,
-        );
+        AppLogger_1.default.info(`[EvolutionProvider - insertEvolutionList] evolutionList:  ${evolutionList?.length}`);
         if (!evolutionList?.length) {
             return null;
         }
-
-        const evolutionModel = DataBaseManager.getDataBaseSchema(EvolutionModel.name);
-
-        if (!evolutionModel) {
-            return null;
-        }
-
         for (const evolution of evolutionList) {
             await createEvolution(evolution);
         }
-
-        AppLogger.info(
-            `[EvolutionProvider - insertEvolutionList] evolutionList list inserted successfully`,
-        );
-    } catch (error) {
-        AppLogger.info(`[EvolutionProvider - insertEvolutionList] error:  ${error.message}`);
+        AppLogger_1.default.info(`[EvolutionProvider - insertEvolutionList] evolutionList list inserted successfully`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[EvolutionProvider - insertEvolutionList] error:  ${error}`);
     }
 };
-
 /**
- * Edits an existing Evolution entry in the database.
- *
- * @param {Object} evolution - The Evolution data with updated information.
- * @returns {Promise<*|null>} An object containing the ID of the edited Evolution or null on error or if the Evolution model is not found.
+ * Edits an existing Evolution in the database
+ * @param evolution
  */
 const editEvolution = async (evolution) => {
     try {
-        AppLogger.info(`[EvolutionProvider - createEvolution] evolution _id:  ${evolution?._id}`);
-        AppLogger.info(
-            `[EvolutionProvider - createEvolution] evolution category:  ${evolution?.category}`,
-        );
-
+        AppLogger_1.default.info(`[EvolutionProvider - createEvolution] evolution _id:  ${evolution?._id}`);
+        AppLogger_1.default.info(`[EvolutionProvider - createEvolution] evolution category:  ${evolution?.category}`);
         if (!evolution?._id || !evolution?.category?.length) {
             return null;
         }
-
-        const evolutionModel = DataBaseManager.getDataBaseSchema(EvolutionModel.name);
-
-        if (!evolutionModel) {
-            return null;
-        }
-
-        const editedEvolution = await evolutionModel.update(evolution, {
+        const editedEvolution = await EvolutionModel_1.EvolutionModelType.update(evolution, {
             where: {
                 _id: evolution?._id,
             },
         });
-
-        AppLogger.info(
-            `[EvolutionProvider - editEvolution] editedEvolution: ${editedEvolution?._id}`,
-        );
-
+        AppLogger_1.default.info(`[EvolutionProvider - editEvolution] editedEvolution: ${editedEvolution?.[0]}`);
         return {
             _id: evolution?._id,
         };
-    } catch (error) {
-        AppLogger.info(`[EvolutionProvider - editEvolution] error:  ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[EvolutionProvider - editEvolution] error:  ${error}`);
         return null;
     }
 };
-
 /**
- * Deletes an Evolution from the database.
- *
- * @param {Object} params - An object containing the parameters for deletion.
- * @param {string} params.evolutionId - The ID of the Evolution to delete.
- * @returns {Promise<*|null>} An object containing the ID of the deleted Evolution, or null on error or if evolutionId is not provided or if the Evolution model is not found.
+ * Deletes an existing Evolution in the database
+ * @param _id
  */
-const deleteEvolution = async ({ evolutionId }) => {
+const deleteEvolution = async ({ _id }) => {
     try {
-        AppLogger.info(`[EvolutionProvider - deleteEvolution] evolutionId:  ${evolutionId}`);
-        if (!evolutionId) {
+        AppLogger_1.default.info(`[EvolutionProvider - deleteEvolution] _id:  ${_id}`);
+        if (!_id) {
             return null;
         }
-
-        const evolutionModel = DataBaseManager.getDataBaseSchema(EvolutionModel.name);
-
-        if (!evolutionModel) {
-            return null;
-        }
-
-        await evolutionModel.destroy({
+        await EvolutionModel_1.EvolutionModelType.destroy({
             where: {
-                _id: evolutionId,
+                _id,
             },
         });
-
         return {
-            _id: evolutionId,
+            _id,
         };
-    } catch (error) {
-        AppLogger.info(`[EvolutionProvider - deleteEvolution] error:  ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[EvolutionProvider - deleteEvolution] error:  ${error}`);
         return null;
     }
 };
-
 /**
- * Deletes all Evolutions from the database
- *
- * @returns {Promise<boolean|null>} True if the deletion was successful, false otherwise
+ * Deletes all Evolutions in the database
  */
 const deleteEvolutionList = async () => {
     try {
-        const evolutionModel = DataBaseManager.getDataBaseSchema(EvolutionModel.name);
-        if (!evolutionModel) {
-            return null;
-        }
-
-        await evolutionModel.destroy({
+        await EvolutionModel_1.EvolutionModelType.destroy({
             truncate: true,
         });
-
         return true;
-    } catch (error) {
-        AppLogger.info(`[EvolutionProvider - deleteEvolutionList] error:  ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[EvolutionProvider - deleteEvolutionList] error:  ${error}`);
         return false;
     }
 };
-
 /**
- * Retrieves a list of evolutions based on the provided appId.
- *
- * @param {Object} params - Parameters object containing the appId.
- * @param {string} params.appId - The ID of the application to retrieve evolutions for.
- * @returns {Promise<Array>} A Promise resolving to an array of evolutions, or an empty array in case of an error.
+ * Fetches a list of Evolutions from the database
+ * @param appId
  */
 const getEvolutionListByPageAndParams = async ({ appId }) => {
     try {
-        AppLogger.info(`[EvolutionProvider - getEvolutionListByPageAndParams] appId: ${appId}`);
-
-        const evolutionModel = DataBaseManager.getDataBaseSchema(EvolutionModel.name);
-        if (!evolutionModel) {
-            return null;
-        }
-
+        AppLogger_1.default.info(`[EvolutionProvider - getEvolutionListByPageAndParams] appId: ${appId}`);
         const queryOptions = {};
-
         if (appId) {
             queryOptions.where = {
                 appId,
             };
         }
-
-        const evolutionList = await evolutionModel.findAll(queryOptions);
-        AppLogger.info(
-            `[EvolutionProvider - getEvolutionListByPageAndParams] evolutionList: ${evolutionList?.length}`,
-        );
-
+        const evolutionList = await EvolutionModel_1.EvolutionModelType.findAll(queryOptions);
+        AppLogger_1.default.info(`[EvolutionProvider - getEvolutionListByPageAndParams] evolutionList: ${evolutionList?.length}`);
         return evolutionList;
-    } catch (error) {
-        AppLogger.info(
-            `[EvolutionProvider - getEvolutionListByPageAndParams] error:  ${error.message}`,
-        );
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[EvolutionProvider - getEvolutionListByPageAndParams] error:  ${error}`);
         return [];
     }
 };
-
-/**
- * An object that provides various operations related to Evolutions.
- */
 const EvolutionProvider = {
     createEvolution,
     insertEvolutionList,
@@ -226,5 +146,4 @@ const EvolutionProvider = {
     deleteEvolutionList,
     getEvolutionListByPageAndParams,
 };
-
-export default EvolutionProvider;
+exports.default = EvolutionProvider;

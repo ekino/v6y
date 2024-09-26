@@ -1,38 +1,62 @@
-import { Op } from 'sequelize';
-
-import AppLogger from '../core/AppLogger.js';
-import AuditProvider from './AuditProvider.js';
-import DataBaseManager from './DataBaseManager.js';
-import DependencyProvider from './DependencyProvider.js';
-import EvolutionProvider from './EvolutionProvider.js';
-import KeywordProvider from './KeywordProvider.js';
-import ApplicationModel from './models/ApplicationModel.js';
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const sequelize_1 = require("sequelize");
+const AppLogger_1 = __importDefault(require("../core/AppLogger"));
+const AuditProvider_1 = __importDefault(require("./AuditProvider"));
+const DependencyProvider_1 = __importDefault(require("./DependencyProvider"));
+const EvolutionProvider_1 = __importDefault(require("./EvolutionProvider"));
+const KeywordProvider_1 = __importDefault(require("./KeywordProvider"));
+const ApplicationModel_1 = require("./models/ApplicationModel");
 /**
- * Formats application data from input into a standardized structure.
- *
- * @param {Object} application - The application data object.
- * @returns {Object} The formatted application data.
+ *  Build search query
+ * @param searchText
+ * @param keywords
+ * @param offset
+ * @param limit
+ * @param where
+ */
+const buildSearchQuery = ({ searchText, offset, limit /*keywords, where*/ }) => {
+    const queryOptions = {};
+    if (offset) {
+        queryOptions.offset = offset;
+    }
+    if (limit) {
+        queryOptions.limit = limit;
+    }
+    if (searchText) {
+        queryOptions.where = {
+            [sequelize_1.Op.or]: [
+                {
+                    name: {
+                        [sequelize_1.Op.substring]: searchText,
+                    },
+                },
+                {
+                    acronym: {
+                        [sequelize_1.Op.substring]: searchText,
+                    },
+                },
+                {
+                    description: {
+                        [sequelize_1.Op.substring]: searchText,
+                    },
+                },
+            ],
+        };
+    }
+    return queryOptions;
+};
+/**
+ * Format application input
+ * @param application
  */
 const formatApplicationInput = (application) => {
-    const {
-        appId,
-        acronym,
-        name,
-        description,
-        gitOrganization,
-        gitUrl,
-        gitWebUrl,
-        productionLink,
-        contactMail,
-        codeQualityPlatformLink,
-        ciPlatformLink,
-        deploymentPlatformLink,
-        additionalProductionLinks,
-    } = application || {};
-
+    const { appId, acronym, name, description, gitOrganization, gitUrl, gitWebUrl, productionLink, contactMail, codeQualityPlatformLink, ciPlatformLink, deploymentPlatformLink, additionalProductionLinks, } = application || {};
     return {
-        appId,
+        _id: appId,
         name,
         acronym,
         description,
@@ -67,497 +91,272 @@ const formatApplicationInput = (application) => {
         ]?.filter((item) => item?.value),
     };
 };
-
 /**
- * Creates a new application in the database from form data.
- *
- * @param {Object} application - The application data to be created
- * @returns {Promise<*|null>} The created application object or null on error or if the application model is not found
+ * Create form application
+ * @param application
  */
 const createFormApplication = async (application) => {
     try {
-        const applicationModel = DataBaseManager.getDataBaseSchema(ApplicationModel.name);
-
-        if (!applicationModel) {
-            return null;
-        }
-
-        const createdApplication = await applicationModel.create(
-            formatApplicationInput(application),
-        );
-
-        AppLogger.info(
-            `[ApplicationProvider - createFormApplication] createdApplication: ${createdApplication?._id}`,
-        );
-
+        const createdApplication = await ApplicationModel_1.ApplicationModelType.create(formatApplicationInput(application));
+        AppLogger_1.default.info(`[ApplicationProvider - createFormApplication] createdApplication: ${createdApplication?._id}`);
         return createdApplication;
-    } catch (error) {
-        AppLogger.info(`[ApplicationProvider - createFormApplication] error: ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[ApplicationProvider - createFormApplication] error: ${error}`);
         return null;
     }
 };
-
 /**
- * Edits an existing application in the database from form data.
- *
- * @param {Object} application - The application data with updated information.
- * @returns {Promise<*|null>} An object containing the ID of the edited application or null on error or if the application model is not found
+ * Edit form application
+ * @param application
  */
 const editFormApplication = async (application) => {
     try {
         if (!application?.appId) {
             return null;
         }
-
-        const applicationModel = DataBaseManager.getDataBaseSchema(ApplicationModel.name);
-        if (!applicationModel) {
-            return null;
-        }
-
-        const editedApplication = await applicationModel.update(
-            formatApplicationInput(application),
-            {
-                where: {
-                    _id: application?.appId,
-                },
+        const editedApplication = await ApplicationModel_1.ApplicationModelType.update(formatApplicationInput(application), {
+            where: {
+                _id: application?.appId,
             },
-        );
-
-        AppLogger.info(
-            `[ApplicationProvider - editFormApplication] editedApplication: ${editedApplication?._id}`,
-        );
-
+        });
+        AppLogger_1.default.info(`[ApplicationProvider - editFormApplication] editedApplication: ${editedApplication?.[0]}`);
         return {
             _id: application?.appId,
         };
-    } catch (error) {
-        AppLogger.info(`[ApplicationProvider - editFormApplication] error: ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[ApplicationProvider - editFormApplication] error: ${error}`);
         return null;
     }
 };
-
 /**
- * Edits an existing application in the database.
- *
- * @param {Object} application - The application data with updated information.
- * @returns {Promise<*|null>} An object containing the ID of the edited application or null on error or if the application model is not found
+ * Edit application
+ * @param application
  */
 const editApplication = async (application) => {
     try {
         if (!application?._id) {
             return null;
         }
-
-        const applicationModel = DataBaseManager.getDataBaseSchema(ApplicationModel.name);
-        if (!applicationModel) {
-            return null;
-        }
-
-        const editedApplication = await applicationModel.update(application, {
+        const editedApplication = await ApplicationModel_1.ApplicationModelType.update(application, {
             where: {
                 _id: application?._id,
             },
         });
-
-        AppLogger.info(
-            `[ApplicationProvider - editApplication] editedApplication: ${editedApplication?._id}`,
-        );
-
+        AppLogger_1.default.info(`[ApplicationProvider - editApplication] editedApplication: ${editedApplication?.[0]}`);
         return {
             _id: application?._id,
         };
-    } catch (error) {
-        AppLogger.info(`[ApplicationProvider - editApplication] error: ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[ApplicationProvider - editApplication] error: ${error}`);
         return null;
     }
 };
-
 /**
- * Deletes an application from the database
- *
- * @param {Object} params - An object containing the parameters for deletion.
- * @param {string} params.appId - The ID of the application to delete
- * @returns {Promise<*|null>} An object containing the ID of the deleted application, or null on error or if appId is not provided or if application model is not found.
+ * Delete application
+ * @param _id
  */
-const deleteApplication = async ({ appId }) => {
+const deleteApplication = async ({ _id }) => {
     try {
-        AppLogger.info(`[ApplicationProvider - deleteApplication] appId:  ${appId}`);
-        if (!appId) {
+        AppLogger_1.default.info(`[ApplicationProvider - deleteApplication] _id:  ${_id}`);
+        if (!_id) {
             return null;
         }
-
-        const applicationModel = DataBaseManager.getDataBaseSchema(ApplicationModel.name);
-        if (!applicationModel) {
-            return null;
-        }
-
-        await applicationModel.destroy({
+        await ApplicationModel_1.ApplicationModelType.destroy({
             where: {
-                _id: appId,
+                _id,
             },
         });
-
         return {
-            _id: appId,
+            _id,
         };
-    } catch (error) {
-        AppLogger.info(`[ApplicationProvider - deleteApplication] error:  ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[ApplicationProvider - deleteApplication] error:  ${error}`);
     }
 };
-
 /**
- * Deletes all applications from the database
- *
- * @returns {Promise<boolean|null>} True if the deletion was successful, false otherwise
+ * Delete application list
  */
 const deleteApplicationList = async () => {
     try {
-        const applicationModel = DataBaseManager.getDataBaseSchema(ApplicationModel.name);
-        if (!applicationModel) {
-            return null;
-        }
-
-        await applicationModel.destroy({
+        await ApplicationModel_1.ApplicationModelType.destroy({
             truncate: true,
         });
-
         return true;
-    } catch (error) {
-        AppLogger.info(`[ApplicationProvider - deleteApplicationList] error:  ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[ApplicationProvider - deleteApplicationList] error:  ${error}`);
         return false;
     }
 };
-
 /**
- * Retrieves the info details of an application by its ID, including its keywords
- *
- * @param {Object} params - An object containing the parameters for the query
- * @param {string} params.appId - The ID of the application to retrieve
- * @returns {Promise<*|null>} An object containing the application details and its keywords or null if the application is not found or on error or if the application model is not found
+ * Get application details info by params
+ * @param _id
  */
-const getApplicationDetailsInfoByParams = async ({ appId }) => {
+const getApplicationDetailsInfoByParams = async ({ _id }) => {
     try {
-        AppLogger.info(`[ApplicationProvider - getApplicationDetailsByParams] appId: ${appId}`);
-
-        if (!appId) {
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationDetailsByParams] _id: ${_id}`);
+        if (!_id) {
             return null;
         }
-
-        const applicationModel = DataBaseManager.getDataBaseSchema(ApplicationModel.name);
-        if (!applicationModel) {
-            return null;
-        }
-
-        const application = (
-            await applicationModel.findOne({
-                where: { _id: appId },
-            })
-        )?.dataValues;
-
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationListByPageAndParams] application _id: ${application?._id}`,
-        );
-
+        const application = (await ApplicationModel_1.ApplicationModelType.findOne({
+            where: { _id },
+        }))?.dataValues;
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationListByPageAndParams] application _id: ${application?._id}`);
         if (!application?._id) {
             return null;
         }
-
         return application;
-    } catch (error) {
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationDetailsByParams] error: ${error.message}`,
-        );
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationDetailsByParams] error: ${error}`);
         return null;
     }
 };
-
 /**
- * Retrieves the evolutions (changes/updates) associated with an application.
- *
- * @param {Object} params - An object containing parameters for the query
- * @param {string} params.appId - The ID of the application
- * @returns {Promise<undefined|[]|null>} An array of evolution objects or null if no evolutions are found or on error.
+ * Get application details evolutions by params
+ * @param _id
  */
-const getApplicationDetailsEvolutionsByParams = async ({ appId }) => {
+const getApplicationDetailsEvolutionsByParams = async ({ _id }) => {
     try {
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationDetailsEvolutionsByParams] appId: ${appId}`,
-        );
-
-        if (!appId) {
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationDetailsEvolutionsByParams] _id: ${_id}`);
+        if (!_id) {
             return null;
         }
-
-        const evolutions = await EvolutionProvider.getEvolutionListByPageAndParams({
-            appId,
+        const evolutions = await EvolutionProvider_1.default.getEvolutionListByPageAndParams({
+            appId: _id,
         });
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationDetailsEvolutionsByParams] evolutions: ${evolutions?.length}`,
-        );
-
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationDetailsEvolutionsByParams] evolutions: ${evolutions?.length}`);
         return evolutions;
-    } catch (error) {
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationDetailsEvolutionsByParams] error: ${error.message}`,
-        );
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationDetailsEvolutionsByParams] error: ${error}`);
         return null;
     }
 };
-
 /**
- * Retrieves the dependencies associated with an application
- *
- * @param {Object} params - An object containing the parameters for the query.
- * @param {string} params.appId - The ID of the application
- * @returns {Promise<Array|null>} An array of dependency objects or null if no dependencies are found or on error.
+ * Get application details dependencies by params
+ * @param _id
  */
-const getApplicationDetailsDependenciesByParams = async ({ appId }) => {
+const getApplicationDetailsDependenciesByParams = async ({ _id }) => {
     try {
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationDetailsDependenciesByParams] appId: ${appId}`,
-        );
-
-        if (!appId) {
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationDetailsDependenciesByParams] _id: ${_id}`);
+        if (!_id) {
             return null;
         }
-
-        const dependencies = await DependencyProvider.getDependencyListByPageAndParams({
-            appId,
+        const dependencies = await DependencyProvider_1.default.getDependencyListByPageAndParams({
+            appId: _id,
         });
-
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationDetailsDependenciesByParams] dependencies: ${dependencies?.length}`,
-        );
-
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationDetailsDependenciesByParams] dependencies: ${dependencies?.length}`);
         return dependencies;
-    } catch (error) {
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationDetailsDependenciesByParams] error: ${error.message}`,
-        );
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationDetailsDependenciesByParams] error: ${error}`);
         return null;
     }
 };
-
 /**
- * Retrieves audit reports associated with an application
- *
- * @param {Object} params - An object containing the parameters for the query
- * @param {string} params.appId - The ID of the application
- * @returns {Promise<Array|null>} An object containing audit reports for the application or null if no audit reports are found or on error
+ * Get application details audit reports by params
+ * @param _id
  */
-const getApplicationDetailsAuditReportsByParams = async ({ appId }) => {
+const getApplicationDetailsAuditReportsByParams = async ({ _id }) => {
     try {
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationDetailsAuditReportsByParams] appId: ${appId}`,
-        );
-
-        if (!appId) {
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationDetailsAuditReportsByParams] _id: ${_id}`);
+        if (!_id) {
             return null;
         }
-
-        const auditReports = await AuditProvider.getAuditListByPageAndParams({
-            appId,
+        const auditReports = await AuditProvider_1.default.getAuditListByPageAndParams({
+            appId: _id,
         });
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationDetailsAuditReportsByParams] auditReports: ${auditReports?.length}`,
-        );
-
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationDetailsAuditReportsByParams] auditReports: ${auditReports?.length}`);
         return auditReports;
-    } catch (error) {
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationDetailsAuditReportsByParams] error: ${error.message}`,
-        );
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationDetailsAuditReportsByParams] error: ${error}`);
         return null;
     }
 };
-
 /**
- * Retrieves keywords associated with an application
- *
- * @param {Object} params - An object containing the parameters for the query
- * @param {string} params.appId - The ID of the application
- * @returns {Promise<Array|null>}
+ * Get application details keywords by params
+ * @param _id
  */
-const getApplicationDetailsKeywordsByParams = async ({ appId }) => {
+const getApplicationDetailsKeywordsByParams = async ({ _id }) => {
     try {
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationDetailsKeywordsByParams] appId: ${appId}`,
-        );
-
-        const keywords = await KeywordProvider.getKeywordListByPageAndParams({
-            appId,
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationDetailsKeywordsByParams] _id: ${_id}`);
+        const keywords = await KeywordProvider_1.default.getKeywordListByPageAndParams({
+            appId: _id,
         });
-
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationDetailsKeywordsByParams] keywords: ${keywords?.length}`,
-        );
-
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationDetailsKeywordsByParams] keywords: ${keywords?.length}`);
         return keywords;
-    } catch (error) {
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationDetailsKeywordsByParams] error: ${error.message}`,
-        );
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationDetailsKeywordsByParams] error: ${error}`);
         return null;
     }
 };
-
-const buildSearchQuery = ({ searchText, keywords, offset, limit, where }) => {
-    const queryOptions = {};
-
-    if (offset) {
-        queryOptions.offset = offset;
-    }
-
-    if (limit) {
-        queryOptions.limit = limit;
-    }
-
-    if (searchText) {
-        queryOptions.where = {
-            [Op.or]: [
-                {
-                    name: {
-                        [Op.substring]: searchText,
-                    },
-                },
-                {
-                    acronym: {
-                        [Op.substring]: searchText,
-                    },
-                },
-                {
-                    description: {
-                        [Op.substring]: searchText,
-                    },
-                },
-            ],
-        };
-    }
-
-    return queryOptions;
-};
-
 /**
- * Retrieves a list of applications based on specified parameters.
- *
- * @param {Object} params - An object containing the parameters for the query
- * @param {string} [params.searchText] - The text to search for in application names or descriptions
- * @param {Array} [params.keywords] - An array of keywords to filter applications by
- * @param {number} [params.offset] - The offset for pagination
- * @param {number} [params.limit] - The maximum number of applications to return
- * @param {Object} [params.where] - Additional filtering conditions
- * @returns {Promise<*|*[]|null>} An array of application objects or null on error or if the application model is not found
+ * Get application list by page and params
+ * @param searchText
+ * @param keywords
+ * @param offset
+ * @param limit
+ * @param where
  */
-const getApplicationListByPageAndParams = async ({
-    searchText,
-    keywords,
-    offset,
-    limit,
-    where,
-}) => {
+const getApplicationListByPageAndParams = async ({ searchText, keywords, offset, limit, where, }) => {
     try {
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationListByPageAndParams] keywords: ${keywords?.join('\r\n')}`,
-        );
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationListByPageAndParams] searchText: ${searchText}`,
-        );
-        AppLogger.info(`[ApplicationProvider - getApplicationListByPageAndParams] where: ${where}`);
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationListByPageAndParams] offset: ${offset}`,
-        );
-        AppLogger.info(`[ApplicationProvider - getApplicationListByPageAndParams] limit: ${limit}`);
-
-        // read from DB
-        const applicationModel = DataBaseManager.getDataBaseSchema(ApplicationModel.name);
-        if (!applicationModel) {
-            return null;
-        }
-
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationListByPageAndParams] keywords: ${keywords?.join('\r\n')}`);
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationListByPageAndParams] searchText: ${searchText}`);
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationListByPageAndParams] where: ${where}`);
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationListByPageAndParams] offset: ${offset}`);
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationListByPageAndParams] limit: ${limit}`);
         const searchQuery = buildSearchQuery({ searchText, keywords, offset, limit, where });
-        const applications = await applicationModel.findAll(searchQuery);
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationListByPageAndParams] applications: ${applications?.length}`,
-        );
-
+        const applications = await ApplicationModel_1.ApplicationModelType.findAll(searchQuery);
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationListByPageAndParams] applications: ${applications?.length}`);
         return applications;
-    } catch (error) {
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationListByPageAndParams] error: ${error.message}`,
-        );
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationListByPageAndParams] error: ${error}`);
         return [];
     }
 };
-
 /**
- * Gets the total number of applications based on the given parameters
- *
- * @param {Object} params - An object containing the parameters for the query
- * @param {string} [params.searchText]
- - The text to search for in application names or descriptions
- * @param {Array} [params.keywords] - An array of keywords to filter applications by
- * @returns {Promise<number>} The total number of applications matching the criteria
+ * Get application total by params
+ * @param searchText
+ * @param keywords
  */
 const getApplicationTotalByParams = async ({ searchText, keywords }) => {
     try {
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationTotalByParams] searchText: ${searchText}`,
-        );
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationTotalByParams] keywords: ${keywords?.join('\r\n')}`,
-        );
-
-        const applicationModel = DataBaseManager.getDataBaseSchema(ApplicationModel.name);
-        if (!applicationModel) {
-            return null;
-        }
-
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationTotalByParams] searchText: ${searchText}`);
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationTotalByParams] keywords: ${keywords?.join('\r\n')}`);
         const searchQuery = buildSearchQuery({ searchText, keywords });
-        const applicationsCount = await applicationModel.count(searchQuery);
-
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationTotalByParams] applicationsCount: ${applicationsCount}`,
-        );
-
+        const applicationsCount = await ApplicationModel_1.ApplicationModelType.count(searchQuery);
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationTotalByParams] applicationsCount: ${applicationsCount}`);
         return applicationsCount;
-    } catch (error) {
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationTotalByParams] error: ${error.message}`,
-        );
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationTotalByParams] error: ${error}`);
         return 0;
     }
 };
-
 /**
- * Retrieves statistics about applications based on specified keywords
- *
- * @param {Object} params - An object containing the parameters for the query
- * @param {Array} [params.keywords] - An array of keywords to filter the statistics by
- * @returns {Promise<*|null>} An object containing application statistics
+ * Get application stats by params
+ * @param keywords
  */
 const getApplicationStatsByParams = async ({ keywords }) => {
     try {
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationStatsByParams] keywords: ${keywords?.join('\r\n')}`,
-        );
-
-        const keywordStats = await KeywordProvider.getKeywordsStatsByParams({ keywords });
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationStatsByParams] keywordStats: ${keywordStats?.length}`,
-        );
-
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationStatsByParams] keywords: ${keywords?.join('\r\n')}`);
+        const keywordStats = await KeywordProvider_1.default.getKeywordsStatsByParams({ keywords });
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationStatsByParams] keywordStats: ${keywordStats?.length}`);
         return keywordStats;
-    } catch (error) {
-        AppLogger.info(
-            `[ApplicationProvider - getApplicationStatsByParams] error: ${error.message}`,
-        );
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[ApplicationProvider - getApplicationStatsByParams] error: ${error}`);
         return null;
     }
 };
-
-/**
- * A helper that provides various operations related to applications
- */
 const ApplicationProvider = {
     createFormApplication,
     editFormApplication,
@@ -573,5 +372,4 @@ const ApplicationProvider = {
     getApplicationTotalByParams,
     getApplicationStatsByParams,
 };
-
-export default ApplicationProvider;
+exports.default = ApplicationProvider;

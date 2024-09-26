@@ -1,33 +1,42 @@
-import { DataTypes } from 'sequelize';
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.NotificationModelType = void 0;
+const sequelize_1 = require("sequelize");
+class NotificationModelType extends sequelize_1.Model {
+    _id;
+    title;
+    description;
+    links;
+}
+exports.NotificationModelType = NotificationModelType;
 const notificationSchema = {
     _id: {
-        type: DataTypes.INTEGER,
+        type: sequelize_1.DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
     title: {
-        type: DataTypes.TEXT,
+        type: sequelize_1.DataTypes.TEXT,
         allowNull: false,
         unique: true,
     },
     description: {
-        type: DataTypes.TEXT,
+        type: sequelize_1.DataTypes.TEXT,
         allowNull: false,
     },
     links: {
-        type: DataTypes.JSON,
+        type: sequelize_1.DataTypes.JSON,
     },
 };
-
 const notificationOptions = {
     indexes: [{ unique: true, fields: ['title'] }],
 };
-
-const NotificationModel = {
-    name: 'Notification',
-    schema: notificationSchema,
-    options: notificationOptions,
+const initializeNotificationModel = (sequelize) => {
+    NotificationModelType.init(notificationSchema, {
+        sequelize,
+        modelName: 'Notification',
+        ...notificationOptions,
+    });
+    return NotificationModelType;
 };
-
-export default NotificationModel;
+exports.default = initializeNotificationModel;

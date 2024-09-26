@@ -1,12 +1,14 @@
-import { defaultEvolutionHelpStatus } from '../config/EvolutionHelpStatusConfig.js';
-import AppLogger from '../core/AppLogger.js';
-import DataBaseManager from './DataBaseManager.js';
-import EvolutionHelpModel from './models/EvolutionHelpModel.js';
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const EvolutionHelpStatusConfig_1 = require("../config/EvolutionHelpStatusConfig");
+const AppLogger_1 = __importDefault(require("../core/AppLogger"));
+const EvolutionHelpModel_1 = require("./models/EvolutionHelpModel");
 /**
- * Format EvolutionHelp
+ * Formats the input EvolutionHelp object to the format expected by the database
  * @param evolutionHelp
- * @returns {{description, links: *, _id: *, title}}
  */
 const formatEvolutionHelpInput = (evolutionHelp) => ({
     _id: evolutionHelp._id,
@@ -16,308 +18,176 @@ const formatEvolutionHelpInput = (evolutionHelp) => ({
     status: evolutionHelp.status,
     links: evolutionHelp.links
         ?.map((link) => ({
-            label: 'More Information',
-            value: link,
-            description: '',
-        }))
+        label: 'More Information',
+        value: link,
+        description: '',
+    }))
         ?.filter((item) => item?.value),
 });
-
 /**
- * Creates a new EvolutionHelp entry in the database.
- *
- * @param {Object} evolutionHelp - The EvolutionHelp data to be created.
- * @returns {Promise<*|null>} The created EvolutionHelp object or null on error or if the EvolutionHelp model is not found.
+ * Creates a new EvolutionHelp in the database
+ * @param evolutionHelp
  */
 const createEvolutionHelp = async (evolutionHelp) => {
     try {
-        AppLogger.info(
-            `[EvolutionHelpProvider - createEvolutionHelp] evolutionHelp title:  ${evolutionHelp?.title}`,
-        );
+        AppLogger_1.default.info(`[EvolutionHelpProvider - createEvolutionHelp] evolutionHelp title:  ${evolutionHelp?.title}`);
         if (!evolutionHelp?.title?.length) {
             return null;
         }
-
-        const evolutionHelpModel = DataBaseManager.getDataBaseSchema(EvolutionHelpModel.name);
-
-        if (!evolutionHelpModel) {
-            return null;
-        }
-
-        const createdEvolutionHelp = await evolutionHelpModel.create(
-            formatEvolutionHelpInput(evolutionHelp),
-        );
-        AppLogger.info(
-            `[EvolutionHelpProvider - createEvolutionHelp] createdEvolutionHelp: ${createdEvolutionHelp?._id}`,
-        );
-
+        const createdEvolutionHelp = await EvolutionHelpModel_1.EvolutionHelpModelType.create(formatEvolutionHelpInput(evolutionHelp));
+        AppLogger_1.default.info(`[EvolutionHelpProvider - createEvolutionHelp] createdEvolutionHelp: ${createdEvolutionHelp?._id}`);
         return createdEvolutionHelp;
-    } catch (error) {
-        AppLogger.info(`[EvolutionHelpProvider - createEvolutionHelp] error:  ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[EvolutionHelpProvider - createEvolutionHelp] error:  ${error}`);
         return null;
     }
 };
-
 /**
- * Edits an existing EvolutionHelp entry in the database.
- *
- * @param {Object} evolutionHelp - The EvolutionHelp data with updated information.
- * @returns {Promise<*|null>} An object containing the ID of the edited EvolutionHelp or null on error or if the EvolutionHelp model is not found.
+ * Edits an existing EvolutionHelp in the database
+ * @param evolutionHelp
  */
 const editEvolutionHelp = async (evolutionHelp) => {
     try {
-        AppLogger.info(
-            `[EvolutionHelpProvider - editEvolutionHelp] evolutionHelp id:  ${evolutionHelp?._id}`,
-        );
-        AppLogger.info(
-            `[EvolutionHelpProvider - editEvolutionHelp] evolutionHelp title:  ${evolutionHelp?.title}`,
-        );
-
+        AppLogger_1.default.info(`[EvolutionHelpProvider - editEvolutionHelp] evolutionHelp id:  ${evolutionHelp?._id}`);
+        AppLogger_1.default.info(`[EvolutionHelpProvider - editEvolutionHelp] evolutionHelp title:  ${evolutionHelp?.title}`);
         if (!evolutionHelp?._id || !evolutionHelp?.title?.length) {
             return null;
         }
-
-        const evolutionHelpModel = DataBaseManager.getDataBaseSchema(EvolutionHelpModel.name);
-
-        if (!evolutionHelpModel) {
-            return null;
-        }
-
-        const editedEvolutionHelp = await evolutionHelpModel.update(
-            formatEvolutionHelpInput(evolutionHelp),
-            {
-                where: {
-                    _id: evolutionHelp?._id,
-                },
-            },
-        );
-
-        AppLogger.info(
-            `[EvolutionHelpProvider - editEvolutionHelp] editedEvolutionHelp: ${editedEvolutionHelp?._id}`,
-        );
-
-        return {
-            _id: evolutionHelp?.evolutionHelpId,
-        };
-    } catch (error) {
-        AppLogger.info(`[EvolutionHelpProvider - editEvolutionHelp] error:  ${error.message}`);
-        return null;
-    }
-};
-
-/**
- * Deletes an EvolutionHelp from the database.
- *
- * @param {Object} params - An object containing the parameters for deletion.
- * @param {string} params.evolutionHelpId - The ID of the EvolutionHelp to delete.
- * @returns {Promise<*|null>} An object containing the ID of the deleted EvolutionHelp, or null on error or if evolutionHelpId is not provided or if the EvolutionHelp model is not found.
- */
-const deleteEvolutionHelp = async ({ evolutionHelpId }) => {
-    try {
-        AppLogger.info(
-            `[EvolutionHelpProvider - deleteEvolutionHelp] evolutionHelpId:  ${evolutionHelpId}`,
-        );
-        if (!evolutionHelpId) {
-            return null;
-        }
-
-        const evolutionHelpModel = DataBaseManager.getDataBaseSchema(EvolutionHelpModel.name);
-
-        if (!evolutionHelpModel) {
-            return null;
-        }
-
-        await evolutionHelpModel.destroy({
+        const editedEvolutionHelp = await EvolutionHelpModel_1.EvolutionHelpModelType.update(formatEvolutionHelpInput(evolutionHelp), {
             where: {
-                _id: evolutionHelpId,
+                _id: evolutionHelp?._id,
             },
         });
-
+        AppLogger_1.default.info(`[EvolutionHelpProvider - editEvolutionHelp] editedEvolutionHelp: ${editedEvolutionHelp?.[0]}`);
         return {
-            _id: evolutionHelpId,
+            _id: evolutionHelp?._id,
         };
-    } catch (error) {
-        AppLogger.info(`[EvolutionHelpProvider - deleteEvolutionHelp] error:  ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[EvolutionHelpProvider - editEvolutionHelp] error:  ${error}`);
         return null;
     }
 };
-
+/**
+ * Deletes an existing EvolutionHelp from the database
+ * @param _id
+ */
+const deleteEvolutionHelp = async ({ _id }) => {
+    try {
+        AppLogger_1.default.info(`[EvolutionHelpProvider - deleteEvolutionHelp] _id:  ${_id}`);
+        if (!_id) {
+            return null;
+        }
+        await EvolutionHelpModel_1.EvolutionHelpModelType.destroy({
+            where: {
+                _id,
+            },
+        });
+        return {
+            _id,
+        };
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[EvolutionHelpProvider - deleteEvolutionHelp] error:  ${error}`);
+        return null;
+    }
+};
 /**
  * Deletes all EvolutionHelps from the database
- *
- * @returns {Promise<*|null>} True if the deletion was successful, false otherwise
  */
 const deleteEvolutionHelpList = async () => {
     try {
-        const evolutionHelpModel = DataBaseManager.getDataBaseSchema(EvolutionHelpModel.name);
-        if (!evolutionHelpModel) {
-            return null;
-        }
-
-        await evolutionHelpModel.destroy({
+        await EvolutionHelpModel_1.EvolutionHelpModelType.destroy({
             truncate: true,
         });
-
         return true;
-    } catch (error) {
-        AppLogger.info(
-            `[EvolutionHelpProvider - deleteEvolutionHelpList] error:  ${error.message}`,
-        );
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[EvolutionHelpProvider - deleteEvolutionHelpList] error:  ${error}`);
         return false;
     }
 };
-
 /**
- * Retrieves a list of EvolutionHelps, potentially paginated and sorted
- *
- * @param {Object} params - An object containing query parameters
- * @param {number} [params.start] - The starting index for pagination (optional)
- * @param {number} [params.limit] - The maximum number of EvolutionHelps to retrieve (optional)
- * @param {Object} [params.sort] - An object defining the sorting criteria (optional)
- * @returns {Promise<*|null>} An array of EvolutionHelp objects or null on error or if the EvolutionHelp model is not found
+ * Retrieves a list of EvolutionHelps from the database based on the provided search parameters
+ * @param start
+ * @param limit
+ * @param sort
  */
 const getEvolutionHelpListByPageAndParams = async ({ start, limit, sort }) => {
     try {
-        AppLogger.info(
-            `[EvolutionHelpProvider - getEvolutionHelpListByPageAndParams] start: ${start}`,
-        );
-        AppLogger.info(
-            `[EvolutionHelpProvider - getEvolutionHelpListByPageAndParams] limit: ${limit}`,
-        );
-        AppLogger.info(
-            `[EvolutionHelpProvider - getEvolutionHelpListByPageAndParams] sort: ${sort}`,
-        );
-
-        const evolutionHelpModel = DataBaseManager.getDataBaseSchema(EvolutionHelpModel.name);
-        if (!evolutionHelpModel) {
-            return null;
-        }
-
+        AppLogger_1.default.info(`[EvolutionHelpProvider - getEvolutionHelpListByPageAndParams] start: ${start}`);
+        AppLogger_1.default.info(`[EvolutionHelpProvider - getEvolutionHelpListByPageAndParams] limit: ${limit}`);
+        AppLogger_1.default.info(`[EvolutionHelpProvider - getEvolutionHelpListByPageAndParams] sort: ${sort}`);
         // Construct the query options based on provided arguments
         const queryOptions = {};
-
         // Handle pagination
         if (start) {
             queryOptions.offset = start;
         }
-
         if (limit) {
             queryOptions.limit = limit;
         }
-
-        const evolutionHelpList = await evolutionHelpModel.findAll(queryOptions);
-
-        AppLogger.info(
-            `[EvolutionHelpProvider - getEvolutionHelpListByPageAndParams] evolutionHelpList: ${evolutionHelpList?.length}`,
-        );
-
+        const evolutionHelpList = await EvolutionHelpModel_1.EvolutionHelpModelType.findAll(queryOptions);
+        AppLogger_1.default.info(`[EvolutionHelpProvider - getEvolutionHelpListByPageAndParams] evolutionHelpList: ${evolutionHelpList?.length}`);
         return evolutionHelpList;
-    } catch (error) {
-        AppLogger.info(
-            `[EvolutionHelpProvider - getEvolutionHelpListByPageAndParams] error:  ${error.message}`,
-        );
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[EvolutionHelpProvider - getEvolutionHelpListByPageAndParams] error:  ${error}`);
         return [];
     }
 };
-
 /**
- * Retrieves the details of an EvolutionHelp by its ID.
- *
- * @param {Object} params - An object containing the parameters for the query
- * @param {string} params.evolutionHelpId - The ID of the EvolutionHelp to retrieve
- * @param {string} params.category - The category of the EvolutionHelp to retrieve
- * @returns {Promise<*|null>} The EvolutionHelp details or null if not found or on error or if the EvolutionHelp model is not found
+ * Retrieves the details of an EvolutionHelp based on the provided search parameters
+ * @param _id
+ * @param category
  */
-const getEvolutionHelpDetailsByParams = async ({ evolutionHelpId, category }) => {
+const getEvolutionHelpDetailsByParams = async ({ _id, category }) => {
     try {
-        AppLogger.info(
-            `[EvolutionHelpProvider - getEvolutionHelpDetailsByParams] evolutionHelpId: ${evolutionHelpId}`,
-        );
-        AppLogger.info(
-            `[EvolutionHelpProvider - getEvolutionHelpDetailsByParams] category: ${category}`,
-        );
-
-        const evolutionHelpModel = DataBaseManager.getDataBaseSchema(EvolutionHelpModel.name);
-        if (!evolutionHelpModel) {
-            return null;
-        }
-
-        const evolutionHelpDetails = evolutionHelpId
-            ? (
-                  await evolutionHelpModel.findOne({
-                      where: {
-                          _id: evolutionHelpId,
-                      },
-                  })
-              )?.dataValues
-            : (
-                  await evolutionHelpModel.findOne({
-                      where: {
-                          category,
-                      },
-                  })
-              )?.dataValues;
-
-        AppLogger.info(
-            `[EvolutionHelpProvider - getEvolutionHelpDetailsByParams] evolutionHelpDetails _id: ${evolutionHelpDetails?._id}`,
-        );
-
+        AppLogger_1.default.info(`[EvolutionHelpProvider - getEvolutionHelpDetailsByParams] _id: ${_id}`);
+        AppLogger_1.default.info(`[EvolutionHelpProvider - getEvolutionHelpDetailsByParams] category: ${category}`);
+        const evolutionHelpDetails = _id
+            ? (await EvolutionHelpModel_1.EvolutionHelpModelType.findOne({
+                where: {
+                    _id,
+                },
+            }))?.dataValues
+            : (await EvolutionHelpModel_1.EvolutionHelpModelType.findOne({
+                where: {
+                    category,
+                },
+            }))?.dataValues;
+        AppLogger_1.default.info(`[EvolutionHelpProvider - getEvolutionHelpDetailsByParams] evolutionHelpDetails _id: ${evolutionHelpDetails?._id}`);
         if (!evolutionHelpDetails?._id) {
             return null;
         }
-
         return evolutionHelpDetails;
-    } catch (error) {
-        AppLogger.info(
-            `[EvolutionHelpProvider - getEvolutionHelpDetailsByParams] error: ${error.message}`,
-        );
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[EvolutionHelpProvider - getEvolutionHelpDetailsByParams] error: ${error}`);
         return null;
     }
 };
-
 /**
- * Initializes default evolution help data in the database.
- *
- * Checks if evolution help data already exists in the database.
- * If not, it creates new evolution help entries using the `defaultEvolutionHelpStatus` data.
- *
- * @returns {Promise<boolean|null>} A promise that resolves to:
- *   - `true` if the initialization was successful or evolution help data already exists.
- *   - `false` if there was an error during initialization.
- *   - `null` if the `evolutionHelpModel` is not found.
+ * Initializes the default data for EvolutionHelps
  */
 const initDefaultData = async () => {
     try {
-        const evolutionHelpModel = DataBaseManager.getDataBaseSchema(EvolutionHelpModel.name);
-
-        if (!evolutionHelpModel) {
-            return null;
-        }
-
-        const evolutionHelpCount = await evolutionHelpModel.count();
-
-        AppLogger.info(
-            `[EvolutionHelpProvider - initDefaultData] evolutionHelpCount:  ${evolutionHelpCount}`,
-        );
-
+        const evolutionHelpCount = await EvolutionHelpModel_1.EvolutionHelpModelType.count();
+        AppLogger_1.default.info(`[EvolutionHelpProvider - initDefaultData] evolutionHelpCount:  ${evolutionHelpCount}`);
         if (evolutionHelpCount > 0) {
             return true;
         }
-
-        for (const evolutionHelp of defaultEvolutionHelpStatus) {
+        for (const evolutionHelp of EvolutionHelpStatusConfig_1.defaultEvolutionHelpStatus) {
             await createEvolutionHelp(evolutionHelp);
         }
-
         return true;
-    } catch (error) {
-        AppLogger.info(`[EvolutionHelpProvider - initDefaultData] error:  ${error.message}`);
+    }
+    catch (error) {
+        AppLogger_1.default.info(`[EvolutionHelpProvider - initDefaultData] error:  ${error}`);
         return false;
     }
 };
-
-/**
- * An object that provides various operations related to EvolutionHelps.
- */
 const EvolutionHelpProvider = {
     initDefaultData,
     createEvolutionHelp,
@@ -327,5 +197,4 @@ const EvolutionHelpProvider = {
     getEvolutionHelpListByPageAndParams,
     getEvolutionHelpDetailsByParams,
 };
-
-export default EvolutionHelpProvider;
+exports.default = EvolutionHelpProvider;

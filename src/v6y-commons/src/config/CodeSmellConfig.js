@@ -1,4 +1,7 @@
-export const securityAntiPatterns = [
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.codeSmellCategories = exports.codeSmellTypes = exports.securityAntiPatterns = void 0;
+exports.securityAntiPatterns = [
     {
         antiPattern: 'findDOMNode',
         category: 'react-findDOMNode',
@@ -27,7 +30,6 @@ export const securityAntiPatterns = [
         antiPattern: 'createRef',
         category: 'react-createRef',
     },
-
     {
         antiPattern: 'bypassSecurityTrustHtml',
         category: 'angular-bypassSecurityTrustHtml',
@@ -56,7 +58,6 @@ export const securityAntiPatterns = [
         antiPattern: 'Renderer2',
         category: 'angular-Renderer2',
     },
-
     {
         antiPattern: 'window',
         category: 'commons-window',
@@ -134,8 +135,7 @@ export const securityAntiPatterns = [
         category: 'commons-stringify-function',
     },
 ];
-
-export const codeSmellTypes = {
+exports.codeSmellTypes = {
     Dependency: 'Dependency',
     Lighthouse: 'Lighthouse',
     'Code-Coupling': 'Code-Coupling',
@@ -144,8 +144,7 @@ export const codeSmellTypes = {
     'Code-Security': 'Code-Security',
     'Code-Modularity': 'Code-Modularity',
 };
-
-export const codeSmellCategories = {
+exports.codeSmellCategories = {
     deprecated: 'deprecated',
     outdated: 'outdated',
     seo: 'seo',
@@ -180,5 +179,5 @@ export const codeSmellCategories = {
     'file-degree-centrality': 'file-degree-centrality',
     'file-in-degree-centrality': 'file-in-degree-centrality',
     'file-out-degree-centrality': 'file-out-degree-centrality',
-    ...securityAntiPatterns.reduce((acc, { category }) => ({ ...acc, [category]: category }), {}),
+    ...exports.securityAntiPatterns.reduce((acc, { category }) => ({ ...acc, [category]: category }), {}),
 };
