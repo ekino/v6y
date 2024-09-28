@@ -1,11 +1,6 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const compare_versions_1 = require("compare-versions");
-const semver_1 = require("semver");
-const AppLogger_1 = __importDefault(require("./AppLogger"));
+import { compare } from 'compare-versions';
+import { clean, major, minor, patch, valid } from 'semver';
+import AppLogger from './AppLogger.ts';
 const SEMVER_OPERATORS = ['^', '~', '*', '='];
 /**
  * Compares two semantic versions using the provided operator.
@@ -17,13 +12,13 @@ const SEMVER_OPERATORS = ['^', '~', '*', '='];
  */
 const compareVersions = (version1, version2, operator) => {
     try {
-        AppLogger_1.default.info(`[compareVersions] version1: ${version1}`);
-        AppLogger_1.default.info(`[compareVersions] version2: ${version2}`);
-        AppLogger_1.default.info(`[compareVersions] operator: ${operator}`);
-        return (0, compare_versions_1.compare)(version1, version2, operator);
+        AppLogger.info(`[compareVersions] version1: ${version1}`);
+        AppLogger.info(`[compareVersions] version2: ${version2}`);
+        AppLogger.info(`[compareVersions] operator: ${operator}`);
+        return compare(version1, version2, operator);
     }
     catch (error) {
-        AppLogger_1.default.info(`[compareVersions] error: ${error}`);
+        AppLogger.info(`[compareVersions] error: ${error}`);
         return false;
     }
 };
@@ -44,16 +39,16 @@ const normalizeVersion = (version) => {
                 newVersion = version;
             }
             // clean not work with range https://www.npmjs.com/package/semver
-            const cleanedVersion = (0, semver_1.clean)(newVersion.trim(), {
+            const cleanedVersion = clean(newVersion.trim(), {
                 loose: true,
             });
             // return valid semver version
-            return (0, semver_1.valid)(cleanedVersion);
+            return valid(cleanedVersion);
         }
         return '';
     }
     catch (error) {
-        AppLogger_1.default.info(`[normalizeVersion] error: ${error}`);
+        AppLogger.info(`[normalizeVersion] error: ${error}`);
         return '';
     }
 };
@@ -77,15 +72,15 @@ const parseVersion = (version) => {
             }
             return {
                 semverVersion: validSemverVersion,
-                semverVersionMajor: (0, semver_1.major)(validSemverVersion),
-                semverVersionMinor: (0, semver_1.minor)(validSemverVersion),
-                semverVersionPatch: (0, semver_1.patch)(validSemverVersion),
+                semverVersionMajor: major(validSemverVersion),
+                semverVersionMinor: minor(validSemverVersion),
+                semverVersionPatch: patch(validSemverVersion),
             };
         }
         return null;
     }
     catch (error) {
-        AppLogger_1.default.info(`[parseVersion] error: ${error}`);
+        AppLogger.info(`[parseVersion] error: ${error}`);
         return null;
     }
 };
@@ -97,4 +92,4 @@ const SemverUtils = {
     normalizeVersion,
     parseVersion,
 };
-exports.default = SemverUtils;
+export default SemverUtils;

@@ -5,7 +5,12 @@ import lodash from 'lodash';
 import path from 'path';
 import unixify from 'unixify';
 
-import AppLogger from './AppLogger';
+import {
+    ComplexityAnalysisOptionsType,
+    ParsedFileResultType,
+    ParsedFileType,
+} from '../types/AuditParserType.js';
+import AppLogger from './AppLogger.ts';
 
 const __dirname = path.resolve();
 
@@ -186,7 +191,7 @@ const patternToFile = (pattern: string): Array<string> => glob.sync(unixify(patt
  * print(result.files); // Logs the array of files.
  * print(result.basePath); // Logs the base path.
  */
-const getFiles = (srcDir: string): object | null => {
+const getFiles = (srcDir: string): ParsedFileResultType | null => {
     try {
         AppLogger.info(`[AuditUtils - parseFiles] srcDir:  ${srcDir}`);
 
@@ -206,29 +211,21 @@ const getFiles = (srcDir: string): object | null => {
         };
     } catch (error) {
         AppLogger.info(`[AuditUtils - parseFiles] error:  ${error}`);
-
-        return {
-            files: [],
-            basePath: null,
-        };
+        return null;
     }
 };
 
 /**
- * Parses a file and returns relevant information.
- *
- * @param {string} file - The path to the file.
- * @param {string} basePath - The base path for all files.
- * @param {Object} options - The options for parsing.
- * @param {RegExp} [options.exclude] - A regular expression for files to exclude.
- * @param {boolean} [options.noempty] - Whether to skip empty lines.
- * @returns {Object|null} An object containing the file information, or null if the file is excluded or not a JavaScript/TypeScript file.
+ * Parse file
+ * @param file
+ * @param basePath
+ * @param options
  */
-const parseFile = (
-    file: string,
-    basePath: string,
-    options: { exclude?: RegExp; noempty?: boolean },
-): object | null => {
+const parseFile = ({
+    file,
+    basePath,
+    options,
+}: ComplexityAnalysisOptionsType): ParsedFileType | null => {
     AppLogger.info(`[AuditUtils - parseFile] file:  ${file}`);
     AppLogger.info(`[AuditUtils - parseFile] basePath:  ${basePath}`);
     AppLogger.info(`[AuditUtils - parseFile] options:  ${options}`);
@@ -238,9 +235,14 @@ const parseFile = (
     const nodeModulesPattern = /node_modules/g;
     const targetModulesPattern = /target/g;
 
+    if (!file) {
+        AppLogger.info(`[AuditUtils - parseFile] file is empty`);
+        return null;
+    }
+
     if (
         file &&
-        ((options.exclude && file.match(options.exclude)) ||
+        ((options?.exclude && file.match(options.exclude)) ||
             file.match(targetModulesPattern) ||
             file.match(mockPattern) ||
             file.match(testPattern) ||
@@ -256,8 +258,8 @@ const parseFile = (
 
     AppLogger.info(`[AuditUtils - parseFile] matched file:  ${file}`);
 
-    const fileShort = file.replace(basePath, '');
-    const fileSafe = fileShort.replace(/[^a-zA-Z0-9]/g, '_');
+    const fileShort = file?.replace(basePath || '', '');
+    const fileSafe = fileShort?.replace(/[^a-zA-Z0-9]/g, '_');
 
     AppLogger.info(`[AuditUtils - parseFile] fileShort:  ${fileShort}`);
     AppLogger.info(`[AuditUtils - parseFile] fileSafe:  ${fileSafe}`);
@@ -270,7 +272,7 @@ const parseFile = (
     }
 
     // if skip empty line option
-    if (options.noempty) {
+    if (options?.noempty) {
         source = source.replace(/^\s*[\r\n]/gm, '');
     }
 
@@ -284,7 +286,7 @@ const parseFile = (
         fileSafe,
         fileShort,
         source,
-        options,
+        options: options || {},
     };
 };
 
@@ -310,14 +312,16 @@ const deleteAuditFile = ({
     filePath,
     fileFullPath,
 }: {
-    filePath: string;
+    filePath?: string;
     fileFullPath?: string;
 }): boolean => {
     try {
         AppLogger.info(`[AuditUtils - deleteAuditFile] filePath:  ${filePath}`);
         AppLogger.info(`[AuditUtils - deleteAuditFile] fileFullPath:  ${fileFullPath}`);
 
-        const fileDirPath = fileFullPath?.length ? fileFullPath : path.join(__dirname, filePath);
+        const fileDirPath = fileFullPath?.length
+            ? fileFullPath
+            : path.join(__dirname, filePath || '');
         AppLogger.info(`[AuditUtils - deleteAuditFile] fileDirPath:  ${fileDirPath}`);
 
         if (!fs.existsSync(fileDirPath)) {

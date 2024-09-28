@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.EvolutionHelpModelType = void 0;
-const sequelize_1 = require("sequelize");
-class EvolutionHelpModelType extends sequelize_1.Model {
+import { DataTypes, Model } from 'sequelize';
+export class EvolutionHelpModelType extends Model {
     _id;
     category;
     title;
@@ -10,32 +7,31 @@ class EvolutionHelpModelType extends sequelize_1.Model {
     status;
     links;
 }
-exports.EvolutionHelpModelType = EvolutionHelpModelType;
 const evolutionHelpModelSchema = {
     _id: {
-        type: sequelize_1.DataTypes.INTEGER,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
     category: {
-        type: sequelize_1.DataTypes.TEXT,
+        type: DataTypes.TEXT,
         allowNull: false,
         unique: true,
     },
     title: {
-        type: sequelize_1.DataTypes.TEXT,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
     description: {
-        type: sequelize_1.DataTypes.TEXT,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
     status: {
-        type: sequelize_1.DataTypes.TEXT,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
     links: {
-        type: sequelize_1.DataTypes.JSON,
+        type: DataTypes.JSON,
     },
 };
 const evolutionHelpModelOptions = {
@@ -49,4 +45,4 @@ const initializeEvolutionHelpModel = (sequelize) => {
     });
     return EvolutionHelpModelType;
 };
-exports.default = initializeEvolutionHelpModel;
+export default initializeEvolutionHelpModel;

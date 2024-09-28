@@ -1,6 +1,6 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
-import { AuditHelpType } from '../../types/AuditHelpType';
+import { AuditHelpType } from '../../types/AuditHelpType.ts';
 
 export class AuditHelpModelType extends Model<AuditHelpType> implements AuditHelpType {
     public _id!: number;

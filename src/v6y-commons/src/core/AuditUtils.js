@@ -1,16 +1,11 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const crypto_1 = __importDefault(require("crypto"));
-const fs_extra_1 = __importDefault(require("fs-extra"));
-const globby_1 = __importDefault(require("globby"));
-const lodash_1 = __importDefault(require("lodash"));
-const path_1 = __importDefault(require("path"));
-const unixify_1 = __importDefault(require("unixify"));
-const AppLogger_1 = __importDefault(require("./AppLogger"));
-const __dirname = path_1.default.resolve();
+import crypto from 'crypto';
+import fs from 'fs-extra';
+import glob from 'globby';
+import lodash from 'lodash';
+import path from 'path';
+import unixify from 'unixify';
+import AppLogger from './AppLogger.ts';
+const __dirname = path.resolve();
 /**
  * Checks if a file is an accepted file type.
  * @param {string} fileName - The name of the file.
@@ -72,10 +67,10 @@ const isExcludedFile = (filePath) => filePath?.toLowerCase()?.includes('snap') |
  */
 const getFileContent = async (filePath) => {
     try {
-        if (!fs_extra_1.default.existsSync(filePath)) {
+        if (!fs.existsSync(filePath)) {
             return null;
         }
-        const fileStreamReader = fs_extra_1.default.createReadStream(filePath);
+        const fileStreamReader = fs.createReadStream(filePath);
         const chunks = [];
         for await (const chunk of fileStreamReader) {
             chunks.push(Buffer.from(chunk));
@@ -83,7 +78,7 @@ const getFileContent = async (filePath) => {
         return Buffer.concat(chunks)?.toString('utf-8')?.trim();
     }
     catch (error) {
-        AppLogger_1.default.info(`[AuditUtils - getFileContent] error:  ${error}`);
+        AppLogger.info(`[AuditUtils - getFileContent] error:  ${error}`);
         return null;
     }
 };
@@ -107,7 +102,7 @@ const isNonCompliantFile = async (antiPattern, source) => {
         return source?.includes(antiPattern);
     }
     catch (error) {
-        AppLogger_1.default.info(`[AuditUtils - isNonCompliantFile] error:  ${error}`);
+        AppLogger.info(`[AuditUtils - isNonCompliantFile] error:  ${error}`);
         return false;
     }
 };
@@ -117,25 +112,25 @@ const isNonCompliantFile = async (antiPattern, source) => {
  * @returns {string} - Returns the common base path.
  */
 function findCommonBase(files) {
-    AppLogger_1.default.info(`[AuditUtils - findCommonBase] files:  ${files?.length}`);
+    AppLogger.info(`[AuditUtils - findCommonBase] files:  ${files?.length}`);
     if (!files || files.length === 0 || files.length === 1) {
         return '';
     }
-    const lastSlash = files[0].lastIndexOf(path_1.default.sep);
-    AppLogger_1.default.info(`[AuditUtils - findCommonBase] lastSlash:  ${lastSlash}`);
+    const lastSlash = files[0].lastIndexOf(path.sep);
+    AppLogger.info(`[AuditUtils - findCommonBase] lastSlash:  ${lastSlash}`);
     if (!lastSlash) {
         return '';
     }
     const first = files[0].substr(0, lastSlash + 1);
-    AppLogger_1.default.info(`[AuditUtils - findCommonBase] first:  ${first}`);
+    AppLogger.info(`[AuditUtils - findCommonBase] first:  ${first}`);
     let prefixlen = first.length;
-    AppLogger_1.default.info(`[AuditUtils - findCommonBase] prefixlen:  ${prefixlen}`);
+    AppLogger.info(`[AuditUtils - findCommonBase] prefixlen:  ${prefixlen}`);
     /**
      * Handles the prefixing of a file.
      * @param {string} file - The file to handle.
      */
     function handleFilePrefixing(file) {
-        AppLogger_1.default.info(`[AuditUtils - findCommonBase] file:  ${file}`);
+        AppLogger.info(`[AuditUtils - findCommonBase] file:  ${file}`);
         for (let i = prefixlen; i > 0; i--) {
             if (file.substr(0, i) === first.substr(0, i)) {
                 prefixlen = i;
@@ -145,7 +140,7 @@ function findCommonBase(files) {
         prefixlen = 0;
     }
     files.forEach(handleFilePrefixing);
-    AppLogger_1.default.info(`[AuditUtils - findCommonBase] prefixlen:  ${prefixlen}`);
+    AppLogger.info(`[AuditUtils - findCommonBase] prefixlen:  ${prefixlen}`);
     return first.substr(0, prefixlen);
 }
 /**
@@ -153,7 +148,7 @@ function findCommonBase(files) {
  * @param {string} pattern - The pattern to convert.
  * @returns {Array} - Returns an array containing the files.
  */
-const patternToFile = (pattern) => globby_1.default.sync((0, unixify_1.default)(pattern));
+const patternToFile = (pattern) => glob.sync(unixify(pattern));
 /**
  * This function retrieves files from a given source directory.
  *
@@ -169,12 +164,12 @@ const patternToFile = (pattern) => globby_1.default.sync((0, unixify_1.default)(
  */
 const getFiles = (srcDir) => {
     try {
-        AppLogger_1.default.info(`[AuditUtils - parseFiles] srcDir:  ${srcDir}`);
+        AppLogger.info(`[AuditUtils - parseFiles] srcDir:  ${srcDir}`);
         if (!srcDir || !srcDir.length) {
             return null;
         }
-        const files = lodash_1.default.chain([srcDir]).map(patternToFile).flatten().value();
-        AppLogger_1.default.info(`[AuditUtils - parseFiles] files:  ${files?.length}`);
+        const files = lodash.chain([srcDir]).map(patternToFile).flatten().value();
+        AppLogger.info(`[AuditUtils - parseFiles] files:  ${files?.length}`);
         const basePath = findCommonBase(files);
         return {
             files,
@@ -182,7 +177,7 @@ const getFiles = (srcDir) => {
         };
     }
     catch (error) {
-        AppLogger_1.default.info(`[AuditUtils - parseFiles] error:  ${error}`);
+        AppLogger.info(`[AuditUtils - parseFiles] error:  ${error}`);
         return {
             files: [],
             basePath: null,
@@ -200,9 +195,9 @@ const getFiles = (srcDir) => {
  * @returns {Object|null} An object containing the file information, or null if the file is excluded or not a JavaScript/TypeScript file.
  */
 const parseFile = (file, basePath, options) => {
-    AppLogger_1.default.info(`[AuditUtils - parseFile] file:  ${file}`);
-    AppLogger_1.default.info(`[AuditUtils - parseFile] basePath:  ${basePath}`);
-    AppLogger_1.default.info(`[AuditUtils - parseFile] options:  ${options}`);
+    AppLogger.info(`[AuditUtils - parseFile] file:  ${file}`);
+    AppLogger.info(`[AuditUtils - parseFile] basePath:  ${basePath}`);
+    AppLogger.info(`[AuditUtils - parseFile] options:  ${options}`);
     const mockPattern = /.*?(Mock).(js|jsx|ts|tsx)$/gi;
     const testPattern = /.*?(Test).(js|jsx|ts|tsx)$/gi;
     const nodeModulesPattern = /node_modules/g;
@@ -213,18 +208,18 @@ const parseFile = (file, basePath, options) => {
             file.match(mockPattern) ||
             file.match(testPattern) ||
             file.match(nodeModulesPattern))) {
-        AppLogger_1.default.info(`[AuditUtils - parseFile] excluded file:  ${file}`);
+        AppLogger.info(`[AuditUtils - parseFile] excluded file:  ${file}`);
         return null;
     }
     if (!file.match(/\.(js|jsx|ts|tsx)$/)) {
         return null;
     }
-    AppLogger_1.default.info(`[AuditUtils - parseFile] matched file:  ${file}`);
+    AppLogger.info(`[AuditUtils - parseFile] matched file:  ${file}`);
     const fileShort = file.replace(basePath, '');
     const fileSafe = fileShort.replace(/[^a-zA-Z0-9]/g, '_');
-    AppLogger_1.default.info(`[AuditUtils - parseFile] fileShort:  ${fileShort}`);
-    AppLogger_1.default.info(`[AuditUtils - parseFile] fileSafe:  ${fileSafe}`);
-    let source = fs_extra_1.default.readFileSync(file).toString();
+    AppLogger.info(`[AuditUtils - parseFile] fileShort:  ${fileShort}`);
+    AppLogger.info(`[AuditUtils - parseFile] fileSafe:  ${fileSafe}`);
+    let source = fs.readFileSync(file).toString();
     const trimmedSource = source.trim();
     if (!trimmedSource) {
         return null;
@@ -254,7 +249,7 @@ const generateHash = (value) => {
     if (!value) {
         return null;
     }
-    return crypto_1.default.createHash('md5').update(JSON.stringify(value)).digest('hex');
+    return crypto.createHash('md5').update(JSON.stringify(value)).digest('hex');
 };
 /**
  * Delete audit file
@@ -264,24 +259,24 @@ const generateHash = (value) => {
  */
 const deleteAuditFile = ({ filePath, fileFullPath, }) => {
     try {
-        AppLogger_1.default.info(`[AuditUtils - deleteAuditFile] filePath:  ${filePath}`);
-        AppLogger_1.default.info(`[AuditUtils - deleteAuditFile] fileFullPath:  ${fileFullPath}`);
-        const fileDirPath = fileFullPath?.length ? fileFullPath : path_1.default.join(__dirname, filePath);
-        AppLogger_1.default.info(`[AuditUtils - deleteAuditFile] fileDirPath:  ${fileDirPath}`);
-        if (!fs_extra_1.default.existsSync(fileDirPath)) {
-            AppLogger_1.default.info(`[AuditUtils - deleteAuditFile] file not exist`);
+        AppLogger.info(`[AuditUtils - deleteAuditFile] filePath:  ${filePath}`);
+        AppLogger.info(`[AuditUtils - deleteAuditFile] fileFullPath:  ${fileFullPath}`);
+        const fileDirPath = fileFullPath?.length ? fileFullPath : path.join(__dirname, filePath);
+        AppLogger.info(`[AuditUtils - deleteAuditFile] fileDirPath:  ${fileDirPath}`);
+        if (!fs.existsSync(fileDirPath)) {
+            AppLogger.info(`[AuditUtils - deleteAuditFile] file not exist`);
             return true;
         }
-        AppLogger_1.default.info(`[AuditUtils - deleteAuditFile] file exist`);
-        fs_extra_1.default.rmSync(fileDirPath, {
+        AppLogger.info(`[AuditUtils - deleteAuditFile] file exist`);
+        fs.rmSync(fileDirPath, {
             recursive: true,
             force: true,
         });
-        AppLogger_1.default.info('[AuditUtils - deleteAuditFile] 🎉 end of deleting zip file');
+        AppLogger.info('[AuditUtils - deleteAuditFile] 🎉 end of deleting zip file');
         return true;
     }
     catch (error) {
-        AppLogger_1.default.info(`🚫 [AuditUtils - deleteAuditFile] error:  ${filePath || fileFullPath} / ${error}`);
+        AppLogger.info(`🚫 [AuditUtils - deleteAuditFile] error:  ${filePath || fileFullPath} / ${error}`);
         return false;
     }
 };
@@ -293,20 +288,20 @@ const deleteAuditFile = ({ filePath, fileFullPath, }) => {
  */
 const getFilesRecursively = (directory, filesPaths) => {
     try {
-        const files = fs_extra_1.default.readdirSync(directory);
+        const files = fs.readdirSync(directory);
         filesPaths = filesPaths || [];
         files.forEach(function (file) {
-            if (fs_extra_1.default.statSync(directory + '/' + file).isDirectory()) {
+            if (fs.statSync(directory + '/' + file).isDirectory()) {
                 filesPaths = getFilesRecursively(directory + '/' + file, filesPaths);
             }
             else {
-                filesPaths.push(path_1.default.join(directory, file));
+                filesPaths.push(path.join(directory, file));
             }
         });
         return filesPaths;
     }
     catch (error) {
-        AppLogger_1.default.info(`[AuditUtils - getFilesRecursively] error:  ${error}`);
+        AppLogger.info(`[AuditUtils - getFilesRecursively] error:  ${error}`);
         return [];
     }
 };
@@ -320,7 +315,7 @@ const getAuditEligibleFiles = ({ workspaceFolder }) => {
         if (!workspaceFolder?.length) {
             return {};
         }
-        AppLogger_1.default.info(`[AuditUtils - getAuditEligibleFiles] workspaceFolder: ${workspaceFolder}`);
+        AppLogger.info(`[AuditUtils - getAuditEligibleFiles] workspaceFolder: ${workspaceFolder}`);
         const workspaceFiles = getFilesRecursively(workspaceFolder, []);
         if (!workspaceFiles?.length) {
             return {};
@@ -332,13 +327,13 @@ const getAuditEligibleFiles = ({ workspaceFolder }) => {
             }
             return null;
         });
-        AppLogger_1.default.info(`[AuditUtils - getAuditEligibleFiles] auditEligibleFiles: ${auditEligibleFiles?.length}`);
+        AppLogger.info(`[AuditUtils - getAuditEligibleFiles] auditEligibleFiles: ${auditEligibleFiles?.length}`);
         return {
             auditEligibleFiles,
         };
     }
     catch (error) {
-        AppLogger_1.default.info(`[AuditUtils - getAuditEligibleFiles] error:  ${error}`);
+        AppLogger.info(`[AuditUtils - getAuditEligibleFiles] error:  ${error}`);
         return {};
     }
 };
@@ -354,4 +349,4 @@ const AuditUtils = {
     getAuditEligibleFiles,
     getFilesRecursively,
 };
-exports.default = AuditUtils;
+export default AuditUtils;

@@ -1,8 +1,8 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
-import { ApplicationType } from '../../types/ApplicationType';
-import { LinkType } from '../../types/LinkType';
-import { RepositoryType } from '../../types/RepositoryType';
+import { ApplicationType } from '../../types/ApplicationType.ts';
+import { LinkType } from '../../types/LinkType.ts';
+import { RepositoryType } from '../../types/RepositoryType.ts';
 
 export class ApplicationModelType extends Model<ApplicationType> implements ApplicationType {
     public _id!: number;

@@ -1,11 +1,6 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const DependencyStatusHelpConfig_1 = require("../config/DependencyStatusHelpConfig");
-const AppLogger_1 = __importDefault(require("../core/AppLogger"));
-const DependencyStatusHelpModel_1 = require("./models/DependencyStatusHelpModel");
+import { defaultDependencyStatusHelp } from '../config/DependencyStatusHelpConfig.ts';
+import AppLogger from '../core/AppLogger.ts';
+import { DependencyStatusHelpModelType } from './models/DependencyStatusHelpModel.ts';
 /**
  * Format the dependency status help input
  * @param dependencyStatusHelp
@@ -29,16 +24,16 @@ const formatDependencyStatusHelpInput = (dependencyStatusHelp) => ({
  */
 const createDependencyStatusHelp = async (dependencyStatusHelp) => {
     try {
-        AppLogger_1.default.info(`[DependencyStatusHelpProvider - createDependencyStatusHelp] dependencyStatusHelp title:  ${dependencyStatusHelp?.title}`);
+        AppLogger.info(`[DependencyStatusHelpProvider - createDependencyStatusHelp] dependencyStatusHelp title:  ${dependencyStatusHelp?.title}`);
         if (!dependencyStatusHelp?.title?.length) {
             return null;
         }
-        const createdDependencyStatusHelp = await DependencyStatusHelpModel_1.DependencyStatusHelpModelType.create(formatDependencyStatusHelpInput(dependencyStatusHelp));
-        AppLogger_1.default.info(`[DependencyStatusHelpProvider - createDependencyStatusHelp] createdDependencyStatusHelp: ${createdDependencyStatusHelp?._id}`);
+        const createdDependencyStatusHelp = await DependencyStatusHelpModelType.create(formatDependencyStatusHelpInput(dependencyStatusHelp));
+        AppLogger.info(`[DependencyStatusHelpProvider - createDependencyStatusHelp] createdDependencyStatusHelp: ${createdDependencyStatusHelp?._id}`);
         return createdDependencyStatusHelp;
     }
     catch (error) {
-        AppLogger_1.default.info(`[DependencyStatusHelpProvider - createDependencyStatusHelp] error:  ${error}`);
+        AppLogger.info(`[DependencyStatusHelpProvider - createDependencyStatusHelp] error:  ${error}`);
         return null;
     }
 };
@@ -48,23 +43,23 @@ const createDependencyStatusHelp = async (dependencyStatusHelp) => {
  */
 const editDependencyStatusHelp = async (dependencyStatusHelp) => {
     try {
-        AppLogger_1.default.info(`[DependencyStatusHelpProvider - editDependencyStatusHelp] dependencyStatusHelp id:  ${dependencyStatusHelp?._id}`);
-        AppLogger_1.default.info(`[DependencyStatusHelpProvider - editDependencyStatusHelp] dependencyStatusHelp title:  ${dependencyStatusHelp?.title}`);
+        AppLogger.info(`[DependencyStatusHelpProvider - editDependencyStatusHelp] dependencyStatusHelp id:  ${dependencyStatusHelp?._id}`);
+        AppLogger.info(`[DependencyStatusHelpProvider - editDependencyStatusHelp] dependencyStatusHelp title:  ${dependencyStatusHelp?.title}`);
         if (!dependencyStatusHelp?._id || !dependencyStatusHelp?.title?.length) {
             return null;
         }
-        const editedDependencyStatusHelp = await DependencyStatusHelpModel_1.DependencyStatusHelpModelType.update(formatDependencyStatusHelpInput(dependencyStatusHelp), {
+        const editedDependencyStatusHelp = await DependencyStatusHelpModelType.update(formatDependencyStatusHelpInput(dependencyStatusHelp), {
             where: {
                 _id: dependencyStatusHelp?._id,
             },
         });
-        AppLogger_1.default.info(`[DependencyStatusHelpProvider - editDependencyStatusHelp] editedDependencyStatusHelp: ${editedDependencyStatusHelp?.[0]}`);
+        AppLogger.info(`[DependencyStatusHelpProvider - editDependencyStatusHelp] editedDependencyStatusHelp: ${editedDependencyStatusHelp?.[0]}`);
         return {
             _id: dependencyStatusHelp?._id,
         };
     }
     catch (error) {
-        AppLogger_1.default.info(`[DependencyStatusHelpProvider - editDependencyStatusHelp] error:  ${error}`);
+        AppLogger.info(`[DependencyStatusHelpProvider - editDependencyStatusHelp] error:  ${error}`);
         return null;
     }
 };
@@ -74,11 +69,11 @@ const editDependencyStatusHelp = async (dependencyStatusHelp) => {
  */
 const deleteDependencyStatusHelp = async ({ _id }) => {
     try {
-        AppLogger_1.default.info(`[DependencyStatusHelpProvider - deleteDependencyStatusHelp] _id:  ${_id}`);
+        AppLogger.info(`[DependencyStatusHelpProvider - deleteDependencyStatusHelp] _id:  ${_id}`);
         if (!_id) {
             return null;
         }
-        await DependencyStatusHelpModel_1.DependencyStatusHelpModelType.destroy({
+        await DependencyStatusHelpModelType.destroy({
             where: {
                 _id,
             },
@@ -88,7 +83,7 @@ const deleteDependencyStatusHelp = async ({ _id }) => {
         };
     }
     catch (error) {
-        AppLogger_1.default.info(`[DependencyStatusHelpProvider - deleteDependencyStatusHelp] error:  ${error}`);
+        AppLogger.info(`[DependencyStatusHelpProvider - deleteDependencyStatusHelp] error:  ${error}`);
         return null;
     }
 };
@@ -97,13 +92,13 @@ const deleteDependencyStatusHelp = async ({ _id }) => {
  */
 const deleteDependencyStatusHelpList = async () => {
     try {
-        await DependencyStatusHelpModel_1.DependencyStatusHelpModelType.destroy({
+        await DependencyStatusHelpModelType.destroy({
             truncate: true,
         });
         return true;
     }
     catch (error) {
-        AppLogger_1.default.info(`[DependencyStatusHelpProvider - deleteDependencyStatusHelpList] error:  ${error}`);
+        AppLogger.info(`[DependencyStatusHelpProvider - deleteDependencyStatusHelpList] error:  ${error}`);
         return false;
     }
 };
@@ -115,9 +110,9 @@ const deleteDependencyStatusHelpList = async () => {
  */
 const getDependencyStatusHelpListByPageAndParams = async ({ start, limit, sort, }) => {
     try {
-        AppLogger_1.default.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] start: ${start}`);
-        AppLogger_1.default.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] limit: ${limit}`);
-        AppLogger_1.default.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] sort: ${sort}`);
+        AppLogger.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] start: ${start}`);
+        AppLogger.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] limit: ${limit}`);
+        AppLogger.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] sort: ${sort}`);
         // Construct the query options based on provided arguments
         const queryOptions = {};
         // Handle pagination
@@ -127,12 +122,12 @@ const getDependencyStatusHelpListByPageAndParams = async ({ start, limit, sort, 
         if (limit) {
             queryOptions.limit = limit;
         }
-        const dependencyStatusHelpList = await DependencyStatusHelpModel_1.DependencyStatusHelpModelType.findAll(queryOptions);
-        AppLogger_1.default.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] dependencyStatusHelpList: ${dependencyStatusHelpList?.length}`);
+        const dependencyStatusHelpList = await DependencyStatusHelpModelType.findAll(queryOptions);
+        AppLogger.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] dependencyStatusHelpList: ${dependencyStatusHelpList?.length}`);
         return dependencyStatusHelpList;
     }
     catch (error) {
-        AppLogger_1.default.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] error:  ${error}`);
+        AppLogger.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] error:  ${error}`);
         return [];
     }
 };
@@ -143,27 +138,27 @@ const getDependencyStatusHelpListByPageAndParams = async ({ start, limit, sort, 
  */
 const getDependencyStatusHelpDetailsByParams = async ({ _id, category, }) => {
     try {
-        AppLogger_1.default.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpDetailsByParams] _id: ${_id}`);
-        AppLogger_1.default.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpDetailsByParams] category: ${category}`);
+        AppLogger.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpDetailsByParams] _id: ${_id}`);
+        AppLogger.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpDetailsByParams] category: ${category}`);
         const dependencyStatusHelpDetails = _id
-            ? (await DependencyStatusHelpModel_1.DependencyStatusHelpModelType.findOne({
+            ? (await DependencyStatusHelpModelType.findOne({
                 where: {
                     _id,
                 },
             }))?.dataValues
-            : (await DependencyStatusHelpModel_1.DependencyStatusHelpModelType.findOne({
+            : (await DependencyStatusHelpModelType.findOne({
                 where: {
                     category,
                 },
             }))?.dataValues;
-        AppLogger_1.default.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpDetailsByParams] dependencyStatusHelpDetails _id: ${dependencyStatusHelpDetails?._id}`);
+        AppLogger.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpDetailsByParams] dependencyStatusHelpDetails _id: ${dependencyStatusHelpDetails?._id}`);
         if (!dependencyStatusHelpDetails?._id) {
             return null;
         }
         return dependencyStatusHelpDetails;
     }
     catch (error) {
-        AppLogger_1.default.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpDetailsByParams] error: ${error}`);
+        AppLogger.info(`[DependencyStatusHelpProvider - getDependencyStatusHelpDetailsByParams] error: ${error}`);
         return null;
     }
 };
@@ -172,18 +167,18 @@ const getDependencyStatusHelpDetailsByParams = async ({ _id, category, }) => {
  */
 const initDefaultData = async () => {
     try {
-        const dependencyStatusHelpCount = await DependencyStatusHelpModel_1.DependencyStatusHelpModelType.count();
-        AppLogger_1.default.info(`[DependencyStatusHelpProvider - initDefaultData] dependencyStatusHelpCount:  ${dependencyStatusHelpCount}`);
+        const dependencyStatusHelpCount = await DependencyStatusHelpModelType.count();
+        AppLogger.info(`[DependencyStatusHelpProvider - initDefaultData] dependencyStatusHelpCount:  ${dependencyStatusHelpCount}`);
         if (dependencyStatusHelpCount > 0) {
             return true;
         }
-        for (const dependencyStatusHelp of DependencyStatusHelpConfig_1.defaultDependencyStatusHelp) {
+        for (const dependencyStatusHelp of defaultDependencyStatusHelp) {
             await createDependencyStatusHelp(dependencyStatusHelp);
         }
         return true;
     }
     catch (error) {
-        AppLogger_1.default.info(`[DependencyStatusHelpProvider - initDefaultData] error:  ${error}`);
+        AppLogger.info(`[DependencyStatusHelpProvider - initDefaultData] error:  ${error}`);
         return false;
     }
 };
@@ -196,4 +191,4 @@ const DependencyStatusHelpProvider = {
     getDependencyStatusHelpListByPageAndParams,
     getDependencyStatusHelpDetailsByParams,
 };
-exports.default = DependencyStatusHelpProvider;
+export default DependencyStatusHelpProvider;

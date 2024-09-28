@@ -1,9 +1,9 @@
 import { FindOptions } from 'sequelize';
 
-import AppLogger from '../core/AppLogger';
-import { NotificationInputType, NotificationType } from '../types/NotificationType';
-import { SearchQueryType } from '../types/SearchQueryType';
-import { NotificationModelType } from './models/NotificationModel';
+import AppLogger from '../core/AppLogger.ts';
+import { NotificationInputType, NotificationType } from '../types/NotificationType.ts';
+import { SearchQueryType } from '../types/SearchQueryType.ts';
+import { NotificationModelType } from './models/NotificationModel.ts';
 
 /**
  * Format Notification Input

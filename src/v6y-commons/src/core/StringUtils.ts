@@ -1,4 +1,4 @@
-import AppLogger from './AppLogger';
+import AppLogger from './AppLogger.ts';
 
 /**
  * encode value to base 64

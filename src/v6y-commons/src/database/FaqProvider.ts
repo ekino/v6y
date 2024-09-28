@@ -1,9 +1,9 @@
 import { FindOptions } from 'sequelize';
 
-import AppLogger from '../core/AppLogger';
-import { FaqInputType, FaqType } from '../types/FaqType';
-import { SearchQueryType } from '../types/SearchQueryType';
-import { FaqModelType } from './models/FaqModel';
+import AppLogger from '../core/AppLogger.ts';
+import { FaqInputType, FaqType } from '../types/FaqType.ts';
+import { SearchQueryType } from '../types/SearchQueryType.ts';
+import { FaqModelType } from './models/FaqModel.ts';
 
 /**
  * Format Faq Input

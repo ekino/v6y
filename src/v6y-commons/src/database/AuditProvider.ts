@@ -1,9 +1,9 @@
 import { FindOptions } from 'sequelize';
 
-import AppLogger from '../core/AppLogger';
-import { AuditType } from '../types/AuditType';
-import AuditHelpProvider from './AuditHelpProvider';
-import { AuditModelType } from './models/AuditModel';
+import AppLogger from '../core/AppLogger.ts';
+import { AuditType } from '../types/AuditType.ts';
+import AuditHelpProvider from './AuditHelpProvider.ts';
+import { AuditModelType } from './models/AuditModel.ts';
 
 /**
  * Creates a new Audit entry in the database.
@@ -42,7 +42,7 @@ const createAudit = async (audit: AuditType) => {
  * Inserts a list of Audit entries in the database.
  * @param auditList
  */
-const insertAuditList = async (auditList: AuditType[]) => {
+const insertAuditList = async (auditList: AuditType[] | null) => {
     try {
         AppLogger.info(`[AuditProvider - insertAuditList] auditList:  ${auditList?.length}`);
         if (!auditList?.length) {

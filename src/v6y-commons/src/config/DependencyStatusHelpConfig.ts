@@ -1,4 +1,4 @@
-import { DependencyStatusHelpInputType } from '../types/DependencyStatusHelpType';
+import { DependencyStatusHelpInputType } from '../types/DependencyStatusHelpType.ts';
 
 export const dependencyStatus: { [key: string]: string } = {
     outdated: 'outdated',

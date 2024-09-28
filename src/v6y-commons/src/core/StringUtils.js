@@ -1,9 +1,4 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const AppLogger_1 = __importDefault(require("./AppLogger"));
+import AppLogger from './AppLogger.ts';
 /**
  * encode value to base 64
  * @param {string} value
@@ -19,7 +14,7 @@ const encodeBase64 = (value) => {
     }
     catch (error) {
         // @ts-expect-error TS(2571): Object is of type 'unknown'.
-        AppLogger_1.default.info(`[encodeBase64] error: ${error.message}`);
+        AppLogger.info(`[encodeBase64] error: ${error.message}`);
         return '';
     }
 };
@@ -38,7 +33,7 @@ const decodeBase64 = (value) => {
     }
     catch (error) {
         // @ts-expect-error TS(2571): Object is of type 'unknown'.
-        AppLogger_1.default.info(`[decodeBase64] error: ${error.message}`);
+        AppLogger.info(`[decodeBase64] error: ${error.message}`);
         return '';
     }
 };
@@ -51,7 +46,7 @@ const parseJsonString = (value) => {
         return JSON.parse(value);
     }
     catch (error) {
-        AppLogger_1.default.info(`[parseJsonString] error: ${error}`);
+        AppLogger.info(`[parseJsonString] error: ${error}`);
         return null;
     }
 };
@@ -64,7 +59,7 @@ const parseEncodedJsonString = (value) => {
         return parseJsonString(decodeBase64(value));
     }
     catch (error) {
-        AppLogger_1.default.info(`[parseEncodedJsonString] error: ${error}`);
+        AppLogger.info(`[parseEncodedJsonString] error: ${error}`);
         return null;
     }
 };
@@ -74,4 +69,4 @@ const StringUtils = {
     parseJsonString,
     parseEncodedJsonString,
 };
-exports.default = StringUtils;
+export default StringUtils;

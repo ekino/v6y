@@ -1,9 +1,9 @@
-import { LinkType } from './LinkType';
+import { LinkType } from './LinkType.ts';
 
 export interface FaqType {
     _id?: number;
-    title: string;
-    description: string;
+    title?: string;
+    description?: string;
     links?: LinkType[];
 }
 

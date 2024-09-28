@@ -1,31 +1,27 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.NotificationModelType = void 0;
-const sequelize_1 = require("sequelize");
-class NotificationModelType extends sequelize_1.Model {
+import { DataTypes, Model } from 'sequelize';
+export class NotificationModelType extends Model {
     _id;
     title;
     description;
     links;
 }
-exports.NotificationModelType = NotificationModelType;
 const notificationSchema = {
     _id: {
-        type: sequelize_1.DataTypes.INTEGER,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
     title: {
-        type: sequelize_1.DataTypes.TEXT,
+        type: DataTypes.TEXT,
         allowNull: false,
         unique: true,
     },
     description: {
-        type: sequelize_1.DataTypes.TEXT,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
     links: {
-        type: sequelize_1.DataTypes.JSON,
+        type: DataTypes.JSON,
     },
 };
 const notificationOptions = {
@@ -39,4 +35,4 @@ const initializeNotificationModel = (sequelize) => {
     });
     return NotificationModelType;
 };
-exports.default = initializeNotificationModel;
+export default initializeNotificationModel;

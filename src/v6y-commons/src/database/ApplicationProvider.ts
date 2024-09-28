@@ -1,13 +1,13 @@
 import { FindOptions, Op } from 'sequelize';
 
-import AppLogger from '../core/AppLogger';
-import { ApplicationInput, ApplicationType } from '../types/ApplicationType';
-import { SearchQueryType } from '../types/SearchQueryType';
-import AuditProvider from './AuditProvider';
-import DependencyProvider from './DependencyProvider';
-import EvolutionProvider from './EvolutionProvider';
-import KeywordProvider from './KeywordProvider';
-import { ApplicationModelType } from './models/ApplicationModel';
+import AppLogger from '../core/AppLogger.ts';
+import { ApplicationInputType, ApplicationType } from '../types/ApplicationType.ts';
+import { SearchQueryType } from '../types/SearchQueryType.ts';
+import AuditProvider from './AuditProvider.ts';
+import DependencyProvider from './DependencyProvider.ts';
+import EvolutionProvider from './EvolutionProvider.ts';
+import KeywordProvider from './KeywordProvider.ts';
+import { ApplicationModelType } from './models/ApplicationModel.ts';
 
 /**
  *  Build search query
@@ -57,9 +57,9 @@ const buildSearchQuery = ({ searchText, offset, limit /*keywords, where*/ }: Sea
  * Format application input
  * @param application
  */
-const formatApplicationInput = (application: ApplicationInput): ApplicationType => {
+const formatApplicationInput = (application: ApplicationInputType): ApplicationType => {
     const {
-        appId,
+        _id,
         acronym,
         name,
         description,
@@ -75,7 +75,7 @@ const formatApplicationInput = (application: ApplicationInput): ApplicationType 
     } = application || {};
 
     return {
-        _id: appId,
+        _id,
         name,
         acronym,
         description,
@@ -115,7 +115,7 @@ const formatApplicationInput = (application: ApplicationInput): ApplicationType 
  * Create form application
  * @param application
  */
-const createFormApplication = async (application: ApplicationInput) => {
+const createFormApplication = async (application: ApplicationInputType) => {
     try {
         const createdApplication = await ApplicationModelType.create(
             formatApplicationInput(application),
@@ -136,9 +136,9 @@ const createFormApplication = async (application: ApplicationInput) => {
  * Edit form application
  * @param application
  */
-const editFormApplication = async (application: ApplicationInput) => {
+const editFormApplication = async (application: ApplicationInputType) => {
     try {
-        if (!application?.appId) {
+        if (!application?._id) {
             return null;
         }
 
@@ -146,7 +146,7 @@ const editFormApplication = async (application: ApplicationInput) => {
             formatApplicationInput(application),
             {
                 where: {
-                    _id: application?.appId,
+                    _id: application?._id,
                 },
             },
         );
@@ -156,7 +156,7 @@ const editFormApplication = async (application: ApplicationInput) => {
         );
 
         return {
-            _id: application?.appId,
+            _id: application?._id,
         };
     } catch (error) {
         AppLogger.info(`[ApplicationProvider - editFormApplication] error: ${error}`);
@@ -402,7 +402,9 @@ const getApplicationListByPageAndParams = async ({
 }: SearchQueryType) => {
     try {
         AppLogger.info(
-            `[ApplicationProvider - getApplicationListByPageAndParams] keywords: ${keywords?.join('\r\n')}`,
+            `[ApplicationProvider - getApplicationListByPageAndParams] keywords: ${keywords?.join(
+                '\r\n',
+            )}`,
         );
         AppLogger.info(
             `[ApplicationProvider - getApplicationListByPageAndParams] searchText: ${searchText}`,
@@ -413,7 +415,13 @@ const getApplicationListByPageAndParams = async ({
         );
         AppLogger.info(`[ApplicationProvider - getApplicationListByPageAndParams] limit: ${limit}`);
 
-        const searchQuery = buildSearchQuery({ searchText, keywords, offset, limit, where });
+        const searchQuery = buildSearchQuery({
+            searchText,
+            keywords,
+            offset,
+            limit,
+            where,
+        });
         const applications = await ApplicationModelType.findAll(searchQuery);
         AppLogger.info(
             `[ApplicationProvider - getApplicationListByPageAndParams] applications: ${applications?.length}`,
@@ -437,7 +445,9 @@ const getApplicationTotalByParams = async ({ searchText, keywords }: SearchQuery
             `[ApplicationProvider - getApplicationTotalByParams] searchText: ${searchText}`,
         );
         AppLogger.info(
-            `[ApplicationProvider - getApplicationTotalByParams] keywords: ${keywords?.join('\r\n')}`,
+            `[ApplicationProvider - getApplicationTotalByParams] keywords: ${keywords?.join(
+                '\r\n',
+            )}`,
         );
 
         const searchQuery = buildSearchQuery({ searchText, keywords });
@@ -461,10 +471,14 @@ const getApplicationTotalByParams = async ({ searchText, keywords }: SearchQuery
 const getApplicationStatsByParams = async ({ keywords }: SearchQueryType) => {
     try {
         AppLogger.info(
-            `[ApplicationProvider - getApplicationStatsByParams] keywords: ${keywords?.join('\r\n')}`,
+            `[ApplicationProvider - getApplicationStatsByParams] keywords: ${keywords?.join(
+                '\r\n',
+            )}`,
         );
 
-        const keywordStats = await KeywordProvider.getKeywordsStatsByParams({ keywords });
+        const keywordStats = await KeywordProvider.getKeywordsStatsByParams({
+            keywords,
+        });
         AppLogger.info(
             `[ApplicationProvider - getApplicationStatsByParams] keywordStats: ${keywordStats?.length}`,
         );

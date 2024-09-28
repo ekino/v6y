@@ -1,7 +1,7 @@
-import AppLogger from '../core/AppLogger';
-import { DeprecatedDependencyType } from '../types/DeprecatedDependencyType';
-import { SearchQueryType } from '../types/SearchQueryType';
-import { DeprecatedDependencyModelType } from './models/DeprecatedDependencyModel';
+import AppLogger from '../core/AppLogger.ts';
+import { DeprecatedDependencyType } from '../types/DeprecatedDependencyType.ts';
+import { SearchQueryType } from '../types/SearchQueryType.ts';
+import { DeprecatedDependencyModelType } from './models/DeprecatedDependencyModel.ts';
 
 /**
  * Create a new deprecated dependency

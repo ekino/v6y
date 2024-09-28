@@ -1,9 +1,4 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const AppLogger_1 = __importDefault(require("./AppLogger"));
+import AppLogger from './AppLogger.ts';
 /**
  * Starts a performance measurement by creating a 'start' mark.
  *
@@ -15,7 +10,7 @@ const startMeasure = (measureName) => {
     }
     catch (error) {
         // @ts-expect-error TS(2571): Object is of type 'unknown'.
-        AppLogger_1.default.info(`Error starting performance measurement: ${error.message}`);
+        AppLogger.info(`Error starting performance measurement: ${error.message}`);
     }
 };
 /**
@@ -28,12 +23,12 @@ const endMeasure = (measureName) => {
         performance.mark(`${measureName}-end`);
         performance.measure(measureName, `${measureName}-start`, `${measureName}-end`);
         performance.getEntriesByType('measure').forEach((entry) => {
-            AppLogger_1.default.info(`Duration of ${entry.name}: ${entry.duration} ms`);
+            AppLogger.info(`Duration of ${entry.name}: ${entry.duration} ms`);
         });
     }
     catch (error) {
         // @ts-expect-error TS(2571): Object is of type 'unknown'.
-        AppLogger_1.default.info(`Error ending performance measurement: ${error.message}`);
+        AppLogger.info(`Error ending performance measurement: ${error.message}`);
     }
 };
 /**
@@ -43,4 +38,4 @@ const PerformancesUtils = {
     startMeasure,
     endMeasure,
 };
-exports.default = PerformancesUtils;
+export default PerformancesUtils;

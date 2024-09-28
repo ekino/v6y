@@ -1,4 +1,4 @@
-import { LinkType } from './LinkType';
+import { LinkType } from './LinkType.ts';
 
 export interface DependencyStatusHelpType {
     _id?: number;

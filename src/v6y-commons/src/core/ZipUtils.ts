@@ -5,8 +5,8 @@ import path from 'node:path';
 import * as stream from 'node:stream';
 import { promisify } from 'node:util';
 
-import { DownloadZipOptions, ZipFileOptions } from '../types/ZipType';
-import AppLogger from './AppLogger';
+import { DownloadZipOptions, ZipFileOptions } from '../types/ZipType.ts';
+import AppLogger from './AppLogger.ts';
 
 const finished = promisify(stream.finished);
 

@@ -1,4 +1,4 @@
-import { LinkType } from './LinkType';
+import { LinkType } from './LinkType.ts';
 
 export interface EvolutionHelpType {
     _id?: number;
@@ -18,4 +18,9 @@ export interface EvolutionHelpInputType {
     explanation?: string;
     status: string;
     links?: string[];
+}
+
+export interface EvolutionHelpStatusType {
+    label: string;
+    value: string;
 }

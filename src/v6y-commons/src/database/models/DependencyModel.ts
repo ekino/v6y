@@ -1,8 +1,8 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
-import { DependencyStatusHelpType } from '../../types/DependencyStatusHelpType';
-import { DependencyType } from '../../types/DependencyType';
-import { ModuleType } from '../../types/ModuleType';
+import { DependencyStatusHelpType } from '../../types/DependencyStatusHelpType.ts';
+import { DependencyType } from '../../types/DependencyType.ts';
+import { ModuleType } from '../../types/ModuleType.ts';
 
 export class DependencyModelType extends Model<DependencyType> implements DependencyType {
     public _id!: number;

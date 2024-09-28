@@ -1,26 +1,23 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.defaultDependencyStatusHelp = exports.dependencyStatus = void 0;
-exports.dependencyStatus = {
+export const dependencyStatus = {
     outdated: 'outdated',
     deprecated: 'deprecated',
     'up-to-date': 'up-to-date',
 };
-exports.defaultDependencyStatusHelp = [
+export const defaultDependencyStatusHelp = [
     {
-        category: exports.dependencyStatus.outdated,
+        category: dependencyStatus.outdated,
         title: 'Default Title',
         description: 'Default Description',
         links: undefined,
     },
     {
-        category: exports.dependencyStatus.deprecated,
+        category: dependencyStatus.deprecated,
         title: 'Default Title',
         description: 'Default Description',
         links: undefined,
     },
     {
-        category: exports.dependencyStatus['up-to-date'],
+        category: dependencyStatus['up-to-date'],
         title: 'Default Title',
         description: 'Default Description',
         links: undefined,

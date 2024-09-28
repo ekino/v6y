@@ -1,9 +1,9 @@
 import { FindOptions } from 'sequelize';
 
-import AppLogger from '../core/AppLogger';
-import { EvolutionType } from '../types/EvolutionType';
-import EvolutionHelpProvider from './EvolutionHelpProvider';
-import { EvolutionModelType } from './models/EvolutionModel';
+import AppLogger from '../core/AppLogger.ts';
+import { EvolutionType } from '../types/EvolutionType.ts';
+import EvolutionHelpProvider from './EvolutionHelpProvider.ts';
+import { EvolutionModelType } from './models/EvolutionModel.ts';
 
 /**
  * Creates a new Evolution in the database

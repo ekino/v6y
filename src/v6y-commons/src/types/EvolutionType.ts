@@ -1,5 +1,5 @@
-import { EvolutionHelpType } from './EvolutionHelpType';
-import { ModuleType } from './ModuleType';
+import { EvolutionHelpType } from './EvolutionHelpType.ts';
+import { ModuleType } from './ModuleType.ts';
 
 export interface EvolutionType {
     _id?: number;

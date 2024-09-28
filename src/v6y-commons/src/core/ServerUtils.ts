@@ -1,13 +1,14 @@
 import HttpClient from 'http';
+import http from 'http';
 import HttpsClient from 'https';
-import HttpStaticClient from 'spdy';
+import HttpStaticClient, { IncomingMessage } from 'spdy';
 
 interface ServerConfig {
-    app: () => void;
+    app: (request: IncomingMessage, response: http.ServerResponse) => void;
     config: {
-        key: string;
-        cert: string;
-        ssl: boolean;
+        key?: string;
+        cert?: string;
+        ssl?: boolean;
     };
 }
 

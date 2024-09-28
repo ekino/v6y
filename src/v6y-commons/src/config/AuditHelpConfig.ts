@@ -1,5 +1,5 @@
-import { AuditHelpType } from '../types/AuditHelpType';
-import { codeSmellCategories, codeSmellTypes, securityAntiPatterns } from './CodeSmellConfig';
+import { AuditHelpType } from '../types/AuditHelpType.ts';
+import { codeSmellCategories, codeSmellTypes, securityAntiPatterns } from './CodeSmellConfig.ts';
 
 export const auditStatus: Record<string, string> = {
     success: 'success',

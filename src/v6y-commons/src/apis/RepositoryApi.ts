@@ -1,14 +1,20 @@
-import AppLogger from '../core/AppLogger';
+import AppLogger from '../core/AppLogger.ts';
 import {
     BuildQueryOptions,
     GetFileContentOptions,
     GetRepositoryBranchesOptions,
     GithubConfigType,
     GitlabConfigType,
+    RepositoryBranchType,
     RepositoryType,
-} from '../types/RepositoryType';
-import { ApplicationZipConfigOptions } from '../types/ZipType';
+} from '../types/RepositoryType.ts';
+import { ApplicationZipConfigOptions, DownloadZipOptions } from '../types/ZipType.ts';
 
+/**
+ * Builds the configuration for the Github API.
+ * @param organization
+ * @constructor
+ */
 const GithubConfig = (organization: string): GithubConfigType => ({
     baseURL: 'https://api.github.com',
     api: '',
@@ -28,6 +34,11 @@ const GithubConfig = (organization: string): GithubConfigType => ({
     },
 });
 
+/**
+ * Builds the configuration for the Gitlab API.
+ * @param organization
+ * @constructor
+ */
 const GitlabConfig = (organization: string): GitlabConfigType => ({
     baseURL: `https://gitlab.${organization}.com`,
     api: 'api/v4',
@@ -45,12 +56,23 @@ const GitlabConfig = (organization: string): GitlabConfigType => ({
     },
 });
 
+/**
+ * Builds the query options for the API.
+ * @param organization
+ * @param type
+ */
 const buildQueryOptions = ({
     organization,
     type = 'gitlab',
 }: BuildQueryOptions): GithubConfigType | GitlabConfigType =>
     type === 'gitlab' ? GitlabConfig(organization!) : GithubConfig(organization!);
 
+/**
+ * Gets the details of a repository.
+ * @param organization
+ * @param gitRepositoryName
+ * @param type
+ */
 const getRepositoryDetails = async ({
     organization,
     gitRepositoryName,
@@ -60,7 +82,7 @@ const getRepositoryDetails = async ({
         const queryOptions = buildQueryOptions({ organization, type });
 
         const repositoryResponse = await fetch(
-            queryOptions.urls.repositoryDetailsUrl(gitRepositoryName),
+            queryOptions.urls.repositoryDetailsUrl(gitRepositoryName || ''),
             {
                 method: 'GET',
                 headers: queryOptions.headers,
@@ -76,12 +98,21 @@ const getRepositoryDetails = async ({
         return repositoryJsonResponse[0];
     } catch (error) {
         AppLogger.info(
-            `[RepositoryApi - getRepositoryDetails] error:  ${error instanceof Error ? error.message : error}`,
+            `[RepositoryApi - getRepositoryDetails] error:  ${
+                error instanceof Error ? error.message : error
+            }`,
         );
         return null;
     }
 };
 
+/**
+ * Gets the content of a file.
+ * @param organization
+ * @param gitRepositoryName
+ * @param fileName
+ * @param type
+ */
 const getFileContent = async ({
     organization,
     gitRepositoryName,
@@ -90,7 +121,7 @@ const getFileContent = async ({
 }: GetFileContentOptions): Promise<unknown | null> => {
     try {
         const queryOptions = buildQueryOptions({ organization, type });
-        const baseUrl = queryOptions.urls.fileContentUrl(gitRepositoryName, fileName);
+        const baseUrl = queryOptions.urls.fileContentUrl(gitRepositoryName || '', fileName || '');
         AppLogger.info(`[RepositoryApi - getFileContent] baseUrl:  ${baseUrl}`);
 
         const fileContentResponse = await fetch(baseUrl, {
@@ -100,7 +131,9 @@ const getFileContent = async ({
 
         const fileJsonResponse = await fileContentResponse.json();
         AppLogger.info(
-            `[RepositoryApi - getFileContent] fileJsonResponse:  ${Object.keys(fileJsonResponse || {}).length}`,
+            `[RepositoryApi - getFileContent] fileJsonResponse:  ${
+                Object.keys(fileJsonResponse || {}).length
+            }`,
         );
 
         if (!fileJsonResponse || !Object.keys(fileJsonResponse || {}).length) {
@@ -110,19 +143,26 @@ const getFileContent = async ({
         return fileJsonResponse;
     } catch (error) {
         AppLogger.info(
-            `[RepositoryApi - getFileContent] error:  ${error instanceof Error ? error.message : error}`,
+            `[RepositoryApi - getFileContent] error:  ${
+                error instanceof Error ? error.message : error
+            }`,
         );
     }
 };
 
+/**
+ * Gets the branches of a repository.
+ * @param repoBranchesUrl
+ * @param type
+ */
 const getRepositoryBranches = async ({
     repoBranchesUrl,
     type,
-}: GetRepositoryBranchesOptions): Promise<unknown> => {
+}: GetRepositoryBranchesOptions): Promise<RepositoryBranchType[] | null> => {
     try {
         const queryOptions = buildQueryOptions({ organization: undefined, type });
 
-        const repositoryResponse = await fetch(repoBranchesUrl, {
+        const repositoryResponse = await fetch(repoBranchesUrl || '', {
             method: 'GET',
             headers: queryOptions.headers,
         });
@@ -130,16 +170,25 @@ const getRepositoryBranches = async ({
         return await repositoryResponse.json();
     } catch (error) {
         AppLogger.info(
-            `[RepositoryApi - getRepositoryDetails] error:  ${error instanceof Error ? error.message : error}`,
+            `[RepositoryApi - getRepositoryDetails] error:  ${
+                error instanceof Error ? error.message : error
+            }`,
         );
+        return null;
     }
 };
 
+/**
+ * Prepares the configuration for the Git branch zip.
+ * @param zipBaseDir
+ * @param application
+ * @param branchName
+ */
 const prepareGitBranchZipConfig = ({
     zipBaseDir,
     application,
     branchName,
-}: ApplicationZipConfigOptions): object | null => {
+}: ApplicationZipConfigOptions): DownloadZipOptions | null => {
     try {
         AppLogger.info(`[RepositoryApi - prepareGitZipConfig] branchName:  ${branchName}`);
 
@@ -181,7 +230,9 @@ const prepareGitBranchZipConfig = ({
         };
     } catch (error) {
         AppLogger.info(
-            `[RepositoryApi - prepareGitZipConfig] error:  ${error instanceof Error ? error.message : error}`,
+            `[RepositoryApi - prepareGitZipConfig] error:  ${
+                error instanceof Error ? error.message : error
+            }`,
         );
         return null;
     }

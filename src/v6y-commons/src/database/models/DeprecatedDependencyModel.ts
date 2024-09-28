@@ -1,6 +1,6 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
-import { DeprecatedDependencyType } from '../../types/DeprecatedDependencyType';
+import { DeprecatedDependencyType } from '../../types/DeprecatedDependencyType.ts';
 
 export class DeprecatedDependencyModelType
     extends Model<DeprecatedDependencyType>

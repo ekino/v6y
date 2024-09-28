@@ -1,9 +1,9 @@
 import { FindOptions } from 'sequelize';
 
-import AppLogger from '../core/AppLogger';
-import { KeywordStatsType, KeywordType } from '../types/KeywordType';
-import { SearchQueryType } from '../types/SearchQueryType';
-import { KeywordModelType } from './models/KeywordModel';
+import AppLogger from '../core/AppLogger.ts';
+import { KeywordStatsType, KeywordType } from '../types/KeywordType.ts';
+import { SearchQueryType } from '../types/SearchQueryType.ts';
+import { KeywordModelType } from './models/KeywordModel.ts';
 
 /**
  * Create Keyword

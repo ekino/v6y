@@ -1,7 +1,7 @@
-import { EvolutionHelpInputType } from '../types/EvolutionHelpType';
-import { codeSmellCategories, codeSmellTypes, securityAntiPatterns } from './CodeSmellConfig';
+import { EvolutionHelpInputType } from '../types/EvolutionHelpType.ts';
+import { codeSmellCategories, codeSmellTypes, securityAntiPatterns } from './CodeSmellConfig.ts';
 
-export const evolutionHelpStatus = {
+export const evolutionHelpStatus: Record<string, string> = {
     critical: 'critical',
     important: 'important',
     recommended: 'recommended',

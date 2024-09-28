@@ -1,18 +1,13 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const http_1 = __importDefault(require("http"));
-const https_1 = __importDefault(require("https"));
-const spdy_1 = __importDefault(require("spdy"));
+import HttpClient from 'http';
+import HttpsClient from 'https';
+import HttpStaticClient from 'spdy';
 /**
  * Creates a static server (presumably for HTTP/2).
  * @param app
  * @param config
  */
 const createStaticServer = ({ app, config }) => {
-    return spdy_1.default.createServer({
+    return HttpStaticClient.createServer({
         key: config.key,
         cert: config.cert,
     }, app);
@@ -25,13 +20,13 @@ const createStaticServer = ({ app, config }) => {
 const createServer = ({ app, config }) => {
     let httpServer;
     if (config.ssl) {
-        httpServer = https_1.default.createServer({
+        httpServer = HttpsClient.createServer({
             key: config.key,
             cert: config.cert,
         }, app);
     }
     else {
-        httpServer = http_1.default.createServer(app);
+        httpServer = HttpClient.createServer(app);
     }
     return httpServer;
 };
@@ -42,4 +37,4 @@ const ServerUtils = {
     createServer,
     createStaticServer,
 };
-exports.default = ServerUtils;
+export default ServerUtils;

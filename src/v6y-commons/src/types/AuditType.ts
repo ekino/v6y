@@ -1,5 +1,5 @@
-import { AuditHelpType } from './AuditHelpType';
-import { ModuleType } from './ModuleType';
+import { AuditHelpType } from './AuditHelpType.ts';
+import { ModuleType } from './ModuleType.ts';
 
 export interface AuditType {
     _id?: number;
@@ -8,7 +8,7 @@ export interface AuditType {
     category?: string;
     subCategory?: string;
     status?: string;
-    score?: number;
+    score?: number | undefined | null;
     scoreUnit?: string;
     extraInfos?: string;
     auditHelp?: AuditHelpType | null;

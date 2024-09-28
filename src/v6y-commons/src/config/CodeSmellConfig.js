@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.codeSmellCategories = exports.codeSmellTypes = exports.securityAntiPatterns = void 0;
-exports.securityAntiPatterns = [
+export const securityAntiPatterns = [
     {
         antiPattern: 'findDOMNode',
         category: 'react-findDOMNode',
@@ -135,7 +132,7 @@ exports.securityAntiPatterns = [
         category: 'commons-stringify-function',
     },
 ];
-exports.codeSmellTypes = {
+export const codeSmellTypes = {
     Dependency: 'Dependency',
     Lighthouse: 'Lighthouse',
     'Code-Coupling': 'Code-Coupling',
@@ -144,7 +141,7 @@ exports.codeSmellTypes = {
     'Code-Security': 'Code-Security',
     'Code-Modularity': 'Code-Modularity',
 };
-exports.codeSmellCategories = {
+export const codeSmellCategories = {
     deprecated: 'deprecated',
     outdated: 'outdated',
     seo: 'seo',
@@ -179,5 +176,5 @@ exports.codeSmellCategories = {
     'file-degree-centrality': 'file-degree-centrality',
     'file-in-degree-centrality': 'file-in-degree-centrality',
     'file-out-degree-centrality': 'file-out-degree-centrality',
-    ...exports.securityAntiPatterns.reduce((acc, { category }) => ({ ...acc, [category]: category }), {}),
+    ...securityAntiPatterns.reduce((acc, { category }) => ({ ...acc, [category]: category }), {}),
 };

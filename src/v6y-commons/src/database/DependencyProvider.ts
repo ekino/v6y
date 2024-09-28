@@ -1,9 +1,9 @@
 import { FindOptions } from 'sequelize';
 
-import AppLogger from '../core/AppLogger';
-import { DependencyType } from '../types/DependencyType';
-import DependencyStatusHelpProvider from './DependencyStatusHelpProvider';
-import { DependencyModelType } from './models/DependencyModel';
+import AppLogger from '../core/AppLogger.ts';
+import { DependencyType } from '../types/DependencyType.ts';
+import DependencyStatusHelpProvider from './DependencyStatusHelpProvider.ts';
+import { DependencyModelType } from './models/DependencyModel.ts';
 
 /**
  * Create a new Dependency.

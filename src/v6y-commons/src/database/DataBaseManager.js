@@ -1,31 +1,26 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const sequelize_1 = require("sequelize");
-const AppLogger_1 = __importDefault(require("../core/AppLogger"));
-const AuditHelpProvider_1 = __importDefault(require("./AuditHelpProvider"));
-const DependencyStatusHelpProvider_1 = __importDefault(require("./DependencyStatusHelpProvider"));
-const EvolutionHelpProvider_1 = __importDefault(require("./EvolutionHelpProvider"));
-const ApplicationModel_1 = __importDefault(require("./models/ApplicationModel"));
-const AuditHelpModel_1 = __importDefault(require("./models/AuditHelpModel"));
-const AuditModel_1 = __importDefault(require("./models/AuditModel"));
-const DependencyModel_1 = __importDefault(require("./models/DependencyModel"));
-const DependencyStatusHelpModel_1 = __importDefault(require("./models/DependencyStatusHelpModel"));
-const DeprecatedDependencyModel_1 = __importDefault(require("./models/DeprecatedDependencyModel"));
-const EvolutionHelpModel_1 = __importDefault(require("./models/EvolutionHelpModel"));
-const EvolutionModel_1 = __importDefault(require("./models/EvolutionModel"));
-const FaqModel_1 = __importDefault(require("./models/FaqModel"));
-const KeywordModel_1 = __importDefault(require("./models/KeywordModel"));
-const NotificationModel_1 = __importDefault(require("./models/NotificationModel"));
+import { Sequelize } from 'sequelize';
+import AppLogger from '../core/AppLogger.ts';
+import AuditHelpProvider from './AuditHelpProvider.ts';
+import DependencyStatusHelpProvider from './DependencyStatusHelpProvider.ts';
+import EvolutionHelpProvider from './EvolutionHelpProvider.ts';
+import ApplicationModel from './models/ApplicationModel.ts';
+import AuditHelpModel from './models/AuditHelpModel.ts';
+import AuditModel from './models/AuditModel.ts';
+import DependencyModel from './models/DependencyModel.ts';
+import DependencyStatusHelpModel from './models/DependencyStatusHelpModel.ts';
+import DeprecatedDependencyModel from './models/DeprecatedDependencyModel.ts';
+import EvolutionHelpModelModel from './models/EvolutionHelpModel.ts';
+import EvolutionModel from './models/EvolutionModel.ts';
+import FaqModel from './models/FaqModel.ts';
+import KeywordModel from './models/KeywordModel.ts';
+import NotificationModel from './models/NotificationModel.ts';
 let postgresDataBase = null;
 /**
  * Establishes a connection to the PostgresSQL database
  * @param dbOptions
  */
 const postgresDataBaseConnector = (dbOptions) => {
-    return new sequelize_1.Sequelize(dbOptions?.dbName, dbOptions?.dbUser, dbOptions?.dbPassword, {
+    return new Sequelize(dbOptions?.dbName, dbOptions?.dbUser, dbOptions?.dbPassword, {
         host: dbOptions?.dbHost,
         port: parseInt(dbOptions?.dbPort),
         operatorsAliases: false,
@@ -57,9 +52,9 @@ const getDataBaseInstance = () => postgresDataBase;
  * to ensure that the necessary default data is present in the database.
  */
 const initDefaultData = async () => {
-    await EvolutionHelpProvider_1.default.initDefaultData();
-    await AuditHelpProvider_1.default.initDefaultData();
-    await DependencyStatusHelpProvider_1.default.initDefaultData();
+    await EvolutionHelpProvider.initDefaultData();
+    await AuditHelpProvider.initDefaultData();
+    await DependencyStatusHelpProvider.initDefaultData();
 };
 /**
  * Registers Sequelize models with the database.
@@ -68,17 +63,17 @@ const registerModels = async () => {
     if (!postgresDataBase) {
         return;
     }
-    (0, ApplicationModel_1.default)(postgresDataBase);
-    (0, AuditModel_1.default)(postgresDataBase);
-    (0, DependencyModel_1.default)(postgresDataBase);
-    (0, DeprecatedDependencyModel_1.default)(postgresDataBase);
-    (0, EvolutionModel_1.default)(postgresDataBase);
-    (0, FaqModel_1.default)(postgresDataBase);
-    (0, KeywordModel_1.default)(postgresDataBase);
-    (0, NotificationModel_1.default)(postgresDataBase);
-    (0, AuditHelpModel_1.default)(postgresDataBase);
-    (0, EvolutionHelpModel_1.default)(postgresDataBase);
-    (0, DependencyStatusHelpModel_1.default)(postgresDataBase);
+    ApplicationModel(postgresDataBase);
+    AuditModel(postgresDataBase);
+    DependencyModel(postgresDataBase);
+    DeprecatedDependencyModel(postgresDataBase);
+    EvolutionModel(postgresDataBase);
+    FaqModel(postgresDataBase);
+    KeywordModel(postgresDataBase);
+    NotificationModel(postgresDataBase);
+    AuditHelpModel(postgresDataBase);
+    EvolutionHelpModelModel(postgresDataBase);
+    DependencyStatusHelpModel(postgresDataBase);
 };
 /**
  * Establishes a connection to the PostgresSQL database, registers models, and synchronizes them
@@ -94,16 +89,16 @@ const connect = async () => {
             dbPort: process.env.PSQL_DB_PORT || '5432',
         });
         await postgresDataBase.authenticate();
-        AppLogger_1.default.info(`[DataBaseManager - connect] PSQL connection has been established successfully`);
+        AppLogger.info(`[DataBaseManager - connect] PSQL connection has been established successfully`);
         await registerModels();
-        AppLogger_1.default.info(`[DataBaseManager - connect] PSQL registering models made successfully`);
+        AppLogger.info(`[DataBaseManager - connect] PSQL registering models made successfully`);
         await postgresDataBase.sync({ alter: true });
-        AppLogger_1.default.info(`[DataBaseManager - connect] PSQL synchronizing models made successfully`);
+        AppLogger.info(`[DataBaseManager - connect] PSQL synchronizing models made successfully`);
         await initDefaultData();
-        AppLogger_1.default.info(`[DataBaseManager - connect] PSQL init default data made successfully`);
+        AppLogger.info(`[DataBaseManager - connect] PSQL init default data made successfully`);
     }
     catch (error) {
-        AppLogger_1.default.error(`[DataBaseManager - connect] PSQL connection an error was occurred: `, error);
+        AppLogger.error(`[DataBaseManager - connect] PSQL connection an error was occurred: `, error);
     }
 };
 /**
@@ -118,4 +113,4 @@ const DataBaseManager = {
     disconnect,
     getDataBaseInstance,
 };
-exports.default = DataBaseManager;
+export default DataBaseManager;

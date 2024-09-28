@@ -1,7 +1,7 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
-import { DependencyStatusHelpType } from '../../types/DependencyStatusHelpType';
-import { LinkType } from '../../types/LinkType';
+import { DependencyStatusHelpType } from '../../types/DependencyStatusHelpType.ts';
+import { LinkType } from '../../types/LinkType.ts';
 
 export class DependencyStatusHelpModelType
     extends Model<DependencyStatusHelpType>

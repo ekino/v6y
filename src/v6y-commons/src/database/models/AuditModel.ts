@@ -1,8 +1,8 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
-import { AuditHelpType } from '../../types/AuditHelpType';
-import { AuditType } from '../../types/AuditType';
-import { ModuleType } from '../../types/ModuleType';
+import { AuditHelpType } from '../../types/AuditHelpType.ts';
+import { AuditType } from '../../types/AuditType.ts';
+import { ModuleType } from '../../types/ModuleType.ts';
 
 const auditModelOptions = {};
 

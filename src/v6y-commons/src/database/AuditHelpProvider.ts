@@ -1,10 +1,10 @@
 import { FindOptions } from 'sequelize';
 
-import { defaultAuditHelpStatus } from '../config/AuditHelpConfig';
-import AppLogger from '../core/AppLogger';
-import { AuditHelpType } from '../types/AuditHelpType';
-import { SearchQueryType } from '../types/SearchQueryType';
-import { AuditHelpModelType } from './models/AuditHelpModel';
+import { defaultAuditHelpStatus } from '../config/AuditHelpConfig.ts';
+import AppLogger from '../core/AppLogger.ts';
+import { AuditHelpType } from '../types/AuditHelpType.ts';
+import { SearchQueryType } from '../types/SearchQueryType.ts';
+import { AuditHelpModelType } from './models/AuditHelpModel.ts';
 
 const createAuditHelp = async (auditHelp: AuditHelpType): Promise<AuditHelpType | null> => {
     try {

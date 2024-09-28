@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const worker_threads_1 = require("worker_threads");
+import { Worker } from 'worker_threads';
 /**
  * Fork a worker thread to run CPU intensive tasks
  * @param filepath
@@ -8,7 +6,7 @@ const worker_threads_1 = require("worker_threads");
  */
 const forkWorker = (filepath, workerData) => {
     return new Promise((resolve, reject) => {
-        const worker = new worker_threads_1.Worker(filepath, {
+        const worker = new Worker(filepath, {
             workerData,
         });
         worker.on('online', () => {
@@ -28,4 +26,4 @@ const forkWorker = (filepath, workerData) => {
 const WorkerHelper = {
     forkWorker,
 };
-exports.default = WorkerHelper;
+export default WorkerHelper;

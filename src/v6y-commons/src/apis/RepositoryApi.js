@@ -1,9 +1,4 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const AppLogger_1 = __importDefault(require("../core/AppLogger"));
+import AppLogger from '../core/AppLogger.ts';
 const GithubConfig = (organization) => ({
     baseURL: 'https://api.github.com',
     api: '',
@@ -45,7 +40,7 @@ const getRepositoryDetails = async ({ organization, gitRepositoryName, type, }) 
         return repositoryJsonResponse[0];
     }
     catch (error) {
-        AppLogger_1.default.info(`[RepositoryApi - getRepositoryDetails] error:  ${error instanceof Error ? error.message : error}`);
+        AppLogger.info(`[RepositoryApi - getRepositoryDetails] error:  ${error instanceof Error ? error.message : error}`);
         return null;
     }
 };
@@ -53,20 +48,20 @@ const getFileContent = async ({ organization, gitRepositoryName, fileName, type,
     try {
         const queryOptions = buildQueryOptions({ organization, type });
         const baseUrl = queryOptions.urls.fileContentUrl(gitRepositoryName, fileName);
-        AppLogger_1.default.info(`[RepositoryApi - getFileContent] baseUrl:  ${baseUrl}`);
+        AppLogger.info(`[RepositoryApi - getFileContent] baseUrl:  ${baseUrl}`);
         const fileContentResponse = await fetch(baseUrl, {
             method: 'GET',
             headers: queryOptions.headers,
         });
         const fileJsonResponse = await fileContentResponse.json();
-        AppLogger_1.default.info(`[RepositoryApi - getFileContent] fileJsonResponse:  ${Object.keys(fileJsonResponse || {}).length}`);
+        AppLogger.info(`[RepositoryApi - getFileContent] fileJsonResponse:  ${Object.keys(fileJsonResponse || {}).length}`);
         if (!fileJsonResponse || !Object.keys(fileJsonResponse || {}).length) {
             return null;
         }
         return fileJsonResponse;
     }
     catch (error) {
-        AppLogger_1.default.info(`[RepositoryApi - getFileContent] error:  ${error instanceof Error ? error.message : error}`);
+        AppLogger.info(`[RepositoryApi - getFileContent] error:  ${error instanceof Error ? error.message : error}`);
     }
 };
 const getRepositoryBranches = async ({ repoBranchesUrl, type, }) => {
@@ -79,26 +74,26 @@ const getRepositoryBranches = async ({ repoBranchesUrl, type, }) => {
         return await repositoryResponse.json();
     }
     catch (error) {
-        AppLogger_1.default.info(`[RepositoryApi - getRepositoryDetails] error:  ${error instanceof Error ? error.message : error}`);
+        AppLogger.info(`[RepositoryApi - getRepositoryDetails] error:  ${error instanceof Error ? error.message : error}`);
     }
 };
 const prepareGitBranchZipConfig = ({ zipBaseDir, application, branchName, }) => {
     try {
-        AppLogger_1.default.info(`[RepositoryApi - prepareGitZipConfig] branchName:  ${branchName}`);
+        AppLogger.info(`[RepositoryApi - prepareGitZipConfig] branchName:  ${branchName}`);
         if (!application || !branchName?.length) {
             return null;
         }
         const normalizedBranchName = branchName.split('/').pop()?.replaceAll(' ', '-');
-        AppLogger_1.default.info(`[RepositoryApi - prepareGitZipConfig] normalizedBranchName:  ${normalizedBranchName}`);
+        AppLogger.info(`[RepositoryApi - prepareGitZipConfig] normalizedBranchName:  ${normalizedBranchName}`);
         const zipFileName = `${normalizedBranchName || branchName}.zip`;
-        AppLogger_1.default.info(`[RepositoryApi - prepareGitZipConfig] zipFileName:  ${zipFileName}`);
+        AppLogger.info(`[RepositoryApi - prepareGitZipConfig] zipFileName:  ${zipFileName}`);
         const { repo } = application;
         const zipSourceUrl = `${repo?.webUrl}/-/archive/refs/heads/${branchName}/${zipFileName}`;
-        AppLogger_1.default.info(`[RepositoryApi - prepareGitZipConfig] zipSourceUrl:  ${zipSourceUrl}`);
+        AppLogger.info(`[RepositoryApi - prepareGitZipConfig] zipSourceUrl:  ${zipSourceUrl}`);
         const zipDestinationDir = `${zipBaseDir}/${application?.acronym}`;
-        AppLogger_1.default.info(`[RepositoryApi - prepareGitZipConfig] zipDestinationDir:  ${zipDestinationDir}`);
+        AppLogger.info(`[RepositoryApi - prepareGitZipConfig] zipDestinationDir:  ${zipDestinationDir}`);
         const zipBaseFileName = `${zipBaseDir}/${application?.acronym}/${normalizedBranchName}`;
-        AppLogger_1.default.info(`[RepositoryApi - prepareGitZipConfig] zipDestinationDir:  ${zipBaseFileName}`);
+        AppLogger.info(`[RepositoryApi - prepareGitZipConfig] zipDestinationDir:  ${zipBaseFileName}`);
         return {
             zipSourceUrl,
             zipFileName,
@@ -110,7 +105,7 @@ const prepareGitBranchZipConfig = ({ zipBaseDir, application, branchName, }) => 
         };
     }
     catch (error) {
-        AppLogger_1.default.info(`[RepositoryApi - prepareGitZipConfig] error:  ${error instanceof Error ? error.message : error}`);
+        AppLogger.info(`[RepositoryApi - prepareGitZipConfig] error:  ${error instanceof Error ? error.message : error}`);
         return null;
     }
 };
@@ -120,4 +115,4 @@ const RepositoryApi = {
     getFileContent,
     prepareGitBranchZipConfig,
 };
-exports.default = RepositoryApi;
+export default RepositoryApi;

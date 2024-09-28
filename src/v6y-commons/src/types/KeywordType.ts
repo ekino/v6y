@@ -1,4 +1,4 @@
-import { ModuleType } from './ModuleType';
+import { ModuleType } from './ModuleType.ts';
 
 export interface KeywordType {
     _id?: number;

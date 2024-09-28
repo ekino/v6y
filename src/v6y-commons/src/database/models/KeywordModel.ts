@@ -1,7 +1,7 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
-import { KeywordType } from '../../types/KeywordType';
-import { ModuleType } from '../../types/ModuleType';
+import { KeywordType } from '../../types/KeywordType.ts';
+import { ModuleType } from '../../types/ModuleType.ts';
 
 export class KeywordModelType extends Model<KeywordType> implements KeywordType {
     public _id!: number;

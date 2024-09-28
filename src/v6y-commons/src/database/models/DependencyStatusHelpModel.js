@@ -1,35 +1,31 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.DependencyStatusHelpModelType = void 0;
-const sequelize_1 = require("sequelize");
-class DependencyStatusHelpModelType extends sequelize_1.Model {
+import { DataTypes, Model } from 'sequelize';
+export class DependencyStatusHelpModelType extends Model {
     _id;
     category;
     title;
     description;
     links;
 }
-exports.DependencyStatusHelpModelType = DependencyStatusHelpModelType;
 const dependencyStatusHelpModelSchema = {
     _id: {
-        type: sequelize_1.DataTypes.INTEGER,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
     category: {
-        type: sequelize_1.DataTypes.TEXT,
+        type: DataTypes.TEXT,
         allowNull: false,
         unique: true,
     },
     title: {
-        type: sequelize_1.DataTypes.TEXT,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
     description: {
-        type: sequelize_1.DataTypes.TEXT,
+        type: DataTypes.TEXT,
     },
     links: {
-        type: sequelize_1.DataTypes.JSON,
+        type: DataTypes.JSON,
     },
 };
 const dependencyStatusHelpModelOptions = {
@@ -43,4 +39,4 @@ const initializeDependencyStatusHelpModel = (sequelize) => {
     });
     return DependencyStatusHelpModelType;
 };
-exports.default = initializeDependencyStatusHelpModel;
+export default initializeDependencyStatusHelpModel;

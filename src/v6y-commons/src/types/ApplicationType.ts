@@ -1,18 +1,18 @@
-import { LinkType } from './LinkType';
-import { RepositoryType } from './RepositoryType';
+import { LinkType } from './LinkType.ts';
+import { RepositoryType } from './RepositoryType.ts';
 
 export interface ApplicationType {
     _id: number;
-    name: string;
-    acronym: string;
-    contactMail: string;
-    description: string;
+    name?: string;
+    acronym?: string;
+    contactMail?: string;
+    description?: string;
     repo?: RepositoryType;
     links?: LinkType[];
 }
 
-export interface ApplicationInput {
-    appId: number;
+export interface ApplicationInputType {
+    _id: number;
     acronym: string;
     name: string;
     description: string;

@@ -1,8 +1,8 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
-import { EvolutionHelpType } from '../../types/EvolutionHelpType';
-import { EvolutionType } from '../../types/EvolutionType';
-import { ModuleType } from '../../types/ModuleType';
+import { EvolutionHelpType } from '../../types/EvolutionHelpType.ts';
+import { EvolutionType } from '../../types/EvolutionType.ts';
+import { ModuleType } from '../../types/ModuleType.ts';
 
 export class EvolutionModelType extends Model<EvolutionType> implements EvolutionType {
     public _id!: number;

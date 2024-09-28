@@ -1,61 +1,33 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const adm_zip_1 = __importDefault(require("adm-zip"));
-const axios_1 = __importDefault(require("axios"));
-const fs_extra_1 = __importDefault(require("fs-extra"));
-const node_path_1 = __importDefault(require("node:path"));
-const stream = __importStar(require("node:stream"));
-const node_util_1 = require("node:util");
-const AppLogger_1 = __importDefault(require("./AppLogger"));
-const finished = (0, node_util_1.promisify)(stream.finished);
-const __dirname = node_path_1.default.resolve();
+import AdmZip from 'adm-zip';
+import axios from 'axios';
+import fs from 'fs-extra';
+import path from 'node:path';
+import * as stream from 'node:stream';
+import { promisify } from 'node:util';
+import AppLogger from './AppLogger.ts';
+const finished = promisify(stream.finished);
+const __dirname = path.resolve();
 /**
  * Recursively cleans up a workspace directory by deleting any empty subdirectories.
  * @param directoryPath
  */
 const cleanZipWorkspace = async (directoryPath) => {
     try {
-        const files = await fs_extra_1.default.promises.readdir(directoryPath);
+        const files = await fs.promises.readdir(directoryPath);
         for (const file of files) {
-            const filePath = node_path_1.default.join(directoryPath, file);
-            const stats = await fs_extra_1.default.promises.stat(filePath);
+            const filePath = path.join(directoryPath, file);
+            const stats = await fs.promises.stat(filePath);
             if (stats.isDirectory()) {
                 await cleanZipWorkspace(filePath); // Recursively check subdirectories
-                const subFiles = await fs_extra_1.default.promises.readdir(filePath);
+                const subFiles = await fs.promises.readdir(filePath);
                 if (subFiles.length === 0) {
-                    await fs_extra_1.default.promises.rmdir(filePath);
+                    await fs.promises.rmdir(filePath);
                 }
             }
         }
     }
     catch (error) {
-        AppLogger_1.default.info(`[ZipUtils - cleanZipWorkspace] 🚫 exception: ${error}`);
+        AppLogger.info(`[ZipUtils - cleanZipWorkspace] 🚫 exception: ${error}`);
     }
 };
 /**
@@ -67,47 +39,47 @@ const cleanZipWorkspace = async (directoryPath) => {
  */
 const downloadZip = async ({ zipSourceUrl, zipDestinationDir, zipFileName, zipOptions, }) => {
     try {
-        AppLogger_1.default.info(`[ZipUtils - downloadZip] zipSourceUrl:  ${zipSourceUrl}`);
-        AppLogger_1.default.info(`[ZipUtils - downloadZip] zipDestinationDir:  ${zipDestinationDir}`);
-        AppLogger_1.default.info(`[ZipUtils - downloadZip] zipFileName:  ${zipFileName}`);
+        AppLogger.info(`[ZipUtils - downloadZip] zipSourceUrl:  ${zipSourceUrl}`);
+        AppLogger.info(`[ZipUtils - downloadZip] zipDestinationDir:  ${zipDestinationDir}`);
+        AppLogger.info(`[ZipUtils - downloadZip] zipFileName:  ${zipFileName}`);
         if (!zipSourceUrl?.length || !zipDestinationDir?.length || !zipFileName?.length) {
             return false;
         }
-        const zipOutDir = node_path_1.default.join(__dirname, zipDestinationDir);
-        AppLogger_1.default.info(`[ZipUtils - downloadZip] zipOutDir:  ${zipOutDir}`);
-        if (!fs_extra_1.default.existsSync(zipOutDir)) {
-            fs_extra_1.default.mkdirSync(zipOutDir, {
+        const zipOutDir = path.join(__dirname, zipDestinationDir);
+        AppLogger.info(`[ZipUtils - downloadZip] zipOutDir:  ${zipOutDir}`);
+        if (!fs.existsSync(zipOutDir)) {
+            fs.mkdirSync(zipOutDir, {
                 recursive: true,
             });
         }
-        const zipOutFile = node_path_1.default.join(zipOutDir, zipFileName);
-        AppLogger_1.default.info(`[ZipUtils - downloadZip] zipOutFile:  ${zipOutFile}`);
-        const response = await (0, axios_1.default)({
+        const zipOutFile = path.join(zipOutDir, zipFileName);
+        AppLogger.info(`[ZipUtils - downloadZip] zipOutFile:  ${zipOutFile}`);
+        const response = await axios({
             method: 'get',
             url: zipSourceUrl,
             responseType: 'stream',
             headers: zipOptions?.headers,
         });
-        AppLogger_1.default.info(`[ZipUtils - downloadZip] get zipResponse`);
-        const zipWriterStream = fs_extra_1.default.createWriteStream(zipOutFile);
-        AppLogger_1.default.info(`[ZipUtils - downloadZip] init zipWriterStream`);
+        AppLogger.info(`[ZipUtils - downloadZip] get zipResponse`);
+        const zipWriterStream = fs.createWriteStream(zipOutFile);
+        AppLogger.info(`[ZipUtils - downloadZip] init zipWriterStream`);
         response.data.pipe(zipWriterStream);
-        AppLogger_1.default.info(`[ZipUtils - downloadZip] pipe response on zipWriterStream`);
+        AppLogger.info(`[ZipUtils - downloadZip] pipe response on zipWriterStream`);
         await finished(zipWriterStream);
-        AppLogger_1.default.info('[ZipUtils - downloadZip] 🎉 end of download');
+        AppLogger.info('[ZipUtils - downloadZip] 🎉 end of download');
         return true;
     }
     catch (error) {
-        AppLogger_1.default.info(`[ZipUtils - downloadZip] 🚫 exception:  ${zipSourceUrl} / ${error}`);
+        AppLogger.info(`[ZipUtils - downloadZip] 🚫 exception:  ${zipSourceUrl} / ${error}`);
         return false;
     }
 };
 const unZipFile = async ({ zipOriginalSourceDir, zipOriginalFileName, zipNewSourceDir, }) => {
     try {
         // Log the input parameters for debugging
-        AppLogger_1.default.info(`[ZipUtils - unZipFile] zipOriginalSourceDir:  ${zipOriginalSourceDir}`);
-        AppLogger_1.default.info(`[ZipUtils - unZipFile] zipOriginalFileName:  ${zipOriginalFileName}`);
-        AppLogger_1.default.info(`[ZipUtils - unZipFile] zipNewSourceDir:  ${zipNewSourceDir}`);
+        AppLogger.info(`[ZipUtils - unZipFile] zipOriginalSourceDir:  ${zipOriginalSourceDir}`);
+        AppLogger.info(`[ZipUtils - unZipFile] zipOriginalFileName:  ${zipOriginalFileName}`);
+        AppLogger.info(`[ZipUtils - unZipFile] zipNewSourceDir:  ${zipNewSourceDir}`);
         // Check if all required parameters are provided
         if (!zipOriginalSourceDir?.length ||
             !zipOriginalFileName?.length ||
@@ -115,28 +87,28 @@ const unZipFile = async ({ zipOriginalSourceDir, zipOriginalFileName, zipNewSour
             return null;
         }
         // Construct the full path to the source directory
-        const zipOriginalSourceDirPath = node_path_1.default.join(__dirname, zipOriginalSourceDir);
-        AppLogger_1.default.info(`[ZipUtils - unZipFile] zipOriginalSourceDirPath:  ${zipOriginalSourceDirPath}`);
+        const zipOriginalSourceDirPath = path.join(__dirname, zipOriginalSourceDir);
+        AppLogger.info(`[ZipUtils - unZipFile] zipOriginalSourceDirPath:  ${zipOriginalSourceDirPath}`);
         // Check if the source directory exists
-        if (!fs_extra_1.default.existsSync(zipOriginalSourceDirPath)) {
+        if (!fs.existsSync(zipOriginalSourceDirPath)) {
             return null;
         }
         // Construct the full path to the zip file
-        const zipOriginalFileNamePath = node_path_1.default.join(zipOriginalSourceDirPath, zipOriginalFileName);
-        AppLogger_1.default.info(`[ZipUtils - downloadZip] zipOriginalFileNamePath:  ${zipOriginalFileNamePath}`);
+        const zipOriginalFileNamePath = path.join(zipOriginalSourceDirPath, zipOriginalFileName);
+        AppLogger.info(`[ZipUtils - downloadZip] zipOriginalFileNamePath:  ${zipOriginalFileNamePath}`);
         // Check if the zip file exists
-        if (!fs_extra_1.default.existsSync(zipOriginalFileNamePath)) {
+        if (!fs.existsSync(zipOriginalFileNamePath)) {
             return null;
         }
         // Create an AdmZip instance for the zip file
-        const originalZip = new adm_zip_1.default(zipOriginalFileNamePath);
-        AppLogger_1.default.info('[ZipUtils - unZipFile] start unzipping file');
+        const originalZip = new AdmZip(zipOriginalFileNamePath);
+        AppLogger.info('[ZipUtils - unZipFile] start unzipping file');
         // Construct the full path to the destination directory
-        const zipNewSourceDirPath = node_path_1.default.join(__dirname, zipNewSourceDir);
-        AppLogger_1.default.info(`[ZipUtils - unZipFile] zipNewSourceDirPath:  ${zipNewSourceDirPath}`);
+        const zipNewSourceDirPath = path.join(__dirname, zipNewSourceDir);
+        AppLogger.info(`[ZipUtils - unZipFile] zipNewSourceDirPath:  ${zipNewSourceDirPath}`);
         // Create the destination directory if it doesn't exist
-        if (!fs_extra_1.default.existsSync(zipNewSourceDirPath)) {
-            fs_extra_1.default.mkdirSync(zipNewSourceDirPath, { recursive: true });
+        if (!fs.existsSync(zipNewSourceDirPath)) {
+            fs.mkdirSync(zipNewSourceDirPath, { recursive: true });
         }
         // Extract the zip file to the destination directory
         originalZip.extractAllTo(zipNewSourceDirPath, true, false, '');
@@ -145,19 +117,19 @@ const unZipFile = async ({ zipOriginalSourceDir, zipOriginalFileName, zipNewSour
             zipDirFullPath: zipOriginalFileNamePath,
         });
         // Rename the extracted folder (handling potential single-folder extraction)
-        const mvSource = node_path_1.default.join(zipNewSourceDirPath, fs_extra_1.default.readdirSync(zipNewSourceDirPath)?.[0]);
+        const mvSource = path.join(zipNewSourceDirPath, fs.readdirSync(zipNewSourceDirPath)?.[0]);
         const mvDestination = `${zipNewSourceDirPath}-temp`;
-        await fs_extra_1.default.move(mvSource, mvDestination, { overwrite: false });
-        await fs_extra_1.default.promises.rename(mvDestination, mvDestination?.replace('-temp', ''));
+        await fs.move(mvSource, mvDestination, { overwrite: false });
+        await fs.promises.rename(mvDestination, mvDestination?.replace('-temp', ''));
         // Clean up any empty folders in the original source directory
         await cleanZipWorkspace(zipOriginalSourceDirPath);
-        AppLogger_1.default.info('[ZipUtils - unZipFile] 🎉 end unzipping file');
+        AppLogger.info('[ZipUtils - unZipFile] 🎉 end unzipping file');
         // Return the path to the extracted directory
         return zipNewSourceDirPath;
     }
     catch (error) {
         // Log any errors that occur during the unzipping process
-        AppLogger_1.default.info(`🚫 [ZipUtils - unZipFile] error: ${zipOriginalFileName} / ${error}`);
+        AppLogger.info(`🚫 [ZipUtils - unZipFile] error: ${zipOriginalFileName} / ${error}`);
         return null;
     }
 };
@@ -168,24 +140,24 @@ const unZipFile = async ({ zipOriginalSourceDir, zipOriginalFileName, zipNewSour
  */
 const deleteZip = ({ zipDir, zipDirFullPath }) => {
     try {
-        AppLogger_1.default.info(`[ZipUtils - deleteZip] zipDir:  ${zipDir}`);
-        AppLogger_1.default.info(`[ZipUtils - deleteZip] zipDirFullPath:  ${zipDirFullPath}`);
+        AppLogger.info(`[ZipUtils - deleteZip] zipDir:  ${zipDir}`);
+        AppLogger.info(`[ZipUtils - deleteZip] zipDirFullPath:  ${zipDirFullPath}`);
         const zipDirPath = zipDirFullPath?.length
             ? zipDirFullPath
-            : node_path_1.default.join(__dirname, zipDir || '');
-        AppLogger_1.default.info(`[ZipUtils - deleteZip] zipDirPath:  ${zipDirPath}`);
-        if (!fs_extra_1.default.existsSync(zipDirPath)) {
+            : path.join(__dirname, zipDir || '');
+        AppLogger.info(`[ZipUtils - deleteZip] zipDirPath:  ${zipDirPath}`);
+        if (!fs.existsSync(zipDirPath)) {
             return true;
         }
-        fs_extra_1.default.rmSync(zipDirPath, {
+        fs.rmSync(zipDirPath, {
             recursive: true,
             force: true,
         });
-        AppLogger_1.default.info('[ZipUtils - deleteZip] 🎉 end of deleting zip file');
+        AppLogger.info('[ZipUtils - deleteZip] 🎉 end of deleting zip file');
         return true;
     }
     catch (error) {
-        AppLogger_1.default.info(`🚫 [ZipUtils - deleteZip] error:  ${zipDir} / ${error}`);
+        AppLogger.info(`🚫 [ZipUtils - deleteZip] error:  ${zipDir} / ${error}`);
         return false;
     }
 };
@@ -198,4 +170,4 @@ const ZipUtils = {
     deleteZip,
     cleanZipWorkspace,
 };
-exports.default = ZipUtils;
+export default ZipUtils;

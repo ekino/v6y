@@ -1,7 +1,7 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
-import { FaqType } from '../../types/FaqType';
-import { LinkType } from '../../types/LinkType';
+import { FaqType } from '../../types/FaqType.ts';
+import { LinkType } from '../../types/LinkType.ts';
 
 export class FaqModelType extends Model<FaqType> implements FaqType {
     public _id!: number;

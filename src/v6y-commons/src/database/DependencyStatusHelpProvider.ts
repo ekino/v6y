@@ -1,13 +1,13 @@
 import { FindOptions } from 'sequelize';
 
-import { defaultDependencyStatusHelp } from '../config/DependencyStatusHelpConfig';
-import AppLogger from '../core/AppLogger';
+import { defaultDependencyStatusHelp } from '../config/DependencyStatusHelpConfig.ts';
+import AppLogger from '../core/AppLogger.ts';
 import {
     DependencyStatusHelpInputType,
     DependencyStatusHelpType,
-} from '../types/DependencyStatusHelpType';
-import { SearchQueryType } from '../types/SearchQueryType';
-import { DependencyStatusHelpModelType } from './models/DependencyStatusHelpModel';
+} from '../types/DependencyStatusHelpType.ts';
+import { SearchQueryType } from '../types/SearchQueryType.ts';
+import { DependencyStatusHelpModelType } from './models/DependencyStatusHelpModel.ts';
 
 /**
  * Format the dependency status help input

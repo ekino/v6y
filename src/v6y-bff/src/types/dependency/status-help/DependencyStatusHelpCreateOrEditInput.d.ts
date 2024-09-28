@@ -1,0 +1,2 @@
+declare const DependencyStatusHelpCreateOrEditInput = "\n  input DependencyStatusHelpCreateOrEditInput {\n    \"\"\" Dependency StatusHelp Unique id \"\"\"\n    _id: Int!\n      \n    \"\"\" Dependency Status Help Title \"\"\"\n    title: String!\n    \n    \"\"\" Dependency Status Help Description \"\"\"\n    description: String!\n    \n    \"\"\" Dependency Status Help Category \"\"\"\n    category: String! \n    \n    \"\"\" Dependency Status Help Extra Links \"\"\"\n    links: [String]\n  }\n";
+export default DependencyStatusHelpCreateOrEditInput;

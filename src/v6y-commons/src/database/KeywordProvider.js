@@ -1,29 +1,24 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const AppLogger_1 = __importDefault(require("../core/AppLogger"));
-const KeywordModel_1 = require("./models/KeywordModel");
+import AppLogger from '../core/AppLogger.ts';
+import { KeywordModelType } from './models/KeywordModel.ts';
 /**
  * Create Keyword
  * @param keyword
  */
 const createKeyword = async (keyword) => {
     try {
-        AppLogger_1.default.info(`[KeywordProvider - createKeyword] keyword label:  ${keyword?.label}`);
+        AppLogger.info(`[KeywordProvider - createKeyword] keyword label:  ${keyword?.label}`);
         if (!keyword?.label?.length) {
             return null;
         }
-        const createdKeyword = await KeywordModel_1.KeywordModelType.create({
+        const createdKeyword = await KeywordModelType.create({
             ...keyword,
             appId: keyword.module?.appId,
         });
-        AppLogger_1.default.info(`[KeywordProvider - createKeyword] createdKeyword: ${createdKeyword?._id}`);
+        AppLogger.info(`[KeywordProvider - createKeyword] createdKeyword: ${createdKeyword?._id}`);
         return createdKeyword;
     }
     catch (error) {
-        AppLogger_1.default.info(`[KeywordProvider - createKeyword] error:  ${error}`);
+        AppLogger.info(`[KeywordProvider - createKeyword] error:  ${error}`);
         return null;
     }
 };
@@ -33,17 +28,17 @@ const createKeyword = async (keyword) => {
  */
 const insertKeywordList = async (keywordList) => {
     try {
-        AppLogger_1.default.info(`[KeywordProvider - insertKeywordList] keywordList:  ${keywordList?.length}`);
+        AppLogger.info(`[KeywordProvider - insertKeywordList] keywordList:  ${keywordList?.length}`);
         if (!keywordList?.length) {
             return null;
         }
         for (const keyword of keywordList) {
             await createKeyword(keyword);
         }
-        AppLogger_1.default.info(`[KeywordProvider - insertKeywordList] keywordList list inserted successfully`);
+        AppLogger.info(`[KeywordProvider - insertKeywordList] keywordList list inserted successfully`);
     }
     catch (error) {
-        AppLogger_1.default.info(`[KeywordProvider - insertKeywordList] error:  ${error}`);
+        AppLogger.info(`[KeywordProvider - insertKeywordList] error:  ${error}`);
     }
 };
 /**
@@ -52,23 +47,23 @@ const insertKeywordList = async (keywordList) => {
  */
 const editKeyword = async (keyword) => {
     try {
-        AppLogger_1.default.info(`[KeywordProvider - createKeyword] keyword _id:  ${keyword?._id}`);
-        AppLogger_1.default.info(`[KeywordProvider - createKeyword] keyword label:  ${keyword?.label}`);
+        AppLogger.info(`[KeywordProvider - createKeyword] keyword _id:  ${keyword?._id}`);
+        AppLogger.info(`[KeywordProvider - createKeyword] keyword label:  ${keyword?.label}`);
         if (!keyword?._id || !keyword?.label?.length) {
             return null;
         }
-        const editedKeyword = await KeywordModel_1.KeywordModelType.update(keyword, {
+        const editedKeyword = await KeywordModelType.update(keyword, {
             where: {
                 _id: keyword?._id,
             },
         });
-        AppLogger_1.default.info(`[KeywordProvider - editKeyword] editedKeyword: ${editedKeyword?.[0]}`);
+        AppLogger.info(`[KeywordProvider - editKeyword] editedKeyword: ${editedKeyword?.[0]}`);
         return {
             _id: keyword?._id,
         };
     }
     catch (error) {
-        AppLogger_1.default.info(`[KeywordProvider - editKeyword] error:  ${error}`);
+        AppLogger.info(`[KeywordProvider - editKeyword] error:  ${error}`);
         return null;
     }
 };
@@ -78,11 +73,11 @@ const editKeyword = async (keyword) => {
  */
 const deleteKeyword = async ({ _id }) => {
     try {
-        AppLogger_1.default.info(`[KeywordProvider - deleteKeyword] _id:  ${_id}`);
+        AppLogger.info(`[KeywordProvider - deleteKeyword] _id:  ${_id}`);
         if (!_id) {
             return null;
         }
-        await KeywordModel_1.KeywordModelType.destroy({
+        await KeywordModelType.destroy({
             where: {
                 _id,
             },
@@ -92,7 +87,7 @@ const deleteKeyword = async ({ _id }) => {
         };
     }
     catch (error) {
-        AppLogger_1.default.info(`[KeywordProvider - deleteKeyword] error:  ${error}`);
+        AppLogger.info(`[KeywordProvider - deleteKeyword] error:  ${error}`);
         return null;
     }
 };
@@ -101,13 +96,13 @@ const deleteKeyword = async ({ _id }) => {
  */
 const deleteKeywordList = async () => {
     try {
-        await KeywordModel_1.KeywordModelType.destroy({
+        await KeywordModelType.destroy({
             truncate: true,
         });
         return true;
     }
     catch (error) {
-        AppLogger_1.default.info(`[KeywordProvider - deleteKeywordList] error:  ${error}`);
+        AppLogger.info(`[KeywordProvider - deleteKeywordList] error:  ${error}`);
         return false;
     }
 };
@@ -117,19 +112,19 @@ const deleteKeywordList = async () => {
  */
 const getKeywordListByPageAndParams = async ({ appId }) => {
     try {
-        AppLogger_1.default.info(`[KeywordProvider - getKeywordListByPageAndParams] appId: ${appId}`);
+        AppLogger.info(`[KeywordProvider - getKeywordListByPageAndParams] appId: ${appId}`);
         const queryOptions = {};
         if (appId) {
             queryOptions.where = {
                 appId,
             };
         }
-        const keywordList = await KeywordModel_1.KeywordModelType.findAll(queryOptions);
-        AppLogger_1.default.info(`[KeywordProvider - getKeywordListByPageAndParams] keywordList: ${keywordList?.length}`);
+        const keywordList = await KeywordModelType.findAll(queryOptions);
+        AppLogger.info(`[KeywordProvider - getKeywordListByPageAndParams] keywordList: ${keywordList?.length}`);
         return keywordList;
     }
     catch (error) {
-        AppLogger_1.default.info(`[KeywordProvider - getKeywordListByPageAndParams] error:  ${error}`);
+        AppLogger.info(`[KeywordProvider - getKeywordListByPageAndParams] error:  ${error}`);
         return [];
     }
 };
@@ -139,7 +134,7 @@ const getKeywordListByPageAndParams = async ({ appId }) => {
  */
 const getKeywordsStatsByParams = async ({ keywords, }) => {
     try {
-        AppLogger_1.default.info(`[KeywordProvider - getKeywordsStatsByParams] keywords: ${keywords?.join('\r\n')}`);
+        AppLogger.info(`[KeywordProvider - getKeywordsStatsByParams] keywords: ${keywords?.join('\r\n')}`);
         if (!keywords?.length) {
             return null;
         }
@@ -148,7 +143,7 @@ const getKeywordsStatsByParams = async ({ keywords, }) => {
         return null;
     }
     catch (error) {
-        AppLogger_1.default.info(`[KeywordProvider - getKeywordsStatsByParams] error:  ${error}`);
+        AppLogger.info(`[KeywordProvider - getKeywordsStatsByParams] error:  ${error}`);
         return null;
     }
 };
@@ -161,4 +156,4 @@ const KeywordProvider = {
     getKeywordsStatsByParams,
     getKeywordListByPageAndParams,
 };
-exports.default = KeywordProvider;
+export default KeywordProvider;

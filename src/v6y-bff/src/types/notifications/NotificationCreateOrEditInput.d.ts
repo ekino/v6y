@@ -1,0 +1,2 @@
+declare const NotificationCreateOrEditInput = "\n  input NotificationCreateOrEditInput {\n    \"\"\" Notification Unique id \"\"\"\n    _id: Int!\n      \n    \"\"\" NOTIFICATION Question \"\"\"\n    title: String!\n    \n    \"\"\" NOTIFICATION Question Response \"\"\"\n    description: String!\n    \n    \"\"\" NOTIFICATION Extra Links \"\"\"\n    links: [String]\n  }\n";
+export default NotificationCreateOrEditInput;

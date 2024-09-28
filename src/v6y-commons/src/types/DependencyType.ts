@@ -1,5 +1,5 @@
-import { DependencyStatusHelpType } from './DependencyStatusHelpType';
-import { ModuleType } from './ModuleType';
+import { DependencyStatusHelpType } from './DependencyStatusHelpType.ts';
+import { ModuleType } from './ModuleType.ts';
 
 export interface DependencyType {
     _id?: number;

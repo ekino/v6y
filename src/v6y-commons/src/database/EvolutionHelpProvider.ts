@@ -1,10 +1,10 @@
 import { FindOptions } from 'sequelize';
 
-import { defaultEvolutionHelpStatus } from '../config/EvolutionHelpStatusConfig';
-import AppLogger from '../core/AppLogger';
-import { EvolutionHelpInputType, EvolutionHelpType } from '../types/EvolutionHelpType';
-import { SearchQueryType } from '../types/SearchQueryType';
-import { EvolutionHelpModelType } from './models/EvolutionHelpModel';
+import { defaultEvolutionHelpStatus } from '../config/EvolutionHelpStatusConfig.ts';
+import AppLogger from '../core/AppLogger.ts';
+import { EvolutionHelpInputType, EvolutionHelpType } from '../types/EvolutionHelpType.ts';
+import { SearchQueryType } from '../types/SearchQueryType.ts';
+import { EvolutionHelpModelType } from './models/EvolutionHelpModel.ts';
 
 /**
  * Formats the input EvolutionHelp object to the format expected by the database

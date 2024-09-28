@@ -1,9 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuditModelType = void 0;
-const sequelize_1 = require("sequelize");
+import { DataTypes, Model } from 'sequelize';
 const auditModelOptions = {};
-class AuditModelType extends sequelize_1.Model {
+export class AuditModelType extends Model {
     _id;
     appId;
     type;
@@ -16,43 +13,42 @@ class AuditModelType extends sequelize_1.Model {
     auditHelp;
     module;
 }
-exports.AuditModelType = AuditModelType;
 const auditModelSchema = {
     _id: {
-        type: sequelize_1.DataTypes.INTEGER,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
     appId: {
-        type: sequelize_1.DataTypes.INTEGER,
+        type: DataTypes.INTEGER,
         allowNull: false,
     },
     type: {
-        type: sequelize_1.DataTypes.TEXT,
+        type: DataTypes.TEXT,
     },
     category: {
-        type: sequelize_1.DataTypes.TEXT,
+        type: DataTypes.TEXT,
     },
     subCategory: {
-        type: sequelize_1.DataTypes.TEXT,
+        type: DataTypes.TEXT,
     },
     status: {
-        type: sequelize_1.DataTypes.TEXT,
+        type: DataTypes.TEXT,
     },
     score: {
-        type: sequelize_1.DataTypes.FLOAT,
+        type: DataTypes.FLOAT,
     },
     scoreUnit: {
-        type: sequelize_1.DataTypes.TEXT,
+        type: DataTypes.TEXT,
     },
     extraInfos: {
-        type: sequelize_1.DataTypes.TEXT,
+        type: DataTypes.TEXT,
     },
     auditHelp: {
-        type: sequelize_1.DataTypes.JSON,
+        type: DataTypes.JSON,
     },
     module: {
-        type: sequelize_1.DataTypes.JSON,
+        type: DataTypes.JSON,
     },
 };
 const initializeAuditModel = (sequelize) => {
@@ -63,4 +59,4 @@ const initializeAuditModel = (sequelize) => {
     });
     return AuditModelType;
 };
-exports.default = initializeAuditModel;
+export default initializeAuditModel;

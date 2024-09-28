@@ -1,30 +1,26 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.KeywordModelType = void 0;
-const sequelize_1 = require("sequelize");
-class KeywordModelType extends sequelize_1.Model {
+import { DataTypes, Model } from 'sequelize';
+export class KeywordModelType extends Model {
     _id;
     appId;
     label;
     module;
 }
-exports.KeywordModelType = KeywordModelType;
 const keywordModelSchema = {
     _id: {
-        type: sequelize_1.DataTypes.INTEGER,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
     appId: {
-        type: sequelize_1.DataTypes.TEXT,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
     label: {
-        type: sequelize_1.DataTypes.TEXT,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
     module: {
-        type: sequelize_1.DataTypes.JSON,
+        type: DataTypes.JSON,
     },
 };
 const keywordModelOptions = {};
@@ -36,4 +32,4 @@ const initializeKeywordModel = (sequelize) => {
     });
     return KeywordModelType;
 };
-exports.default = initializeKeywordModel;
+export default initializeKeywordModel;

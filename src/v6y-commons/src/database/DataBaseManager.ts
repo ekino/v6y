@@ -1,20 +1,20 @@
 import { OperatorsAliases, Sequelize } from 'sequelize';
 
-import AppLogger from '../core/AppLogger';
-import AuditHelpProvider from './AuditHelpProvider';
-import DependencyStatusHelpProvider from './DependencyStatusHelpProvider';
-import EvolutionHelpProvider from './EvolutionHelpProvider';
-import ApplicationModel from './models/ApplicationModel';
-import AuditHelpModel from './models/AuditHelpModel';
-import AuditModel from './models/AuditModel';
-import DependencyModel from './models/DependencyModel';
-import DependencyStatusHelpModel from './models/DependencyStatusHelpModel';
-import DeprecatedDependencyModel from './models/DeprecatedDependencyModel';
-import EvolutionHelpModelModel from './models/EvolutionHelpModel';
-import EvolutionModel from './models/EvolutionModel';
-import FaqModel from './models/FaqModel';
-import KeywordModel from './models/KeywordModel';
-import NotificationModel from './models/NotificationModel';
+import AppLogger from '../core/AppLogger.ts';
+import AuditHelpProvider from './AuditHelpProvider.ts';
+import DependencyStatusHelpProvider from './DependencyStatusHelpProvider.ts';
+import EvolutionHelpProvider from './EvolutionHelpProvider.ts';
+import ApplicationModel from './models/ApplicationModel.ts';
+import AuditHelpModel from './models/AuditHelpModel.ts';
+import AuditModel from './models/AuditModel.ts';
+import DependencyModel from './models/DependencyModel.ts';
+import DependencyStatusHelpModel from './models/DependencyStatusHelpModel.ts';
+import DeprecatedDependencyModel from './models/DeprecatedDependencyModel.ts';
+import EvolutionHelpModelModel from './models/EvolutionHelpModel.ts';
+import EvolutionModel from './models/EvolutionModel.ts';
+import FaqModel from './models/FaqModel.ts';
+import KeywordModel from './models/KeywordModel.ts';
+import NotificationModel from './models/NotificationModel.ts';
 
 let postgresDataBase: Sequelize | null = null;
 

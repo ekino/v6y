@@ -1,7 +1,7 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
-import { EvolutionHelpType } from '../../types/EvolutionHelpType';
-import { LinkType } from '../../types/LinkType';
+import { EvolutionHelpType } from '../../types/EvolutionHelpType.ts';
+import { LinkType } from '../../types/LinkType.ts';
 
 export class EvolutionHelpModelType extends Model<EvolutionHelpType> implements EvolutionHelpType {
     public _id!: number;

@@ -1,36 +1,31 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const AppLogger_1 = __importDefault(require("../core/AppLogger"));
-const AuditHelpProvider_1 = __importDefault(require("./AuditHelpProvider"));
-const AuditModel_1 = require("./models/AuditModel");
+import AppLogger from '../core/AppLogger.ts';
+import AuditHelpProvider from './AuditHelpProvider.ts';
+import { AuditModelType } from './models/AuditModel.ts';
 /**
  * Creates a new Audit entry in the database.
  * @param audit
  */
 const createAudit = async (audit) => {
     try {
-        AppLogger_1.default.info(`[AuditProvider - createAudit] audit type:  ${audit?.type}`);
-        AppLogger_1.default.info(`[AuditProvider - createAudit] audit category:  ${audit?.category}`);
-        AppLogger_1.default.info(`[AuditProvider - createAudit] audit subCategory:  ${audit?.subCategory}`);
+        AppLogger.info(`[AuditProvider - createAudit] audit type:  ${audit?.type}`);
+        AppLogger.info(`[AuditProvider - createAudit] audit category:  ${audit?.category}`);
+        AppLogger.info(`[AuditProvider - createAudit] audit subCategory:  ${audit?.subCategory}`);
         if (!audit?.type?.length || !audit?.category?.length) {
             return null;
         }
-        const auditHelp = await AuditHelpProvider_1.default.getAuditHelpDetailsByParams({
+        const auditHelp = await AuditHelpProvider.getAuditHelpDetailsByParams({
             category: `${audit.type}-${audit.category}`,
         });
-        const createdAudit = await AuditModel_1.AuditModelType.create({
+        const createdAudit = await AuditModelType.create({
             ...audit,
             appId: audit.module?.appId,
             auditHelp,
         });
-        AppLogger_1.default.info(`[AuditProvider - createAudit] createdAudit: ${createdAudit?._id}`);
+        AppLogger.info(`[AuditProvider - createAudit] createdAudit: ${createdAudit?._id}`);
         return createdAudit;
     }
     catch (error) {
-        AppLogger_1.default.info(`[AuditProvider - createAudit] error:  ${error}`);
+        AppLogger.info(`[AuditProvider - createAudit] error:  ${error}`);
         return null;
     }
 };
@@ -40,18 +35,18 @@ const createAudit = async (audit) => {
  */
 const insertAuditList = async (auditList) => {
     try {
-        AppLogger_1.default.info(`[AuditProvider - insertAuditList] auditList:  ${auditList?.length}`);
+        AppLogger.info(`[AuditProvider - insertAuditList] auditList:  ${auditList?.length}`);
         if (!auditList?.length) {
             return false;
         }
         for (const audit of auditList) {
             await createAudit(audit);
         }
-        AppLogger_1.default.info(`[AuditProvider - insertAuditList] audit reports inserted successfully`);
+        AppLogger.info(`[AuditProvider - insertAuditList] audit reports inserted successfully`);
         return true;
     }
     catch (error) {
-        AppLogger_1.default.info(`[AuditProvider - insertAuditList] error:  ${error}`);
+        AppLogger.info(`[AuditProvider - insertAuditList] error:  ${error}`);
         return false;
     }
 };
@@ -61,24 +56,24 @@ const insertAuditList = async (auditList) => {
  */
 const editAudit = async (audit) => {
     try {
-        AppLogger_1.default.info(`[AuditProvider - createAudit] audit type:  ${audit?.type}`);
-        AppLogger_1.default.info(`[AuditProvider - createAudit] audit category:  ${audit?.category}`);
-        AppLogger_1.default.info(`[AuditProvider - createAudit] audit subCategory:  ${audit?.subCategory}`);
+        AppLogger.info(`[AuditProvider - createAudit] audit type:  ${audit?.type}`);
+        AppLogger.info(`[AuditProvider - createAudit] audit category:  ${audit?.category}`);
+        AppLogger.info(`[AuditProvider - createAudit] audit subCategory:  ${audit?.subCategory}`);
         if (!audit?._id || !audit?.type?.length || !audit?.category?.length) {
             return null;
         }
-        const editedAudit = await AuditModel_1.AuditModelType.update(audit, {
+        const editedAudit = await AuditModelType.update(audit, {
             where: {
                 _id: audit?._id,
             },
         });
-        AppLogger_1.default.info(`[AuditProvider - editAudit] editedAudit: ${editedAudit?.[0]}`);
+        AppLogger.info(`[AuditProvider - editAudit] editedAudit: ${editedAudit?.[0]}`);
         return {
             _id: audit?._id,
         };
     }
     catch (error) {
-        AppLogger_1.default.info(`[AuditProvider - editAudit] error:  ${error}`);
+        AppLogger.info(`[AuditProvider - editAudit] error:  ${error}`);
         return null;
     }
 };
@@ -88,11 +83,11 @@ const editAudit = async (audit) => {
  */
 const deleteAudit = async ({ _id }) => {
     try {
-        AppLogger_1.default.info(`[AuditProvider - deleteAudit] _id:  ${_id}`);
+        AppLogger.info(`[AuditProvider - deleteAudit] _id:  ${_id}`);
         if (!_id) {
             return null;
         }
-        await AuditModel_1.AuditModelType.destroy({
+        await AuditModelType.destroy({
             where: {
                 _id,
             },
@@ -102,7 +97,7 @@ const deleteAudit = async ({ _id }) => {
         };
     }
     catch (error) {
-        AppLogger_1.default.info(`[AuditProvider - deleteAudit] error:  ${error}`);
+        AppLogger.info(`[AuditProvider - deleteAudit] error:  ${error}`);
         return null;
     }
 };
@@ -111,13 +106,13 @@ const deleteAudit = async ({ _id }) => {
  */
 const deleteAuditList = async () => {
     try {
-        await AuditModel_1.AuditModelType.destroy({
+        await AuditModelType.destroy({
             truncate: true,
         });
         return true;
     }
     catch (error) {
-        AppLogger_1.default.info(`[AuditProvider - deleteAuditList] error:  ${error}`);
+        AppLogger.info(`[AuditProvider - deleteAuditList] error:  ${error}`);
         return false;
     }
 };
@@ -127,19 +122,19 @@ const deleteAuditList = async () => {
  */
 const getAuditListByPageAndParams = async ({ appId }) => {
     try {
-        AppLogger_1.default.info(`[AuditProvider - getAuditListByPageAndParams] appId: ${appId}`);
+        AppLogger.info(`[AuditProvider - getAuditListByPageAndParams] appId: ${appId}`);
         const queryOptions = {};
         if (appId) {
             queryOptions.where = {
                 appId,
             };
         }
-        const auditList = await AuditModel_1.AuditModelType.findAll(queryOptions);
-        AppLogger_1.default.info(`[AuditProvider - getAuditListByPageAndParams] auditList: ${auditList?.length}`);
+        const auditList = await AuditModelType.findAll(queryOptions);
+        AppLogger.info(`[AuditProvider - getAuditListByPageAndParams] auditList: ${auditList?.length}`);
         return auditList;
     }
     catch (error) {
-        AppLogger_1.default.info(`[AuditProvider - getAuditListByPageAndParams] error:  ${error}`);
+        AppLogger.info(`[AuditProvider - getAuditListByPageAndParams] error:  ${error}`);
         return [];
     }
 };
@@ -151,4 +146,4 @@ const AuditProvider = {
     deleteAuditList,
     getAuditListByPageAndParams,
 };
-exports.default = AuditProvider;
+export default AuditProvider;

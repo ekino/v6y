@@ -32,15 +32,19 @@ export interface BuildQueryOptions {
 }
 
 export interface GetFileContentOptions {
-    organization: string;
-    gitRepositoryName: string;
-    fileName: string;
-    type: string;
+    organization?: string;
+    gitRepositoryName?: string;
+    fileName?: string;
+    type?: string;
 }
 
 export interface GetRepositoryBranchesOptions {
-    repoBranchesUrl: string;
-    type: string;
+    repoBranchesUrl?: string;
+    type?: string;
+}
+
+export interface RepositoryBranchType {
+    name: string;
 }
 
 export interface RepositoryType {

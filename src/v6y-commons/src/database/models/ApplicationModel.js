@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ApplicationModelType = void 0;
-const sequelize_1 = require("sequelize");
-class ApplicationModelType extends sequelize_1.Model {
+import { DataTypes, Model } from 'sequelize';
+export class ApplicationModelType extends Model {
     _id;
     name;
     acronym;
@@ -11,36 +8,35 @@ class ApplicationModelType extends sequelize_1.Model {
     repo;
     links;
 }
-exports.ApplicationModelType = ApplicationModelType;
 const applicationSchema = {
     _id: {
-        type: sequelize_1.DataTypes.INTEGER,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
     name: {
-        type: sequelize_1.DataTypes.TEXT,
+        type: DataTypes.TEXT,
         allowNull: false,
         unique: true,
     },
     acronym: {
-        type: sequelize_1.DataTypes.TEXT,
+        type: DataTypes.TEXT,
         allowNull: false,
         unique: true,
     },
     contactMail: {
-        type: sequelize_1.DataTypes.TEXT,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
     description: {
-        type: sequelize_1.DataTypes.TEXT,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
     repo: {
-        type: sequelize_1.DataTypes.JSON,
+        type: DataTypes.JSON,
     },
     links: {
-        type: sequelize_1.DataTypes.JSON,
+        type: DataTypes.JSON,
     },
 };
 const applicationOptions = {
@@ -54,4 +50,4 @@ const initializeApplicationModel = (sequelize) => {
     });
     return ApplicationModelType;
 };
-exports.default = initializeApplicationModel;
+export default initializeApplicationModel;

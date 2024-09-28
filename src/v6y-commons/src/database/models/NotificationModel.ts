@@ -1,7 +1,7 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
-import { LinkType } from '../../types/LinkType';
-import { NotificationType } from '../../types/NotificationType';
+import { LinkType } from '../../types/LinkType.ts';
+import { NotificationType } from '../../types/NotificationType.ts';
 
 export class NotificationModelType extends Model<NotificationType> implements NotificationType {
     public _id!: number;
