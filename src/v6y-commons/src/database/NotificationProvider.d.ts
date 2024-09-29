@@ -10,7 +10,7 @@ declare const NotificationProvider: {
         _id: number;
     } | null>;
     deleteNotificationList: () => Promise<boolean>;
-    getNotificationListByPageAndParams: ({ start, limit, sort }: SearchQueryType) => Promise<NotificationModelType[]>;
+    getNotificationListByPageAndParams: ({ start, limit, sort }: SearchQueryType) => Promise<NotificationType[]>;
     getNotificationDetailsByParams: ({ _id }: NotificationType) => Promise<NotificationType | null>;
 };
 export default NotificationProvider;

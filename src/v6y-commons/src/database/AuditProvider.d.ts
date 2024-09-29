@@ -10,6 +10,6 @@ declare const AuditProvider: {
         _id: number;
     } | null>;
     deleteAuditList: () => Promise<boolean>;
-    getAuditListByPageAndParams: ({ appId }: AuditType) => Promise<AuditModelType[]>;
+    getAuditListByPageAndParams: ({ appId }: AuditType) => Promise<AuditType[]>;
 };
 export default AuditProvider;

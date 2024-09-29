@@ -164,7 +164,7 @@ const getNotificationListByPageAndParams = async ({ start, limit, sort }: Search
             `[NotificationProvider - getNotificationListByPageAndParams] notificationList: ${notificationList?.length}`,
         );
 
-        return notificationList;
+        return notificationList?.map((item) => item?.dataValues) || [];
     } catch (error) {
         AppLogger.info(
             `[NotificationProvider - getNotificationListByPageAndParams] error:  ${error}`,

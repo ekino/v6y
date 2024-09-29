@@ -1,6 +1,5 @@
 import { AuditHelpType } from '../types/AuditHelpType.ts';
 import { SearchQueryType } from '../types/SearchQueryType.ts';
-import { AuditHelpModelType } from './models/AuditHelpModel.ts';
 declare const AuditHelpProvider: {
     initDefaultData: () => Promise<boolean>;
     createAuditHelp: (auditHelp: AuditHelpType) => Promise<AuditHelpType | null>;
@@ -11,7 +10,7 @@ declare const AuditHelpProvider: {
         _id: number;
     } | null>;
     deleteAuditHelpList: () => Promise<boolean>;
-    getAuditHelpListByPageAndParams: ({ start, limit, sort }: SearchQueryType) => Promise<AuditHelpModelType[]>;
+    getAuditHelpListByPageAndParams: ({ start, limit, sort }: SearchQueryType) => Promise<AuditHelpType[]>;
     getAuditHelpDetailsByParams: ({ _id, category }: AuditHelpType) => Promise<AuditHelpType | null>;
 };
 export default AuditHelpProvider;

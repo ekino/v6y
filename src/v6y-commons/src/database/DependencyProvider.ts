@@ -185,7 +185,7 @@ const getDependencyListByPageAndParams = async ({ appId }: DependencyType) => {
             `[DependencyProvider - getDependencyListByPageAndParams] dependencyList: ${dependencyList?.length}`,
         );
 
-        return dependencyList;
+        return dependencyList?.map((item) => item?.dataValues) || [];
     } catch (error) {
         AppLogger.info(`[DependencyProvider - getDependencyListByPageAndParams] error:  ${error}`);
         return [];

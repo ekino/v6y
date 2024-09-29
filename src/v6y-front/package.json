@@ -11,7 +11,7 @@
     "url": "https://github.com/ekino/v6y"
   },
   "scripts": {
-    "build:tsc": "tsc",
+    "build:tsc": "tsc --project ./tsconfig.json",
     "build": "next build",
     "dev": "next dev -p 4004",
     "start": "next start -p 4005",
@@ -26,9 +26,9 @@
   "dependencies": {
     "@ant-design/icons": "=5.4.0",
     "@ant-design/nextjs-registry": "=1.0.0",
-    "@tanstack/react-query": "=5.45.1",
     "@tanstack/react-query-devtools": "=5.45.1",
     "@tanstack/react-query-next-experimental": "=5.46.0",
+    "@tanstack/react-query": "=5.45.1",
     "@v6y/commons": "workspace:^*",
     "ag-charts-react": "=10.1.0",
     "antd": "=5.19.3",
@@ -45,14 +45,14 @@
     "react-window": "=1.8.8"
   },
   "devDependencies": {
-    "@babel/plugin-transform-private-methods": "^7.25.4",
-    "@babel/preset-react": "^7.24.7",
-    "@babel/preset-typescript": "^7.24.7",
+    "@babel/plugin-transform-private-methods": "=7.25.4",
+    "@babel/preset-react": "=7.24.7",
+    "@babel/preset-typescript": "=7.24.7",
     "@eslint/js": "=9.11.1",
     "@next/bundle-analyzer": "=14.1.0",
     "@testing-library/react": "=14.2.1",
     "@trivago/prettier-plugin-sort-imports": "=4.3.0",
-    "@types/file-saver": "^2.0.7",
+    "@types/file-saver": "=2.0.7",
     "@types/node": "=20.16.10",
     "@types/react": "=18.3.10",
     "@types/react-dom": "=18.3.0",

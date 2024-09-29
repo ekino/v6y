@@ -143,7 +143,7 @@ const getFaqListByPageAndParams = async ({ start, limit, sort }: SearchQueryType
         const faqList = await FaqModelType.findAll(queryOptions);
         AppLogger.info(`[FaqProvider - getFaqListByPageAndParams] faqList: ${faqList?.length}`);
 
-        return faqList;
+        return faqList?.map((item) => item?.dataValues) || [];
     } catch (error) {
         AppLogger.info(`[FaqProvider - getFaqListByPageAndParams] error:  ${error}`);
         return [];

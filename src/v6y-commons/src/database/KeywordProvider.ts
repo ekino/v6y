@@ -150,7 +150,7 @@ const getKeywordListByPageAndParams = async ({ appId }: KeywordType) => {
             `[KeywordProvider - getKeywordListByPageAndParams] keywordList: ${keywordList?.length}`,
         );
 
-        return keywordList;
+        return keywordList?.map((item) => item?.dataValues) || [];
     } catch (error) {
         AppLogger.info(`[KeywordProvider - getKeywordListByPageAndParams] error:  ${error}`);
         return [];

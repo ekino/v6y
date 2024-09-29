@@ -14,11 +14,11 @@ declare const ApplicationProvider: {
     } | null | undefined>;
     deleteApplicationList: () => Promise<boolean>;
     getApplicationDetailsInfoByParams: ({ _id }: ApplicationType) => Promise<ApplicationType | null>;
-    getApplicationDetailsEvolutionsByParams: ({ _id }: ApplicationType) => Promise<import("./models/EvolutionModel.ts").EvolutionModelType[] | null>;
-    getApplicationDetailsDependenciesByParams: ({ _id }: ApplicationType) => Promise<import("./models/DependencyModel.ts").DependencyModelType[] | null>;
-    getApplicationDetailsAuditReportsByParams: ({ _id }: ApplicationType) => Promise<import("./models/AuditModel.ts").AuditModelType[] | null>;
-    getApplicationDetailsKeywordsByParams: ({ _id }: ApplicationType) => Promise<import("./models/KeywordModel.ts").KeywordModelType[] | null>;
-    getApplicationListByPageAndParams: ({ searchText, keywords, offset, limit, where, }: SearchQueryType) => Promise<ApplicationModelType[]>;
+    getApplicationDetailsEvolutionsByParams: ({ _id }: ApplicationType) => Promise<import("../index.ts").EvolutionType[] | null>;
+    getApplicationDetailsDependenciesByParams: ({ _id }: ApplicationType) => Promise<import("../index.ts").DependencyType[] | null>;
+    getApplicationDetailsAuditReportsByParams: ({ _id }: ApplicationType) => Promise<import("../index.ts").AuditType[] | null>;
+    getApplicationDetailsKeywordsByParams: ({ _id }: ApplicationType) => Promise<import("../index.ts").KeywordType[] | null>;
+    getApplicationListByPageAndParams: ({ searchText, keywords, offset, limit, where, }: SearchQueryType) => Promise<ApplicationType[]>;
     getApplicationTotalByParams: ({ searchText, keywords }: SearchQueryType) => Promise<number>;
     getApplicationStatsByParams: ({ keywords }: SearchQueryType) => Promise<import("../index.ts").KeywordStatsType[] | null>;
 };

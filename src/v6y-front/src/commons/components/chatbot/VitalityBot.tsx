@@ -1,6 +1,7 @@
 'use client';
 
 import { Suspense, lazy, useEffect, useState } from 'react';
+import { Settings } from 'react-chatbotify';
 
 import VitalityLoader from '../VitalityLoader';
 import { VitalityBotFlow } from './VitalityBotFlow';
@@ -22,7 +23,7 @@ export default function VitalityBot() {
                         flow={VitalityBotFlow}
                         themes={VitalityBotSettings.themes}
                         styles={VitalityBotSettings.styles}
-                        settings={VitalityBotSettings.settings}
+                        settings={VitalityBotSettings.settings as unknown as Settings}
                     />
                 </Suspense>
             )}

@@ -156,7 +156,7 @@ const getAuditListByPageAndParams = async ({ appId }: AuditType) => {
             `[AuditProvider - getAuditListByPageAndParams] auditList: ${auditList?.length}`,
         );
 
-        return auditList;
+        return auditList?.map((item) => item?.dataValues) || [];
     } catch (error) {
         AppLogger.info(`[AuditProvider - getAuditListByPageAndParams] error:  ${error}`);
         return [];

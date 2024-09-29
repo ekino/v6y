@@ -117,9 +117,12 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
  */
 const createFormApplication = async (application: ApplicationInputType) => {
     try {
-        const createdApplication = await ApplicationModelType.create(
-            formatApplicationInput(application),
+        const formApplication = formatApplicationInput(application);
+        AppLogger.info(
+            `[ApplicationProvider - createFormApplication] formApplication: ${formApplication?._id}`,
         );
+
+        const createdApplication = await ApplicationModelType.create(formApplication);
 
         AppLogger.info(
             `[ApplicationProvider - createFormApplication] createdApplication: ${createdApplication?._id}`,
@@ -142,14 +145,20 @@ const editFormApplication = async (application: ApplicationInputType) => {
             return null;
         }
 
-        const editedApplication = await ApplicationModelType.update(
-            formatApplicationInput(application),
-            {
-                where: {
-                    _id: application?._id,
-                },
-            },
+        const formApplication = formatApplicationInput(application);
+        AppLogger.info(
+            `[ApplicationProvider - editFormApplication] formApplication: ${formApplication?._id}`,
         );
+
+        if (!formApplication?._id) {
+            return null;
+        }
+
+        const editedApplication = await ApplicationModelType.update(formApplication, {
+            where: {
+                _id: application?._id,
+            },
+        });
 
         AppLogger.info(
             `[ApplicationProvider - editFormApplication] editedApplication: ${editedApplication?.[0]}`,

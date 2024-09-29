@@ -10,7 +10,7 @@ declare const DeprecatedDependencyProvider: {
         _id: number;
     } | null>;
     deleteDeprecatedDependencyList: () => Promise<boolean>;
-    getDeprecatedDependencyListByPageAndParams: ({ start, limit, sort, }: SearchQueryType) => Promise<DeprecatedDependencyModelType[]>;
+    getDeprecatedDependencyListByPageAndParams: ({ start, limit, sort, }: SearchQueryType) => Promise<DeprecatedDependencyType[]>;
     getDeprecatedDependencyDetailsByParams: ({ _id, name }: DeprecatedDependencyType) => Promise<DeprecatedDependencyType | null>;
 };
 export default DeprecatedDependencyProvider;

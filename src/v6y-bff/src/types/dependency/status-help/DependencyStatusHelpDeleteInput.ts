@@ -1,7 +1,7 @@
 const DependencyStatusHelpDeleteInput = `
   input DependencyStatusHelpDeleteInputClause {
       """ DependencyStatus Help to delete id """
-      _id: Int!
+      _id: String!
   }
   
   input DependencyStatusHelpDeleteInput {

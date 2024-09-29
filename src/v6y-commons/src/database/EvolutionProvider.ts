@@ -162,7 +162,7 @@ const getEvolutionListByPageAndParams = async ({ appId }: EvolutionType) => {
             `[EvolutionProvider - getEvolutionListByPageAndParams] evolutionList: ${evolutionList?.length}`,
         );
 
-        return evolutionList;
+        return evolutionList?.map((item) => item?.dataValues) || [];
     } catch (error) {
         AppLogger.info(`[EvolutionProvider - getEvolutionListByPageAndParams] error:  ${error}`);
         return [];

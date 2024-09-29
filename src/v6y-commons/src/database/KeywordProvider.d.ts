@@ -12,6 +12,6 @@ declare const KeywordProvider: {
     } | null>;
     deleteKeywordList: () => Promise<boolean>;
     getKeywordsStatsByParams: ({ keywords, }: SearchQueryType) => Promise<KeywordStatsType[] | null>;
-    getKeywordListByPageAndParams: ({ appId }: KeywordType) => Promise<KeywordModelType[]>;
+    getKeywordListByPageAndParams: ({ appId }: KeywordType) => Promise<KeywordType[]>;
 };
 export default KeywordProvider;

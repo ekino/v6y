@@ -6,7 +6,7 @@ const withBundleAnalyzer = BundleAnalyzer({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    transpilePackages: [],
+    transpilePackages: ['@refinedev/antd'],
 };
 
 export default withBundleAnalyzer(nextConfig);

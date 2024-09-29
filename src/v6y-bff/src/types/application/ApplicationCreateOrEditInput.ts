@@ -1,7 +1,7 @@
 const ApplicationCreateOrEditInput = `
   input ApplicationCreateOrEditInput {
       """ App Unique id """
-      _id: Int!
+      _id: Int
         
       """ APP Acronym (abbreviation, trigram, ...) """
       acronym: String!

@@ -1,7 +1,7 @@
 const ApplicationDeleteInput = `
   input ApplicationDeleteInputClause {
       """ Application to delete id """
-      _id: Int!
+      id: String!
   }
   
   input ApplicationDeleteInput {

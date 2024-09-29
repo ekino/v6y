@@ -28,7 +28,10 @@ export const VitalityBotFlow = {
     process_options: {
         transition: { duration: 0 },
         chatDisabled: true,
-        path: async (params) => {
+        path: async (params: {
+            userInput: string;
+            injectMessage: (message: string) => Promise<void>;
+        }) => {
             let link = '';
             switch (params.userInput) {
                 case 'Quickstart':

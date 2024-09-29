@@ -1,6 +1,6 @@
 declare const DeprecatedDependencyResolvers: {
     Query: {
-        getDeprecatedDependencyListByPageAndParams: (_: unknown, args: import("@v6y/commons").SearchQueryType) => Promise<import("@v6y/commons/src/database/models/DeprecatedDependencyModel.ts").DeprecatedDependencyModelType[]>;
+        getDeprecatedDependencyListByPageAndParams: (_: unknown, args: import("@v6y/commons").SearchQueryType) => Promise<import("@v6y/commons").DeprecatedDependencyType[]>;
         getDeprecatedDependencyDetailsByParams: (_: unknown, args: import("@v6y/commons").DeprecatedDependencyType) => Promise<import("@v6y/commons").DeprecatedDependencyType | null>;
     };
     Mutation: {

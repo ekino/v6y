@@ -170,7 +170,7 @@ const getEvolutionHelpListByPageAndParams = async ({ start, limit, sort }: Searc
             `[EvolutionHelpProvider - getEvolutionHelpListByPageAndParams] evolutionHelpList: ${evolutionHelpList?.length}`,
         );
 
-        return evolutionHelpList;
+        return evolutionHelpList?.map((item) => item?.dataValues) || [];
     } catch (error) {
         AppLogger.info(
             `[EvolutionHelpProvider - getEvolutionHelpListByPageAndParams] error:  ${error}`,

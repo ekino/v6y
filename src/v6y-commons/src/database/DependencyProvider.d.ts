@@ -10,6 +10,6 @@ declare const DependencyProvider: {
         _id: number;
     } | null>;
     deleteDependencyList: () => Promise<boolean>;
-    getDependencyListByPageAndParams: ({ appId }: DependencyType) => Promise<DependencyModelType[]>;
+    getDependencyListByPageAndParams: ({ appId }: DependencyType) => Promise<DependencyType[]>;
 };
 export default DependencyProvider;

@@ -153,7 +153,7 @@ const getDeprecatedDependencyListByPageAndParams = async ({
             `[DeprecatedDependencyProvider - getDeprecatedDependencyListByPageAndParams] deprecatedDependencyList: ${deprecatedDependencyList?.length}`,
         );
 
-        return deprecatedDependencyList;
+        return deprecatedDependencyList?.map((item) => item?.dataValues) || [];
     } catch (error) {
         AppLogger.info(
             `[DeprecatedDependencyProvider - getDeprecatedDependencyListByPageAndParams] error:  ${error}`,

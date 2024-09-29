@@ -6,6 +6,7 @@ export interface SearchQueryType {
     limit?: number;
     where?: {
         _id: number;
+        id?: string;
     };
     sort?: string;
 }

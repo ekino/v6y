@@ -162,6 +162,9 @@ importers:
       puppeteer-core:
         specifier: '=21.11.0'
         version: 21.11.0
+      ts-node:
+        specifier: '=10.9.2'
+        version: 10.9.2(@types/node@22.7.4)(typescript@5.6.2)
       typescript:
         specifier: '=5.6.2'
         version: 5.6.2
@@ -250,6 +253,9 @@ importers:
       pm2:
         specifier: '=5.3.0'
         version: 5.3.0
+      ts-node:
+        specifier: '=10.9.2'
+        version: 10.9.2(@types/node@22.7.4)(typescript@5.6.2)
       typescript:
         specifier: '=5.6.2'
         version: 5.6.2
@@ -333,7 +339,7 @@ importers:
         specifier: '=5.3.0'
         version: 5.3.0
       ts-node:
-        specifier: ^10.9.2
+        specifier: '=10.9.2'
         version: 10.9.2(@types/node@22.7.4)(typescript@5.6.2)
       typescript:
         specifier: '=5.6.2'
@@ -521,13 +527,13 @@ importers:
         version: 1.8.8(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
     devDependencies:
       '@babel/plugin-transform-private-methods':
-        specifier: ^7.25.4
+        specifier: '=7.25.4'
         version: 7.25.4(@babel/core@7.25.2)
       '@babel/preset-react':
-        specifier: ^7.24.7
+        specifier: '=7.24.7'
         version: 7.24.7(@babel/core@7.25.2)
       '@babel/preset-typescript':
-        specifier: ^7.24.7
+        specifier: '=7.24.7'
         version: 7.24.7(@babel/core@7.25.2)
       '@eslint/js':
         specifier: '=9.11.1'
@@ -542,7 +548,7 @@ importers:
         specifier: '=4.3.0'
         version: 4.3.0(@vue/compiler-sfc@3.5.5)(prettier@3.3.2)
       '@types/file-saver':
-        specifier: ^2.0.7
+        specifier: '=2.0.7'
         version: 2.0.7
       '@types/node':
         specifier: '=20.16.10'
@@ -600,34 +606,37 @@ importers:
         version: 1.0.0(@ant-design/cssinjs@1.21.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(next@14.2.5(@babel/core@7.25.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@refinedev/antd':
         specifier: '=5.43.0'
-        version: 5.43.0(@refinedev/core@4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        version: 5.43.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@refinedev/cli':
         specifier: '=2.16.37'
         version: 2.16.37(@babel/preset-env@7.23.6(@babel/core@7.25.2))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@refinedev/core':
         specifier: '=4.54.0'
-        version: 4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        version: 4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@refinedev/devtools':
         specifier: '=1.2.7'
-        version: 1.2.7(@refinedev/cli@2.16.37(@babel/preset-env@7.23.6(@babel/core@7.25.2))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/core@4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/devtools-server@1.1.35(@babel/preset-env@7.23.6(@babel/core@7.25.2))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        version: 1.2.7(@refinedev/cli@2.16.37(@babel/preset-env@7.23.6(@babel/core@7.25.2))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/devtools-server@1.1.35(@babel/preset-env@7.23.6(@babel/core@7.25.2))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@refinedev/graphql':
-        specifier: ^6.5.4
-        version: 6.5.4(@refinedev/core@4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(gql-query-builder@3.8.0)(graphql-request@6.1.0(graphql@16.8.1))(graphql-ws@5.16.0(graphql@16.8.1))
+        specifier: '=6.5.4'
+        version: 6.5.4(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(gql-query-builder@3.8.0)(graphql-request@6.1.0(graphql@16.8.1))(graphql-ws@5.16.0(graphql@16.8.1))
       '@refinedev/inferencer':
         specifier: '=4.7.0'
-        version: 4.7.0(@ant-design/icons@5.4.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/antd@5.43.0(@refinedev/core@4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/core@4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        version: 4.7.0(@ant-design/icons@5.4.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/antd@5.43.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@refinedev/kbar':
         specifier: '=1.3.12'
-        version: 1.3.12(@refinedev/core@4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        version: 1.3.12(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@refinedev/nextjs-router':
         specifier: '=6.1.0'
-        version: 6.1.0(@refinedev/core@4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(next@14.2.5(@babel/core@7.25.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        version: 6.1.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(next@14.2.5(@babel/core@7.25.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@refinedev/simple-rest':
         specifier: '=5.0.8'
-        version: 5.0.8(@refinedev/core@4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))
+        version: 5.0.8(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))
       '@tanstack/react-query':
-        specifier: '=5.45.1'
-        version: 5.45.1(react@18.2.0)
+        specifier: '=4.10.1'
+        version: 4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@v6y/commons':
+        specifier: workspace:^*
+        version: link:../v6y-commons
       antd:
         specifier: '=5.19.3'
         version: 5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -641,16 +650,16 @@ importers:
         specifier: '=6.1.0'
         version: 6.1.0(graphql@16.8.1)
       i18next:
-        specifier: ^20.1.0
+        specifier: '=20.1.0'
         version: 20.1.0
       i18next-browser-languagedetector:
-        specifier: ^6.1.1
+        specifier: '=6.1.1'
         version: 6.1.1
       i18next-resources-to-backend:
-        specifier: ^1.2.0
+        specifier: '=1.2.0'
         version: 1.2.0
       i18next-xhr-backend:
-        specifier: ^3.2.2
+        specifier: '=3.2.2'
         version: 3.2.2
       js-cookie:
         specifier: '=3.0.1'
@@ -662,7 +671,7 @@ importers:
         specifier: '=2.2.1'
         version: 2.2.1
       next-i18next:
-        specifier: ^8.9.0
+        specifier: '=8.9.0'
         version: 8.9.0(next@14.2.5(@babel/core@7.25.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react:
         specifier: '=18.2.0'
@@ -671,9 +680,18 @@ importers:
         specifier: '=18.2.0'
         version: 18.2.0(react@18.2.0)
       react-i18next:
-        specifier: ^11.8.11
-        version: 11.18.6(i18next@20.1.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        specifier: '=11.8.11'
+        version: 11.8.11(i18next@20.1.0)(react@18.2.0)
     devDependencies:
+      '@babel/plugin-transform-private-methods':
+        specifier: '=7.25.4'
+        version: 7.25.4(@babel/core@7.25.2)
+      '@babel/preset-react':
+        specifier: '=7.24.7'
+        version: 7.24.7(@babel/core@7.25.2)
+      '@babel/preset-typescript':
+        specifier: '=7.24.7'
+        version: 7.24.7(@babel/core@7.25.2)
       '@eslint/js':
         specifier: '=9.11.1'
         version: 9.11.1
@@ -686,6 +704,9 @@ importers:
       '@trivago/prettier-plugin-sort-imports':
         specifier: '=4.3.0'
         version: 4.3.0(@vue/compiler-sfc@3.5.5)(prettier@3.3.2)
+      '@types/js-cookie':
+        specifier: ^3.0.6
+        version: 3.0.6
       '@types/node':
         specifier: '=20.16.10'
         version: 20.16.10
@@ -719,6 +740,9 @@ importers:
       eslint-config-prettier:
         specifier: '=9.1.0'
         version: 9.1.0(eslint@8.57.1)
+      i18next-resources-for-ts:
+        specifier: ^1.5.0
+        version: 1.5.0
       jsdom:
         specifier: '=24.1.1'
         version: 24.1.1
@@ -2831,6 +2855,9 @@ packages:
 
   '@types/i18next-fs-backend@1.1.5':
     resolution: {integrity: sha512-QKKYWkfQ13spBwa+5/lBThkPkMv8svU6a5Z0Bz96IuN+HupJZXVAbP93p5bK7iOcY7Y/g/W9Y6qy5z0i0NpTog==}
+
+  '@types/js-cookie@3.0.6':
+    resolution: {integrity: sha512-wkw9yd1kEXOPnvEeEV1Go1MmxtBJL0RR79aOTAApecWFVu7w0NNXNqhcWgvw2YgZDYadliXkl14pa3WXw5jlCQ==}
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -5146,6 +5173,9 @@ packages:
   html-escaper@2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
 
+  html-parse-stringify2@2.0.1:
+    resolution: {integrity: sha512-wMKQ3aJ/dwXzDHPpA7XgsRXXCkEhHkAF6Ioh7D51lgZO7Qy0LmcFddC9TI/qNQJvSM1KL8KbcR3FtuybsrzFlQ==}
+
   html-parse-stringify@3.0.1:
     resolution: {integrity: sha512-KknJ50kTInJ7qIScF3jeaFRpMpE8/lfiTdzf/twXyPBLAGrLRTmkz3AdTnKeh40X8k9L2fdYwEp/42WGXIRGcg==}
 
@@ -5205,6 +5235,10 @@ packages:
 
   i18next-fs-backend@1.2.0:
     resolution: {integrity: sha512-pUx3AcgXCbur0jpFA7U67Z2RJflAcIi698Y8VL+phdOqUchahxriV3Cs+M6UkPNQSS/zPEzWLfdJ8EgjB7HVxg==}
+
+  i18next-resources-for-ts@1.5.0:
+    resolution: {integrity: sha512-gzVYct/sMeeOzomK0+8nl7YSr61xiDzf4Kg51g7StBaXAaKE/Vb1CLNHZ8dY56sYz6qmbwHRYHqMPanGi0go4w==}
+    hasBin: true
 
   i18next-resources-to-backend@1.2.0:
     resolution: {integrity: sha512-8f1l03s+QxDmCfpSXCh9V+AFcxAwIp0UaroWuyOx+hmmv8484GcELHs+lnu54FrNij8cDBEXvEwhzZoXsKcVpg==}
@@ -7157,6 +7191,12 @@ packages:
       react-native:
         optional: true
 
+  react-i18next@11.8.11:
+    resolution: {integrity: sha512-S17B952IB8T5Zs0SoGNR5zSHU5N7+X2D2OydhAtqNHT+iw9Tbt7WBNExufe9NbmpUQUUjKrCHIkl2diNTdGYtA==}
+    peerDependencies:
+      i18next: '>= 19.0.0'
+      react: '>= 16.8.0'
+
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -8480,6 +8520,10 @@ packages:
     resolution: {integrity: sha512-sfAcO2yeSU0CSPFI/DmZp3FsFE9T+8913nv1xWBOyzODv13fwkn6Vl7HqxGpkr9F608M+8SuFId3s+BlZqfXww==}
     engines: {node: '>=4.0'}
 
+  void-elements@2.0.1:
+    resolution: {integrity: sha512-qZKX4RnBzH2ugr8Lxa7x+0V6XD9Sb/ouARtiasEQCHB1EVU4NXtmHsDDrx1dO4ne5fc3J6EW05BP1Dl0z0iung==}
+    engines: {node: '>=0.10.0'}
+
   void-elements@3.1.0:
     resolution: {integrity: sha512-Dhxzh5HZuiHQhbvTW9AMetFfBHDMYpo23Uo9btPXgdYP+3T5S+p+jgNy7spra+veYhBP2dCSgxR/i2Y02h5/6w==}
     engines: {node: '>=0.10.0'}
@@ -8706,6 +8750,11 @@ packages:
 
   yallist@4.0.0:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
+
+  yaml@2.5.1:
+    resolution: {integrity: sha512-bLQOjaX/ADgQ20isPJRvF0iRUHIxVhYvr53Of7wGcWlO2jvtUlH5m87DsmulFVxRpNLOnI4tB6p/oh8D7kpn9Q==}
+    engines: {node: '>= 14'}
+    hasBin: true
 
   yamljs@0.3.0:
     resolution: {integrity: sha512-C/FsVVhht4iPQYXOInoxUM/1ELSf9EsgKH34FofQOp6hwCPrW4vG4w5++TED3xRUo8gD7l0P1J1dLlDYzODsTQ==}
@@ -9029,7 +9078,7 @@ snapshots:
 
   '@babel/generator@7.25.5':
     dependencies:
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
       jsesc: 2.5.2
@@ -9140,8 +9189,8 @@ snapshots:
 
   '@babel/helper-module-imports@7.24.7':
     dependencies:
-      '@babel/traverse': 7.25.4
-      '@babel/types': 7.25.4
+      '@babel/traverse': 7.25.6
+      '@babel/types': 7.25.6
     transitivePeerDependencies:
       - supports-color
 
@@ -10648,12 +10697,12 @@ snapshots:
 
   '@reach/observe-rect@1.2.0': {}
 
-  '@refinedev/antd@5.43.0(@refinedev/core@4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+  '@refinedev/antd@5.43.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
       '@ant-design/icons': 5.0.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@ant-design/pro-layout': 7.17.12(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      '@refinedev/core': 4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      '@refinedev/ui-types': 1.22.9(@refinedev/core@4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@refinedev/core': 4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@refinedev/ui-types': 1.22.9(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@tanstack/react-query': 4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@types/react': 18.3.10
       '@types/react-dom': 18.3.0
@@ -10721,10 +10770,10 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@refinedev/core@4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+  '@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
       '@refinedev/devtools-internal': 1.1.14(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      '@tanstack/react-query': 5.45.1(react@18.2.0)
+      '@tanstack/react-query': 4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@types/react': 18.3.10
       '@types/react-dom': 18.3.0
       lodash: 4.17.21
@@ -10797,11 +10846,11 @@ snapshots:
     transitivePeerDependencies:
       - react-native
 
-  '@refinedev/devtools@1.2.7(@refinedev/cli@2.16.37(@babel/preset-env@7.23.6(@babel/core@7.25.2))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/core@4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/devtools-server@1.1.35(@babel/preset-env@7.23.6(@babel/core@7.25.2))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+  '@refinedev/devtools@1.2.7(@refinedev/cli@2.16.37(@babel/preset-env@7.23.6(@babel/core@7.25.2))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/devtools-server@1.1.35(@babel/preset-env@7.23.6(@babel/core@7.25.2))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
       '@aliemir/dom-to-fiber-utils': 0.4.1
       '@refinedev/cli': 2.16.37(@babel/preset-env@7.23.6(@babel/core@7.25.2))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      '@refinedev/core': 4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@refinedev/core': 4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@refinedev/devtools-server': 1.1.35(@babel/preset-env@7.23.6(@babel/core@7.25.2))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@refinedev/devtools-shared': 1.1.12(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@types/react': 18.3.10
@@ -10814,9 +10863,9 @@ snapshots:
     transitivePeerDependencies:
       - react-native
 
-  '@refinedev/graphql@6.5.4(@refinedev/core@4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(gql-query-builder@3.8.0)(graphql-request@6.1.0(graphql@16.8.1))(graphql-ws@5.16.0(graphql@16.8.1))':
+  '@refinedev/graphql@6.5.4(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(gql-query-builder@3.8.0)(graphql-request@6.1.0(graphql@16.8.1))(graphql-ws@5.16.0(graphql@16.8.1))':
     dependencies:
-      '@refinedev/core': 4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@refinedev/core': 4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       camelcase: 6.3.0
       gql-query-builder: 3.8.0
       graphql: 15.8.0
@@ -10825,11 +10874,11 @@ snapshots:
       graphql-ws: 5.16.0(graphql@16.8.1)
       pluralize: 8.0.0
 
-  '@refinedev/inferencer@4.7.0(@ant-design/icons@5.4.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/antd@5.43.0(@refinedev/core@4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/core@4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+  '@refinedev/inferencer@4.7.0(@ant-design/icons@5.4.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/antd@5.43.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
       '@aliemir/react-live': 4.0.0(react@18.2.0)
       '@ant-design/icons': 5.4.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      '@refinedev/core': 4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@refinedev/core': 4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@tabler/icons-react': 3.13.0(react@18.2.0)
       '@types/react': 18.3.10
       '@types/react-dom': 18.3.0
@@ -10846,15 +10895,15 @@ snapshots:
       remark-gfm: 1.0.0
       tslib: 2.7.0
     optionalDependencies:
-      '@refinedev/antd': 5.43.0(@refinedev/core@4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@refinedev/antd': 5.43.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       antd: 5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       dayjs: 1.11.13
     transitivePeerDependencies:
       - supports-color
 
-  '@refinedev/kbar@1.3.12(@refinedev/core@4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+  '@refinedev/kbar@1.3.12(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
-      '@refinedev/core': 4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@refinedev/core': 4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       kbar: 0.1.0-beta.45(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -10862,9 +10911,9 @@ snapshots:
       - '@types/react'
       - '@types/react-dom'
 
-  '@refinedev/nextjs-router@6.1.0(@refinedev/core@4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(next@14.2.5(@babel/core@7.25.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+  '@refinedev/nextjs-router@6.1.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(next@14.2.5(@babel/core@7.25.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
-      '@refinedev/core': 4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@refinedev/core': 4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@types/react': 18.3.10
       '@types/react-dom': 18.3.0
       next: 14.2.5(@babel/core@7.25.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -10873,17 +10922,17 @@ snapshots:
       react-dom: 18.2.0(react@18.2.0)
       warn-once: 0.1.1
 
-  '@refinedev/simple-rest@5.0.8(@refinedev/core@4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))':
+  '@refinedev/simple-rest@5.0.8(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))':
     dependencies:
-      '@refinedev/core': 4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@refinedev/core': 4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       axios: 1.7.5
       query-string: 7.1.3
     transitivePeerDependencies:
       - debug
 
-  '@refinedev/ui-types@1.22.9(@refinedev/core@4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+  '@refinedev/ui-types@1.22.9(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
-      '@refinedev/core': 4.54.0(@tanstack/react-query@5.45.1(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@refinedev/core': 4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       dayjs: 1.11.13
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -11277,6 +11326,8 @@ snapshots:
   '@types/i18next-fs-backend@1.1.5':
     dependencies:
       i18next: 21.10.0
+
+  '@types/js-cookie@3.0.6': {}
 
   '@types/json-schema@7.0.15': {}
 
@@ -12187,7 +12238,7 @@ snapshots:
 
   babel-walk@3.0.0-canary-5:
     dependencies:
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
 
   babylon@6.16.1: {}
 
@@ -14359,6 +14410,10 @@ snapshots:
 
   html-escaper@2.0.2: {}
 
+  html-parse-stringify2@2.0.1:
+    dependencies:
+      void-elements: 2.0.1
+
   html-parse-stringify@3.0.1:
     dependencies:
       void-elements: 3.1.0
@@ -14432,25 +14487,30 @@ snapshots:
 
   i18next-browser-languagedetector@6.1.1:
     dependencies:
-      '@babel/runtime': 7.25.4
+      '@babel/runtime': 7.25.6
 
   i18next-fs-backend@1.2.0: {}
 
+  i18next-resources-for-ts@1.5.0:
+    dependencies:
+      '@babel/runtime': 7.25.6
+      yaml: 2.5.1
+
   i18next-resources-to-backend@1.2.0:
     dependencies:
-      '@babel/runtime': 7.25.4
+      '@babel/runtime': 7.25.6
 
   i18next-xhr-backend@3.2.2:
     dependencies:
-      '@babel/runtime': 7.25.4
+      '@babel/runtime': 7.25.6
 
   i18next@20.1.0:
     dependencies:
-      '@babel/runtime': 7.25.4
+      '@babel/runtime': 7.25.6
 
   i18next@21.10.0:
     dependencies:
-      '@babel/runtime': 7.25.4
+      '@babel/runtime': 7.25.6
 
   iconv-lite@0.4.24:
     dependencies:
@@ -15517,7 +15577,7 @@ snapshots:
 
   next-i18next@8.9.0(next@14.2.5(@babel/core@7.25.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
-      '@babel/runtime': 7.25.4
+      '@babel/runtime': 7.25.6
       '@types/hoist-non-react-statics': 3.3.5
       '@types/i18next-fs-backend': 1.1.5
       core-js: 3.38.1
@@ -16730,12 +16790,19 @@ snapshots:
 
   react-i18next@11.18.6(i18next@20.1.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
-      '@babel/runtime': 7.25.4
+      '@babel/runtime': 7.25.6
       html-parse-stringify: 3.0.1
       i18next: 20.1.0
       react: 18.2.0
     optionalDependencies:
       react-dom: 18.2.0(react@18.2.0)
+
+  react-i18next@11.8.11(i18next@20.1.0)(react@18.2.0):
+    dependencies:
+      '@babel/runtime': 7.25.6
+      html-parse-stringify2: 2.0.1
+      i18next: 20.1.0
+      react: 18.2.0
 
   react-is@16.13.1: {}
 
@@ -18256,6 +18323,8 @@ snapshots:
       ini: 1.3.8
       js-git: 0.7.8
 
+  void-elements@2.0.1: {}
+
   void-elements@3.1.0: {}
 
   w3c-xmlserializer@5.0.0:
@@ -18495,6 +18564,8 @@ snapshots:
   yallist@3.1.1: {}
 
   yallist@4.0.0: {}
+
+  yaml@2.5.1: {}
 
   yamljs@0.3.0:
     dependencies:

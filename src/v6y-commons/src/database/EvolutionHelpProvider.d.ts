@@ -11,7 +11,7 @@ declare const EvolutionHelpProvider: {
         _id: number;
     } | null>;
     deleteEvolutionHelpList: () => Promise<boolean>;
-    getEvolutionHelpListByPageAndParams: ({ start, limit, sort }: SearchQueryType) => Promise<EvolutionHelpModelType[]>;
+    getEvolutionHelpListByPageAndParams: ({ start, limit, sort }: SearchQueryType) => Promise<EvolutionHelpType[]>;
     getEvolutionHelpDetailsByParams: ({ _id, category }: EvolutionHelpType) => Promise<EvolutionHelpType | null>;
 };
 export default EvolutionHelpProvider;

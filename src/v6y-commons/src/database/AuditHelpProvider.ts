@@ -113,7 +113,7 @@ const getAuditHelpListByPageAndParams = async ({ start, limit, sort }: SearchQue
             `[AuditHelpProvider - getAuditHelpListByPageAndParams] auditHelpList: ${auditHelpList?.length}`,
         );
 
-        return auditHelpList;
+        return auditHelpList?.map((item) => item?.dataValues) || [];
     } catch (error) {
         AppLogger.info(`[AuditHelpProvider - getAuditHelpListByPageAndParams] error:  ${error}`);
         return [];

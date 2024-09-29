@@ -1,6 +1,6 @@
 declare const EvolutionHelpResolvers: {
     Query: {
-        getEvolutionHelpListByPageAndParams: (_: unknown, args: import("@v6y/commons").SearchQueryType) => Promise<import("@v6y/commons/src/database/models/EvolutionHelpModel.ts").EvolutionHelpModelType[]>;
+        getEvolutionHelpListByPageAndParams: (_: unknown, args: import("@v6y/commons").SearchQueryType) => Promise<import("@v6y/commons").EvolutionHelpType[]>;
         getEvolutionHelpDetailsByParams: (_: unknown, args: import("@v6y/commons").EvolutionHelpType) => Promise<import("@v6y/commons").EvolutionHelpType | null>;
         getEvolutionHelpStatus: (_: unknown, args: import("@v6y/commons").SearchQueryType) => Promise<import("@v6y/commons").EvolutionHelpStatusType[] | null>;
     };

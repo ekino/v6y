@@ -8,7 +8,7 @@ declare const ApplicationMutations: {
     deleteApplication: (_: unknown, params: {
         input: SearchQueryType;
     }) => Promise<{
-        _id: number;
+        _id: string;
     } | null>;
 };
 export default ApplicationMutations;

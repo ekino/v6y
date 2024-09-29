@@ -11,7 +11,7 @@ declare const DependencyStatusHelpProvider: {
         _id: number;
     } | null>;
     deleteDependencyStatusHelpList: () => Promise<boolean>;
-    getDependencyStatusHelpListByPageAndParams: ({ start, limit, sort, }: SearchQueryType) => Promise<DependencyStatusHelpModelType[]>;
+    getDependencyStatusHelpListByPageAndParams: ({ start, limit, sort, }: SearchQueryType) => Promise<DependencyStatusHelpType[]>;
     getDependencyStatusHelpDetailsByParams: ({ _id, category, }: DependencyStatusHelpType) => Promise<DependencyStatusHelpType | null>;
 };
 export default DependencyStatusHelpProvider;

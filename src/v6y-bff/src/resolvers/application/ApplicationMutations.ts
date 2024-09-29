@@ -1,5 +1,9 @@
-import { AppLogger, ApplicationInputType, ApplicationProvider, SearchQueryType } from '@v6y/commons';
-
+import {
+    AppLogger,
+    ApplicationInputType,
+    ApplicationProvider,
+    SearchQueryType,
+} from '@v6y/commons';
 
 /**
  * Create or edit application
@@ -108,10 +112,14 @@ const deleteApplication = async (_: unknown, params: { input: SearchQueryType })
             return null;
         }
 
-        const appId = whereClause._id;
+        const appId = whereClause.id;
+        if (!appId) {
+            return null;
+        }
+
         AppLogger.info(`[AppMutations - deleteApplication] appId : ${appId}`);
 
-        await ApplicationProvider.deleteApplication({ _id: appId });
+        await ApplicationProvider.deleteApplication({ _id: parseInt(appId, 10) });
 
         return {
             _id: appId,

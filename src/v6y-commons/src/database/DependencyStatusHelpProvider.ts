@@ -184,7 +184,7 @@ const getDependencyStatusHelpListByPageAndParams = async ({
             `[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] dependencyStatusHelpList: ${dependencyStatusHelpList?.length}`,
         );
 
-        return dependencyStatusHelpList;
+        return dependencyStatusHelpList?.map((item) => item?.dataValues) || [];
     } catch (error) {
         AppLogger.info(
             `[DependencyStatusHelpProvider - getDependencyStatusHelpListByPageAndParams] error:  ${error}`,

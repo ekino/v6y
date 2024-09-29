@@ -1,6 +1,6 @@
 declare const FaqResolvers: {
     Query: {
-        getFaqListByPageAndParams: (_: unknown, args: import("@v6y/commons").SearchQueryType) => Promise<import("@v6y/commons/src/database/models/FaqModel.ts").FaqModelType[]>;
+        getFaqListByPageAndParams: (_: unknown, args: import("@v6y/commons").SearchQueryType) => Promise<import("@v6y/commons").FaqType[]>;
         getFaqDetailsByParams: (_: unknown, args: import("@v6y/commons").FaqType) => Promise<import("@v6y/commons").FaqType | null>;
     };
     Mutation: {

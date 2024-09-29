@@ -10,7 +10,7 @@ declare const FaqProvider: {
         _id: number;
     } | null>;
     deleteFaqList: () => Promise<boolean>;
-    getFaqListByPageAndParams: ({ start, limit, sort }: SearchQueryType) => Promise<FaqModelType[]>;
+    getFaqListByPageAndParams: ({ start, limit, sort }: SearchQueryType) => Promise<FaqType[]>;
     getFaqDetailsByParams: ({ _id }: FaqType) => Promise<FaqType | null>;
 };
 export default FaqProvider;

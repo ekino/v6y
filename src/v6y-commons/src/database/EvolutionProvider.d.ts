@@ -10,6 +10,6 @@ declare const EvolutionProvider: {
         _id: number;
     } | null>;
     deleteEvolutionList: () => Promise<boolean>;
-    getEvolutionListByPageAndParams: ({ appId }: EvolutionType) => Promise<EvolutionModelType[]>;
+    getEvolutionListByPageAndParams: ({ appId }: EvolutionType) => Promise<EvolutionType[]>;
 };
 export default EvolutionProvider;

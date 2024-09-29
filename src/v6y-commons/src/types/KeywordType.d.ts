@@ -4,6 +4,7 @@ export interface KeywordType {
     appId?: number;
     label?: string;
     module?: ModuleType;
+    status?: string;
 }
 export interface KeywordStatsType {
     keyword: KeywordType;

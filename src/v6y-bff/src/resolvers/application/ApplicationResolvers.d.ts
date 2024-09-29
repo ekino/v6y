@@ -1,12 +1,12 @@
 declare const ApplicationResolvers: {
     Query: {
         getApplicationDetailsInfoByParams: (_: unknown, args: import("@v6y/commons").ApplicationType) => Promise<import("@v6y/commons").ApplicationType | null>;
-        getApplicationDetailsAuditReportsByParams: (_: unknown, args: import("@v6y/commons").ApplicationType) => Promise<import("@v6y/commons/src/database/models/AuditModel.ts").AuditModelType[] | null>;
-        getApplicationDetailsEvolutionsByParams: (_: unknown, args: import("@v6y/commons").ApplicationType) => Promise<import("@v6y/commons/src/database/models/EvolutionModel.ts").EvolutionModelType[] | null>;
-        getApplicationDetailsDependenciesByParams: (_: unknown, args: import("@v6y/commons").ApplicationType) => Promise<import("@v6y/commons/src/database/models/DependencyModel.ts").DependencyModelType[] | null>;
-        getApplicationDetailsKeywordsByParams: (_: unknown, args: import("@v6y/commons").ApplicationType) => Promise<import("@v6y/commons/src/database/models/KeywordModel.ts").KeywordModelType[] | null>;
+        getApplicationDetailsAuditReportsByParams: (_: unknown, args: import("@v6y/commons").ApplicationType) => Promise<import("@v6y/commons").AuditType[] | null>;
+        getApplicationDetailsEvolutionsByParams: (_: unknown, args: import("@v6y/commons").ApplicationType) => Promise<import("@v6y/commons").EvolutionType[] | null>;
+        getApplicationDetailsDependenciesByParams: (_: unknown, args: import("@v6y/commons").ApplicationType) => Promise<import("@v6y/commons").DependencyType[] | null>;
+        getApplicationDetailsKeywordsByParams: (_: unknown, args: import("@v6y/commons").ApplicationType) => Promise<import("@v6y/commons").KeywordType[] | null>;
         getApplicationTotalByParams: (_: unknown, args: import("@v6y/commons").SearchQueryType) => Promise<number>;
-        getApplicationListByPageAndParams: (_: unknown, args: import("@v6y/commons").SearchQueryType) => Promise<import("@v6y/commons/src/database/models/ApplicationModel.ts").ApplicationModelType[]>;
+        getApplicationListByPageAndParams: (_: unknown, args: import("@v6y/commons").SearchQueryType) => Promise<import("@v6y/commons").ApplicationType[]>;
         getApplicationStatsByParams: (_: unknown, args: import("@v6y/commons").SearchQueryType) => Promise<import("@v6y/commons").KeywordStatsType[] | null>;
     };
     Mutation: {
@@ -18,7 +18,7 @@ declare const ApplicationResolvers: {
         deleteApplication: (_: unknown, params: {
             input: import("@v6y/commons").SearchQueryType;
         }) => Promise<{
-            _id: number;
+            _id: string;
         } | null>;
     };
 };

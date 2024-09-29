@@ -4,6 +4,6 @@ export interface SearchQueryType {
     offset?: number;
     start?: number;
     limit?: number;
-    where?: { _id: number };
+    where?: { _id: number; id?: string };
     sort?: string;
 }

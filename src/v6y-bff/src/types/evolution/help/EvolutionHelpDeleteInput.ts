@@ -1,7 +1,7 @@
 const EvolutionHelpDeleteInput = `
   input EvolutionHelpDeleteInputClause {
       """ Evolution Help to delete id """
-      _id: Int!
+      _id: String!
   }
   
   input EvolutionHelpDeleteInput {

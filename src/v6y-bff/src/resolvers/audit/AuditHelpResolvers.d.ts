@@ -1,6 +1,6 @@
 declare const AuditHelpResolvers: {
     Query: {
-        getAuditHelpListByPageAndParams: (_: unknown, args: import("@v6y/commons").SearchQueryType) => Promise<import("@v6y/commons/src/database/models/AuditHelpModel.ts").AuditHelpModelType[]>;
+        getAuditHelpListByPageAndParams: (_: unknown, args: import("@v6y/commons").SearchQueryType) => Promise<import("@v6y/commons").AuditHelpType[]>;
         getAuditHelpDetailsByParams: (_: unknown, args: import("@v6y/commons").AuditHelpType) => Promise<import("@v6y/commons").AuditHelpType | null>;
     };
     Mutation: {
