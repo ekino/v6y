@@ -1,2 +1,0 @@
-declare const AuditHelpType = "\n  type AuditHelpType {\n    \"\"\" Audit Help Unique id \"\"\"\n    _id: Int!\n  \n    \"\"\" Audit Help Category \"\"\"\n    category: String! \n    \n    \"\"\" Audit Help title \"\"\"\n    title: String!\n    \n    \"\"\" Audit Help description (detailed description that describes why the audit is important) \"\"\"\n    description: String!\n    \n    \"\"\" Audit Help explanation (the reason for audit failure) \"\"\"\n    explanation: String\n  }\n";
-export default AuditHelpType;

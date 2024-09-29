@@ -134,6 +134,7 @@ const startAuditorAnalysis = async ({ applicationId, browserPath }: LighthouseAu
                     lightHouseConfig: LIGHTHOUSE_DEVICE_CONFIG[device],
                 });
 
+                // eslint-disable-next-line max-depth
                 if (!report) {
                     continue;
                 }

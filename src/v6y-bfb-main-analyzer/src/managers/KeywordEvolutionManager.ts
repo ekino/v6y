@@ -25,6 +25,7 @@ const buildKeywordEvolutionList = async () => {
 
         if (dependencyList?.length) {
             for (const dependency of dependencyList) {
+                // eslint-disable-next-line max-depth
                 if (
                     !dependency.module ||
                     !dependency.status ||
@@ -54,6 +55,7 @@ const buildKeywordEvolutionList = async () => {
 
         if (auditList?.length) {
             for (const audit of auditList) {
+                // eslint-disable-next-line max-depth
                 if (!audit.module || !audit.status || audit.status === auditStatus.info) {
                     continue;
                 }
@@ -67,6 +69,7 @@ const buildKeywordEvolutionList = async () => {
                     },
                 });
 
+                // eslint-disable-next-line max-depth
                 if (audit.status === auditStatus.success) {
                     continue;
                 }

@@ -299,6 +299,7 @@ const formatLighthouseReports = ({
             }
 
             for (const result of results) {
+                // eslint-disable-next-line max-depth
                 if (!application?._id) {
                     continue;
                 }

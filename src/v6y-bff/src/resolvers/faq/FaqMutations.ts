@@ -1,6 +1,5 @@
 import { AppLogger, FaqInputType, FaqProvider, SearchQueryType } from '@v6y/commons';
 
-
 /**
  * Create or edit faq
  * @param _

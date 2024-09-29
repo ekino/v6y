@@ -1,6 +1,5 @@
 import { AppLogger, AuditHelpProvider, AuditHelpType, SearchQueryType } from '@v6y/commons';
 
-
 /**
  * Create or edit audit help
  * @param _

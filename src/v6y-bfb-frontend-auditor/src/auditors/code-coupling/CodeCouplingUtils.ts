@@ -89,6 +89,7 @@ const formatCodeCouplingReports = async ({
         if (Object.keys(circularGraph || {}).length) {
             for (const circularDepSource of Object.keys(circularGraph)) {
                 const circularDepDestinations = circularGraph[circularDepSource];
+                // eslint-disable-next-line max-depth
                 if (!circularDepDestinations?.length) {
                     continue;
                 }

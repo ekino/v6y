@@ -1,2 +1,0 @@
-declare const DependencyStatusHelpType = "\n  \"\"\" Dependency Recommended help \"\"\"\n  type DependencyStatusHelpType {\n    \"\"\" Dependency Status Help Unique id \"\"\"\n    _id: Int!\n    \n    \"\"\" Dependency Status Help Title \"\"\"\n    title: String!\n    \n    \"\"\" Dependency Help Category \"\"\"\n    category: String! \n    \n    \"\"\" Dependency Status Help Description \"\"\"\n    description: String\n    \n    \"\"\" Dependency Status Help links \"\"\"\n    links: [LinkType]\n  }\n";
-export default DependencyStatusHelpType;

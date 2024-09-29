@@ -1,5 +1,9 @@
-import { AppLogger, NotificationInputType, NotificationProvider, SearchQueryType } from '@v6y/commons';
-
+import {
+    AppLogger,
+    NotificationInputType,
+    NotificationProvider,
+    SearchQueryType,
+} from '@v6y/commons';
 
 /**
  * Create or edit notification

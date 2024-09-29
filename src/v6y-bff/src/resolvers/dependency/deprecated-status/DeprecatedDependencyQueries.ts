@@ -1,5 +1,9 @@
-import { AppLogger, DeprecatedDependencyProvider, DeprecatedDependencyType, SearchQueryType } from '@v6y/commons';
-
+import {
+    AppLogger,
+    DeprecatedDependencyProvider,
+    DeprecatedDependencyType,
+    SearchQueryType,
+} from '@v6y/commons';
 
 /**
  * Get deprecated dependency list by page and params

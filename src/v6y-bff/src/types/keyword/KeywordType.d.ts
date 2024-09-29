@@ -1,2 +1,0 @@
-declare const KeywordType = "\n  \"\"\" A Keyword can identify the type of the app, the language used, the type of backend used, .... \"\"\"\n  type KeywordType {\n    \"\"\" Keyword Unique id \"\"\"\n    _id: Int!\n\n    \"\"\" Keyword Related App Id \"\"\"\n    appId: Int!\n    \n    \"\"\" Keyword label (exp: React, Angular, Vite, Webpack, Jest, Vitest, ...) \"\"\"\n    label: String!\n\n    \"\"\" Keyword Concerned Module \"\"\"\n    module: ModuleType\n  }\n";
-export default KeywordType;

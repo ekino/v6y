@@ -1,6 +1,5 @@
 import { AppLogger, FaqProvider, FaqType, SearchQueryType } from '@v6y/commons';
 
-
 /**
  * Fetch the FAQ list by page and parameters
  * @param _

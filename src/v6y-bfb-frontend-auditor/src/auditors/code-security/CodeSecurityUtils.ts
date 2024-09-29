@@ -65,6 +65,7 @@ const formatCodeModularityReports = async ({ application, workspaceFolder }: Aud
                 AppLogger.info(
                     `[CodeSecurityUtils - formatCodeModularityReports] category:  ${category}`,
                 );
+                // eslint-disable-next-line max-depth
                 if (!antiPattern?.length || !category?.length) {
                     continue;
                 }
@@ -74,6 +75,7 @@ const formatCodeModularityReports = async ({ application, workspaceFolder }: Aud
                     `[CodeSecurityUtils - formatCodeModularityReports] nonCompliantStatus:  ${nonCompliantStatus}`,
                 );
 
+                // eslint-disable-next-line max-depth
                 if (!nonCompliantStatus) {
                     continue;
                 }

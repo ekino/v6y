@@ -1,5 +1,9 @@
-import { AppLogger, DependencyStatusHelpInputType, DependencyStatusHelpProvider, SearchQueryType } from '@v6y/commons';
-
+import {
+    AppLogger,
+    DependencyStatusHelpInputType,
+    DependencyStatusHelpProvider,
+    SearchQueryType,
+} from '@v6y/commons';
 
 /**
  * Create or edit dependency status help

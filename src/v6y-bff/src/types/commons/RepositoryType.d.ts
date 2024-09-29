@@ -1,2 +1,0 @@
-declare const RepositoryType = "\n  type RepositoryType {\n    \"\"\" Repository web url \"\"\"\n    webUrl: String\n    \n    \"\"\" Repository git url \"\"\"\n    gitUrl: String  \n    \n    \"\"\" Repository Name \"\"\"\n    name: String\n    \n     \"\"\" Repository Organization \"\"\"\n    organization: String\n        \n    \"\"\" Repository all related branches \"\"\"\n    allBranches: [String]                  \n  }\n";
-export default RepositoryType;

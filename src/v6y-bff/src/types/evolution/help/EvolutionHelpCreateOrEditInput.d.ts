@@ -1,2 +1,0 @@
-declare const EvolutionHelpCreateOrEditInput = "\n  input EvolutionHelpCreateOrEditInput {\n    \"\"\" EvolutionHelp Unique id \"\"\"\n    _id: Int!\n      \n    \"\"\" Evolution Help Title \"\"\"\n    title: String!\n    \n    \"\"\" Evolution Help Description \"\"\"\n    description: String!\n    \n    \"\"\" Evolution Help Category \"\"\"\n    category: String! \n    \n    \"\"\" Evolution Help status \"\"\"\n    status: String!\n    \n    \"\"\" Evolution Help Extra Links \"\"\"\n    links: [String]\n  }\n";
-export default EvolutionHelpCreateOrEditInput;

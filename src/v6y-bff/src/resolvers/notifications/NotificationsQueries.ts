@@ -1,6 +1,5 @@
 import { AppLogger, NotificationProvider, NotificationType, SearchQueryType } from '@v6y/commons';
 
-
 /**
  * Fetch the Notification list by page and params
  * @param _

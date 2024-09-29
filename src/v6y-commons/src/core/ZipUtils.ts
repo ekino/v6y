@@ -8,7 +8,6 @@ import { promisify } from 'node:util';
 import { DownloadZipOptions, ZipFileOptions } from '../types/ZipType.ts';
 import AppLogger from './AppLogger.ts';
 
-
 const finished = promisify(stream.finished);
 
 const __dirname = path.resolve();
@@ -30,6 +29,7 @@ const cleanZipWorkspace = async (directoryPath: string) => {
 
                 const subFiles = await fs.promises.readdir(filePath);
 
+                // eslint-disable-next-line max-depth
                 if (subFiles.length === 0) {
                     await fs.promises.rmdir(filePath);
                 }

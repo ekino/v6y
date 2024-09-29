@@ -1,2 +1,0 @@
-declare const ModuleType = "\n  \"\"\" Analyzed Module Main Information \"\"\"\n  type ModuleType {\n    \"\"\" Module Application Unique Id \"\"\"\n    appId: Int!\n    \n    \"\"\" Module Application Branch \"\"\"\n    branch: String\n    \n    \"\"\" Module Application Path \"\"\"\n    path: String\n    \n    \"\"\" Module Application Url \"\"\"\n    url: String\n    \n    \"\"\" Module Status \"\"\"\n    status: String\n    \n    \"\"\" Module Version \"\"\"\n    version: String\n  }\n";
-export default ModuleType;

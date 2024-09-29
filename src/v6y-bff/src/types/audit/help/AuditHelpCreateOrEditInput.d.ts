@@ -1,2 +1,0 @@
-declare const AuditHelpCreateOrEditInput = "\n  input AuditHelpCreateOrEditInput {\n    \"\"\" AuditHelp Unique id \"\"\"\n    _id: Int!\n      \n    \"\"\" Audit Help Title \"\"\"\n    title: String!\n    \n    \"\"\" Audit Help Description \"\"\"\n    description: String!\n    \n    \"\"\" Audit Help Category \"\"\"\n    category: String! \n    \n    \"\"\" Audit Help explanation (the reason for audit failure) \"\"\"\n    explanation: String\n  }\n";
-export default AuditHelpCreateOrEditInput;
