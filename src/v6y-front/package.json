@@ -6,12 +6,12 @@
     "dist",
     "README.md"
   ],
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/ekino/v6y"
   },
   "scripts": {
+    "build:tsc": "tsc",
     "build": "next build",
     "dev": "next dev -p 4004",
     "start": "next start -p 4005",
@@ -24,13 +24,14 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
-    "antd": "=5.19.3",
     "@ant-design/icons": "=5.4.0",
     "@ant-design/nextjs-registry": "=1.0.0",
     "@tanstack/react-query": "=5.45.1",
     "@tanstack/react-query-devtools": "=5.45.1",
     "@tanstack/react-query-next-experimental": "=5.46.0",
+    "@v6y/commons": "workspace:^*",
     "ag-charts-react": "=10.1.0",
+    "antd": "=5.19.3",
     "crypto-hash": "=3.0.0",
     "file-saver": "=2.0.5",
     "graphql": "=16.8.1",
@@ -44,17 +45,28 @@
     "react-window": "=1.8.8"
   },
   "devDependencies": {
+    "@babel/plugin-transform-private-methods": "^7.25.4",
+    "@babel/preset-react": "^7.24.7",
+    "@babel/preset-typescript": "^7.24.7",
+    "@eslint/js": "=9.11.1",
     "@next/bundle-analyzer": "=14.1.0",
     "@testing-library/react": "=14.2.1",
     "@trivago/prettier-plugin-sort-imports": "=4.3.0",
+    "@types/file-saver": "^2.0.7",
+    "@types/node": "=20.16.10",
+    "@types/react": "=18.3.10",
+    "@types/react-dom": "=18.3.0",
+    "@typescript-eslint/eslint-plugin": "=8.7.0",
+    "@typescript-eslint/parser": "=8.7.0",
     "@vitejs/plugin-react": "=4.3.1",
     "@vitest/coverage-v8": "=2.0.5",
     "@vitest/ui": "=2.0.5",
-    "eslint": "=8.23.0",
-    "eslint-config-next": "=12.2.5",
+    "eslint": "=8.57.1",
+    "eslint-config-next": "14.2.13",
     "eslint-config-prettier": "=9.1.0",
     "jsdom": "=24.1.1",
     "prettier": "=3.3.2",
+    "typescript": "=5.6.2",
     "vitest": "=2.0.5"
   },
   "browserslist": {

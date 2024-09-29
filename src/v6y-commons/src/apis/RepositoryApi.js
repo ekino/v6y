@@ -1,10 +1,13 @@
 import AppLogger from '../core/AppLogger.ts';
+
 const GithubConfig = (organization) => ({
     baseURL: 'https://api.github.com',
     api: '',
     urls: {
-        fileContentUrl: (repoName, fileName) => `https://api.github.com/repos/${organization}/${repoName}/contents/${fileName}`,
-        repositoryDetailsUrl: (repoName) => `https://api.github.com/repos/${organization}/${repoName}`,
+        fileContentUrl: (repoName, fileName) =>
+            `https://api.github.com/repos/${organization}/${repoName}/contents/${fileName}`,
+        repositoryDetailsUrl: (repoName) =>
+            `https://api.github.com/repos/${organization}/${repoName}`,
     },
     headers: {
         Authorization: `Bearer ${process.env.GITHUB_PRIVATE_TOKEN}`,

@@ -427,7 +427,7 @@ const getApplicationListByPageAndParams = async ({
             `[ApplicationProvider - getApplicationListByPageAndParams] applications: ${applications?.length}`,
         );
 
-        return applications;
+        return applications?.map((application) => application?.dataValues) || [];
     } catch (error) {
         AppLogger.info(`[ApplicationProvider - getApplicationListByPageAndParams] error: ${error}`);
         return [];

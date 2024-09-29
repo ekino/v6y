@@ -1,14 +1,7 @@
 import AppLogger from '../core/AppLogger.ts';
-import {
-    BuildQueryOptions,
-    GetFileContentOptions,
-    GetRepositoryBranchesOptions,
-    GithubConfigType,
-    GitlabConfigType,
-    RepositoryBranchType,
-    RepositoryType,
-} from '../types/RepositoryType.ts';
+import { BuildQueryOptions, GetFileContentOptions, GetRepositoryBranchesOptions, GithubConfigType, GitlabConfigType, RepositoryBranchType, RepositoryType } from '../types/RepositoryType.ts';
 import { ApplicationZipConfigOptions, DownloadZipOptions } from '../types/ZipType.ts';
+
 
 /**
  * Builds the configuration for the Github API.

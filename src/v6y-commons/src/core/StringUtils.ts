@@ -1,5 +1,6 @@
 import AppLogger from './AppLogger.ts';
 
+
 /**
  * encode value to base 64
  * @param {string} value

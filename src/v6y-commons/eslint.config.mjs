@@ -1,6 +1,6 @@
 import eslint from '@eslint/js';
-import tsEslint from 'typescript-eslint';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import tsEslint from 'typescript-eslint';
 
 export default [
     eslint.configs.recommended,

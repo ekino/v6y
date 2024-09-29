@@ -1,5 +1,6 @@
 import AppLogger from './AppLogger.ts';
 
+
 /**
  * Starts a performance measurement by creating a 'start' mark.
  *

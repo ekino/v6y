@@ -1,9 +1,5 @@
-import {
-    AppLogger,
-    ApplicationInputType,
-    ApplicationProvider,
-    SearchQueryType,
-} from '@v6y/commons';
+import { AppLogger, ApplicationInputType, ApplicationProvider, SearchQueryType } from '@v6y/commons';
+
 
 /**
  * Create or edit application

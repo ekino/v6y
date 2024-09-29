@@ -1,22 +1,22 @@
 const ApplicationType = `
   type ApplicationType {
     """ App Unique id """
-    _id: Int!
+    _id: Int
     
     """ APP Name (full name) """
-    name: String!
+    name: String
     
     """ APP Acronym (abbreviation, trigram, ...) """
-    acronym: String!
+    acronym: String
     
     """ APP Contact Mail """
-    contactMail: String!
+    contactMail: String
     
     """ APP Description """
-    description: String!
+    description: String
     
     """ First matched APP Web Repository Information """
-    repo: RepositoryType!
+    repo: RepositoryType
     
     """ Application links: prod, gitlab, github, aws """
     links: [LinkType]

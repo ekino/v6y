@@ -3,6 +3,7 @@ import { clean, major, minor, patch, valid } from 'semver';
 
 import AppLogger from './AppLogger.ts';
 
+
 const SEMVER_OPERATORS = ['^', '~', '*', '='];
 
 /**

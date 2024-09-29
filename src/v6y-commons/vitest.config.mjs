@@ -1,5 +1,6 @@
 import { configDefaults, defineConfig } from 'vitest/config';
 
+
 /**
  * https://vitest.dev/config/#configuration
  */

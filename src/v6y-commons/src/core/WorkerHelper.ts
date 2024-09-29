@@ -1,5 +1,6 @@
 import { Worker, WorkerOptions } from 'worker_threads';
 
+
 /**
  * Fork a worker thread to run CPU intensive tasks
  * @param filepath
