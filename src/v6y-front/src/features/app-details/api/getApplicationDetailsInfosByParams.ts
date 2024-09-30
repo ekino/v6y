@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request';
 
 const GetApplicationDetailsInfosByParams = gql`
-    query getApplicationDetailsInfoByParams($appId: String!) {
-        getApplicationDetailsInfoByParams(appId: $appId) {
+    query getApplicationDetailsInfoByParams($_id: Int!) {
+        getApplicationDetailsInfoByParams(_id: $_id) {
             _id
             name
             acronym

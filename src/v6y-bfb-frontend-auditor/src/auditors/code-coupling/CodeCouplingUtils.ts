@@ -1,8 +1,7 @@
-import { AppLogger, AuditType } from '@v6y/commons';
-import { auditStatus } from '@v6y/commons/src/config/AuditHelpConfig.ts';
+import { AppLogger, AuditType, auditStatus } from '@v6y/commons';
 import Madge from 'madge';
 
-import { AuditCommonsType } from '../types/AuditCommonsType.js';
+import { AuditCommonsType } from '../types/AuditCommonsType.ts';
 
 /**
  * Default options for dependency analysis.

@@ -1,5 +1,5 @@
-import FaqMutations from './FaqMutations.js';
-import FaqQueries from './FaqQueries.js';
+import FaqMutations from './FaqMutations.ts';
+import FaqQueries from './FaqQueries.ts';
 
 const FaqResolvers = {
     Query: {

@@ -1,5 +1,5 @@
-import DeprecatedDependencyMutations from './DeprecatedDependencyMutations.js';
-import DeprecatedDependencyQueries from './DeprecatedDependencyQueries.js';
+import DeprecatedDependencyMutations from './DeprecatedDependencyMutations.ts';
+import DeprecatedDependencyQueries from './DeprecatedDependencyQueries.ts';
 
 const DeprecatedDependencyResolvers = {
     Query: {

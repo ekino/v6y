@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request';
 
 const GetApplicationDetailsDependenciesByParams = gql`
-    query getApplicationDetailsDependenciesByParams($appId: String!) {
-        getApplicationDetailsDependenciesByParams(appId: $appId) {
+    query getApplicationDetailsDependenciesByParams($_id: Int!) {
+        getApplicationDetailsDependenciesByParams(_id: $_id) {
             _id
             type
             name

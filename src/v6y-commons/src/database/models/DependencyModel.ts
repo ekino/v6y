@@ -23,7 +23,7 @@ const dependencyModelSchema = {
         primaryKey: true,
     },
     appId: {
-        type: DataTypes.TEXT,
+        type: DataTypes.INTEGER,
         allowNull: false,
     },
     type: {

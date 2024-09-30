@@ -4,10 +4,10 @@ import {
     DependencyProvider,
     EvolutionProvider,
     KeywordProvider,
+    auditStatus,
+    codeSmellTypes,
+    dependencyStatus,
 } from '@v6y/commons';
-import { auditStatus } from '@v6y/commons/src/config/AuditHelpConfig.ts';
-import { codeSmellTypes } from '@v6y/commons/src/config/CodeSmellConfig.ts';
-import { dependencyStatus } from '@v6y/commons/src/config/DependencyStatusHelpConfig.ts';
 
 /**
  * Builds the keyword evolution list.

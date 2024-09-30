@@ -1,8 +1,6 @@
-import { AppLogger, AuditUtils } from '@v6y/commons';
-import { auditStatus } from '@v6y/commons/src/config/AuditHelpConfig.ts';
-import { securityAntiPatterns } from '@v6y/commons/src/config/CodeSmellConfig.ts';
+import { AppLogger, AuditUtils, auditStatus, securityAntiPatterns } from '@v6y/commons';
 
-import { AuditCommonsType } from '../types/AuditCommonsType.js';
+import { AuditCommonsType } from '../types/AuditCommonsType.ts';
 
 const { getFiles, parseFile, isNonCompliantFile } = AuditUtils;
 

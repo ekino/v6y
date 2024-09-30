@@ -1,7 +1,7 @@
 import { AppLogger, ApplicationProvider, AuditProvider, AuditUtils } from '@v6y/commons';
 import { execSync } from 'child_process';
 
-import { AuditCommonsType } from '../types/AuditCommonsType.js';
+import { AuditCommonsType } from '../types/AuditCommonsType.ts';
 import CodeDuplicationUtils from './CodeDuplicationUtils.ts';
 
 const { getFileContent, deleteAuditFile } = AuditUtils;

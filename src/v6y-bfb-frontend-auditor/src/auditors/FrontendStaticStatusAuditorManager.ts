@@ -1,7 +1,7 @@
 import { AppLogger, WorkerHelper } from '@v6y/commons';
 
 import ServerConfig from '../commons/ServerConfig.ts';
-import { AuditCommonsType } from './types/AuditCommonsType.js';
+import { AuditCommonsType } from './types/AuditCommonsType.ts';
 
 const { forkWorker } = WorkerHelper;
 const { getCurrentConfig } = ServerConfig;
@@ -26,19 +26,19 @@ const startFrontendStaticAudit = async ({ applicationId, workspaceFolder }: Audi
         };
 
         await forkWorker(
-            './src/workers/DependenciesAnalysisWorker.ts',
-            workerConfig as WorkerOptions,
-        );
-        AppLogger.info(
-            '[FrontendAuditorManager - startFrontendStaticAudit] Dependencies Audit have completed successfully.',
-        );
-
-        await forkWorker(
             './src/workers/CodeQualityAnalysisWorker.ts',
             workerConfig as WorkerOptions,
         );
         AppLogger.info(
             '[FrontendAuditorManager - startFrontendStaticAudit] CodeQuality Audit have completed successfully.',
+        );
+
+        await forkWorker(
+            './src/workers/DependenciesAnalysisWorker.ts',
+            workerConfig as WorkerOptions,
+        );
+        AppLogger.info(
+            '[FrontendAuditorManager - startFrontendStaticAudit] Dependencies Audit have completed successfully.',
         );
 
         return true; // Indicates successful initiation of audits

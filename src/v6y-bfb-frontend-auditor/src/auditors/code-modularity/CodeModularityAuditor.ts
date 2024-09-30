@@ -5,11 +5,11 @@ import {
     degreeCentrality,
     inDegreeCentrality,
     outDegreeCentrality,
-} from 'graphology-metrics/centrality/degree.ts';
-import { density } from 'graphology-metrics/graph/density.ts';
+} from 'graphology-metrics/centrality/degree.js';
+import { density } from 'graphology-metrics/graph/density.js';
 import Madge from 'madge';
 
-import { CodeModularityAuditType } from '../types/CodeModularityAuditType.js';
+import { CodeModularityAuditType } from '../types/CodeModularityAuditType.ts';
 import CodeModularityUtils from './CodeModularityUtils.ts';
 
 const {

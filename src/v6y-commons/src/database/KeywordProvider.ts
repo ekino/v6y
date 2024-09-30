@@ -1,9 +1,16 @@
-import { FindOptions } from 'sequelize';
+import { FindOptions, Op } from 'sequelize';
 
 import AppLogger from '../core/AppLogger.ts';
 import { KeywordStatsType, KeywordType } from '../types/KeywordType.ts';
 import { SearchQueryType } from '../types/SearchQueryType.ts';
 import { KeywordModelType } from './models/KeywordModel.ts';
+
+/**
+ * Format Keywords
+ * @param keywords
+ */
+const formatKeywords = (keywords: string[] | string) =>
+    Array.isArray(keywords) ? keywords?.[0]?.split(',') : (keywords as string).split(',');
 
 /**
  * Create Keyword
@@ -129,6 +136,60 @@ const deleteKeywordList = async () => {
 };
 
 /**
+ * Get Applications Ids By Keywords
+ * @param keywords
+ */
+const getApplicationsIdsByKeywords = async ({
+    keywords,
+}: SearchQueryType): Promise<number[] | null | undefined> => {
+    try {
+        AppLogger.info(`[KeywordProvider - getApplicationsIdsByKeywords] keywords: ${keywords}`);
+
+        if (!keywords?.length) {
+            return null;
+        }
+
+        // based on keywords and dependencies
+        // keywords: Code-Security-commons-window,Code-Coupling-circular-dependencies
+        const keywordList = await KeywordModelType.findAll({
+            where: {
+                label: {
+                    [Op.in]: formatKeywords(keywords),
+                },
+            },
+        });
+
+        AppLogger.info(
+            `[KeywordProvider - getKeywordsStatsByParams] keywordList: ${keywordList?.length}`,
+        );
+
+        if (!keywordList?.length) {
+            return null;
+        }
+
+        const uniqueAppIds = new Set<number>(
+            keywordList
+                .map((item) => item.dataValues)
+                .map((item) => item.appId || -1)
+                .filter((item) => item !== -1),
+        );
+
+        AppLogger.info(
+            `[KeywordProvider - getKeywordsStatsByParams] keywordList: ${uniqueAppIds?.size}`,
+        );
+
+        if (!uniqueAppIds?.size) {
+            return null;
+        }
+
+        return [...uniqueAppIds];
+    } catch (error) {
+        AppLogger.info(`[KeywordProvider - getKeywordListByPageAndParams] error:  ${error}`);
+        return null;
+    }
+};
+
+/**
  * Get Keyword List By Parameters
  * @param appId
  */
@@ -165,19 +226,71 @@ const getKeywordsStatsByParams = async ({
     keywords,
 }: SearchQueryType): Promise<KeywordStatsType[] | null> => {
     try {
-        AppLogger.info(
-            `[KeywordProvider - getKeywordsStatsByParams] keywords: ${keywords?.join('\r\n')}`,
-        );
+        AppLogger.info(`[KeywordProvider - getKeywordsStatsByParams] keywords: ${keywords}`);
 
         if (!keywords?.length) {
             return null;
         }
 
         // based on keywords and dependencies
+        // keywords: Code-Security-commons-window,Code-Coupling-circular-dependencies
+        const keywordList = await KeywordModelType.findAll({
+            where: {
+                label: {
+                    [Op.in]: formatKeywords(keywords),
+                },
+            },
+        });
+
+        AppLogger.info(
+            `[KeywordProvider - getKeywordsStatsByParams] keywordList: ${keywordList?.length}`,
+        );
+
+        if (!keywordList?.length) {
+            return null;
+        }
 
         // count total from modules
+        const keywordValues = keywordList?.map((item) => item?.dataValues) || [];
+        AppLogger.info(
+            `[KeywordProvider - getKeywordsStatsByParams] keywordValues: ${keywordValues?.length}`,
+        );
 
-        return null;
+        if (!keywordValues?.length) {
+            return null;
+        }
+
+        const keywordStatsMap = new Map<string, number>();
+        const visitedAppIds = new Set<string>();
+
+        for (const keywordValue of keywordValues) {
+            const { appId, label } = keywordValue;
+            if (!label?.length) {
+                continue;
+            }
+            if (!appId) {
+                continue;
+            }
+            if (visitedAppIds.has(`${label}-${appId}`)) {
+                continue;
+            }
+
+            visitedAppIds.add(`${label}-${appId}`);
+
+            const oldTotal = keywordStatsMap.get(label) || 0;
+            keywordStatsMap.set(label, oldTotal + 1);
+        }
+
+        AppLogger.info(
+            `[KeywordProvider - getKeywordsStatsByParams] keywordStatsMap: ${keywordStatsMap?.size}`,
+        );
+
+        return Array.from(keywordStatsMap).map(([label, total]) => ({
+            keyword: {
+                label,
+            },
+            total,
+        }));
     } catch (error) {
         AppLogger.info(`[KeywordProvider - getKeywordsStatsByParams] error:  ${error}`);
         return null;
@@ -192,6 +305,7 @@ const KeywordProvider = {
     deleteKeywordList,
     getKeywordsStatsByParams,
     getKeywordListByPageAndParams,
+    getApplicationsIdsByKeywords,
 };
 
 export default KeywordProvider;

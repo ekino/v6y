@@ -7,9 +7,9 @@ import Cors from 'cors';
 import Express from 'express';
 import ExpressStatusMonitor from 'express-status-monitor';
 
-import ServerConfig from './config/ServerConfig.js';
-import VitalityResolvers from './resolvers/VitalityResolvers.js';
-import VitalityTypes from './types/VitalityTypes.js';
+import ServerConfig from './config/ServerConfig.ts';
+import VitalityResolvers from './resolvers/VitalityResolvers.ts';
+import VitalityTypes from './types/VitalityTypes.ts';
 
 const { createServer } = ServerUtils;
 

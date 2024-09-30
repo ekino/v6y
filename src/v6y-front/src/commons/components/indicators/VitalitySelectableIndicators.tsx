@@ -34,7 +34,7 @@ const VitalitySelectableIndicators = () => {
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
                 query: GetIndicatorListByParams,
                 variables: {
-                    appId: null,
+                    _id: null,
                 },
             }),
     });

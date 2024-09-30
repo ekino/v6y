@@ -9,7 +9,7 @@ import {
     ComplexityAnalysisOptionsType,
     ParsedFileResultType,
     ParsedFileType,
-} from '../types/AuditParserType.js';
+} from '../types/AuditParserType.ts';
 import AppLogger from './AppLogger.ts';
 
 const __dirname = path.resolve();

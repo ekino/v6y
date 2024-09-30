@@ -1,4 +1,4 @@
-import { FindOptions, Op } from 'sequelize';
+import { FindOptions, Op, Sequelize } from 'sequelize';
 
 import AppLogger from '../core/AppLogger.ts';
 import { ApplicationInputType, ApplicationType } from '../types/ApplicationType.ts';
@@ -17,37 +17,51 @@ import { ApplicationModelType } from './models/ApplicationModel.ts';
  * @param limit
  * @param where
  */
-const buildSearchQuery = ({ searchText, offset, limit /*keywords, where*/ }: SearchQueryType) => {
+const buildSearchQuery = async ({
+    searchText,
+    offset,
+    limit,
+    keywords /*, where*/,
+}: SearchQueryType) => {
     const queryOptions: FindOptions = {};
 
     if (offset) {
         queryOptions.offset = offset;
     }
 
-    if (limit) {
+    if (limit && limit > (offset || 0)) {
         queryOptions.limit = limit;
     }
 
     if (searchText) {
         queryOptions.where = {
             [Op.or]: [
-                {
-                    name: {
-                        [Op.substring]: searchText,
-                    },
-                },
-                {
-                    acronym: {
-                        [Op.substring]: searchText,
-                    },
-                },
-                {
-                    description: {
-                        [Op.substring]: searchText,
-                    },
-                },
+                Sequelize.where(Sequelize.fn('lower', Sequelize.col('name')), {
+                    [Op.like]: `%${searchText.toLowerCase()}%`,
+                }),
+                Sequelize.where(Sequelize.fn('lower', Sequelize.col('acronym')), {
+                    [Op.like]: `%${searchText.toLowerCase()}%`,
+                }),
+                Sequelize.where(Sequelize.fn('lower', Sequelize.col('description')), {
+                    [Op.like]: `%${searchText.toLowerCase()}%`,
+                }),
+                Sequelize.where(Sequelize.fn('lower', Sequelize.col('contact_mail')), {
+                    [Op.like]: `%${searchText.toLowerCase()}%`,
+                }),
             ],
         };
+    }
+
+    if (keywords) {
+        const appIds = await KeywordProvider.getApplicationsIdsByKeywords({ keywords });
+        if (appIds?.length) {
+            queryOptions.where = {
+                ...queryOptions.where,
+                _id: {
+                    [Op.in]: appIds,
+                },
+            };
+        }
     }
 
     return queryOptions;
@@ -424,7 +438,7 @@ const getApplicationListByPageAndParams = async ({
         );
         AppLogger.info(`[ApplicationProvider - getApplicationListByPageAndParams] limit: ${limit}`);
 
-        const searchQuery = buildSearchQuery({
+        const searchQuery = await buildSearchQuery({
             searchText,
             keywords,
             offset,
@@ -459,7 +473,7 @@ const getApplicationTotalByParams = async ({ searchText, keywords }: SearchQuery
             )}`,
         );
 
-        const searchQuery = buildSearchQuery({ searchText, keywords });
+        const searchQuery = await buildSearchQuery({ searchText, keywords });
         const applicationsCount = await ApplicationModelType.count(searchQuery);
 
         AppLogger.info(

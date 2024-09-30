@@ -1,8 +1,8 @@
 // More Options : https://github.com/GoogleChrome/chrome-launcher
-import { Flags } from 'lighthouse/types/externs.js';
+import { Flags } from 'lighthouse/types/externs.ts';
 import { WaitForOptions } from 'puppeteer-core';
 
-import { LighthouseDeviceConfigType } from '../types/LighthouseAuditType.js';
+import { LighthouseDeviceConfigType } from '../types/LighthouseAuditType.ts';
 
 const PUPPETEER_SETTINGS = {
     // path must point to .exe : https://stackoverflow.com/questions/59786319/configure-puppeteer-executablepath-chrome-in-your-local-windows

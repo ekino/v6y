@@ -1,5 +1,5 @@
-import AuditHelpMutations from './AuditHelpMutations.js';
-import AuditHelpQueries from './AuditHelpQueries.js';
+import AuditHelpMutations from './AuditHelpMutations.ts';
+import AuditHelpQueries from './AuditHelpQueries.ts';
 
 const AuditHelpResolvers = {
     Query: {

@@ -4,7 +4,7 @@ import lodash from 'lodash';
 // @ts-expect-error
 import TyphonEscomplex from 'typhonjs-escomplex';
 
-import { AuditCommonsType } from '../types/AuditCommonsType.js';
+import { AuditCommonsType } from '../types/AuditCommonsType.ts';
 import {
     AggregateType,
     ClassMethodType,
@@ -17,7 +17,7 @@ import {
     ReportInfoType,
     ReportType,
 } from '../types/CodeComplexityAuditType.ts';
-import CodeComplexityConfig from './CodeComplexityConfig.js';
+import CodeComplexityConfig from './CodeComplexityConfig.ts';
 
 const { isAcceptedFileType, isExcludedFile } = AuditUtils;
 

@@ -23,19 +23,19 @@ interface VitalityAuditReportsQueryType {
 
 const VitalityAuditReportsView = ({}) => {
     const { getUrlParams } = useNavigationAdapter();
-    const [appId] = getUrlParams(['appId']);
+    const [_id] = getUrlParams(['_id']);
 
     const {
         isLoading: isAppDetailsAuditReportsLoading,
         data: appDetailsAuditReports,
     }: VitalityAuditReportsQueryType = useClientQuery({
-        queryCacheKey: ['getApplicationDetailsAuditReportsByParams', `${appId}`],
+        queryCacheKey: ['getApplicationDetailsAuditReportsByParams', `${_id}`],
         queryBuilder: async () =>
             buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
                 query: GetApplicationDetailsAuditReportsByParams,
                 variables: {
-                    appId,
+                    _id: parseInt(_id as string, 10),
                 },
             }),
     });

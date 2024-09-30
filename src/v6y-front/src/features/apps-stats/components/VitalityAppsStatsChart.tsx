@@ -50,11 +50,7 @@ const VitalityAppsStatsChart = () => {
 
     const dataSource = data?.getApplicationStatsByParams;
 
-    if (!dataSource?.length) {
-        return <VitalityEmptyView />;
-    }
-
-    const chartDataSource = (!keywords?.length ? [] : dataSource).map((item) => ({
+    const chartDataSource = (!keywords?.length ? [] : dataSource)?.map((item) => ({
         label: item.keyword?.label,
         total: item.total,
     }));

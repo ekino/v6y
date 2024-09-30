@@ -1,13 +1,11 @@
-import { AppLogger, AuditType } from '@v6y/commons';
-import { auditStatus } from '@v6y/commons/src/config/AuditHelpConfig.ts';
-import Matcher from '@v6y/commons/src/core/Matcher.ts';
+import { AppLogger, AuditType, Matcher, auditStatus } from '@v6y/commons';
 
 import {
     LighthouseAuditCategoryType,
     LighthouseAuditMetricType,
     LighthouseAuditParamsType,
     LighthouseReportType,
-} from '../types/LighthouseAuditType.js';
+} from '../types/LighthouseAuditType.ts';
 
 /**
  * Check if the audit status is failed

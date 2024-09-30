@@ -1,5 +1,5 @@
-import DependencyStatusHelpMutations from './DependencyStatusHelpMutations.js';
-import DependencyStatusHelpQueries from './DependencyStatusHelpQueries.js';
+import DependencyStatusHelpMutations from './DependencyStatusHelpMutations.ts';
+import DependencyStatusHelpQueries from './DependencyStatusHelpQueries.ts';
 
 const DependencyStatusHelpResolvers = {
     Query: {

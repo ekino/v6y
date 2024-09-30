@@ -1,7 +1,6 @@
-import { AuditType, Matcher } from '@v6y/commons';
-import { auditStatus } from '@v6y/commons/src/config/AuditHelpConfig.ts';
+import { AuditType, Matcher, auditStatus } from '@v6y/commons';
 
-import { ApplicationCodeComplexityReportType } from '../types/CodeComplexityAuditType.js';
+import { ApplicationCodeComplexityReportType } from '../types/CodeComplexityAuditType.ts';
 
 /**
  * Format maintainability status

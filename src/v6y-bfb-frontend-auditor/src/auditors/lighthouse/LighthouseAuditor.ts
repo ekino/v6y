@@ -2,7 +2,7 @@ import { AppLogger, ApplicationProvider, AuditProvider, LinkType } from '@v6y/co
 import lighthouse from 'lighthouse';
 import puppeteer from 'puppeteer-core';
 
-import { LighthouseAuditConfigType } from '../types/LighthouseAuditType.js';
+import { LighthouseAuditConfigType } from '../types/LighthouseAuditType.ts';
 import LighthouseConfig from './LighthouseConfig.ts';
 import LighthouseUtils from './LighthouseUtils.ts';
 

@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request';
 
 const GetApplicationDetailsAuditReportsByParams = gql`
-    query getApplicationDetailsAuditReportsByParams($appId: String!) {
-        getApplicationDetailsAuditReportsByParams(appId: $appId) {
+    query getApplicationDetailsAuditReportsByParams($_id: Int!) {
+        getApplicationDetailsAuditReportsByParams(_id: $_id) {
             _id
             type
             category

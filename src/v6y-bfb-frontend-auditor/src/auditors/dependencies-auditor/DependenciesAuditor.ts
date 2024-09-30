@@ -1,6 +1,6 @@
 import { AppLogger, ApplicationProvider, DependencyProvider } from '@v6y/commons';
 
-import { AuditCommonsType } from '../types/AuditCommonsType.js';
+import { AuditCommonsType } from '../types/AuditCommonsType.ts';
 import DependenciesUtils from './DependenciesUtils.ts';
 
 const { formatDependenciesReports } = DependenciesUtils;

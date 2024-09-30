@@ -161,7 +161,7 @@ export const buildBreadCrumbItems = ({ currentPage, lastPage, urlParams }: Bread
     const sourceParams =
         (urlParams || '')
             .split('&')
-            .filter((url) => !url.includes('source') && !url.includes('appId'))
+            .filter((url) => !url.includes('source') && !url.includes('_id'))
             .join('&') || '';
     const appListLink = (
         <Link href={VitalityNavigationPaths.APP_LIST + '?' + sourceParams}>

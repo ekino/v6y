@@ -1,9 +1,13 @@
-import { AppLogger, AuditUtils, SemverUtils } from '@v6y/commons';
-import { dependencyStatus } from '@v6y/commons/src/config/DependencyStatusHelpConfig.ts';
-import DeprecatedDependencyProvider from '@v6y/commons/src/database/DeprecatedDependencyProvider.ts';
+import {
+    AppLogger,
+    AuditUtils,
+    DeprecatedDependencyProvider,
+    SemverUtils,
+    dependencyStatus,
+} from '@v6y/commons';
 
-import { AuditCommonsType } from '../types/AuditCommonsType.js';
-import { DependencyAuditParamsType } from '../types/DependencyAuditType.js';
+import { AuditCommonsType } from '../types/AuditCommonsType.ts';
+import { DependencyAuditParamsType } from '../types/DependencyAuditType.ts';
 
 const { getFilesRecursively, getFileContent } = AuditUtils;
 

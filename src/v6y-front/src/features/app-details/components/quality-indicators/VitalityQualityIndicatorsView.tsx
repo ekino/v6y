@@ -26,19 +26,19 @@ interface VitalityQualityIndicatorsQueryType {
 
 const VitalityQualityIndicatorsView = () => {
     const { getUrlParams } = useNavigationAdapter();
-    const [appId] = getUrlParams(['appId']);
+    const [_id] = getUrlParams(['_id']);
 
     const {
         isLoading: isQualityIndicatorsLoading,
         data: dataQualityIndicators,
     }: VitalityQualityIndicatorsQueryType = useClientQuery({
-        queryCacheKey: ['getApplicationQualityIndicatorsByParams'],
+        queryCacheKey: ['getApplicationQualityIndicatorsByParams', `${_id}`],
         queryBuilder: async () =>
             buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
                 query: GetApplicationDetailsQualityIndicatorsByParams,
                 variables: {
-                    appId,
+                    _id: parseInt(_id as string, 10),
                 },
             }),
     });

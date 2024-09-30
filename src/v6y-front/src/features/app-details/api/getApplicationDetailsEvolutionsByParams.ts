@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request';
 
 const GetApplicationDetailsEvolutionsByParams = gql`
-    query getApplicationDetailsEvolutionsByParams($appId: String!) {
-        getApplicationDetailsEvolutionsByParams(appId: $appId) {
+    query getApplicationDetailsEvolutionsByParams($_id: Int!) {
+        getApplicationDetailsEvolutionsByParams(_id: $_id) {
             _id
             category
             module {

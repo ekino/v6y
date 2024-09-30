@@ -1,8 +1,8 @@
 {
   "name": "@v6y/bfb-main-analyzer",
   "version": "0.0.0",
-  "type": "module",
   "main": "src/index.ts",
+  "type": "module",
   "files": [
     "src",
     "dist",

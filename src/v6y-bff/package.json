@@ -1,8 +1,8 @@
 {
   "name": "@v6y/bff",
   "version": "0.0.0",
-  "type": "module",
   "main": "src/index.js",
+  "type": "module",
   "files": [
     "src",
     "dist",

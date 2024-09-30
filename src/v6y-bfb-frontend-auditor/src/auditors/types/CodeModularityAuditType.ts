@@ -1,4 +1,5 @@
 import { ApplicationType } from '@v6y/commons';
+import Graph from 'graphology';
 import { MadgeModuleDependencyGraph } from 'madge';
 
 export interface ProjectTree {
@@ -23,7 +24,7 @@ export interface CodeModularityAuditType {
         projectInDegreeCentrality?: { [key: string]: number };
         projectOutDegreeCentrality?: { [key: string]: number };
         projectTree?: MadgeModuleDependencyGraph;
-        projectGraph?: { [key: string]: number };
+        projectGraph?: typeof Graph;
         projectDensity: number;
     };
 }

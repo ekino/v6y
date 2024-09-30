@@ -1,5 +1,5 @@
-import EvolutionHelpMutations from './EvolutionHelpMutations.js';
-import EvolutionHelpQueries from './EvolutionHelpQueries.js';
+import EvolutionHelpMutations from './EvolutionHelpMutations.ts';
+import EvolutionHelpQueries from './EvolutionHelpQueries.ts';
 
 const EvolutionHelpResolvers = {
     Query: {

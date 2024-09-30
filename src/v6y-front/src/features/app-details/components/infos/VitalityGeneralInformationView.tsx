@@ -26,19 +26,19 @@ interface VitalityGeneralInformationQueryType {
 
 const VitalityGeneralInformationView = ({}) => {
     const { getUrlParams } = useNavigationAdapter();
-    const [appId] = getUrlParams(['appId']);
+    const [_id] = getUrlParams(['_id']);
 
     const {
         isLoading: isAppDetailsInfosLoading,
         data: appDetailsInfos,
     }: VitalityGeneralInformationQueryType = useClientQuery({
-        queryCacheKey: ['getApplicationDetailsInfoByParams', `${appId}`],
+        queryCacheKey: ['getApplicationDetailsInfoByParams', `${_id}`],
         queryBuilder: async () =>
             buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
                 query: GetApplicationDetailsInfosByParams,
                 variables: {
-                    appId,
+                    _id: parseInt(_id as string, 10),
                 },
             }),
     });

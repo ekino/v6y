@@ -22,6 +22,9 @@ import KeywordProvider from './database/KeywordProvider.ts';
 import NotificationProvider from './database/NotificationProvider.ts';
 
 export * from './config/EvolutionHelpStatusConfig.ts';
+export * from './config/AuditHelpConfig.ts';
+export * from './config/CodeSmellConfig.ts';
+export * from './config/DependencyStatusHelpConfig.ts';
 
 export * from './types/ApplicationType.ts';
 export * from './types/AuditHelpType.ts';

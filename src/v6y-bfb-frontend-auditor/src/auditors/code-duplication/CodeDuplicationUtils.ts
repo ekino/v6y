@@ -1,7 +1,6 @@
-import { AppLogger } from '@v6y/commons';
-import { auditStatus } from '@v6y/commons/src/config/AuditHelpConfig.ts';
+import { AppLogger, auditStatus } from '@v6y/commons';
 
-import { CodeDuplicationAuditType } from '../types/CodeDuplicationAuditType.js';
+import { CodeDuplicationAuditType } from '../types/CodeDuplicationAuditType.ts';
 
 /**
  * Utility functions for code duplication analysis.

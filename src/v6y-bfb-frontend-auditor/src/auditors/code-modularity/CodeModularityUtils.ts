@@ -1,12 +1,11 @@
-import { AppLogger, AuditType } from '@v6y/commons';
-import { auditStatus } from '@v6y/commons/src/config/AuditHelpConfig.ts';
+import { AppLogger, AuditType, auditStatus } from '@v6y/commons';
 import xml2js from 'xml2js';
 
 import {
     CodeModularityAuditType,
     NormalizedProjectTree,
     ProjectTree,
-} from '../types/CodeModularityAuditType.js';
+} from '../types/CodeModularityAuditType.ts';
 
 /**
  * Default options for the code modularity auditor.

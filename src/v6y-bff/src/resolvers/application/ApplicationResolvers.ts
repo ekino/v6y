@@ -1,5 +1,5 @@
-import ApplicationMutations from './ApplicationMutations.js';
-import ApplicationQueries from './ApplicationQueries.js';
+import ApplicationMutations from './ApplicationMutations.ts';
+import ApplicationQueries from './ApplicationQueries.ts';
 
 const ApplicationResolvers = {
     Query: {

@@ -1,5 +1,5 @@
-import NotificationMutations from './NotificationMutations.js';
-import NotificationsQueries from './NotificationsQueries.js';
+import NotificationMutations from './NotificationMutations.ts';
+import NotificationsQueries from './NotificationsQueries.ts';
 
 const NotificationsResolvers = {
     Query: {

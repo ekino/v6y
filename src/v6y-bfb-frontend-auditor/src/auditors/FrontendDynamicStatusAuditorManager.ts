@@ -1,7 +1,7 @@
 import { AppLogger, WorkerHelper } from '@v6y/commons';
 
 import ServerConfig from '../commons/ServerConfig.ts';
-import { AuditCommonsType } from './types/AuditCommonsType.js';
+import { AuditCommonsType } from './types/AuditCommonsType.ts';
 
 const { forkWorker } = WorkerHelper;
 const { getCurrentConfig } = ServerConfig;
