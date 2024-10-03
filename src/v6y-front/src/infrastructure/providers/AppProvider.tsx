@@ -1,9 +1,8 @@
 'use client';
 
-import { AppProviderProps } from '@/infrastructure/providers/ThemeType';
-
 import QueryProvider from './QueryProvider';
 import ThemeProvider from './ThemeProvider';
+import { AppProviderProps } from './ThemeType';
 
 export function AppProvider({ theme, children }: AppProviderProps) {
     return (

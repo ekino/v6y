@@ -48,16 +48,17 @@ const VitalitySelectGrouperView = ({
         <Row wrap gutter={[16, 24]} justify="center" align="middle">
             <Col span={24}>
                 <Form
+                    role="form"
                     layout="vertical"
                     form={selectGroupForm}
                     disabled={disabled}
-                    onValuesChange={(values) =>
+                    onValuesChange={(values) => {
                         setSelectedCriteria({
                             key: '',
                             label: undefined,
                             value: values?.[name],
-                        })
-                    }
+                        });
+                    }}
                 >
                     <Form.Item
                         name={name}

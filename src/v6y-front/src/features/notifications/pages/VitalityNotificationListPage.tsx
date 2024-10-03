@@ -1,5 +1,5 @@
-import VitalityNotificationList from '../components/VitalityNotificationList';
+import VitalityNotificationView from '../components/VitalityNotificationView';
 
 export default function VitalityNotificationListPage() {
-    return <VitalityNotificationList />;
+    return <VitalityNotificationView />;
 }

@@ -1,5 +1,5 @@
-import VitalityFaqList from '../components/VitalityFaqList';
+import VitalityFaqView from '../components/VitalityFaqView';
 
 export default function VitalityFaqListPage() {
-    return <VitalityFaqList />;
+    return <VitalityFaqView />;
 }

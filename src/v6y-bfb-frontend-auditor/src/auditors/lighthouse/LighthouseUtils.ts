@@ -33,7 +33,7 @@ const isAuditAccessibilityFailed = (report: AuditType) =>
  * @param auditCategory
  */
 const formatAuditCategory = (
-    auditCategory: LighthouseAuditCategoryType,
+    auditCategory?: LighthouseAuditCategoryType,
 ): LighthouseReportType | null => {
     if (!auditCategory) return null;
 
@@ -70,7 +70,9 @@ const formatAuditCategory = (
  * Format the audit metric
  * @param auditMetric
  */
-const formatAuditMetric = (auditMetric: LighthouseAuditMetricType): LighthouseReportType | null => {
+const formatAuditMetric = (
+    auditMetric?: LighthouseAuditMetricType,
+): LighthouseReportType | null => {
     if (!auditMetric) return null;
 
     const { id, title, description, numericValue, numericUnit } = auditMetric;

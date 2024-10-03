@@ -6,47 +6,7 @@ import CodeDuplicationUtils from './CodeDuplicationUtils.ts';
 
 const { getFileContent, deleteAuditFile } = AuditUtils;
 
-const { formatCodeDuplicationReports } = CodeDuplicationUtils;
-
-/**
- * Default options for code duplication analysis.
- */
-const defaultOptions = {
-    mode: 'strict',
-    threshold: 0,
-    format: ['javascript', 'typescript', 'jsx', 'tsx'],
-    ignore: [
-        '**/node_modules/**',
-        '**/target/**',
-        '**/dist/**',
-        '**/__mocks__/*',
-        '**/mocks/*',
-        '**/.husky/**',
-        '**/.vscode/.*',
-        '**/.idea/**',
-        '**/.gitlab/**',
-        '**/.github/**',
-        '**/eslint-config/**',
-        '**/jest-config/**',
-        '**/tailwind-config/**',
-        '**/typescript-config/**',
-        '**/.eslintrc.**',
-        '**/.gitlab-ci.**',
-        '**/tailwind.**',
-        '**/tsconfig.json',
-        '**/turbo.json',
-        '**/jest.**',
-        '**/__test__/**',
-        '**/**test.**',
-        '**/**.config.**',
-        '**/webpack/**',
-        '**/**webpack**',
-        '**/next**.**',
-        '**/.next/**',
-        'babel',
-        '.*.d.ts.*',
-    ],
-};
+const { defaultOptions, formatCodeDuplicationReports } = CodeDuplicationUtils;
 
 /**
  * Start code duplication analysis.

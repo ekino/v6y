@@ -20,7 +20,7 @@ const __dirname = path.resolve();
  * @returns {boolean} - Returns true if the file is an accepted file type, false otherwise.
  */
 const isAcceptedFileType = (fileName: string): boolean =>
-    fileName?.endsWith('') ||
+    fileName?.endsWith('.js') ||
     fileName?.endsWith('.jsx') ||
     fileName?.endsWith('.ts') ||
     fileName?.endsWith('.tsx') ||
@@ -425,6 +425,8 @@ const AuditUtils = {
     deleteAuditFile,
     getAuditEligibleFiles,
     getFilesRecursively,
+    findCommonBase,
+    patternToFile,
 };
 
 export default AuditUtils;

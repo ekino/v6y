@@ -4,7 +4,6 @@ import { Col, Row } from 'antd';
 import * as React from 'react';
 import { useEffect } from 'react';
 
-import VitalityEmptyView from '../../../commons/components/VitalityEmptyView';
 import VitalityLoader from '../../../commons/components/VitalityLoader';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import VitalityTerms from '../../../commons/config/VitalityTerms';

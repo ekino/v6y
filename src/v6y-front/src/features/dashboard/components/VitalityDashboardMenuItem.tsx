@@ -4,6 +4,10 @@ import Link from 'next/link';
 import * as React from 'react';
 
 const VitalityDashboardMenuItem = ({ option }: { option: DashboardItemType }) => {
+    if (!option) {
+        return null;
+    }
+
     return (
         <Link href={option.url} style={{ textDecoration: 'none' }}>
             <Card bordered hoverable>

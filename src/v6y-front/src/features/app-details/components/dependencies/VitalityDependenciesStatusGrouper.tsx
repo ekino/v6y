@@ -27,7 +27,10 @@ const VitalityDependenciesStatusGrouper = ({
             hasAllGroup
             dataSource={dependencies}
             onRenderChildren={(status, data) => (
-                <div id="dependencies_grouper_tab_content">
+                <div
+                    id="dependencies_grouper_tab_content"
+                    data-testid="dependencies_grouper_tab_content"
+                >
                     <VitalityModulesView
                         modules={data as VitalityModuleType[]}
                         source="dependencies"

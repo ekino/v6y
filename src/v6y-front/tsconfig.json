@@ -3,7 +3,7 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext"
+      "ES2021.String",
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -11,8 +11,9 @@
     "noEmit": true,
     "esModuleInterop": true,
     "allowImportingTsExtensions": true,
-    "module": "esnext",
+    "module": "ESNext",
     "target": "ES2023",
+    "downlevelIteration": true,
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -28,13 +29,15 @@
       "@/*": [
         "./src/*"
       ]
-    }
+    },
+    "types": ["vitest/globals", "@testing-library/jest-dom", "@types/testing-library__jest-dom"],
   },
   "include": [
     "next-env.d.ts",
     "./src/*.ts",
     "./src/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "./vitest.setup.ts"
   ],
   "exclude": [
     "node_modules"

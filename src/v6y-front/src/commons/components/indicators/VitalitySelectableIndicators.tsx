@@ -1,10 +1,13 @@
-import { buildClientQuery, useClientQuery } from '@/infrastructure/adapters/api/useQueryAdapter';
 import { KeywordType } from '@v6y/commons';
 import { Card, Checkbox } from 'antd';
 import { CheckboxOptionType } from 'antd/es/checkbox/Group';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
+import {
+    buildClientQuery,
+    useClientQuery,
+} from '../../../infrastructure/adapters/api/useQueryAdapter';
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import VitalityApiConfig from '../../config/VitalityApiConfig';
 import VitalityEmptyView from '../VitalityEmptyView';
@@ -44,7 +47,10 @@ const VitalitySelectableIndicators = () => {
             (item: KeywordType) => item.label,
         );
 
-        const data = [...new Set(dataSource || [])].map((item) => ({ label: item, value: item }));
+        const data = [...new Set(dataSource || [])].map((item) => ({
+            label: item,
+            value: item,
+        }));
 
         setIndicatorsList(data);
     }, [dataIndicators?.getApplicationDetailsKeywordsByParams]);
