@@ -64,7 +64,8 @@
       "resource404": "Are you sure you have created the {{resource}} resource.",
       "backHome": "Back Home",
       "general": "An error was occurred",
-      "coming-soon": "Coming soon!"
+      "coming-soon": "Coming soon!",
+      "empty-data": "No data is available!"
     }
   },
   "actions": {

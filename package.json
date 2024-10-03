@@ -12,6 +12,7 @@
   "scripts": {
     "start": "nx run-many --target=start --all",
     "stop": "nx run-many --target=stop --all",
+    "build:tsc": "nx run-many --target=build:tsc --all",
     "build": "nx run-many --target=build --all",
     "lint": "nx run-many --target=lint --all",
     "lint:fix": "nx run-many --target=lint:fix --all --verbose",
