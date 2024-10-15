@@ -1,8 +1,14 @@
-import { AccountInputType, AccountProvider, AppLogger, SearchQueryType } from '@v6y/commons';
+import {
+    AccountInputType,
+    AccountProvider,
+    AppLogger,
+    JwtUtils,
+    PasswordUtils,
+    SearchQueryType,
+} from '@v6y/commons';
 
-const hashPassword = (password: string) => {
-    return password;
-};
+const { hashPassword } = PasswordUtils;
+const { generateToken } = JwtUtils;
 
 /**
  * Create or edit account
@@ -26,34 +32,50 @@ const createOrEditAccount = async (_: unknown, params: { accountInput: AccountIn
             const editedAccount = await AccountProvider.editAccount({
                 _id,
                 username,
-                password: hashPassword(password),
+                password: await hashPassword(password),
                 email,
                 role,
                 applications,
             });
+
+            if (!editedAccount || !editedAccount._id) {
+                return null;
+            }
+
+            const token = generateToken(editedAccount._id);
 
             AppLogger.info(
                 `[AccountMutations - createOrEditAccount] editedAccount : ${editedAccount?._id}`,
             );
 
             return {
-                _id,
+                _id: editedAccount._id,
+                token,
             };
         }
 
         const createdAccount = await AccountProvider.createAccount({
             username,
-            password,
+            password: await hashPassword(password),
             email,
             role,
             applications,
         });
 
+        if (!createdAccount || !createdAccount._id) {
+            return null;
+        }
+
+        const token = generateToken(createdAccount._id);
+
         AppLogger.info(
             `[AccountMutations - createOrEditAccount] createdAccount : ${createdAccount?._id}`,
         );
 
-        return createdAccount;
+        return {
+            _id: createdAccount._id,
+            token,
+        };
     } catch (error) {
         AppLogger.info(`[AccountMutations - createOrEditAccount] error : ${error}`);
         return null;

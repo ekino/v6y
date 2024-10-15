@@ -1,8 +1,11 @@
 import { gql } from 'graphql-tag';
 
 import AccountCreateOrEditInput from './account/AccountCreateOrEditInput.ts';
+import AccountCreateOrEditOutput from './account/AccountCreateOrEditOutput.ts';
 import AccountDeleteInput from './account/AccountDeleteInput.ts';
 import AccountDeleteOutput from './account/AccountDeleteOutput.ts';
+import AccountLoginInput from './account/AccountLoginInput.ts';
+import AccountLoginOutput from './account/AccountLoginOutput.ts';
 import AccountMutationsType from './account/AccountMutationsType.ts';
 import AccountQueriesType from './account/AccountQueriesType.ts';
 import AccountType from './account/AccountType.ts';
@@ -130,9 +133,12 @@ const VitalityTypes = gql(`
     ${DeprecatedDependencyMutationsType}
 
     ${AccountCreateOrEditInput}
+    ${AccountCreateOrEditOutput}
     ${AccountDeleteInput}
     ${AccountDeleteOutput}
     ${AccountMutationsType}
+    ${AccountLoginInput}
+    ${AccountLoginOutput}
 `);
 
 export default VitalityTypes;

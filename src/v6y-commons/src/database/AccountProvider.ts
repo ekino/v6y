@@ -113,28 +113,32 @@ const deleteAccount = async ({ _id }: AccountType) => {
 /**
  * Get account details by params
  * @param _id
+ * @param email
  **/
-const getAccountDetailsByParams = async ({ _id }: AccountType) => {
+const getAccountDetailsByParams = async ({ _id, email }: { _id?: number; email?: string }) => {
     try {
-        AppLogger.info(`[AccountProvider - getAccountDetailsByParams] _id: ${_id}`);
-
-        if (!_id) {
+        AppLogger.info(
+            `[AccountProvider - getAccountDetailsByParams] _id: ${_id}, email: ${email}`,
+        );
+        if (!_id && !email) {
             return null;
         }
 
-        const accountDetails = (
-            await AccountModelType.findOne({
-                where: { _id },
-            })
-        )?.dataValues;
+        const accountDetails = await AccountModelType.findOne({
+            where: _id ? { _id } : { email },
+        });
+
+        if (!accountDetails) {
+            return null;
+        }
 
         AppLogger.info(
-            `[AccountProvider - getAccountDetailsByParams] accountDetails: ${accountDetails?._id}`,
+            `[AccountProvider - getAccountDetailsByParams] accountDetails: ${accountDetails._id || accountDetails.email}`,
         );
 
-        return accountDetails;
+        return accountDetails.dataValues;
     } catch (error) {
-        AppLogger.info(`[AccountProvider - getAccountDetailsByParams] error:  ${error}`);
+        AppLogger.info(`[AccountProvider - getAccountDetailsByParams] error: ${error}`);
         return null;
     }
 };

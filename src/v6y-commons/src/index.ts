@@ -1,7 +1,9 @@
 import RepositoryApi from './apis/RepositoryApi.ts';
 import AppLogger from './core/AppLogger.ts';
 import AuditUtils from './core/AuditUtils.ts';
+import JwtUtils from './core/JwtUtils.ts';
 import Matcher from './core/Matcher.ts';
+import PasswordUtils from './core/PasswordUtils.ts';
 import PerformancesUtils from './core/PerformancesUtils.ts';
 import SemverUtils from './core/SemverUtils.ts';
 import ServerUtils from './core/ServerUtils.ts';
@@ -47,6 +49,8 @@ export * from './types/LinkType.ts';
 export {
     AppLogger,
     Matcher,
+    JwtUtils,
+    PasswordUtils,
     PerformancesUtils,
     SemverUtils,
     StringUtils,

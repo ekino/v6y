@@ -1,4 +1,15 @@
-import { AccountProvider, AccountType, AppLogger, SearchQueryType } from '@v6y/commons';
+import {
+    AccountLoginType,
+    AccountProvider,
+    AccountType,
+    AppLogger,
+    JwtUtils,
+    PasswordUtils,
+    SearchQueryType,
+} from '@v6y/commons';
+
+const { comparePassword } = PasswordUtils;
+const { generateToken } = JwtUtils;
 
 /**
  * Fetch the Account details by parameters
@@ -63,9 +74,53 @@ const getAccountListByPageAndParams = async (_: unknown, args: SearchQueryType) 
     }
 };
 
+/**
+ * Login account
+ * @param _
+ * @param paramsc
+ */
+const loginAccount = async (_: unknown, params: { input: AccountLoginType }) => {
+    try {
+        const { email, password } = params?.input || {};
+        AppLogger.info(`[AccountMutations - loginAccount] username : ${email}`);
+
+        if (!email || !password) {
+            return null;
+        }
+
+        const accountDetails = await AccountProvider.getAccountDetailsByParams({
+            email,
+        });
+
+        AppLogger.info(`[AccountMutations - loginAccount] accountDetails : ${accountDetails?._id}`);
+
+        if (!accountDetails || !accountDetails.password || !accountDetails._id) {
+            return null;
+        }
+
+        const isPasswordMatch = await comparePassword(password, accountDetails.password);
+
+        if (!isPasswordMatch) {
+            return null;
+        }
+        const token = generateToken(accountDetails._id);
+
+        AppLogger.info(`[AccountMutations - loginAccount] login success : ${accountDetails._id}`);
+
+        return {
+            _id: accountDetails._id,
+            token,
+        };
+    } catch (error) {
+        AppLogger.info(`[AccountMutations - loginAccount] error : ${error}`);
+        return null;
+    }
+};
+
 const AccountQueries = {
     getAccountListByPageAndParams,
     getAccountDetailsByParams,
+    loginAccount,
 };
 
 export default AccountQueries;

@@ -15,3 +15,8 @@ export interface AccountInputType {
     role: string;
     applications?: number[];
 }
+
+export interface AccountLoginType {
+    email: string;
+    password: string;
+}
