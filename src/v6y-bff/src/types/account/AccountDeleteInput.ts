@@ -1,7 +1,7 @@
 const AccountDeleteInput = `
     input AccountDeleteInputClause {
         """ Account to delete id """
-        id: Int!
+        _id: Int!
     }
 
     input AccountDeleteInput {

@@ -49,9 +49,8 @@ const buildSearchQuery = async ({
  */
 const createAccount = async (account: AccountInputType) => {
     try {
-        const createdAccount = await AccountModelType.create(account);
-        AppLogger.info(`[AccountProvider - createAccount] createdAccount: ${createdAccount?._id}`);
-
+        const createdAccount = (await AccountModelType.create(account))?.dataValues;
+        AppLogger.info(`[AccountProvider - createAccount] createdAccount: ${createdAccount._id}`);
         return createdAccount;
     } catch (error) {
         AppLogger.info(`[AccountProvider - createAccount] error:  ${error}`);
@@ -75,8 +74,11 @@ const editAccount = async (account: AccountInputType) => {
             },
         });
 
-        AppLogger.info(`[AccountProvider - editAccount] editedAccount: ${editedAccount}`);
-        return editedAccount;
+        AppLogger.info(`[AccountProvider - editFaq] editedAccount: ${editedAccount?.[0]}`);
+
+        return {
+            _id: account?._id,
+        };
     } catch (error) {
         AppLogger.info(`[AccountProvider - editAccount] error:  ${error}`);
         return null;
