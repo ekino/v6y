@@ -8,6 +8,7 @@ import ServerUtils from './core/ServerUtils.ts';
 import StringUtils from './core/StringUtils.ts';
 import WorkerHelper from './core/WorkerHelper.ts';
 import ZipUtils from './core/ZipUtils.ts';
+import AccountProvider from './database/AccountProvider.ts';
 import ApplicationProvider from './database/ApplicationProvider.ts';
 import AuditHelpProvider from './database/AuditHelpProvider.ts';
 import AuditProvider from './database/AuditProvider.ts';
@@ -26,6 +27,7 @@ export * from './config/AuditHelpConfig.ts';
 export * from './config/CodeSmellConfig.ts';
 export * from './config/DependencyStatusHelpConfig.ts';
 
+export * from './types/AccountType.ts';
 export * from './types/ApplicationType.ts';
 export * from './types/AuditHelpType.ts';
 export * from './types/AuditType.ts';
@@ -58,6 +60,7 @@ export {
     AuditProvider,
     AuditHelpProvider,
     FaqProvider,
+    AccountProvider,
     NotificationProvider,
     EvolutionProvider,
     EvolutionHelpProvider,
