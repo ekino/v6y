@@ -85,13 +85,17 @@ const deleteDependencyStatusHelp = async (_: unknown, params: { input: SearchQue
             return null;
         }
 
-        const dependencyStatusHelpId = whereClause._id;
+        const dependencyStatusHelpId = whereClause.id;
+        if (!dependencyStatusHelpId) {
+            return null;
+        }
+
         AppLogger.info(
             `[DependencyStatusHelpMutations - deleteDependencyStatusHelp] dependencyStatusHelpId : ${dependencyStatusHelpId}`,
         );
 
         await DependencyStatusHelpProvider.deleteDependencyStatusHelp({
-            _id: dependencyStatusHelpId,
+            _id: parseInt(dependencyStatusHelpId, 10),
         });
 
         return {

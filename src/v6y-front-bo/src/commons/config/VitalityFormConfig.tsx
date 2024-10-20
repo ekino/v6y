@@ -341,18 +341,20 @@ export const notificationCreateOrEditFormInAdapter = (params: Record<string, unk
     };
 };
 
-export const notificationCreateOrEditFormOutputAdapter = (params: Record<string, string>) => ({
-    notificationInput: {
-        _id: params?.['_id'],
-        title: params?.['notification-title'],
-        description: params?.['notification-description'],
-        links: [
-            params?.['notification-optional-link-1'],
-            params?.['notification-optional-link-2'],
-            params?.['notification-optional-link-3'],
-        ]?.filter((item) => item?.length),
-    },
-});
+export const notificationCreateOrEditFormOutputAdapter = (params: Record<string, string>) => {
+    return {
+        notificationInput: {
+            _id: params?.['_id'],
+            title: params?.['notification-title'],
+            description: params?.['notification-description'],
+            links: [
+                params?.['notification-optional-link-1'],
+                params?.['notification-optional-link-2'],
+                params?.['notification-optional-link-3'],
+            ]?.filter((item) => item?.length),
+        },
+    };
+};
 
 export const notificationInfosFormItems = (translate: TranslateType) => {
     return [

@@ -1,7 +1,7 @@
 const NotificationDeleteInput = `
   input NotificationDeleteInputClause {
       """ Notification to delete id """
-      _id: String!
+      id: String!
   }
   
   input NotificationDeleteInput {

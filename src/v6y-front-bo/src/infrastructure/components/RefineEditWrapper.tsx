@@ -59,9 +59,12 @@ export default function RefineEditWrapper({
         return null;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { onValuesChange, ...otherFormProps } = formProps || {};
+
     return (
         <Edit canDelete={false} title={title} saveButtonProps={saveButtonProps}>
-            <Form {...formProps} layout="vertical" variant="filled">
+            <Form {...otherFormProps} layout="vertical" variant="filled">
                 {formItems?.map((item) => item)}
             </Form>
         </Edit>

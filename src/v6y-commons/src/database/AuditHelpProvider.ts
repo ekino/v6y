@@ -101,11 +101,11 @@ const getAuditHelpListByPageAndParams = async ({ start, limit, sort }: SearchQue
 
         // Handle pagination
         if (start) {
-            queryOptions.offset = start;
+            //  queryOptions.offset = start;
         }
 
         if (limit) {
-            queryOptions.limit = limit;
+            //  queryOptions.limit = limit;
         }
 
         const auditHelpList = await AuditHelpModelType.findAll(queryOptions);

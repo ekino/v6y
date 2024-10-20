@@ -1,7 +1,7 @@
 const DeprecatedDependencyDeleteInput = `
   input DeprecatedDependencyDeleteInputClause {
       """ Deprecated Dependency to delete id """
-      _id: String!
+      id: String!
   }
   
   input DeprecatedDependencyDeleteInput {

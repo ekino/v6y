@@ -24,7 +24,9 @@ export default function VitalityNotificationEditView() {
                 </Typography.Title>
             }
             queryOptions={{
-                queryFormAdapter: notificationCreateOrEditFormInAdapter,
+                queryFormAdapter: notificationCreateOrEditFormInAdapter as (
+                    data: unknown,
+                ) => Record<string, unknown>,
                 query: GetNotificationDetailsByParams,
                 queryResource: 'getNotificationDetailsByParams',
                 queryParams: {
@@ -32,7 +34,9 @@ export default function VitalityNotificationEditView() {
                 },
             }}
             mutationOptions={{
-                editFormAdapter: notificationCreateOrEditFormOutputAdapter,
+                editFormAdapter: notificationCreateOrEditFormOutputAdapter as (
+                    data: unknown,
+                ) => Record<string, unknown>,
                 editQuery: CreateOrEditNotification,
                 editQueryParams: {
                     _id: parseInt(id as string, 10),

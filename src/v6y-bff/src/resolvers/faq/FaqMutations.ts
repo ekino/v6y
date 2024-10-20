@@ -56,10 +56,14 @@ const deleteFaq = async (_: unknown, params: { input: SearchQueryType }) => {
             return null;
         }
 
-        const faqId = whereClause._id;
+        const faqId = whereClause.id;
+        if (!faqId) {
+            return null;
+        }
+
         AppLogger.info(`[FaqMutations - deleteFaq] faqId : ${faqId}`);
 
-        await FaqProvider.deleteFaq({ _id: faqId });
+        await FaqProvider.deleteFaq({ _id: parseInt(faqId, 10) });
 
         return {
             _id: faqId,

@@ -1,7 +1,7 @@
 const NotificationCreateOrEditInput = `
   input NotificationCreateOrEditInput {
     """ Notification Unique id """
-    _id: Int!
+    _id: Int
       
     """ NOTIFICATION Question """
     title: String!

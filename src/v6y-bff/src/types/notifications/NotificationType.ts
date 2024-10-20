@@ -1,7 +1,7 @@
 const NotificationType = `
   type NotificationType {
     """ Notification Unique id """
-    _id: Int!
+    _id: Int
     
     """ Notification Title """
     title: String!

@@ -1,7 +1,7 @@
 const FaqDeleteInput = `
   input FaqDeleteInputClause {
       """ Faq to delete id """
-      _id: String!
+      id: String!
   }
   
   input FaqDeleteInput {

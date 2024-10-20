@@ -157,11 +157,11 @@ const getEvolutionHelpListByPageAndParams = async ({ start, limit, sort }: Searc
 
         // Handle pagination
         if (start) {
-            queryOptions.offset = start;
+            //  queryOptions.offset = start;
         }
 
         if (limit) {
-            queryOptions.limit = limit;
+            //  queryOptions.limit = limit;
         }
 
         const evolutionHelpList = await EvolutionHelpModelType.findAll(queryOptions);

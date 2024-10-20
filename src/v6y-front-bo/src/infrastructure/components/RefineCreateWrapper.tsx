@@ -22,7 +22,7 @@ export default function RefineCreateWrapper({
                         ...(createOptions?.createQueryParams || {}),
                         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         // @ts-expect-error
-                        ...(form?.getFieldsValue?.() || {}),
+                        ...(form?.getFieldsValue() || {}),
                     }) || {},
                 ),
         },

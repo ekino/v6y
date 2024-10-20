@@ -72,13 +72,16 @@ const deleteNotification = async (_: unknown, params: { input: SearchQueryType }
             return null;
         }
 
-        const notificationId = whereClause._id;
+        const notificationId = whereClause.id;
+        if (!notificationId) {
+            return null;
+        }
 
         AppLogger.info(
             `[NotificationMutations - deleteNotification] notificationId : ${notificationId}`,
         );
 
-        await NotificationProvider.deleteNotification({ _id: notificationId });
+        await NotificationProvider.deleteNotification({ _id: parseInt(notificationId, 10) });
 
         return {
             _id: notificationId,

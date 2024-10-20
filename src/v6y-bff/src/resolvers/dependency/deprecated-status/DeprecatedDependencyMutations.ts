@@ -70,13 +70,17 @@ const deleteDeprecatedDependency = async (_: unknown, params: { input: SearchQue
             return null;
         }
 
-        const deprecatedDependencyId = whereClause._id;
+        const deprecatedDependencyId = whereClause.id;
+        if (!deprecatedDependencyId) {
+            return null;
+        }
+
         AppLogger.info(
             `[DeprecatedDependencyMutations - deleteDeprecatedDependency] deprecatedDependencyId : ${deprecatedDependencyId}`,
         );
 
         await DeprecatedDependencyProvider.deleteDeprecatedDependency({
-            _id: deprecatedDependencyId,
+            _id: parseInt(deprecatedDependencyId, 10),
         });
 
         return {

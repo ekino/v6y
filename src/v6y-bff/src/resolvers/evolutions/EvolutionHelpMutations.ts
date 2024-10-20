@@ -77,12 +77,16 @@ const deleteEvolutionHelp = async (_: unknown, params: { input: SearchQueryType 
             return null;
         }
 
-        const evolutionHelpId = whereClause._id;
+        const evolutionHelpId = whereClause.id;
+        if (!evolutionHelpId) {
+            return null;
+        }
+
         AppLogger.info(
             `[EvolutionHelpMutations - deleteEvolutionHelp] evolutionHelpId : ${evolutionHelpId}`,
         );
 
-        await EvolutionHelpProvider.deleteEvolutionHelp({ _id: evolutionHelpId });
+        await EvolutionHelpProvider.deleteEvolutionHelp({ _id: parseInt(evolutionHelpId, 10) });
 
         return {
             _id: evolutionHelpId,

@@ -1,7 +1,7 @@
 const AuditHelpDeleteInput = `
   input AuditHelpDeleteInputClause {
       """ Audit Help to delete id """
-      _id: Int!
+      id: Int!
   }
   
   input AuditHelpDeleteInput {

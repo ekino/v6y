@@ -1,7 +1,7 @@
 const FaqType = `
   type FaqType {
     """ FAQ Unique id """
-    _id: Int!
+    _id: Int
     
     """ FAQ Question """
     title: String!

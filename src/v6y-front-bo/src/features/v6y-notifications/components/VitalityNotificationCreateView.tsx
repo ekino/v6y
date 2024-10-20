@@ -20,7 +20,9 @@ export default function VitalityNotificationCreateView() {
                 </Typography.Title>
             }
             createOptions={{
-                createFormAdapter: notificationCreateOrEditFormOutputAdapter,
+                createFormAdapter: notificationCreateOrEditFormOutputAdapter as (
+                    data: unknown,
+                ) => Record<string, unknown>,
                 createQuery: CreateOrEditNotification,
                 createQueryParams: {},
             }}

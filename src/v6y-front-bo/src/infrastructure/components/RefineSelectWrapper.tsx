@@ -17,26 +17,30 @@ export default function RefineSelectWrapper({
 }: FormWrapperProps) {
     const { form, formProps, saveButtonProps, query } = useForm({
         queryOptions: {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             enabled: true,
             queryKey: [queryOptions?.resource, queryOptions?.queryParams],
             queryFn: async (): Promise<GetOneResponse<BaseRecord>> =>
                 GraphqlClientRequest(
-                    process.env.NEXT_PUBLIC_GQL_API_BASE_PATH,
+                    process.env.NEXT_PUBLIC_GQL_API_BASE_PATH || '',
                     queryOptions?.query,
                     queryOptions?.queryParams,
                 ),
         },
         updateMutationOptions: {
             mutationKey: ['update', mutationOptions?.editQuery],
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             mutationFn: async () => {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
                 const { editQuery, editFormAdapter, editQueryParams } = mutationOptions;
                 return GraphqlClientRequest(
-                    process.env.NEXT_PUBLIC_GQL_API_BASE_PATH,
+                    process.env.NEXT_PUBLIC_GQL_API_BASE_PATH || '',
                     editQuery,
                     editFormAdapter?.({
                         ...(editQueryParams || {}),
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-expect-error
                         ...(form?.getFieldsValue() || {}),
                     }) || {},
                 );
@@ -45,6 +49,8 @@ export default function RefineSelectWrapper({
     });
 
     const { query: selectQueryResult } = useSelect({
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         resource: selectOptions?.resource,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
@@ -54,6 +60,8 @@ export default function RefineSelectWrapper({
     useEffect(() => {
         const formDetails = query?.data?.[queryOptions?.queryResource];
         if (Object.keys(formDetails || {})?.length) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             form?.setFieldsValue(queryOptions?.queryFormAdapter?.(formDetails));
         }
     }, [form, query?.data, queryOptions]);

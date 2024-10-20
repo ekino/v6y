@@ -63,10 +63,14 @@ const deleteAuditHelp = async (_: unknown, params: { input: SearchQueryType }) =
             return null;
         }
 
-        const auditHelpId = whereClause._id;
+        const auditHelpId = whereClause.id;
+        if (!auditHelpId) {
+            return null;
+        }
+
         AppLogger.info(`[AuditHelpMutations - deleteAuditHelp] auditHelpId : ${auditHelpId}`);
 
-        await AuditHelpProvider.deleteAuditHelp({ _id: auditHelpId });
+        await AuditHelpProvider.deleteAuditHelp({ _id: parseInt(auditHelpId, 10) });
 
         return {
             _id: auditHelpId,

@@ -172,11 +172,11 @@ const getDependencyStatusHelpListByPageAndParams = async ({
 
         // Handle pagination
         if (start) {
-            queryOptions.offset = start;
+            // queryOptions.offset = start;
         }
 
         if (limit) {
-            queryOptions.limit = limit;
+            // queryOptions.limit = limit;
         }
 
         const dependencyStatusHelpList = await DependencyStatusHelpModelType.findAll(queryOptions);
