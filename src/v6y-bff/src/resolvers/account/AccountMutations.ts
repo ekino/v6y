@@ -2,13 +2,11 @@ import {
     AccountInputType,
     AccountProvider,
     AppLogger,
-    JwtUtils,
     PasswordUtils,
     SearchQueryType,
 } from '@v6y/commons';
 
 const { hashPassword } = PasswordUtils;
-const { generateToken } = JwtUtils;
 
 /**
  * Create or edit account
@@ -42,15 +40,12 @@ const createOrEditAccount = async (_: unknown, params: { accountInput: AccountIn
                 return null;
             }
 
-            const token = generateToken(editedAccount._id);
-
             AppLogger.info(
                 `[AccountMutations - createOrEditAccount] editedAccount : ${editedAccount?._id}`,
             );
 
             return {
                 _id: editedAccount._id,
-                token,
             };
         }
 
@@ -66,15 +61,12 @@ const createOrEditAccount = async (_: unknown, params: { accountInput: AccountIn
             return null;
         }
 
-        const token = generateToken(createdAccount._id);
-
         AppLogger.info(
             `[AccountMutations - createOrEditAccount] createdAccount : ${createdAccount?._id}`,
         );
 
         return {
             _id: createdAccount._id,
-            token,
         };
     } catch (error) {
         AppLogger.info(`[AccountMutations - createOrEditAccount] error : ${error}`);

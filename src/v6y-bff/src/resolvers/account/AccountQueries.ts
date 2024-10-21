@@ -3,13 +3,12 @@ import {
     AccountProvider,
     AccountType,
     AppLogger,
-    JwtUtils,
     PasswordUtils,
     SearchQueryType,
+    passportGenerateToken,
 } from '@v6y/commons';
 
-const { comparePassword } = PasswordUtils;
-const { generateToken } = JwtUtils;
+const { validatePassword } = PasswordUtils;
 
 /**
  * Fetch the Account details by parameters
@@ -98,12 +97,12 @@ const loginAccount = async (_: unknown, params: { input: AccountLoginType }) => 
             return null;
         }
 
-        const isPasswordMatch = await comparePassword(password, accountDetails.password);
+        const isPasswordMatch = await validatePassword(password, accountDetails.password);
 
         if (!isPasswordMatch) {
             return null;
         }
-        const token = generateToken(accountDetails._id);
+        const token = passportGenerateToken(accountDetails);
 
         AppLogger.info(`[AccountMutations - loginAccount] login success : ${accountDetails._id}`);
 

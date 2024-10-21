@@ -1,7 +1,6 @@
 import RepositoryApi from './apis/RepositoryApi.ts';
 import AppLogger from './core/AppLogger.ts';
 import AuditUtils from './core/AuditUtils.ts';
-import JwtUtils from './core/JwtUtils.ts';
 import Matcher from './core/Matcher.ts';
 import PasswordUtils from './core/PasswordUtils.ts';
 import PerformancesUtils from './core/PerformancesUtils.ts';
@@ -29,6 +28,8 @@ export * from './config/AuditHelpConfig.ts';
 export * from './config/CodeSmellConfig.ts';
 export * from './config/DependencyStatusHelpConfig.ts';
 
+export * from './core/PassportUtils.ts';
+
 export * from './types/AccountType.ts';
 export * from './types/ApplicationType.ts';
 export * from './types/AuditHelpType.ts';
@@ -49,7 +50,6 @@ export * from './types/LinkType.ts';
 export {
     AppLogger,
     Matcher,
-    JwtUtils,
     PasswordUtils,
     PerformancesUtils,
     SemverUtils,
