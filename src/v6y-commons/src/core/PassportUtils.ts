@@ -30,7 +30,6 @@ passport.use(
             });
 
             if (accountDetails) {
-                AppLogger.info(`[passport] Utilisateur trouvé : ${JSON.stringify(accountDetails)}`);
                 return done(null, accountDetails);
             } else {
                 return done(null, false);

@@ -104,11 +104,14 @@ const loginAccount = async (_: unknown, params: { input: AccountLoginType }) => 
         }
         const token = passportGenerateToken(accountDetails);
 
-        AppLogger.info(`[AccountMutations - loginAccount] login success : ${accountDetails._id}`);
+        AppLogger.info(
+            `[AccountMutations - loginAccount] login success : ${accountDetails._id} - ${accountDetails.role}`,
+        );
 
         return {
             _id: accountDetails._id,
             token,
+            role: accountDetails.role,
         };
     } catch (error) {
         AppLogger.info(`[AccountMutations - loginAccount] error : ${error}`);
