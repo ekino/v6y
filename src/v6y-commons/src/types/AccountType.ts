@@ -16,6 +16,11 @@ export interface AccountInputType {
     applications?: number[];
 }
 
+export interface AccountUpdatePasswordType {
+    _id: number;
+    password: string;
+}
+
 export interface AccountLoginType {
     email: string;
     password: string;

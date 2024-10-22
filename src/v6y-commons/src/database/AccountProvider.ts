@@ -1,7 +1,7 @@
 import { FindOptions, Op, Sequelize } from 'sequelize';
 
 import AppLogger from '../core/AppLogger.ts';
-import { AccountInputType, AccountType } from '../types/AccountType.ts';
+import { AccountInputType, AccountType, AccountUpdatePasswordType } from '../types/AccountType.ts';
 import { SearchQueryType } from '../types/SearchQueryType.ts';
 import { AccountModelType } from './models/AccountModel.ts';
 
@@ -86,6 +86,48 @@ const editAccount = async (account: AccountInputType) => {
 };
 
 /**
+ * Update Account Password
+ * @param account
+ */
+const updateAccountPassword = async ({ _id, password }: AccountUpdatePasswordType) => {
+    try {
+        if (!_id || !password) {
+            return null;
+        }
+
+        AppLogger.info(`[AccountProvider - updateAccountPassword] _id: ${_id}`);
+
+        const accountDetails = await AccountModelType.findOne({
+            where: {
+                _id,
+            },
+        });
+
+        if (!accountDetails) {
+            return null;
+        }
+
+        await AccountModelType.update(
+            {
+                password: password,
+            },
+            {
+                where: {
+                    _id,
+                },
+            },
+        );
+
+        return {
+            _id,
+        };
+    } catch (error) {
+        AppLogger.info(`[AccountProvider - updateAccountPassword] error:  ${error}`);
+        return null;
+    }
+};
+
+/**
  * Delete an Account
  * @param _id
  */
@@ -133,7 +175,7 @@ const getAccountDetailsByParams = async ({ _id, email }: { _id?: number; email?:
         }
 
         AppLogger.info(
-            `[AccountProvider - getAccountDetailsByParams] accountDetails: ${accountDetails._id || accountDetails.email}`,
+            `[AccountProvider - getAccountDetailsByParams] accountDetails: ${accountDetails.dataValues._id}`,
         );
 
         return accountDetails.dataValues;
@@ -187,6 +229,7 @@ const getAccountListByPageAndParams = async ({
 const AccountProvider = {
     createAccount,
     editAccount,
+    updateAccountPassword,
     deleteAccount,
     getAccountDetailsByParams,
     getAccountListByPageAndParams,

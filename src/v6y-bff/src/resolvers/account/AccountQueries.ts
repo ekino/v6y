@@ -28,11 +28,6 @@ const getAccountDetailsByParams = async (_: unknown, args: AccountType) => {
         const accountDetails = await AccountProvider.getAccountDetailsByParams({
             _id,
         });
-
-        AppLogger.info(
-            `[AccountQueries - getAccountDetailsByParams] accountDetails : ${accountDetails?._id}`,
-        );
-
         return accountDetails;
     } catch (error) {
         AppLogger.info(`[AccountQueries - getAccountDetailsByParams] error : ${error}`);

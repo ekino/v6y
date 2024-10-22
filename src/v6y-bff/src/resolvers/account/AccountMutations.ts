@@ -1,9 +1,13 @@
 import {
     AccountInputType,
     AccountProvider,
+    AccountType,
+    AccountUpdatePasswordType,
     AppLogger,
     PasswordUtils,
     SearchQueryType,
+    isAdmin,
+    isSuperAdmin,
 } from '@v6y/commons';
 
 const { hashPassword } = PasswordUtils;
@@ -12,9 +16,17 @@ const { hashPassword } = PasswordUtils;
  * Create or edit account
  * @param _
  * @param params
+ * @param context
  */
-const createOrEditAccount = async (_: unknown, params: { accountInput: AccountInputType }) => {
+const createOrEditAccount = async (
+    _: unknown,
+    params: { accountInput: AccountInputType },
+    context: { user: AccountType },
+) => {
     try {
+        if (!(isAdmin(context.user) || isSuperAdmin(context.user))) {
+            return null;
+        }
         const { _id, username, password, email, role, applications } = params?.accountInput || {};
 
         AppLogger.info(`[AccountMutations - createOrEditAccount] _id : ${_id}`);
@@ -75,6 +87,58 @@ const createOrEditAccount = async (_: unknown, params: { accountInput: AccountIn
 };
 
 /**
+ * Update password
+ * @param _
+ * @param params
+ * @param context
+ **/
+const updateAccountPassword = async (
+    _: unknown,
+    params: { input: AccountUpdatePasswordType },
+    context: { user: AccountType },
+) => {
+    try {
+        if (
+            context.user._id !== params.input._id &&
+            !isAdmin(context.user) &&
+            !isSuperAdmin(context.user)
+        ) {
+            throw new Error('You are not authorized to update this account');
+            return null;
+        }
+        const { _id, password } = params?.input || {};
+
+        AppLogger.info(`[AccountMutations - updatePassword] _id : ${_id}`);
+
+        const accountDetails = await AccountProvider.getAccountDetailsByParams({ _id });
+
+        if (!accountDetails) {
+            throw new Error('Invalid account');
+        }
+
+        const updatedAccount = await AccountProvider.updateAccountPassword({
+            _id,
+            password: await PasswordUtils.hashPassword(password),
+        });
+
+        if (!updatedAccount || !updatedAccount._id) {
+            throw new Error('Invalid account');
+        }
+
+        AppLogger.info(
+            `[AccountMutations - updatePassword] updatedAccount : ${updatedAccount._id}`,
+        );
+
+        return {
+            _id: updatedAccount._id,
+        };
+    } catch (error) {
+        AppLogger.error(`[AccountMutations - updatePassword] error : ${error}`);
+        return null;
+    }
+};
+
+/**
  * Delete account
  * @param _
  * @param params
@@ -102,6 +166,7 @@ const deleteAccount = async (_: unknown, params: { input: SearchQueryType }) => 
 
 const AccountMutations = {
     createOrEditAccount,
+    updateAccountPassword,
     deleteAccount,
 };
 

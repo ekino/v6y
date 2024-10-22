@@ -20,7 +20,6 @@ const opts = {
 passport.use(
     new JwtStrategy(opts, async (jwtPayload, done) => {
         try {
-            // Vérifier si le token contient bien un _id ou email
             if (!jwtPayload._id) {
                 return done(null, false);
             }
@@ -57,3 +56,7 @@ export const passportGenerateToken = (account: AccountType) => {
 };
 
 export const passportInitialize = () => passport.initialize();
+
+export const isAdmin = (account: AccountType) => account?.role === 'ADMIN';
+
+export const isSuperAdmin = (account: AccountType) => account?.role === 'SUPER_ADMIN';
