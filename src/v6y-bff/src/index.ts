@@ -1,7 +1,13 @@
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
-import { AppLogger, DataBaseManager, ServerUtils } from '@v6y/commons';
+import {
+    AppLogger,
+    DataBaseManager,
+    ServerUtils,
+    passportAuthenticate,
+    passportInitialize,
+} from '@v6y/commons';
 import BodyParser from 'body-parser';
 import Cors from 'cors';
 import Express from 'express';
@@ -37,6 +43,8 @@ app.use(
 
 // *********************************************** Graphql Config & Endpoints ***********************************************
 
+app.use(passportInitialize());
+
 const httpServer = createServer({
     app,
     config: getCurrentConfig(),
@@ -59,9 +67,20 @@ app.use(
     Cors(),
     BodyParser.json(),
     expressMiddleware(server, {
-        context: async ({ req }) => ({
-            token: req.headers.token,
-        }),
+        context: async ({ req }) => {
+            // Authentication required for all queries/mutations except "loginAccount" and "introspectionQuery"
+            if (
+                req.body?.operationName !== 'LoginAccount' &&
+                req.body?.operationName !== 'IntrospectionQuery'
+            ) {
+                const user = await passportAuthenticate(req);
+                if (!user) {
+                    throw new Error('Unauthorized');
+                }
+                return { user };
+            }
+            return {};
+        },
     }),
 );
 

@@ -1,5 +1,14 @@
 import { gql } from 'graphql-tag';
 
+import AccountCreateOrEditInput from './account/AccountCreateOrEditInput.ts';
+import AccountCreateOrEditOutput from './account/AccountCreateOrEditOutput.ts';
+import AccountDeleteInput from './account/AccountDeleteInput.ts';
+import AccountDeleteOutput from './account/AccountDeleteOutput.ts';
+import AccountLoginInput from './account/AccountLoginInput.ts';
+import AccountLoginOutput from './account/AccountLoginOutput.ts';
+import AccountMutationsType from './account/AccountMutationsType.ts';
+import AccountQueriesType from './account/AccountQueriesType.ts';
+import AccountType from './account/AccountType.ts';
 import ApplicationCreateOrEditInput from './application/ApplicationCreateOrEditInput.ts';
 import ApplicationDeleteInput from './application/ApplicationDeleteInput.ts';
 import ApplicationDeleteOutput from './application/ApplicationDeleteOutput.ts';
@@ -70,6 +79,7 @@ const VitalityTypes = gql(`
     ${EvolutionHelpStatusType}
     ${EvolutionHelpType}
     ${EvolutionType}
+    ${AccountType}
     ${ApplicationType}
     ${AuditHelpType}
     ${AuditReportType}
@@ -84,6 +94,7 @@ const VitalityTypes = gql(`
     ${AuditHelpQueriesType}
     ${DependencyStatusHelpQueriesType}
     ${DeprecatedDependencyQueriesType}
+    ${AccountQueriesType}
 
     # this schemas allows the following mutations
     ${ApplicationCreateOrEditInput}
@@ -120,6 +131,14 @@ const VitalityTypes = gql(`
     ${DeprecatedDependencyDeleteOutput}
     ${DeprecatedDependencyDeleteInput}
     ${DeprecatedDependencyMutationsType}
+
+    ${AccountCreateOrEditInput}
+    ${AccountCreateOrEditOutput}
+    ${AccountDeleteInput}
+    ${AccountDeleteOutput}
+    ${AccountMutationsType}
+    ${AccountLoginInput}
+    ${AccountLoginOutput}
 `);
 
 export default VitalityTypes;
