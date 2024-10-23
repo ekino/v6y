@@ -3,7 +3,7 @@
 import { AuthPage as AuthPageBase } from '@refinedev/antd';
 import { Checkbox, Form, Typography } from 'antd';
 
-import { useTranslation } from '../../infrastructure/adapters/translation/TranslationAdapter';
+import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 
 export const VitalityAuthLoginView = () => {
     const { translate } = useTranslation();

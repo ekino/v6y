@@ -59,4 +59,4 @@ export const passportInitialize = () => passport.initialize();
 
 export const isAdmin = (account: AccountType) => account?.role === 'ADMIN';
 
-export const isSuperAdmin = (account: AccountType) => account?.role === 'SUPER_ADMIN';
+export const isSuperAdmin = (account: AccountType) => account?.role === 'SUPERADMIN';
