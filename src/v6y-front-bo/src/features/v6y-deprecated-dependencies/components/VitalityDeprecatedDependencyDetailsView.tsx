@@ -1,4 +1,5 @@
 import { useParsed } from '@refinedev/core';
+import { DeprecatedDependencyType } from '@v6y/commons/src';
 import { Typography } from 'antd';
 import * as React from 'react';
 
@@ -29,7 +30,10 @@ export default function VitalityDeprecatedDependencyDetailsView() {
             }}
             renderShowView={({ data, error }) => (
                 <VitalityDetailsView
-                    details={formatDeprecatedDependencyDetails(translate, data)}
+                    details={formatDeprecatedDependencyDetails(
+                        translate,
+                        data as DeprecatedDependencyType,
+                    )}
                     error={error}
                 />
             )}

@@ -1,4 +1,5 @@
 import { useParsed } from '@refinedev/core';
+import { DependencyStatusHelpType } from '@v6y/commons/src';
 import { Typography } from 'antd';
 import * as React from 'react';
 
@@ -29,7 +30,10 @@ export default function VitalityDependencyStatusHelpDetailsView() {
             }}
             renderShowView={({ data, error }) => (
                 <VitalityDetailsView
-                    details={formatDependencyStatusHelpDetails(translate, data)}
+                    details={formatDependencyStatusHelpDetails(
+                        translate,
+                        data as DependencyStatusHelpType,
+                    )}
                     error={error}
                 />
             )}

@@ -9,21 +9,21 @@ export interface FormQueryOptionsType {
     queryKey?: string[] | unknown[];
     queryParams?: Record<string, unknown>;
     queryResource?: string;
-    queryFormAdapter?: (data: unknown) => Record<string, unknown>;
+    queryFormAdapter?: (data: Record<string, unknown>) => Record<string, unknown>;
 }
 
 export interface FormMutationOptionsType {
     resource?: string;
     editQuery: string;
     editQueryParams?: Record<string, unknown>;
-    editFormAdapter?: (data: unknown) => Variables;
+    editFormAdapter?: (data: Record<string, unknown>) => Variables;
 }
 
 export interface FormCreateOptionsType {
     title: string | ReactNode;
     createOptions: {
         createQuery: string;
-        createFormAdapter?: (data: unknown) => Variables;
+        createFormAdapter?: (data: Record<string, unknown>) => Variables;
         createQueryParams?: Record<string, unknown>;
     };
     formItems: ReactNode[];
@@ -51,11 +51,11 @@ export interface FormShowOptions {
         query?: string;
         queryResource?: string;
     };
-    renderShowView?: ({
+    renderShowView?: <T>({
         data,
         error,
     }: {
-        data?: unknown;
+        data?: T;
         error: HttpError | string | undefined;
     }) => ReactNode;
 }

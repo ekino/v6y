@@ -1,10 +1,10 @@
-import { AppProvider } from '@/infrastructure/providers/AppProvider';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
 import VitalityPageLayout from '../commons/components/layout/VitalityPageLayout';
 import VitalityTerms from '../commons/config/VitalityTerms';
 import VitalityTheme from '../commons/config/VitalityTheme';
+import { AppProvider } from '../infrastructure/providers/AppProvider';
 
 export const metadata = {
     title: VitalityTerms.VITALITY_APP_TITLE,
