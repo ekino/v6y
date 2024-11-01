@@ -110,8 +110,8 @@ const normalizeProjectTree = (tree: ProjectTree): NormalizedProjectTree => {
         };
     }
 
-    return Object.keys(tree).reduce(
-        (acc: NormalizedProjectTree, node: string): NormalizedProjectTree => {
+    return Object.keys(tree).reduce<NormalizedProjectTree>(
+        (acc, node) => {
             return {
                 ...acc,
                 nodes: [...acc.nodes, node],
@@ -197,14 +197,14 @@ const formatCodeModularityReports = ({
 
         if (Object.keys(interactionCommunities ?? {})?.length) {
             const interactionCommunitiesGroups = Object.keys(interactionCommunities ?? {}).reduce(
-                (acc: { [key: string]: string[] }, next: string) => {
+                (acc, next) => {
                     const groupName = `group-${interactionCommunities?.[next]}`; // Optional chaining for safety
                     return {
                         ...acc,
                         [groupName]: [...(acc[groupName] || []), next],
                     };
                 },
-                {} as { [key: string]: string[] },
+                {} as Record<string, string[]>,
             );
 
             for (const interactionCommunitiesGroup of Object.keys(interactionCommunitiesGroups)) {
