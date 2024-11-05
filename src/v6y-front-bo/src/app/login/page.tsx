@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import * as React from 'react';
 
-import { VitalityAuthLoginView } from '../../features/v6y-auth/VitalityAuthLoginView';
+import { VitalityAuthLoginView } from '../../features/v6y-auth/components/VitalityAuthLoginView';
 import { AuthServerProvider } from '../../infrastructure/providers/AuthServerProvider';
 
 export default async function Login() {

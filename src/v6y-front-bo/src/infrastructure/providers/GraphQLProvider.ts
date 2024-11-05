@@ -1,18 +1,10 @@
 import type { AuthProvider } from '@refinedev/core';
-import dataProvider, { GraphQLClient, graphqlWS, liveProvider } from '@refinedev/graphql';
+import dataProvider, { graphqlWS, liveProvider } from '@refinedev/graphql';
 import Cookies from 'js-cookie';
 
-const dataClient = new GraphQLClient(process.env.NEXT_PUBLIC_GQL_API_BASE_PATH as string, {
-    fetch: (url: RequestInfo | URL, options?: RequestInit) => {
-        return fetch(url, {
-            ...options,
-            headers: {
-                ...(options?.headers || {}),
-                Authorization: `Bearer ${JSON.parse(Cookies.get('auth') || '{}')?.token}`,
-            },
-        });
-    },
-});
+import { gqlClient } from '../adapters/api/GraphQLClient';
+
+const dataClient = gqlClient;
 
 const wsClient = graphqlWS.createClient({
     url: process.env.NEXT_PUBLIC_GQL_API_BASE_PATH as string,
@@ -21,7 +13,6 @@ const wsClient = graphqlWS.createClient({
 export const gqlDataProvider = dataProvider(dataClient);
 
 export const gqlLiveProvider = liveProvider(wsClient);
-
 
 export const gqlAuthProvider: AuthProvider = {
     login: async ({ email, password }) => {

@@ -3,49 +3,71 @@
 import { Edit, useForm, useSelect } from '@refinedev/antd';
 import { BaseRecord, GetOneResponse } from '@refinedev/core';
 import { Form } from 'antd';
-import GraphqlClientRequest from 'graphql-request';
 import { ReactNode, useEffect } from 'react';
 
 import { FormWrapperProps } from '../types/FormType';
+import { gqlClientRequest } from '../adapters/api/GraphQLClient';
 
 export default function RefineSelectWrapper({
     title,
     queryOptions,
     mutationOptions,
+    createOptions,
     selectOptions,
     renderSelectOption,
 }: FormWrapperProps) {
-    const { form, formProps, saveButtonProps, query } = useForm({
-        queryOptions: {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            enabled: true,
-            queryKey: [queryOptions?.resource, queryOptions?.queryParams],
-            queryFn: async (): Promise<GetOneResponse<BaseRecord>> =>
-                GraphqlClientRequest(
-                    process.env.NEXT_PUBLIC_GQL_API_BASE_PATH || '',
-                    queryOptions?.query,
-                    queryOptions?.queryParams,
-                ),
-        },
+    const formQueryOptions = queryOptions ? {
+        ...queryOptions,
+        queryFn: async (): Promise<GetOneResponse<BaseRecord>> =>
+            gqlClientRequest({
+                gqlQueryPath: queryOptions?.query,
+                gqlQueryParams: queryOptions?.queryParams
+            }),
+    } : {};
+
+    const formMutationOptions = mutationOptions ? {
         updateMutationOptions: {
-            mutationKey: ['update', mutationOptions?.editQuery],
-            mutationFn: async () => {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-expect-error
+            mutationKey: [mutationOptions?.editResource, mutationOptions?.editQuery],
+            mutationFn: async (): Promise<GetOneResponse<BaseRecord>> => {
                 const { editQuery, editFormAdapter, editQueryParams } = mutationOptions;
-                return GraphqlClientRequest(
-                    process.env.NEXT_PUBLIC_GQL_API_BASE_PATH || '',
-                    editQuery,
-                    editFormAdapter?.({
+                return gqlClientRequest({
+                    gqlQueryPath: editQuery,
+                    gqlQueryParams: editFormAdapter?.({
                         ...(editQueryParams || {}),
                         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         // @ts-expect-error
                         ...(form?.getFieldsValue() || {}),
                     }) || {},
-                );
+                });
             },
         },
+    } : {};
+
+    const formCreateOptions = createOptions ? {
+        createMutationOptions: {
+            mutationKey: [createOptions?.createResource, createOptions?.createQuery],
+            mutationFn: async (): Promise<GetOneResponse<BaseRecord>> => {
+                const { createQuery, createFormAdapter, createQueryParams } = createOptions;
+                console.log(createOptions)
+                return gqlClientRequest({
+                    gqlQueryPath: createQuery,
+                    gqlQueryParams: createFormAdapter?.({
+                        ...(createQueryParams || {}),
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-expect-error
+                        ...(form?.getFieldsValue() || {}),
+                    }) || {},
+                });
+            },
+        },
+    } : {};
+
+
+    const { form, formProps, saveButtonProps, query } = useForm({
+        ...formQueryOptions,
+        ...formMutationOptions,
+        ...formCreateOptions,
+        defaultFormValues: {},
     });
 
     const { query: selectQueryResult } = useSelect({
@@ -66,9 +88,11 @@ export default function RefineSelectWrapper({
         }
     }, [form, query?.data, queryOptions]);
 
+    const isLoading = selectQueryResult?.isLoading || (queryOptions && query?.isLoading)
+
     return (
         <Edit
-            isLoading={selectQueryResult?.isLoading || query?.isLoading}
+            isLoading={isLoading}
             canDelete={false}
             title={title}
             saveButtonProps={saveButtonProps}

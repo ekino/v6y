@@ -1,7 +1,6 @@
 import { ApplicationType } from '@v6y/commons';
 import { DefaultOptionType } from 'antd/es/select';
 import { Variables } from 'graphql-request';
-
 import { TranslateType } from '../../infrastructure/types/TranslationType';
 import VitalityFormFieldSet from '../components/VitalityFormFieldSet';
 
@@ -754,3 +753,129 @@ export const deprecatedDependencyCreateOrEditFormOutputAdapter = (
         name: params?.['deprecated-dependency-name'],
     },
 });
+
+
+export const accountCreateOrEditFormOutputAdapter = (params: Record<string, string>) => ({
+    accountInput: {
+        _id: params?.['_id'],
+        email: params?.['account-email'],
+        username: params?.['account-username'],
+        role: params?.['account-role'],
+        password: params?.['account-password'],
+        applications: params?.['account-applications'],
+    },
+});
+
+export const accountCreateEditItems = (translate: TranslateType, role: string, applications: DefaultOptionType[]) => {
+
+    const roles = [
+        { label: translate('pages.createAccount.fields.account-role.options.admin'), value: 'ADMIN' },
+        { label: translate('pages.createAccount.fields.account-role.options.user'), value: 'USER' },
+    ];
+
+    return [
+        <VitalityFormFieldSet
+            key={translate('pages.createAccount.fields.account-infos-group')}
+            groupTitle={translate('pages.createAccount.fields.account-infos-group')}
+            items={accountInfosFormItems(translate, role)}
+            selectOptions={roles}
+        />,
+        <VitalityFormFieldSet
+            key={translate('pages.createAccount.fields.applications-group')}
+            groupTitle={translate('pages.createAccount.fields.applications-group')}
+            items={accountApplicationsFormItems(translate)}
+            selectOptions={applications}
+        />,
+    ];
+};
+
+export const accountInfosFormItems = (translate: TranslateType, role: string) => {
+
+    return [
+        {
+            id: 'account-email',
+            name: 'account-email',
+            label: translate('pages.createAccount.fields.account-email.label'),
+            placeholder: translate('pages.createAccount.fields.account-email.placeholder'),
+            rules: [
+                {
+                    required: true,
+                    message: translate('pages.createAccount.fields.account-email.error'),
+                },
+                {
+                    type: 'email',
+                    message: translate('pages.createAccount.fields.account-email.error'),
+                },
+            ],
+        },
+        {
+            id: 'account-username',
+            name: 'account-username',
+            label: translate('pages.createAccount.fields.account-username.label'),
+            placeholder: translate('pages.createAccount.fields.account-username.placeholder'),
+            rules: [
+                {
+                    required: true,
+                    message: translate('pages.createAccount.fields.account-username.error'),
+                },
+            ],
+        },
+        {
+            id: 'account-role',
+            name: 'account-role',
+            label: translate('pages.createAccount.fields.account-role.label'),
+            placeholder: translate('pages.createAccount.fields.account-role.placeholder'),
+            type: 'select',
+            disabled: role !== 'SUPERADMIN',
+            defaultValue: role !== 'SUPERADMIN' ? 'USER' : undefined,
+            rules: [
+                {
+                    required: true,
+                    message: translate('pages.createAccount.fields.account-role.error'),
+                },
+            ],
+            options: [
+                { label: translate('pages.createAccount.fields.account-role.options.admin'), value: 'ADMIN' },
+                { label: translate('pages.createAccount.fields.account-role.options.user'), value: 'USER' },
+            ],
+        },
+        {
+            id: 'account-password',
+            name: 'account-password',
+            type: 'password',
+            label: translate('pages.createAccount.fields.account-password.label'),
+            placeholder: translate('pages.createAccount.fields.account-password.placeholder'),
+            rules: [
+                {
+                    required: true,
+                    message: translate('pages.createAccount.fields.account-password.error'),
+                },
+            ],
+        },
+    ];
+}
+
+export const accountApplicationsFormItems = (translate: TranslateType) => {
+
+    return [
+        {
+            id: 'account-applications',
+            name: 'account-applications',
+            label: translate('pages.createAccount.fields.account-applications.label'),
+            placeholder: translate('pages.createAccount.fields.account-applications.placeholder'),
+            type: 'select',
+            mode: 'multiple',
+            rules: [
+                {
+                    required: true,
+                    message: translate('pages.createAccount.fields.account-applications.error'),
+                    validator: (_: unknown, value: string[]) =>
+                        value && value.length > 0
+                            ? Promise.resolve()
+                            : Promise.reject(new Error(translate('pages.createAccount.fields.account-applications.error'))),
+                },
+
+            ],
+        },
+    ];
+};

@@ -2,7 +2,7 @@
 
 import { RefreshButton, Show } from '@refinedev/antd';
 import { BaseRecord, GetOneResponse, useShow } from '@refinedev/core';
-import GraphqlClientRequest from 'graphql-request';
+import { gqlClientRequest } from '../../infrastructure/adapters/api/GraphQLClient';
 
 import { FormShowOptions } from '../types/FormType';
 
@@ -16,11 +16,10 @@ export default function RefineShowWrapper({
             enabled: queryOptions?.enabled || true,
             queryKey: [queryOptions?.resource, queryOptions?.queryParams],
             queryFn: async (): Promise<GetOneResponse<BaseRecord>> =>
-                GraphqlClientRequest(
-                    process.env.NEXT_PUBLIC_GQL_API_BASE_PATH as string,
-                    queryOptions?.query as string,
-                    queryOptions?.queryParams,
-                ),
+                gqlClientRequest({
+                    gqlQueryPath: queryOptions?.query,
+                    gqlQueryParams: queryOptions?.queryParams
+                }),
         },
     });
 

@@ -1,5 +1,3 @@
-import { ApplicationType } from '@v6y/commons';
-
 import VitalityTable from '../../../commons/components/VitalityTable';
 import {
     buildCommonTableColumns,
@@ -7,27 +5,27 @@ import {
 } from '../../../commons/config/VitalityTableConfig';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
-import DeleteApplication from '../apis/deleteApplication';
-import GetApplicationList from '../../../commons/apis/getApplicationList';
+import DeleteAccount from '../apis/deleteAccount';
+import GetAccountListByPageAndParams from '../apis/getAccountListByPageAndParams';
 
-export default function VitalityApplicationListView() {
+export default function VitalityAccountListView() {
     const { translate } = useTranslation();
 
     return (
         <RefineTableWrapper
-            title={translate('v6y-applications.titles.list') || ''}
+            title={translate('v6y-accounts.titles.list')}
             subTitle=""
             defaultSorter={[
                 {
-                    field: 'acronym',
+                    field: 'title',
                     order: 'asc',
                 },
             ]}
             queryOptions={{
-                resource: 'getApplicationListByPageAndParams',
-                query: GetApplicationList,
+                resource: 'getAccountListByPageAndParams',
+                query: GetAccountListByPageAndParams,
             }}
-            renderTable={(dataSource: ApplicationType[]) => (
+            renderTable={(dataSource) => (
                 <VitalityTable
                     dataSource={buildCommonTableDataSource(dataSource)}
                     columns={buildCommonTableColumns(dataSource, [], {
@@ -35,8 +33,8 @@ export default function VitalityApplicationListView() {
                         enableShow: true,
                         enableDelete: true,
                         deleteMetaQuery: {
-                            gqlMutation: DeleteApplication,
-                            operation: 'deleteApplication',
+                            gqlMutation: DeleteAccount,
+                            operation: 'deleteAccount'
                         },
                     })}
                 />

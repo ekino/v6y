@@ -20,23 +20,26 @@ const { hashPassword } = PasswordUtils;
  */
 const createOrEditAccount = async (
     _: unknown,
-    params: { accountInput: AccountInputType },
+    params: { input: AccountInputType },
     context: { user: AccountType },
 ) => {
     try {
         if (!(isAdmin(context.user) || isSuperAdmin(context.user))) {
-            return null;
+            throw new Error('You are not authorized to create an account');
         }
-        const { _id, username, password, email, role, applications } = params?.accountInput || {};
+        const { _id, username, password, email, role, applications } = params?.input || {};
+
+        if (!isSuperAdmin(context.user) && role === 'ADMIN') {
+            AppLogger.info(`[AccountMutations - createOrEditAccount] role : ${role}`);
+            throw new Error('You are not authorized to create an admin account');
+        }
 
         AppLogger.info(`[AccountMutations - createOrEditAccount] _id : ${_id}`);
         AppLogger.info(`[AccountMutations - createOrEditAccount] username : ${username}`);
         AppLogger.info(`[AccountMutations - createOrEditAccount] password : ${password}`);
         AppLogger.info(`[AccountMutations - createOrEditAccount] email : ${email}`);
         AppLogger.info(`[AccountMutations - createOrEditAccount] role : ${role}`);
-        AppLogger.info(
-            `[AccountMutations - createOrEditAccount] applications : ${applications?.join(',')}`,
-        );
+        AppLogger.info(`[AccountMutations - createOrEditAccount] applications : ${applications}`);
 
         if (_id) {
             const editedAccount = await AccountProvider.editAccount({
@@ -49,7 +52,7 @@ const createOrEditAccount = async (
             });
 
             if (!editedAccount || !editedAccount._id) {
-                return null;
+                throw new Error('Invalid account');
             }
 
             AppLogger.info(
@@ -61,6 +64,10 @@ const createOrEditAccount = async (
             };
         }
 
+        const user = await AccountProvider.getAccountDetailsByParams({ email });
+        if (user) {
+            throw new Error('User already exists with this email');
+        }
         const createdAccount = await AccountProvider.createAccount({
             username,
             password: await hashPassword(password),
@@ -104,7 +111,6 @@ const updateAccountPassword = async (
             !isSuperAdmin(context.user)
         ) {
             throw new Error('You are not authorized to update this account');
-            return null;
         }
         const { _id, password } = params?.input || {};
 
@@ -143,15 +149,38 @@ const updateAccountPassword = async (
  * @param _
  * @param params
  */
-const deleteAccount = async (_: unknown, params: { input: SearchQueryType }) => {
+const deleteAccount = async (
+    _: unknown,
+    params: { accountInput: SearchQueryType },
+    context: { user: AccountType },
+) => {
     try {
-        const whereClause = params?.input?.where;
-        if (!whereClause) {
+        const whereClause = params?.accountInput?.where;
+
+        if (!whereClause?.id) {
             return null;
         }
-
-        const accountId = whereClause._id;
+        const accountId = parseInt(whereClause.id, 10);
         AppLogger.info(`[AccountMutations - deleteAccount] accountId : ${accountId}`);
+
+        const userToDelete = await AccountProvider.getAccountDetailsByParams({
+            _id: accountId,
+        });
+        if (!userToDelete) {
+            throw new Error('User does not exist');
+        }
+
+        if (!(isSuperAdmin(context.user) || isAdmin(context.user))) {
+            throw new Error('You are not authorized to delete an account');
+        }
+
+        if (context.user._id === userToDelete._id) {
+            throw new Error('You cannot delete your own account');
+        }
+
+        if (userToDelete.role === 'ADMIN' && !isSuperAdmin(context.user)) {
+            throw new Error('You are not authorized to delete an admin account');
+        }
 
         await AccountProvider.deleteAccount({ _id: accountId });
 

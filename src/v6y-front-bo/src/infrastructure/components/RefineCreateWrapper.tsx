@@ -2,9 +2,10 @@
 
 import { Create, useForm } from '@refinedev/antd';
 import { Form } from 'antd';
-import GraphqlClientRequest from 'graphql-request';
 
 import { FormCreateOptionsType } from '../types/FormType';
+import { gqlClientRequest } from '../adapters/api/GraphQLClient';
+import { BaseRecord, GetOneResponse } from '@refinedev/core';
 
 export default function RefineCreateWrapper({
     title,
@@ -14,17 +15,16 @@ export default function RefineCreateWrapper({
     const { form, formProps, saveButtonProps } = useForm({
         defaultFormValues: {},
         createMutationOptions: {
-            mutationFn: async () =>
-                GraphqlClientRequest(
-                    process.env.NEXT_PUBLIC_GQL_API_BASE_PATH as string,
-                    createOptions?.createQuery,
-                    createOptions?.createFormAdapter?.({
+            mutationFn: async (): Promise<GetOneResponse<BaseRecord>> =>
+                gqlClientRequest({
+                    gqlQueryPath: createOptions?.createQuery,
+                    gqlQueryParams: createOptions?.createFormAdapter?.({
                         ...(createOptions?.createQueryParams || {}),
                         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         // @ts-expect-error
                         ...(form?.getFieldsValue() || {}),
                     }) || {},
-                ),
+                })
         },
     });
 
