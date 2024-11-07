@@ -12,8 +12,10 @@ import VitalityTerms from '../../../../commons/config/VitalityTerms';
 import useNavigationAdapter from '../../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import GetApplicationDetailsEvolutionsByParams from '../../api/getApplicationDetailsEvolutionsByParams';
 
+const VitalityLoading = () => <VitalityLoader />;
+
 const VitalityEvolutionBranchGrouper = dynamic(() => import('./VitalityEvolutionBranchGrouper'), {
-    loading: () => <VitalityLoader />,
+    loading: VitalityLoading,
 });
 
 interface VitalityEvolutionsQueryType {

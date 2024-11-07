@@ -8,15 +8,17 @@ import VitalityLoader from '../../../commons/components/VitalityLoader';
 import VitalitySearchBar from '../../../commons/components/VitalitySearchBar';
 import VitalityTerms from '../../../commons/config/VitalityTerms';
 
+const VitalityLoading = () => <VitalityLoader />;
+
 const VitalityCheckableKeywords = dynamic(
     () => import('../../../commons/components/indicators/VitalitySelectableIndicators'),
     {
-        loading: () => <VitalityLoader />,
+        loading: VitalityLoading,
     },
 );
 
 const VitalityAppList = dynamic(() => import('./VitalityAppList'), {
-    loading: () => <VitalityLoader />,
+    loading: VitalityLoading,
 });
 
 const VitalityAppListView = () => {

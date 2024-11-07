@@ -5,30 +5,32 @@ import * as React from 'react';
 
 import VitalityLoader from '../../../commons/components/VitalityLoader';
 
+const VitalityLoading = () => <VitalityLoader />;
+
 const VitalityGeneralInformationView = dynamic(
     () => import('./infos/VitalityGeneralInformationView'),
     {
-        loading: () => <VitalityLoader />,
+        loading: VitalityLoading,
     },
 );
 
 const VitalityAuditReportsView = dynamic(() => import('./audit-reports/VitalityAuditReportsView'), {
-    loading: () => <VitalityLoader />,
+    loading: VitalityLoading,
 });
 
 const VitalityQualityIndicatorsView = dynamic(
     () => import('./quality-indicators/VitalityQualityIndicatorsView'),
     {
-        loading: () => <VitalityLoader />,
+        loading: VitalityLoading,
     },
 );
 
 const VitalityDependenciesView = dynamic(() => import('./dependencies/VitalityDependenciesView'), {
-    loading: () => <VitalityLoader />,
+    loading: VitalityLoading,
 });
 
 const VitalityEvolutionsView = dynamic(() => import('./evolutions/VitalityEvolutionsView'), {
-    loading: () => <VitalityLoader />,
+    loading: VitalityLoading,
 });
 
 const VitalityAppDetailsView = () => {

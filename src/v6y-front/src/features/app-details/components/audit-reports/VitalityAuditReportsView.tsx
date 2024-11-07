@@ -12,8 +12,11 @@ import VitalityTerms from '../../../../commons/config/VitalityTerms';
 import useNavigationAdapter from '../../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import GetApplicationDetailsAuditReportsByParams from '../../api/getApplicationDetailsAuditReportsByParams';
 
+
+const VitalityLoading = () => <VitalityLoader />;
+
 const VitalityAuditReportsTypeGrouper = dynamic(() => import('./VitalityAuditReportsTypeGrouper'), {
-    loading: () => <VitalityLoader />,
+    loading: VitalityLoading,
 });
 
 interface VitalityAuditReportsQueryType {
