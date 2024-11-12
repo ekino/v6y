@@ -754,6 +754,14 @@ export const deprecatedDependencyCreateOrEditFormOutputAdapter = (
     },
 });
 
+export const accountCreateOrEditFormInAdapter = (params: Record<string, unknown>) => ({
+    _id: params?._id,
+    'account-email': params?.['email'],
+    'account-username': params?.['username'],
+    'account-role': params?.['role'],
+    'account-password': params?.['password'],
+    'account-applications': params?.['applications'],
+});
 
 export const accountCreateOrEditFormOutputAdapter = (params: Record<string, string>) => ({
     accountInput: {
@@ -766,7 +774,11 @@ export const accountCreateOrEditFormOutputAdapter = (params: Record<string, stri
     },
 });
 
-export const accountCreateEditItems = (translate: TranslateType, role: string, applications: DefaultOptionType[]) => {
+export const accountCreateEditItems = (translate: TranslateType, role: string, applications: ApplicationType[]) => {
+    const applicationsValues = applications?.map((application) => ({
+        value: application._id,
+        label: application.name,
+    }));
 
     const roles = [
         { label: translate('pages.createAccount.fields.account-role.options.admin'), value: 'ADMIN' },
@@ -784,7 +796,7 @@ export const accountCreateEditItems = (translate: TranslateType, role: string, a
             key={translate('pages.createAccount.fields.applications-group')}
             groupTitle={translate('pages.createAccount.fields.applications-group')}
             items={accountApplicationsFormItems(translate)}
-            selectOptions={applications}
+            selectOptions={applicationsValues}
         />,
     ];
 };

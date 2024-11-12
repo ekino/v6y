@@ -263,7 +263,23 @@
     "v6y-accounts":"Accounts",
     "titles" : {
       "list": "Accounts",
-      "create": "Create Account"
+      "create": "Create Account",
+      "edit": "Edit Account",
+      "show": "Show Account"
+    },
+    "fields": {
+      "account-username":{
+        "label": "Username"
+      },
+      "account-email":{
+        "label": "Email"
+      },
+      "account-role":{
+        "label": "Role"
+      },
+      "account-applications":{
+        "label": "Applications"
+      }
     }
   },
   "v6y-faqs": {

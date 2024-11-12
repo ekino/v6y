@@ -150,7 +150,8 @@ const getApplicationListByPageAndParams = async (_: unknown, args: SearchQueryTy
         );
         AppLogger.info(`[ApplicationQueries - getApplicationListByPageAndParams] limit : ${limit}`);
         AppLogger.info(
-            `[ApplicationQueries - getApplicationListByPageAndParams] keywords : ${keywords?.join?.(',') || ''
+            `[ApplicationQueries - getApplicationListByPageAndParams] keywords : ${
+                keywords?.join?.(',') || ''
             }`,
         );
         AppLogger.info(
@@ -216,7 +217,8 @@ const getApplicationStatsByParams = async (_: unknown, args: SearchQueryType) =>
         const { keywords } = args || {};
 
         AppLogger.info(
-            `[ApplicationQueries - getApplicationStatsByParams] keywords : ${keywords?.join?.(',') || ''
+            `[ApplicationQueries - getApplicationStatsByParams] keywords : ${
+                keywords?.join?.(',') || ''
             }`,
         );
 
@@ -245,7 +247,8 @@ const getApplicationTotalByParams = async (_: unknown, args: SearchQueryType) =>
         const { keywords, searchText } = args || {};
 
         AppLogger.info(
-            `[ApplicationQueries - getApplicationTotalByParams] keywords : ${keywords?.join?.(',') || ''
+            `[ApplicationQueries - getApplicationTotalByParams] keywords : ${
+                keywords?.join?.(',') || ''
             }`,
         );
         AppLogger.info(

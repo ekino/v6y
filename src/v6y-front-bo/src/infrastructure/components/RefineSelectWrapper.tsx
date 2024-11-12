@@ -17,12 +17,15 @@ export default function RefineSelectWrapper({
     renderSelectOption,
 }: FormWrapperProps) {
     const formQueryOptions = queryOptions ? {
-        ...queryOptions,
-        queryFn: async (): Promise<GetOneResponse<BaseRecord>> =>
-            gqlClientRequest({
-                gqlQueryPath: queryOptions?.query,
-                gqlQueryParams: queryOptions?.queryParams
-            }),
+        queryOptions: {
+            enabled: true,
+            queryKey: [queryOptions?.resource, queryOptions?.queryParams],
+            queryFn: async (): Promise<GetOneResponse<BaseRecord>> =>
+                gqlClientRequest({
+                    gqlQueryPath: queryOptions?.query,
+                    gqlQueryParams: queryOptions?.queryParams
+                }),
+        }
     } : {};
 
     const formMutationOptions = mutationOptions ? {
@@ -48,7 +51,6 @@ export default function RefineSelectWrapper({
             mutationKey: [createOptions?.createResource, createOptions?.createQuery],
             mutationFn: async (): Promise<GetOneResponse<BaseRecord>> => {
                 const { createQuery, createFormAdapter, createQueryParams } = createOptions;
-                console.log(createOptions)
                 return gqlClientRequest({
                     gqlQueryPath: createQuery,
                     gqlQueryParams: createFormAdapter?.({
@@ -71,12 +73,15 @@ export default function RefineSelectWrapper({
     });
 
     const { query: selectQueryResult } = useSelect({
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        resource: selectOptions?.resource,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        meta: { gqlQuery: selectOptions?.query },
+        queryOptions: {
+            enabled: true,
+            queryKey: [selectOptions?.resource, selectOptions?.queryParams],
+            queryFn: async (): Promise<GetOneResponse<BaseRecord>> =>
+                gqlClientRequest({
+                    gqlQueryPath: selectOptions?.query,
+                    gqlQueryParams: selectOptions?.queryParams
+                }),
+        }
     });
 
     useEffect(() => {
@@ -98,7 +103,7 @@ export default function RefineSelectWrapper({
             saveButtonProps={saveButtonProps}
         >
             <Form {...formProps} layout="vertical" variant="filled">
-                {renderSelectOption?.(selectQueryResult?.data?.data)?.map(
+                {renderSelectOption?.(selectQueryResult?.data?.[selectOptions?.resource])?.map(
                     (item: ReactNode) => item,
                 )}
             </Form>
