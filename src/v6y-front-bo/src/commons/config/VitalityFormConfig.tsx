@@ -774,7 +774,7 @@ export const accountCreateOrEditFormOutputAdapter = (params: Record<string, stri
     },
 });
 
-export const accountCreateEditItems = (translate: TranslateType, role: string, applications: ApplicationType[]) => {
+export const accountCreateEditItems = (translate: TranslateType, role: string, applications: ApplicationType[], edit: boolean = false) => {
     const applicationsValues = applications?.map((application) => ({
         value: application._id,
         label: application.name,
@@ -789,7 +789,7 @@ export const accountCreateEditItems = (translate: TranslateType, role: string, a
         <VitalityFormFieldSet
             key={translate('pages.createAccount.fields.account-infos-group')}
             groupTitle={translate('pages.createAccount.fields.account-infos-group')}
-            items={accountInfosFormItems(translate, role)}
+            items={accountInfosFormItems(translate, role, edit)}
             selectOptions={roles}
         />,
         <VitalityFormFieldSet
@@ -801,7 +801,7 @@ export const accountCreateEditItems = (translate: TranslateType, role: string, a
     ];
 };
 
-export const accountInfosFormItems = (translate: TranslateType, role: string) => {
+export const accountInfosFormItems = (translate: TranslateType, role: string, edit: boolean) => {
 
     return [
         {
@@ -857,12 +857,12 @@ export const accountInfosFormItems = (translate: TranslateType, role: string) =>
             type: 'password',
             label: translate('pages.createAccount.fields.account-password.label'),
             placeholder: translate('pages.createAccount.fields.account-password.placeholder'),
-            rules: [
+            rules: !edit ? [
                 {
                     required: true,
                     message: translate('pages.createAccount.fields.account-password.error'),
                 },
-            ],
+            ] : [],
         },
     ];
 }

@@ -63,7 +63,7 @@ export default function VitalityAccountEditView() {
             }}
 
             renderSelectOption={(applications: ApplicationType[]) => {
-                return accountCreateEditItems(translate, userRole, applications)
+                return accountCreateEditItems(translate, userRole, applications, true)
             }}
         />
     );

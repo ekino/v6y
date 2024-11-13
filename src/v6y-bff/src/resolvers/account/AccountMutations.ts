@@ -42,14 +42,25 @@ const createOrEditAccount = async (
         AppLogger.info(`[AccountMutations - createOrEditAccount] applications : ${applications}`);
 
         if (_id) {
-            const editedAccount = await AccountProvider.editAccount({
-                _id,
-                username,
-                password: await hashPassword(password),
-                email,
-                role,
-                applications,
-            });
+            let editedAccount = null;
+            if (!password) {
+                editedAccount = await AccountProvider.editAccount({
+                    _id,
+                    username,
+                    email,
+                    role,
+                    applications,
+                });
+            } else {
+                editedAccount = await AccountProvider.editAccount({
+                    _id,
+                    username,
+                    password: await hashPassword(password),
+                    email,
+                    role,
+                    applications,
+                });
+            }
 
             if (!editedAccount || !editedAccount._id) {
                 throw new Error('Invalid account');
@@ -62,6 +73,10 @@ const createOrEditAccount = async (
             return {
                 _id: editedAccount._id,
             };
+        }
+
+        if (!password) {
+            throw new Error('Password is required');
         }
 
         const user = await AccountProvider.getAccountDetailsByParams({ email });
