@@ -23,6 +23,7 @@ describe('LighthouseConfig', () => {
         expect(LighthouseConfig.LIGHTHOUSE_FLAGS.onlyCategories).toEqual([
             'performance',
             'accessibility',
+            'seo',
         ]);
     });
 

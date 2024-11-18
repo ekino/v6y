@@ -43,6 +43,12 @@ describe('LighthouseUtils', () => {
             status: auditStatus.success,
         } as AuditType;
         expect(LighthouseUtils.isAuditPerformanceFailed(report2)).toBe(false);
+
+        const report3: AuditType = {
+            category: 'seo',
+            status: auditStatus.success,
+        } as AuditType;
+        expect(LighthouseUtils.isAuditPerformanceFailed(report2)).toBe(false);
     });
 
     it('should return true for failed accessibility audits', () => {
@@ -68,6 +74,43 @@ describe('LighthouseUtils', () => {
             status: auditStatus.success,
         } as AuditType;
         expect(LighthouseUtils.isAuditAccessibilityFailed(report2)).toBe(false);
+
+        const report3: AuditType = {
+            category: 'seo',
+            status: auditStatus.success,
+        } as AuditType;
+        expect(LighthouseUtils.isAuditAccessibilityFailed(report2)).toBe(false);
+    });
+
+    it('should return true for failed seo audits', () => {
+        const report: AuditType = {
+            category: 'seo',
+            status: auditStatus.error,
+        } as AuditType;
+        expect(LighthouseUtils.isAuditSeoFailed(report)).toBe(true);
+
+        report.status = auditStatus.warning;
+        expect(LighthouseUtils.isAuditSeoFailed(report)).toBe(true);
+    });
+
+    it('should return false for non-seo or successful audits', () => {
+        const report1: AuditType = {
+            category: 'performance',
+            status: auditStatus.error,
+        } as AuditType;
+        expect(LighthouseUtils.isAuditAccessibilityFailed(report1)).toBe(false);
+
+        const report2: AuditType = {
+            category: 'accessibility',
+            status: auditStatus.success,
+        } as AuditType;
+        expect(LighthouseUtils.isAuditAccessibilityFailed(report2)).toBe(false);
+
+        const report3: AuditType = {
+            category: 'seo',
+            status: auditStatus.success,
+        } as AuditType;
+        expect(LighthouseUtils.isAuditAccessibilityFailed(report3)).toBe(false);
     });
 
     it('should return null for null input', () => {
@@ -150,6 +193,11 @@ describe('LighthouseUtils', () => {
                     title: 'Accessibility',
                     score: 0.95,
                 },
+                seo: {
+                    id: 'seo',
+                    title: 'SEO',
+                    score: 0.75,
+                },
             },
             audits: {
                 'first-contentful-paint': {
@@ -181,6 +229,15 @@ describe('LighthouseUtils', () => {
                 description: undefined,
                 status: auditStatus.success, // 0.95 * 100 = 95, which is > 70
                 score: 95,
+                scoreUnit: '%',
+                branch: undefined,
+            },
+            {
+                category: 'seo',
+                title: 'SEO',
+                description: undefined,
+                status: auditStatus.success, // 0.75 * 100 = 75, which is > 70
+                score: 75,
                 scoreUnit: '%',
                 branch: undefined,
             },

@@ -13,6 +13,7 @@ const VitalityLighthouseReportsCategoryGrouper = dynamic(
 );
 
 const VitalityLighthouseReportsDeviceGrouper = ({ reports }: { reports: AuditType[] }) => {
+    console.log('reports', reports);
     return (
         <VitalityTabGrouperView
             name="lighthouse_device_grouper_tab"
