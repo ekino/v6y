@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import * as React from 'react';
 
-import { VitalityAuthUpdatePasswordView } from '../../features/v6y-auth/VitalityAuthUpdatePasswordView';
+import { VitalityAuthUpdatePasswordView } from '../../features/v6y-auth/components/VitalityAuthUpdatePasswordView';
 import { AuthServerProvider } from '../../infrastructure/providers/AuthServerProvider';
 
 export default async function UpdatePassword() {

@@ -141,3 +141,4 @@ database/psql/**
 **/v6y-logs/**
 
 .vscode/
+.DS_Store

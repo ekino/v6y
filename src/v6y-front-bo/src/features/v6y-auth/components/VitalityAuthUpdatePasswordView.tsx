@@ -3,14 +3,14 @@
 import { AuthPage as AuthPageBase } from '@refinedev/antd';
 import { Typography } from 'antd';
 
-import { useTranslation } from '../../infrastructure/adapters/translation/TranslationAdapter';
+import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 
-export const VitalityAuthForgotPasswordView = () => {
+export const VitalityAuthUpdatePasswordView = () => {
     const { translate } = useTranslation();
 
     return (
         <AuthPageBase
-            type="forgotPassword"
+            type="updatePassword"
             title={
                 <Typography.Title level={2}>
                     {translate('v6y-authentication.title')}

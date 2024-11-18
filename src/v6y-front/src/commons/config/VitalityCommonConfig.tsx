@@ -5,7 +5,11 @@ import {
     DashboardOutlined,
     DislikeOutlined,
     LikeOutlined,
+    LoginOutlined,
+    LogoutOutlined,
+    NotificationOutlined,
     PieChartOutlined,
+    QuestionOutlined,
     SplitCellsOutlined,
     ThunderboltOutlined,
 } from '@ant-design/icons';
@@ -17,6 +21,7 @@ import { ReactNode } from 'react';
 import VitalityNavigationPaths from './VitalityNavigationPaths';
 import VitalityTerms from './VitalityTerms';
 import VitalityTheme from './VitalityTheme';
+import { Typography } from 'antd';
 
 export interface BreadCrumbItemType {
     currentPage: string;
@@ -277,4 +282,64 @@ export const formatApplicationDataSource = (
     }
 
     return newDataSource;
+};
+
+const VITALITY_HEADER_MENU_ITEMS = [
+    {
+        key: 'notification',
+        icon: <NotificationOutlined />,
+        label: (
+            <Link href={VitalityNavigationPaths.NOTIFICATIONS} style={{ textDecoration: 'none' }}>
+                <Typography.Text>Notifications</Typography.Text>
+            </Link>
+        ),
+    },
+    {
+        key: 'FAQ',
+        icon: <QuestionOutlined />,
+        label: (
+            <Link href={VitalityNavigationPaths.FAQ} style={{ textDecoration: 'none' }}>
+                <Typography.Text>FAQ</Typography.Text>
+            </Link>
+        ),
+    },
+];
+
+export const buildVitalityHeaderMenuItems = (isLogged: boolean) => {
+    if (isLogged) {
+        return [
+            ...VITALITY_HEADER_MENU_ITEMS,
+            {
+                key: 'logout',
+                icon: <LogoutOutlined />,
+                label: (
+                    <Link
+                        href={VitalityNavigationPaths.LOGIN}
+                        onClick={() => {
+                            console.log('logout');
+                        }}
+                        style={{ textDecoration: 'none' }}
+                    >
+                        <Typography.Text>Logout</Typography.Text>
+                    </Link>
+                ),
+            },
+        ];
+    }
+
+    return [
+        ...VITALITY_HEADER_MENU_ITEMS,
+        {
+            key: 'login',
+            icon: <LoginOutlined />,
+            label: (
+                <Link
+                    href={VitalityNavigationPaths.LOGIN}
+                    style={{ textDecoration: 'none' }}
+                >
+                    <Typography.Text>Login</Typography.Text>
+                </Link>
+            ),
+        },
+    ];
 };
