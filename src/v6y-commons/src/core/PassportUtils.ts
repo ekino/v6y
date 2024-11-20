@@ -1,24 +1,28 @@
 import jwt from 'jsonwebtoken';
+import { JwtPayload } from 'jsonwebtoken';
 import passport from 'passport';
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
+import { VerifiedCallback } from 'passport-jwt';
 
 import AccountProvider from '../database/AccountProvider.ts';
 import { AccountType } from '../types/AccountType.ts';
 import AppLogger from './AppLogger.ts';
 
-const SECRET_KEY = process.env.JWT_SECRET || 'temporaryToken'; // TODO: Remove this static tokens
+export const createJwtOptions = () => {
+    const SECRET_KEY = process.env.JWT_SECRET;
 
-if (SECRET_KEY === undefined) {
-    throw new Error('JWT_SECRET is not defined in the environment variables');
-}
+    if (SECRET_KEY === undefined) {
+        throw new Error('JWT_SECRET is not defined in the environment variables');
+    }
 
-const opts = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: SECRET_KEY,
+    return {
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        secretOrKey: SECRET_KEY,
+    };
 };
 
-passport.use(
-    new JwtStrategy(opts, async (jwtPayload, done) => {
+const createJwtStrategyVerify = () => {
+    return async (jwtPayload: JwtPayload, done: VerifiedCallback) => {
         try {
             // Vérifier si le token contient bien un _id ou email
             if (!jwtPayload._id) {
@@ -30,7 +34,7 @@ passport.use(
             });
 
             if (accountDetails) {
-                AppLogger.info(`[passport] Utilisateur trouvé : ${JSON.stringify(accountDetails)}`);
+                AppLogger.info(`[passport] Utilisateur trouvé : ${accountDetails._id}`);
                 return done(null, accountDetails);
             } else {
                 return done(null, false);
@@ -38,22 +42,29 @@ passport.use(
         } catch (error) {
             return done(error, false);
         }
-    }),
-);
+    };
+};
 
-export const passportAuthenticate = (request: Request) =>
-    new Promise((resolve) => {
-        passport.authenticate('jwt', { session: false }, (err: Error | null, user: unknown) => {
-            if (err || !user) {
-                AppLogger.info(`[ApolloServer] Not authenticated : ${err || 'No user found'}`);
-                resolve(null);
-            } else {
-                resolve(user);
-            }
-        })(request);
-    });
+passport.use(new JwtStrategy(createJwtOptions(), createJwtStrategyVerify()));
+
+export const passportAuthenticate = async (request: Request) => {
+    await passport.authenticate('jwt', { session: false }, (err: Error | null, user: unknown) => {
+        if (err || !user) {
+            AppLogger.info(`[ApolloServer] Not authenticated : ${err || 'No user found'}`);
+            return null;
+        } else {
+            return user;
+        }
+    })(request);
+};
 
 export const passportGenerateToken = (account: AccountType) => {
+    const SECRET_KEY = process.env.JWT_SECRET;
+
+    if (SECRET_KEY === undefined) {
+        throw new Error('JWT_SECRET is not defined in the environment variables');
+    }
+
     return jwt.sign({ _id: account._id, email: account.email }, SECRET_KEY);
 };
 

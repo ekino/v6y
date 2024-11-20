@@ -102,6 +102,7 @@ const loginAccount = async (_: unknown, params: { input: AccountLoginType }) => 
         if (!isPasswordMatch) {
             return null;
         }
+
         const token = passportGenerateToken(accountDetails);
 
         AppLogger.info(`[AccountMutations - loginAccount] login success : ${accountDetails._id}`);
