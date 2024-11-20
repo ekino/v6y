@@ -1,16 +1,11 @@
 import { EvolutionType } from '@v6y/commons';
-import dynamic from 'next/dynamic';
 import * as React from 'react';
 
-import VitalityLoader from '../../../../commons/components/VitalityLoader';
+import VitalityDynamicLoader from '../../../../commons/components/VitalityDynamicLoader';
 import VitalitySelectGrouperView from '../../../../commons/components/VitalitySelectGrouperView';
 import VitalityTerms from '../../../../commons/config/VitalityTerms';
 
-const VitalityLoading = () => <VitalityLoader />;
-
-const VitalityEvolutionStatusGrouper = dynamic(() => import('./VitalityEvolutionStatusGrouper'), {
-    loading: VitalityLoading,
-});
+const VitalityEvolutionStatusGrouper = VitalityDynamicLoader('./VitalityEvolutionStatusGrouper')
 
 const VitalityEvolutionBranchGrouper = ({ evolutions }: { evolutions: EvolutionType[] }) => {
     return (

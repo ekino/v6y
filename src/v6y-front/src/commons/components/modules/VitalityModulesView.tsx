@@ -1,21 +1,17 @@
 import { InfoCircleOutlined, PushpinOutlined } from '@ant-design/icons';
 import { Avatar, Button, Card, Divider, List, Space, Statistic, Typography } from 'antd';
-import dynamic from 'next/dynamic';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
 import { QUALITY_METRIC_ICONS, QUALITY_METRIC_STATUS } from '../../config/VitalityCommonConfig';
 import VitalityTerms from '../../config/VitalityTerms';
 import { VitalityModuleType, VitalityModulesProps } from '../../types/VitalityModulesProps';
-import VitalityLoader from '../VitalityLoader';
+import VitalityDynamicLoader from '../VitalityDynamicLoader';
 import VitalityModal from '../VitalityModal';
 import VitalityPaginatedList from '../VitalityPaginatedList';
 
-const VitalityLoading = () => <VitalityLoader />;
+const VitalityHelpView = VitalityDynamicLoader('../help/VitalityHelpView')
 
-const VitalityHelpView = dynamic(() => import('../help/VitalityHelpView'), {
-    loading: VitalityLoading,
-});
 
 const VitalityModulesView = ({ modules }: VitalityModulesProps) => {
     const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);

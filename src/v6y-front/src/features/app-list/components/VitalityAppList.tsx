@@ -8,22 +8,17 @@ import {
 } from '@/infrastructure/adapters/api/useQueryAdapter';
 import { ApplicationType } from '@v6y/commons';
 import { Col, Row } from 'antd';
-import dynamic from 'next/dynamic';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
 import VitalityLoadMoreList from '../../../commons/components/VitalityLoadMoreList';
-import VitalityLoader from '../../../commons/components/VitalityLoader';
+import VitalityDynamicLoader from '../../../commons/components/VitalityDynamicLoader';
 import VitalityAppInfos from '../../../commons/components/application-info/VitalityAppInfos';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import GetApplicationListByPageAndParams from '../api/getApplicationListByPageAndParams';
 
-const VitalityLoading = () => <VitalityLoader />;  
-
-const VitalityAppListHeader = dynamic(() => import('./VitalityAppListHeader'), {
-    loading: VitalityLoading,
-});
+const VitalityAppListHeader = VitalityDynamicLoader('./VitalityAppListHeader')
 
 let currentAppListPage = 0;
 
