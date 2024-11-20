@@ -9,7 +9,7 @@ import { AccountType } from '../types/AccountType.ts';
 import AppLogger from './AppLogger.ts';
 
 export const createJwtOptions = () => {
-    const SECRET_KEY = process.env.JWT_SECRET;
+    const SECRET_KEY = process.env.JWT_SECRET || 'default_secret_key';
 
     if (SECRET_KEY === undefined) {
         throw new Error('JWT_SECRET is not defined in the environment variables');
