@@ -48,7 +48,7 @@ describe('LighthouseUtils', () => {
             category: 'seo',
             status: auditStatus.success,
         } as AuditType;
-        expect(LighthouseUtils.isAuditPerformanceFailed(report2)).toBe(false);
+        expect(LighthouseUtils.isAuditPerformanceFailed(report3)).toBe(false);
     });
 
     it('should return true for failed accessibility audits', () => {
@@ -79,7 +79,7 @@ describe('LighthouseUtils', () => {
             category: 'seo',
             status: auditStatus.success,
         } as AuditType;
-        expect(LighthouseUtils.isAuditAccessibilityFailed(report2)).toBe(false);
+        expect(LighthouseUtils.isAuditAccessibilityFailed(report3)).toBe(false);
     });
 
     it('should return true for failed seo audits', () => {
