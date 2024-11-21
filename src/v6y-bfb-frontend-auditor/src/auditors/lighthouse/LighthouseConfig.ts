@@ -31,7 +31,7 @@ const PUPPETEER_PAGE_SETTINGS: WaitForOptions = {
 const LIGHTHOUSE_FLAGS: Flags = {
     logLevel: 'info',
     output: 'json',
-    onlyCategories: ['performance', 'accessibility'],
+    onlyCategories: ['performance', 'accessibility', 'seo'],
 };
 
 const DEVTOOLS_RTT_ADJUSTMENT_FACTOR = 3.75;

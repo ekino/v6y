@@ -52,6 +52,20 @@ describe('VitalityLighthouseReportsCategoryGrouper', () => {
                 explanation: 'Help Explanation 2',
             },
         },
+        {
+            type: 'SEO',
+            category: 'Category 3',
+            subCategory: 'Subcategory 3',
+            score: 30,
+            scoreUnit: 'points',
+            status: 'error',
+            auditHelp: {
+                category: 'Help Category 3',
+                title: 'Help Title 3',
+                description: 'Help Description 3',
+                explanation: 'Help Explanation 3',
+            },
+        },
     ];
 
     beforeEach(() => {
@@ -59,6 +73,7 @@ describe('VitalityLighthouseReportsCategoryGrouper', () => {
             groupedDataSource: {
                 'Category 1': [mockReports[0]],
                 'Category 2': [mockReports[1]],
+                'Category 3': [mockReports[2]],
             },
             selectedCriteria: { key: '', label: undefined, value: '' },
             criteriaGroups: [],
@@ -71,6 +86,7 @@ describe('VitalityLighthouseReportsCategoryGrouper', () => {
 
         expect(screen.getByText('Performance')).toBeInTheDocument();
         expect(screen.getByText('Accessibility')).toBeInTheDocument();
+        expect(screen.getByText('SEO')).toBeInTheDocument();
     });
 
     it('should render report details correctly', () => {
@@ -83,5 +99,9 @@ describe('VitalityLighthouseReportsCategoryGrouper', () => {
         // Check report 2 details
         expect(screen.getByText('Category: Category 2')).toBeInTheDocument();
         expect(screen.getByText('60')).toBeInTheDocument();
+
+        // Check report 3 details
+        expect(screen.getByText('Category: Category 3')).toBeInTheDocument();
+        expect(screen.getByText('30')).toBeInTheDocument();
     });
 });
