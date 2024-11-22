@@ -10,7 +10,7 @@ import VitalityDynamicLoader from '../VitalityDynamicLoader';
 import VitalityModal from '../VitalityModal';
 import VitalityPaginatedList from '../VitalityPaginatedList';
 
-const VitalityHelpView = VitalityDynamicLoader('../help/VitalityHelpView')
+const VitalityHelpView = VitalityDynamicLoader('VitalityHelpView')
 
 
 const VitalityModulesView = ({ modules }: VitalityModulesProps) => {

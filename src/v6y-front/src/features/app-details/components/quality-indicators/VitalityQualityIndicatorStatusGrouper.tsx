@@ -1,17 +1,11 @@
 import { KeywordType } from '@v6y/commons';
-import dynamic from 'next/dynamic';
 import * as React from 'react';
 
-import VitalityLoader from '../../../../commons/components/VitalityLoader';
+import VitalityDynamicLoader from '../../../../commons/components/VitalityDynamicLoader';
 import VitalityTabGrouperView from '../../../../commons/components/VitalityTabGrouperView';
 import { VitalityModuleType } from '../../../../commons/types/VitalityModulesProps';
 
-const VitalityModulesView = dynamic(
-    () => import('../../../../commons/components/modules/VitalityModulesView'),
-    {
-        loading: () => <VitalityLoader />,
-    },
-);
+const VitalityModulesView = VitalityDynamicLoader('VitalityModulesView')
 
 const VitalityQualityIndicatorStatusGrouper = ({ indicators }: { indicators: KeywordType[] }) => {
     return (

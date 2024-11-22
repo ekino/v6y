@@ -3,15 +3,15 @@
 import * as React from 'react';
 import VitalityDynamicLoader from '../../../commons/components/VitalityDynamicLoader';
 
-const VitalityGeneralInformationView = VitalityDynamicLoader('./infos/VitalityGeneralInformationView')
+const VitalityGeneralInformationView = VitalityDynamicLoader('VitalityGeneralInformationView')
 
-const VitalityAuditReportsView = VitalityDynamicLoader('./audit-reports/VitalityAuditReportsView')
+const VitalityAuditReportsView = VitalityDynamicLoader('VitalityAuditReportsView')
 
-const VitalityQualityIndicatorsView = VitalityDynamicLoader('./quality-indicators/VitalityQualityIndicatorsView')
+const VitalityQualityIndicatorsView = VitalityDynamicLoader('VitalityQualityIndicatorsView')
 
-const VitalityDependenciesView = VitalityDynamicLoader('./dependencies/VitalityDependenciesView')
+const VitalityDependenciesView = VitalityDynamicLoader('VitalityDependenciesView')
 
-const VitalityEvolutionsView = VitalityDynamicLoader('./evolutions/VitalityEvolutionsView')
+const VitalityEvolutionsView = VitalityDynamicLoader('VitalityEvolutionsView')
 
 const VitalityAppDetailsView = () => {
     return (

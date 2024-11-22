@@ -1,24 +1,13 @@
 import { AUDIT_REPORT_TYPES } from '@/commons/config/VitalityCommonConfig';
 import { AuditType } from '@v6y/commons';
-import dynamic from 'next/dynamic';
 import * as React from 'react';
 
-import VitalityLoader from '../../../../commons/components/VitalityLoader';
+import VitalityDynamicLoader from '../../../../commons/components/VitalityDynamicLoader';
 import VitalityTabGrouperView from '../../../../commons/components/VitalityTabGrouperView';
 
-const VitalityCodeStatusReportsBranchGrouper = dynamic(
-    () => import('./auditors/code-status/VitalityCodeStatusReportsBranchGrouper'),
-    {
-        loading: () => <VitalityLoader />,
-    },
-);
 
-const VitalityLighthouseReportsDeviceGrouper = dynamic(
-    () => import('./auditors/lighthouse/VitalityLighthouseReportsDeviceGrouper'),
-    {
-        loading: () => <VitalityLoader />,
-    },
-);
+const VitalityCodeStatusReportsBranchGrouper = VitalityDynamicLoader('VitalityCodeStatusReportsBranchGrouper')
+const VitalityLighthouseReportsDeviceGrouper = VitalityDynamicLoader('VitalityLighthouseReportsDeviceGrouper')
 
 const VitalityAuditReportsTypeGrouper = ({ auditReports }: { auditReports: AuditType[] }) => {
     return (

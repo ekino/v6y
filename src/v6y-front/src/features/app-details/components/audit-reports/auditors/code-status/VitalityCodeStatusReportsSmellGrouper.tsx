@@ -1,19 +1,13 @@
 import { AuditType } from '@v6y/commons';
 import { Card, Checkbox, Col, Row } from 'antd';
-import dynamic from 'next/dynamic';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import VitalityLoader from '../../../../../../commons/components/VitalityLoader';
+import VitalityDynamicLoader from '../../../../../../commons/components/VitalityDynamicLoader';
 import useDataGrouper from '../../../../../../commons/hooks/useDataGrouper';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';
 
-const VitalityModulesView = dynamic(
-    () => import('../../../../../../commons/components/modules/VitalityModulesView'),
-    {
-        loading: () => <VitalityLoader />,
-    },
-);
+const VitalityModulesView = VitalityDynamicLoader('VitalityModulesView')
 
 const VitalityCodeStatusReportsSmellGrouper = ({ reports }: { reports: AuditType[] }) => {
     const [selectedSmells, setSelectedSmells] = useState<string[]>();

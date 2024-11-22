@@ -18,7 +18,7 @@ import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import GetApplicationListByPageAndParams from '../api/getApplicationListByPageAndParams';
 
-const VitalityAppListHeader = VitalityDynamicLoader('./VitalityAppListHeader')
+const VitalityAppListHeader = VitalityDynamicLoader('VitalityAppListHeader');
 
 let currentAppListPage = 0;
 

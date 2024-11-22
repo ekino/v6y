@@ -1,16 +1,10 @@
 import { AuditType } from '@v6y/commons';
-import dynamic from 'next/dynamic';
 import * as React from 'react';
 
-import VitalityLoader from '../../../../../../commons/components/VitalityLoader';
+import VitalityDynamicLoader from '../../../../../../commons/components/VitalityDynamicLoader';
 import VitalityTabGrouperView from '../../../../../../commons/components/VitalityTabGrouperView';
 
-const VitalityLighthouseReportsCategoryGrouper = dynamic(
-    () => import('./VitalityLighthouseReportsCategoryGrouper'),
-    {
-        loading: () => <VitalityLoader />,
-    },
-);
+const VitalityLighthouseReportsCategoryGrouper = VitalityDynamicLoader('VitalityLighthouseReportsCategoryGrouper')
 
 const VitalityLighthouseReportsDeviceGrouper = ({ reports }: { reports: AuditType[] }) => {
     return (

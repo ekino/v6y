@@ -44,7 +44,7 @@ const VitalityAppListHeader = ({
 
     useEffect(() => {
         refetchAppsTotal?.();
-    }, [keywords, searchText]);
+    }, [keywords, searchText, refetchAppsTotal]);
 
     useEffect(() => {
         setAppsTotal(dataAppsTotal?.getApplicationTotalByParams || 0);

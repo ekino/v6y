@@ -5,7 +5,7 @@ import VitalityDynamicLoader from '../../../../commons/components/VitalityDynami
 import VitalitySelectGrouperView from '../../../../commons/components/VitalitySelectGrouperView';
 import VitalityTerms from '../../../../commons/config/VitalityTerms';
 
-const VitalityEvolutionStatusGrouper = VitalityDynamicLoader('./VitalityEvolutionStatusGrouper')
+const VitalityEvolutionStatusGrouper = VitalityDynamicLoader('VitalityEvolutionStatusGrouper')
 
 const VitalityEvolutionBranchGrouper = ({ evolutions }: { evolutions: EvolutionType[] }) => {
     return (
