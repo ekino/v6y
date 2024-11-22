@@ -8,9 +8,9 @@ import VitalitySearchBar from '../../../commons/components/VitalitySearchBar';
 import VitalityTerms from '../../../commons/config/VitalityTerms';
 
 
-const VitalityCheckableKeywords = VitalityDynamicLoader('../../../commons/components/indicators/VitalitySelectableIndicators')
+const VitalityCheckableKeywords = VitalityDynamicLoader('VitalitySelectableIndicators')
 
-const VitalityAppList = VitalityDynamicLoader('./VitalityAppList')
+const VitalityAppList = VitalityDynamicLoader('VitalityAppList')
 
 const VitalityAppListView = () => {
     return (
