@@ -47,15 +47,17 @@ const createJwtStrategyVerify = () => {
 
 passport.use(new JwtStrategy(createJwtOptions(), createJwtStrategyVerify()));
 
-export const passportAuthenticate = async (request: Request) => {
-    await passport.authenticate('jwt', { session: false }, (err: Error | null, user: unknown) => {
-        if (err || !user) {
-            AppLogger.info(`[ApolloServer] Not authenticated : ${err || 'No user found'}`);
-            return null;
-        } else {
-            return user;
-        }
-    })(request);
+export const passportAuthenticate = (request: Request): Promise<unknown> => {
+    return new Promise((resolve) => {
+        passport.authenticate('jwt', { session: false }, (err: Error | null, user: unknown) => {
+            if (err || !user) {
+                AppLogger.info(`[ApolloServer] Not authenticated : ${err || 'No user found'}`);
+                resolve(null);
+            } else {
+                resolve(user);
+            }
+        })(request);
+    });
 };
 
 export const passportGenerateToken = (account: AccountType) => {
