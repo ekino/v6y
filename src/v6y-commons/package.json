@@ -67,6 +67,7 @@
     "pg-hstore": "=2.3.4",
     "semver": "=7.6.3",
     "sequelize": "=6.37.3",
+    "sequelize-mock": "=0.10.2",
     "spdy": "=4.0.2",
     "superagent": "=8.1.2",
     "unixify": "=1.0.0",

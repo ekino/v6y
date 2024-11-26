@@ -416,6 +416,9 @@ importers:
       sequelize:
         specifier: '=6.37.3'
         version: 6.37.3(pg-hstore@2.3.4)(pg@8.12.0)
+      sequelize-mock:
+        specifier: '=0.10.2'
+        version: 0.10.2
       spdy:
         specifier: '=4.0.2'
         version: 4.0.2
@@ -3529,6 +3532,9 @@ packages:
 
   blob@0.0.5:
     resolution: {integrity: sha512-gaqbzQPqOoamawKg0LGVd7SzLgXS+JH61oWprSLH+P+abTczqJbhTR8CmJ2u9/bUYNmHTGJx/UEmn6doAvvuig==}
+
+  bluebird@3.7.2:
+    resolution: {integrity: sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==}
 
   bnf-parser@3.1.6:
     resolution: {integrity: sha512-3x0ECh6CghmcAYnY6uiVAOfl263XkWffDq5fQS20ac3k0U7TE5rTWNXTnOTckgmfZc94iharwqCyoV8OAYxYoA==}
@@ -7650,6 +7656,9 @@ packages:
   send@0.18.0:
     resolution: {integrity: sha512-qqWzuOjSFOuqPjFe4NOsMLafToQQwBSOEpS+FwEt3A2V3vKubTquT3vmLTQpFgMXp8AlFWFuP1qKaJZOtPpVXg==}
     engines: {node: '>= 0.8.0'}
+
+  sequelize-mock@0.10.2:
+    resolution: {integrity: sha512-Vu95by/Bmhcx9PHKlZe+w7/7zw1AycV/SeevxQ5lDokAb50H7Kaf2SkjK5mqKxHWX6y/ICZ8JEfyMOg0nd1M2w==}
 
   sequelize-pool@7.1.0:
     resolution: {integrity: sha512-G9c0qlIWQSK29pR/5U2JF5dDQeqqHRragoyahj/Nx4KOOQ3CPPfzxnfqFPCSB7x5UgjOgnZ61nSxz+fjDpRlJg==}
@@ -12420,6 +12429,8 @@ snapshots:
   blessed@0.1.81: {}
 
   blob@0.0.5: {}
+
+  bluebird@3.7.2: {}
 
   bnf-parser@3.1.6: {}
 
@@ -17436,6 +17447,12 @@ snapshots:
       statuses: 2.0.1
     transitivePeerDependencies:
       - supports-color
+
+  sequelize-mock@0.10.2:
+    dependencies:
+      bluebird: 3.7.2
+      inflection: 1.13.4
+      lodash: 4.17.21
 
   sequelize-pool@7.1.0: {}
 
