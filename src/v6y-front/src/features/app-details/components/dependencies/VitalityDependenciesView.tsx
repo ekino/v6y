@@ -2,21 +2,17 @@ import { exportAppDependenciesToCSV } from '@/commons/utils/VitalityDataExportUt
 import { buildClientQuery, useClientQuery } from '@/infrastructure/adapters/api/useQueryAdapter';
 import { ProductOutlined } from '@ant-design/icons';
 import { DependencyType } from '@v6y/commons';
-import dynamic from 'next/dynamic';
 import * as React from 'react';
 
-import VitalityLoader from '../../../../commons/components/VitalityLoader';
+import VitalityDynamicLoader from '../../../../commons/components/VitalityDynamicLoader';
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
 import VitalityTerms from '../../../../commons/config/VitalityTerms';
 import useNavigationAdapter from '../../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import GetApplicationDetailsDependenciesByParams from '../../api/getApplicationDetailsDependenciesByParams';
 
-const VitalityDependenciesBranchGrouper = dynamic(
-    () => import('./VitalityDependenciesBranchGrouper'),
-    {
-        loading: () => <VitalityLoader />,
-    },
+const VitalityDependenciesBranchGrouper = VitalityDynamicLoader(
+    () => import('./VitalityDependenciesBranchGrouper')
 );
 
 interface VitalityDependenciesQueryType {

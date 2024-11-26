@@ -1,16 +1,12 @@
 import { DependencyType } from '@v6y/commons';
-import dynamic from 'next/dynamic';
 import * as React from 'react';
 
-import VitalityLoader from '../../../../commons/components/VitalityLoader';
+import VitalityDynamicLoader from '../../../../commons/components/VitalityDynamicLoader';
 import VitalitySelectGrouperView from '../../../../commons/components/VitalitySelectGrouperView';
 import VitalityTerms from '../../../../commons/config/VitalityTerms';
 
-const VitalityDependenciesStatusGrouper = dynamic(
-    () => import('./VitalityDependenciesStatusGrouper'),
-    {
-        loading: () => <VitalityLoader />,
-    },
+const VitalityDependenciesStatusGrouper = VitalityDynamicLoader(
+    () => import('./VitalityDependenciesStatusGrouper')
 );
 
 const VitalityDependenciesBranchGrouper = ({

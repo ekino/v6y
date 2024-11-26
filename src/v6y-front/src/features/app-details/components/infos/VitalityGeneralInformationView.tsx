@@ -2,21 +2,17 @@ import { exportAppDetailsDataToCSV } from '@/commons/utils/VitalityDataExportUti
 import { buildClientQuery, useClientQuery } from '@/infrastructure/adapters/api/useQueryAdapter';
 import { InfoOutlined } from '@ant-design/icons';
 import { ApplicationType } from '@v6y/commons';
-import dynamic from 'next/dynamic';
 import * as React from 'react';
 
-import VitalityLoader from '../../../../commons/components/VitalityLoader';
+import VitalityDynamicLoader from '../../../../commons/components/VitalityDynamicLoader';
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
 import VitalityTerms from '../../../../commons/config/VitalityTerms';
 import useNavigationAdapter from '../../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import GetApplicationDetailsInfosByParams from '../../api/getApplicationDetailsInfosByParams';
 
-const VitalityAppInfos = dynamic(
-    () => import('../../../../commons/components/application-info/VitalityAppInfos'),
-    {
-        loading: () => <VitalityLoader />,
-    },
+const VitalityAppInfos = VitalityDynamicLoader(
+    () => import('../../../../commons/components/application-info/VitalityAppInfos')
 );
 
 interface VitalityGeneralInformationQueryType {

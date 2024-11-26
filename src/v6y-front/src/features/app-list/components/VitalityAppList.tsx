@@ -8,20 +8,17 @@ import {
 } from '@/infrastructure/adapters/api/useQueryAdapter';
 import { ApplicationType } from '@v6y/commons';
 import { Col, Row } from 'antd';
-import dynamic from 'next/dynamic';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
 import VitalityLoadMoreList from '../../../commons/components/VitalityLoadMoreList';
-import VitalityLoader from '../../../commons/components/VitalityLoader';
+import VitalityDynamicLoader from '../../../commons/components/VitalityDynamicLoader';
 import VitalityAppInfos from '../../../commons/components/application-info/VitalityAppInfos';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import GetApplicationListByPageAndParams from '../api/getApplicationListByPageAndParams';
 
-const VitalityAppListHeader = dynamic(() => import('./VitalityAppListHeader'), {
-    loading: () => <VitalityLoader />,
-});
+const VitalityAppListHeader = VitalityDynamicLoader(() => import('./VitalityAppListHeader'));
 
 let currentAppListPage = 0;
 
@@ -75,7 +72,7 @@ const VitalityAppList = ({ source }: { source?: string }) => {
     useEffect(() => {
         currentAppListPage = 0;
         fetchAppListNextPage?.();
-    }, [keywords, searchText]);
+    }, [keywords, searchText, fetchAppListNextPage]);
 
     const isAppListLoading =
         appListFetchStatus === 'loading' || isAppListFetching || isAppListFetchingNextPage || false;

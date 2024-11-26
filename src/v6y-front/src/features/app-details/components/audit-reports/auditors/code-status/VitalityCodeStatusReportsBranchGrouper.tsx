@@ -1,17 +1,13 @@
 import { AuditType } from '@v6y/commons';
-import dynamic from 'next/dynamic';
 import * as React from 'react';
 
-import VitalityLoader from '../../../../../../commons/components/VitalityLoader';
+import VitalityDynamicLoader from '../../../../../../commons/components/VitalityDynamicLoader';
 import VitalitySelectGrouperView from '../../../../../../commons/components/VitalitySelectGrouperView';
 import VitalityTerms from '../../../../../../commons/config/VitalityTerms';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';
 
-const VitalityCodeStatusReportsSmellGrouper = dynamic(
-    () => import('./VitalityCodeStatusReportsSmellGrouper'),
-    {
-        loading: () => <VitalityLoader />,
-    },
+const VitalityCodeStatusReportsSmellGrouper = VitalityDynamicLoader(
+    () => import('./VitalityCodeStatusReportsSmellGrouper')
 );
 
 const VitalityCodeStatusReportsBranchGrouper = ({ reports }: { reports: AuditType[] }) => {
