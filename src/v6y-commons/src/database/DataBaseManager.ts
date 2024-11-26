@@ -4,6 +4,7 @@ import AppLogger from '../core/AppLogger.ts';
 import AuditHelpProvider from './AuditHelpProvider.ts';
 import DependencyStatusHelpProvider from './DependencyStatusHelpProvider.ts';
 import EvolutionHelpProvider from './EvolutionHelpProvider.ts';
+import AccountModel from './models/AccountModel.ts';
 import ApplicationModel from './models/ApplicationModel.ts';
 import AuditHelpModel from './models/AuditHelpModel.ts';
 import AuditModel from './models/AuditModel.ts';
@@ -77,7 +78,7 @@ const registerModels = async () => {
     if (!postgresDataBase) {
         return;
     }
-
+    AccountModel(postgresDataBase);
     ApplicationModel(postgresDataBase);
     AuditModel(postgresDataBase);
     DependencyModel(postgresDataBase);

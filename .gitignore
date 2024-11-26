@@ -139,4 +139,5 @@ database/psql/**
 **/jest-cache/**
 **/jest-stare/**
 **/v6y-logs/**
+.vscode/
 **/coverage**

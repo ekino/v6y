@@ -2,12 +2,14 @@ import RepositoryApi from './apis/RepositoryApi.ts';
 import AppLogger from './core/AppLogger.ts';
 import AuditUtils from './core/AuditUtils.ts';
 import Matcher from './core/Matcher.ts';
+import PasswordUtils from './core/PasswordUtils.ts';
 import PerformancesUtils from './core/PerformancesUtils.ts';
 import SemverUtils from './core/SemverUtils.ts';
 import ServerUtils from './core/ServerUtils.ts';
 import StringUtils from './core/StringUtils.ts';
 import WorkerHelper from './core/WorkerHelper.ts';
 import ZipUtils from './core/ZipUtils.ts';
+import AccountProvider from './database/AccountProvider.ts';
 import ApplicationProvider from './database/ApplicationProvider.ts';
 import AuditHelpProvider from './database/AuditHelpProvider.ts';
 import AuditProvider from './database/AuditProvider.ts';
@@ -26,6 +28,9 @@ export * from './config/AuditHelpConfig.ts';
 export * from './config/CodeSmellConfig.ts';
 export * from './config/DependencyStatusHelpConfig.ts';
 
+export * from './core/PassportUtils.ts';
+
+export * from './types/AccountType.ts';
 export * from './types/ApplicationType.ts';
 export * from './types/AuditHelpType.ts';
 export * from './types/AuditType.ts';
@@ -45,6 +50,7 @@ export * from './types/LinkType.ts';
 export {
     AppLogger,
     Matcher,
+    PasswordUtils,
     PerformancesUtils,
     SemverUtils,
     StringUtils,
@@ -58,6 +64,7 @@ export {
     AuditProvider,
     AuditHelpProvider,
     FaqProvider,
+    AccountProvider,
     NotificationProvider,
     EvolutionProvider,
     EvolutionHelpProvider,
