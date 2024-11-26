@@ -1,4 +1,4 @@
-import { HttpError, useParsed } from '@refinedev/core';
+import { useParsed } from '@refinedev/core';
 import { FaqType } from '@v6y/commons';
 import { Typography } from 'antd';
 import * as React from 'react';
@@ -26,8 +26,11 @@ export default function VitalityFaqDetailsView() {
                     _id: parseInt(id as string, 10),
                 },
             }}
-            renderShowView={({ data, error }: { data: FaqType; error: HttpError }) => (
-                <VitalityDetailsView details={formatFaqDetails(translate, data)} error={error} />
+            renderShowView={({ data, error }) => (
+                <VitalityDetailsView
+                    details={formatFaqDetails(translate, data as FaqType)}
+                    error={error}
+                />
             )}
         />
     );

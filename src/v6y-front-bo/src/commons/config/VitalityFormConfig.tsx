@@ -215,7 +215,7 @@ export const applicationCreateOrEditFormInAdapter = (params: ApplicationType) =>
 });
 
 export const applicationCreateOrEditFormOutputAdapter = (data: unknown): Variables => {
-    const params = data as Record<string, string>;
+    const params = data as Record<string, unknown>;
     return {
         applicationInput: {
             _id: params?.['_id'],
@@ -316,7 +316,7 @@ export const faqCreateOrEditFormInAdapter = (params: Record<string, unknown>) =>
     'faq-optional-link-3': (params?.['links'] as Array<LinkOptions>)?.[2]?.value,
 });
 
-export const faqCreateOrEditFormOutputAdapter = (params: Record<string, string>) => ({
+export const faqCreateOrEditFormOutputAdapter = (params: Record<string, unknown>) => ({
     faqInput: {
         _id: params?.['_id'],
         title: params?.['faq-title'],
@@ -325,7 +325,7 @@ export const faqCreateOrEditFormOutputAdapter = (params: Record<string, string>)
             params?.['faq-optional-link-1'],
             params?.['faq-optional-link-2'],
             params?.['faq-optional-link-3'],
-        ]?.filter((item) => item?.length),
+        ]?.filter((item) => (item as string)?.length),
     },
 });
 
@@ -340,7 +340,7 @@ export const notificationCreateOrEditFormInAdapter = (params: Record<string, unk
     };
 };
 
-export const notificationCreateOrEditFormOutputAdapter = (params: Record<string, string>) => {
+export const notificationCreateOrEditFormOutputAdapter = (params: Record<string, unknown>) => {
     return {
         notificationInput: {
             _id: params?.['_id'],
@@ -350,7 +350,7 @@ export const notificationCreateOrEditFormOutputAdapter = (params: Record<string,
                 params?.['notification-optional-link-1'],
                 params?.['notification-optional-link-2'],
                 params?.['notification-optional-link-3'],
-            ]?.filter((item) => item?.length),
+            ]?.filter((item) => (item as string)?.length),
         },
     };
 };
@@ -532,7 +532,7 @@ export const evolutionHelpCreateOrEditFormInAdapter = (params: Record<string, un
     'evolution-help-optional-link-3': (params?.['links'] as Array<LinkOptions>)?.[2]?.value,
 });
 
-export const evolutionHelpCreateOrEditFormOutputAdapter = (params: Record<string, string>) => {
+export const evolutionHelpCreateOrEditFormOutputAdapter = (params: Record<string, unknown>) => {
     return {
         evolutionHelpInput: {
             _id: params?.['_id'],
@@ -544,7 +544,7 @@ export const evolutionHelpCreateOrEditFormOutputAdapter = (params: Record<string
                 params?.['evolution-help-optional-link-1'],
                 params?.['evolution-help-optional-link-2'],
                 params?.['evolution-help-optional-link-3'],
-            ]?.filter((item) => item?.length),
+            ]?.filter((item) => (item as string)?.length),
         },
     };
 };
@@ -608,7 +608,7 @@ export const auditHelpCreateEditItems = (translate: TranslateType) => {
     ];
 };
 
-export const auditHelpCreateOrEditFormInAdapter = (params: Record<string, string>) => ({
+export const auditHelpCreateOrEditFormInAdapter = (params: Record<string, unknown>) => ({
     _id: params?._id,
     'audit-help-category': params?.['category'],
     'audit-help-title': params?.['title'],
@@ -616,7 +616,7 @@ export const auditHelpCreateOrEditFormInAdapter = (params: Record<string, string
     'audit-help-explanation': params?.['explanation'],
 });
 
-export const auditHelpCreateOrEditFormOutputAdapter = (params: Record<string, string>) => ({
+export const auditHelpCreateOrEditFormOutputAdapter = (params: Record<string, unknown>) => ({
     auditHelpInput: {
         _id: params?.['_id'],
         category: params?.['audit-help-category'],
@@ -689,7 +689,7 @@ export const dependencyStatusHelpCreateEditItems = (translate: TranslateType) =>
     ];
 };
 
-export const dependencyStatusHelpCreateOrEditFormInAdapter = (params: Record<string, string>) => ({
+export const dependencyStatusHelpCreateOrEditFormInAdapter = (params: Record<string, unknown>) => ({
     _id: params?._id,
     'dependency-status-help-category': params?.['category'],
     'dependency-status-help-title': params?.['title'],
@@ -697,7 +697,7 @@ export const dependencyStatusHelpCreateOrEditFormInAdapter = (params: Record<str
 });
 
 export const dependencyStatusHelpCreateOrEditFormOutputAdapter = (
-    params: Record<string, string>,
+    params: Record<string, unknown>,
 ) => ({
     dependencyStatusHelpInput: {
         _id: params?.['_id'],
@@ -740,13 +740,13 @@ export const deprecatedDependencyCreateEditItems = (translate: TranslateType) =>
     ];
 };
 
-export const deprecatedDependencyCreateOrEditFormInAdapter = (params: Record<string, string>) => ({
+export const deprecatedDependencyCreateOrEditFormInAdapter = (params: Record<string, unknown>) => ({
     _id: params?._id,
     'deprecated-dependency-name': params?.['name'],
 });
 
 export const deprecatedDependencyCreateOrEditFormOutputAdapter = (
-    params: Record<string, string>,
+    params: Record<string, unknown>,
 ) => ({
     deprecatedDependencyInput: {
         _id: params?.['_id'],

@@ -1,4 +1,5 @@
 import { useParsed } from '@refinedev/core';
+import { NotificationType } from '@v6y/commons/src';
 import { Typography } from 'antd';
 import * as React from 'react';
 
@@ -29,7 +30,7 @@ export default function VitalityNotificationDetailsView() {
             }}
             renderShowView={({ data, error }) => (
                 <VitalityDetailsView
-                    details={formatNotificationDetails(translate, data)}
+                    details={formatNotificationDetails(translate, data as NotificationType)}
                     error={error}
                 />
             )}

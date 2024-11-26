@@ -23,20 +23,14 @@ const startFrontendStaticAudit = async ({ applicationId, workspaceFolder }: Audi
             ...currentConfig,
             applicationId,
             workspaceFolder,
-        };
+        } as WorkerOptions;
 
-        await forkWorker(
-            './src/workers/CodeQualityAnalysisWorker.ts',
-            workerConfig as WorkerOptions,
-        );
+        await forkWorker('./src/workers/CodeQualityAnalysisWorker.ts', workerConfig);
         AppLogger.info(
             '[FrontendAuditorManager - startFrontendStaticAudit] CodeQuality Audit have completed successfully.',
         );
 
-        await forkWorker(
-            './src/workers/DependenciesAnalysisWorker.ts',
-            workerConfig as WorkerOptions,
-        );
+        await forkWorker('./src/workers/DependenciesAnalysisWorker.ts', workerConfig);
         AppLogger.info(
             '[FrontendAuditorManager - startFrontendStaticAudit] Dependencies Audit have completed successfully.',
         );

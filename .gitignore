@@ -139,6 +139,6 @@ database/psql/**
 **/jest-cache/**
 **/jest-stare/**
 **/v6y-logs/**
-
 .vscode/
 .DS_Store
+**/coverage**

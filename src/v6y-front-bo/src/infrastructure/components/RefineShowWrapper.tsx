@@ -13,6 +13,8 @@ export default function RefineShowWrapper({
 }: FormShowOptions) {
     const { query } = useShow({
         queryOptions: {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             enabled: queryOptions?.enabled || true,
             queryKey: [queryOptions?.resource, queryOptions?.queryParams],
             queryFn: async (): Promise<GetOneResponse<BaseRecord>> =>

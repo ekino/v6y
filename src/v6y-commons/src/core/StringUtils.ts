@@ -7,14 +7,14 @@ import AppLogger from './AppLogger.ts';
  */
 const encodeBase64 = (value: string): string => {
     try {
-        if (value && value.length) {
+        if (value?.length) {
             const valueBuffer = Buffer.from(value);
             return valueBuffer ? valueBuffer.toString('base64') : '';
         }
         return '';
     } catch (error) {
-        // @ts-expect-error TS(2571): Object is of type 'unknown'.
-        AppLogger.info(`[encodeBase64] error: ${error.message}`);
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        AppLogger.info(`[encodeBase64] error: ${errorMessage}`);
         return '';
     }
 };
@@ -26,14 +26,14 @@ const encodeBase64 = (value: string): string => {
  */
 const decodeBase64 = (value: string): string => {
     try {
-        if (value && value.length) {
+        if (value?.length) {
             const valueBuffer = Buffer.from(value, 'base64');
             return valueBuffer ? valueBuffer.toString('ascii') : '';
         }
         return '';
     } catch (error) {
-        // @ts-expect-error TS(2571): Object is of type 'unknown'.
-        AppLogger.info(`[decodeBase64] error: ${error.message}`);
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        AppLogger.info(`[decodeBase64] error: ${errorMessage}`);
         return '';
     }
 };

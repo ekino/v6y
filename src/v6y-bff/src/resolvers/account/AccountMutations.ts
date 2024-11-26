@@ -198,7 +198,7 @@ const deleteAccount = async (
         }
 
         await AccountProvider.deleteAccount({ _id: accountId });
-
+        AppLogger.info(`[AccountMutations - deleteAccount] deleted account : ${accountId}`);
         return {
             _id: accountId,
         };

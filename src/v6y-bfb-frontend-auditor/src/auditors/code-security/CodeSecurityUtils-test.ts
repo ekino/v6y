@@ -1,12 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AuditUtils, auditStatus } from '@v6y/commons';
-import { describe, expect, it, vi } from 'vitest';
+import { Mock, describe, expect, it, vi } from 'vitest';
 
 import { AuditCommonsType } from '../types/AuditCommonsType.ts';
 import CodeSecurityUtils from './CodeSecurityUtils.ts';
 
 vi.mock('@v6y/commons', async () => {
-    const actualModule = (await vi.importActual('@v6y/commons')) as typeof import('@v6y/commons');
+    const actualModule = await vi.importActual('@v6y/commons');
 
     return {
         ...actualModule,
@@ -25,7 +24,7 @@ describe('CodeSecurityUtils.formatCodeModularityReports', () => {
     });
 
     it('should return an empty array when no files are found', async () => {
-        (AuditUtils.getFiles as any).mockReturnValue({ files: [], basePath: '/base' });
+        (AuditUtils.getFiles as Mock).mockReturnValue({ files: [], basePath: '/base' });
 
         const result = await CodeSecurityUtils.formatCodeModularityReports({
             application: {},
@@ -36,16 +35,16 @@ describe('CodeSecurityUtils.formatCodeModularityReports', () => {
     });
 
     it('should generate security audit reports when non-compliant files are found', async () => {
-        (AuditUtils.getFiles as any).mockReturnValue({
+        (AuditUtils.getFiles as Mock).mockReturnValue({
             files: ['file1.js', 'file2.ts'],
             basePath: '/base',
         });
 
-        (AuditUtils.parseFile as any)
+        (AuditUtils.parseFile as Mock)
             .mockReturnValueOnce({ source: ['some code', 'eval();'] })
             .mockReturnValueOnce({ source: ['other code'] });
 
-        (AuditUtils.isNonCompliantFile as any)
+        (AuditUtils.isNonCompliantFile as Mock)
             .mockResolvedValueOnce(true) // Non-compliant for the first file
             .mockResolvedValueOnce(false) // Compliant for the second file
             .mockResolvedValueOnce(false) // Compliant for the first file (second anti-pattern)
@@ -77,7 +76,7 @@ describe('CodeSecurityUtils.formatCodeModularityReports', () => {
     });
 
     it('should handle errors gracefully', async () => {
-        (AuditUtils.getFiles as any).mockImplementationOnce(() => {
+        (AuditUtils.getFiles as Mock).mockImplementationOnce(() => {
             throw new Error('Some error');
         });
 

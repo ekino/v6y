@@ -29,6 +29,13 @@ const isAuditAccessibilityFailed = (report: AuditType) =>
     report.category === 'accessibility' && isAuditFailed(report.status);
 
 /**
+ * Check if the audit is seo and failed
+ * @param report
+ */
+const isAuditSeoFailed = (report: AuditType) =>
+    report.category === 'seo' && isAuditFailed(report.status);
+
+/**
  * Format the audit category
  * @param auditCategory
  */
@@ -228,7 +235,7 @@ const parseLighthouseAuditReport = (
             return null;
         }
 
-        const { performance, accessibility } = categories || {};
+        const { performance, accessibility, seo } = categories || {};
 
         AppLogger.info(
             `[LighthouseUtils - parseLighthouseAuditReport] performance:  ${Object.keys(
@@ -240,8 +247,11 @@ const parseLighthouseAuditReport = (
                 accessibility,
             )?.join?.(',')}`,
         );
+        AppLogger.info(
+            `[LighthouseUtils - parseLighthouseAuditReport] seo:  ${Object.keys(seo)?.join?.(',')}`,
+        );
 
-        const auditCategories = [performance, accessibility]
+        const auditCategories = [performance, accessibility, seo]
             .map(formatAuditCategory)
             .filter(Boolean);
 
@@ -340,6 +350,7 @@ const LighthouseUtils = {
     formatAuditMetric,
     isAuditPerformanceFailed,
     isAuditAccessibilityFailed,
+    isAuditSeoFailed,
 };
 
 export default LighthouseUtils;

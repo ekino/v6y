@@ -49,11 +49,31 @@ const buildSearchQuery = async ({
  */
 const createAccount = async (account: AccountInputType) => {
     try {
+        AppLogger.info(`[AccountProvider - createAccount] account username: ${account?.username}`);
+        AppLogger.info(`[AccountProvider - createAccount] account role: ${account?.role}`);
+        AppLogger.info(
+            `[AccountProvider - createAccount] account apps: ${account?.applications?.length}`,
+        );
+
+        // Check mandatory fields
+        if (
+            !account?.username ||
+            !account?.password ||
+            !account?.role ||
+            !account?.applications?.length
+        ) {
+            AppLogger.info(`[AccountProvider - createAccount] Missing mandatory fields`);
+            return null;
+        }
+
         const createdAccount = (await AccountModelType.create(account))?.dataValues;
+
         AppLogger.info(`[AccountProvider - createAccount] createdAccount: ${createdAccount._id}`);
+
         return createdAccount;
     } catch (error) {
         AppLogger.info(`[AccountProvider - createAccount] error:  ${error}`);
+
         return null;
     }
 };
@@ -64,7 +84,20 @@ const createAccount = async (account: AccountInputType) => {
  */
 const editAccount = async (account: AccountInputType) => {
     try {
-        if (!account?._id || !account?.username?.length) {
+        AppLogger.info(`[AccountProvider - editAccount] account id: ${account?._id}`);
+        AppLogger.info(`[AccountProvider - editAccount] account username: ${account?.username}`);
+        AppLogger.info(`[AccountProvider - editAccount] account role: ${account?.role}`);
+        AppLogger.info(
+            `[AccountProvider - editAccount] account apps: ${account?.applications?.length}`,
+        );
+
+        if (
+            !account?._id ||
+            !account?.username?.length ||
+            !account?.role ||
+            !account?.applications?.length
+        ) {
+            AppLogger.info(`[AccountProvider - editAccount] Missing mandatory fields`);
             return null;
         }
 
@@ -74,7 +107,7 @@ const editAccount = async (account: AccountInputType) => {
             },
         });
 
-        AppLogger.info(`[AccountProvider - editFaq] editedAccount: ${editedAccount?.[0]}`);
+        AppLogger.info(`[AccountProvider - editAccount] editedAccount: ${editedAccount?.[0]}`);
 
         return {
             _id: account?._id,
@@ -133,6 +166,8 @@ const updateAccountPassword = async ({ _id, password }: AccountUpdatePasswordTyp
  */
 const deleteAccount = async ({ _id }: AccountType) => {
     try {
+        AppLogger.info(`[AccountProvider - deleteAccount] _id: ${_id}`);
+
         if (!_id) {
             return null;
         }
@@ -142,6 +177,8 @@ const deleteAccount = async ({ _id }: AccountType) => {
                 _id,
             },
         });
+
+        AppLogger.info(`[AccountProvider - deleteAccount] deleted account: ${_id}`);
 
         return {
             _id,
@@ -171,10 +208,12 @@ const getAccountDetailsByParams = async ({ _id, email }: { _id?: number; email?:
         });
 
         if (!accountDetails) {
+            AppLogger.info(`[AccountProvider - getAccountDetailsByParams] account not found`);
             return null;
         }
 
         AppLogger.info(
+            `[AccountProvider - getAccountDetailsByParams] account found, accountDetails: ${accountDetails._id}`,
             `[AccountProvider - getAccountDetailsByParams] accountDetails: ${accountDetails.dataValues._id}`,
         );
 
@@ -219,6 +258,7 @@ const getAccountListByPageAndParams = async ({
         AppLogger.info(
             `[AccountProvider - getAccountListByPageAndParams] accountList: ${accounts?.length}`,
         );
+
         return accounts?.map((item) => item?.dataValues) || [];
     } catch (error) {
         AppLogger.error(`[AccountProvider - getAccountListByPageAndParams] error:  ${error}`);
