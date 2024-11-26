@@ -6,6 +6,9 @@ const withBundleAnalyzer = BundleAnalyzer({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    experimental: {
+        missingSuspenseWithCSRBailout: false,
+    },
     async redirects() {
         return [
             {

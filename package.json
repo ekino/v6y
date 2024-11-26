@@ -17,6 +17,7 @@
     "lint": "nx run-many --target=lint --all",
     "lint:fix": "nx run-many --target=lint:fix --all --verbose",
     "format": "nx run-many --target=format --all",
+    "ts-coverage": "typescript-coverage-report",
     "test": "nx run-many --target=test --all",
     "nx:reset": "nx reset",
     "nx:analyze:graph": "nx graph",
@@ -26,7 +27,8 @@
   },
   "devDependencies": {
     "husky": "=9.1.4",
-    "nx": "=19.3.0"
+    "nx": "=19.3.0",
+    "typescript-coverage-report": "^1.0.0"
   },
   "workspaces": [
     "src/**"
