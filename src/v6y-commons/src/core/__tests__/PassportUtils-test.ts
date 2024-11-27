@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 // PassportUtils.tests.ts
 import { Mock, describe, expect, it, vi } from 'vitest';
 
@@ -113,5 +114,59 @@ describe('PassportUtils', () => {
         const result = await PassportUtils.passportAuthenticate(request);
 
         expect(result).toEqual(account);
+    });
+
+    it('should return true if the user is ADMIN, false otherwise', () => {
+        const accountAdmin = {
+            _id: 15,
+            email: 'admin@admin.admin',
+            role: 'ADMIN',
+            applications: [1, 2, 3],
+        };
+
+        const accountSuperAdmin = {
+            _id: 15,
+            email: 'superadmin@superadmin.superadmin',
+            role: 'SUPERADMIN',
+            applications: [1, 2, 3],
+        };
+
+        const accountUser = {
+            _id: 15,
+            email: 'user@user.user',
+            role: 'USER',
+            applications: [1, 2, 3],
+        };
+
+        expect(PassportUtils.isAdmin(accountAdmin)).toBe(true);
+        expect(PassportUtils.isAdmin(accountSuperAdmin)).toBe(false);
+        expect(PassportUtils.isAdmin(accountUser)).toBe(false);
+    });
+
+    it('should return true if the user is SUPERADMIN, false otherwise', () => {
+        const accountAdmin = {
+            _id: 15,
+            email: 'admin@admin.admin',
+            role: 'ADMIN',
+            applications: [1, 2, 3],
+        };
+
+        const accountSuperAdmin = {
+            _id: 15,
+            email: 'superadmin@superadmin.superadmin',
+            role: 'SUPERADMIN',
+            applications: [1, 2, 3],
+        };
+
+        const accountUser = {
+            _id: 15,
+            email: 'user@user.user',
+            role: 'USER',
+            applications: [1, 2, 3],
+        };
+
+        expect(PassportUtils.isSuperAdmin(accountAdmin)).toBe(false);
+        expect(PassportUtils.isSuperAdmin(accountSuperAdmin)).toBe(true);
+        expect(PassportUtils.isSuperAdmin(accountUser)).toBe(false);
     });
 });
