@@ -1,17 +1,17 @@
 import { redirect } from 'next/navigation';
 import * as React from 'react';
 
-import { VitalityAuthUpdatePasswordView } from '../../features/v6y-auth/VitalityAuthUpdatePasswordView';
+import { VitalityAuthForgotPasswordView } from '../../features/v6y-auth/VitalityAuthForgotPasswordView';
 import { AuthServerProvider } from '../../infrastructure/providers/AuthServerProvider';
 
-export default async function UpdatePassword() {
+export default async function ForgotPassword() {
     const data = await getData();
 
-    if (!data.authenticated) {
-        redirect(data?.redirectTo || '/login');
+    if (data.authenticated) {
+        redirect(data?.redirectTo || '/');
     }
 
-    return <VitalityAuthUpdatePasswordView />;
+    return <VitalityAuthForgotPasswordView />;
 }
 
 async function getData() {

@@ -76,11 +76,4 @@ export const VitalityRoutes = [
             canDelete: true,
         },
     },
-    {
-        name: "updatePassword",
-        list: "/update-password",
-        meta: {
-            canDelete: false
-        }
-    }
 ];
