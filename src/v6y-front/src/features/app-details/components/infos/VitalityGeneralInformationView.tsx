@@ -24,6 +24,7 @@ const VitalityGeneralInformationView = ({}) => {
     const { getUrlParams } = useNavigationAdapter();
     const [_id] = getUrlParams(['_id']);
 
+    
     const {
         isLoading: isAppDetailsInfosLoading,
         data: appDetailsInfos,
@@ -40,6 +41,7 @@ const VitalityGeneralInformationView = ({}) => {
     });
 
     const appInfos = appDetailsInfos?.getApplicationDetailsInfoByParams;
+    console.log(appInfos, isAppDetailsInfosLoading )
 
     const onExportClicked = () => {
         exportAppDetailsDataToCSV(appInfos as ApplicationType);

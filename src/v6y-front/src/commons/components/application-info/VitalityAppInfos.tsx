@@ -20,6 +20,8 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
     const appRepository = app.repo;
     const appOpenedBranches = app.repo?.allBranches?.length || 0;
 
+    console.log({app, source, canOpenDetails})
+
     return (
         <List.Item style={{ marginTop: '1rem', ...(style || {}) }}>
             <List.Item.Meta
