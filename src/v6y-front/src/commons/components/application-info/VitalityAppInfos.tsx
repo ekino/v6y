@@ -32,7 +32,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                         <Col span={12} style={{ textAlign: 'right' }}>
                             <Tag
                                 color={
-                                    appOpenedBranches >= 10
+                                    appOpenedBranches >= 4
                                         ? QUALITY_METRIC_STATUS['error']
                                         : QUALITY_METRIC_STATUS['success']
                                 }
