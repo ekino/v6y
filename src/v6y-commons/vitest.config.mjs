@@ -1,4 +1,13 @@
+import SequelizeMock from 'sequelize-mock';
 import { configDefaults, defineConfig } from 'vitest/config';
+
+const dbMock = new SequelizeMock();
+export const AccountMock = dbMock.define('AccountModelType', {
+    _id: 1,
+    email: 'john.doe@email.com',
+    password: 'password',
+    role: 'user',
+});
 
 /**
  * https://vitest.dev/config/#configuration
@@ -22,5 +31,6 @@ export default defineConfig({
                 '**/**Worker*.*',
             ],
         },
+        setupFiles: ['dotenv/config'],
     },
 });
