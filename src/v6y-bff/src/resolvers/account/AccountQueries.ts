@@ -5,7 +5,7 @@ import {
     AppLogger,
     PasswordUtils,
     SearchQueryType,
-    passportGenerateToken,
+    generateAuthenticationToken,
 } from '@v6y/commons';
 
 const { validatePassword } = PasswordUtils;
@@ -76,7 +76,7 @@ const getAccountListByPageAndParams = async (_: unknown, args: SearchQueryType) 
 /**
  * Login account
  * @param _
- * @param paramsc
+ * @param params
  */
 const loginAccount = async (_: unknown, params: { input: AccountLoginType }) => {
     try {
@@ -103,7 +103,7 @@ const loginAccount = async (_: unknown, params: { input: AccountLoginType }) => 
             return null;
         }
 
-        const token = passportGenerateToken(accountDetails);
+        const token = generateAuthenticationToken(accountDetails);
 
         AppLogger.info(`[AccountMutations - loginAccount] login success : ${accountDetails._id}`);
 

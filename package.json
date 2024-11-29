@@ -28,8 +28,9 @@
   "devDependencies": {
     "husky": "=9.1.4",
     "nx": "=19.3.0",
-    "typescript-coverage-report": "^1.0.0"
+    "typescript-coverage-report": "=1.0.0"
   },
+  "dependencies": {},
   "workspaces": [
     "src/**"
   ]

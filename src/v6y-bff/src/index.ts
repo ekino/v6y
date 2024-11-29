@@ -1,6 +1,6 @@
 import { ApolloServer } from '@apollo/server';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
-import { AppLogger, DataBaseManager, ServerUtils, passportInitialize } from '@v6y/commons';
+import { AppLogger, DataBaseManager, ServerUtils, configureAuthMiddleware } from '@v6y/commons';
 import Express from 'express';
 import ExpressStatusMonitor from 'express-status-monitor';
 
@@ -35,7 +35,7 @@ app.use(
 
 // *********************************************** Graphql Config & Endpoints ***********************************************
 
-app.use(passportInitialize());
+app.use(configureAuthMiddleware());
 
 const httpServer = createServer({
     app,
