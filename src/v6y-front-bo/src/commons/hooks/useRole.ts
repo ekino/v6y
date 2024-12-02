@@ -7,12 +7,7 @@ export const useRole = () => {
         return JSON.parse(auth || '{}')?.role;
     }
 
-    const setRole = () => {
-        // set role
-    }
-
     return ({
-        getRole,
-        setRole
+        getRole
     });
 };

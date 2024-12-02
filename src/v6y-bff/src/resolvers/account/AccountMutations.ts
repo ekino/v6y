@@ -160,7 +160,6 @@ const deleteAccount = async (
     context: { user: AccountType },
 ) => {
     try {
-        console.log('params', params);
         const whereClause = params?.input?.where;
 
         if (!whereClause?.id) {
