@@ -6,8 +6,6 @@ import {
     AppLogger,
     PasswordUtils,
     SearchQueryType,
-    isAdmin,
-    isSuperAdmin,
 } from '@v6y/commons';
 
 const { hashPassword } = PasswordUtils;
@@ -24,15 +22,7 @@ const createOrEditAccount = async (
     context: { user: AccountType },
 ) => {
     try {
-        if (!(isAdmin(context.user) || isSuperAdmin(context.user))) {
-            throw new Error('You are not authorized to create an account');
-        }
         const { _id, username, password, email, role, applications } = params?.input || {};
-
-        if (!isSuperAdmin(context.user) && role === 'ADMIN') {
-            AppLogger.info(`[AccountMutations - createOrEditAccount] role : ${role}`);
-            throw new Error('You are not authorized to create an admin account');
-        }
 
         AppLogger.info(`[AccountMutations - createOrEditAccount] _id : ${_id}`);
         AppLogger.info(`[AccountMutations - createOrEditAccount] username : ${username}`);
@@ -45,20 +35,26 @@ const createOrEditAccount = async (
             let editedAccount = null;
             if (!password) {
                 editedAccount = await AccountProvider.editAccount({
-                    _id,
-                    username,
-                    email,
-                    role,
-                    applications,
+                    account: {
+                        _id,
+                        username,
+                        email,
+                        role,
+                        applications,
+                    },
+                    currentUser: context.user,
                 });
             } else {
                 editedAccount = await AccountProvider.editAccount({
-                    _id,
-                    username,
-                    password: await hashPassword(password),
-                    email,
-                    role,
-                    applications,
+                    account: {
+                        _id,
+                        username,
+                        password: await hashPassword(password),
+                        email,
+                        role,
+                        applications,
+                    },
+                    currentUser: context.user,
                 });
             }
 
@@ -120,13 +116,6 @@ const updateAccountPassword = async (
     context: { user: AccountType },
 ) => {
     try {
-        if (
-            context.user._id !== params.input._id &&
-            !isAdmin(context.user) &&
-            !isSuperAdmin(context.user)
-        ) {
-            throw new Error('You are not authorized to update this account');
-        }
         const { _id, password } = params?.input || {};
 
         AppLogger.info(`[AccountMutations - updatePassword] _id : ${_id}`);
@@ -140,6 +129,7 @@ const updateAccountPassword = async (
         const updatedAccount = await AccountProvider.updateAccountPassword({
             _id,
             password: await PasswordUtils.hashPassword(password),
+            currentUser: context.user,
         });
 
         if (!updatedAccount || !updatedAccount._id) {
@@ -166,11 +156,12 @@ const updateAccountPassword = async (
  */
 const deleteAccount = async (
     _: unknown,
-    params: { accountInput: SearchQueryType },
+    params: { input: SearchQueryType },
     context: { user: AccountType },
 ) => {
     try {
-        const whereClause = params?.accountInput?.where;
+        console.log('params', params);
+        const whereClause = params?.input?.where;
 
         if (!whereClause?.id) {
             return null;
@@ -178,26 +169,14 @@ const deleteAccount = async (
         const accountId = parseInt(whereClause.id, 10);
         AppLogger.info(`[AccountMutations - deleteAccount] accountId : ${accountId}`);
 
-        const userToDelete = await AccountProvider.getAccountDetailsByParams({
+        const user = await AccountProvider.getAccountDetailsByParams({
             _id: accountId,
         });
-        if (!userToDelete) {
+        if (!user) {
             throw new Error('User does not exist');
         }
 
-        if (!(isSuperAdmin(context.user) || isAdmin(context.user))) {
-            throw new Error('You are not authorized to delete an account');
-        }
-
-        if (context.user._id === userToDelete._id) {
-            throw new Error('You cannot delete your own account');
-        }
-
-        if (userToDelete.role === 'ADMIN' && !isSuperAdmin(context.user)) {
-            throw new Error('You are not authorized to delete an admin account');
-        }
-
-        await AccountProvider.deleteAccount({ _id: accountId });
+        await AccountProvider.deleteAccount({ userToDelete: user, currentUser: context.user });
         AppLogger.info(`[AccountMutations - deleteAccount] deleted account : ${accountId}`);
         return {
             _id: accountId,
