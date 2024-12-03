@@ -1,5 +1,5 @@
 import { GraphQLClient } from 'graphql-request';
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
 
 export const gqlClient = new GraphQLClient(process.env.NEXT_PUBLIC_GQL_API_BASE_PATH as string, {
     fetch: (url: RequestInfo | URL, options?: RequestInit) => {
@@ -20,8 +20,5 @@ type GqlClientRequestParams = {
 
 export const gqlClientRequest = <T>({
     gqlQueryPath,
-    gqlQueryParams
-}: GqlClientRequestParams): Promise<T> => gqlClient.request(
-    gqlQueryPath,
-    gqlQueryParams
-);
+    gqlQueryParams,
+}: GqlClientRequestParams): Promise<T> => gqlClient.request(gqlQueryPath, gqlQueryParams);

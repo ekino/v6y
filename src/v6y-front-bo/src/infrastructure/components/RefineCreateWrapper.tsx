@@ -1,11 +1,11 @@
 'use client';
 
 import { Create, useForm } from '@refinedev/antd';
+import { BaseRecord, GetOneResponse } from '@refinedev/core';
 import { Form } from 'antd';
 
-import { FormCreateOptionsType } from '../types/FormType';
 import { gqlClientRequest } from '../adapters/api/GraphQLClient';
-import { BaseRecord, GetOneResponse } from '@refinedev/core';
+import { FormCreateOptionsType } from '../types/FormType';
 
 export default function RefineCreateWrapper({
     title,
@@ -18,13 +18,14 @@ export default function RefineCreateWrapper({
             mutationFn: async (): Promise<GetOneResponse<BaseRecord>> =>
                 gqlClientRequest({
                     gqlQueryPath: createOptions?.createQuery,
-                    gqlQueryParams: createOptions?.createFormAdapter?.({
-                        ...(createOptions?.createQueryParams || {}),
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                        // @ts-expect-error
-                        ...(form?.getFieldsValue() || {}),
-                    }) || {},
-                })
+                    gqlQueryParams:
+                        createOptions?.createFormAdapter?.({
+                            ...(createOptions?.createQueryParams || {}),
+                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                            // @ts-expect-error
+                            ...(form?.getFieldsValue() || {}),
+                        }) || {},
+                }),
         },
     });
 

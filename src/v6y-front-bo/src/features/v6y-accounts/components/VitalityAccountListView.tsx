@@ -34,7 +34,7 @@ export default function VitalityAccountListView() {
                         enableDelete: true,
                         deleteMetaQuery: {
                             gqlMutation: DeleteAccount,
-                            operation: 'deleteAccount'
+                            operation: 'deleteAccount',
                         },
                     })}
                 />

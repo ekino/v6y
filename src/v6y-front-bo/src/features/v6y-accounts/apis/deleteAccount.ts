@@ -9,4 +9,3 @@ const DeleteAccount = gql`
 `;
 
 export default DeleteAccount;
-

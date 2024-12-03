@@ -38,7 +38,10 @@ const VitalityFormFieldSet = ({ groupTitle, items, selectOptions }: VitalityForm
                 )}
 
                 {item.type === 'password' && (
-                    <Input.Password disabled={item.disabled || false} placeholder={item.placeholder} />
+                    <Input.Password
+                        disabled={item.disabled || false}
+                        placeholder={item.placeholder}
+                    />
                 )}
 
                 {!item.type?.length && (

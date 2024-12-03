@@ -106,3 +106,17 @@ passport.use(new JwtStrategy(createJwtOptions(), createJwtStrategyVerify()));
  * Initializes Authentication middleware.
  */
 export const configureAuthMiddleware = <T>(): T => passport.initialize() as T;
+
+/**
+ * Check if user role is ADMIN.
+ * @param {object} account
+ * @returns {boolean}
+ */
+export const isAdmin = (account: AccountType) => account?.role === 'ADMIN';
+
+/**
+ * Check if user role is SUPERADMIN.
+ * @param {object} account
+ * @returns {boolean}
+ */
+export const isSuperAdmin = (account: AccountType) => account?.role === 'SUPERADMIN';

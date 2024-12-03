@@ -1,5 +1,6 @@
 import { ApplicationType } from '@v6y/commons';
 
+import GetApplicationList from '../../../commons/apis/getApplicationList';
 import VitalityTable from '../../../commons/components/VitalityTable';
 import {
     buildCommonTableColumns,
@@ -8,7 +9,6 @@ import {
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
 import DeleteApplication from '../apis/deleteApplication';
-import GetApplicationList from '../../../commons/apis/getApplicationList';
 
 export default function VitalityApplicationListView() {
     const { translate } = useTranslation();

@@ -58,7 +58,7 @@ export const gqlAuthProvider: AuthProvider = {
 
             if (data.loginAccount?.token) {
                 if (data.loginAccount.role !== 'ADMIN' && data.loginAccount.role !== 'SUPERADMIN') {
-                    console.log("You are not authorized to access this page");
+                    console.log('You are not authorized to access this page');
                     return {
                         success: false,
                         error: {
@@ -68,10 +68,18 @@ export const gqlAuthProvider: AuthProvider = {
                     };
                 }
 
-                Cookies.set('auth', JSON.stringify({ token: data.loginAccount.token, _id: data.loginAccount._id, role: data.loginAccount.role }), {
-                    expires: 30, // 30 jours
-                    path: '/',
-                });
+                Cookies.set(
+                    'auth',
+                    JSON.stringify({
+                        token: data.loginAccount.token,
+                        _id: data.loginAccount._id,
+                        role: data.loginAccount.role,
+                    }),
+                    {
+                        expires: 30, // 30 jours
+                        path: '/',
+                    },
+                );
 
                 return {
                     success: true,
@@ -137,10 +145,10 @@ export const gqlAuthProvider: AuthProvider = {
                         }
                     `,
                     variables: {
-                        "input": {
-                            "_id": JSON.parse(Cookies.get('auth') || '{}')?._id,
-                            "password": password,
-                        }
+                        input: {
+                            _id: JSON.parse(Cookies.get('auth') || '{}')?._id,
+                            password: password,
+                        },
                     },
                 }),
             });

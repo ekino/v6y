@@ -5,8 +5,8 @@ import { BaseRecord, GetOneResponse } from '@refinedev/core';
 import { Form } from 'antd';
 import { useEffect } from 'react';
 
-import { FormWrapperProps } from '../types/FormType';
 import { gqlClientRequest } from '../adapters/api/GraphQLClient';
+import { FormWrapperProps } from '../types/FormType';
 
 export default function RefineEditWrapper({
     title,
@@ -20,7 +20,7 @@ export default function RefineEditWrapper({
             queryFn: async (): Promise<GetOneResponse<BaseRecord>> =>
                 gqlClientRequest({
                     gqlQueryPath: queryOptions?.query,
-                    gqlQueryParams: queryOptions?.queryParams
+                    gqlQueryParams: queryOptions?.queryParams,
                 }),
         },
         updateMutationOptions: {
@@ -30,10 +30,11 @@ export default function RefineEditWrapper({
             mutationFn: async (): Promise<GetOneResponse<BaseRecord>> =>
                 gqlClientRequest({
                     gqlQueryPath: mutationOptions?.editQuery,
-                    gqlQueryParams: mutationOptions?.editFormAdapter?.({
-                        ...(mutationOptions?.editQueryParams || {}),
-                        ...(form?.getFieldsValue() || {}),
-                    }) || {},
+                    gqlQueryParams:
+                        mutationOptions?.editFormAdapter?.({
+                            ...(mutationOptions?.editQueryParams || {}),
+                            ...(form?.getFieldsValue() || {}),
+                        }) || {},
                 }),
         },
     });

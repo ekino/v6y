@@ -1,8 +1,15 @@
-// AuthenticationHelper.tests.ts
+/* eslint-disable max-lines-per-function */
+// tests.ts
 import { Mock, describe, expect, it, vi } from 'vitest';
 
 import AccountProvider from '../../database/AccountProvider.ts';
-import * as AuthenticationHelper from '../AuthenticationHelper.ts';
+import {
+    createJwtOptions,
+    generateAuthenticationToken,
+    isAdmin,
+    isSuperAdmin,
+    validateCredentials,
+} from '../AuthenticationHelper.ts';
 
 vi.mock('../../database/AccountProvider.ts', async () => {
     const actualModule = (await vi.importActual(
@@ -19,7 +26,7 @@ vi.mock('../../database/AccountProvider.ts', async () => {
 
 describe('AuthenticationHelper', () => {
     it('should create jwt options', () => {
-        const result = AuthenticationHelper.createJwtOptions();
+        const result = createJwtOptions();
         expect(result).toEqual({
             jwtFromRequest: expect.any(Function),
             secretOrKey: expect.any(String),
@@ -28,14 +35,14 @@ describe('AuthenticationHelper', () => {
 
     it('should generate token', () => {
         const account = { _id: 12 };
-        const result = AuthenticationHelper.generateAuthenticationToken(account);
+        const result = generateAuthenticationToken(account);
 
         expect(result).toEqual(expect.any(String));
     });
 
     it('should return null if token is invalid', async () => {
         const account = {};
-        const token = AuthenticationHelper.generateAuthenticationToken(account);
+        const token = generateAuthenticationToken(account);
 
         const request = {
             cache: 'default' as RequestCache,
@@ -64,7 +71,7 @@ describe('AuthenticationHelper', () => {
             text: async () => '',
         } as unknown as Request;
 
-        const result = await AuthenticationHelper.validateCredentials(request);
+        const result = await validateCredentials(request);
         expect(result).toBe(null);
     });
 
@@ -82,7 +89,7 @@ describe('AuthenticationHelper', () => {
             role: 'ADMIN',
             applications: [1, 2, 3],
         };
-        const token = AuthenticationHelper.generateAuthenticationToken(account);
+        const token = generateAuthenticationToken(account);
         const request = {
             cache: 'default' as RequestCache,
             credentials: 'same-origin',
@@ -110,8 +117,62 @@ describe('AuthenticationHelper', () => {
             text: async () => '',
         } as unknown as Request;
 
-        const result = await AuthenticationHelper.validateCredentials(request);
+        const result = await validateCredentials(request);
 
         expect(result).toEqual(account);
+    });
+
+    it('should return true if the user is ADMIN, false otherwise', () => {
+        const accountAdmin = {
+            _id: 15,
+            email: 'admin@admin.admin',
+            role: 'ADMIN',
+            applications: [1, 2, 3],
+        };
+
+        const accountSuperAdmin = {
+            _id: 15,
+            email: 'superadmin@superadmin.superadmin',
+            role: 'SUPERADMIN',
+            applications: [1, 2, 3],
+        };
+
+        const accountUser = {
+            _id: 15,
+            email: 'user@user.user',
+            role: 'USER',
+            applications: [1, 2, 3],
+        };
+
+        expect(isAdmin(accountAdmin)).toBe(true);
+        expect(isAdmin(accountSuperAdmin)).toBe(false);
+        expect(isAdmin(accountUser)).toBe(false);
+    });
+
+    it('should return true if the user is SUPERADMIN, false otherwise', () => {
+        const accountAdmin = {
+            _id: 15,
+            email: 'admin@admin.admin',
+            role: 'ADMIN',
+            applications: [1, 2, 3],
+        };
+
+        const accountSuperAdmin = {
+            _id: 15,
+            email: 'superadmin@superadmin.superadmin',
+            role: 'SUPERADMIN',
+            applications: [1, 2, 3],
+        };
+
+        const accountUser = {
+            _id: 15,
+            email: 'user@user.user',
+            role: 'USER',
+            applications: [1, 2, 3],
+        };
+
+        expect(isSuperAdmin(accountAdmin)).toBe(false);
+        expect(isSuperAdmin(accountSuperAdmin)).toBe(true);
+        expect(isSuperAdmin(accountUser)).toBe(false);
     });
 });

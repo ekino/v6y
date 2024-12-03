@@ -1,6 +1,7 @@
 import { ApplicationType } from '@v6y/commons';
 import { DefaultOptionType } from 'antd/es/select';
 import { Variables } from 'graphql-request';
+
 import { TranslateType } from '../../infrastructure/types/TranslationType';
 import VitalityFormFieldSet from '../components/VitalityFormFieldSet';
 
@@ -774,14 +775,22 @@ export const accountCreateOrEditFormOutputAdapter = (params: Record<string, stri
     },
 });
 
-export const accountCreateEditItems = (translate: TranslateType, role: string, applications: ApplicationType[], edit: boolean = false) => {
+export const accountCreateEditItems = (
+    translate: TranslateType,
+    role: string,
+    applications: ApplicationType[],
+    edit: boolean = false,
+) => {
     const applicationsValues = applications?.map((application) => ({
         value: application._id,
         label: application.name,
     }));
 
     const roles = [
-        { label: translate('pages.createAccount.fields.account-role.options.admin'), value: 'ADMIN' },
+        {
+            label: translate('pages.createAccount.fields.account-role.options.admin'),
+            value: 'ADMIN',
+        },
         { label: translate('pages.createAccount.fields.account-role.options.user'), value: 'USER' },
     ];
 
@@ -802,7 +811,6 @@ export const accountCreateEditItems = (translate: TranslateType, role: string, a
 };
 
 export const accountInfosFormItems = (translate: TranslateType, role: string, edit: boolean) => {
-
     return [
         {
             id: 'account-email',
@@ -847,8 +855,14 @@ export const accountInfosFormItems = (translate: TranslateType, role: string, ed
                 },
             ],
             options: [
-                { label: translate('pages.createAccount.fields.account-role.options.admin'), value: 'ADMIN' },
-                { label: translate('pages.createAccount.fields.account-role.options.user'), value: 'USER' },
+                {
+                    label: translate('pages.createAccount.fields.account-role.options.admin'),
+                    value: 'ADMIN',
+                },
+                {
+                    label: translate('pages.createAccount.fields.account-role.options.user'),
+                    value: 'USER',
+                },
             ],
         },
         {
@@ -857,18 +871,19 @@ export const accountInfosFormItems = (translate: TranslateType, role: string, ed
             type: 'password',
             label: translate('pages.createAccount.fields.account-password.label'),
             placeholder: translate('pages.createAccount.fields.account-password.placeholder'),
-            rules: !edit ? [
-                {
-                    required: true,
-                    message: translate('pages.createAccount.fields.account-password.error'),
-                },
-            ] : [],
+            rules: !edit
+                ? [
+                      {
+                          required: true,
+                          message: translate('pages.createAccount.fields.account-password.error'),
+                      },
+                  ]
+                : [],
         },
     ];
-}
+};
 
 export const accountApplicationsFormItems = (translate: TranslateType) => {
-
     return [
         {
             id: 'account-applications',
@@ -884,9 +899,14 @@ export const accountApplicationsFormItems = (translate: TranslateType) => {
                     validator: (_: unknown, value: string[]) =>
                         value && value.length > 0
                             ? Promise.resolve()
-                            : Promise.reject(new Error(translate('pages.createAccount.fields.account-applications.error'))),
+                            : Promise.reject(
+                                  new Error(
+                                      translate(
+                                          'pages.createAccount.fields.account-applications.error',
+                                      ),
+                                  ),
+                              ),
                 },
-
             ],
         },
     ];

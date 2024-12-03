@@ -7,7 +7,7 @@ export const VitalityRoutes = [
         show: '/v6y-accounts/show/:id',
         meta: {
             canDelete: true,
-        }
+        },
     },
     {
         name: 'v6y-applications',

@@ -6,7 +6,7 @@ const GetAccountDetailsByParams = gql`
             _id
             username
             email
-            role,
+            role
             applications
         }
     }
