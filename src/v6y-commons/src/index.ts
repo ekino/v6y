@@ -28,7 +28,7 @@ export * from './config/AuditHelpConfig.ts';
 export * from './config/CodeSmellConfig.ts';
 export * from './config/DependencyStatusHelpConfig.ts';
 
-export * from './core/PassportUtils.ts';
+export * from './core/AuthenticationHelper.ts';
 
 export * from './types/AccountType.ts';
 export * from './types/ApplicationType.ts';

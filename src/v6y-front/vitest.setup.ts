@@ -9,7 +9,7 @@ afterEach(() => {
 
 Object.defineProperty(window, 'getComputedStyle', {
     value: () => ({
-        getPropertyValue: (prop) => {
+        getPropertyValue: () => {
             return '';
         },
     }),

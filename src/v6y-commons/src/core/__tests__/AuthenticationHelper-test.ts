@@ -1,9 +1,8 @@
-/* eslint-disable max-lines-per-function */
-// PassportUtils.tests.ts
+// AuthenticationHelper.tests.ts
 import { Mock, describe, expect, it, vi } from 'vitest';
 
 import AccountProvider from '../../database/AccountProvider.ts';
-import * as PassportUtils from '../PassportUtils.ts';
+import * as AuthenticationHelper from '../AuthenticationHelper.ts';
 
 vi.mock('../../database/AccountProvider.ts', async () => {
     const actualModule = (await vi.importActual(
@@ -18,9 +17,9 @@ vi.mock('../../database/AccountProvider.ts', async () => {
     };
 });
 
-describe('PassportUtils', () => {
+describe('AuthenticationHelper', () => {
     it('should create jwt options', () => {
-        const result = PassportUtils.createJwtOptions();
+        const result = AuthenticationHelper.createJwtOptions();
         expect(result).toEqual({
             jwtFromRequest: expect.any(Function),
             secretOrKey: expect.any(String),
@@ -29,14 +28,14 @@ describe('PassportUtils', () => {
 
     it('should generate token', () => {
         const account = { _id: 12 };
-        const result = PassportUtils.passportGenerateToken(account);
+        const result = AuthenticationHelper.generateAuthenticationToken(account);
 
         expect(result).toEqual(expect.any(String));
     });
 
     it('should return null if token is invalid', async () => {
         const account = {};
-        const token = PassportUtils.passportGenerateToken(account);
+        const token = AuthenticationHelper.generateAuthenticationToken(account);
 
         const request = {
             cache: 'default' as RequestCache,
@@ -65,7 +64,7 @@ describe('PassportUtils', () => {
             text: async () => '',
         } as unknown as Request;
 
-        const result = await PassportUtils.passportAuthenticate(request);
+        const result = await AuthenticationHelper.validateCredentials(request);
         expect(result).toBe(null);
     });
 
@@ -83,7 +82,7 @@ describe('PassportUtils', () => {
             role: 'ADMIN',
             applications: [1, 2, 3],
         };
-        const token = PassportUtils.passportGenerateToken(account);
+        const token = AuthenticationHelper.generateAuthenticationToken(account);
         const request = {
             cache: 'default' as RequestCache,
             credentials: 'same-origin',
@@ -111,62 +110,8 @@ describe('PassportUtils', () => {
             text: async () => '',
         } as unknown as Request;
 
-        const result = await PassportUtils.passportAuthenticate(request);
+        const result = await AuthenticationHelper.validateCredentials(request);
 
         expect(result).toEqual(account);
-    });
-
-    it('should return true if the user is ADMIN, false otherwise', () => {
-        const accountAdmin = {
-            _id: 15,
-            email: 'admin@admin.admin',
-            role: 'ADMIN',
-            applications: [1, 2, 3],
-        };
-
-        const accountSuperAdmin = {
-            _id: 15,
-            email: 'superadmin@superadmin.superadmin',
-            role: 'SUPERADMIN',
-            applications: [1, 2, 3],
-        };
-
-        const accountUser = {
-            _id: 15,
-            email: 'user@user.user',
-            role: 'USER',
-            applications: [1, 2, 3],
-        };
-
-        expect(PassportUtils.isAdmin(accountAdmin)).toBe(true);
-        expect(PassportUtils.isAdmin(accountSuperAdmin)).toBe(false);
-        expect(PassportUtils.isAdmin(accountUser)).toBe(false);
-    });
-
-    it('should return true if the user is SUPERADMIN, false otherwise', () => {
-        const accountAdmin = {
-            _id: 15,
-            email: 'admin@admin.admin',
-            role: 'ADMIN',
-            applications: [1, 2, 3],
-        };
-
-        const accountSuperAdmin = {
-            _id: 15,
-            email: 'superadmin@superadmin.superadmin',
-            role: 'SUPERADMIN',
-            applications: [1, 2, 3],
-        };
-
-        const accountUser = {
-            _id: 15,
-            email: 'user@user.user',
-            role: 'USER',
-            applications: [1, 2, 3],
-        };
-
-        expect(PassportUtils.isSuperAdmin(accountAdmin)).toBe(false);
-        expect(PassportUtils.isSuperAdmin(accountSuperAdmin)).toBe(true);
-        expect(PassportUtils.isSuperAdmin(accountUser)).toBe(false);
     });
 });
