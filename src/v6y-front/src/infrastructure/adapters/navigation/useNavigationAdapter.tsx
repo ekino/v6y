@@ -8,7 +8,7 @@ const useNavigationAdapter = () => {
     const pathname = usePathname();
     const router = useRouter();
 
-    const creatUrlQueryParam = useCallback(
+    const createUrlQueryParam = useCallback(
         (name: string, value: string) => {
             const params = new URLSearchParams(searchParams.toString());
             params.set(name, value);
@@ -30,7 +30,7 @@ const useNavigationAdapter = () => {
         router,
         redirect,
         getUrlParams: (paramKeys: string[]) => paramKeys?.map((key) => searchParams.get(key)),
-        creatUrlQueryParam,
+        createUrlQueryParam,
         removeUrlQueryParam,
         urlParams: searchParams?.toString(),
         pathname,
