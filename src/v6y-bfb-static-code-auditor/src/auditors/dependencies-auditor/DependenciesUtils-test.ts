@@ -77,13 +77,31 @@ describe('DependenciesUtils.formatDependenciesReports', () => {
             .mockResolvedValueOnce({
                 json: () =>
                     Promise.resolve({
+                        severity: 'high',
+                    }),
+            })
+            .mockResolvedValueOnce({
+                json: () =>
+                    Promise.resolve({
                         'dist-tags': { latest: '4.17.21' },
                     }),
             })
             .mockResolvedValueOnce({
                 json: () =>
                     Promise.resolve({
+                        severity: 'low',
+                    }),
+            })
+            .mockResolvedValueOnce({
+                json: () =>
+                    Promise.resolve({
                         'dist-tags': { latest: '29.5.0' },
+                    }),
+            })
+            .mockResolvedValueOnce({
+                json: () =>
+                    Promise.resolve({
+                        severity: 'medium',
                     }),
             });
 
@@ -118,6 +136,7 @@ describe('DependenciesUtils.formatDependenciesReports', () => {
                 status: 'outdated',
                 type: 'frontend',
                 version: '^18.0.0',
+                vulnerabilityStatus: 'high',
             },
             {
                 module: {
@@ -131,6 +150,7 @@ describe('DependenciesUtils.formatDependenciesReports', () => {
                 status: 'deprecated',
                 type: 'frontend',
                 version: '4.17.21',
+                vulnerabilityStatus: 'low',
             },
             {
                 module: {
@@ -144,6 +164,7 @@ describe('DependenciesUtils.formatDependenciesReports', () => {
                 status: 'outdated',
                 type: 'frontend',
                 version: '29.2.0',
+                vulnerabilityStatus: 'medium',
             },
         ]);
     });
