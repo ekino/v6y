@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
 import * as React from 'react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import VitalityAppInfos from '../application-info/VitalityAppInfos';
@@ -29,7 +29,7 @@ describe('VitalityAppInfos', () => {
     };
 
     beforeEach(() => {
-        useNavigationAdapter.mockReturnValue({
+        (useNavigationAdapter as Mock).mockReturnValue({
             creatUrlQueryParam: vi.fn((key, value) => `${key}=${value}`),
         });
     });

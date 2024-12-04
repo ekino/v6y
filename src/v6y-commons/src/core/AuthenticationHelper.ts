@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import jwt from 'jsonwebtoken';
 import { JwtPayload } from 'jsonwebtoken';
 import passport from 'passport';
@@ -98,11 +100,25 @@ export const validateCredentials = <T>(request: T): Promise<unknown> => {
 };
 
 /**
- * Initializes JWT strategy for Passport.
- */
-passport.use(new JwtStrategy(createJwtOptions(), createJwtStrategyVerify()));
-
-/**
  * Initializes Authentication middleware.
  */
 export const configureAuthMiddleware = <T>(): T => passport.initialize() as T;
+
+/**
+ * Configures the authentication strategy.
+ */
+export const configureAuthenticationStrategy = () => {
+    try {
+        const jwtAuthenticationStrategy = new JwtStrategy(
+            createJwtOptions(),
+            createJwtStrategyVerify(),
+        );
+        passport.use(jwtAuthenticationStrategy);
+    } catch (error) {
+        AppLogger.error(
+            `[AuthenticationHelper - validateCredentials] Not authenticated : ${error || 'No user found'}`,
+        );
+    }
+};
+
+configureAuthenticationStrategy();

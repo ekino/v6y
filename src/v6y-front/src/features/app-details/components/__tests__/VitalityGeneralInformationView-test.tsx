@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import * as React from 'react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import VitalityTerms from '../../../../commons/config/VitalityTerms';
 import { useClientQuery } from '../../../../infrastructure/adapters/api/useQueryAdapter';
@@ -37,11 +37,11 @@ describe('VitalityGeneralInformationView', () => {
     };
 
     beforeEach(() => {
-        useClientQuery.mockReturnValue({
+        (useClientQuery as Mock).mockReturnValue({
             isLoading: false,
             data: { getApplicationDetailsInfoByParams: mockAppDetailsInfo },
         });
-        useNavigationAdapter.mockReturnValue({
+        (useNavigationAdapter as Mock).mockReturnValue({
             getUrlParams: vi.fn(() => ['1']),
             creatUrlQueryParam: vi.fn((key, value) => `${key}=${value}`),
         });

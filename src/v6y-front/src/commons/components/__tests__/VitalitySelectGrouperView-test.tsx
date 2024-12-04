@@ -2,7 +2,7 @@
 import '@testing-library/jest-dom/vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import * as React from 'react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import useDataGrouper from '../../hooks/useDataGrouper';
 import VitalitySelectGrouperView from '../VitalitySelectGrouperView';
@@ -32,7 +32,7 @@ describe('VitalitySelectGrouperView', () => {
     ));
 
     beforeEach(() => {
-        useDataGrouper.mockReturnValue({
+        (useDataGrouper as Mock).mockReturnValue({
             groupedDataSource: {
                 'Group A': [
                     { name: 'Item 1', group: 'Group A' },
@@ -74,7 +74,7 @@ describe('VitalitySelectGrouperView', () => {
     });
 
     it('should render an empty view if groupedDataSource is empty', () => {
-        useDataGrouper.mockReturnValue({
+        (useDataGrouper as Mock).mockReturnValue({
             groupedDataSource: {},
             selectedCriteria: { key: '', label: undefined, value: 'All' },
             criteriaGroups: [],

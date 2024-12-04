@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import * as React from 'react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { AUDIT_REPORT_TYPES } from '../../../../commons/config/VitalityCommonConfig';
 import VitalityTerms from '../../../../commons/config/VitalityTerms';
@@ -25,12 +25,12 @@ describe('VitalityAuditReportsView', () => {
     });
 
     it('renders empty state correctly', () => {
-        useClientQuery.mockReturnValue({
+        (useClientQuery as Mock).mockReturnValue({
             isLoading: false,
             data: { getApplicationDetailsAuditReportsByParams: [] },
         });
 
-        useNavigationAdapter.mockReturnValue({
+        (useNavigationAdapter as Mock).mockReturnValue({
             getUrlParams: () => ['1'],
         });
 
@@ -71,12 +71,12 @@ describe('VitalityAuditReportsView', () => {
             },
         ];
 
-        useClientQuery.mockReturnValue({
+        (useClientQuery as Mock).mockReturnValue({
             isLoading: false,
             data: { getApplicationDetailsAuditReportsByParams: mockReports },
         });
 
-        useNavigationAdapter.mockReturnValue({
+        (useNavigationAdapter as Mock).mockReturnValue({
             getUrlParams: () => ['1'],
         });
 
@@ -113,11 +113,11 @@ describe('VitalityAuditReportsView', () => {
             },
         ];
 
-        useClientQuery.mockReturnValue({
+        (useClientQuery as Mock).mockReturnValue({
             isLoading: false,
             data: { getApplicationDetailsAuditReportsByParams: mockReports },
         });
-        useNavigationAdapter.mockReturnValue({
+        (useNavigationAdapter as Mock).mockReturnValue({
             getUrlParams: () => ['1'],
         });
 
