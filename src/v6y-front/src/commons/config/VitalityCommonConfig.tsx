@@ -1,4 +1,3 @@
-import Matcher from '@/infrastructure/utils/Matcher';
 import {
     ApiOutlined,
     AppstoreAddOutlined,
@@ -14,6 +13,7 @@ import Link from 'next/link';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
+import Matcher from '../../infrastructure/utils/Matcher';
 import VitalityNavigationPaths from './VitalityNavigationPaths';
 import VitalityTerms from './VitalityTerms';
 import VitalityTheme from './VitalityTheme';

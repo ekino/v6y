@@ -1,17 +1,13 @@
 import { AuditType } from '@v6y/commons';
-import dynamic from 'next/dynamic';
 import * as React from 'react';
 
-import VitalityLoader from '../../../../../../commons/components/VitalityLoader';
+import VitalityDynamicLoader from '../../../../../../commons/components/VitalityDynamicLoader';
 import VitalitySelectGrouperView from '../../../../../../commons/components/VitalitySelectGrouperView';
 import VitalityTerms from '../../../../../../commons/config/VitalityTerms';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';
 
-const VitalityCodeStatusReportsSmellGrouper = dynamic(
+const VitalityCodeStatusReportsSmellGrouper = VitalityDynamicLoader(
     () => import('./VitalityCodeStatusReportsSmellGrouper'),
-    {
-        loading: () => <VitalityLoader />,
-    },
 );
 
 const VitalityCodeStatusReportsBranchGrouper = ({ reports }: { reports: AuditType[] }) => {
@@ -24,15 +20,17 @@ const VitalityCodeStatusReportsBranchGrouper = ({ reports }: { reports: AuditTyp
             label={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_SELECT_LABEL}
             helper={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_SELECT_HELPER}
             dataSource={reports}
-            onRenderChildren={(_, data) => (
-                <>
-                    {data && (
-                        <VitalityCodeStatusReportsSmellGrouper
-                            reports={data as VitalityModuleType[]}
-                        />
-                    )}
-                </>
-            )}
+            onRenderChildren={(_, data) => {
+                return (
+                    <>
+                        {data && (
+                            <VitalityCodeStatusReportsSmellGrouper
+                                reports={data as VitalityModuleType[]}
+                            />
+                        )}
+                    </>
+                );
+            }}
         />
     );
 };

@@ -1,35 +1,28 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import * as React from 'react';
 
-import VitalityLoader from '../../../commons/components/VitalityLoader';
+import VitalityDynamicLoader from '../../../commons/components/VitalityDynamicLoader';
 
-const VitalityGeneralInformationView = dynamic(
+const VitalityGeneralInformationView = VitalityDynamicLoader(
     () => import('./infos/VitalityGeneralInformationView'),
-    {
-        loading: () => <VitalityLoader />,
-    },
 );
 
-const VitalityAuditReportsView = dynamic(() => import('./audit-reports/VitalityAuditReportsView'), {
-    loading: () => <VitalityLoader />,
-});
+const VitalityAuditReportsView = VitalityDynamicLoader(
+    () => import('./audit-reports/VitalityAuditReportsView'),
+);
 
-const VitalityQualityIndicatorsView = dynamic(
+const VitalityQualityIndicatorsView = VitalityDynamicLoader(
     () => import('./quality-indicators/VitalityQualityIndicatorsView'),
-    {
-        loading: () => <VitalityLoader />,
-    },
 );
 
-const VitalityDependenciesView = dynamic(() => import('./dependencies/VitalityDependenciesView'), {
-    loading: () => <VitalityLoader />,
-});
+const VitalityDependenciesView = VitalityDynamicLoader(
+    () => import('./dependencies/VitalityDependenciesView'),
+);
 
-const VitalityEvolutionsView = dynamic(() => import('./evolutions/VitalityEvolutionsView'), {
-    loading: () => <VitalityLoader />,
-});
+const VitalityEvolutionsView = VitalityDynamicLoader(
+    () => import('./evolutions/VitalityEvolutionsView'),
+);
 
 const VitalityAppDetailsView = () => {
     return (

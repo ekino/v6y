@@ -1,10 +1,11 @@
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { request } from 'graphql-request';
+
 import {
     BuildClientQueryParams,
     UseClientQueryParams,
     UseInfiniteClientQueryParams,
-} from '@/infrastructure/adapters/api/QueryAdapterType';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { request } from 'graphql-request';
+} from './QueryAdapterType';
 
 export const buildClientQuery = async <TData = unknown,>({
     queryBaseUrl,

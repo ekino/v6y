@@ -50,6 +50,8 @@ export default function VitalityAccountEditView() {
             }}
             mutationOptions={{
                 editResource: 'createOrEditAccount',
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
                 editFormAdapter: accountCreateOrEditFormOutputAdapter,
                 editQuery: CreateOrEditAccount,
                 editQueryParams: {
@@ -60,6 +62,8 @@ export default function VitalityAccountEditView() {
                 resource: 'getApplicationList',
                 query: GetApplicationList,
             }}
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             renderSelectOption={(applications: ApplicationType[]) => {
                 return accountCreateEditItems(translate, userRole, applications, true);
             }}

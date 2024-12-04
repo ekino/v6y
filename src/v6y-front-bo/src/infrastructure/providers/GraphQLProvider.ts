@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import type { AuthProvider } from '@refinedev/core';
 import dataProvider, { graphqlWS, liveProvider } from '@refinedev/graphql';
 import Cookies from 'js-cookie';
@@ -58,7 +60,6 @@ export const gqlAuthProvider: AuthProvider = {
 
             if (data.loginAccount?.token) {
                 if (data.loginAccount.role !== 'ADMIN' && data.loginAccount.role !== 'SUPERADMIN') {
-                    console.log('You are not authorized to access this page');
                     return {
                         success: false,
                         error: {

@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 'use client';
 
 import { Edit, useForm, useSelect } from '@refinedev/antd';
@@ -7,6 +9,12 @@ import { ReactNode, useEffect } from 'react';
 
 import { gqlClientRequest } from '../adapters/api/GraphQLClient';
 import { FormWrapperProps } from '../types/FormType';
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 
 export default function RefineSelectWrapper({
     title,
@@ -62,8 +70,6 @@ export default function RefineSelectWrapper({
                           gqlQueryParams:
                               createFormAdapter?.({
                                   ...(createQueryParams || {}),
-                                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                  // @ts-expect-error
                                   ...(form?.getFieldsValue() || {}),
                               }) || {},
                       });

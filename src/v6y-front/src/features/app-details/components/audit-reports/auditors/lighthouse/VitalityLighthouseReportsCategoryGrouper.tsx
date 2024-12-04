@@ -1,12 +1,11 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { AuditType } from '@v6y/commons';
 import { Button, Card, Col, List, Row, Statistic, Typography } from 'antd';
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import VitalityLoader from '../../../../../../commons/components/VitalityLoader';
+import VitalityDynamicLoader from '../../../../../../commons/components/VitalityDynamicLoader';
 import VitalityModal from '../../../../../../commons/components/VitalityModal';
 import VitalityPaginatedList from '../../../../../../commons/components/VitalityPaginatedList';
 import {
@@ -17,11 +16,8 @@ import VitalityTerms from '../../../../../../commons/config/VitalityTerms';
 import useDataGrouper from '../../../../../../commons/hooks/useDataGrouper';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';
 
-const VitalityHelpView = dynamic(
+const VitalityHelpView = VitalityDynamicLoader(
     () => import('../../../../../../commons/components/help/VitalityHelpView'),
-    {
-        loading: () => <VitalityLoader />,
-    },
 );
 
 const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditType[] }) => {
@@ -65,6 +61,7 @@ const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditT
                                     />,
                                 ]}
                             >
+                                ccccccc
                                 <Card.Meta
                                     description={
                                         <Row gutter={[16, 16]} justify="center" align="middle">

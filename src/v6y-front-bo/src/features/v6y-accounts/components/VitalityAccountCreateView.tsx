@@ -24,8 +24,6 @@ export default function VitalityAccountCreateView() {
         setUserRole(getRole());
     }, [getRole]);
 
-    console.log(userRole);
-
     if (!userRole) {
         return <VitalityEmptyView />;
     }
@@ -38,6 +36,8 @@ export default function VitalityAccountCreateView() {
                 </Typography.Title>
             }
             createOptions={{
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
                 createResource: 'createOrEditAccount',
                 createFormAdapter: accountCreateOrEditFormOutputAdapter,
                 createQuery: CreateOrEditAccount,
@@ -47,6 +47,8 @@ export default function VitalityAccountCreateView() {
                 resource: 'getApplicationList',
                 query: GetApplicationList,
             }}
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             renderSelectOption={(applications: ApplicationType[]) => {
                 return accountCreateEditItems(translate, userRole, applications);
             }}

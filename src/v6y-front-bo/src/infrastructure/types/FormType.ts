@@ -21,13 +21,6 @@ export interface FormMutationOptionsType {
 }
 
 export interface FormCreateOptionsType {
-    createResource?: string;
-    createQuery: string;
-    createQueryParams?: Record<string, unknown>;
-    createFormAdapter?: (data: unknown) => Variables;
-}
-
-export interface FormCreateOptionsType {
     title: string | ReactNode;
     createOptions: {
         createQuery: string;

@@ -1,8 +1,9 @@
 // VitalityLighthouseReportsCategoryGrouper.test.tsx
+import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
 import { AuditType } from '@v6y/commons';
 import * as React from 'react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import useDataGrouper from '../../../../commons/hooks/useDataGrouper';
 import VitalityLighthouseReportsCategoryGrouper from '../audit-reports/auditors/lighthouse/VitalityLighthouseReportsCategoryGrouper';
@@ -69,7 +70,7 @@ describe('VitalityLighthouseReportsCategoryGrouper', () => {
     ];
 
     beforeEach(() => {
-        useDataGrouper.mockReturnValue({
+        (useDataGrouper as Mock).mockReturnValue({
             groupedDataSource: {
                 'Category 1': [mockReports[0]],
                 'Category 2': [mockReports[1]],

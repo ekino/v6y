@@ -1,10 +1,13 @@
-import { buildClientQuery, useClientQuery } from '@/infrastructure/adapters/api/useQueryAdapter';
 import { ExportOutlined } from '@ant-design/icons';
 import { Button, Col, Row, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import VitalityTerms from '../../../commons/config/VitalityTerms';
+import {
+    buildClientQuery,
+    useClientQuery,
+} from '../../../infrastructure/adapters/api/useQueryAdapter';
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import GetApplicationTotalByParams from '../api/getApplicationTotalByParams';
 

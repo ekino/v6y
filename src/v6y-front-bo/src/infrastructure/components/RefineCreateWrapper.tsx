@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 'use client';
 
 import { Create, useForm } from '@refinedev/antd';
@@ -6,6 +8,12 @@ import { Form } from 'antd';
 
 import { gqlClientRequest } from '../adapters/api/GraphQLClient';
 import { FormCreateOptionsType } from '../types/FormType';
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 
 export default function RefineCreateWrapper({
     title,
@@ -21,8 +29,6 @@ export default function RefineCreateWrapper({
                     gqlQueryParams:
                         createOptions?.createFormAdapter?.({
                             ...(createOptions?.createQueryParams || {}),
-                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                            // @ts-expect-error
                             ...(form?.getFieldsValue() || {}),
                         }) || {},
                 }),

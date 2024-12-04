@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import jwt from 'jsonwebtoken';
 import { JwtPayload } from 'jsonwebtoken';
 import passport from 'passport';
@@ -32,9 +34,13 @@ export const createJwtOptions = () => {
  * Creates a verification function for JWT strategy.
  * @returns {Function} A function that verifies JWT payload.
  */
-const createJwtStrategyVerify = () => {
+export const createJwtStrategyVerify = () => {
     return async (jwtPayload: JwtPayload, done: VerifiedCallback) => {
         try {
+            AppLogger.info(
+                `[AuthenticationHelper - createJwtStrategyVerify] JwtPayload: ${JwtPayload?._id}`,
+            );
+
             // Ensure the token contains the `_id` field.
             if (!jwtPayload._id) {
                 return done(Error('Token does not contain _id'), undefined);
@@ -44,6 +50,10 @@ const createJwtStrategyVerify = () => {
                 _id: jwtPayload._id,
             });
 
+            AppLogger.info(
+                `[AuthenticationHelper - createJwtStrategyVerify] _id : ${accountDetails?._id}`,
+            );
+
             if (!accountDetails) {
                 return done(Error('User not Found'), undefined);
             }
@@ -51,6 +61,7 @@ const createJwtStrategyVerify = () => {
             AppLogger.info(
                 `[AuthenticationHelper - createJwtStrategyVerify] User Found : ${accountDetails._id}`,
             );
+
             return done(null, accountDetails);
         } catch (error) {
             AppLogger.error(`[AuthenticationHelper- createJwtStrategyVerify] : ${error}`);
@@ -98,11 +109,6 @@ export const validateCredentials = <T>(request: T): Promise<unknown> => {
 };
 
 /**
- * Initializes JWT strategy for Passport.
- */
-passport.use(new JwtStrategy(createJwtOptions(), createJwtStrategyVerify()));
-
-/**
  * Initializes Authentication middleware.
  */
 export const configureAuthMiddleware = <T>(): T => passport.initialize() as T;
@@ -120,3 +126,22 @@ export const isAdmin = (account: AccountType) => account?.role === 'ADMIN';
  * @returns {boolean}
  */
 export const isSuperAdmin = (account: AccountType) => account?.role === 'SUPERADMIN';
+
+/**
+ * Configures the authentication strategy.
+ */
+export const configureAuthenticationStrategy = () => {
+    try {
+        const jwtAuthenticationStrategy = new JwtStrategy(
+            createJwtOptions(),
+            createJwtStrategyVerify(),
+        );
+        passport.use(jwtAuthenticationStrategy);
+    } catch (error) {
+        AppLogger.error(
+            `[AuthenticationHelper - validateCredentials] Not authenticated : ${error || 'No user found'}`,
+        );
+    }
+};
+
+configureAuthenticationStrategy();

@@ -1,4 +1,5 @@
 // VitalityNotificationList.test.tsx
+import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
 import { NotificationType } from '@v6y/commons/src';
 import { describe, expect, it, vi } from 'vitest';

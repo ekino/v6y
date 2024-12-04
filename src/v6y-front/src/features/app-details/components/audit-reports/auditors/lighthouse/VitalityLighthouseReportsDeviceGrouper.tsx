@@ -1,15 +1,11 @@
 import { AuditType } from '@v6y/commons';
-import dynamic from 'next/dynamic';
 import * as React from 'react';
 
-import VitalityLoader from '../../../../../../commons/components/VitalityLoader';
+import VitalityDynamicLoader from '../../../../../../commons/components/VitalityDynamicLoader';
 import VitalityTabGrouperView from '../../../../../../commons/components/VitalityTabGrouperView';
 
-const VitalityLighthouseReportsCategoryGrouper = dynamic(
+const VitalityLighthouseReportsCategoryGrouper = VitalityDynamicLoader(
     () => import('./VitalityLighthouseReportsCategoryGrouper'),
-    {
-        loading: () => <VitalityLoader />,
-    },
 );
 
 const VitalityLighthouseReportsDeviceGrouper = ({ reports }: { reports: AuditType[] }) => {
@@ -21,13 +17,17 @@ const VitalityLighthouseReportsDeviceGrouper = ({ reports }: { reports: AuditTyp
             criteria="subCategory"
             hasAllGroup={false}
             dataSource={reports}
-            onRenderChildren={(_, data) => (
-                <div id="lighthouse_device_tab_content">
-                    {data && (
-                        <VitalityLighthouseReportsCategoryGrouper reports={data as AuditType[]} />
-                    )}
-                </div>
-            )}
+            onRenderChildren={(_, data) => {
+                return (
+                    <div id="lighthouse_device_tab_content">
+                        {data && (
+                            <VitalityLighthouseReportsCategoryGrouper
+                                reports={data as AuditType[]}
+                            />
+                        )}
+                    </div>
+                );
+            }}
         />
     );
 };

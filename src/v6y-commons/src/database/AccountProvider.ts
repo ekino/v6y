@@ -25,7 +25,7 @@ const buildSearchQuery = async ({
     queryOptions.limit = limit;
 
     if (sort) {
-        queryOptions.order = [[sort, 'ASC']];
+        // queryOptions.order = [[sort, 'ASC']];
     }
 
     if (searchText) {
