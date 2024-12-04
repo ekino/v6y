@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request';
 
 const GetApplicationList = gql`
-    query GetApplicationList($start: Int, $limit: Int, $sort: String) {
-        getApplicationListByPageAndParams(start: $start, limit: $limit, sort: $sort) {
+    query GetApplicationList($sort: [String]) {
+        getApplicationList(sort: $sort) {
             _id
             acronym
             name

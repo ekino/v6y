@@ -4,6 +4,8 @@ const AccountLoginOutput = `
         _id: Int!
         """ Account token """
         token: String!
+        """ Account role """
+        role: String!
     }
 `;
 

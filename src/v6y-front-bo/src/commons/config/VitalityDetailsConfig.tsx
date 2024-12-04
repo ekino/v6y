@@ -1,4 +1,5 @@
 import {
+    AccountType,
     ApplicationType,
     AuditHelpType,
     DependencyStatusHelpType,
@@ -12,6 +13,23 @@ import { ReactNode } from 'react';
 
 import { TranslateType } from '../../infrastructure/types/TranslationType';
 import VitalityLinks from '../components/VitalityLinks';
+
+export const formatAccountDetails = (
+    translate: TranslateType,
+    details: AccountType,
+): Record<string, string | ReactNode> => {
+    if (!Object.keys(details || {})?.length) {
+        return {};
+    }
+
+    return {
+        [translate('v6y-accounts.fields.account-username.label') || '']: details.username,
+        [translate('v6y-accounts.fields.account-email.label') || '']: details.email,
+        [translate('v6y-accounts.fields.account-role.label') || '']: details.role,
+        [translate('v6y-accounts.fields.account-applications.label') || '']:
+            details.applications?.join(', '),
+    };
+};
 
 export const formatApplicationDetails = (
     translate: TranslateType,

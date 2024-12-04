@@ -10,7 +10,7 @@ const AccountCreateOrEditInput = `
         username: String!
 
         """ Account Password """
-        password: String!
+        password: String
 
         """ Account Role """
         role: String!

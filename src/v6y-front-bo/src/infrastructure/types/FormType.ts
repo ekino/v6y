@@ -14,6 +14,7 @@ export interface FormQueryOptionsType {
 
 export interface FormMutationOptionsType {
     resource?: string;
+    editResource?: string;
     editQuery: string;
     editQueryParams?: Record<string, unknown>;
     editFormAdapter?: (data: Record<string, unknown>) => Variables;
@@ -33,6 +34,7 @@ export interface FormWrapperProps {
     title?: string | ReactNode;
     queryOptions?: FormQueryOptionsType;
     mutationOptions?: FormMutationOptionsType;
+    createOptions?: FormCreateOptionsType;
     formItems?: ReactNode[];
     selectOptions?: {
         resource: string;

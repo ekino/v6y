@@ -9,6 +9,8 @@ import AccountLoginOutput from './account/AccountLoginOutput.ts';
 import AccountMutationsType from './account/AccountMutationsType.ts';
 import AccountQueriesType from './account/AccountQueriesType.ts';
 import AccountType from './account/AccountType.ts';
+import AccountUpdatePasswordInput from './account/AccountUpdatePasswordInput.ts';
+import AccountUpdatePasswordOutput from './account/AccountUpdatePasswordOutput.ts';
 import ApplicationCreateOrEditInput from './application/ApplicationCreateOrEditInput.ts';
 import ApplicationDeleteInput from './application/ApplicationDeleteInput.ts';
 import ApplicationDeleteOutput from './application/ApplicationDeleteOutput.ts';
@@ -134,6 +136,8 @@ const VitalityTypes = gql(`
 
     ${AccountCreateOrEditInput}
     ${AccountCreateOrEditOutput}
+    ${AccountUpdatePasswordInput}
+    ${AccountUpdatePasswordOutput}
     ${AccountDeleteInput}
     ${AccountDeleteOutput}
     ${AccountMutationsType}

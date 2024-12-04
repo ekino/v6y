@@ -1,10 +1,18 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 'use client';
 
 import { RefreshButton, Show } from '@refinedev/antd';
 import { BaseRecord, GetOneResponse, useShow } from '@refinedev/core';
-import GraphqlClientRequest from 'graphql-request';
 
+import { gqlClientRequest } from '../adapters/api/GraphQLClient';
 import { FormShowOptions } from '../types/FormType';
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 
 export default function RefineShowWrapper({
     title,
@@ -13,16 +21,13 @@ export default function RefineShowWrapper({
 }: FormShowOptions) {
     const { query } = useShow({
         queryOptions: {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             enabled: queryOptions?.enabled || true,
             queryKey: [queryOptions?.resource, queryOptions?.queryParams],
             queryFn: async (): Promise<GetOneResponse<BaseRecord>> =>
-                GraphqlClientRequest(
-                    process.env.NEXT_PUBLIC_GQL_API_BASE_PATH as string,
-                    queryOptions?.query as string,
-                    queryOptions?.queryParams,
-                ),
+                gqlClientRequest({
+                    gqlQueryPath: queryOptions?.query,
+                    gqlQueryParams: queryOptions?.queryParams,
+                }),
         },
     });
 

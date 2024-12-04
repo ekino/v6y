@@ -17,12 +17,15 @@ const VitalityFormFieldSet = ({ groupTitle, items, selectOptions }: VitalityForm
                 label={item.label}
                 name={item.name}
                 rules={item.rules}
+                initialValue={item.defaultValue}
             >
                 {item.type === 'select' && (
                     <Select
                         disabled={item.disabled || false}
+                        //defaultValue={item.defaultValue}
                         placeholder={item.placeholder}
                         options={selectOptions}
+                        mode={item.mode || undefined}
                     />
                 )}
 
@@ -31,6 +34,13 @@ const VitalityFormFieldSet = ({ groupTitle, items, selectOptions }: VitalityForm
                         disabled={item.disabled || false}
                         placeholder={item.placeholder}
                         rows={4}
+                    />
+                )}
+
+                {item.type === 'password' && (
+                    <Input.Password
+                        disabled={item.disabled || false}
+                        placeholder={item.placeholder}
                     />
                 )}
 

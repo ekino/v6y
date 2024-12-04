@@ -1,5 +1,15 @@
 export const VitalityRoutes = [
     {
+        name: 'v6y-accounts',
+        list: '/v6y-accounts',
+        create: '/v6y-accounts/create',
+        edit: '/v6y-accounts/edit/:id',
+        show: '/v6y-accounts/show/:id',
+        meta: {
+            canDelete: true,
+        },
+    },
+    {
         name: 'v6y-applications',
         list: '/v6y-applications',
         create: '/v6y-applications/create',

@@ -5,5 +5,5 @@ export interface SearchQueryType {
     start?: number;
     limit?: number;
     where?: { _id: number; id?: string };
-    sort?: string;
+    sort?: string | string[];
 }

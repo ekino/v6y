@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { List, RefreshButton, useTable } from '@refinedev/antd';
 import { Typography } from 'antd';
 import { ReactNode } from 'react';
@@ -14,8 +16,6 @@ export default function RefineTableWrapper<T>({
 }: RefineTableType<T>) {
     const { tableProps, tableQuery } = useTable({
         resource: queryOptions?.resource,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
         meta: { gqlQuery: queryOptions?.query },
         initialSorter: defaultSorter,
     });

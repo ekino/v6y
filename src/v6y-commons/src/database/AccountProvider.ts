@@ -1,6 +1,7 @@
 import { FindOptions, Op, Sequelize } from 'sequelize';
 
 import AppLogger from '../core/AppLogger.ts';
+import { isAdmin, isSuperAdmin } from '../core/AuthenticationHelper.ts';
 import { AccountInputType, AccountType } from '../types/AccountType.ts';
 import { SearchQueryType } from '../types/SearchQueryType.ts';
 import { AccountModelType } from './models/AccountModel.ts';
@@ -24,7 +25,7 @@ const buildSearchQuery = async ({
     queryOptions.limit = limit;
 
     if (sort) {
-        queryOptions.order = [[sort, 'ASC']];
+        // queryOptions.order = [[sort, 'ASC']];
     }
 
     if (searchText) {
@@ -82,8 +83,26 @@ const createAccount = async (account: AccountInputType) => {
  * Edit an Account
  * @param account
  */
-const editAccount = async (account: AccountInputType) => {
+const editAccount = async ({
+    account,
+    currentUser,
+}: {
+    account: AccountInputType;
+    currentUser: AccountType;
+}) => {
     try {
+        if (!(isAdmin(currentUser) || isSuperAdmin(currentUser))) {
+            throw new Error('You are not authorized to create an account');
+        }
+
+        if (
+            !isSuperAdmin(currentUser) &&
+            (account.role === 'ADMIN' || account.role === 'SUPERADMIN')
+        ) {
+            AppLogger.info(`[AccountProvider - createOrEditAccount] role : ${account.role}`);
+            throw new Error('You are not authorized to create an admin account');
+        }
+
         AppLogger.info(`[AccountProvider - editAccount] account id: ${account?._id}`);
         AppLogger.info(`[AccountProvider - editAccount] account username: ${account?.username}`);
         AppLogger.info(`[AccountProvider - editAccount] account role: ${account?.role}`);
@@ -119,27 +138,100 @@ const editAccount = async (account: AccountInputType) => {
 };
 
 /**
- * Delete an Account
- * @param _id
+ * Update Account Password
+ * @param account
  */
-const deleteAccount = async ({ _id }: AccountType) => {
-    try {
-        AppLogger.info(`[AccountProvider - deleteAccount] _id: ${_id}`);
 
-        if (!_id) {
+const updateAccountPassword = async ({
+    _id,
+    password,
+    currentUser,
+}: {
+    _id: number;
+    password: string;
+    currentUser: AccountType;
+}) => {
+    try {
+        if (currentUser._id !== _id && !isAdmin(currentUser) && !isSuperAdmin(currentUser)) {
+            throw new Error('You are not authorized to update this account');
+        }
+
+        if (!_id || !password) {
             return null;
         }
 
-        await AccountModelType.destroy({
+        AppLogger.info(`[AccountProvider - updateAccountPassword] _id: ${_id}`);
+
+        const accountDetails = await AccountModelType.findOne({
             where: {
                 _id,
             },
         });
 
-        AppLogger.info(`[AccountProvider - deleteAccount] deleted account: ${_id}`);
+        if (!accountDetails) {
+            return null;
+        }
+
+        await AccountModelType.update(
+            {
+                password: password,
+            },
+            {
+                where: {
+                    _id,
+                },
+            },
+        );
 
         return {
             _id,
+        };
+    } catch (error) {
+        AppLogger.info(`[AccountProvider - updateAccountPassword] error:  ${error}`);
+        return null;
+    }
+};
+
+/**
+ * Delete an Account
+ * @param _id
+ */
+const deleteAccount = async ({
+    userToDelete,
+    currentUser,
+}: {
+    userToDelete: AccountType;
+    currentUser: AccountType;
+}) => {
+    try {
+        AppLogger.info(`[AccountProvider - deleteAccount] _id: ${userToDelete._id}`);
+
+        if (!(isSuperAdmin(currentUser) || isAdmin(currentUser))) {
+            throw new Error('You are not authorized to delete an account');
+        }
+
+        if (currentUser._id === userToDelete._id) {
+            throw new Error('You cannot delete your own account');
+        }
+
+        if (userToDelete.role === 'ADMIN' && !isSuperAdmin(currentUser)) {
+            throw new Error('You are not authorized to delete an admin account');
+        }
+
+        if (!userToDelete._id) {
+            return null;
+        }
+
+        await AccountModelType.destroy({
+            where: {
+                _id: userToDelete._id,
+            },
+        });
+
+        AppLogger.info(`[AccountProvider - deleteAccount] deleted account: ${userToDelete._id}`);
+
+        return {
+            _id: userToDelete._id,
         };
     } catch (error) {
         AppLogger.info(`[AccountProvider - deleteAccount] error:  ${error}`);
@@ -172,6 +264,7 @@ const getAccountDetailsByParams = async ({ _id, email }: { _id?: number; email?:
 
         AppLogger.info(
             `[AccountProvider - getAccountDetailsByParams] account found, accountDetails: ${accountDetails._id}`,
+            `[AccountProvider - getAccountDetailsByParams] accountDetails: ${accountDetails.dataValues._id}`,
         );
 
         return accountDetails.dataValues;
@@ -226,6 +319,7 @@ const getAccountListByPageAndParams = async ({
 const AccountProvider = {
     createAccount,
     editAccount,
+    updateAccountPassword,
     deleteAccount,
     getAccountDetailsByParams,
     getAccountListByPageAndParams,

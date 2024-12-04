@@ -1,60 +1,100 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 'use client';
 
 import { Edit, useForm, useSelect } from '@refinedev/antd';
 import { BaseRecord, GetOneResponse } from '@refinedev/core';
 import { Form } from 'antd';
-import GraphqlClientRequest from 'graphql-request';
 import { ReactNode, useEffect } from 'react';
 
+import { gqlClientRequest } from '../adapters/api/GraphQLClient';
 import { FormWrapperProps } from '../types/FormType';
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 
 export default function RefineSelectWrapper({
     title,
     queryOptions,
     mutationOptions,
+    createOptions,
     selectOptions,
     renderSelectOption,
 }: FormWrapperProps) {
+    const formQueryOptions = queryOptions
+        ? {
+              queryOptions: {
+                  enabled: true,
+                  queryKey: [queryOptions?.resource, queryOptions?.queryParams],
+                  queryFn: async (): Promise<GetOneResponse<BaseRecord>> =>
+                      gqlClientRequest({
+                          gqlQueryPath: queryOptions?.query,
+                          gqlQueryParams: queryOptions?.queryParams,
+                      }),
+              },
+          }
+        : {};
+
+    const formMutationOptions = mutationOptions
+        ? {
+              updateMutationOptions: {
+                  mutationKey: [mutationOptions?.editResource, mutationOptions?.editQuery],
+                  mutationFn: async (): Promise<GetOneResponse<BaseRecord>> => {
+                      const { editQuery, editFormAdapter, editQueryParams } = mutationOptions;
+                      return gqlClientRequest({
+                          gqlQueryPath: editQuery,
+                          gqlQueryParams:
+                              editFormAdapter?.({
+                                  ...(editQueryParams || {}),
+                                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                  // @ts-expect-error
+                                  ...(form?.getFieldsValue() || {}),
+                              }) || {},
+                      });
+                  },
+              },
+          }
+        : {};
+
+    const formCreateOptions = createOptions
+        ? {
+              createMutationOptions: {
+                  mutationKey: [createOptions?.createResource, createOptions?.createQuery],
+                  mutationFn: async (): Promise<GetOneResponse<BaseRecord>> => {
+                      const { createQuery, createFormAdapter, createQueryParams } = createOptions;
+                      return gqlClientRequest({
+                          gqlQueryPath: createQuery,
+                          gqlQueryParams:
+                              createFormAdapter?.({
+                                  ...(createQueryParams || {}),
+                                  ...(form?.getFieldsValue() || {}),
+                              }) || {},
+                      });
+                  },
+              },
+          }
+        : {};
+
     const { form, formProps, saveButtonProps, query } = useForm({
-        queryOptions: {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            enabled: true,
-            queryKey: [queryOptions?.resource, queryOptions?.queryParams],
-            queryFn: async (): Promise<GetOneResponse<BaseRecord>> =>
-                GraphqlClientRequest(
-                    process.env.NEXT_PUBLIC_GQL_API_BASE_PATH || '',
-                    queryOptions?.query,
-                    queryOptions?.queryParams,
-                ),
-        },
-        updateMutationOptions: {
-            mutationKey: ['update', mutationOptions?.editQuery],
-            mutationFn: async () => {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-expect-error
-                const { editQuery, editFormAdapter, editQueryParams } = mutationOptions;
-                return GraphqlClientRequest(
-                    process.env.NEXT_PUBLIC_GQL_API_BASE_PATH || '',
-                    editQuery,
-                    editFormAdapter?.({
-                        ...(editQueryParams || {}),
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                        // @ts-expect-error
-                        ...(form?.getFieldsValue() || {}),
-                    }) || {},
-                );
-            },
-        },
+        ...formQueryOptions,
+        ...formMutationOptions,
+        ...formCreateOptions,
+        defaultFormValues: {},
     });
 
     const { query: selectQueryResult } = useSelect({
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        resource: selectOptions?.resource,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        meta: { gqlQuery: selectOptions?.query },
+        queryOptions: {
+            enabled: true,
+            queryKey: [selectOptions?.resource, selectOptions?.queryParams],
+            queryFn: async (): Promise<GetOneResponse<BaseRecord>> =>
+                gqlClientRequest({
+                    gqlQueryPath: selectOptions?.query,
+                    gqlQueryParams: selectOptions?.queryParams,
+                }),
+        },
     });
 
     useEffect(() => {
@@ -66,15 +106,17 @@ export default function RefineSelectWrapper({
         }
     }, [form, query?.data, queryOptions]);
 
+    const isLoading = selectQueryResult?.isLoading || (queryOptions && query?.isLoading);
+
     return (
         <Edit
-            isLoading={selectQueryResult?.isLoading || query?.isLoading}
+            isLoading={isLoading}
             canDelete={false}
             title={title}
             saveButtonProps={saveButtonProps}
         >
             <Form {...formProps} layout="vertical" variant="filled">
-                {renderSelectOption?.(selectQueryResult?.data?.data)?.map(
+                {renderSelectOption?.(selectQueryResult?.data?.[selectOptions?.resource])?.map(
                     (item: ReactNode) => item,
                 )}
             </Form>

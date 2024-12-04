@@ -34,9 +34,13 @@ export const createJwtOptions = () => {
  * Creates a verification function for JWT strategy.
  * @returns {Function} A function that verifies JWT payload.
  */
-const createJwtStrategyVerify = () => {
+export const createJwtStrategyVerify = () => {
     return async (jwtPayload: JwtPayload, done: VerifiedCallback) => {
         try {
+            AppLogger.info(
+                `[AuthenticationHelper - createJwtStrategyVerify] JwtPayload: ${JwtPayload?._id}`,
+            );
+
             // Ensure the token contains the `_id` field.
             if (!jwtPayload._id) {
                 return done(Error('Token does not contain _id'), undefined);
@@ -46,6 +50,10 @@ const createJwtStrategyVerify = () => {
                 _id: jwtPayload._id,
             });
 
+            AppLogger.info(
+                `[AuthenticationHelper - createJwtStrategyVerify] _id : ${accountDetails?._id}`,
+            );
+
             if (!accountDetails) {
                 return done(Error('User not Found'), undefined);
             }
@@ -53,6 +61,7 @@ const createJwtStrategyVerify = () => {
             AppLogger.info(
                 `[AuthenticationHelper - createJwtStrategyVerify] User Found : ${accountDetails._id}`,
             );
+
             return done(null, accountDetails);
         } catch (error) {
             AppLogger.error(`[AuthenticationHelper- createJwtStrategyVerify] : ${error}`);
@@ -103,6 +112,20 @@ export const validateCredentials = <T>(request: T): Promise<unknown> => {
  * Initializes Authentication middleware.
  */
 export const configureAuthMiddleware = <T>(): T => passport.initialize() as T;
+
+/**
+ * Check if user role is ADMIN.
+ * @param {object} account
+ * @returns {boolean}
+ */
+export const isAdmin = (account: AccountType) => account?.role === 'ADMIN';
+
+/**
+ * Check if user role is SUPERADMIN.
+ * @param {object} account
+ * @returns {boolean}
+ */
+export const isSuperAdmin = (account: AccountType) => account?.role === 'SUPERADMIN';
 
 /**
  * Configures the authentication strategy.

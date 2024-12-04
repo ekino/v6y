@@ -1,23 +1,12 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import type { AuthProvider } from '@refinedev/core';
-import dataProvider, { GraphQLClient, graphqlWS, liveProvider } from '@refinedev/graphql';
+import dataProvider, { graphqlWS, liveProvider } from '@refinedev/graphql';
 import Cookies from 'js-cookie';
 
-const dataClient = new GraphQLClient(process.env.NEXT_PUBLIC_GQL_API_BASE_PATH as string, {
-    fetch: (url: RequestInfo | URL, options?: RequestInit) => {
-        return fetch(url, {
-            ...options,
-            headers: {
-                ...(options?.headers || {}),
-                /**
-                 * For demo purposes, we're using `localStorage` to access the token.
-                 * You can use your own authentication logic here.
-                 * In real world applications, you'll need to handle it in sync with your `authProvider`.
-                 */
-                Authorization: `Bearer ${JSON.parse(Cookies.get('auth') || '')?.email}`,
-            },
-        });
-    },
-});
+import { gqlClient } from '../adapters/api/GraphQLClient';
+
+const dataClient = gqlClient;
 
 const wsClient = graphqlWS.createClient({
     url: process.env.NEXT_PUBLIC_GQL_API_BASE_PATH as string,
@@ -27,76 +16,98 @@ export const gqlDataProvider = dataProvider(dataClient);
 
 export const gqlLiveProvider = liveProvider(wsClient);
 
-const mockUsers = [
-    {
-        email: 'admin@refine.dev',
-        name: 'John Doe',
-        avatar: 'https://i.pravatar.cc/150?img=1',
-        roles: ['admin'],
-    },
-    {
-        email: 'editor@refine.dev',
-        name: 'Jane Doe',
-        avatar: 'https://i.pravatar.cc/150?img=1',
-        roles: ['editor'],
-    },
-    {
-        email: 'demo@refine.dev',
-        name: 'Jane Doe',
-        avatar: 'https://i.pravatar.cc/150?img=1',
-        roles: ['user'],
-    },
-];
-
 export const gqlAuthProvider: AuthProvider = {
-    login: async ({ email /*username, password, remember*/ }) => {
-        // Suppose we actually send a request to the back end here.
-        const user = mockUsers.find((item) => item.email === email);
+    login: async ({ email, password }) => {
+        try {
+            const apiUrl = process.env.NEXT_PUBLIC_GQL_API_BASE_PATH;
+            if (!apiUrl) {
+                throw new Error('NEXT_PUBLIC_GQL_API_BASE_PATH is not defined');
+            }
 
-        if (user) {
-            Cookies.set('auth', JSON.stringify(user), {
-                expires: 30, // 30 days
-                path: '/',
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    operationName: 'LoginAccount',
+                    query: `
+                        query LoginAccount($input: AccountLoginInput!) {
+                            loginAccount(input: $input) {
+                                _id
+                                role
+                                token
+                            }
+                        }
+                    `,
+                    variables: {
+                        input: { email, password },
+                    },
+                }),
             });
+
+            const { data, errors } = await response.json();
+
+            if (errors) {
+                return {
+                    success: false,
+                    error: {
+                        name: 'LoginError',
+                        message: errors[0].message,
+                    },
+                };
+            }
+
+            if (data.loginAccount?.token) {
+                if (data.loginAccount.role !== 'ADMIN' && data.loginAccount.role !== 'SUPERADMIN') {
+                    return {
+                        success: false,
+                        error: {
+                            name: 'LoginError',
+                            message: 'You are not authorized to login',
+                        },
+                    };
+                }
+
+                Cookies.set(
+                    'auth',
+                    JSON.stringify({
+                        token: data.loginAccount.token,
+                        _id: data.loginAccount._id,
+                        role: data.loginAccount.role,
+                    }),
+                    {
+                        expires: 30, // 30 jours
+                        path: '/',
+                    },
+                );
+
+                return {
+                    success: true,
+                    redirectTo: '/',
+                };
+            }
+
             return {
-                success: true,
-                redirectTo: '/',
+                success: false,
+                error: {
+                    name: 'LoginError',
+                    message: 'Invalid username or password',
+                },
+            };
+        } catch (error) {
+            return {
+                success: false,
+                error: {
+                    name: 'LoginError',
+                    message: (error as Error).message,
+                },
             };
         }
-
-        return {
-            success: false,
-            error: {
-                name: 'LoginError',
-                message: 'Invalid username or password',
-            },
-        };
     },
-    register: async (params) => {
+    forgotPassword: async () => {
         // Suppose we actually send a request to the back end here.
-        const user = mockUsers.find((item) => item.email === params.email);
-
-        if (user) {
-            Cookies.set('auth', JSON.stringify(user), {
-                expires: 30, // 30 days
-                path: '/',
-            });
-            return {
-                success: true,
-                redirectTo: '/',
-            };
-        }
-        return {
-            success: false,
-            error: {
-                message: 'Register failed',
-                name: 'Invalid email or password',
-            },
-        };
-    },
-    forgotPassword: async (params) => {
-        // Suppose we actually send a request to the back end here.
-        const user = mockUsers.find((item) => item.email === params.email);
+        const user = null;
 
         if (user) {
             //we can send email with reset password link here
@@ -112,23 +123,71 @@ export const gqlAuthProvider: AuthProvider = {
             },
         };
     },
-    updatePassword: async (params) => {
-        // Suppose we actually send a request to the back end here.
-        const isPasswordInvalid = params.password === '123456' || !params.password;
+    updatePassword: async ({ password }) => {
+        try {
+            const apiUrl = process.env.NEXT_PUBLIC_GQL_API_BASE_PATH;
+            if (!apiUrl) {
+                throw new Error('NEXT_PUBLIC_GQL_API_BASE_PATH is not defined');
+            }
 
-        if (isPasswordInvalid) {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${JSON.parse(Cookies.get('auth') || '{}')?.token}`,
+                },
+                body: JSON.stringify({
+                    operationName: 'UpdateAccountPassword',
+                    query: `
+                        mutation UpdateAccountPassword($input: AccountUpdatePasswordInput!) {
+                            updateAccountPassword(input: $input) {
+                                _id
+                            }
+                        }
+                    `,
+                    variables: {
+                        input: {
+                            _id: JSON.parse(Cookies.get('auth') || '{}')?._id,
+                            password: password,
+                        },
+                    },
+                }),
+            });
+
+            const { data, errors } = await response.json();
+
+            if (errors) {
+                return {
+                    success: false,
+                    error: {
+                        name: 'UpdateAccountPassword',
+                        message: errors[0].message,
+                    },
+                };
+            }
+
+            if (data.updateAccountPassword) {
+                return {
+                    success: true,
+                };
+            }
+
             return {
                 success: false,
                 error: {
-                    message: 'Update password failed',
-                    name: 'Invalid password',
+                    name: 'UpdateAccountPassword',
+                    message: 'Invalid password',
+                },
+            };
+        } catch (error) {
+            return {
+                success: false,
+                error: {
+                    name: 'UpdateAccountPassword',
+                    message: (error as Error).message,
                 },
             };
         }
-
-        return {
-            success: true,
-        };
     },
     logout: async () => {
         Cookies.remove('auth', { path: '/' });
@@ -155,7 +214,7 @@ export const gqlAuthProvider: AuthProvider = {
         const auth = Cookies.get('auth');
         if (auth) {
             const parsedUser = JSON.parse(auth);
-            return parsedUser.roles;
+            return parsedUser.role;
         }
         return null;
     },

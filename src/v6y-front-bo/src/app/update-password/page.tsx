@@ -7,8 +7,8 @@ import { AuthServerProvider } from '../../infrastructure/providers/AuthServerPro
 export default async function UpdatePassword() {
     const data = await getData();
 
-    if (data.authenticated) {
-        redirect(data?.redirectTo || '/');
+    if (!data.authenticated) {
+        redirect(data?.redirectTo || '/login');
     }
 
     return <VitalityAuthUpdatePasswordView />;
