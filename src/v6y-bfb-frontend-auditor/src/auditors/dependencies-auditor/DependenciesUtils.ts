@@ -4,6 +4,7 @@ import {
     DeprecatedDependencyProvider,
     SemverUtils,
     dependencyStatus,
+    vulnerabilityStatusMap,
 } from '@v6y/commons';
 
 import { AuditCommonsType } from '../types/AuditCommonsType.ts';
@@ -14,6 +15,7 @@ const { getFilesRecursively, getFileContent } = AuditUtils;
 const { compareVersions } = SemverUtils;
 
 const DEPENDENCIES_REFERENCE_API = 'https://skimdb.npmjs.com/registry/';
+const DEPENDENCIES_VULNERABILITY_REFERENCE_API = 'https://api.github.com/advisories';
 
 /**
  * Get dependencies reference
@@ -41,7 +43,56 @@ const getDependenciesReference = async ({ dependencyName }: DependencyAuditParam
 
         return dependencyReferenceJsonResponse;
     } catch (error) {
-        AppLogger.info(`[DependenciesUtils - getDependenciesReference] error:  ${error}`);
+        AppLogger.error(`[DependenciesUtils - getDependenciesReference] error:  ${error}`);
+        return {};
+    }
+};
+
+/**
+ * Get dependencies vulnerability analysis
+ * @param dependencyName
+ * @param dependencyVersion
+ */
+
+const getDependenciesVulnerabilityAnalysis = async ({
+    dependencyName,
+    dependencyVersion,
+}: DependencyAuditParamsType) => {
+    try {
+        AppLogger.info(
+            `[DependenciesUtils - getDependenciesVulnerabilityAnalysis] dependencyName:  ${dependencyName}`,
+        );
+        AppLogger.info(
+            `[DependenciesUtils - getDependenciesVulnerabilityAnalysis] dependencyVersion:  ${dependencyVersion}`,
+        );
+
+        if (!dependencyVersion || !dependencyName) {
+            return {};
+        }
+
+        const dependencyVulnerabilityResponse = await fetch(
+            `${DEPENDENCIES_VULNERABILITY_REFERENCE_API}/?ecosystem=npm&affects=${dependencyName}@${dependencyVersion}}`,
+            {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+            },
+        );
+
+        AppLogger.info(
+            `[DependenciesUtils - getDependenciesVulnerabilityAnalysis] dependencyVulnerabilityResponse:  ${dependencyVulnerabilityResponse}`,
+        );
+
+        const dependencyVulnerabilityResponseJsonResponse =
+            await dependencyVulnerabilityResponse.json();
+        AppLogger.info(
+            `[DependenciesUtils - getDependenciesVulnerabilityAnalysis] dependencyVulnerabilityResponseJsonResponse:  ${dependencyVulnerabilityResponseJsonResponse}`,
+        );
+
+        return dependencyVulnerabilityResponseJsonResponse;
+    } catch (error) {
+        AppLogger.error(
+            `[DependenciesUtils - getDependenciesVulnerabilityAnalysis] error:  ${error}`,
+        );
         return {};
     }
 };
@@ -102,16 +153,36 @@ const buildDependencyAuditReport = async ({
 
         AppLogger.info(`[DependenciesUtils - buildDependencyAuditReport] depStatus:  ${depStatus}`);
 
+        const dependencyVulnerability = await getDependenciesVulnerabilityAnalysis({
+            dependencyName,
+            dependencyVersion,
+        });
+        AppLogger.info(
+            `[DependenciesUtils - buildDependencyAuditReport] dependencyVulnerability:  ${dependencyVulnerability}`,
+        );
+
+        const vulnerabilityStatus = dependencyVulnerability?.severity;
+        AppLogger.info(
+            `[DependenciesUtils - buildDependencyAuditReport] vulnerabilityStatus:  ${vulnerabilityStatus}`,
+        );
+
+        const depVulnerabilityStatus = vulnerabilityStatusMap[vulnerabilityStatus] || 'unknown';
+
+        AppLogger.info(
+            `[DependenciesUtils - buildDependencyAuditReport] depVulnerabilityStatus:  ${depVulnerabilityStatus}`,
+        );
+
         return {
             type: 'frontend',
             name: dependencyName,
             version: dependencyVersion,
             recommendedVersion: recommendedVersion || dependencyVersion,
             status: depStatus,
+            vulnerabilityStatus: depVulnerabilityStatus,
             module,
         };
     } catch (error) {
-        AppLogger.info(`[DependenciesUtils - buildDependencyAuditReport] error:  ${error}`);
+        AppLogger.error(`[DependenciesUtils - buildDependencyAuditReport] error:  ${error}`);
         return {};
     }
 };
@@ -153,7 +224,7 @@ const buildModuleDependenciesAuditReports = async ({
 
         return dependenciesAuditReports;
     } catch (error) {
-        AppLogger.info(`[DependenciesUtils - getDependenciesReference] error:  ${error}`);
+        AppLogger.error(`[DependenciesUtils - getDependenciesReference] error:  ${error}`);
         return [];
     }
 };
@@ -246,7 +317,7 @@ const formatDependenciesReports = async ({ application, workspaceFolder }: Audit
 
         return dependenciesAuditReports;
     } catch (error) {
-        AppLogger.info(`[DependenciesUtils - formatCodeModularityReports] error:  ${error}`);
+        AppLogger.error(`[DependenciesUtils - formatCodeModularityReports] error:  ${error}`);
         return [];
     }
 };
