@@ -7,7 +7,7 @@ import VitalityTerms from '../../../../../../commons/config/VitalityTerms';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';
 
 const VitalityCodeStatusReportsSmellGrouper = VitalityDynamicLoader(
-    () => import('./VitalityCodeStatusReportsSmellGrouper')
+    () => import('./VitalityCodeStatusReportsSmellGrouper'),
 );
 
 const VitalityCodeStatusReportsBranchGrouper = ({ reports }: { reports: AuditType[] }) => {
@@ -20,15 +20,17 @@ const VitalityCodeStatusReportsBranchGrouper = ({ reports }: { reports: AuditTyp
             label={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_SELECT_LABEL}
             helper={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_SELECT_HELPER}
             dataSource={reports}
-            onRenderChildren={(_, data) => (
-                <>
-                    {data && (
-                        <VitalityCodeStatusReportsSmellGrouper
-                            reports={data as VitalityModuleType[]}
-                        />
-                    )}
-                </>
-            )}
+            onRenderChildren={(_, data) => {
+                return (
+                    <>
+                        {data && (
+                            <VitalityCodeStatusReportsSmellGrouper
+                                reports={data as VitalityModuleType[]}
+                            />
+                        )}
+                    </>
+                );
+            }}
         />
     );
 };

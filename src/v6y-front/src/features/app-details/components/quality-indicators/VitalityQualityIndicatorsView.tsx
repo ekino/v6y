@@ -1,5 +1,3 @@
-import { exportAppQualityIndicatorsToCSV } from '@/commons/utils/VitalityDataExportUtils';
-import { buildClientQuery, useClientQuery } from '@/infrastructure/adapters/api/useQueryAdapter';
 import { CompassOutlined } from '@ant-design/icons';
 import { KeywordType } from '@v6y/commons';
 import * as React from 'react';
@@ -8,11 +6,16 @@ import VitalityDynamicLoader from '../../../../commons/components/VitalityDynami
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
 import VitalityTerms from '../../../../commons/config/VitalityTerms';
+import { exportAppQualityIndicatorsToCSV } from '../../../../commons/utils/VitalityDataExportUtils';
+import {
+    buildClientQuery,
+    useClientQuery,
+} from '../../../../infrastructure/adapters/api/useQueryAdapter';
 import useNavigationAdapter from '../../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import GetApplicationDetailsQualityIndicatorsByParams from '../../api/getApplicationDetailsQualityIndicatorsByParams';
 
 const VitalityQualityIndicatorBranchGrouper = VitalityDynamicLoader(
-    () => import('./VitalityQualityIndicatorBranchGrouper')
+    () => import('./VitalityQualityIndicatorBranchGrouper'),
 );
 
 interface VitalityQualityIndicatorsQueryType {

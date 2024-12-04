@@ -1,5 +1,3 @@
-import { exportAppEvolutionsToCSV } from '@/commons/utils/VitalityDataExportUtils';
-import { buildClientQuery, useClientQuery } from '@/infrastructure/adapters/api/useQueryAdapter';
 import { BulbOutlined } from '@ant-design/icons';
 import { EvolutionType } from '@v6y/commons';
 import * as React from 'react';
@@ -8,10 +6,17 @@ import VitalityDynamicLoader from '../../../../commons/components/VitalityDynami
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
 import VitalityTerms from '../../../../commons/config/VitalityTerms';
+import { exportAppEvolutionsToCSV } from '../../../../commons/utils/VitalityDataExportUtils';
+import {
+    buildClientQuery,
+    useClientQuery,
+} from '../../../../infrastructure/adapters/api/useQueryAdapter';
 import useNavigationAdapter from '../../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import GetApplicationDetailsEvolutionsByParams from '../../api/getApplicationDetailsEvolutionsByParams';
 
-const VitalityEvolutionBranchGrouper = VitalityDynamicLoader(() => import('./VitalityEvolutionBranchGrouper'));
+const VitalityEvolutionBranchGrouper = VitalityDynamicLoader(
+    () => import('./VitalityEvolutionBranchGrouper'),
+);
 
 interface VitalityEvolutionsQueryType {
     isLoading: boolean;

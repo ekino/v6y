@@ -1,4 +1,5 @@
 // VitalityLighthouseReportsCategoryGrouper.test.tsx
+import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
 import { AuditType } from '@v6y/commons';
 import * as React from 'react';

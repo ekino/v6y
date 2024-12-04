@@ -17,7 +17,7 @@ import useDataGrouper from '../../../../../../commons/hooks/useDataGrouper';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';
 
 const VitalityHelpView = VitalityDynamicLoader(
-    () => import('../../../../../../commons/components/help/VitalityHelpView')
+    () => import('../../../../../../commons/components/help/VitalityHelpView'),
 );
 
 const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditType[] }) => {
@@ -61,6 +61,7 @@ const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditT
                                     />,
                                 ]}
                             >
+                                ccccccc
                                 <Card.Meta
                                     description={
                                         <Row gutter={[16, 16]} justify="center" align="middle">

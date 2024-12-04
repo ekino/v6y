@@ -1,13 +1,16 @@
 'use client';
 
-import VitalityEmptyView from '@/commons/components/VitalityEmptyView';
-import { buildClientQuery, useClientQuery } from '@/infrastructure/adapters/api/useQueryAdapter';
 import { NotificationOutlined } from '@ant-design/icons';
 import { NotificationType } from '@v6y/commons';
 
+import VitalityEmptyView from '../../../commons/components/VitalityEmptyView';
 import VitalitySectionView from '../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import VitalityTerms from '../../../commons/config/VitalityTerms';
+import {
+    buildClientQuery,
+    useClientQuery,
+} from '../../../infrastructure/adapters/api/useQueryAdapter';
 import GetNotificationListByPageAndParams from '../api/getNotificationListByPageAndParams';
 import VitalityNotificationList from './VitalityNotificationList';
 

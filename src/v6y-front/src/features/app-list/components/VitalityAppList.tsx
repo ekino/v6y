@@ -1,20 +1,20 @@
 'use client';
 
-import { formatApplicationDataSource } from '@/commons/config/VitalityCommonConfig';
-import { exportAppListDataToCSV } from '@/commons/utils/VitalityDataExportUtils';
-import {
-    buildClientQuery,
-    useInfiniteClientQuery,
-} from '@/infrastructure/adapters/api/useQueryAdapter';
 import { ApplicationType } from '@v6y/commons';
 import { Col, Row } from 'antd';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import VitalityLoadMoreList from '../../../commons/components/VitalityLoadMoreList';
 import VitalityDynamicLoader from '../../../commons/components/VitalityDynamicLoader';
+import VitalityLoadMoreList from '../../../commons/components/VitalityLoadMoreList';
 import VitalityAppInfos from '../../../commons/components/application-info/VitalityAppInfos';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
+import { formatApplicationDataSource } from '../../../commons/config/VitalityCommonConfig';
+import { exportAppListDataToCSV } from '../../../commons/utils/VitalityDataExportUtils';
+import {
+    buildClientQuery,
+    useInfiniteClientQuery,
+} from '../../../infrastructure/adapters/api/useQueryAdapter';
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import GetApplicationListByPageAndParams from '../api/getApplicationListByPageAndParams';
 

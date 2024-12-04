@@ -1,5 +1,3 @@
-import { exportAppAuditReportsToCSV } from '@/commons/utils/VitalityDataExportUtils';
-import { buildClientQuery, useClientQuery } from '@/infrastructure/adapters/api/useQueryAdapter';
 import { FormOutlined } from '@ant-design/icons';
 import { AuditType } from '@v6y/commons';
 import * as React from 'react';
@@ -8,10 +6,17 @@ import VitalityDynamicLoader from '../../../../commons/components/VitalityDynami
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
 import VitalityTerms from '../../../../commons/config/VitalityTerms';
+import { exportAppAuditReportsToCSV } from '../../../../commons/utils/VitalityDataExportUtils';
+import {
+    buildClientQuery,
+    useClientQuery,
+} from '../../../../infrastructure/adapters/api/useQueryAdapter';
 import useNavigationAdapter from '../../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import GetApplicationDetailsAuditReportsByParams from '../../api/getApplicationDetailsAuditReportsByParams';
 
-const VitalityAuditReportsTypeGrouper = VitalityDynamicLoader(() => import('./VitalityAuditReportsTypeGrouper'));
+const VitalityAuditReportsTypeGrouper = VitalityDynamicLoader(
+    () => import('./VitalityAuditReportsTypeGrouper'),
+);
 
 interface VitalityAuditReportsQueryType {
     isLoading: boolean;

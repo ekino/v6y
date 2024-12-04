@@ -17,13 +17,17 @@ const VitalityLighthouseReportsDeviceGrouper = ({ reports }: { reports: AuditTyp
             criteria="subCategory"
             hasAllGroup={false}
             dataSource={reports}
-            onRenderChildren={(_, data) => (
-                <div id="lighthouse_device_tab_content">
-                    {data && (
-                        <VitalityLighthouseReportsCategoryGrouper reports={data as AuditType[]} />
-                    )}
-                </div>
-            )}
+            onRenderChildren={(_, data) => {
+                return (
+                    <div id="lighthouse_device_tab_content">
+                        {data && (
+                            <VitalityLighthouseReportsCategoryGrouper
+                                reports={data as AuditType[]}
+                            />
+                        )}
+                    </div>
+                );
+            }}
         />
     );
 };

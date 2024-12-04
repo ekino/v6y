@@ -1,5 +1,3 @@
-import { exportAppDetailsDataToCSV } from '@/commons/utils/VitalityDataExportUtils';
-import { buildClientQuery, useClientQuery } from '@/infrastructure/adapters/api/useQueryAdapter';
 import { InfoOutlined } from '@ant-design/icons';
 import { ApplicationType } from '@v6y/commons';
 import * as React from 'react';
@@ -8,11 +6,16 @@ import VitalityDynamicLoader from '../../../../commons/components/VitalityDynami
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
 import VitalityTerms from '../../../../commons/config/VitalityTerms';
+import { exportAppDetailsDataToCSV } from '../../../../commons/utils/VitalityDataExportUtils';
+import {
+    buildClientQuery,
+    useClientQuery,
+} from '../../../../infrastructure/adapters/api/useQueryAdapter';
 import useNavigationAdapter from '../../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import GetApplicationDetailsInfosByParams from '../../api/getApplicationDetailsInfosByParams';
 
 const VitalityAppInfos = VitalityDynamicLoader(
-    () => import('../../../../commons/components/application-info/VitalityAppInfos')
+    () => import('../../../../commons/components/application-info/VitalityAppInfos'),
 );
 
 interface VitalityGeneralInformationQueryType {
@@ -24,7 +27,6 @@ const VitalityGeneralInformationView = ({}) => {
     const { getUrlParams } = useNavigationAdapter();
     const [_id] = getUrlParams(['_id']);
 
-    
     const {
         isLoading: isAppDetailsInfosLoading,
         data: appDetailsInfos,
@@ -41,7 +43,6 @@ const VitalityGeneralInformationView = ({}) => {
     });
 
     const appInfos = appDetailsInfos?.getApplicationDetailsInfoByParams;
-    console.log(appInfos, isAppDetailsInfosLoading )
 
     const onExportClicked = () => {
         exportAppDetailsDataToCSV(appInfos as ApplicationType);

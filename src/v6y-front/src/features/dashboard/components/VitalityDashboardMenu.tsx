@@ -1,7 +1,7 @@
-import { DashboardItemType } from '@/commons/config/VitalityCommonConfig';
 import { Col, Row, Typography } from 'antd';
 import * as React from 'react';
 
+import { DashboardItemType } from '../../../commons/config/VitalityCommonConfig';
 import VitalityTerms from '../../../commons/config/VitalityTerms';
 import VitalityDashboardMenuItem from './VitalityDashboardMenuItem';
 

@@ -8,7 +8,7 @@ import useDataGrouper from '../../../../../../commons/hooks/useDataGrouper';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';
 
 const VitalityModulesView = VitalityDynamicLoader(
-    () => import('../../../../../../commons/components/modules/VitalityModulesView')
+    () => import('../../../../../../commons/components/modules/VitalityModulesView'),
 );
 //souci de typage
 

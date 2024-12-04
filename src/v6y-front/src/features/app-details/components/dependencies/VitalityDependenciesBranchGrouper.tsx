@@ -6,7 +6,7 @@ import VitalitySelectGrouperView from '../../../../commons/components/VitalitySe
 import VitalityTerms from '../../../../commons/config/VitalityTerms';
 
 const VitalityDependenciesStatusGrouper = VitalityDynamicLoader(
-    () => import('./VitalityDependenciesStatusGrouper')
+    () => import('./VitalityDependenciesStatusGrouper'),
 );
 
 const VitalityDependenciesBranchGrouper = ({

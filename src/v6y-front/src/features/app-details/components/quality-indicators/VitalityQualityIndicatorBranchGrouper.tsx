@@ -6,7 +6,7 @@ import VitalitySelectGrouperView from '../../../../commons/components/VitalitySe
 import VitalityTerms from '../../../../commons/config/VitalityTerms';
 
 const VitalityQualityIndicatorStatusGrouper = VitalityDynamicLoader(
-    () => import('./VitalityQualityIndicatorStatusGrouper')
+    () => import('./VitalityQualityIndicatorStatusGrouper'),
 );
 
 const VitalityQualityIndicatorBranchGrouper = ({ indicators }: { indicators: KeywordType[] }) => {

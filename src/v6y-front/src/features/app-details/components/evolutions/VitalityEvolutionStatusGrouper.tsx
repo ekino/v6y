@@ -6,7 +6,7 @@ import VitalityTabGrouperView from '../../../../commons/components/VitalityTabGr
 import { VitalityModuleType } from '../../../../commons/types/VitalityModulesProps';
 
 const VitalityModulesView = VitalityDynamicLoader(
-    () => import('../../../../commons/components/modules/VitalityModulesView')
+    () => import('../../../../commons/components/modules/VitalityModulesView'),
 );
 
 const VitalityEvolutionStatusGrouper = ({ evolutions }: { evolutions: EvolutionType[] }) => {
