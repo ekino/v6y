@@ -2,6 +2,8 @@
 
 import { RefineThemes } from '@refinedev/antd';
 import { App as AntdApp, ConfigProvider, theme } from 'antd';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import Cookies from 'js-cookie';
 import * as React from 'react';
 import { createContext, useEffect, useState } from 'react';
