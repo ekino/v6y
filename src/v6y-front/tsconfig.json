@@ -3,7 +3,7 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "ES2021.String",
+      "ES2021.String"
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -25,12 +25,7 @@
         "name": "next"
       }
     ],
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    },
-    "types": ["vitest/globals", "@testing-library/jest-dom"],
+    "types": ["vitest/globals", "@testing-library/jest-dom"]
   },
   "include": [
     "next-env.d.ts",

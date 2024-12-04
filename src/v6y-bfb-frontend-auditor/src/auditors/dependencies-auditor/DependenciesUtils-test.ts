@@ -5,6 +5,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { AuditCommonsType } from '../types/AuditCommonsType.ts';
 import DependenciesUtils from './DependenciesUtils.ts';
 
+// Mock commons modules
 vi.mock('@v6y/commons', async () => {
     const actualModule = (await vi.importActual('@v6y/commons')) as typeof import('@v6y/commons');
 

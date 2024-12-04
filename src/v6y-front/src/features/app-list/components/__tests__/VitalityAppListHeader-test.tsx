@@ -1,7 +1,8 @@
 // VitalityAppListHeader.test.tsx
+import '@testing-library/jest-dom/vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import * as React from 'react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useClientQuery } from '../../../../infrastructure/adapters/api/useQueryAdapter';
 import useNavigationAdapter from '../../../../infrastructure/adapters/navigation/useNavigationAdapter';
@@ -17,11 +18,11 @@ describe('VitalityAppListHeader', () => {
     const mockOnExportApplicationsClicked = vi.fn();
 
     beforeEach(() => {
-        useNavigationAdapter.mockReturnValue({
+        (useNavigationAdapter as Mock).mockReturnValue({
             getUrlParams: vi.fn(() => [[], '']),
         });
 
-        useClientQuery.mockReturnValue({
+        (useClientQuery as Mock).mockReturnValue({
             isLoading: false,
             data: { getApplicationTotalByParams: 10 },
             refetch: vi.fn(),
@@ -61,11 +62,11 @@ describe('VitalityAppListHeader', () => {
         );
 
         expect(useClientQuery).toHaveBeenCalled();
-        expect(useClientQuery.mock.results[0].value.refetch).toHaveBeenCalled();
+        expect((useClientQuery as Mock).mock.results[0].value.refetch).toHaveBeenCalled();
     });
 
     it('should update app total when data changes', () => {
-        useClientQuery.mockReturnValue({
+        (useClientQuery as Mock).mockReturnValue({
             isLoading: false,
             data: { getApplicationTotalByParams: 5 },
             refetch: vi.fn(),
@@ -79,7 +80,7 @@ describe('VitalityAppListHeader', () => {
     });
 
     it('should handle missing data', () => {
-        useClientQuery.mockReturnValue({
+        (useClientQuery as Mock).mockReturnValue({
             isLoading: false,
             data: undefined,
             refetch: vi.fn(),
@@ -95,10 +96,10 @@ describe('VitalityAppListHeader', () => {
 
     it('should refetch data when keywords or searchText change', () => {
         const refetchMock = vi.fn();
-        useNavigationAdapter.mockReturnValue({
+        (useNavigationAdapter as Mock).mockReturnValue({
             getUrlParams: vi.fn(() => [['keyword1'], 'test']),
         });
-        useClientQuery.mockReturnValue({
+        (useClientQuery as Mock).mockReturnValue({
             isLoading: false,
             data: { getApplicationTotalByParams: 10 },
             refetch: refetchMock,
@@ -110,7 +111,7 @@ describe('VitalityAppListHeader', () => {
 
         expect(refetchMock).toHaveBeenCalledTimes(2); // Initial refetch
 
-        useNavigationAdapter.mockReturnValue({
+        (useNavigationAdapter as Mock).mockReturnValue({
             getUrlParams: vi.fn(() => [['keyword2'], 'test2']),
         });
 

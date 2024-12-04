@@ -1,4 +1,5 @@
 // VitalityEvolutionStatusGrouper.test.tsx
+import '@testing-library/jest-dom/vitest';
 import { render } from '@testing-library/react';
 import { EvolutionType } from '@v6y/commons';
 import * as React from 'react';

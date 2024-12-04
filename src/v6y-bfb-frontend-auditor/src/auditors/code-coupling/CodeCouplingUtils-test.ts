@@ -6,6 +6,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { AuditCommonsType } from '../types/AuditCommonsType.js';
 import CodeCouplingUtils from './CodeCouplingUtils.ts';
 
+// Mock external modules
 vi.mock('madge', () => ({
     default: vi.fn(),
 }));

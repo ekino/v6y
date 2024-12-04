@@ -1,11 +1,8 @@
-import {
-    CriteriaGroup,
-    DataGrouperParams,
-    DataGrouperReturn,
-} from '@/commons/hooks/DataGrouperType';
 import { Typography } from 'antd';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+
+import { CriteriaGroup, DataGrouperParams, DataGrouperReturn } from './DataGrouperType';
 
 const useDataGrouper = ({
     dataSource,

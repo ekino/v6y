@@ -5,6 +5,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { CodeModularityAuditType, ProjectTree } from '../types/CodeModularityAuditType.ts';
 import CodeModularityUtils from './CodeModularityUtils.js';
 
+// Mock external modules
 vi.mock('xml2js', () => {
     const ParserMock = vi.fn(() => ({
         parseStringPromise: vi.fn(),

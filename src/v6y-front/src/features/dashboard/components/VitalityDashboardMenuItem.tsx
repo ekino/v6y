@@ -1,7 +1,8 @@
-import { DashboardItemType } from '@/commons/config/VitalityCommonConfig';
 import { Avatar, Card, Typography } from 'antd';
 import Link from 'next/link';
 import * as React from 'react';
+
+import { DashboardItemType } from '../../../commons/config/VitalityCommonConfig';
 
 const VitalityDashboardMenuItem = ({ option }: { option: DashboardItemType }) => {
     if (!option) {

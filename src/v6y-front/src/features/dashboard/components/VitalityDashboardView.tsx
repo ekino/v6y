@@ -1,9 +1,9 @@
 'use client';
 
-import { VITALITY_DASHBOARD_DATASOURCE } from '@/commons/config/VitalityCommonConfig';
 import * as React from 'react';
 
 import VitalitySearchBar from '../../../commons/components/VitalitySearchBar';
+import { VITALITY_DASHBOARD_DATASOURCE } from '../../../commons/config/VitalityCommonConfig';
 import VitalityTerms from '../../../commons/config/VitalityTerms';
 import VitalityDashboardMenu from './VitalityDashboardMenu';
 
