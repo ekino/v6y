@@ -10,19 +10,19 @@ import { VitalitySearchBarProps } from '../types/VitalitySearchBarProps';
 const { Search } = Input;
 
 const VitalitySearchBar = ({ helper, label, status, placeholder }: VitalitySearchBarProps) => {
-    const { router, pathname, getUrlParams, creatUrlQueryParam, removeUrlQueryParam } =
+    const { router, pathname, getUrlParams, createUrlQueryParam, removeUrlQueryParam } =
         useNavigationAdapter();
     const [searchText] = getUrlParams(['searchText']);
 
     const handleOnSearchChanged = (value: string) => {
         if (pathname === VitalityNavigationPaths.DASHBOARD) {
-            const queryParams = creatUrlQueryParam('searchText', value);
+            const queryParams = createUrlQueryParam('searchText', value);
             router.push(`/search?${queryParams}`);
             return;
         }
 
         if (value?.length) {
-            const queryParams = creatUrlQueryParam('searchText', value);
+            const queryParams = createUrlQueryParam('searchText', value);
             router.replace(`${pathname}?${queryParams}`);
         } else {
             const queryParams = removeUrlQueryParam('searchText');

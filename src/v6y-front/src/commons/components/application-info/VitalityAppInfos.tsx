@@ -10,8 +10,8 @@ import { VitalityAppInfosProps } from '../../types/VitalityAppInfosProps';
 import VitalityLinks from '../VitalityLinks';
 
 const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: VitalityAppInfosProps) => {
-    const { creatUrlQueryParam } = useNavigationAdapter();
-    const queryParams = creatUrlQueryParam('_id', `${app._id}`);
+    const { createUrlQueryParam } = useNavigationAdapter();
+    const queryParams = createUrlQueryParam('_id', `${app._id}`);
     const appDetailsLink = source
         ? VitalityNavigationPaths.APP_DETAILS + '?' + queryParams + '&' + 'source=' + source
         : VitalityNavigationPaths.APP_DETAILS + '?' + queryParams;

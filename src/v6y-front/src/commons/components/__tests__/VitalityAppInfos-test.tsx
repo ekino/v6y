@@ -30,7 +30,7 @@ describe('VitalityAppInfos', () => {
 
     beforeEach(() => {
         (useNavigationAdapter as Mock).mockReturnValue({
-            creatUrlQueryParam: vi.fn((key, value) => `${key}=${value}`),
+            createUrlQueryParam: vi.fn((key, value) => `${key}=${value}`),
         });
     });
 

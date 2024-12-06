@@ -23,7 +23,7 @@ const VitalitySelectableIndicators = () => {
     const [selectedIndicators, setSelectedIndicators] = useState<string[]>();
     const [indicatorsList, setIndicatorsList] = useState<KeywordType[]>();
 
-    const { router, pathname, getUrlParams, creatUrlQueryParam, removeUrlQueryParam } =
+    const { router, pathname, getUrlParams, createUrlQueryParam, removeUrlQueryParam } =
         useNavigationAdapter();
     const [keywordsUrlParams] = getUrlParams(['keywords']);
 
@@ -62,7 +62,7 @@ const VitalitySelectableIndicators = () => {
 
     const handleSelectedIndicator = (values: string[]) => {
         if (values?.length) {
-            const queryParams = creatUrlQueryParam('keywords', values?.join(','));
+            const queryParams = createUrlQueryParam('keywords', values?.join(','));
             router.replace(`${pathname}?${queryParams}`);
         } else {
             const queryParams = removeUrlQueryParam('keywords');
