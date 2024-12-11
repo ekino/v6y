@@ -136,6 +136,26 @@ export const formatDependencyStatusHelpDetails = (
     };
 };
 
+export const formatDependencyVulnerabilityStatusDetails = (
+    translate: TranslateType,
+    details: DependencyStatusHelpType,
+) => {
+    if (!Object.keys(details || {})?.length) {
+        return {};
+    }
+
+    return {
+        [translate('v6y-dependency-vulnerability-status.fields.dependency-vulnerability-status-category.label') ||
+        '']: details.category,
+        [translate('v6y-dependency-vulnerability-status.fields.dependency-vulnerability-status-title.label') || '']:
+            details.title,
+        [translate('v6y-dependency-vulnerability-status.fields.dependency-vulnerability-status-description.label') ||
+        '']: details.description,
+        [translate('v6y-dependency-vulnerability-status.fields.dependency-vulnerability-status-links.label') || '']:
+            <VitalityLinks links={details.links as LinkType[]} align="start" />,
+    };
+};
+
 export const formatDeprecatedDependencyDetails = (
     translate: TranslateType,
     details: DeprecatedDependencyType,

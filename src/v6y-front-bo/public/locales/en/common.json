@@ -426,6 +426,36 @@
       "show": "Show Deprecated Dependency"
     }
   },
+  "v6y-dependency-vulnerability-status": {
+    "v6y-dependency-vulnerability-status": "Dependency Status Help List",
+    "fields": {
+      "dependency-vulnerability-status-infos-group": "Dependency Status Help Information",
+      "dependency-vulnerability-status-category": {
+        "label": "Dependency Status Help"
+      },
+      "dependency-vulnerability-status-title": {
+        "label": "Dependency Status Help Title",
+        "placeholder": "Enter your Dependency Status Help Title",
+        "error": ""
+      },
+      "dependency-vulnerability-status-description": {
+        "label": "Dependency Status Help Description",
+        "placeholder": "Enter your Dependency Status Help Description",
+        "error": ""
+      },
+      "dependency-vulnerability-status-links": {
+        "label": "Dependency Status Help Link",
+        "placeholder": "Enter your Dependency Status Help Link",
+        "error": ""
+      }
+    },
+    "titles": {
+      "create": "Create Dependency Vulnerability Status",
+      "edit": "Edit Dependency Vulnerability Status",
+      "list": "Dependency Vulnerability Status List",
+      "show": "Show Dependency Vulnerability Status"
+    }
+  },
   "v6y-authentication": {
     "title": "Authentication"
   }
