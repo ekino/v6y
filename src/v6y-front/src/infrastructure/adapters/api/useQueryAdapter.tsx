@@ -1,5 +1,6 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { request } from 'graphql-request';
+import Cookies from 'js-cookie';
 
 import {
     BuildClientQueryParams,
@@ -12,7 +13,12 @@ export const buildClientQuery = async <TData = unknown,>({
     query,
     variables,
 }: BuildClientQueryParams) => {
-    return request<TData>(queryBaseUrl, query, variables);
+    const auth = Cookies.get('auth');
+    const token = auth ? JSON.parse(auth).token : '';
+
+    return request<TData>(queryBaseUrl, query, variables, {
+        Authorization: token ? `Bearer ${token}` : '',
+    });
 };
 
 export const useClientQuery = <TData = unknown,>({
