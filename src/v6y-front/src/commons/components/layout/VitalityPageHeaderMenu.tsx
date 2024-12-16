@@ -1,35 +1,14 @@
 'use client';
 
-import { NotificationOutlined, QuestionOutlined } from '@ant-design/icons';
-import { Menu, Typography } from 'antd';
-import Link from 'next/link';
+import { Menu } from 'antd';
 import * as React from 'react';
 import { useState } from 'react';
 
-import VitalityNavigationPaths from '../../config/VitalityNavigationPaths';
-
-const VITALITY_HEADER_MENU_ITEMS = [
-    {
-        key: 'notification',
-        icon: <NotificationOutlined />,
-        label: (
-            <Link href={VitalityNavigationPaths.NOTIFICATIONS} style={{ textDecoration: 'none' }}>
-                <Typography.Text>Notifications</Typography.Text>
-            </Link>
-        ),
-    },
-    {
-        key: 'FAQ',
-        icon: <QuestionOutlined />,
-        label: (
-            <Link href={VitalityNavigationPaths.FAQ} style={{ textDecoration: 'none' }}>
-                <Typography.Text>FAQ</Typography.Text>
-            </Link>
-        ),
-    },
-];
+import { buildVitalityHeaderMenuItems } from '../../config/VitalityCommonConfig';
+import { useLogin } from '../../hooks/useAuth';
 
 const VitalityPageHeaderMenu = () => {
+    const { isLoggedIn } = useLogin() as { isLoggedIn: boolean; isLoginLoading: boolean };
     const [currentSelectedMenu, setCurrentSelectedMenu] = useState('mail');
 
     const onMenuClicked = (event: { key: string }) => {
@@ -39,7 +18,7 @@ const VitalityPageHeaderMenu = () => {
     return (
         <Menu
             mode="horizontal"
-            items={VITALITY_HEADER_MENU_ITEMS}
+            items={buildVitalityHeaderMenuItems(isLoggedIn)}
             onClick={onMenuClicked}
             selectedKeys={[currentSelectedMenu]}
         />

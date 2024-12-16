@@ -4,11 +4,17 @@ import {
     DashboardOutlined,
     DislikeOutlined,
     LikeOutlined,
+    LoginOutlined,
+    LogoutOutlined,
+    NotificationOutlined,
     PieChartOutlined,
+    QuestionOutlined,
     SplitCellsOutlined,
     ThunderboltOutlined,
 } from '@ant-design/icons';
 import { ApplicationType } from '@v6y/commons';
+import { Typography } from 'antd';
+import Cookies from 'js-cookie';
 import Link from 'next/link';
 import * as React from 'react';
 import { ReactNode } from 'react';
@@ -277,4 +283,61 @@ export const formatApplicationDataSource = (
     }
 
     return newDataSource;
+};
+
+const VITALITY_HEADER_MENU_ITEMS = [
+    {
+        key: 'notification',
+        icon: <NotificationOutlined />,
+        label: (
+            <Link href={VitalityNavigationPaths.NOTIFICATIONS} style={{ textDecoration: 'none' }}>
+                <Typography.Text>Notifications</Typography.Text>
+            </Link>
+        ),
+    },
+    {
+        key: 'FAQ',
+        icon: <QuestionOutlined />,
+        label: (
+            <Link href={VitalityNavigationPaths.FAQ} style={{ textDecoration: 'none' }}>
+                <Typography.Text>FAQ</Typography.Text>
+            </Link>
+        ),
+    },
+];
+
+export const buildVitalityHeaderMenuItems = (isLogged: boolean) => {
+    if (isLogged) {
+        return [
+            ...VITALITY_HEADER_MENU_ITEMS,
+            {
+                key: 'logout',
+                icon: <LogoutOutlined />,
+                label: (
+                    <Link
+                        href={VitalityNavigationPaths.LOGIN}
+                        onClick={() => {
+                            Cookies.remove('auth');
+                        }}
+                        style={{ textDecoration: 'none' }}
+                    >
+                        <Typography.Text>Logout</Typography.Text>
+                    </Link>
+                ),
+            },
+        ];
+    }
+
+    return [
+        ...VITALITY_HEADER_MENU_ITEMS,
+        {
+            key: 'login',
+            icon: <LoginOutlined />,
+            label: (
+                <Link href={VitalityNavigationPaths.LOGIN} style={{ textDecoration: 'none' }}>
+                    <Typography.Text>Login</Typography.Text>
+                </Link>
+            ),
+        },
+    ];
 };
