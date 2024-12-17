@@ -45,7 +45,8 @@
     "react-hook-form": "=7.54.0",
     "react-virtualized-auto-sizer": "=1.0.24",
     "react-window": "=1.8.8",
-    "vite": "=5.4.8"
+    "vite": "=5.4.8",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@babel/plugin-transform-private-methods": "=7.25.4",

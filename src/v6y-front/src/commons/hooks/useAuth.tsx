@@ -1,8 +1,13 @@
-import Cookies from 'js-cookie';
+import { getAuthCookie, removeAuthCookie } from '../../infrastructure/storage/CookieHelper';
+
+const getAuthToken = () => {
+    const auth = getAuthCookie();
+
+    return auth?.token;
+}
 
 const useLogin = () => {
-    const cookieStore = Cookies;
-    const auth = cookieStore.get('auth');
+    const auth = getAuthCookie();
 
     if (auth) {
         return {
@@ -19,10 +24,10 @@ const useLogin = () => {
 
 const useLogout = () => {
     const onLogout = () => {
-        Cookies.remove('auth');
+        removeAuthCookie();
     };
 
     return { onLogout };
 };
 
-export { useLogin, useLogout };
+export { useLogin, useLogout, getAuthToken };

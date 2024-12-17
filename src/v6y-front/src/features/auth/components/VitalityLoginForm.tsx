@@ -1,13 +1,16 @@
 'use client';
 
 import { Button, Checkbox, Form, Input, message } from 'antd';
-import Cookies from 'js-cookie';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import VitalityTerms from '../../../commons/config/VitalityTerms';
+import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter';
+import { z } from 'zod';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import { buildClientQuery } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import LoginAccount from '../api/loginAccount';
+import { setAuthCookie } from '../../../infrastructure/storage/CookieHelper';
 
 type FormData = {
     email?: string;
@@ -15,8 +18,11 @@ type FormData = {
     remember?: boolean;
 };
 
+const emailSchema = z.string().email(VitalityTerms.VITALITY_APP_LOGIN_FORM_EMAIL_WARNING);
+
 const VitalityLoginForm = () => {
     const [isLoading, setIsLoading] = useState(false);
+    const { router } = useNavigationAdapter();
 
     const {
         control,
@@ -32,7 +38,7 @@ const VitalityLoginForm = () => {
 
     const onSubmit = async (values: FormData) => {
         try {
-            setIsLoading(true);
+            emailSchema.parse(values.email);
             const data = (await buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
                 query: LoginAccount,
@@ -44,26 +50,18 @@ const VitalityLoginForm = () => {
                 },
             })) as { loginAccount?: { token: string; _id: string; role: string } };
             if (data.loginAccount?.token) {
-                message.success('Connexion réussie');
-                Cookies.set(
-                    'auth',
-                    JSON.stringify({
-                        token: data.loginAccount.token,
-                        _id: data.loginAccount._id,
-                        role: data.loginAccount.role,
-                    }),
-                    {
-                        expires: 30, // 30 jours
-                        path: '/',
-                    },
-                );
-
-                window.location.href = '/';
+                message.success(VitalityTerms.VITALITY_APP_LOGIN_SUCCESS_MESSAGE);
+                setAuthCookie(data.loginAccount.token, data.loginAccount._id, data.loginAccount.role);
+                router.push('/');
             } else {
-                message.error('Identifiants incorrects');
+                message.error(VitalityTerms.VITALITY_APP_LOGIN_ERROR_MESSAGE);
             }
-        } catch {
-            message.error('Erreur de connexion');
+        } catch (e) {
+            if (e instanceof z.ZodError) {
+                message.error(e.errors[0].message);
+                return;
+            }
+            message.error(VitalityTerms.VITALITY_APP_LOGIN_ERROR_CONNECTION_MESSAGE);
         } finally {
             setIsLoading(false);
         }
@@ -79,21 +77,25 @@ const VitalityLoginForm = () => {
             autoComplete="off"
         >
             <Form.Item
-                label="Email"
+                label={VitalityTerms.VITALITY_APP_LOGIN_FORM_EMAIL_LABEL}
                 validateStatus={errors.email ? 'error' : ''}
                 help={errors.email?.message}
-                rules={[{ required: true, message: 'Veuillez saisir votre email !' }]}
+                rules={[{ required: true, message: VitalityTerms.VITALITY_APP_LOGIN_FORM_EMAIL_WARNING }]}
             >
                 <Controller
                     name="email"
                     control={control}
                     rules={{
-                        required: 'Veuillez saisir votre email !',
+                        required: VitalityTerms.VITALITY_APP_LOGIN_FORM_EMAIL_WARNING,
                         validate: (value) => {
-                            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                            return value && emailRegex.test(value)
-                                ? true
-                                : 'Veuillez saisir un email valide !';
+                            try {
+                                emailSchema.parse(value);
+                                return true;
+                            } catch (e) {
+                                if (e instanceof z.ZodError) {
+                                    return e.errors[0].message;
+                                }
+                            }
                         },
                     }}
                     render={({ field }) => <Input {...field} aria-label="Email" />}
@@ -101,16 +103,16 @@ const VitalityLoginForm = () => {
             </Form.Item>
 
             <Form.Item
-                label="Mot de passe"
+                label={VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_LABEL}
                 validateStatus={errors.password ? 'error' : ''}
                 help={errors.password?.message}
-                rules={[{ required: true, message: 'Veuillez saisir votre mot de passe !' }]}
+                rules={[{ required: true, message: VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_WARNING }]}
             >
                 <Controller
                     name="password"
                     control={control}
                     rules={{
-                        required: 'Veuillez saisir votre mot de passe !',
+                        required: VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_WARNING,
                     }}
                     render={({ field }) => <Input.Password {...field} aria-label="Mot de passe" />}
                 />
@@ -122,7 +124,7 @@ const VitalityLoginForm = () => {
                     control={control}
                     render={({ field: { value, ...field } }) => (
                         <Checkbox {...field} checked={value}>
-                            Se souvenir de moi
+                            {VitalityTerms.VITALITY_APP_LOGIN_FORM_REMEMBER_LABEL}
                         </Checkbox>
                     )}
                 />
@@ -130,7 +132,7 @@ const VitalityLoginForm = () => {
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                 <Button type="primary" htmlType="submit" loading={isLoading}>
-                    Connexion
+                    {VitalityTerms.VITALITY_APP_LOGIN_FORM_SUBMIT_LABEL}
                 </Button>
             </Form.Item>
         </Form>
