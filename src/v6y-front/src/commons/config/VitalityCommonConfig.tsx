@@ -4,7 +4,6 @@ import {
     DashboardOutlined,
     DislikeOutlined,
     LikeOutlined,
-    LoginOutlined,
     LogoutOutlined,
     NotificationOutlined,
     PieChartOutlined,
@@ -14,11 +13,11 @@ import {
 } from '@ant-design/icons';
 import { ApplicationType } from '@v6y/commons';
 import { Typography } from 'antd';
-import Cookies from 'js-cookie';
 import Link from 'next/link';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
+import { useLogout } from '../../commons/hooks/useAuth';
 import Matcher from '../../infrastructure/utils/Matcher';
 import VitalityNavigationPaths from './VitalityNavigationPaths';
 import VitalityTerms from './VitalityTerms';
@@ -306,36 +305,21 @@ const VITALITY_HEADER_MENU_ITEMS = [
     },
 ];
 
-export const buildVitalityHeaderMenuItems = (isLogged: boolean) => {
-    if (isLogged) {
-        return [
-            ...VITALITY_HEADER_MENU_ITEMS,
-            {
-                key: 'logout',
-                icon: <LogoutOutlined />,
-                label: (
-                    <Link
-                        href={VitalityNavigationPaths.LOGIN}
-                        onClick={() => {
-                            Cookies.remove('auth');
-                        }}
-                        style={{ textDecoration: 'none' }}
-                    >
-                        <Typography.Text>Logout</Typography.Text>
-                    </Link>
-                ),
-            },
-        ];
-    }
+export const BuildVitalityHeaderMenuItems = (isLogged: boolean) => {
+    const { onLogout } = useLogout();
 
     return [
         ...VITALITY_HEADER_MENU_ITEMS,
-        {
-            key: 'login',
-            icon: <LoginOutlined />,
+        isLogged && {
+            key: 'logout',
+            icon: <LogoutOutlined />,
             label: (
-                <Link href={VitalityNavigationPaths.LOGIN} style={{ textDecoration: 'none' }}>
-                    <Typography.Text>Login</Typography.Text>
+                <Link
+                    href={VitalityNavigationPaths.LOGIN}
+                    onClick={onLogout}
+                    style={{ textDecoration: 'none' }}
+                >
+                    <Typography.Text>Logout</Typography.Text>
                 </Link>
             ),
         },

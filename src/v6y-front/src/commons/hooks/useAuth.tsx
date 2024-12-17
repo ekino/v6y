@@ -17,4 +17,12 @@ const useLogin = () => {
     };
 };
 
-export { useLogin };
+const useLogout = () => {
+    const onLogout = () => {
+        Cookies.remove('auth');
+    };
+
+    return { onLogout };
+};
+
+export { useLogin, useLogout };
