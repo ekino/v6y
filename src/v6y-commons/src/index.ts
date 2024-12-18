@@ -16,6 +16,7 @@ import AuditProvider from './database/AuditProvider.ts';
 import DataBaseManager from './database/DataBaseManager.ts';
 import DependencyProvider from './database/DependencyProvider.ts';
 import DependencyStatusHelpProvider from './database/DependencyStatusHelpProvider.ts';
+import DependencyVulnerabilityStatusProvider from './database/DependencyVulnerabilityStatusProvider.ts';
 import DeprecatedDependencyProvider from './database/DeprecatedDependencyProvider.ts';
 import EvolutionHelpProvider from './database/EvolutionHelpProvider.ts';
 import EvolutionProvider from './database/EvolutionProvider.ts';
@@ -27,6 +28,7 @@ export * from './config/EvolutionHelpStatusConfig.ts';
 export * from './config/AuditHelpConfig.ts';
 export * from './config/CodeSmellConfig.ts';
 export * from './config/DependencyStatusHelpConfig.ts';
+export * from './config/DependencyVulnerabilityStatusConfig.ts';
 
 export * from './core/AuthenticationHelper.ts';
 
@@ -71,5 +73,6 @@ export {
     DependencyProvider,
     DependencyStatusHelpProvider,
     DeprecatedDependencyProvider,
+    DependencyVulnerabilityStatusProvider,
     RepositoryApi,
 };
