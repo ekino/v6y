@@ -1,13 +1,31 @@
-import { AppLogger, ApplicationProvider, ApplicationType, SearchQueryType } from '@v6y/commons';
+import {
+    AccountType,
+    AppLogger,
+    ApplicationProvider,
+    ApplicationType,
+    SearchQueryType,
+} from '@v6y/commons';
 
 /**
  * Get application details info by params
  * @param _
  * @param args
+ * @param user
  */
-const getApplicationDetailsInfoByParams = async (_: unknown, args: ApplicationType) => {
+const getApplicationDetailsInfoByParams = async (
+    _: unknown,
+    args: ApplicationType,
+    { user }: { user: AccountType },
+) => {
     try {
         const { _id } = args || {};
+
+        if (!(user.role === 'ADMIN' || user.role === 'SUPERADMIN')) {
+            const userApplicationsIds = user.applications || [];
+            if (!userApplicationsIds.includes(_id)) {
+                throw new Error('Unauthorized');
+            }
+        }
 
         AppLogger.info(`[ApplicationQueries - getApplicationDetailsInfoByParams] _id : ${_id}`);
 
@@ -30,10 +48,22 @@ const getApplicationDetailsInfoByParams = async (_: unknown, args: ApplicationTy
  * Get application details audit reports by params
  * @param _
  * @param args
+ * @param user
  */
-const getApplicationDetailsAuditReportsByParams = async (_: unknown, args: ApplicationType) => {
+const getApplicationDetailsAuditReportsByParams = async (
+    _: unknown,
+    args: ApplicationType,
+    { user }: { user: AccountType },
+) => {
     try {
         const { _id } = args || {};
+
+        if (!(user.role === 'ADMIN' || user.role === 'SUPERADMIN')) {
+            const userApplicationsIds = user.applications || [];
+            if (!userApplicationsIds.includes(_id)) {
+                throw new Error('Unauthorized');
+            }
+        }
 
         AppLogger.info(`[ApplicationQueries - getApplicationDetailsAuditReports] _id : ${_id}`);
 
@@ -56,10 +86,22 @@ const getApplicationDetailsAuditReportsByParams = async (_: unknown, args: Appli
  * Get application details evolutions by params
  * @param _
  * @param args
+ * @param user
  */
-const getApplicationDetailsEvolutionsByParams = async (_: unknown, args: ApplicationType) => {
+const getApplicationDetailsEvolutionsByParams = async (
+    _: unknown,
+    args: ApplicationType,
+    { user }: { user: AccountType },
+) => {
     try {
         const { _id } = args || {};
+
+        if (!(user.role === 'ADMIN' || user.role === 'SUPERADMIN')) {
+            const userApplicationsIds = user.applications || [];
+            if (!userApplicationsIds.includes(_id)) {
+                throw new Error('Unauthorized');
+            }
+        }
 
         AppLogger.info(
             `[ApplicationQueries - getApplicationDetailsEvolutionsByParams] _id : ${_id}`,
@@ -82,10 +124,26 @@ const getApplicationDetailsEvolutionsByParams = async (_: unknown, args: Applica
     }
 };
 
-const getApplicationDetailsDependenciesByParams = async (_: unknown, args: ApplicationType) => {
+/**
+ * Get application details dependencies by params
+ * @param _
+ * @param args
+ * @param user
+ */
+const getApplicationDetailsDependenciesByParams = async (
+    _: unknown,
+    args: ApplicationType,
+    { user }: { user: AccountType },
+) => {
     try {
         const { _id } = args || {};
 
+        if (!(user.role === 'ADMIN' || user.role === 'SUPERADMIN')) {
+            const userApplicationsIds = user.applications || [];
+            if (!userApplicationsIds.includes(_id)) {
+                throw new Error('Unauthorized');
+            }
+        }
         AppLogger.info(
             `[ApplicationQueries - getApplicationDetailsDependenciesByParams] _id : ${_id}`,
         );
@@ -111,11 +169,22 @@ const getApplicationDetailsDependenciesByParams = async (_: unknown, args: Appli
  * Get application details keywords by params
  * @param _
  * @param args
+ * @param user
  */
-const getApplicationDetailsKeywordsByParams = async (_: unknown, args: ApplicationType) => {
+const getApplicationDetailsKeywordsByParams = async (
+    _: unknown,
+    args: ApplicationType,
+    { user }: { user: AccountType },
+) => {
     try {
         const { _id } = args || {};
 
+        if (!(user.role === 'ADMIN' || user.role === 'SUPERADMIN')) {
+            const userApplicationsIds = user.applications || [];
+            if (!userApplicationsIds.includes(_id)) {
+                throw new Error('Unauthorized');
+            }
+        }
         AppLogger.info(`[ApplicationQueries - getApplicationDetailsKeywordsByParams] _id : ${_id}`);
 
         const keywords = await ApplicationProvider.getApplicationDetailsKeywordsByParams({
@@ -139,8 +208,13 @@ const getApplicationDetailsKeywordsByParams = async (_: unknown, args: Applicati
  * Get application list by page and params
  * @param _
  * @param args
+ * @param user
  */
-const getApplicationListByPageAndParams = async (_: unknown, args: SearchQueryType) => {
+const getApplicationListByPageAndParams = async (
+    _: unknown,
+    args: SearchQueryType,
+    { user }: { user: AccountType },
+) => {
     try {
         const { start, offset, limit, keywords, searchText, where, sort } = args || {};
 
@@ -160,13 +234,18 @@ const getApplicationListByPageAndParams = async (_: unknown, args: SearchQueryTy
         AppLogger.info(`[ApplicationQueries - getApplicationListByPageAndParams] where : ${where}`);
         AppLogger.info(`[ApplicationQueries - getApplicationListByPageAndParams] sort : ${sort}`);
 
-        const appList = await ApplicationProvider.getApplicationListByPageAndParams({
+        let appList = await ApplicationProvider.getApplicationListByPageAndParams({
             searchText,
             keywords,
             offset: offset !== undefined ? offset : start || 0,
             limit,
             where,
         });
+
+        if (!(user.role === 'ADMIN' || user.role === 'SUPERADMIN')) {
+            const userApplicationsIds = user.applications || [];
+            appList = appList.filter((app) => userApplicationsIds.includes(app._id));
+        }
 
         AppLogger.info(
             `[ApplicationQueries - getApplicationListByPageAndParams] appList : ${appList?.length}`,
@@ -183,18 +262,28 @@ const getApplicationListByPageAndParams = async (_: unknown, args: SearchQueryTy
  * Get application list
  * @param _
  * @param args
+ * @param user
  */
-const getApplicationList = async (_: unknown, args: SearchQueryType) => {
+const getApplicationList = async (
+    _: unknown,
+    args: SearchQueryType,
+    { user }: { user: AccountType },
+) => {
     try {
         const { where, sort } = args || {};
 
         AppLogger.info(`[ApplicationQueries - getApplicationListByPageAndParams] where : ${where}`);
         AppLogger.info(`[ApplicationQueries - getApplicationListByPageAndParams] sort : ${sort}`);
 
-        const appList = await ApplicationProvider.getApplicationListByPageAndParams({
+        let appList = await ApplicationProvider.getApplicationListByPageAndParams({
             where,
             sort,
         });
+
+        if (!(user.role === 'ADMIN' || user.role === 'SUPERADMIN')) {
+            const userApplicationsIds = user.applications || [];
+            appList = appList.filter((app) => userApplicationsIds.includes(app._id));
+        }
 
         AppLogger.info(
             `[ApplicationQueries - getApplicationListByPageAndParams] appList : ${appList?.length}`,

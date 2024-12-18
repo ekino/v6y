@@ -4,15 +4,20 @@ import {
     DashboardOutlined,
     DislikeOutlined,
     LikeOutlined,
+    LogoutOutlined,
+    NotificationOutlined,
     PieChartOutlined,
+    QuestionOutlined,
     SplitCellsOutlined,
     ThunderboltOutlined,
 } from '@ant-design/icons';
 import { ApplicationType } from '@v6y/commons';
+import { Typography } from 'antd';
 import Link from 'next/link';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
+import { useLogout } from '../../commons/hooks/useAuth';
 import Matcher from '../../infrastructure/utils/Matcher';
 import VitalityNavigationPaths from './VitalityNavigationPaths';
 import VitalityTerms from './VitalityTerms';
@@ -277,4 +282,46 @@ export const formatApplicationDataSource = (
     }
 
     return newDataSource;
+};
+
+const VITALITY_HEADER_MENU_ITEMS = [
+    {
+        key: 'notification',
+        icon: <NotificationOutlined />,
+        label: (
+            <Link href={VitalityNavigationPaths.NOTIFICATIONS} style={{ textDecoration: 'none' }}>
+                <Typography.Text>Notifications</Typography.Text>
+            </Link>
+        ),
+    },
+    {
+        key: 'FAQ',
+        icon: <QuestionOutlined />,
+        label: (
+            <Link href={VitalityNavigationPaths.FAQ} style={{ textDecoration: 'none' }}>
+                <Typography.Text>FAQ</Typography.Text>
+            </Link>
+        ),
+    },
+];
+
+export const BuildVitalityHeaderMenuItems = (isLogged: boolean) => {
+    const { onLogout } = useLogout();
+
+    return [
+        ...VITALITY_HEADER_MENU_ITEMS,
+        isLogged && {
+            key: 'logout',
+            icon: <LogoutOutlined />,
+            label: (
+                <Link
+                    href={VitalityNavigationPaths.LOGIN}
+                    onClick={onLogout}
+                    style={{ textDecoration: 'none' }}
+                >
+                    <Typography.Text>Logout</Typography.Text>
+                </Link>
+            ),
+        },
+    ];
 };

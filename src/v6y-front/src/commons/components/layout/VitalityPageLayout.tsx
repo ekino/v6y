@@ -6,6 +6,7 @@ import { ReactNode } from 'react';
 
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import { buildPageTitle } from '../../config/VitalityCommonConfig';
+import ProtectedRoute from '../ProtectedRoute';
 import VitalityBot from '../chatbot/VitalityBot';
 import VitalityBreadcrumb from './VitalityBreadcrumb';
 import VitalityPageFooter from './VitalityPageFooter';
@@ -39,15 +40,17 @@ const VitalityPageLayout = ({ children }: { children: ReactNode }) => {
                     paddingTop: '1rem',
                 }}
             >
-                <Row justify="center" align="middle" gutter={[12, 12]}>
-                    <Col span={23}>
-                        <VitalityBreadcrumb />
-                    </Col>
-                    <Col span={20} style={{ textAlign: 'center' }}>
-                        <Typography.Title level={2}>{pageTitle}</Typography.Title>
-                    </Col>
-                    <Col span={18}>{children}</Col>
-                </Row>
+                <ProtectedRoute>
+                    <Row justify="center" align="middle" gutter={[12, 12]}>
+                        <Col span={23}>
+                            <VitalityBreadcrumb />
+                        </Col>
+                        <Col span={20} style={{ textAlign: 'center' }}>
+                            <Typography.Title level={2}>{pageTitle}</Typography.Title>
+                        </Col>
+                        <Col span={18}>{children}</Col>
+                    </Row>
+                </ProtectedRoute>
             </Content>
             <Footer
                 style={{
