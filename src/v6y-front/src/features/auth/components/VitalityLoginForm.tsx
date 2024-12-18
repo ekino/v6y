@@ -1,16 +1,18 @@
 'use client';
 
-import { Button, Checkbox, Form, Input, message } from 'antd';
+import { Button, Form, message } from 'antd';
 import { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import VitalityTerms from '../../../commons/config/VitalityTerms';
-import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import VitalityCheckbox from '../../../commons/components/form/VitalityCheckbox';
+import VitalityInput from '../../../commons/components/form/VitalityInput';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
+import VitalityTerms from '../../../commons/config/VitalityTerms';
 import { buildClientQuery } from '../../../infrastructure/adapters/api/useQueryAdapter';
-import LoginAccount from '../api/loginAccount';
+import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import { setAuthCookie } from '../../../infrastructure/storage/CookieHelper';
+import LoginAccount from '../api/loginAccount';
 
 type FormData = {
     email?: string;
@@ -51,7 +53,11 @@ const VitalityLoginForm = () => {
             })) as { loginAccount?: { token: string; _id: string; role: string } };
             if (data.loginAccount?.token) {
                 message.success(VitalityTerms.VITALITY_APP_LOGIN_SUCCESS_MESSAGE);
-                setAuthCookie(data.loginAccount.token, data.loginAccount._id, data.loginAccount.role);
+                setAuthCookie(
+                    data.loginAccount.token,
+                    data.loginAccount._id,
+                    data.loginAccount.role,
+                );
                 router.push('/');
             } else {
                 message.error(VitalityTerms.VITALITY_APP_LOGIN_ERROR_MESSAGE);
@@ -72,7 +78,7 @@ const VitalityLoginForm = () => {
             name="basic"
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
-            style={{ maxWidth: 600 }}
+            style={{ maxWidth: 600, margin: 'auto' }}
             onFinish={handleSubmit(onSubmit)}
             autoComplete="off"
         >
@@ -80,14 +86,19 @@ const VitalityLoginForm = () => {
                 label={VitalityTerms.VITALITY_APP_LOGIN_FORM_EMAIL_LABEL}
                 validateStatus={errors.email ? 'error' : ''}
                 help={errors.email?.message}
-                rules={[{ required: true, message: VitalityTerms.VITALITY_APP_LOGIN_FORM_EMAIL_WARNING }]}
+                rules={[
+                    {
+                        required: true,
+                        message: VitalityTerms.VITALITY_APP_LOGIN_FORM_EMAIL_WARNING,
+                    },
+                ]}
             >
-                <Controller
+                <VitalityInput
                     name="email"
                     control={control}
                     rules={{
                         required: VitalityTerms.VITALITY_APP_LOGIN_FORM_EMAIL_WARNING,
-                        validate: (value) => {
+                        validate: (value: string) => {
                             try {
                                 emailSchema.parse(value);
                                 return true;
@@ -98,7 +109,7 @@ const VitalityLoginForm = () => {
                             }
                         },
                     }}
-                    render={({ field }) => <Input {...field} aria-label="Email" />}
+                    ariaLabel="Email"
                 />
             </Form.Item>
 
@@ -106,27 +117,29 @@ const VitalityLoginForm = () => {
                 label={VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_LABEL}
                 validateStatus={errors.password ? 'error' : ''}
                 help={errors.password?.message}
-                rules={[{ required: true, message: VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_WARNING }]}
+                rules={[
+                    {
+                        required: true,
+                        message: VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_WARNING,
+                    },
+                ]}
             >
-                <Controller
+                <VitalityInput
                     name="password"
                     control={control}
                     rules={{
                         required: VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_WARNING,
                     }}
-                    render={({ field }) => <Input.Password {...field} aria-label="Mot de passe" />}
+                    ariaLabel="Mot de passe"
+                    type="password"
                 />
             </Form.Item>
 
             <Form.Item name="remember" wrapperCol={{ offset: 8, span: 16 }}>
-                <Controller
+                <VitalityCheckbox
                     name="remember"
                     control={control}
-                    render={({ field: { value, ...field } }) => (
-                        <Checkbox {...field} checked={value}>
-                            {VitalityTerms.VITALITY_APP_LOGIN_FORM_REMEMBER_LABEL}
-                        </Checkbox>
-                    )}
+                    ariaLabel={VitalityTerms.VITALITY_APP_LOGIN_FORM_REMEMBER_LABEL}
                 />
             </Form.Item>
 
