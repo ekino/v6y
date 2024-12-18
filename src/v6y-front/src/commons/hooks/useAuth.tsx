@@ -4,7 +4,7 @@ const getAuthToken = () => {
     const auth = getAuthCookie();
 
     return auth?.token;
-}
+};
 
 const useLogin = () => {
     const auth = getAuthCookie();

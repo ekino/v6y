@@ -1,12 +1,12 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { request } from 'graphql-request';
 
+import { getAuthToken } from '../../../commons/hooks/useAuth';
 import {
     BuildClientQueryParams,
     UseClientQueryParams,
     UseInfiniteClientQueryParams,
 } from './QueryAdapterType';
-import { getAuthToken } from '../../../commons/hooks/useAuth';
 
 export const buildClientQuery = async <TData = unknown,>({
     queryBaseUrl,
