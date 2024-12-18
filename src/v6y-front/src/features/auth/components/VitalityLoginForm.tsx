@@ -130,7 +130,7 @@ const VitalityLoginForm = () => {
                     rules={{
                         required: VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_WARNING,
                     }}
-                    ariaLabel="Mot de passe"
+                    ariaLabel={VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_LABEL}
                     type="password"
                 />
             </Form.Item>
