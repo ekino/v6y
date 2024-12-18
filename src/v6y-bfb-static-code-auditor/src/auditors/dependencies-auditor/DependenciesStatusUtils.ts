@@ -4,7 +4,7 @@ import {
     DeprecatedDependencyProvider,
     SemverUtils,
     dependencyStatus,
-    vulnerabilityStatusMap,
+    vulnerabilityStatusVariants,
 } from '@v6y/commons';
 
 import { AuditCommonsType } from '../types/AuditCommonsType.ts';
@@ -166,7 +166,8 @@ const buildDependencyAuditReport = async ({
             `[DependenciesUtils - buildDependencyAuditReport] vulnerabilityStatus:  ${vulnerabilityStatus}`,
         );
 
-        const depVulnerabilityStatus = vulnerabilityStatusMap[vulnerabilityStatus] || 'unknown';
+        const depVulnerabilityStatus =
+            vulnerabilityStatusVariants[vulnerabilityStatus] || 'unknown';
 
         AppLogger.info(
             `[DependenciesUtils - buildDependencyAuditReport] depVulnerabilityStatus:  ${depVulnerabilityStatus}`,
