@@ -3,6 +3,7 @@ import { FindOptions } from 'sequelize';
 import AppLogger from '../core/AppLogger.ts';
 import { DependencyType } from '../types/DependencyType.ts';
 import DependencyStatusHelpProvider from './DependencyStatusHelpProvider.ts';
+import DependencyVulnerabilityStatusProvider from './DependencyVulnerabilityStatusProvider.ts';
 import { DependencyModelType } from './models/DependencyModel.ts';
 
 /**
@@ -34,10 +35,18 @@ const createDependency = async (dependency: DependencyType) => {
                 category: dependency.status,
             });
 
+        const depVulnerabilityStatus =
+            await DependencyVulnerabilityStatusProvider.getDependencyVulnerabilityStatusDetailsByParams(
+                {
+                    _id: dependency._id,
+                },
+            );
+
         const createdDependency = await DependencyModelType.create({
             ...dependency,
             appId: dependency.module?.appId,
             statusHelp: depStatusHelp,
+            vulnerabilityStatus: depVulnerabilityStatus,
         });
         AppLogger.info(
             `[DependencyProvider - createDependency] createdDependency: ${createdDependency?._id}`,
@@ -45,7 +54,7 @@ const createDependency = async (dependency: DependencyType) => {
 
         return createdDependency;
     } catch (error) {
-        AppLogger.info(`[DependencyProvider - createDependency] error:  ${error}`);
+        AppLogger.error(`[DependencyProvider - createDependency] error:  ${error}`);
         return null;
     }
 };

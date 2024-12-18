@@ -13,6 +13,7 @@ export class DependencyModelType extends Model<DependencyType> implements Depend
     public recommendedVersion?: string;
     public status?: string;
     public statusHelp?: DependencyStatusHelpType;
+    public vulnerabilityStatus?: DependencyStatusHelpType;
     public module?: ModuleType;
 }
 

@@ -10,5 +10,6 @@ export interface DependencyType {
     recommendedVersion?: string;
     status?: string;
     statusHelp?: DependencyStatusHelpType | null;
+    vulnerabilityStatus?: DependencyStatusHelpType | null;
     module?: ModuleType;
 }
