@@ -1,5 +1,5 @@
 import { HttpError, useParsed } from '@refinedev/core';
-import { AccountType } from '@v6y/commons';
+import { AccountType, Matcher } from '@v6y/commons';
 import { Typography } from 'antd';
 import * as React from 'react';
 
@@ -7,7 +7,6 @@ import VitalityDetailsView from '../../../commons/components/VitalityDetailsView
 import { formatAccountDetails } from '../../../commons/config/VitalityDetailsConfig';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineShowWrapper from '../../../infrastructure/components/RefineShowWrapper';
-import {Matcher} from '@v6y/commons';
 import GetAccountDetailsByParams from '../apis/getAccountDetailsByParams';
 
 export default function VitalityAccountDetailsView() {

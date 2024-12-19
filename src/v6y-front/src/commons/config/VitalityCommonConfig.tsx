@@ -8,12 +8,11 @@ import {
     SplitCellsOutlined,
     ThunderboltOutlined,
 } from '@ant-design/icons';
-import { ApplicationType } from '@v6y/commons';
+import { ApplicationType, Matcher } from '@v6y/commons';
 import Link from 'next/link';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
-import { Matcher } from '@v6y/commons';
 import VitalityNavigationPaths from './VitalityNavigationPaths';
 import VitalityTerms from './VitalityTerms';
 import VitalityTheme from './VitalityTheme';
