@@ -37,7 +37,7 @@
     "graphql": "=16.8.1",
     "graphql-request": "=6.1.0",
     "json-2-csv": "=5.5.5",
-    "next": "=14.2.5",
+    "next": "=14.2.15",
     "react": "=18.2.0",
     "react-chatbotify": "2.0.0-beta.1",
     "react-dom": "=18.2.0",
