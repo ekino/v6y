@@ -1,7 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import jwt from 'jsonwebtoken';
-import { JwtPayload } from 'jsonwebtoken';
 import passport from 'passport';
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
 import { VerifiedCallback } from 'passport-jwt';
@@ -35,6 +34,7 @@ export const createJwtOptions = () => {
  * @returns {Function} A function that verifies JWT payload.
  */
 export const createJwtStrategyVerify = () => {
+    const { JwtPayload } = jwt;
     return async (jwtPayload: JwtPayload, done: VerifiedCallback) => {
         try {
             AppLogger.info(

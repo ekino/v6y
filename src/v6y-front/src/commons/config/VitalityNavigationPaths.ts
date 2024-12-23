@@ -6,6 +6,7 @@ const VitalityNavigationPaths = {
     NOTIFICATIONS: '/notifications',
     APPS_STATS: '/apps-stats',
     SEARCH: '/search',
+    LOGIN: '/login',
 };
 
 export default VitalityNavigationPaths;

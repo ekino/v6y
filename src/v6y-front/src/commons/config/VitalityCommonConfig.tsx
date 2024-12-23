@@ -4,11 +4,16 @@ import {
     DashboardOutlined,
     DislikeOutlined,
     LikeOutlined,
+    LogoutOutlined,
+    NotificationOutlined,
     PieChartOutlined,
+    QuestionOutlined,
     SplitCellsOutlined,
     ThunderboltOutlined,
 } from '@ant-design/icons';
-import { ApplicationType, Matcher } from '@v6y/commons';
+import { ApplicationType } from '@v6y/commons';
+import Matcher from '@v6y/commons/src/core/Matcher';
+import { Typography } from 'antd';
 import Link from 'next/link';
 import * as React from 'react';
 import { ReactNode } from 'react';
@@ -277,3 +282,41 @@ export const formatApplicationDataSource = (
 
     return newDataSource;
 };
+
+const VITALITY_HEADER_MENU_ITEMS = [
+    {
+        key: 'notification',
+        icon: <NotificationOutlined />,
+        label: (
+            <Link href={VitalityNavigationPaths.NOTIFICATIONS} style={{ textDecoration: 'none' }}>
+                <Typography.Text>Notifications</Typography.Text>
+            </Link>
+        ),
+    },
+    {
+        key: 'FAQ',
+        icon: <QuestionOutlined />,
+        label: (
+            <Link href={VitalityNavigationPaths.FAQ} style={{ textDecoration: 'none' }}>
+                <Typography.Text>FAQ</Typography.Text>
+            </Link>
+        ),
+    },
+];
+
+export const buildVitalityHeaderMenuItems = (isLogged: boolean, onLogout: () => void) => [
+    ...VITALITY_HEADER_MENU_ITEMS,
+    isLogged && {
+        key: 'logout',
+        icon: <LogoutOutlined />,
+        label: (
+            <Link
+                href={VitalityNavigationPaths.LOGIN}
+                onClick={onLogout}
+                style={{ textDecoration: 'none' }}
+            >
+                <Typography.Text>Logout</Typography.Text>
+            </Link>
+        ),
+    },
+];

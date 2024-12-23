@@ -80,6 +80,17 @@ const VitalityTerms = {
     VITALITY_APP_STATS_PAGE_TITLE: 'Health statistics',
     VITALITY_APP_STATS_GRAPH_TITLE: 'Health statistics',
     VITALITY_APP_STATS_GRAPH_EMPTY_MESSAGE: 'You should select a filter to display statistics!',
+
+    VITALITY_APP_LOGIN_SUCCESS_MESSAGE: 'Successful connection',
+    VITALITY_APP_LOGIN_ERROR_MESSAGE: 'Incorrect credentials',
+    VITALITY_APP_LOGIN_ERROR_CONNECTION_MESSAGE: 'Connection error',
+    VITALITY_APP_LOGIN_FORM_EMAIL_LABEL: 'Email',
+    VITALITY_APP_LOGIN_FORM_EMAIL_WARNING: 'Please enter a valid email address',
+    VITALITY_APP_LOGIN_FORM_PASSWORD_LABEL: 'Password',
+    VITALITY_APP_LOGIN_FORM_PASSWORD_WARNING: 'Please enter a password',
+    VITALITY_APP_LOGIN_FORM_REMEMBER_LABEL: 'Remember me',
+    VITALITY_APP_LOGIN_FORM_SUBMIT_LABEL: 'Login',
+    VITALITY_APP_LOGOUT_LABEL: 'Logout',
 };
 
 export default VitalityTerms;
