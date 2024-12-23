@@ -755,6 +755,87 @@ export const deprecatedDependencyCreateOrEditFormOutputAdapter = (
     },
 });
 
+export const dependencyVulnerabilityStatusInfosFormItems = (translate: TranslateType) => {
+    return [
+        {
+            id: 'dependency-vulnerability-status-category',
+            name: 'dependency-vulnerability-status-category',
+            label: translate(
+                'v6y-dependency-vulnerability-status.fields.dependency-vulnerability-status-category.label',
+            ),
+            disabled: true,
+            rules: [],
+        },
+        {
+            id: 'dependency-vulnerability-status-title',
+            name: 'dependency-vulnerability-status-title',
+            label: translate(
+                'v6y-dependency-vulnerability-status.fields.dependency-vulnerability-status-title.label',
+            ),
+            placeholder: translate(
+                'v6y-dependency-vulnerability-status.fields.dependency-vulnerability-status-title.placeholder',
+            ),
+            rules: [
+                {
+                    required: true,
+                    message: translate(
+                        'v6y-dependency-vulnerability-status.fields.dependency-vulnerability-status-title.error',
+                    ),
+                },
+            ],
+        },
+        {
+            id: 'dependency-vulnerability-status-description',
+            name: 'dependency-vulnerability-status-description',
+            label: translate(
+                'v6y-dependency-vulnerability-status.fields.dependency-vulnerability-status-description.label',
+            ),
+            placeholder: translate(
+                'v6y-dependency-vulnerability-status.fields.dependency-vulnerability-status-description.placeholder',
+            ),
+            type: 'textarea',
+            rules: [
+                {
+                    required: true,
+                    message: translate(
+                        'v6y-dependency-vulnerability-status.fields.dependency-vulnerability-status-description.error',
+                    ),
+                },
+            ],
+        },
+    ];
+};
+
+export const dependencyVulnerabilityStatusCreateEditItems = (translate: TranslateType) => {
+    return [
+        <VitalityFormFieldSet
+            key={translate('v6y-dependency-vulnerability-status.fields.dependency-vulnerability-status-infos-group')}
+            groupTitle={translate(
+                'v6y-dependency-vulnerability-status.fields.dependency-vulnerability-status-infos-group',
+            )}
+            items={dependencyStatusHelpInfosFormItems(translate)}
+        />,
+    ];
+};
+
+export const dependencyVulnerabilityStatusCreateOrEditFormInAdapter = (params: Record<string, unknown>) => ({
+    _id: params?._id,
+    'dependency-vulnerability-status-category': params?.['category'],
+    'dependency-vulnerability-status-title': params?.['title'],
+    'dependency-vulnerability-status-description': params?.['description'],
+});
+
+export const dependencyVulnerabilityStatusCreateOrEditFormOutputAdapter = (
+    params: Record<string, unknown>,
+) => ({
+    dependencyStatusHelpInput: {
+        _id: params?.['_id'],
+        category: params?.['dependency-vulnerability-status-category'],
+        title: params?.['dependency-vulnerability-status-title'],
+        description: params?.['dependency-vulnerability-status-description'],
+    },
+});
+
 export const accountCreateOrEditFormInAdapter = (params: Record<string, unknown>) => ({
     _id: params?._id,
     'account-email': params?.['email'],
