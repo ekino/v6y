@@ -1,14 +1,16 @@
+import type { AuthCookie } from '../../infrastructure/storage/CookieHelper';
 import { getAuthCookie, removeAuthCookie } from '../../infrastructure/storage/CookieHelper';
 
-const getAuthToken = () => {
-    const auth = getAuthCookie();
+const getAuthToken = (): string | undefined => {
+    const auth: AuthCookie | null = getAuthCookie();
 
     return auth?.token;
 };
 
-const useLogin = () => {
-    const auth = getAuthCookie();
 
+const useLogin = () => {
+    const auth: AuthCookie | null = getAuthCookie();
+    
     if (auth) {
         return {
             isLoggedIn: true,
