@@ -1,5 +1,6 @@
 import { HttpError, useParsed } from '@refinedev/core';
 import { ApplicationType } from '@v6y/commons';
+import Matcher from '@v6y/commons/src/core/Matcher';
 import { Typography } from 'antd';
 import * as React from 'react';
 
@@ -7,7 +8,6 @@ import VitalityDetailsView from '../../../commons/components/VitalityDetailsView
 import { formatApplicationDetails } from '../../../commons/config/VitalityDetailsConfig';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineShowWrapper from '../../../infrastructure/components/RefineShowWrapper';
-import Matcher from '../../../infrastructure/utils/Matcher';
 import GetApplicationDetails from '../apis/getApplicationDetails';
 
 export default function VitalityApplicationDetailsView() {
@@ -23,11 +23,11 @@ export default function VitalityApplicationDetailsView() {
         error: HttpError | string | undefined;
     }) => React.JSX.Element = ({ data, error }) => {
         const errorMessage = Matcher()
-            .with(
+            .on(
                 () => (error as HttpError)?.message?.length > 0,
                 () => (error as HttpError)?.message,
             )
-            .with(
+            .on(
                 () => typeof error === 'string',
                 () => error,
             )
