@@ -4,11 +4,12 @@ import { Menu } from 'antd';
 import * as React from 'react';
 import { useState } from 'react';
 
-import { BuildVitalityHeaderMenuItems } from '../../config/VitalityCommonConfig';
-import { useLogin } from '../../hooks/useAuth';
+import { buildVitalityHeaderMenuItems } from '../../config/VitalityCommonConfig';
+import { useLogin, useLogout } from '../../hooks/useAuth';
 
 const VitalityPageHeaderMenu = () => {
     const { isLoggedIn } = useLogin();
+    const { onLogout } = useLogout();
     const [currentSelectedMenu, setCurrentSelectedMenu] = useState('mail');
 
     const onMenuClicked = (event: { key: string }) => {
@@ -18,7 +19,7 @@ const VitalityPageHeaderMenu = () => {
     return (
         <Menu
             mode="horizontal"
-            items={BuildVitalityHeaderMenuItems(isLoggedIn)}
+            items={buildVitalityHeaderMenuItems(isLoggedIn, onLogout)}
             onClick={onMenuClicked}
             selectedKeys={[currentSelectedMenu]}
         />

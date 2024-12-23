@@ -17,7 +17,6 @@ import Link from 'next/link';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
-import { useLogout } from '../../commons/hooks/useAuth';
 import Matcher from '../../infrastructure/utils/Matcher';
 import VitalityNavigationPaths from './VitalityNavigationPaths';
 import VitalityTerms from './VitalityTerms';
@@ -305,23 +304,19 @@ const VITALITY_HEADER_MENU_ITEMS = [
     },
 ];
 
-export const BuildVitalityHeaderMenuItems = (isLogged: boolean) => {
-    const { onLogout } = useLogout();
-
-    return [
-        ...VITALITY_HEADER_MENU_ITEMS,
-        isLogged && {
-            key: 'logout',
-            icon: <LogoutOutlined />,
-            label: (
-                <Link
-                    href={VitalityNavigationPaths.LOGIN}
-                    onClick={onLogout}
-                    style={{ textDecoration: 'none' }}
-                >
-                    <Typography.Text>Logout</Typography.Text>
-                </Link>
-            ),
-        },
-    ];
-};
+export const buildVitalityHeaderMenuItems = (isLogged: boolean, onLogout: () => void) => [
+    ...VITALITY_HEADER_MENU_ITEMS,
+    isLogged && {
+        key: 'logout',
+        icon: <LogoutOutlined />,
+        label: (
+            <Link
+                href={VitalityNavigationPaths.LOGIN}
+                onClick={onLogout}
+                style={{ textDecoration: 'none' }}
+            >
+                <Typography.Text>{VitalityTerms.VITALITY_APP_LOGOUT_LABEL}</Typography.Text>
+            </Link>
+        ),
+    },
+];

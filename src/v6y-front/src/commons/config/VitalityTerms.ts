@@ -90,6 +90,7 @@ const VitalityTerms = {
     VITALITY_APP_LOGIN_FORM_PASSWORD_WARNING: 'Please enter a password',
     VITALITY_APP_LOGIN_FORM_REMEMBER_LABEL: 'Remember me',
     VITALITY_APP_LOGIN_FORM_SUBMIT_LABEL: 'Login',
+    VITALITY_APP_LOGOUT_LABEL: 'Logout',
 };
 
 export default VitalityTerms;
