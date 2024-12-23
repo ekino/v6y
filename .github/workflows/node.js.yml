@@ -5,13 +5,26 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
+env:
+  NEXT_PUBLIC_V6Y_BFB_FRONTEND_AUDITOR_API_PATH: ${DEV_NEXT_PUBLIC_V6Y_BFB_FRONTEND_AUDITOR_API_PATH}
+  NEXT_PUBLIC_V6Y_BFB_FRONTEND_AUDITOR_HEALTH_CHECK_PATH: ${DEV_NEXT_PUBLIC_V6Y_BFB_FRONTEND_AUDITOR_HEALTH_CHECK_PATH}
+  NEXT_PUBLIC_V6Y_BFB_FRONTEND_AUDITOR_MONITORING_PATH: ${DEV_NEXT_PUBLIC_V6Y_BFB_FRONTEND_AUDITOR_MONITORING_PATH}
+  NEXT_PUBLIC_V6Y_BFB_FRONTEND_AUDITOR_PATH: ${DEV_NEXT_PUBLIC_V6Y_BFB_FRONTEND_AUDITOR_PATH}
+  NEXT_PUBLIC_V6Y_BFB_API_PATH: ${DEV_NEXT_PUBLIC_V6Y_BFB_API_PATH}
+  NEXT_PUBLIC_V6Y_BFB_HEALTH_CHECK_PATH: ${DEV_NEXT_PUBLIC_V6Y_BFB_API_PATH}
+  NEXT_PUBLIC_V6Y_BFB_MONITORING_PATH: ${DEV_NEXT_PUBLIC_V6Y_BFB_API_PATH}
+  NEXT_PUBLIC_V6Y_GQL_API_PATH: ${DEV_NEXT_PUBLIC_V6Y_GQL_API_PATH}
+  NEXT_PUBLIC_V6Y_GQL_HEALTH_CHECK_PATH: ${DEV_NEXT_PUBLIC_V6Y_GQL_API_PATH}
+  NEXT_PUBLIC_V6Y_GQL_MONITORING_PATH: ${DEV_NEXT_PUBLIC_V6Y_GQL_API_PATH}
+  NEXT_PUBLIC_V6Y_BFF_PATH: ${DEV_NEXT_PUBLIC_V6Y_BFF_PATH}
+  NEXT_PUBLIC_V6Y_GQL_API_BASE_PATH: ${DEV_NEXT_PUBLIC_V6Y_GQL_API_BASE_PATH}
+  NEXT_PUBLIC_NEXTAUTH_URL: ${DEV_NEXT_PUBLIC_NEXTAUTH_URL}
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,13 +33,13 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm i -g pnpm@9.1.3
-    - run: pnpm i
-    - run: pnpm build
-    - run: pnpm lint
-    - run: pnpm test
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm i -g pnpm@9.1.3
+      - run: pnpm i
+      - run: pnpm build
+      - run: pnpm lint
+      - run: pnpm test
