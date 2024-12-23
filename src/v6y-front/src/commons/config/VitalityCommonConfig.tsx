@@ -304,19 +304,23 @@ const VITALITY_HEADER_MENU_ITEMS = [
     },
 ];
 
-export const buildVitalityHeaderMenuItems = (isLogged: boolean, onLogout: () => void) => [
-    ...VITALITY_HEADER_MENU_ITEMS,
-    isLogged && {
-        key: 'logout',
-        icon: <LogoutOutlined />,
-        label: (
-            <Link
-                href={VitalityNavigationPaths.LOGIN}
-                onClick={onLogout}
-                style={{ textDecoration: 'none' }}
-            >
-                <Typography.Text>{VitalityTerms.VITALITY_APP_LOGOUT_LABEL}</Typography.Text>
-            </Link>
-        ),
-    },
-];
+export const BuildVitalityHeaderMenuItems = (isLogged: boolean) => {
+    const { onLogout } = useLogout();
+
+    return [
+        ...VITALITY_HEADER_MENU_ITEMS,
+        isLogged && {
+            key: 'logout',
+            icon: <LogoutOutlined />,
+            label: (
+                <Link
+                    href={VitalityNavigationPaths.LOGIN}
+                    onClick={onLogout}
+                    style={{ textDecoration: 'none' }}
+                >
+                    <Typography.Text>Logout</Typography.Text>
+                </Link>
+            ),
+        },
+    ];
+};
