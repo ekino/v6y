@@ -1,11 +1,15 @@
 import { AppLogger } from '@v6y/commons';
 
-const V6Y_API_PATH = '/v6y/bfb-static-code-auditor/';
-const V6Y_HEALTH_CHECK_PATH = `${V6Y_API_PATH}health-checks`;
-const V6Y_MONITORING_PATH = `${V6Y_API_PATH}monitoring`;
-const STATIC_CODE_AUDITOR_API_PATH = `${V6Y_API_PATH}auditor`;
+const V6Y_API_PATH = process.env.NEXT_PUBLIC_V6Y_BFB_STATIC_CODE_AUDITOR_API_PATH;
+const V6Y_HEALTH_CHECK_PATH = process.env.NEXT_PUBLIC_V6Y_BFB_STATIC_CODE_AUDITOR_HEALTH_CHECK_PATH;
+const V6Y_MONITORING_PATH = process.env.NEXT_PUBLIC_V6Y_BFB_STATIC_CODE_AUDITOR_MONITORING_PATH;
+const FRONTEND_AUDITOR_API_PATH = process.env.NEXT_PUBLIC_V6Y_BFB_STATIC_CODE_AUDITOR_PATH;
 
 const execEnv = process?.argv;
+
+if (!V6Y_API_PATH || !V6Y_HEALTH_CHECK_PATH || !V6Y_MONITORING_PATH || !FRONTEND_AUDITOR_API_PATH) {
+    throw new Error('Missing environment variables');
+}
 
 interface ServerEnvConfig {
     ssl: boolean;

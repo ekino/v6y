@@ -1,8 +1,12 @@
 import { AppLogger } from '@v6y/commons';
 
-const V6Y_API_PATH = '/v6y/graphql';
-const V6Y_HEALTH_CHECK_PATH = `${V6Y_API_PATH}/health-checks`;
-const V6Y_MONITORING_PATH = `${V6Y_API_PATH}/monitoring`;
+const V6Y_API_PATH = process.env.NEXT_PUBLIC_V6Y_GQL_API_PATH;
+const V6Y_HEALTH_CHECK_PATH = process.env.NEXT_PUBLIC_V6Y_GQL_HEALTH_CHECK_PATH;
+const V6Y_MONITORING_PATH = process.env.NEXT_PUBLIC_V6Y_GQL_MONITORING_PATH;
+
+if (!V6Y_API_PATH || !V6Y_HEALTH_CHECK_PATH || !V6Y_MONITORING_PATH) {
+    throw new Error('Missing environment variables');
+}
 
 const execEnv = process?.argv;
 

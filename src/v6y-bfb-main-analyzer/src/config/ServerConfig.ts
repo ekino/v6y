@@ -1,10 +1,14 @@
 import { AppLogger } from '@v6y/commons';
 
-const V6Y_API_PATH = '/v6y/bfb-main';
-const V6Y_HEALTH_CHECK_PATH = `${V6Y_API_PATH}/health-checks`;
-const V6Y_MONITORING_PATH = `${V6Y_API_PATH}/monitoring`;
+const V6Y_API_PATH = process.env.NEXT_PUBLIC_V6Y_BFB_API_PATH;
+const V6Y_HEALTH_CHECK_PATH = process.env.NEXT_PUBLIC_V6Y_BFB_HEALTH_CHECK_PATH;
+const V6Y_MONITORING_PATH = process.env.NEXT_PUBLIC_V6Y_BFB_MONITORING_PATH;
 
 const execEnv = process?.argv;
+
+if (!V6Y_API_PATH || !V6Y_HEALTH_CHECK_PATH || !V6Y_MONITORING_PATH) {
+    throw new Error('Missing environment variables');
+}
 
 interface ServerEnvConfig {
     ssl: boolean;

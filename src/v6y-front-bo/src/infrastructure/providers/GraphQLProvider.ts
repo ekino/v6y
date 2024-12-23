@@ -9,8 +9,8 @@ import { gqlClient } from '../adapters/api/GraphQLClient';
 
 const dataClient = gqlClient;
 
-const wsClient = createClient({
-    url: process.env.NEXT_PUBLIC_GQL_API_BASE_PATH as string,
+const wsClient = graphqlWS.createClient({
+    url: process.env.NEXT_PUBLIC_V6Y_GQL_API_BASE_PATH,
 });
 
 export const gqlDataProvider = dataProvider(dataClient);
@@ -20,9 +20,9 @@ export const gqlLiveProvider = createLiveProvider(wsClient);
 export const gqlAuthProvider: AuthProvider = {
     login: async ({ email, password }) => {
         try {
-            const apiUrl = process.env.NEXT_PUBLIC_GQL_API_BASE_PATH;
+            const apiUrl = process.env.NEXT_PUBLIC_V6Y_GQL_API_BASE_PATH;
             if (!apiUrl) {
-                throw new Error('NEXT_PUBLIC_GQL_API_BASE_PATH is not defined');
+                throw new Error('NEXT_PUBLIC_V6Y_GQL_API_BASE_PATH is not defined');
             }
 
             const response = await fetch(apiUrl, {
@@ -126,9 +126,9 @@ export const gqlAuthProvider: AuthProvider = {
     },
     updatePassword: async ({ password }) => {
         try {
-            const apiUrl = process.env.NEXT_PUBLIC_GQL_API_BASE_PATH;
+            const apiUrl = process.env.NEXT_PUBLIC_V6Y_GQL_API_BASE_PATH;
             if (!apiUrl) {
-                throw new Error('NEXT_PUBLIC_GQL_API_BASE_PATH is not defined');
+                throw new Error('NEXT_PUBLIC_V6Y_GQL_API_BASE_PATH is not defined');
             }
 
             const response = await fetch(apiUrl, {
