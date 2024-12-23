@@ -6,10 +6,10 @@ import { AuditCommonsType } from './types/AuditCommonsType.ts';
 const { forkWorker } = WorkerHelper;
 const { getCurrentConfig } = ServerConfig;
 
-const startFrontendDynamicAudit = async ({ applicationId }: AuditCommonsType) => {
+const startUrlDynamicAudit = async ({ applicationId }: AuditCommonsType) => {
     try {
         AppLogger.info(
-            '[FrontendStaticStatusAuditorManager - startFrontendDynamicAudit] applicationId: ',
+            '[UrlDynamicAuditorManager - startUrlDynamicAudit] applicationId: ',
             applicationId,
         );
 
@@ -20,27 +20,29 @@ const startFrontendDynamicAudit = async ({ applicationId }: AuditCommonsType) =>
             applicationId,
         };
 
+        // start Lighthouse analysis
         await forkWorker(
             './src/workers/LighthouseAnalysisWorker.ts',
             workerConfig as WorkerOptions,
         );
-
         AppLogger.info(
-            '[FrontendStaticStatusAuditorManager - startFrontendDynamicAudit] Lighthouse Audit have completed successfully.',
+            '[UrlDynamicAuditorManager - startUrlDynamicAudit] Lighthouse Audit have completed successfully.',
         );
+
+        // start other dynamic analysis
 
         return true; // Indicates successful initiation of audits
     } catch (error) {
         AppLogger.info(
-            '[FrontendStaticStatusAuditorManager - startFrontendDynamicAudit] An exception occurred during the app audits: ',
+            '[UrlDynamicAuditorManager - startUrlDynamicAudit] An exception occurred during the app audits: ',
             error,
         );
         return false; // Indicates failure to initiate audits
     }
 };
 
-const FrontendStaticStatusAuditorManager = {
-    startFrontendDynamicAudit,
+const UrlDynamicAuditorManager = {
+    startUrlDynamicAudit,
 };
 
-export default FrontendStaticStatusAuditorManager;
+export default UrlDynamicAuditorManager;
