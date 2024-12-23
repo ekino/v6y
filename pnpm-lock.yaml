@@ -522,6 +522,9 @@ importers:
       graphql-request:
         specifier: '=6.1.0'
         version: 6.1.0(graphql@16.8.1)
+      js-cookie:
+        specifier: '=3.0.1'
+        version: 3.0.1
       json-2-csv:
         specifier: '=5.5.5'
         version: 5.5.5
@@ -537,6 +540,9 @@ importers:
       react-dom:
         specifier: '=18.2.0'
         version: 18.2.0(react@18.2.0)
+      react-hook-form:
+        specifier: '=7.54.0'
+        version: 7.54.0(react@18.2.0)
       react-virtualized-auto-sizer:
         specifier: '=1.0.24'
         version: 1.0.24(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -546,6 +552,9 @@ importers:
       vite:
         specifier: '=5.4.8'
         version: 5.4.8(@types/node@20.16.10)
+      zod:
+        specifier: '=3.24.1'
+        version: 3.24.1
     devDependencies:
       '@babel/plugin-transform-private-methods':
         specifier: '=7.25.4'
@@ -580,6 +589,9 @@ importers:
       '@types/file-saver':
         specifier: '=2.0.7'
         version: 2.0.7
+      '@types/js-cookie':
+        specifier: '=3.0.6'
+        version: 3.0.6
       '@types/node':
         specifier: '=20.16.10'
         version: 20.16.10
@@ -651,7 +663,7 @@ importers:
         version: 6.5.4(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(gql-query-builder@3.8.0)(graphql-request@6.1.0(graphql@16.8.1))(graphql-ws@5.16.0(graphql@16.8.1))
       '@refinedev/inferencer':
         specifier: '=4.7.0'
-        version: 4.7.0(@ant-design/icons@5.4.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/antd@5.43.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        version: 4.7.0(@ant-design/icons@5.4.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/antd@5.43.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react-hook-form@7.54.0(react@18.2.0))(react@18.2.0)
       '@refinedev/kbar':
         specifier: '=1.3.12'
         version: 1.3.12(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -7371,6 +7383,12 @@ packages:
     peerDependencies:
       react: ^18.2.0
 
+  react-hook-form@7.54.0:
+    resolution: {integrity: sha512-PS05+UQy/IdSbJNojBypxAo9wllhHgGmyr8/dyGQcPoiMf3e7Dfb9PWYVRco55bLbxH9S+1yDDJeTdlYCSxO3A==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18 || ^19
+
   react-i18next@11.18.6:
     resolution: {integrity: sha512-yHb2F9BiT0lqoQDt8loZ5gWP331GwctHz9tYQ8A2EIEUu+CcEdjBLQWli1USG3RdWQt3W+jqQLg/d4rrQR96LA==}
     peerDependencies:
@@ -7893,10 +7911,6 @@ packages:
   socks@2.8.3:
     resolution: {integrity: sha512-l5x7VUUWbjVFbafGLxPWkYsHIhEvmF85tbIeFZWc8ZPtoMyybuEhL7Jye/ooC4/d48FgOjSJXgsF/AJPYCW8Zw==}
     engines: {node: '>= 10.0.0', npm: '>= 3.0.0'}
-
-  source-map-js@1.2.0:
-    resolution: {integrity: sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==}
-    engines: {node: '>=0.10.0'}
 
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
@@ -8989,6 +9003,9 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
+  zod@3.24.1:
+    resolution: {integrity: sha512-muH7gBL9sI1nciMZV67X5fTKKBLtwpZ5VBp1vsOQzj1MhrBZ4wlVCm3gedKZWLp0Oyel8sIGfeiz54Su+OVT+A==}
+
   zwitch@1.0.5:
     resolution: {integrity: sha512-V50KMwwzqJV0NpZIZFwfOD5/lyny3WlSzRiXgA0G7VUnRlqttta1L6UQIHzd6EuBY/cHGfwTIck7w1yH6Q5zUw==}
 
@@ -9378,16 +9395,16 @@ snapshots:
 
   '@babel/helper-environment-visitor@7.24.7':
     dependencies:
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
 
   '@babel/helper-function-name@7.24.7':
     dependencies:
       '@babel/template': 7.25.0
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
 
   '@babel/helper-hoist-variables@7.24.7':
     dependencies:
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
 
   '@babel/helper-member-expression-to-functions@7.24.8':
     dependencies:
@@ -9441,7 +9458,7 @@ snapshots:
   '@babel/helper-simple-access@7.24.7':
     dependencies:
       '@babel/traverse': 7.25.4
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
     transitivePeerDependencies:
       - supports-color
 
@@ -9454,7 +9471,7 @@ snapshots:
 
   '@babel/helper-split-export-declaration@7.24.7':
     dependencies:
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
 
   '@babel/helper-string-parser@7.24.8': {}
 
@@ -10235,9 +10252,9 @@ snapshots:
     dependencies:
       '@babel/code-frame': 7.24.7
       '@babel/generator': 7.25.5
-      '@babel/parser': 7.25.4
+      '@babel/parser': 7.25.6
       '@babel/template': 7.25.0
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
       debug: 4.3.7(supports-color@5.5.0)
       globals: 11.12.0
     transitivePeerDependencies:
@@ -11104,7 +11121,7 @@ snapshots:
       graphql-ws: 5.16.0(graphql@16.8.1)
       pluralize: 8.0.0
 
-  '@refinedev/inferencer@4.7.0(@ant-design/icons@5.4.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/antd@5.43.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+  '@refinedev/inferencer@4.7.0(@ant-design/icons@5.4.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/antd@5.43.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react-hook-form@7.54.0(react@18.2.0))(react@18.2.0)':
     dependencies:
       '@aliemir/react-live': 4.0.0(react@18.2.0)
       '@ant-design/icons': 5.4.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -11128,6 +11145,7 @@ snapshots:
       '@refinedev/antd': 5.43.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       antd: 5.19.3(date-fns@3.2.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       dayjs: 1.11.13
+      react-hook-form: 7.54.0(react@18.2.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -11435,7 +11453,7 @@ snapshots:
 
   '@types/babel__generator@7.6.8':
     dependencies:
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
 
   '@types/babel__template@7.4.4':
     dependencies:
@@ -11444,7 +11462,7 @@ snapshots:
 
   '@types/babel__traverse@7.20.6':
     dependencies:
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
 
   '@types/bcrypt@5.0.2':
     dependencies:
@@ -12897,7 +12915,7 @@ snapshots:
   constantinople@4.0.1:
     dependencies:
       '@babel/parser': 7.25.6
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
 
   content-disposition@0.5.4:
     dependencies:
@@ -15134,7 +15152,7 @@ snapshots:
   istanbul-lib-source-maps@5.0.6:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
-      debug: 4.3.6
+      debug: 4.3.7(supports-color@5.5.0)
       istanbul-lib-coverage: 3.2.2
     transitivePeerDependencies:
       - supports-color
@@ -16611,7 +16629,7 @@ snapshots:
     dependencies:
       nanoid: 3.3.7
       picocolors: 1.0.1
-      source-map-js: 1.2.0
+      source-map-js: 1.2.1
 
   postcss@8.4.47:
     dependencies:
@@ -17205,6 +17223,10 @@ snapshots:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.2
+
+  react-hook-form@7.54.0(react@18.2.0):
+    dependencies:
+      react: 18.2.0
 
   react-i18next@11.18.6(i18next@20.1.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
@@ -17824,8 +17846,6 @@ snapshots:
     dependencies:
       ip-address: 9.0.5
       smart-buffer: 4.2.0
-
-  source-map-js@1.2.0: {}
 
   source-map-js@1.2.1: {}
 
@@ -18941,7 +18961,7 @@ snapshots:
   with@7.0.2:
     dependencies:
       '@babel/parser': 7.25.6
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
       assert-never: 1.3.0
       babel-walk: 3.0.0-canary-5
 
@@ -19048,5 +19068,7 @@ snapshots:
   yn@3.1.1: {}
 
   yocto-queue@0.1.0: {}
+
+  zod@3.24.1: {}
 
   zwitch@1.0.5: {}
