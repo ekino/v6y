@@ -1,6 +1,6 @@
 import { ApplicationType } from '@v6y/commons';
 
-import GetApplicationList from '../../../commons/apis/getApplicationList';
+import GetApplicationListByPageAndParams from '../../../commons/apis/getApplicationListByPageAndParams';
 import VitalityTable from '../../../commons/components/VitalityTable';
 import {
     buildCommonTableColumns,
@@ -25,7 +25,7 @@ export default function VitalityApplicationListView() {
             ]}
             queryOptions={{
                 resource: 'getApplicationListByPageAndParams',
-                query: GetApplicationList,
+                query: GetApplicationListByPageAndParams,
             }}
             renderTable={(dataSource: ApplicationType[]) => (
                 <VitalityTable
