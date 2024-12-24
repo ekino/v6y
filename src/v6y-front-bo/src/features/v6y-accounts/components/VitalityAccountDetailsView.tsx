@@ -1,5 +1,6 @@
 import { HttpError, useParsed } from '@refinedev/core';
 import { AccountType } from '@v6y/commons';
+import Matcher from '@v6y/commons/src/core/Matcher';
 import { Typography } from 'antd';
 import * as React from 'react';
 
@@ -7,7 +8,6 @@ import VitalityDetailsView from '../../../commons/components/VitalityDetailsView
 import { formatAccountDetails } from '../../../commons/config/VitalityDetailsConfig';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineShowWrapper from '../../../infrastructure/components/RefineShowWrapper';
-import Matcher from '../../../infrastructure/utils/Matcher';
 import GetAccountDetailsByParams from '../apis/getAccountDetailsByParams';
 
 export default function VitalityAccountDetailsView() {
@@ -23,11 +23,11 @@ export default function VitalityAccountDetailsView() {
         error: HttpError | string | undefined;
     }) => React.JSX.Element = ({ data, error }) => {
         const errorMessage = Matcher()
-            .with(
+            .on(
                 () => (error as HttpError)?.message?.length > 0,
                 () => (error as HttpError)?.message,
             )
-            .with(
+            .on(
                 () => typeof error === 'string',
                 () => error,
             )

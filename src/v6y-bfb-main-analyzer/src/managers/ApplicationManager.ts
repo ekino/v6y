@@ -11,7 +11,7 @@ import ServerConfig from '../config/ServerConfig.ts';
 const { getRepositoryDetails, getRepositoryBranches, prepareGitBranchZipConfig } = RepositoryApi;
 
 const { getCurrentConfig } = ServerConfig;
-const { frontendStaticAuditorApi, frontendDynamicAuditorApi } = getCurrentConfig() || {};
+const { frontendStaticCodeAuditorApi, frontendUrlDynamicAuditorApi } = getCurrentConfig() || {};
 const ZIP_BASE_DIR = '../code-analysis-workspace';
 
 interface BuildApplicationBranchParams {
@@ -71,11 +71,11 @@ const buildApplicationFrontendByBranch = async ({
         );
 
         AppLogger.info(
-            '[ApplicationManager - buildApplicationFrontendByBranch] frontendStaticAuditorApi: ',
-            frontendStaticAuditorApi,
+            '[ApplicationManager - buildApplicationFrontendByBranch] frontendStaticCodeAuditorApi: ',
+            frontendStaticCodeAuditorApi,
         );
 
-        await fetch(frontendStaticAuditorApi, {
+        await fetch(frontendStaticCodeAuditorApi, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ applicationId, workspaceFolder }),
@@ -225,11 +225,11 @@ const buildDynamicReports = async ({ application }: BuildApplicationParams) => {
         }
 
         AppLogger.info(
-            '[ApplicationManager - buildDynamicReports] frontendDynamicAuditorApi: ',
-            frontendDynamicAuditorApi,
+            '[ApplicationManager - buildDynamicReports] frontendUrlDynamicAuditorApi: ',
+            frontendUrlDynamicAuditorApi,
         );
 
-        await fetch(frontendDynamicAuditorApi, {
+        await fetch(frontendUrlDynamicAuditorApi, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

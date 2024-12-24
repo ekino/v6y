@@ -12,12 +12,12 @@ import {
     ThunderboltOutlined,
 } from '@ant-design/icons';
 import { ApplicationType } from '@v6y/commons';
+import Matcher from '@v6y/commons/src/core/Matcher';
 import { Typography } from 'antd';
 import Link from 'next/link';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
-import Matcher from '../../infrastructure/utils/Matcher';
 import VitalityNavigationPaths from './VitalityNavigationPaths';
 import VitalityTerms from './VitalityTerms';
 import VitalityTheme from './VitalityTheme';
@@ -191,11 +191,11 @@ export const buildBreadCrumbItems = ({ currentPage, lastPage, urlParams }: Bread
                 },
                 {
                     title: Matcher()
-                        .with(
+                        .on(
                             () => lastPage === 'stats',
                             () => appsStatsLink,
                         )
-                        .with(
+                        .on(
                             () => lastPage === 'search',
                             () => searchLink,
                         )

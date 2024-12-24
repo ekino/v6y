@@ -1,9 +1,9 @@
 import { AppLogger } from '@v6y/commons';
 
-const V6Y_API_PATH = '/v6y/bfb-frontend-auditor/';
+const V6Y_API_PATH = '/v6y/bfb-url-dynamic-auditor/';
 const V6Y_HEALTH_CHECK_PATH = `${V6Y_API_PATH}health-checks`;
 const V6Y_MONITORING_PATH = `${V6Y_API_PATH}monitoring`;
-const FRONTEND_AUDITOR_API_PATH = `${V6Y_API_PATH}auditor`;
+const URL_DYNAMIC_AUDITOR_API_PATH = `${V6Y_API_PATH}auditor`;
 
 const execEnv = process?.argv;
 
@@ -15,7 +15,7 @@ interface ServerEnvConfig {
     healthCheckPath: string;
     monitoringPath: string;
     serverTimeout: number;
-    frontendAuditorApiPath: string;
+    urlDynamicAuditorApiPath: string;
     databaseUri: string;
     chromeExecutablePath: string;
 }
@@ -27,10 +27,10 @@ interface ServerEnvConfig {
 const SERVER_ENV_CONFIGURATION: { [key: string]: ServerEnvConfig } = {
     production: {
         ssl: false,
-        port: 4002,
+        port: 4003,
         hostname: 'localhost',
         apiPath: V6Y_API_PATH,
-        frontendAuditorApiPath: FRONTEND_AUDITOR_API_PATH,
+        urlDynamicAuditorApiPath: URL_DYNAMIC_AUDITOR_API_PATH,
         healthCheckPath: V6Y_HEALTH_CHECK_PATH,
         monitoringPath: V6Y_MONITORING_PATH,
         databaseUri: '',
@@ -39,10 +39,10 @@ const SERVER_ENV_CONFIGURATION: { [key: string]: ServerEnvConfig } = {
     },
     development: {
         ssl: false,
-        port: 4002,
+        port: 4003,
         hostname: 'localhost',
         apiPath: V6Y_API_PATH,
-        frontendAuditorApiPath: FRONTEND_AUDITOR_API_PATH,
+        urlDynamicAuditorApiPath: URL_DYNAMIC_AUDITOR_API_PATH,
         healthCheckPath: V6Y_HEALTH_CHECK_PATH,
         monitoringPath: V6Y_MONITORING_PATH,
         databaseUri: '',

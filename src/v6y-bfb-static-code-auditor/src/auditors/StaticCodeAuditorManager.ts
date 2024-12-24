@@ -6,14 +6,14 @@ import { AuditCommonsType } from './types/AuditCommonsType.ts';
 const { forkWorker } = WorkerHelper;
 const { getCurrentConfig } = ServerConfig;
 
-const startFrontendStaticAudit = async ({ applicationId, workspaceFolder }: AuditCommonsType) => {
+const startStaticCodeAudit = async ({ applicationId, workspaceFolder }: AuditCommonsType) => {
     try {
         AppLogger.info(
-            '[FrontendAuditorManager - startFrontendStaticAudit] applicationId: ',
+            '[StaticCodeAuditorManager - startStaticCodeAudit] applicationId: ',
             applicationId,
         );
         AppLogger.info(
-            '[FrontendAuditorManager - startFrontendStaticAudit] workspaceFolder: ',
+            '[StaticCodeAuditorManager - startStaticCodeAudit] workspaceFolder: ',
             workspaceFolder,
         );
 
@@ -27,26 +27,26 @@ const startFrontendStaticAudit = async ({ applicationId, workspaceFolder }: Audi
 
         await forkWorker('./src/workers/CodeQualityAnalysisWorker.ts', workerConfig);
         AppLogger.info(
-            '[FrontendAuditorManager - startFrontendStaticAudit] CodeQuality Audit have completed successfully.',
+            '[StaticCodeAuditorManager - startStaticCodeAudit] CodeQuality Audit have completed successfully.',
         );
 
         await forkWorker('./src/workers/DependenciesAnalysisWorker.ts', workerConfig);
         AppLogger.info(
-            '[FrontendAuditorManager - startFrontendStaticAudit] Dependencies Audit have completed successfully.',
+            '[StaticCodeAuditorManager - startStaticCodeAudit] Dependencies Audit have completed successfully.',
         );
 
         return true; // Indicates successful initiation of audits
     } catch (error) {
         AppLogger.info(
-            '[FrontendAuditorManager - startFrontendStaticAudit] An exception occurred during the app audits: ',
+            '[StaticCodeAuditorManager - startStaticCodeAudit] An exception occurred during the app audits: ',
             error,
         );
         return false; // Indicates failure to initiate audits
     }
 };
 
-const FrontendStaticStatusAuditorManager = {
-    startFrontendStaticAudit,
+const StaticCodeAuditorManager = {
+    startStaticCodeAudit,
 };
 
-export default FrontendStaticStatusAuditorManager;
+export default StaticCodeAuditorManager;
