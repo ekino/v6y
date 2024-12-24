@@ -65,7 +65,7 @@
   "dependencies": {
     "@typhonjs/babel-parser": "=0.2.0",
     "@v6y/commons": "workspace:^*",
-    "axios": "=1.7.6",
+    "axios": "=1.7.7",
     "axios-retry": "=4.0.0",
     "body-parser": "=1.20.3",
     "cookie-parser": "=1.4.6",
