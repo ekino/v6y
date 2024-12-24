@@ -257,42 +257,6 @@ const getApplicationListByPageAndParams = async (
 };
 
 /**
- * Get application list
- * @param _
- * @param args
- * @param user
- */
-const getApplicationList = async (
-    _: unknown,
-    args: SearchQueryType,
-    { user }: { user: AccountType },
-) => {
-    try {
-        const { where, sort } = args || {};
-
-        AppLogger.info(`[ApplicationQueries - getApplicationListByPageAndParams] where : ${where}`);
-        AppLogger.info(`[ApplicationQueries - getApplicationListByPageAndParams] sort : ${sort}`);
-
-        const appList = await ApplicationProvider.getApplicationListByPageAndParams(
-            {
-                where,
-                sort,
-            },
-            user,
-        );
-
-        AppLogger.info(
-            `[ApplicationQueries - getApplicationListByPageAndParams] Number of apps : ${appList?.length}`,
-        );
-
-        return appList;
-    } catch (error) {
-        AppLogger.info(`[ApplicationQueries - getApplicationListByPageAndParams] error : ${error}`);
-        return [];
-    }
-};
-
-/**
  * Get application stats by params
  * @param _
  * @param args
@@ -371,7 +335,6 @@ const ApplicationQueries = {
     getApplicationDetailsKeywordsByParams,
     getApplicationTotalByParams,
     getApplicationListByPageAndParams,
-    getApplicationList,
     getApplicationStatsByParams,
 };
 
