@@ -1,10 +1,14 @@
 import Cookies from 'js-cookie';
 
-const useToken = () => {
-    const auth = Cookies.get('auth');
-    const token = JSON.parse(auth || '{}')?.token;
+interface Auth {
+    token?: string;
+}
 
-    return token;
+const useToken = (): string | undefined => {
+    const auth = Cookies.get('auth');
+    const parsedAuth: Auth = JSON.parse(auth || '{}');
+
+    return parsedAuth.token;
 };
 
 export default useToken;

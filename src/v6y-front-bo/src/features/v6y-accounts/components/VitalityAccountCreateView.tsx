@@ -4,7 +4,7 @@ import { ApplicationType } from '@v6y/commons/src/types/ApplicationType';
 import { Typography } from 'antd';
 import { useEffect, useState } from 'react';
 
-import GetApplicationList from '../../../commons/apis/getApplicationList';
+import GetApplicationListByPageAndParams from '../../../commons/apis/getApplicationListByPageAndParams';
 import VitalityEmptyView from '../../../commons/components/VitalityEmptyView';
 import {
     accountCreateEditItems,
@@ -44,8 +44,8 @@ export default function VitalityAccountCreateView() {
                 createQueryParams: {},
             }}
             selectOptions={{
-                resource: 'getApplicationList',
-                query: GetApplicationList,
+                resource: 'getApplicationListByPageAndParams',
+                query: GetApplicationListByPageAndParams,
             }}
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-expect-error

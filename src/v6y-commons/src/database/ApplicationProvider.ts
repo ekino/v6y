@@ -1,6 +1,7 @@
 import { FindOptions, Op, Sequelize } from 'sequelize';
 
 import AppLogger from '../core/AppLogger.ts';
+import { AccountType } from '../types/AccountType.ts';
 import { ApplicationInputType, ApplicationType } from '../types/ApplicationType.ts';
 import { SearchQueryType } from '../types/SearchQueryType.ts';
 import AuditProvider from './AuditProvider.ts';
@@ -416,13 +417,10 @@ const getApplicationDetailsKeywordsByParams = async ({ _id }: ApplicationType) =
  * @param limit
  * @param where
  */
-const getApplicationListByPageAndParams = async ({
-    searchText,
-    keywords,
-    offset,
-    limit,
-    where,
-}: SearchQueryType) => {
+const getApplicationListByPageAndParams = async (
+    { searchText, keywords, offset, limit, where }: SearchQueryType,
+    user: AccountType,
+) => {
     try {
         AppLogger.info(
             `[ApplicationProvider - getApplicationListByPageAndParams] keywords: ${keywords?.join(
@@ -445,6 +443,16 @@ const getApplicationListByPageAndParams = async ({
             limit,
             where,
         });
+
+        if (user.role !== 'ADMIN' && user.role !== 'SUPERADMIN' && user.applications?.length) {
+            searchQuery.where = {
+                ...searchQuery.where,
+                _id: {
+                    [Op.in]: user.applications,
+                },
+            };
+        }
+
         const applications = await ApplicationModelType.findAll(searchQuery);
         AppLogger.info(
             `[ApplicationProvider - getApplicationListByPageAndParams] applications: ${applications?.length}`,
@@ -462,7 +470,10 @@ const getApplicationListByPageAndParams = async ({
  * @param searchText
  * @param keywords
  */
-const getApplicationTotalByParams = async ({ searchText, keywords }: SearchQueryType) => {
+const getApplicationTotalByParams = async (
+    { searchText, keywords }: SearchQueryType,
+    user: AccountType,
+) => {
     try {
         AppLogger.info(
             `[ApplicationProvider - getApplicationTotalByParams] searchText: ${searchText}`,
@@ -474,6 +485,14 @@ const getApplicationTotalByParams = async ({ searchText, keywords }: SearchQuery
         );
 
         const searchQuery = await buildSearchQuery({ searchText, keywords });
+        if (user.role !== 'ADMIN' && user.role !== 'SUPERADMIN' && user.applications?.length) {
+            searchQuery.where = {
+                ...searchQuery.where,
+                _id: {
+                    [Op.in]: user.applications,
+                },
+            };
+        }
         const applicationsCount = await ApplicationModelType.count(searchQuery);
 
         AppLogger.info(
