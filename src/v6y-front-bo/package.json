@@ -58,7 +58,7 @@
     "@next/bundle-analyzer": "=14.1.0",
     "@testing-library/jest-dom": "=6.5.0",
     "@testing-library/react": "=14.2.1",
-    "@trivago/prettier-plugin-sort-imports": "=4.3.0",
+    "@trivago/prettier-plugin-sort-imports": "=5.2.0",
     "@types/js-cookie": "=3.0.6",
     "@types/node": "=20.16.10",
     "@types/react": "=18.3.10",
