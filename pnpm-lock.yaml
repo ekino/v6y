@@ -868,8 +868,8 @@ importers:
         specifier: '=1.0.0'
         version: 1.0.0(@ant-design/cssinjs@1.21.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(antd@5.19.3(date-fns@4.1.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(next@14.2.15(@babel/core@7.25.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@refinedev/antd':
-        specifier: '=5.43.0'
-        version: 5.43.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@4.1.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        specifier: '=6.0.0'
+        version: 6.0.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@4.1.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@refinedev/cli':
         specifier: '=2.16.37'
         version: 2.16.37(@babel/preset-env@7.23.6(@babel/core@7.25.2))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -884,7 +884,7 @@ importers:
         version: 6.5.4(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(gql-query-builder@3.8.0)(graphql-request@6.1.0(graphql@16.10.0))(graphql-ws@5.16.0(graphql@16.10.0))
       '@refinedev/inferencer':
         specifier: '=4.7.0'
-        version: 4.7.0(@ant-design/icons@5.4.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/antd@5.43.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@4.1.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@4.1.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react-hook-form@7.54.0(react@18.2.0))(react@18.2.0)
+        version: 4.7.0(@ant-design/icons@5.4.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/antd@6.0.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@4.1.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@4.1.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react-hook-form@7.54.0(react@18.2.0))(react@18.2.0)
       '@refinedev/kbar':
         specifier: '=1.3.12'
         version: 1.3.12(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -2609,13 +2609,13 @@ packages:
   '@reach/observe-rect@1.2.0':
     resolution: {integrity: sha512-Ba7HmkFgfQxZqqaeIWWkNK0rEhpxVQHIoVyW1YDSkGsGIXzcaW4deC8B0pZrNSSyLTdIk7y+5olKt5+g0GmFIQ==}
 
-  '@refinedev/antd@5.43.0':
-    resolution: {integrity: sha512-agKMF1i6Q31tGMql6GHs3kmwZIjonW+uWbmKcFGj5bdSFVwlIdwdcyolSTTfjmaIs+skEkB10BSsV3L88SJSrg==}
+  '@refinedev/antd@6.0.0':
+    resolution: {integrity: sha512-ahLcTlZHWOj3N0b7T7P16RaugrL9ZB6qypSph44wfWUeUQJkM4AtjaKFJ9w1KRx9wP1ssTNUbRR+Q8RB4eNt6g==}
     peerDependencies:
       '@refinedev/core': ^4.46.1
       '@types/react': ^17.0.0 || ^18.0.0
       '@types/react-dom': ^17.0.0 || ^18.0.0
-      antd: ^5.17.0
+      antd: ^5.0.5
       dayjs: ^1.10.7
       react: ^17.0.0 || ^18.0.0
       react-dom: ^17.0.0 || ^18.0.0
@@ -11285,7 +11285,7 @@ snapshots:
 
   '@reach/observe-rect@1.2.0': {}
 
-  '@refinedev/antd@5.43.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@4.1.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+  '@refinedev/antd@6.0.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@4.1.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
       '@ant-design/icons': 5.0.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@ant-design/pro-layout': 7.17.12(antd@5.19.3(date-fns@4.1.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -11462,7 +11462,7 @@ snapshots:
       graphql-ws: 5.16.0(graphql@16.10.0)
       pluralize: 8.0.0
 
-  '@refinedev/inferencer@4.7.0(@ant-design/icons@5.4.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/antd@5.43.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@4.1.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@4.1.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react-hook-form@7.54.0(react@18.2.0))(react@18.2.0)':
+  '@refinedev/inferencer@4.7.0(@ant-design/icons@5.4.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/antd@6.0.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@4.1.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@4.1.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react-hook-form@7.54.0(react@18.2.0))(react@18.2.0)':
     dependencies:
       '@aliemir/react-live': 4.0.0(react@18.2.0)
       '@ant-design/icons': 5.4.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -11483,7 +11483,7 @@ snapshots:
       remark-gfm: 1.0.0
       tslib: 2.7.0
     optionalDependencies:
-      '@refinedev/antd': 5.43.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@4.1.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@refinedev/antd': 6.0.0(@refinedev/core@4.54.0(@tanstack/react-query@4.10.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react-dom@18.3.0)(@types/react@18.3.10)(antd@5.19.3(date-fns@4.1.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       antd: 5.19.3(date-fns@4.1.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       dayjs: 1.11.13
       react-hook-form: 7.54.0(react@18.2.0)
