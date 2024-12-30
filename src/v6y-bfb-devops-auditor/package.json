@@ -44,7 +44,7 @@
     "eslint-config-prettier": "=9.1.0",
     "eslint-plugin-prettier": "=5.2.1",
     "fs-extra": "=8.1.0",
-    "lighthouse": "=11.1.0",
+    "lighthouse": "=12.3.0",
     "nodemon": "=2.0.19",
     "pm2": "=5.3.0",
     "puppeteer-core": "=21.11.0",
