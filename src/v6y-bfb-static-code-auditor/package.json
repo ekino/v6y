@@ -86,7 +86,7 @@
     "jscpd": "=4.0.4",
     "jsinspect": "=0.12.7",
     "lodash": "=4.17.21",
-    "madge": "=7.0.0",
+    "madge": "=8.0.0",
     "typhonjs-escomplex": "=0.1.0",
     "unixify": "=1.0.0",
     "xml2js": "=0.6.2"
