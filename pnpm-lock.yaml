@@ -793,8 +793,8 @@ importers:
         specifier: '=9.17.0'
         version: 9.17.0
       '@next/bundle-analyzer':
-        specifier: '=15.1.2'
-        version: 15.1.2
+        specifier: '=15.1.3'
+        version: 15.1.3
       '@testing-library/dom':
         specifier: '=10.4.0'
         version: 10.4.0
@@ -856,7 +856,7 @@ importers:
         specifier: '=3.4.2'
         version: 3.4.2
       semantic-ui-react:
-        specifier: ^2.1.5
+        specifier: '=2.1.5'
         version: 2.1.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       typescript:
         specifier: '=5.7.2'
@@ -968,8 +968,8 @@ importers:
         specifier: '=9.17.0'
         version: 9.17.0
       '@next/bundle-analyzer':
-        specifier: '=15.1.2'
-        version: 15.1.2
+        specifier: '=15.1.3'
+        version: 15.1.3
       '@testing-library/jest-dom':
         specifier: '=6.6.3'
         version: 6.6.3
@@ -2378,8 +2378,8 @@ packages:
   '@napi-rs/wasm-runtime@0.2.4':
     resolution: {integrity: sha512-9zESzOO5aDByvhIAsOy9TbpZ0Ur2AJbUI7UT73kcUTS2mxAMHOBaa1st/jAymNoCtvrit99kkzT1FZuXVcgfIQ==}
 
-  '@next/bundle-analyzer@15.1.2':
-    resolution: {integrity: sha512-LuQkM4HSipn+kP8ChckPYL+w0qzx331QfSYY3lU5cutf7Gvk069sK+wH4GfVRdFq+DXSaCiy5IPzAcuXq6G+7g==}
+  '@next/bundle-analyzer@15.1.3':
+    resolution: {integrity: sha512-dh5i2KBONWVhQzJnL10sv9+ImsKgGtOHHeA1dWp/H3MXphWBt1uGjXCwPCcitwimvNncHBmxaOyTm2FwfOLRSA==}
 
   '@next/env@15.1.2':
     resolution: {integrity: sha512-Hm3jIGsoUl6RLB1vzY+dZeqb+/kWPZ+h34yiWxW0dV87l8Im/eMOwpOA+a0L78U0HM04syEjXuRlCozqpwuojQ==}
@@ -10864,7 +10864,7 @@ snapshots:
       '@emnapi/runtime': 1.3.1
       '@tybys/wasm-util': 0.9.0
 
-  '@next/bundle-analyzer@15.1.2':
+  '@next/bundle-analyzer@15.1.3':
     dependencies:
       webpack-bundle-analyzer: 4.10.1
     transitivePeerDependencies:
