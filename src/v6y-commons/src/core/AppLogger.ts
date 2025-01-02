@@ -1,14 +1,16 @@
 import * as winston from 'winston';
 import 'winston-daily-rotate-file';
 
-interface TransformableInfoType {
+interface TransformableInfo {
     level: string;
-    message: string;
+    message: unknown;
+    [key: string | symbol]: unknown;
 }
 
-const formatStdout = winston.format.printf(
-    ({ level, message }: TransformableInfoType) => `${level}: ${message}`,
-);
+const formatStdout = winston.format.printf((info: TransformableInfo) => {
+    const { timestamp, level, message, label } = info;
+    return `${timestamp} [${label}] ${level}: ${message}`;
+});
 
 const logOptions = {
     logPath: '/v6y/logs',

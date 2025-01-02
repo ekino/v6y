@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import fs from 'fs-extra';
-import glob from 'globby';
+import { globbySync } from 'globby';
 import lodash from 'lodash';
 import path from 'path';
 import unixify from 'unixify';
@@ -176,7 +176,7 @@ function findCommonBase(files: string[]): string {
  * @param {string} pattern - The pattern to convert.
  * @returns {Array} - Returns an array containing the files.
  */
-const patternToFile = (pattern: string): Array<string> => glob.sync(unixify(pattern));
+const patternToFile = (pattern: string): Array<string> => globbySync(unixify(pattern));
 
 /**
  * This function retrieves files from a given source directory.

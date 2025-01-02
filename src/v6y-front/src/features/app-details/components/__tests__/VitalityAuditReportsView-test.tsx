@@ -40,7 +40,7 @@ describe('VitalityAuditReportsView', () => {
             screen.getByText(VitalityTerms.VITALITY_APP_DETAILS_AUDIT_REPORTS_TITLE),
         ).toBeInTheDocument();
 
-        expect(screen.getByText('No data')).toBeInTheDocument();
+        expect(screen.getAllByText('No data')?.[0]).toBeInTheDocument();
     });
 
     it('renders audit reports correctly', async () => {

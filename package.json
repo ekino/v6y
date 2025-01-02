@@ -26,11 +26,10 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "husky": "=9.1.4",
-    "nx": "=20.3.0",
-    "typescript-coverage-report": "=1.0.0"
+    "husky": "^9.1.7",
+    "nx": "^20.3.0",
+    "typescript-coverage-report": "^1.1.0"
   },
-  "dependencies": {},
   "workspaces": [
     "src/**"
   ]

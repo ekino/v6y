@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 
 export const AuthServerProvider = {
     check: async () => {
-        const cookieStore = cookies();
+        const cookieStore = await cookies();
         const auth = cookieStore.get('auth');
 
         if (auth) {

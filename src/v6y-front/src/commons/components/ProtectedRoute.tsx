@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import useNavigationAdapter from '../../infrastructure/adapters/navigation/useNavigationAdapter';
 import { useLogin } from '../hooks/useAuth';
 
-function ProtectedRoute({ children }: React.PropsWithChildren<React.ReactNode>) {
+function ProtectedRoute({ children }) {
     const { isLoggedIn, isLoginLoading } = useLogin();
     const { pathname, router } = useNavigationAdapter();
 

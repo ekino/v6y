@@ -44,7 +44,7 @@ describe('VitalityDependenciesStatusGrouper', () => {
                 hasAllGroup: true,
                 dataSource: mockDependencies,
             }),
-            expect.anything(),
+            undefined,
         );
     });
 
@@ -60,7 +60,7 @@ describe('VitalityDependenciesStatusGrouper', () => {
                 hasAllGroup: true,
                 dataSource: [],
             }),
-            expect.anything(),
+            undefined,
         );
     });
 
@@ -81,7 +81,7 @@ describe('VitalityDependenciesStatusGrouper', () => {
                 hasAllGroup: true,
                 dataSource: mixedStatusDependencies,
             }),
-            expect.anything(),
+            undefined,
         );
     });
 });
