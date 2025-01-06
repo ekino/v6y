@@ -62,7 +62,7 @@ describe('VitalityTabGrouperView', () => {
             />,
         );
 
-        expect(screen.getByText('No data')).toBeInTheDocument();
+        expect(screen.getAllByText('No data')?.[0]).toBeInTheDocument();
     });
 
     it('should render an empty view if groupedDataSource is empty', () => {
@@ -80,6 +80,6 @@ describe('VitalityTabGrouperView', () => {
                 onRenderChildren={mockOnRenderChildren}
             />,
         );
-        expect(screen.getByText('No data')).toBeInTheDocument();
+        expect(screen.getAllByText('No data')?.[0]).toBeInTheDocument();
     });
 });

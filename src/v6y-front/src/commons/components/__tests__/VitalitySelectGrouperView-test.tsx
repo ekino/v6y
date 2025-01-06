@@ -70,7 +70,7 @@ describe('VitalitySelectGrouperView', () => {
 
     it('should render an empty view if dataSource or criteria is empty', () => {
         render(<VitalitySelectGrouperView dataSource={[]} criteria={mockCriteria} />);
-        expect(screen.getByText('No data')).toBeInTheDocument();
+        expect(screen.getAllByText('No data')?.[0]).toBeInTheDocument();
     });
 
     it('should render an empty view if groupedDataSource is empty', () => {
@@ -88,7 +88,7 @@ describe('VitalitySelectGrouperView', () => {
                 onRenderChildren={mockOnRenderChildren}
             />,
         );
-        expect(screen.getByText('No data')).toBeInTheDocument();
+        expect(screen.getAllByText('No data')?.[0]).toBeInTheDocument();
     });
 
     it('should update selectedCriteria when the select value changes', async () => {

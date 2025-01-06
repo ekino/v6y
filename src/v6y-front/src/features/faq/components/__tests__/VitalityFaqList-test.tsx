@@ -65,7 +65,7 @@ describe('VitalityFaqList', () => {
                     },
                 ],
             }),
-            expect.anything(),
+            undefined,
         );
     });
 

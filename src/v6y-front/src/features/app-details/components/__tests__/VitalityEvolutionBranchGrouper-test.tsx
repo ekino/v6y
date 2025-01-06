@@ -73,7 +73,7 @@ describe('VitalityEvolutionBranchGrouper', () => {
                 helper: VitalityTerms.VITALITY_APP_DETAILS_EVOLUTIONS_SELECT_HELPER,
                 dataSource: mockEvolutions,
             }),
-            expect.anything(),
+            undefined,
         );
     });
 });

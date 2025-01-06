@@ -51,7 +51,7 @@ describe('VitalityQualityIndicatorStatusGrouper', () => {
                     mockIndicators[0], // then success
                 ],
             }),
-            expect.anything(),
+            undefined,
         );
     });
 });

@@ -1,6 +1,5 @@
 import { Input } from 'antd';
-import { Controller } from 'react-hook-form';
-import { Control } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 
 type VitalityInputProps = {
     name: string;

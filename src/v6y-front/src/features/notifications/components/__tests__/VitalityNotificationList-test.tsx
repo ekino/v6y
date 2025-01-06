@@ -62,7 +62,7 @@ describe('VitalityNotificationList', () => {
                     },
                 ],
             }),
-            expect.anything(),
+            undefined,
         );
     });
 

@@ -71,7 +71,7 @@ describe('VitalityEvolutionStatusGrouper', () => {
                 hasAllGroup: false,
                 dataSource: mockEvolutions,
             }),
-            expect.anything(),
+            undefined,
         );
     });
 });
