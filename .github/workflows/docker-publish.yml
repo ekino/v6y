@@ -6,21 +6,16 @@ name: Docker
 # documentation.
 
 on:
-  schedule:
-    - cron: '31 9 * * *'
   push:
-    branches: [ "main" ]
-    # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
-  pull_request:
-    branches: [ "main" ]
+    # Pattern matched against refs/tags
+    tags:
+      - '*'           # Push events to every tag not containing /
 
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
-
+  # github.repository as <account>/<repo>-<sha> (github.sha is the commit SHA that triggered the workflow)
+  IMAGE_NAME: ${{ github.repository }}-${{ github.sha }}
 
 jobs:
   build:
