@@ -234,59 +234,19 @@ const getApplicationListByPageAndParams = async (
         AppLogger.info(`[ApplicationQueries - getApplicationListByPageAndParams] where : ${where}`);
         AppLogger.info(`[ApplicationQueries - getApplicationListByPageAndParams] sort : ${sort}`);
 
-        let appList = await ApplicationProvider.getApplicationListByPageAndParams({
-            searchText,
-            keywords,
-            offset: offset !== undefined ? offset : start || 0,
-            limit,
-            where,
-        });
-
-        if (!(user.role === 'ADMIN' || user.role === 'SUPERADMIN')) {
-            const userApplicationsIds = user.applications || [];
-            appList = appList.filter((app) => userApplicationsIds.includes(app._id));
-        }
-
-        AppLogger.info(
-            `[ApplicationQueries - getApplicationListByPageAndParams] appList : ${appList?.length}`,
+        const appList = await ApplicationProvider.getApplicationListByPageAndParams(
+            {
+                searchText,
+                keywords,
+                offset: offset !== undefined ? offset : start || 0,
+                limit,
+                where,
+            },
+            user,
         );
 
-        return appList;
-    } catch (error) {
-        AppLogger.info(`[ApplicationQueries - getApplicationListByPageAndParams] error : ${error}`);
-        return [];
-    }
-};
-
-/**
- * Get application list
- * @param _
- * @param args
- * @param user
- */
-const getApplicationList = async (
-    _: unknown,
-    args: SearchQueryType,
-    { user }: { user: AccountType },
-) => {
-    try {
-        const { where, sort } = args || {};
-
-        AppLogger.info(`[ApplicationQueries - getApplicationListByPageAndParams] where : ${where}`);
-        AppLogger.info(`[ApplicationQueries - getApplicationListByPageAndParams] sort : ${sort}`);
-
-        let appList = await ApplicationProvider.getApplicationListByPageAndParams({
-            where,
-            sort,
-        });
-
-        if (!(user.role === 'ADMIN' || user.role === 'SUPERADMIN')) {
-            const userApplicationsIds = user.applications || [];
-            appList = appList.filter((app) => userApplicationsIds.includes(app._id));
-        }
-
         AppLogger.info(
-            `[ApplicationQueries - getApplicationListByPageAndParams] appList : ${appList?.length}`,
+            `[ApplicationQueries - getApplicationListByPageAndParams] Number of apps : ${appList?.length}`,
         );
 
         return appList;
@@ -331,7 +291,11 @@ const getApplicationStatsByParams = async (_: unknown, args: SearchQueryType) =>
  * @param _
  * @param args
  */
-const getApplicationTotalByParams = async (_: unknown, args: SearchQueryType) => {
+const getApplicationTotalByParams = async (
+    _: unknown,
+    args: SearchQueryType,
+    { user }: { user: AccountType },
+) => {
     try {
         const { keywords, searchText } = args || {};
 
@@ -344,10 +308,13 @@ const getApplicationTotalByParams = async (_: unknown, args: SearchQueryType) =>
             `[ApplicationQueries - getApplicationTotalByParams] searchText : ${searchText}`,
         );
 
-        const appsTotal = await ApplicationProvider.getApplicationTotalByParams({
-            searchText,
-            keywords,
-        });
+        const appsTotal = await ApplicationProvider.getApplicationTotalByParams(
+            {
+                searchText,
+                keywords,
+            },
+            user,
+        );
 
         AppLogger.info(
             `[ApplicationQueries - getApplicationTotalByParams] apps Total : ${appsTotal}`,
@@ -368,7 +335,6 @@ const ApplicationQueries = {
     getApplicationDetailsKeywordsByParams,
     getApplicationTotalByParams,
     getApplicationListByPageAndParams,
-    getApplicationList,
     getApplicationStatsByParams,
 };
 

@@ -1,10 +1,17 @@
 import Cookies from 'js-cookie';
 
-export const getAuthCookie = () => {
+
+export interface AuthCookie {
+    token: string;
+    _id: string;
+    role: string;
+}
+
+export const getAuthCookie = (): AuthCookie | null => {
     const auth = Cookies.get('auth');
     if (!auth) return null;
     try {
-        return JSON.parse(auth);
+        return JSON.parse(auth) as AuthCookie;
     } catch (e) {
         console.error('Failed to parse auth cookie:', e);
         return null;

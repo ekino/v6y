@@ -1,3 +1,4 @@
+import type { AuthCookie } from '../../infrastructure/storage/CookieHelper';
 import { useState } from 'react';
 import { z } from 'zod';
 
@@ -22,15 +23,16 @@ export type LoginAccountFormType = {
 
 const loginSchemaValidator = z.string().email(VitalityTerms.VITALITY_APP_LOGIN_FORM_EMAIL_WARNING);
 
-const getAuthToken = () => {
-    const auth = getAuthCookie();
+const getAuthToken = (): string | undefined => {
+    const auth: AuthCookie | null = getAuthCookie();
 
     return auth?.token;
 };
 
-const useLogin = () => {
-    const auth = getAuthCookie();
 
+const useLogin = () => {
+    const auth: AuthCookie | null = getAuthCookie();
+    
     if (auth) {
         return {
             isLoggedIn: true,
