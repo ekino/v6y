@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  # Frontend App
+  v6y-frontend:
+    extends:
+      file: docker-compose.base.yml
+      service: nx-app-base
+    command: pnpm run start:frontend
+    ports:
+      - "4004:4004"
+
+  # Frontend BO App
+  v6y-frontend-bo:
+    extends:
+      file: docker-compose.base.yml
+      service: nx-app-base
+    command: pnpm run start:frontend:bo
+    ports:
+      - "4006:4006"
+
+  # BFF Backend App
+  v6y-bff:
+    extends:
+      file: docker-compose.base.yml
+      service: nx-app-base
+    command: pnpm run start:bff
+    ports:
+      - "4001:4001" # API Entry port
+
+volumes:
+  mono-node-modules: null

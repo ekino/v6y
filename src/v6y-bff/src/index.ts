@@ -54,6 +54,8 @@ const server = new ApolloServer({
 
 await server.start();
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 app.use(...buildUserMiddleware(server, apiPath as string));
 
 // *********************************************** Health Check Endpoints ***********************************************

@@ -918,6 +918,9 @@ importers:
       graphql-request:
         specifier: '=7.1.2'
         version: 7.1.2(graphql@16.10.0)
+      graphql-ws:
+        specifier: ^5.16.0
+        version: 5.16.0(graphql@16.10.0)
       i18next:
         specifier: '=24.2.0'
         version: 24.2.0(typescript@5.7.2)
@@ -12549,7 +12552,7 @@ snapshots:
 
   axios@1.7.9:
     dependencies:
-      follow-redirects: 1.15.9(debug@4.4.0)
+      follow-redirects: 1.15.9(debug@4.1.1)
       form-data: 4.0.1
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
