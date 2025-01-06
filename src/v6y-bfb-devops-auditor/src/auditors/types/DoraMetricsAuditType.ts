@@ -20,18 +20,18 @@ export interface DoraMetricsData {
     commits?: CommitsDataType[];
 }
 
-export interface DoraMetricReportType {
+export interface DoraMetricType {
     value: number;
     status: 'success' | 'failure';
 }
-export interface DoraMetricsFullReportType {
-    deploymentFrequency: DoraMetricReportType;
-    leadTimeForChanges: DoraMetricReportType;
-    changeFailureRate: DoraMetricReportType;
-    meanTimeToRestoreService: DoraMetricReportType;
+export interface DoraMetricsReportType {
+    deploymentFrequency: DoraMetricType;
+    leadTimeForChanges: DoraMetricType;
+    changeFailureRate: DoraMetricType;
+    meanTimeToRestoreService: DoraMetricType;
 }
 
 export interface DoraMetricsAuditParamsType {
-    report: DoraMetricsFullReportType;
+    report: DoraMetricsReportType;
     application: ApplicationType;
 }
