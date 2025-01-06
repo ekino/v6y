@@ -13,7 +13,7 @@ env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>-<sha> (github.sha is the commit SHA that triggered the workflow)
-  IMAGE_NAME: ${{ github.repository }}-${{ github.sha }}
+  IMAGE_NAME: ${{ github.repository }}/${{ github.sha }}
 
 jobs:
   build:
