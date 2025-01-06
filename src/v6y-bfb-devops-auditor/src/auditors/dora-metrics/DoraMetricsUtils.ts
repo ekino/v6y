@@ -4,7 +4,7 @@ import {
     DoraMetricsAuditParamsType,
     DoraMetricsData,
     DoraMetricsReportType,
-} from './types/DoraMetricsAuditType.ts';
+} from '../types/DoraMetricsAuditType.ts';
 
 /**
  * Compute the deployment frequency.

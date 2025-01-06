@@ -1,7 +1,7 @@
 import { AppLogger, ApplicationProvider, AuditProvider } from '@v6y/commons';
 
+import { DoraMetricsAuditConfigType } from '../types/DoraMetricsAuditType.ts';
 import DoraMetricsUtils from './DoraMetricsUtils.ts';
-import { DoraMetricsAuditConfigType } from './types/DoraMetricsAuditType.ts';
 
 const { formatDoraMetricsReport, computeDoraMetricsReport } = DoraMetricsUtils;
 
