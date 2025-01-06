@@ -1,26 +1,32 @@
 import { AppLogger, AuditType } from '@v6y/commons';
 
 import {
+    DoraMetricReportType,
     DoraMetricsAuditParamsType,
     DoraMetricsData,
-    DoraMetricsReportType,
+    DoraMetricsFullReportType,
 } from '../types/DoraMetricsAuditType.ts';
 
 /**
  * Compute the deployment frequency.
  * @param deployments
  */
-const computeDeploymentFrequency = ({ deployments }: DoraMetricsData): number => {
-    if (deployments) {
+const computeDeploymentFrequency = ({ deployments }: DoraMetricsData): DoraMetricReportType => {
+    AppLogger.info(`[DoraMetricsUtils - computeDeploymentFrequency] start`);
+    if (deployments && deployments.length > 0) {
         const deploymentTimes = deployments.map((d) => new Date(d.created_at));
-        deploymentTimes.sort();
+        deploymentTimes.sort((a, b) => a.getTime() - b.getTime());
         const timePeriod =
             (deploymentTimes[deploymentTimes.length - 1].getTime() - deploymentTimes[0].getTime()) /
             (1000 * 60 * 60 * 24);
         const frequency = timePeriod > 0 ? deployments.length / timePeriod : deployments.length;
-        return frequency;
+        AppLogger.info(
+            `[DoraMetricsUtils - computeDeploymentFrequency] deployement frequency: ${frequency}`,
+        );
+        return { status: 'success', value: frequency };
     }
-    return 0;
+    AppLogger.info(`[DoraMetricsUtils - computeDeploymentFrequency] deployments is empty`);
+    return { status: 'failure', value: 0 };
 };
 
 /**
@@ -28,18 +34,25 @@ const computeDeploymentFrequency = ({ deployments }: DoraMetricsData): number =>
  * @param deployments
  * @param commits
  */
-const computeLeadTimeForChanges = ({ deployments, commits }: DoraMetricsData): number => {
+const computeLeadTimeForChanges = ({
+    deployments,
+    commits,
+}: DoraMetricsData): DoraMetricReportType => {
+    AppLogger.info(`[DoraMetricsUtils - computeLeadTimeForChanges] start`);
     const commitTimes: { [key: string]: Date } = {};
-    if (!commits) {
-        return 0;
+    if (!commits || commits.length === 0) {
+        AppLogger.info(`[DoraMetricsUtils - computeLeadTimeForChanges] commits is empty`);
+        return { status: 'failure', value: 0 };
     }
+    if (!deployments || deployments.length === 0) {
+        AppLogger.info(`[DoraMetricsUtils - computeLeadTimeForChanges] deployments is empty`);
+        return { status: 'failure', value: 0 };
+    }
+
     for (const commit of commits) {
         commitTimes[commit.id] = new Date(commit.created_at);
     }
 
-    if (!deployments) {
-        return 0;
-    }
     const leadTimes = deployments
         .filter((deploy) => deploy.sha in commitTimes)
         .map(
@@ -48,35 +61,48 @@ const computeLeadTimeForChanges = ({ deployments, commits }: DoraMetricsData): n
                 (1000 * 60 * 60),
         );
 
-    return leadTimes.length > 0 ? leadTimes.reduce((a, b) => a + b) / leadTimes.length : 0;
+    const leadTimeForChanges =
+        leadTimes.length > 0 ? leadTimes.reduce((a, b) => a + b) / leadTimes.length : 0;
+    AppLogger.info(
+        `[DoraMetricsUtils - computeLeadTimeForChanges] leadTimeForChanges: ${leadTimeForChanges}`,
+    );
+    return { value: leadTimeForChanges, status: 'success' };
 };
 
 /**
  * Compute the change failure rate.
  */
-const computeChangeFailureRate = () => {
+const computeChangeFailureRate = (): DoraMetricReportType => {
     // TODO: Implement the function
-    return 0;
+    AppLogger.info(`[DoraMetricsUtils - computeChangeFailureRate] - Not implemented`);
+    return { status: 'failure', value: 0 };
 };
 
 /**
  * Compute the mean time to restore service.
  */
-const computeMeanTimeToRestoreService = () => {
+const computeMeanTimeToRestoreService = (): DoraMetricReportType => {
     // TODO: Implement the function
-    return 0;
+    AppLogger.info(`[DoraMetricsUtils - computeMeanTimeToRestoreService] - Not implemented`);
+    return { status: 'failure', value: 0 };
 };
 
 const computeDoraMetricsReport = ({
     deployments,
     commits,
-}: DoraMetricsData): DoraMetricsReportType => {
-    return {
+}: DoraMetricsData): DoraMetricsFullReportType => {
+    AppLogger.info(
+        `[DoraMetricsUtils - computeDoraMetricsReport] deployments: ${deployments?.length}`,
+    );
+    AppLogger.info(`[DoraMetricsUtils - computeDoraMetricsReport] commits: ${commits?.length}`);
+    const DoraMetricsReport = {
         deploymentFrequency: computeDeploymentFrequency({ deployments }),
         leadTimeForChanges: computeLeadTimeForChanges({ deployments, commits }),
         changeFailureRate: computeChangeFailureRate(),
         meanTimeToRestoreService: computeMeanTimeToRestoreService(),
     };
+
+    return DoraMetricsReport;
 };
 
 /**
@@ -84,24 +110,74 @@ const computeDoraMetricsReport = ({
  * @param reports
  * @param application
  */
-const formatDoraMetricsReport = ({
+const formatDoraMetricsReports = ({
     report,
     application,
-}: DoraMetricsAuditParamsType): AuditType => {
-    // TODO: Implement the function
-    AppLogger.info(
-        `[DoraMetricsUtils - formatDoraMetricsReport] report: ${JSON.stringify(report)}`,
-    );
-    AppLogger.info(
-        `[DoraMetricsUtils - formatDoraMetricsReport] application _id: ${application._id}`,
-    );
+}: DoraMetricsAuditParamsType): AuditType[] | null => {
+    try {
+        const auditReports: AuditType[] = [];
 
-    return {};
+        auditReports.push({
+            type: 'DORA_Metrics',
+            category: 'deployment_frequency',
+            status: report.deploymentFrequency.status,
+            score: report.deploymentFrequency.value,
+            scoreUnit: 'deployments/day',
+            extraInfos: 'Number of deployments per day.',
+            module: {
+                appId: application?._id,
+            },
+        });
+
+        auditReports.push({
+            type: 'DORA_Metrics',
+            category: 'lead_time_for_changes',
+            status: report.leadTimeForChanges.status,
+            score: report.leadTimeForChanges.value,
+            scoreUnit: 'hours',
+            extraInfos: 'Time between commit and deployment.',
+            module: {
+                appId: application?._id,
+            },
+        });
+
+        auditReports.push({
+            type: 'DORA_Metrics',
+            category: 'change_failure_rate',
+            status: report.changeFailureRate.status,
+            score: report.changeFailureRate.value,
+            scoreUnit: 'percentage',
+            extraInfos: 'Percentage of failed deployments.',
+            module: {
+                appId: application?._id,
+            },
+        });
+
+        auditReports.push({
+            type: 'DORA_Metrics',
+            category: 'mean_time_to_restore_service',
+            status: report.meanTimeToRestoreService.status,
+            score: report.meanTimeToRestoreService.value,
+            scoreUnit: 'hours',
+            extraInfos: 'Time to restore service after a failure.',
+            module: {
+                appId: application?._id,
+            },
+        });
+
+        return auditReports;
+    } catch (error) {
+        AppLogger.error(
+            '[DoraMetricsUtils - formatDoraMetricsReports] An exception occurred during the audits:',
+            error,
+        );
+    }
+    return [];
 };
 
 const DoraMetricsUtils = {
     computeDoraMetricsReport,
-    formatDoraMetricsReport,
+    formatDoraMetricsReports,
 };
 
 export default DoraMetricsUtils;

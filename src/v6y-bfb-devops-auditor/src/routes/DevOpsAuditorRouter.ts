@@ -13,6 +13,21 @@ DevOpsAuditorRouter.post('/start-devops-auditor.json', async (request, response)
 
         const { applicationId } = request.body || {};
 
+        // ********************************************** Input Validation ***********************************************
+        AppLogger.info(`[DevOpsAuditorRouter] applicationId: ${applicationId}`);
+
+        if (!applicationId) {
+            AppLogger.error(
+                '[DevOpsAuditorRouter] The applicationId is required to start the DevOps Audits.',
+            );
+            response.status(400).json({
+                // Use 400 for bad request
+                success: false,
+                message: 'The applicationId is required to start the DevOps Audits.',
+            });
+            return;
+        }
+
         // ********************************************** Start Audits ***********************************************
         const auditsStartedSuccessfully = await DevOpsAuditorManager.startDevOpsAudit({
             applicationId,

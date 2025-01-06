@@ -4,26 +4,34 @@ export interface DoraMetricsAuditConfigType {
     applicationId?: number;
 }
 
-export interface DoraMetricsData {
-    deployments?: {
-        created_at: string;
-        sha: string;
-    }[];
-
-    commits?: {
-        id: string;
-        created_at: string;
-    }[];
+export interface DeploymentDataType {
+    created_at: string;
+    sha: string;
 }
 
-export interface DoraMetricsReportType {
-    deploymentFrequency: number;
-    leadTimeForChanges: number;
-    changeFailureRate: number;
-    meanTimeToRestoreService: number;
+export interface CommitsDataType {
+    id: string;
+    created_at: string;
+}
+
+export interface DoraMetricsData {
+    deployments?: DeploymentDataType[];
+
+    commits?: CommitsDataType[];
+}
+
+export interface DoraMetricReportType {
+    value: number;
+    status: 'success' | 'failure';
+}
+export interface DoraMetricsFullReportType {
+    deploymentFrequency: DoraMetricReportType;
+    leadTimeForChanges: DoraMetricReportType;
+    changeFailureRate: DoraMetricReportType;
+    meanTimeToRestoreService: DoraMetricReportType;
 }
 
 export interface DoraMetricsAuditParamsType {
-    report: DoraMetricsReportType;
+    report: DoraMetricsFullReportType;
     application: ApplicationType;
 }
