@@ -1,0 +1,68 @@
+name: Docker Compose Deploy
+
+on:
+  push:
+    branches: [ "main" ]
+  release:
+    types: [ "created" ]
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Docker
+        run: |
+          curl -fsSL https://get.docker.com -o get-docker.sh
+          sudo sh get-docker.sh
+          docker --version
+
+      - name: Install Docker Compose
+        run: |
+          DOCKER_COMPOSE_VERSION=$(curl -s "https://api.github.com/repos/docker/compose/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+          sudo curl -L "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
+
+      - name: Determine Image Tag
+        id: set-tag
+        run: |
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
+          elif [[ "${{ github.event_name }}" == "release" ]]; then
+            echo "IMAGE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+          fi
+        shell: bash
+
+      - name: Log into Docker registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update docker-compose.yml with dynamic image names
+        run: |
+          sed -i "s|<registry-owner>|${{ github.repository_owner }}|g" docker-compose.yml
+          sed -i "s|:latest|:${{ env.IMAGE_TAG }}|g" docker-compose.yml
+
+      - name: Build and push images using Docker Compose
+        run: |
+          docker-compose -f docker-compose.yml build
+          docker-compose -f docker-compose.yml push
+
+      - name: Deploy services using Docker Compose
+        if: github.event_name == 'push' || github.event_name == 'release'
+        run: |
+          docker-compose -f docker-compose.yml pull
+          docker-compose -f docker-compose.yml up -d

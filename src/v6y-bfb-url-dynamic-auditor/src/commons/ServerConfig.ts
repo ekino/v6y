@@ -27,7 +27,7 @@ interface ServerEnvConfig {
 const SERVER_ENV_CONFIGURATION: { [key: string]: ServerEnvConfig } = {
     production: {
         ssl: false,
-        port: 4003,
+        port: 4004,
         hostname: 'localhost',
         apiPath: V6Y_API_PATH,
         urlDynamicAuditorApiPath: URL_DYNAMIC_AUDITOR_API_PATH,
@@ -39,7 +39,7 @@ const SERVER_ENV_CONFIGURATION: { [key: string]: ServerEnvConfig } = {
     },
     development: {
         ssl: false,
-        port: 4003,
+        port: 4004,
         hostname: 'localhost',
         apiPath: V6Y_API_PATH,
         urlDynamicAuditorApiPath: URL_DYNAMIC_AUDITOR_API_PATH,
