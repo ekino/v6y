@@ -33,7 +33,7 @@ services:
     extends:
       file: docker-compose.base.yml
       service: v6y-service-base
-    command: pnpm run start:bfb:main
+    command: pnpm run start:bfb:static
     ports:
       - "4003:4003"
     image: ghcr.io/<registry-owner>/v6y-bfb-static-code-auditor:latest
@@ -47,7 +47,7 @@ services:
     extends:
       file: docker-compose.base.yml
       service: v6y-service-base
-    command: pnpm run start:bfb:main
+    command: pnpm run start:bfb:dynamic
     ports:
       - "4004:4004"
     image: ghcr.io/<registry-owner>/v6y-bfb-url-dynamic-auditor:latest
@@ -61,7 +61,7 @@ services:
     extends:
       file: docker-compose.base.yml
       service: v6y-service-base
-    command: pnpm run start:bfb:main
+    command: pnpm run start:bfb:devops
     ports:
       - "4005:4005"
     image: ghcr.io/<registry-owner>/v6y-bfb-devops-auditor:latest
