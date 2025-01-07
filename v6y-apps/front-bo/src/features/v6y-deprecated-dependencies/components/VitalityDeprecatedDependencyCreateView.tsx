@@ -1,6 +1,6 @@
-import { Typography } from 'antd';
 import * as React from 'react';
 
+import VitalityTitle from '../../../commons/components/VitalityTitle';
 import {
     deprecatedDependencyCreateEditItems,
     deprecatedDependencyCreateOrEditFormOutputAdapter,
@@ -14,11 +14,7 @@ export default function VitalityDeprecatedDependencyCreateView() {
 
     return (
         <RefineCreateWrapper
-            title={
-                <Typography.Title level={2}>
-                    {translate('v6y-deprecated-dependencies.titles.create')}
-                </Typography.Title>
-            }
+            title={<VitalityTitle title="v6y-deprecated-dependencies.titles.create" />}
             createOptions={{
                 createFormAdapter: deprecatedDependencyCreateOrEditFormOutputAdapter,
                 createQuery: CreateOrEditDeprecatedDependency,

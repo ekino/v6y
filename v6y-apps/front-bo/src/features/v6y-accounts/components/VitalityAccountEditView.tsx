@@ -2,12 +2,12 @@
 
 import { useParsed } from '@refinedev/core';
 import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
-import { Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import React from 'react';
 
 import GetApplicationListByPageAndParams from '../../../commons/apis/getApplicationListByPageAndParams';
 import VitalityEmptyView from '../../../commons/components/VitalityEmptyView';
+import VitalityTitle from '../../../commons/components/VitalityTitle';
 import {
     accountCreateEditItems,
     accountCreateOrEditFormInAdapter,
@@ -35,11 +35,7 @@ export default function VitalityAccountEditView() {
 
     return (
         <RefineSelectWrapper
-            title={
-                <Typography.Title level={2}>
-                    {translate('v6y-accounts.titles.edit')}
-                </Typography.Title>
-            }
+            title={<VitalityTitle title="v6y-accounts.titles.edit" />}
             queryOptions={{
                 queryFormAdapter: accountCreateOrEditFormInAdapter,
                 query: GetAccountDetailsByParams,

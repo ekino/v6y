@@ -1,8 +1,8 @@
 import { useParsed } from '@refinedev/core';
 import { EvolutionHelpType } from '@v6y/core-logic';
-import { Typography } from 'antd';
 import * as React from 'react';
 
+import VitalityTitle from '../../../commons/components/VitalityTitle';
 import {
     evolutionHelpCreateEditItems,
     evolutionHelpCreateOrEditFormInAdapter,
@@ -20,11 +20,7 @@ export default function VitalityEvolutionHelpEditView() {
 
     return (
         <RefineSelectWrapper
-            title={
-                <Typography.Title level={2}>
-                    {translate('v6y-evolution-helps.titles.edit')}
-                </Typography.Title>
-            }
+            title={<VitalityTitle title="v6y-evolution-helps.titles.edit" />}
             queryOptions={{
                 queryFormAdapter: evolutionHelpCreateOrEditFormInAdapter,
                 query: GetEvolutionHelpDetailsByParams,

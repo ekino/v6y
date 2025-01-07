@@ -1,9 +1,9 @@
 import { useParsed } from '@refinedev/core';
 import { NotificationType } from '@v6y/core-logic/src';
-import { Typography } from 'antd';
 import * as React from 'react';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';
+import VitalityTitle from '../../../commons/components/VitalityTitle';
 import { formatNotificationDetails } from '../../../commons/config/VitalityDetailsConfig';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineShowWrapper from '../../../infrastructure/components/RefineShowWrapper';
@@ -16,11 +16,7 @@ export default function VitalityNotificationDetailsView() {
 
     return (
         <RefineShowWrapper
-            title={
-                <Typography.Title level={2}>
-                    {translate('v6y-notifications.titles.show')}
-                </Typography.Title>
-            }
+            title={<VitalityTitle title="v6y-notifications.titles.show" />}
             queryOptions={{
                 resource: 'getNotificationDetailsByParams',
                 query: GetNotificationDetailsByParams,

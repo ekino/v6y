@@ -1,7 +1,7 @@
 import { useParsed } from '@refinedev/core';
-import { Typography } from 'antd';
 import * as React from 'react';
 
+import VitalityTitle from '../../../commons/components/VitalityTitle';
 import {
     notificationCreateEditItems,
     notificationCreateOrEditFormInAdapter,
@@ -18,11 +18,7 @@ export default function VitalityNotificationEditView() {
 
     return (
         <RefineEditWrapper
-            title={
-                <Typography.Title level={2}>
-                    {translate('v6y-notifications.titles.edit')}
-                </Typography.Title>
-            }
+            title={<VitalityTitle title="v6y-notifications.titles.edit" />}
             queryOptions={{
                 queryFormAdapter: notificationCreateOrEditFormInAdapter as (
                     data: unknown,

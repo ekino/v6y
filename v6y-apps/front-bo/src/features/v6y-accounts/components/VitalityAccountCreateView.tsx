@@ -1,11 +1,11 @@
 'use client';
 
 import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
-import { Typography } from 'antd';
 import { useEffect, useState } from 'react';
 
 import GetApplicationListByPageAndParams from '../../../commons/apis/getApplicationListByPageAndParams';
 import VitalityEmptyView from '../../../commons/components/VitalityEmptyView';
+import VitalityTitle from '../../../commons/components/VitalityTitle';
 import {
     accountCreateEditItems,
     accountCreateOrEditFormOutputAdapter,
@@ -30,11 +30,7 @@ export default function VitalityAccountCreateView() {
 
     return (
         <RefineSelectWrapper
-            title={
-                <Typography.Title level={2}>
-                    {translate('v6y-accounts.titles.create')}
-                </Typography.Title>
-            }
+            title={<VitalityTitle title="v6y-accounts.titles.create" />}
             createOptions={{
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-expect-error
