@@ -1,6 +1,7 @@
 import React from 'react';
-import VitalityTable from './VitalityTable';
+
 import { buildCommonTableColumns, buildCommonTableDataSource } from '../config/VitalityTableConfig';
+import VitalityTable from './VitalityTable';
 
 interface RenderVitalityTableProps {
     dataSource: unknown[];
@@ -14,10 +15,13 @@ interface RenderVitalityTableProps {
             operation: string;
         };
     };
-
 }
 
-const RenderVitalityTable: React.FC<RenderVitalityTableProps> = ({ dataSource, columnKeys, columnOptions }) => {
+const RenderVitalityTable: React.FC<RenderVitalityTableProps> = ({
+    dataSource,
+    columnKeys,
+    columnOptions,
+}) => {
     return (
         <VitalityTable
             dataSource={buildCommonTableDataSource(dataSource)}

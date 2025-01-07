@@ -23,18 +23,18 @@ export default function VitalityAccountListView() {
             }}
             renderTable={(dataSource) => (
                 <RenderVitalityTable
-                dataSource={dataSource}
-                columnKeys={[]}
-                columnOptions={{
-                    enableEdit: true,
-                    enableShow: true,
-                    enableDelete: true,
-                    deleteMetaQuery: {
-                        gqlMutation: DeleteAccount,
-                        operation: 'deleteAccount',
-                    },
-                }}
-            />
+                    dataSource={dataSource}
+                    columnKeys={[]}
+                    columnOptions={{
+                        enableEdit: true,
+                        enableShow: true,
+                        enableDelete: true,
+                        deleteMetaQuery: {
+                            gqlMutation: DeleteAccount,
+                            operation: 'deleteAccount',
+                        },
+                    }}
+                />
             )}
         />
     );

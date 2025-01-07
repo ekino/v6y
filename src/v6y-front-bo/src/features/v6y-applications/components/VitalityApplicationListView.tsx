@@ -25,18 +25,18 @@ export default function VitalityApplicationListView() {
             }}
             renderTable={(dataSource: ApplicationType[]) => (
                 <RenderVitalityTable
-                dataSource={dataSource}
-                columnKeys={[]}
-                columnOptions={{
-                    enableEdit: true,
-                    enableShow: true,
-                    enableDelete: true,
-                    deleteMetaQuery: {
-                        gqlMutation: DeleteApplication,
-                        operation: 'deleteApplication',
-                    },
-                }}
-            />
+                    dataSource={dataSource}
+                    columnKeys={[]}
+                    columnOptions={{
+                        enableEdit: true,
+                        enableShow: true,
+                        enableDelete: true,
+                        deleteMetaQuery: {
+                            gqlMutation: DeleteApplication,
+                            operation: 'deleteApplication',
+                        },
+                    }}
+                />
             )}
         />
     );

@@ -23,18 +23,18 @@ export default function VitalityNotificationListView() {
             }}
             renderTable={(dataSource) => (
                 <RenderVitalityTable
-                dataSource={dataSource}
-                columnKeys={[]}
-                columnOptions={{
-                    enableEdit: true,
-                    enableShow: true,
-                    enableDelete: true,
-                    deleteMetaQuery: {
-                        gqlMutation: DeleteNotification,
-                        operation: 'deleteNotification',
-                    },
-                }}
-            />
+                    dataSource={dataSource}
+                    columnKeys={[]}
+                    columnOptions={{
+                        enableEdit: true,
+                        enableShow: true,
+                        enableDelete: true,
+                        deleteMetaQuery: {
+                            gqlMutation: DeleteNotification,
+                            operation: 'deleteNotification',
+                        },
+                    }}
+                />
             )}
         />
     );

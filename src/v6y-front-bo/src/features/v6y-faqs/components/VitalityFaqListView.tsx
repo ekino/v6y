@@ -23,18 +23,18 @@ export default function VitalityFaqListView() {
             }}
             renderTable={(dataSource) => (
                 <RenderVitalityTable
-                dataSource={dataSource}
-                columnKeys={[]}
-                columnOptions={{
-                    enableEdit: true,
-                    enableShow: true,
-                    enableDelete: true,
-                    deleteMetaQuery: {
-                        gqlMutation: DeleteFaq,
-                        operation: 'deleteFaq',
-                    },
-                }}
-            />
+                    dataSource={dataSource}
+                    columnKeys={[]}
+                    columnOptions={{
+                        enableEdit: true,
+                        enableShow: true,
+                        enableDelete: true,
+                        deleteMetaQuery: {
+                            gqlMutation: DeleteFaq,
+                            operation: 'deleteFaq',
+                        },
+                    }}
+                />
             )}
         />
     );
