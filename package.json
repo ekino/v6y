@@ -13,6 +13,7 @@
     "start:frontend": "nx run @v6y/front:start:dev",
     "start:frontend:bo": "nx run @v6y/front-bo:start:dev",
     "start:bff": "nx run @v6y/bff:start:dev",
+    "start:bfb:main": "nx run @v6y/bfb-main-analyzer:start:dev",
     "start:all": "nx run-many --target=start --all",
     "stop:all": "nx run-many --target=stop --all",
     "build:tsc": "nx run-many --target=build:tsc --all",

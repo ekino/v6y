@@ -13,8 +13,8 @@
   "scripts": {
     "build:tsc": "tsc --project ./tsconfig.json",
     "build": "refine build && rimraf .next/cache",
-    "start:dev": "refine dev --port 4006",
-    "start": "refine start --port 4007",
+    "start:dev": "refine dev --port 4008",
+    "start": "refine start --port 4009",
     "analyze": "ANALYZE=true pnpm build",
     "lint": "next lint",
     "lint:fix": "next lint --fix",

@@ -1,34 +1,6 @@
 version: '3'
 
 services:
-  v6y-frontend:
-    extends:
-      file: docker-compose.base.yml
-      service: v6y-service-base
-    command: pnpm run start:frontend
-    ports:
-      - "4004:4004"
-    image: ghcr.io/<registry-owner>/v6y-frontend:latest
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:4004/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  v6y-frontend-bo:
-    extends:
-      file: docker-compose.base.yml
-      service: v6y-service-base
-    command: pnpm run start:frontend:bo
-    ports:
-      - "4006:4006"
-    image: ghcr.io/<registry-owner>/v6y-frontend-bo:latest
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:4006/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
   v6y-bff:
     extends:
       file: docker-compose.base.yml
@@ -39,6 +11,90 @@ services:
     image: ghcr.io/<registry-owner>/v6y-bff:latest
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4001/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  v6y-bfb-main-analyzer:
+    extends:
+      file: docker-compose.base.yml
+      service: v6y-service-base
+    command: pnpm run start:bfb:main
+    ports:
+      - "4002:4002"
+    image: ghcr.io/<registry-owner>/v6y-bfb-main-analyzer:latest
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:4002/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  v6y-bfb-static-code-auditor:
+    extends:
+      file: docker-compose.base.yml
+      service: v6y-service-base
+    command: pnpm run start:bfb:main
+    ports:
+      - "4003:4003"
+    image: ghcr.io/<registry-owner>/v6y-bfb-static-code-auditor:latest
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:4003/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  v6y-bfb-url-dynamic-auditor:
+    extends:
+      file: docker-compose.base.yml
+      service: v6y-service-base
+    command: pnpm run start:bfb:main
+    ports:
+      - "4004:4004"
+    image: ghcr.io/<registry-owner>/v6y-bfb-url-dynamic-auditor:latest
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:4004/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  v6y-bfb-devops-auditor:
+    extends:
+      file: docker-compose.base.yml
+      service: v6y-service-base
+    command: pnpm run start:bfb:main
+    ports:
+      - "4005:4005"
+    image: ghcr.io/<registry-owner>/v6y-bfb-devops-auditor:latest
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:4005/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  v6y-frontend:
+    extends:
+      file: docker-compose.base.yml
+      service: v6y-service-base
+    command: pnpm run start:frontend
+    ports:
+      - "4006:4006"
+    image: ghcr.io/<registry-owner>/v6y-frontend:latest
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:4006/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  v6y-frontend-bo:
+    extends:
+      file: docker-compose.base.yml
+      service: v6y-service-base
+    command: pnpm run start:frontend:bo
+    ports:
+      - "4008:4008"
+    image: ghcr.io/<registry-owner>/v6y-frontend-bo:latest
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:4008/health" ]
       interval: 30s
       timeout: 10s
       retries: 3
