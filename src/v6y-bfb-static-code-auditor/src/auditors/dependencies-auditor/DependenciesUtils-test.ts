@@ -3,7 +3,7 @@ import { AuditUtils, DeprecatedDependencyProvider, SemverUtils } from '@v6y/comm
 import { describe, expect, it, vi } from 'vitest';
 
 import { AuditCommonsType } from '../types/AuditCommonsType.ts';
-import DependenciesUtils from './DependenciesUtils.ts';
+import DependenciesStatusUtils from './DependenciesStatusUtils.ts';
 
 // Mock commons modules
 vi.mock('@v6y/commons', async () => {
@@ -29,14 +29,16 @@ global.fetch = vi.fn();
 
 describe('DependenciesUtils.formatDependenciesReports', () => {
     it('should return an empty array when application or workspaceFolder is missing', async () => {
-        const result = await DependenciesUtils.formatDependenciesReports({} as AuditCommonsType);
+        const result = await DependenciesStatusUtils.formatDependenciesReports(
+            {} as AuditCommonsType,
+        );
         expect(result).toEqual([]);
     });
 
     it('should return an empty array when no package.json files are found', async () => {
         (AuditUtils.getFilesRecursively as any).mockReturnValue([]);
 
-        const result = await DependenciesUtils.formatDependenciesReports({
+        const result = await DependenciesStatusUtils.formatDependenciesReports({
             application: {},
             workspaceFolder: '/path/to/project',
         } as AuditCommonsType);
@@ -77,13 +79,31 @@ describe('DependenciesUtils.formatDependenciesReports', () => {
             .mockResolvedValueOnce({
                 json: () =>
                     Promise.resolve({
+                        severity: 'high',
+                    }),
+            })
+            .mockResolvedValueOnce({
+                json: () =>
+                    Promise.resolve({
                         'dist-tags': { latest: '4.17.21' },
                     }),
             })
             .mockResolvedValueOnce({
                 json: () =>
                     Promise.resolve({
+                        severity: 'low',
+                    }),
+            })
+            .mockResolvedValueOnce({
+                json: () =>
+                    Promise.resolve({
                         'dist-tags': { latest: '29.5.0' },
+                    }),
+            })
+            .mockResolvedValueOnce({
+                json: () =>
+                    Promise.resolve({
+                        severity: 'medium',
                     }),
             });
 
@@ -97,7 +117,7 @@ describe('DependenciesUtils.formatDependenciesReports', () => {
             .mockResolvedValueOnce({ _id: 'some-id' }) // lodash is deprecated
             .mockResolvedValueOnce(undefined); // jest is not deprecated
 
-        const result = await DependenciesUtils.formatDependenciesReports({
+        const result = await DependenciesStatusUtils.formatDependenciesReports({
             application: {
                 _id: 1,
                 repo: { webUrl: 'https://repo.url' },
@@ -118,6 +138,7 @@ describe('DependenciesUtils.formatDependenciesReports', () => {
                 status: 'outdated',
                 type: 'frontend',
                 version: '^18.0.0',
+                vulnerabilityStatus: 'high',
             },
             {
                 module: {
@@ -131,6 +152,7 @@ describe('DependenciesUtils.formatDependenciesReports', () => {
                 status: 'deprecated',
                 type: 'frontend',
                 version: '4.17.21',
+                vulnerabilityStatus: 'low',
             },
             {
                 module: {
@@ -144,6 +166,7 @@ describe('DependenciesUtils.formatDependenciesReports', () => {
                 status: 'outdated',
                 type: 'frontend',
                 version: '29.2.0',
+                vulnerabilityStatus: 'medium',
             },
         ]);
     });
@@ -153,7 +176,7 @@ describe('DependenciesUtils.formatDependenciesReports', () => {
             throw new Error('Some error');
         });
 
-        const result = await DependenciesUtils.formatDependenciesReports({
+        const result = await DependenciesStatusUtils.formatDependenciesReports({
             application: {},
             workspaceFolder: '/path/to/project',
         } as AuditCommonsType);
