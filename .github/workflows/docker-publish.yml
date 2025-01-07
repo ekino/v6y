@@ -22,10 +22,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Docker Compose
+      - name: Install Docker Compose
         run: |
           sudo apt-get update
-          sudo apt-get install docker-compose-plugin
+          sudo apt-get install -y docker.io
+          DOCKER_COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)
+          sudo curl -L "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
 
       - name: Log into Docker registry
         if: github.event_name != 'pull_request'
@@ -38,11 +42,11 @@ jobs:
       - name: Build and push images using Docker Compose
         if: github.event_name != 'pull_request'
         run: |
-          docker compose -f docker-compose.yml build
-          docker compose -f docker-compose.yml push
+          docker-compose -f docker-compose.yml build
+          docker-compose -f docker-compose.yml push
 
       - name: Deploy services using Docker Compose
         if: github.event_name != 'pull_request'
         run: |
-          docker compose -f docker-compose.yml pull
-          docker compose -f docker-compose.yml up -d
+          docker-compose -f docker-compose.yml pull
+          docker-compose -f docker-compose.yml up -d
