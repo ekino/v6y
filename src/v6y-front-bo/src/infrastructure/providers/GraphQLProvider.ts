@@ -2,7 +2,6 @@
 // @ts-nocheck
 import type { AuthProvider } from '@refinedev/core';
 import dataProvider, { createLiveProvider } from '@refinedev/graphql';
-import { createClient } from 'graphql-ws';
 import Cookies from 'js-cookie';
 
 import { gqlClient } from '../adapters/api/GraphQLClient';

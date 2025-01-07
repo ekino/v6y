@@ -1,9 +1,9 @@
 import { AppLogger } from '@v6y/commons';
 
-const V6Y_API_PATH = '/v6y/bfb-url-dynamic-auditor/';
-const V6Y_HEALTH_CHECK_PATH = `${V6Y_API_PATH}health-checks`;
-const V6Y_MONITORING_PATH = `${V6Y_API_PATH}monitoring`;
-const URL_DYNAMIC_AUDITOR_API_PATH = `${V6Y_API_PATH}auditor`;
+const V6Y_API_PATH = process.env.NEXT_PUBLIC_V6Y_BFB_URL_DYNAMIC_AUDITOR_API_PATH;
+const V6Y_HEALTH_CHECK_PATH = process.env.NEXT_PUBLIC_V6Y_BFB_URL_DYNAMIC_AUDITOR_HEALTH_CHECK_PATH;
+const V6Y_MONITORING_PATH = process.env.NEXT_PUBLIC_V6Y_BFB_URL_DYNAMIC_AUDITOR_MONITORING_PATH;
+const URL_DYNAMIC_AUDITOR_API_PATH = process.env.NEXT_PUBLIC_V6Y_BFB_URL_DYNAMIC_AUDITOR_PATH;
 
 const execEnv = process?.argv;
 
