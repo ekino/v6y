@@ -11,7 +11,8 @@ import ServerConfig from '../config/ServerConfig.ts';
 const { getRepositoryDetails, getRepositoryBranches, prepareGitBranchZipConfig } = RepositoryApi;
 
 const { getCurrentConfig } = ServerConfig;
-const { frontendStaticCodeAuditorApi, frontendUrlDynamicAuditorApi } = getCurrentConfig() || {};
+const { frontendStaticCodeAuditorApi, frontendUrlDynamicAuditorApi, devOpsAuditorApi } =
+    getCurrentConfig() || {};
 const ZIP_BASE_DIR = '../code-analysis-workspace';
 
 interface BuildApplicationBranchParams {
@@ -235,6 +236,14 @@ const buildDynamicReports = async ({ application }: BuildApplicationParams) => {
             body: JSON.stringify({
                 applicationId: application?._id,
                 workspaceFolder: null,
+            }),
+        });
+
+        await fetch(devOpsAuditorApi, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                applicationId: application?._id,
             }),
         });
     } catch (error) {
