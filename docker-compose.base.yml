@@ -1,11 +1,11 @@
 version: '3'
 
 services:
-  nx-app-base:
+  v6y-service-base:
     restart: always
     build:
       context: .
-      dockerfile: ./deployment-config/Dockerfile
+      dockerfile: ./config/deployment/Dockerfile
     environment:
       - DEV_PLATFORM=DOCKER
     volumes:

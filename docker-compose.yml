@@ -5,7 +5,7 @@ services:
   v6y-frontend:
     extends:
       file: docker-compose.base.yml
-      service: nx-app-base
+      service: v6y-service-base
     command: pnpm run start:frontend
     ports:
       - "4004:4004"
@@ -14,7 +14,7 @@ services:
   v6y-frontend-bo:
     extends:
       file: docker-compose.base.yml
-      service: nx-app-base
+      service: v6y-service-base
     command: pnpm run start:frontend:bo
     ports:
       - "4006:4006"
@@ -23,7 +23,7 @@ services:
   v6y-bff:
     extends:
       file: docker-compose.base.yml
-      service: nx-app-base
+      service: v6y-service-base
     command: pnpm run start:bff
     ports:
       - "4001:4001" # API Entry port
