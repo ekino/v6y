@@ -1,8 +1,4 @@
-import VitalityTable from '../../../commons/components/VitalityTable';
-import {
-    buildCommonTableColumns,
-    buildCommonTableDataSource,
-} from '../../../commons/config/VitalityTableConfig';
+import RenderVitalityTable from '../../../commons/components/RenderVitalityTable';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
 import DeleteDeprecatedDependency from '../apis/deleteDeprecatedDependency';
@@ -26,18 +22,19 @@ export default function VitalityDeprecatedDependencyListView() {
                 query: GetDeprecatedDependencyListByPageAndParams,
             }}
             renderTable={(dataSource) => (
-                <VitalityTable
-                    dataSource={buildCommonTableDataSource(dataSource)}
-                    columns={buildCommonTableColumns(dataSource, ['id'], {
-                        enableEdit: true,
-                        enableShow: true,
-                        enableDelete: true,
-                        deleteMetaQuery: {
-                            gqlMutation: DeleteDeprecatedDependency,
-                            operation: 'deleteDeprecatedDependency',
-                        },
-                    })}
-                />
+                <RenderVitalityTable
+                dataSource={dataSource}
+                columnKeys={['id']}
+                columnOptions={{
+                    enableEdit: true,
+                    enableShow: true,
+                    enableDelete: true,
+                    deleteMetaQuery: {
+                        gqlMutation: DeleteDeprecatedDependency,
+                        operation: 'deleteDeprecatedDependency',
+                    },
+                }}
+            />
             )}
         />
     );

@@ -1,8 +1,4 @@
-import VitalityTable from '../../../commons/components/VitalityTable';
-import {
-    buildCommonTableColumns,
-    buildCommonTableDataSource,
-} from '../../../commons/config/VitalityTableConfig';
+import RenderVitalityTable from '../../../commons/components/RenderVitalityTable';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
 import DeleteNotification from '../apis/deleteNotification';
@@ -26,18 +22,19 @@ export default function VitalityNotificationListView() {
                 query: GetNotificationListByPageAndParams,
             }}
             renderTable={(dataSource) => (
-                <VitalityTable
-                    dataSource={buildCommonTableDataSource(dataSource)}
-                    columns={buildCommonTableColumns(dataSource, [], {
-                        enableEdit: true,
-                        enableShow: true,
-                        enableDelete: true,
-                        deleteMetaQuery: {
-                            gqlMutation: DeleteNotification,
-                            operation: 'deleteNotification',
-                        },
-                    })}
-                />
+                <RenderVitalityTable
+                dataSource={dataSource}
+                columnKeys={[]}
+                columnOptions={{
+                    enableEdit: true,
+                    enableShow: true,
+                    enableDelete: true,
+                    deleteMetaQuery: {
+                        gqlMutation: DeleteNotification,
+                        operation: 'deleteNotification',
+                    },
+                }}
+            />
             )}
         />
     );

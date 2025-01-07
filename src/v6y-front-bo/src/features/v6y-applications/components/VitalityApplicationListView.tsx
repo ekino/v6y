@@ -1,11 +1,7 @@
 import { ApplicationType } from '@v6y/commons';
 
 import GetApplicationListByPageAndParams from '../../../commons/apis/getApplicationListByPageAndParams';
-import VitalityTable from '../../../commons/components/VitalityTable';
-import {
-    buildCommonTableColumns,
-    buildCommonTableDataSource,
-} from '../../../commons/config/VitalityTableConfig';
+import RenderVitalityTable from '../../../commons/components/RenderVitalityTable';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
 import DeleteApplication from '../apis/deleteApplication';
@@ -28,18 +24,19 @@ export default function VitalityApplicationListView() {
                 query: GetApplicationListByPageAndParams,
             }}
             renderTable={(dataSource: ApplicationType[]) => (
-                <VitalityTable
-                    dataSource={buildCommonTableDataSource(dataSource)}
-                    columns={buildCommonTableColumns(dataSource, [], {
-                        enableEdit: true,
-                        enableShow: true,
-                        enableDelete: true,
-                        deleteMetaQuery: {
-                            gqlMutation: DeleteApplication,
-                            operation: 'deleteApplication',
-                        },
-                    })}
-                />
+                <RenderVitalityTable
+                dataSource={dataSource}
+                columnKeys={[]}
+                columnOptions={{
+                    enableEdit: true,
+                    enableShow: true,
+                    enableDelete: true,
+                    deleteMetaQuery: {
+                        gqlMutation: DeleteApplication,
+                        operation: 'deleteApplication',
+                    },
+                }}
+            />
             )}
         />
     );
