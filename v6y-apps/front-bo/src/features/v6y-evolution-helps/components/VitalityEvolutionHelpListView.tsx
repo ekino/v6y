@@ -1,8 +1,4 @@
-import VitalityTable from '../../../commons/components/VitalityTable';
-import {
-    buildCommonTableColumns,
-    buildCommonTableDataSource,
-} from '../../../commons/config/VitalityTableConfig';
+import RenderVitalityTable from '../../../commons/components/RenderVitalityTable';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
 import GetEvolutionHelpListByPageAndParams from '../apis/getEvolutionHelpListByPageAndParams';
@@ -25,14 +21,15 @@ export default function VitalityEvolutionHelpListView() {
                 query: GetEvolutionHelpListByPageAndParams,
             }}
             renderTable={(dataSource) => (
-                <VitalityTable
-                    dataSource={buildCommonTableDataSource(dataSource)}
-                    columns={buildCommonTableColumns(dataSource, ['id'], {
-                        enableEdit: true,
-                        enableShow: true,
-                        enableDelete: false,
-                    })}
-                />
+                <RenderVitalityTable
+                dataSource={dataSource}
+                columnKeys={['id']}
+                columnOptions={{
+                    enableEdit: true,
+                    enableShow: true,
+                    enableDelete: false,
+                }}
+            />
             )}
         />
     );
