@@ -23,18 +23,18 @@ export default function VitalityDeprecatedDependencyListView() {
             }}
             renderTable={(dataSource) => (
                 <RenderVitalityTable
-                dataSource={dataSource}
-                columnKeys={['id']}
-                columnOptions={{
-                    enableEdit: true,
-                    enableShow: true,
-                    enableDelete: true,
-                    deleteMetaQuery: {
-                        gqlMutation: DeleteDeprecatedDependency,
-                        operation: 'deleteDeprecatedDependency',
-                    },
-                }}
-            />
+                    dataSource={dataSource}
+                    columnKeys={['id']}
+                    columnOptions={{
+                        enableEdit: true,
+                        enableShow: true,
+                        enableDelete: true,
+                        deleteMetaQuery: {
+                            gqlMutation: DeleteDeprecatedDependency,
+                            operation: 'deleteDeprecatedDependency',
+                        },
+                    }}
+                />
             )}
         />
     );

@@ -22,14 +22,14 @@ export default function VitalityDependencyStatusHelpListView() {
             }}
             renderTable={(dataSource) => (
                 <RenderVitalityTable
-                dataSource={dataSource}
-                columnKeys={['id']}
-                columnOptions={{
-                    enableEdit: true,
-                    enableShow: true,
-                    enableDelete: false,
-                }}
-            />
+                    dataSource={dataSource}
+                    columnKeys={['id']}
+                    columnOptions={{
+                        enableEdit: true,
+                        enableShow: true,
+                        enableDelete: false,
+                    }}
+                />
             )}
         />
     );
