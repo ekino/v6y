@@ -918,6 +918,9 @@ importers:
       graphql-request:
         specifier: '=7.1.2'
         version: 7.1.2(graphql@16.10.0)
+      graphql-ws:
+        specifier: '=5.16.0'
+        version: 5.16.0(graphql@16.10.0)
       i18next:
         specifier: '=24.2.0'
         version: 24.2.0(typescript@5.7.2)

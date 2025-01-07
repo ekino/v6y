@@ -1,20 +1,21 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import type { AuthProvider } from '@refinedev/core';
-import dataProvider, { graphqlWS, liveProvider } from '@refinedev/graphql';
+import dataProvider, { createLiveProvider } from '@refinedev/graphql';
+import { createClient } from 'graphql-ws';
 import Cookies from 'js-cookie';
 
 import { gqlClient } from '../adapters/api/GraphQLClient';
 
 const dataClient = gqlClient;
 
-const wsClient = graphqlWS.createClient({
+const wsClient = createClient({
     url: process.env.NEXT_PUBLIC_GQL_API_BASE_PATH as string,
 });
 
 export const gqlDataProvider = dataProvider(dataClient);
 
-export const gqlLiveProvider = liveProvider(wsClient);
+export const gqlLiveProvider = createLiveProvider(wsClient);
 
 export const gqlAuthProvider: AuthProvider = {
     login: async ({ email, password }) => {

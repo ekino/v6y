@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  v6y-frontend:
+    extends:
+      file: docker-compose.base.yml
+      service: v6y-service-base
+    command: pnpm run start:frontend
+    ports:
+      - "4004:4004"
+    image: ghcr.io/<registry-owner>/v6y-frontend:latest
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:4004/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  v6y-frontend-bo:
+    extends:
+      file: docker-compose.base.yml
+      service: v6y-service-base
+    command: pnpm run start:frontend:bo
+    ports:
+      - "4006:4006"
+    image: ghcr.io/<registry-owner>/v6y-frontend-bo:latest
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:4006/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  v6y-bff:
+    extends:
+      file: docker-compose.base.yml
+      service: v6y-service-base
+    command: pnpm run start:bff
+    ports:
+      - "4001:4001"
+    image: ghcr.io/<registry-owner>/v6y-bff:latest
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:4001/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  mono-node-modules: null
