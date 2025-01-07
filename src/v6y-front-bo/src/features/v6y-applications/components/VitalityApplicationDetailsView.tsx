@@ -1,10 +1,10 @@
 import { HttpError, useParsed } from '@refinedev/core';
 import { ApplicationType } from '@v6y/commons';
 import Matcher from '@v6y/commons/src/core/Matcher';
-import { Typography } from 'antd';
 import * as React from 'react';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';
+import VitalityTitle from '../../../commons/components/VitalityTitle';
 import { formatApplicationDetails } from '../../../commons/config/VitalityDetailsConfig';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineShowWrapper from '../../../infrastructure/components/RefineShowWrapper';
@@ -42,11 +42,7 @@ export default function VitalityApplicationDetailsView() {
 
     return (
         <RefineShowWrapper
-            title={
-                <Typography.Title level={2}>
-                    {translate('v6y-applications.titles.show')}
-                </Typography.Title>
-            }
+            title={<VitalityTitle title="v6y-applications.titles.show" />}
             queryOptions={{
                 resource: 'getApplicationDetailsInfoByParams',
                 query: GetApplicationDetails,

@@ -1,6 +1,6 @@
-import { Typography } from 'antd';
 import * as React from 'react';
 
+import VitalityTitle from '../../../commons/components/VitalityTitle';
 import {
     applicationCreateEditItems,
     applicationCreateOrEditFormOutputAdapter,
@@ -13,11 +13,7 @@ export default function VitalityApplicationCreateView() {
     const { translate } = useTranslation();
     return (
         <RefineCreateWrapper
-            title={
-                <Typography.Title level={2}>
-                    {translate('v6y-applications.titles.create')}
-                </Typography.Title>
-            }
+            title={<VitalityTitle title="v6y-applications.titles.create" />}
             createOptions={{
                 createFormAdapter: applicationCreateOrEditFormOutputAdapter,
                 createQuery: CreateOrEditApplication,
