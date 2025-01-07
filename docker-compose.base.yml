@@ -6,8 +6,13 @@ services:
     build:
       context: .
       dockerfile: ./config/deployment/Dockerfile
+      args:
+        NODE_VERSION: 22-alpine
     environment:
       - DEV_PLATFORM=DOCKER
     volumes:
       - ./:/app
       - mono-node-modules:/app/node_modules
+
+volumes:
+  mono-node-modules:

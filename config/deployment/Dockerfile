@@ -1,10 +1,10 @@
-FROM node:22-alpine
+ARG NODE_VERSION=22-alpine
+FROM node:${NODE_VERSION}
 
 # Create app directory
 WORKDIR /app
 
-# This will copy everything from the source path
-# --more of a convenience when testing locally.
+# Copy everything from the source path
 COPY . .
 
 # Install pnpm
@@ -18,4 +18,3 @@ RUN pnpm run build
 
 # Serve the apps
 CMD ["pnpm", "start"]
-

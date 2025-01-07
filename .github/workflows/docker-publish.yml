@@ -5,10 +5,7 @@ on:
     branches: [ "helabenkhalfallah-patch-1" ]
 
 env:
-  # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
-  # github.repository as <account>/<repo>-<sha> (github.sha is the commit SHA that triggered the workflow)
-  IMAGE_NAME: ${{ github.repository }}/${{ github.sha }}
 
 jobs:
   deploy:
@@ -22,15 +19,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Remove Conflicting Packages
-        run: |
-          sudo apt-get remove -y containerd docker docker-engine docker.io containerd.io
-
       - name: Install Docker
         run: |
           curl -fsSL https://get.docker.com -o get-docker.sh
           sudo sh get-docker.sh
-          sudo usermod -aG docker $USER
           docker --version
 
       - name: Install Docker Compose
@@ -41,21 +33,23 @@ jobs:
           docker-compose --version
 
       - name: Log into Docker registry
-        if: github.event_name != 'pull_request'
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Update docker-compose.yml with dynamic image names
+        run: |
+          sed -i "s|<your-github-username>|${{ github.actor }}|g" docker-compose.yml
+          sed -i "s|:latest|:${{ github.sha }}|g" docker-compose.yml
+
       - name: Build and push images using Docker Compose
-        if: github.event_name != 'pull_request'
         run: |
           docker-compose -f docker-compose.yml build
           docker-compose -f docker-compose.yml push
 
       - name: Deploy services using Docker Compose
-        if: github.event_name != 'pull_request'
         run: |
           docker-compose -f docker-compose.yml pull
           docker-compose -f docker-compose.yml up -d

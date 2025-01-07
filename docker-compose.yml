@@ -9,6 +9,12 @@ services:
     command: pnpm run start:frontend
     ports:
       - "4004:4004"
+    image: ghcr.io/<your-github-username>/v6y-frontend:latest
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4004/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   # Frontend BO App
   v6y-frontend-bo:
@@ -18,6 +24,12 @@ services:
     command: pnpm run start:frontend:bo
     ports:
       - "4006:4006"
+    image: ghcr.io/<your-github-username>/v6y-frontend-bo:latest
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4006/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   # BFF Backend App
   v6y-bff:
@@ -26,7 +38,13 @@ services:
       service: v6y-service-base
     command: pnpm run start:bff
     ports:
-      - "4001:4001" # API Entry port
+      - "4001:4001"
+    image: ghcr.io/<your-github-username>/v6y-bff:latest
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 volumes:
   mono-node-modules: null
