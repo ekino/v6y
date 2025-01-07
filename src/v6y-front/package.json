@@ -13,7 +13,7 @@
   "scripts": {
     "build:tsc": "tsc --project ./tsconfig.json",
     "build": "next build",
-    "dev": "next dev -p 4004",
+    "start:dev": "next dev -p 4004",
     "start": "next start -p 4005",
     "analyze": "ANALYZE=true pnpm build",
     "lint": "next lint",
