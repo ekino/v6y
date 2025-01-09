@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build:tsc": "tsc --project ./tsconfig.json",
-    "start:dev": "nodemon --exec node --env-file=../v6y-commons/.env --loader ts-node/esm src/index.ts -- --dev",
+    "start:dev": "nodemon --exec node --env-file=.env --loader ts-node/esm src/index.ts -- --dev",
     "start": "pm2 start ecosystem.config.cjs",
     "stop": "pm2 stop v6y-bfb-static-code-auditor",
     "logs": "pm2 logs",
