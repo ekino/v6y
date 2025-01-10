@@ -1,7 +1,7 @@
 import { useParsed } from '@refinedev/core';
-import { Typography } from 'antd';
 import * as React from 'react';
 
+import VitalityTitle from '../../../commons/components/VitalityTitle';
 import {
     faqCreateEditItems,
     faqCreateOrEditFormInAdapter,
@@ -18,9 +18,7 @@ export default function VitalityFaqEditView() {
 
     return (
         <RefineEditWrapper
-            title={
-                <Typography.Title level={2}>{translate('v6y-faqs.titles.edit')}</Typography.Title>
-            }
+            title={<VitalityTitle title="v6y-faqs.titles.edit" />}
             queryOptions={{
                 queryFormAdapter: faqCreateOrEditFormInAdapter,
                 query: GetFaqDetailsByParams,

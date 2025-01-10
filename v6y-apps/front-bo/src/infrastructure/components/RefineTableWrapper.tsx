@@ -1,8 +1,8 @@
 import { List, RefreshButton, useTable } from '@refinedev/antd';
-import { Typography } from 'antd';
 import { ReactNode } from 'react';
 
 import VitalityLoader from '../../commons/components/VitalityLoader';
+import VitalityTitle from '../../commons/components/VitalityTitle';
 import { RefineTableType } from '../types/RefineTableType';
 
 export default function RefineTableWrapper<T>({
@@ -32,7 +32,7 @@ export default function RefineTableWrapper<T>({
 
     return (
         <section>
-            <Typography.Title level={2}>{title}</Typography.Title>
+            <VitalityTitle title={title} />
             <List
                 title={subTitle}
                 headerButtons={({ defaultButtons }: { defaultButtons: ReactNode }) => (

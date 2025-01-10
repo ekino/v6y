@@ -1,9 +1,9 @@
 import { useParsed } from '@refinedev/core';
 import { FaqType } from '@v6y/core-logic';
-import { Typography } from 'antd';
 import * as React from 'react';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';
+import VitalityTitle from '../../../commons/components/VitalityTitle';
 import { formatFaqDetails } from '../../../commons/config/VitalityDetailsConfig';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineShowWrapper from '../../../infrastructure/components/RefineShowWrapper';
@@ -16,9 +16,7 @@ export default function VitalityFaqDetailsView() {
 
     return (
         <RefineShowWrapper
-            title={
-                <Typography.Title level={2}>{translate('v6y-faqs.titles.show')}</Typography.Title>
-            }
+            title={<VitalityTitle title="v6y-faqs.titles.show" />}
             queryOptions={{
                 resource: 'getFaqDetailsByParams',
                 query: GetFaqDetailsByParams,

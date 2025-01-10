@@ -5,6 +5,7 @@ import { useTranslation } from '../../../src/infrastructure/adapters/translation
 
 interface VitalityTitleProps {
     title: string;
+    style?: React.CSSProperties;
     level?: 1 | 2 | 3 | 4 | 5 | undefined;
 }
 

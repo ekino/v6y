@@ -1,6 +1,6 @@
-import { Typography } from 'antd';
 import * as React from 'react';
 
+import VitalityTitle from '../../../commons/components/VitalityTitle';
 import {
     faqCreateEditItems,
     faqCreateOrEditFormOutputAdapter,
@@ -14,9 +14,7 @@ export default function VitalityFaqCreateView() {
 
     return (
         <RefineCreateWrapper
-            title={
-                <Typography.Title level={2}>{translate('v6y-faqs.titles.create')}</Typography.Title>
-            }
+            title={<VitalityTitle title="v6y-faqs.titles.create" />}
             createOptions={{
                 createFormAdapter: faqCreateOrEditFormOutputAdapter,
                 createQuery: CreateOrEditFaq,
