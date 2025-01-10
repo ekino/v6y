@@ -1,3 +1,3 @@
 packages:
-  - 'apps/*'
-  - 'libs/*'
+  - 'v6y-apps/*'
+  - 'v6y-libs/*'
