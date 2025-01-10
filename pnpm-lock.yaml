@@ -580,6 +580,9 @@ importers:
       '@v6y/core-logic':
         specifier: workspace:^
         version: link:../../v6y-libs/core-logic
+      '@v6y/shared-ui':
+        specifier: workspace:^
+        version: link:../../v6y-libs/shared-ui
       ag-charts-react:
         specifier: '=11.0.3'
         version: 11.0.3(ag-charts-community@11.0.3)(react@19.0.0)
@@ -761,6 +764,9 @@ importers:
       '@v6y/core-logic':
         specifier: workspace:^
         version: link:../../v6y-libs/core-logic
+      '@v6y/shared-ui':
+        specifier: workspace:^
+        version: link:../../v6y-libs/shared-ui
       antd:
         specifier: '=5.22.6'
         version: 5.22.6(date-fns@4.1.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
