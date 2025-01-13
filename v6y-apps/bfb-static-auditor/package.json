@@ -54,7 +54,7 @@
     "nodemon": "=3.1.9",
     "pm2": "=5.4.3",
     "posix-getopt": "=1.2.1",
-    "puppeteer-core": "=23.11.1",
+    "puppeteer-core": "=24.0.0",
     "ts-node": "=10.9.2",
     "typescript": "=5.7.2",
     "typescript-eslint": "=8.18.2",

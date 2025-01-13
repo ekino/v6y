@@ -48,7 +48,7 @@
     "lighthouse": "=12.3.0",
     "nodemon": "=3.1.9",
     "pm2": "=5.4.3",
-    "puppeteer-core": "=23.11.1",
+    "puppeteer-core": "=24.0.0",
     "sequelize-mock": "=0.10.2",
     "ts-node": "=10.9.2",
     "typescript": "=5.7.2",
