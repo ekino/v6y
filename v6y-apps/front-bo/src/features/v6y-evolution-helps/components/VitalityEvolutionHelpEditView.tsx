@@ -1,8 +1,8 @@
 import { useParsed } from '@refinedev/core';
 import { EvolutionHelpType } from '@v6y/core-logic';
+import { VitalityTitle } from '@v6y/shared-ui';
 import * as React from 'react';
 
-import VitalityTitle from '../../../commons/components/VitalityTitle';
 import {
     evolutionHelpCreateEditItems,
     evolutionHelpCreateOrEditFormInAdapter,

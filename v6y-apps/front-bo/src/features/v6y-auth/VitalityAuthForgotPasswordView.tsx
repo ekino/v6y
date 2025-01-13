@@ -1,7 +1,8 @@
 'use client';
 
-import VitalityTitle from '@/commons/components/VitalityTitle';
 import { AuthPage as AuthPageBase } from '@refinedev/antd';
+import { VitalityTitle } from '@v6y/shared-ui';
+import React from 'react';
 
 export const VitalityAuthForgotPasswordView = () => {
     return (

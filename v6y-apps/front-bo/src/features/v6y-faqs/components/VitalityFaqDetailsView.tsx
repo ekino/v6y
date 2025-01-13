@@ -1,9 +1,9 @@
 import { useParsed } from '@refinedev/core';
 import { FaqType } from '@v6y/core-logic';
+import { VitalityTitle } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';
-import VitalityTitle from '../../../commons/components/VitalityTitle';
 import { formatFaqDetails } from '../../../commons/config/VitalityDetailsConfig';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineShowWrapper from '../../../infrastructure/components/RefineShowWrapper';

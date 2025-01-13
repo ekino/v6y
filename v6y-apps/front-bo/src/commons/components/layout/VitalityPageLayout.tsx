@@ -1,10 +1,10 @@
 'use client';
 
 import { ThemedLayoutV2 } from '@refinedev/antd';
+import { VitalityTitle } from '@v6y/shared-ui';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
-import VitalityTitle from '../../components/VitalityTitle';
 import VitalityPageFooter from './VitalityPageFooter';
 import { VitalityPageHeader } from './VitalityPageHeader';
 

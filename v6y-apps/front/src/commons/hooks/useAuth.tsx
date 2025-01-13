@@ -4,6 +4,7 @@ import { z } from 'zod';
 import LoginAccount from '../../features/auth/api/loginAccount';
 import { buildClientQuery } from '../../infrastructure/adapters/api/useQueryAdapter';
 import useNavigationAdapter from '../../infrastructure/adapters/navigation/useNavigationAdapter';
+import type { AuthCookie } from '../../infrastructure/storage/CookieHelper';
 import {
     SessionType,
     getSession,
