@@ -1,3 +1,4 @@
+import { VitalityTitle } from '@v6y/shared-ui';
 import { Avatar, Card, Typography } from 'antd';
 import Link from 'next/link';
 import * as React from 'react';
@@ -20,11 +21,7 @@ const VitalityDashboardMenuItem = ({ option }: { option: DashboardItemType }) =>
                             style={{ backgroundColor: option.avatarColor }}
                         />
                     }
-                    title={
-                        <Typography.Title level={4} underline>
-                            {option.title}
-                        </Typography.Title>
-                    }
+                    title={<VitalityTitle title={option.title} level={4} underline />}
                     description={<Typography.Text>{option.description}</Typography.Text>}
                 />
             </Card>

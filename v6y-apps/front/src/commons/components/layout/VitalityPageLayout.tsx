@@ -1,6 +1,7 @@
 'use client';
 
-import { Col, FloatButton, Layout, Row, Typography } from 'antd';
+import { VitalityTitle } from '@v6y/shared-ui';
+import { Col, FloatButton, Layout, Row } from 'antd';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
@@ -46,7 +47,7 @@ const VitalityPageLayout = ({ children }: { children: ReactNode }) => {
                             <VitalityBreadcrumb />
                         </Col>
                         <Col span={20} style={{ textAlign: 'center' }}>
-                            <Typography.Title level={2}>{pageTitle}</Typography.Title>
+                            {pageTitle && <VitalityTitle title={pageTitle as string} />}
                         </Col>
                         <Col span={18}>{children}</Col>
                     </Row>

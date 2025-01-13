@@ -1,5 +1,6 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { AuditType } from '@v6y/core-logic';
+import { VitalityTitle } from '@v6y/shared-ui';
 import { Button, Card, Col, List, Row, Statistic, Typography } from 'antd';
 import Link from 'next/link';
 import * as React from 'react';
@@ -51,7 +52,7 @@ const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditT
                         <List.Item>
                             <Card
                                 key={`${report.type}-${report.category}-${report.subCategory}`}
-                                title={<Typography.Title level={4}>{report.type}</Typography.Title>}
+                                title={<VitalityTitle level={4} title={report.type as string} />}
                                 actions={[
                                     <Button
                                         key="help-button"
@@ -111,9 +112,10 @@ const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditT
             />
             <VitalityModal
                 title={
-                    <Typography.Title level={5}>
-                        {VitalityTerms.VITALITY_APP_DETAILS_AUDIT_MODULE_HELP_TITLE}
-                    </Typography.Title>
+                    <VitalityTitle
+                        title={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_MODULE_HELP_TITLE}
+                        level={5}
+                    />
                 }
                 onCloseModal={() => setHelpDetails(undefined)}
                 isOpen={isHelpModalOpen}

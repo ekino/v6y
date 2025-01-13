@@ -1,4 +1,5 @@
 import { InfoCircleOutlined, PushpinOutlined } from '@ant-design/icons';
+import { VitalityTitle } from '@v6y/shared-ui';
 import { Avatar, Button, Card, Divider, List, Space, Statistic, Typography } from 'antd';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -131,9 +132,10 @@ const VitalityModulesView = ({ modules }: VitalityModulesProps) => {
             />
             <VitalityModal
                 title={
-                    <Typography.Title level={5}>
-                        {VitalityTerms.VITALITY_APP_DETAILS_AUDIT_MODULE_HELP_TITLE}
-                    </Typography.Title>
+                    <VitalityTitle
+                        title={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_MODULE_HELP_TITLE}
+                        level={5}
+                    />
                 }
                 onCloseModal={() => setHelpDetails(undefined)}
                 isOpen={isHelpModalOpen}
