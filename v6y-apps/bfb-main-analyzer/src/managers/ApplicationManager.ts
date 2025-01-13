@@ -325,7 +325,7 @@ const buildApplicationList = async () => {
     try {
         const applications = await ApplicationProvider.getApplicationListByPageAndParams(
             {},
-            undefined,
+            { role: 'ADMIN' },
         );
         AppLogger.info(
             '[ApplicationManager -  buildApplicationList] applications: ',
