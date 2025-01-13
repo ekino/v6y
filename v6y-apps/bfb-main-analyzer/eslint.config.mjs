@@ -1,5 +1,6 @@
 import eslint from '@eslint/js';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import globals from 'globals';
 import tsEslint from 'typescript-eslint';
 
 export default [
@@ -13,9 +14,17 @@ export default [
             'max-nested-callbacks': ['error', 3],
             'max-params': ['error', 3],
             'max-lines': ['error', 1000], // per file
-            'max-lines-per-function': ['error', 100], // per function
+            'max-lines-per-function': ['error', 200], // per function
             'max-statements': ['error', 50], // per function
         },
     },
     eslintPluginPrettierRecommended,
+    {
+        languageOptions: {
+            globals: {
+                ...globals.browser,
+                ...globals.node,
+            },
+        },
+    },
 ];

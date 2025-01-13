@@ -1,4 +1,4 @@
-import { AppLogger, ServerEnvConfigType } from '@v6y/core-logic';
+import { AppLogger, ServerConfigType, ServerEnvConfigType } from '@v6y/core-logic';
 
 const V6Y_HEALTH_CHECK_PATH = `${process.env.V6Y_BFF_API_PATH}health-checks`;
 const V6Y_MONITORING_PATH = `${process.env.V6Y_BFF_API_PATH}monitoring`;
@@ -34,7 +34,7 @@ const getCurrentContext = () => (execEnv?.includes('--dev') ? 'development' : 'p
 /**
  * Get current config
  */
-const getCurrentConfig = (): Record<string, unknown> => {
+const getCurrentConfig = (): ServerConfigType => {
     const currentContext = getCurrentContext();
     AppLogger.info(`[getCurrentConfig] currentContext: ${currentContext}`);
 

@@ -33,9 +33,9 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "husky": "^9.1.7",
-    "nx": "^20.3.0",
-    "typescript-coverage-report": "^1.1.0"
+    "husky": "=9.1.7",
+    "nx": "=20.3.0",
+    "typescript-coverage-report": "=1.1.0"
   },
   "workspaces": [
     "src/**"

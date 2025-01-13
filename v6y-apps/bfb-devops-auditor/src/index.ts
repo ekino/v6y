@@ -16,7 +16,7 @@ const {
     hostname,
     port,
     healthCheckPath,
-    // devopsAuditorApiPath,
+    //devopsAuditorApiPath,
     serverTimeout,
     serverUrl,
 } = getCurrentConfig() || {}; // Destructuring with defaults
