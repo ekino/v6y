@@ -1,4 +1,4 @@
-import { AppLogger } from '@v6y/commons';
+import { AppLogger } from '@v6y/core-logic';
 import express from 'express';
 
 import DevOpsAuditorManager from '../auditors/DevOpsAuditorManager.ts';

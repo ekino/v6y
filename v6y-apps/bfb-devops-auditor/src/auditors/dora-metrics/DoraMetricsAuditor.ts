@@ -1,4 +1,4 @@
-import { AppLogger, ApplicationProvider, AuditProvider } from '@v6y/commons';
+import { AppLogger, ApplicationProvider, AuditProvider } from '@v6y/core-logic';
 
 import { DoraMetricsAuditConfigType } from '../types/DoraMetricsAuditType.ts';
 import DoraMetricsUtils from './DoraMetricsUtils.ts';

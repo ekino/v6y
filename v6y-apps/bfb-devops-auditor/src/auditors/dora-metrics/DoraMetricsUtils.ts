@@ -1,4 +1,4 @@
-import { AppLogger, AuditType } from '@v6y/commons';
+import { AppLogger, AuditType } from '@v6y/core-logic';
 
 import {
     DoraMetricType,

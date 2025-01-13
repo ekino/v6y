@@ -1,4 +1,4 @@
-import { AppLogger, WorkerHelper } from '@v6y/commons';
+import { AppLogger, WorkerHelper } from '@v6y/core-logic';
 
 import ServerConfig from '../commons/ServerConfig.ts';
 import { AuditCommonsType } from './types/AuditCommonsType.ts';
