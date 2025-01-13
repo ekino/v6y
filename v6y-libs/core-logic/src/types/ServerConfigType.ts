@@ -7,12 +7,11 @@ export interface ServerConfigType {
     monitoringPath: string;
     serverTimeout: number;
     databaseUri: string;
+    serverUrl?: string;
     chromeExecutablePath?: string;
     devopsAuditorApiPath?: string;
-    staticCodeAuditorApiPath?: string;
-    urlDynamicAuditorApiPath?: string;
-    frontendStaticCodeAuditorApi?: string;
-    frontendUrlDynamicAuditorApi?: string;
+    staticAuditorApiPath?: string;
+    dynamicAuditorApiPath?: string;
 }
 
 export interface ServerEnvConfigType {

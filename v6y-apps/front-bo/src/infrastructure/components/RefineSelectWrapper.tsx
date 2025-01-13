@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 'use client';
 
 import { Edit, useForm, useSelect } from '@refinedev/antd';
@@ -9,12 +7,6 @@ import { ReactNode, useEffect } from 'react';
 
 import { gqlClientRequest } from '../adapters/api/GraphQLClient';
 import { FormWrapperProps } from '../types/FormType';
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 
 export default function RefineSelectWrapper({
     title,
@@ -46,11 +38,11 @@ export default function RefineSelectWrapper({
                       const { editQuery, editFormAdapter, editQueryParams } = mutationOptions;
                       return gqlClientRequest({
                           gqlQueryPath: editQuery,
+                          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                          // @ts-expect-error
                           gqlQueryParams:
                               editFormAdapter?.({
                                   ...(editQueryParams || {}),
-                                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                  // @ts-expect-error
                                   ...(form?.getFieldsValue() || {}),
                               }) || {},
                       });
@@ -62,8 +54,12 @@ export default function RefineSelectWrapper({
     const formCreateOptions = createOptions
         ? {
               createMutationOptions: {
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-expect-error
                   mutationKey: [createOptions?.createResource, createOptions?.createQuery],
                   mutationFn: async (): Promise<GetOneResponse<BaseRecord>> => {
+                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                      // @ts-expect-error
                       const { createQuery, createFormAdapter, createQueryParams } = createOptions;
                       return gqlClientRequest({
                           gqlQueryPath: createQuery,
@@ -88,10 +84,16 @@ export default function RefineSelectWrapper({
     const { query: selectQueryResult } = useSelect({
         queryOptions: {
             enabled: true,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             queryKey: [selectOptions?.resource, selectOptions?.queryParams],
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             queryFn: async (): Promise<GetOneResponse<BaseRecord>> =>
                 gqlClientRequest({
                     gqlQueryPath: selectOptions?.query,
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-expect-error
                     gqlQueryParams: selectOptions?.queryParams,
                 }),
         },
@@ -100,8 +102,6 @@ export default function RefineSelectWrapper({
     useEffect(() => {
         const formDetails = query?.data?.[queryOptions?.queryResource];
         if (Object.keys(formDetails || {})?.length) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             form?.setFieldsValue(queryOptions?.queryFormAdapter?.(formDetails));
         }
     }, [form, query?.data, queryOptions]);

@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 'use client';
 
 import { Edit, useForm } from '@refinedev/antd';
@@ -9,12 +7,6 @@ import { useEffect } from 'react';
 
 import { gqlClientRequest } from '../adapters/api/GraphQLClient';
 import { FormWrapperProps } from '../types/FormType';
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 
 export default function RefineEditWrapper({
     title,
@@ -33,9 +25,13 @@ export default function RefineEditWrapper({
         },
         updateMutationOptions: {
             mutationKey: [mutationOptions?.resource, mutationOptions?.editQuery],
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             mutationFn: async (): Promise<GetOneResponse<BaseRecord>> =>
                 gqlClientRequest({
                     gqlQueryPath: mutationOptions?.editQuery,
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-expect-error
                     gqlQueryParams:
                         mutationOptions?.editFormAdapter?.({
                             ...(mutationOptions?.editQueryParams || {}),

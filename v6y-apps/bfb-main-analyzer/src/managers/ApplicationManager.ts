@@ -11,7 +11,7 @@ import ServerConfig from '../config/ServerConfig.ts';
 const { getRepositoryDetails, getRepositoryBranches, prepareGitBranchZipConfig } = RepositoryApi;
 
 const { getCurrentConfig } = ServerConfig;
-const { frontendStaticCodeAuditorApi, frontendUrlDynamicAuditorApi, devOpsAuditorApi } =
+const { staticAuditorApiPath, dynamicAuditorApiPath, devopsAuditorApiPath } =
     getCurrentConfig() || {};
 const ZIP_BASE_DIR = '../code-analysis-workspace';
 
@@ -72,11 +72,11 @@ const buildApplicationFrontendByBranch = async ({
         );
 
         AppLogger.info(
-            '[ApplicationManager - buildApplicationFrontendByBranch] frontendStaticCodeAuditorApi: ',
-            frontendStaticCodeAuditorApi,
+            '[ApplicationManager - buildApplicationFrontendByBranch] staticAuditorApiPath: ',
+            staticAuditorApiPath,
         );
 
-        await fetch(frontendStaticCodeAuditorApi, {
+        await fetch(staticAuditorApiPath as string, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ applicationId, workspaceFolder }),
@@ -226,11 +226,11 @@ const buildDynamicReports = async ({ application }: BuildApplicationParams) => {
         }
 
         AppLogger.info(
-            '[ApplicationManager - buildDynamicReports] frontendUrlDynamicAuditorApi: ',
-            frontendUrlDynamicAuditorApi,
+            '[ApplicationManager - buildDynamicReports] dynamicAuditorApiPath: ',
+            dynamicAuditorApiPath,
         );
 
-        await fetch(frontendUrlDynamicAuditorApi, {
+        await fetch(dynamicAuditorApiPath as string, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -239,7 +239,7 @@ const buildDynamicReports = async ({ application }: BuildApplicationParams) => {
             }),
         });
 
-        await fetch(devOpsAuditorApi, {
+        await fetch(devopsAuditorApiPath, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -332,7 +332,10 @@ const buildApplicationReports = async (application: ApplicationType) => {
  */
 const buildApplicationList = async () => {
     try {
-        const applications = await ApplicationProvider.getApplicationListByPageAndParams({});
+        const applications = await ApplicationProvider.getApplicationListByPageAndParams(
+            {},
+            undefined,
+        );
         AppLogger.info(
             '[ApplicationManager -  buildApplicationList] applications: ',
             applications?.length,

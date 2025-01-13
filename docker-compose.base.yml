@@ -5,7 +5,7 @@ services:
     restart: always
     build:
       context: .
-      dockerfile: v6y-config/deployment/Dockerfile
+      dockerfile: v6y-config/Dockerfile
       args:
         NODE_VERSION: 22-alpine
     environment:

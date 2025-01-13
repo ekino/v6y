@@ -416,10 +416,11 @@ const getApplicationDetailsKeywordsByParams = async ({ _id }: ApplicationType) =
  * @param offset
  * @param limit
  * @param where
+ * @param user
  */
 const getApplicationListByPageAndParams = async (
     { searchText, keywords, offset, limit, where }: SearchQueryType,
-    user: AccountType,
+    user?: AccountType,
 ) => {
     try {
         AppLogger.info(
@@ -444,7 +445,7 @@ const getApplicationListByPageAndParams = async (
             where,
         });
 
-        if (user.role !== 'ADMIN' && user.role !== 'SUPERADMIN' && user.applications?.length) {
+        if (user?.role !== 'ADMIN' && user?.role !== 'SUPERADMIN' && user?.applications?.length) {
             searchQuery.where = {
                 ...searchQuery.where,
                 _id: {
@@ -469,6 +470,7 @@ const getApplicationListByPageAndParams = async (
  * Get application total by params
  * @param searchText
  * @param keywords
+ * @param user
  */
 const getApplicationTotalByParams = async (
     { searchText, keywords }: SearchQueryType,
