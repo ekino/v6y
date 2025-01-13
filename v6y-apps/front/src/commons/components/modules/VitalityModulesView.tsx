@@ -1,6 +1,6 @@
 import { InfoCircleOutlined, PushpinOutlined } from '@ant-design/icons';
-import { VitalityTitle } from '@v6y/shared-ui';
-import { Avatar, Button, Card, Divider, List, Space, Statistic, Typography } from 'antd';
+import { VitalityText, VitalityTitle } from '@v6y/shared-ui';
+import { Avatar, Button, Card, Divider, List, Space, Statistic } from 'antd';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
@@ -102,24 +102,31 @@ const VitalityModulesView = ({ modules }: VitalityModulesProps) => {
                                                 />
                                             )}
                                             {(itemModule.branch?.length || 0) > 0 && (
-                                                <Typography.Text style={{ fontWeight: 'bold' }}>
-                                                    {`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_DETECT_ON_BRANCH_LABEL}: `}
-                                                    <Typography.Text
+                                                <>
+                                                    <VitalityText
+                                                        style={{ fontWeight: 'bold' }}
+                                                        text={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_DETECT_ON_BRANCH_LABEL}: `}
+                                                    />
+                                                    <VitalityText
                                                         style={{ fontWeight: 'normal' }}
-                                                    >
-                                                        {itemModule.branch}
-                                                    </Typography.Text>
-                                                </Typography.Text>
+                                                        text={itemModule.branch}
+                                                    />
+                                                </>
                                             )}
                                             {(itemModule.path?.length || 0) > 0 && (
-                                                <Typography.Text style={{ fontWeight: 'bold' }}>
-                                                    {`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_DETECT_ON_PATH_LABEL}: `}
-                                                    <Typography.Text
+                                                <>
+                                                    <VitalityText
+                                                        style={{ fontWeight: 'bold' }}
+                                                        text={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_DETECT_ON_PATH_LABEL}: `}
+                                                    />
+                                                    <VitalityText
                                                         style={{ fontWeight: 'normal' }}
-                                                    >
-                                                        {itemModule.path?.replaceAll(' -> []', '')}
-                                                    </Typography.Text>
-                                                </Typography.Text>
+                                                        text={itemModule.path?.replaceAll(
+                                                            ' -> []',
+                                                            '',
+                                                        )}
+                                                    />
+                                                </>
                                             )}
                                         </Space>
                                     </Card>

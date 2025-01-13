@@ -2,18 +2,8 @@
 
 import { DownOutlined } from '@ant-design/icons';
 import { useGetIdentity } from '@refinedev/core';
-import {
-    Layout as AntdLayout,
-    Avatar,
-    Button,
-    Dropdown,
-    Space,
-    Switch,
-    Typography,
-    theme,
-} from 'antd';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
+import { VitalityText } from '@v6y/shared-ui';
+import { Layout as AntdLayout, Avatar, Button, Dropdown, Space, Switch, theme } from 'antd';
 import Cookie from 'js-cookie';
 import * as React from 'react';
 import { useContext } from 'react';
@@ -77,9 +67,7 @@ export const VitalityPageHeader = () => {
                 <Button type="text">
                     <Space>
                         <Avatar size={16} src={`/images/flags/${currentLocale}.svg`} />
-                        <Typography.Text>
-                            {currentLocale === 'en' ? 'English' : 'French'}
-                        </Typography.Text>
+                        <VitalityText text={currentLocale === 'en' ? 'English' : 'French'} />
                         <DownOutlined />
                     </Space>
                 </Button>
@@ -96,7 +84,7 @@ export const VitalityPageHeader = () => {
                 />
                 {(user?.name || user?.avatar) && (
                     <Space style={{ marginLeft: '8px' }} size="middle">
-                        {user?.name && <Typography.Text strong>{user.name}</Typography.Text>}
+                        {user?.name && <VitalityText strong text={user.name} />}
                         {user?.avatar && <Avatar src={user?.avatar} alt={user?.name} />}
                     </Space>
                 )}

@@ -1,4 +1,6 @@
-import { Empty, Typography } from 'antd';
+import { VitalityText } from '@v6y/shared-ui';
+import { Empty } from 'antd';
+import * as React from 'react';
 
 import { useTranslation } from '../../infrastructure/adapters/translation/TranslationAdapter';
 
@@ -7,7 +9,7 @@ const VitalityEmptyView = ({ message }: { message?: string }) => {
     return (
         <Empty
             description={
-                <Typography.Text>{message || translate('pages.error.empty-data')}</Typography.Text>
+                <VitalityText text={message || translate('pages.error.empty-data') || ''} />
             }
         />
     );

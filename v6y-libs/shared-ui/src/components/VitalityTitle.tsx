@@ -2,6 +2,7 @@ import { Typography } from 'antd';
 import React from 'react';
 
 import { useTranslation } from '../hooks/useTranslation';
+import VitalityText from './VitalityText';
 
 interface VitalityTitleProps {
     title: string;
@@ -22,9 +23,11 @@ const VitalityTitle: React.FC<VitalityTitleProps> = ({
     return (
         <Typography.Title style={style} level={level} underline={underline}>
             {translate(title)}
-            <sup>
-                <Typography.Text>{subTitle}</Typography.Text>
-            </sup>
+            {subTitle && (
+                <sup>
+                    <VitalityText text={subTitle} />
+                </sup>
+            )}
         </Typography.Title>
     );
 };
