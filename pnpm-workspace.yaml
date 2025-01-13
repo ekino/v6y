@@ -1,2 +1,3 @@
 packages:
-  - 'src/*'
+  - 'v6y-apps/*'
+  - 'v6y-libs/*'
