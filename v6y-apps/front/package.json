@@ -46,7 +46,7 @@
     "react-hook-form": "=7.54.2",
     "react-virtualized-auto-sizer": "=1.0.25",
     "react-window": "=1.8.11",
-    "vite": "=5.2.14",
+    "vite": "=6.0.7",
     "zod": "=3.24.1"
   },
   "devDependencies": {
