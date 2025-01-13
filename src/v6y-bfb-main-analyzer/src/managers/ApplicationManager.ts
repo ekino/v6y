@@ -323,7 +323,11 @@ const buildApplicationReports = async (application: ApplicationType) => {
  */
 const buildApplicationList = async () => {
     try {
-        const applications = await ApplicationProvider.getApplicationListByPageAndParams({});
+        const applications = await ApplicationProvider.getApplicationListByPageAndParams(
+            {},
+            { role: 'ADMIN' },
+        );
+
         AppLogger.info(
             '[ApplicationManager -  buildApplicationList] applications: ',
             applications?.length,

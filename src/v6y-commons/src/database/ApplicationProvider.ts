@@ -416,6 +416,7 @@ const getApplicationDetailsKeywordsByParams = async ({ _id }: ApplicationType) =
  * @param offset
  * @param limit
  * @param where
+ * @param user
  */
 const getApplicationListByPageAndParams = async (
     { searchText, keywords, offset, limit, where }: SearchQueryType,
