@@ -26,6 +26,8 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
+    "@refinedev/core": "=4.57.5",
+    "antd": "=5.22.6",
     "react": "=19.0.0",
     "react-dom": "=19.0.0",
     "react-hook-form": "=7.54.2"
