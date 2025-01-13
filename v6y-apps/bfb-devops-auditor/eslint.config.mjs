@@ -1,5 +1,6 @@
 import eslint from '@eslint/js';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import globals from 'globals';
 import tsEslint from 'typescript-eslint';
 
 export default [
@@ -18,4 +19,12 @@ export default [
         },
     },
     eslintPluginPrettierRecommended,
+    {
+        languageOptions: {
+            globals: {
+                ...globals.browser,
+                ...globals.node,
+            },
+        },
+    },
 ];

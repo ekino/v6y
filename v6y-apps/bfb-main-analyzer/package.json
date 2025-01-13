@@ -39,9 +39,14 @@
     "pm2": "=5.4.3",
     "ts-node": "=10.9.2",
     "typescript": "=5.7.2",
-    "typescript-eslint": "=8.18.2"
+    "typescript-eslint": "=8.18.2",
+    "sequelize-mock": "=0.10.2",
+    "globals": "=15.14.0",
+    "fs-extra": "=11.2.0"
   },
   "dependencies": {
+    "@sequelize/core": "7.0.0-alpha.43",
+    "sequelize": "=6.37.5",
     "@types/body-parser": "=1.19.5",
     "@types/express": "=5.0.0",
     "@v6y/core-logic": "workspace:^",

@@ -11,7 +11,7 @@ import ServerConfig from '../config/ServerConfig.ts';
 const { getRepositoryDetails, getRepositoryBranches, prepareGitBranchZipConfig } = RepositoryApi;
 
 const { getCurrentConfig } = ServerConfig;
-const { frontendStaticCodeAuditorApi, frontendUrlDynamicAuditorApi } = getCurrentConfig() || {};
+const { staticAuditorApiPath, dynamicAuditorApiPath } = getCurrentConfig() || {};
 const ZIP_BASE_DIR = '../code-analysis-workspace';
 
 interface BuildApplicationBranchParams {
@@ -71,11 +71,11 @@ const buildApplicationFrontendByBranch = async ({
         );
 
         AppLogger.info(
-            '[ApplicationManager - buildApplicationFrontendByBranch] frontendStaticCodeAuditorApi: ',
-            frontendStaticCodeAuditorApi,
+            '[ApplicationManager - buildApplicationFrontendByBranch] staticAuditorApiPath: ',
+            staticAuditorApiPath,
         );
 
-        await fetch(frontendStaticCodeAuditorApi, {
+        await fetch(staticAuditorApiPath as string, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ applicationId, workspaceFolder }),
@@ -225,11 +225,11 @@ const buildDynamicReports = async ({ application }: BuildApplicationParams) => {
         }
 
         AppLogger.info(
-            '[ApplicationManager - buildDynamicReports] frontendUrlDynamicAuditorApi: ',
-            frontendUrlDynamicAuditorApi,
+            '[ApplicationManager - buildDynamicReports] dynamicAuditorApiPath: ',
+            dynamicAuditorApiPath,
         );
 
-        await fetch(frontendUrlDynamicAuditorApi, {
+        await fetch(dynamicAuditorApiPath as string, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -327,7 +327,6 @@ const buildApplicationList = async () => {
             {},
             { role: 'ADMIN' },
         );
-
         AppLogger.info(
             '[ApplicationManager -  buildApplicationList] applications: ',
             applications?.length,
