@@ -13,7 +13,7 @@ importers:
         version: 9.1.7
       nx:
         specifier: '=20.3.0'
-        version: 20.3.0(@swc/core@1.10.7)
+        version: 20.3.0(@swc/core@1.10.7(@swc/helpers@0.5.15))
       typescript-coverage-report:
         specifier: '=1.1.0'
         version: 1.1.0(typescript@5.7.2)
@@ -70,8 +70,8 @@ importers:
         specifier: '=9.17.0'
         version: 9.17.0
       '@trivago/prettier-plugin-sort-imports':
-        specifier: '=5.2.0'
-        version: 5.2.0(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)
+        specifier: '=5.2.1'
+        version: 5.2.1(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)
       '@types/body-parser':
         specifier: '=1.19.5'
         version: 1.19.5
@@ -92,7 +92,7 @@ importers:
         version: 22.10.5
       '@vitest/coverage-v8':
         specifier: '=2.1.8'
-        version: 2.1.8(vitest@2.1.8(@types/node@22.10.5)(@vitest/ui@2.1.8)(jsdom@25.0.1))
+        version: 2.1.8(vitest@2.1.8)
       '@vitest/ui':
         specifier: '=2.1.8'
         version: 2.1.8(vitest@2.1.8)
@@ -131,7 +131,7 @@ importers:
         version: 0.10.2
       ts-node:
         specifier: '=10.9.2'
-        version: 10.9.2(@swc/core@1.10.7)(@types/node@22.10.5)(typescript@5.7.2)
+        version: 10.9.2(@swc/core@1.10.7(@swc/helpers@0.5.15))(@types/node@22.10.5)(typescript@5.7.2)
       typescript:
         specifier: '=5.7.2'
         version: 5.7.2
@@ -188,8 +188,8 @@ importers:
         specifier: '=9.17.0'
         version: 9.17.0
       '@trivago/prettier-plugin-sort-imports':
-        specifier: '=5.2.0'
-        version: 5.2.0(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)
+        specifier: '=5.2.1'
+        version: 5.2.1(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)
       '@types/body-parser':
         specifier: '=1.19.5'
         version: 1.19.5
@@ -207,7 +207,7 @@ importers:
         version: 1.3.3
       '@vitest/coverage-v8':
         specifier: '=2.1.8'
-        version: 2.1.8(vitest@2.1.8(@types/node@22.10.5)(@vitest/ui@2.1.8)(jsdom@25.0.1))
+        version: 2.1.8(vitest@2.1.8)
       '@vitest/ui':
         specifier: '=2.1.8'
         version: 2.1.8(vitest@2.1.8)
@@ -246,7 +246,7 @@ importers:
         version: 0.10.2
       ts-node:
         specifier: '=10.9.2'
-        version: 10.9.2(@swc/core@1.10.7)(@types/node@22.10.5)(typescript@5.7.2)
+        version: 10.9.2(@swc/core@1.10.7(@swc/helpers@0.5.15))(@types/node@22.10.5)(typescript@5.7.2)
       typescript:
         specifier: '=5.7.2'
         version: 5.7.2
@@ -309,8 +309,8 @@ importers:
         specifier: '=9.17.0'
         version: 9.17.0
       '@trivago/prettier-plugin-sort-imports':
-        specifier: '=5.2.0'
-        version: 5.2.0(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)
+        specifier: '=5.2.1'
+        version: 5.2.1(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)
       '@types/cookie-parser':
         specifier: '=1.4.8'
         version: 1.4.8(@types/express@5.0.0)
@@ -352,7 +352,7 @@ importers:
         version: 0.10.2
       ts-node:
         specifier: '=10.9.2'
-        version: 10.9.2(@swc/core@1.10.7)(@types/node@22.10.5)(typescript@5.7.2)
+        version: 10.9.2(@swc/core@1.10.7(@swc/helpers@0.5.15))(@types/node@22.10.5)(typescript@5.7.2)
       typescript:
         specifier: '=5.7.2'
         version: 5.7.2
@@ -454,8 +454,8 @@ importers:
         specifier: '=9.17.0'
         version: 9.17.0
       '@trivago/prettier-plugin-sort-imports':
-        specifier: '=5.2.0'
-        version: 5.2.0(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)
+        specifier: '=5.2.1'
+        version: 5.2.1(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)
       '@types/body-parser':
         specifier: '=1.19.5'
         version: 1.19.5
@@ -482,7 +482,7 @@ importers:
         version: 0.4.14
       '@vitest/coverage-v8':
         specifier: '=2.1.8'
-        version: 2.1.8(vitest@2.1.8(@types/node@22.10.5)(@vitest/ui@2.1.8)(jsdom@25.0.1))
+        version: 2.1.8(vitest@2.1.8)
       '@vitest/ui':
         specifier: '=2.1.8'
         version: 2.1.8(vitest@2.1.8)
@@ -521,7 +521,7 @@ importers:
         version: 0.10.2
       ts-node:
         specifier: '=10.9.2'
-        version: 10.9.2(@swc/core@1.10.7)(@types/node@22.10.5)(typescript@5.7.2)
+        version: 10.9.2(@swc/core@1.10.7(@swc/helpers@0.5.15))(@types/node@22.10.5)(typescript@5.7.2)
       typescript:
         specifier: '=5.7.2'
         version: 5.7.2
@@ -587,8 +587,8 @@ importers:
         specifier: '=9.17.0'
         version: 9.17.0
       '@trivago/prettier-plugin-sort-imports':
-        specifier: '=5.2.0'
-        version: 5.2.0(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)
+        specifier: '=5.2.1'
+        version: 5.2.1(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)
       '@types/cors':
         specifier: '=2.8.17'
         version: 2.8.17
@@ -624,7 +624,7 @@ importers:
         version: 0.10.2
       ts-node:
         specifier: '=10.9.2'
-        version: 10.9.2(@swc/core@1.10.7)(@types/node@22.10.5)(typescript@5.7.2)
+        version: 10.9.2(@swc/core@1.10.7(@swc/helpers@0.5.15))(@types/node@22.10.5)(typescript@5.7.2)
       typescript:
         specifier: '=5.7.2'
         version: 5.7.2
@@ -738,8 +738,8 @@ importers:
         specifier: '=14.5.2'
         version: 14.5.2(@testing-library/dom@10.4.0)
       '@trivago/prettier-plugin-sort-imports':
-        specifier: '=5.2.0'
-        version: 5.2.0(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)
+        specifier: '=5.2.1'
+        version: 5.2.1(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)
       '@types/file-saver':
         specifier: '=2.0.7'
         version: 2.0.7
@@ -766,7 +766,7 @@ importers:
         version: 4.3.4(vite@5.2.14(@types/node@22.10.2))
       '@vitest/coverage-v8':
         specifier: '=2.1.8'
-        version: 2.1.8(vitest@2.1.8(@types/node@22.10.2)(@vitest/ui@2.1.8)(jsdom@25.0.1))
+        version: 2.1.8(vitest@2.1.8)
       '@vitest/ui':
         specifier: '=2.1.8'
         version: 2.1.8(vitest@2.1.8)
@@ -913,8 +913,8 @@ importers:
         specifier: '=16.1.0'
         version: 16.1.0(@testing-library/dom@10.4.0)(@types/react-dom@19.0.2(@types/react@19.0.2))(@types/react@19.0.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@trivago/prettier-plugin-sort-imports':
-        specifier: '=5.2.0'
-        version: 5.2.0(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)
+        specifier: '=5.2.1'
+        version: 5.2.1(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)
       '@types/js-cookie':
         specifier: '=3.0.6'
         version: 3.0.6
@@ -938,7 +938,7 @@ importers:
         version: 4.3.4(vite@5.4.11(@types/node@22.10.2))
       '@vitest/coverage-v8':
         specifier: '=2.1.8'
-        version: 2.1.8(vitest@2.1.8(@types/node@22.10.2)(@vitest/ui@2.1.8)(jsdom@25.0.1))
+        version: 2.1.8(vitest@2.1.8)
       '@vitest/ui':
         specifier: '=2.1.8'
         version: 2.1.8(vitest@2.1.8)
@@ -1073,8 +1073,8 @@ importers:
         specifier: '=9.17.0'
         version: 9.17.0
       '@trivago/prettier-plugin-sort-imports':
-        specifier: '=5.2.0'
-        version: 5.2.0(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)
+        specifier: '=5.2.1'
+        version: 5.2.1(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)
       '@types/bcrypt':
         specifier: '=5.0.2'
         version: 5.0.2
@@ -1089,7 +1089,7 @@ importers:
         version: 4.0.1
       '@vitest/coverage-v8':
         specifier: '=2.1.8'
-        version: 2.1.8(vitest@2.1.8(@types/node@22.10.5)(@vitest/ui@2.1.8)(jsdom@25.0.1))
+        version: 2.1.8(vitest@2.1.8)
       '@vitest/ui':
         specifier: '=2.1.8'
         version: 2.1.8(vitest@2.1.8)
@@ -1131,8 +1131,8 @@ importers:
         specifier: '=9.13.0'
         version: 9.13.0
       '@trivago/prettier-plugin-sort-imports':
-        specifier: '=4.3.0'
-        version: 4.3.0(@vue/compiler-sfc@3.5.13)(prettier@3.3.2)
+        specifier: '=5.2.1'
+        version: 5.2.1(@vue/compiler-sfc@3.5.13)(prettier@3.3.2)
       '@types/eslint__js':
         specifier: '=8.42.3'
         version: 8.42.3
@@ -1144,7 +1144,7 @@ importers:
         version: 3.5.0(@swc/helpers@0.5.15)(vite@5.2.14(@types/node@20.10.4))
       '@vitest/coverage-v8':
         specifier: '=2.0.5'
-        version: 2.0.5(vitest@2.0.5(@types/node@20.10.4)(@vitest/ui@2.0.5)(jsdom@25.0.1))
+        version: 2.0.5(vitest@2.0.5)
       '@vitest/ui':
         specifier: '=2.0.5'
         version: 2.0.5(vitest@2.0.5)
@@ -1381,10 +1381,6 @@ packages:
     resolution: {integrity: sha512-i1SLeK+DzNnQ3LL/CswPCa/E5u4lh1k6IAEphON8F+cXt0t9euTshDru0q7/IqMa1PMPz5RnHuHscF8/ZJsStg==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/generator@7.17.7':
-    resolution: {integrity: sha512-oLcVCTeIFadUoArDTwpluncplrYBmTCCZZgXCbgNGvOBBiSDDK3eWO4b/+eOTli5tKv1lg+a5/NAXg+nTcei1w==}
-    engines: {node: '>=6.9.0'}
-
   '@babel/generator@7.26.3':
     resolution: {integrity: sha512-6FF/urZvD0sTeO7k6/B15pMLC4CHUv1426lzr3N01aHJTl046uCAh9LXW/fzeXXjPNCJ6iABW5XaWOsIZB93aQ==}
     engines: {node: '>=6.9.0'}
@@ -1413,18 +1409,6 @@ packages:
     resolution: {integrity: sha512-HK7Bi+Hj6H+VTHA3ZvBis7V/6hu9QuTrnMXNybfUf2iiuU/N97I8VjB+KbhFF8Rld/Lx5MzoCwPCpPjfK+n8Cg==}
     peerDependencies:
       '@babel/core': ^7.4.0 || ^8.0.0-0 <8.0.0
-
-  '@babel/helper-environment-visitor@7.24.7':
-    resolution: {integrity: sha512-DoiN84+4Gnd0ncbBOM9AZENV4a5ZiL39HYMyZJGZ/AZEykHYdJw0wW3kdcsh9/Kn+BRXHLkkklZ51ecPKmI1CQ==}
-    engines: {node: '>=6.9.0'}
-
-  '@babel/helper-function-name@7.24.7':
-    resolution: {integrity: sha512-FyoJTsj/PEUWu1/TYRiXTIHc8lbw+TDYkZuoE43opPS5TrI7MyONBE1oNvfguEXAD9yhQRrVBnXdXzSLQl9XnA==}
-    engines: {node: '>=6.9.0'}
-
-  '@babel/helper-hoist-variables@7.24.7':
-    resolution: {integrity: sha512-MJJwhkoGy5c4ehfoRyrJ/owKeMl19U54h27YYftT0o2teQ3FJ3nQUf/I3LlJsX4l3qlw7WRXUmiyajvHXoTubQ==}
-    engines: {node: '>=6.9.0'}
 
   '@babel/helper-member-expression-to-functions@7.25.9':
     resolution: {integrity: sha512-wbfdZ9w5vk0C0oyHqAJbc62+vet5prjj01jjJ8sKn3j9h3MQQlflEdXYvuqRWjHnM12coDEqiC1IRCi0U/EKwQ==}
@@ -1462,10 +1446,6 @@ packages:
 
   '@babel/helper-skip-transparent-expression-wrappers@7.25.9':
     resolution: {integrity: sha512-K4Du3BFa3gvyhzgPcntrkDgZzQaq6uozzcpGbOO1OEJaI+EJdqWIMTLgFgQf6lrfiDFo5FU+BxKepI9RmZqahA==}
-    engines: {node: '>=6.9.0'}
-
-  '@babel/helper-split-export-declaration@7.24.7':
-    resolution: {integrity: sha512-oy5V7pD+UvfkEATUKvIjvIAH/xCzfsFVw7ygW2SI6NClZzquT+mwdTfgfdbUiceh6iQO0CHtCPsyze/MZ2YbAA==}
     engines: {node: '>=6.9.0'}
 
   '@babel/helper-string-parser@7.25.9':
@@ -1956,16 +1936,8 @@ packages:
     resolution: {integrity: sha512-9DGttpmPvIxBb/2uwpVo3dqJ+O6RooAFOS+lB+xDqoE2PVCE8nfoHMdZLpfCQRLwvohzXISPZcgxt80xLfsuwg==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/traverse@7.23.2':
-    resolution: {integrity: sha512-azpe59SQ48qG6nu2CzcMLbxUudtN+dOM9kDbUqGq3HXUJRlo7i8fvPoxQUzYgLZ4cMVmuZgm8vvBpNeRhd6XSw==}
-    engines: {node: '>=6.9.0'}
-
   '@babel/traverse@7.26.4':
     resolution: {integrity: sha512-fH+b7Y4p3yqvApJALCPJcwb0/XaOSgtK4pzV6WVjPR5GLFQBRI7pfoX2V2iM48NXvX07NUxxm1Vw98YjqTcU5w==}
-    engines: {node: '>=6.9.0'}
-
-  '@babel/types@7.17.0':
-    resolution: {integrity: sha512-TmKSNO4D5rzhL5bjWFcVHHLETzfQ/AmbKpKPOSjlP0WoHZ6L911fgoOKY4Alp/emzG4cHJdyN49zpgkbXFEHHw==}
     engines: {node: '>=6.9.0'}
 
   '@babel/types@7.26.3':
@@ -3414,23 +3386,14 @@ packages:
   '@tootallnate/quickjs-emscripten@0.23.0':
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
 
-  '@trivago/prettier-plugin-sort-imports@4.3.0':
-    resolution: {integrity: sha512-r3n0onD3BTOVUNPhR4lhVK4/pABGpbA7bW3eumZnYdKaHkf1qEC+Mag6DPbGNuuh0eG8AaYj+YqmVHSiGslaTQ==}
-    peerDependencies:
-      '@vue/compiler-sfc': 3.x
-      prettier: 2.x - 3.x
-    peerDependenciesMeta:
-      '@vue/compiler-sfc':
-        optional: true
-
-  '@trivago/prettier-plugin-sort-imports@5.2.0':
-    resolution: {integrity: sha512-yEIJ7xMKYQwyNRjxSdi4Gs37iszikAjxfky+3hu9bn24u8eHLJNDMAoOTyowp8p6EpSl8IQMdkfBx+WnJTttsw==}
+  '@trivago/prettier-plugin-sort-imports@5.2.1':
+    resolution: {integrity: sha512-NDZndt0fmVThIx/8cExuJHLZagUVzfGCoVrwH9x6aZvwfBdkrDFTYujecek6X2WpG4uUFsVaPg5+aNQPSyjcmw==}
     engines: {node: '>18.12'}
     peerDependencies:
       '@vue/compiler-sfc': 3.x
       prettier: 2.x - 3.x
       prettier-plugin-svelte: 3.x
-      svelte: 4.x
+      svelte: 4.x || 5.x
     peerDependenciesMeta:
       '@vue/compiler-sfc':
         optional: true
@@ -6598,11 +6561,6 @@ packages:
       canvas:
         optional: true
 
-  jsesc@2.5.2:
-    resolution: {integrity: sha512-OYu7XEzjkCQ3C5Ps3QIZsQfNpqoJyZZA99wd9aWd05NCtC5pWOkShK2mkL6HXQR6/Cy2lbNdPlZBpuQHXE63gA==}
-    engines: {node: '>=4'}
-    hasBin: true
-
   jsesc@3.0.2:
     resolution: {integrity: sha512-xKqzzWXDttJuOcawBt4KnKHHIf5oQ/Cxax+0PWFG+DFDgHNAdi+TXECADI+RYiFUMmx8792xsMbbgXj4CwnP4g==}
     engines: {node: '>=6'}
@@ -8800,10 +8758,6 @@ packages:
   source-map-support@0.5.21:
     resolution: {integrity: sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==}
 
-  source-map@0.5.7:
-    resolution: {integrity: sha512-LbrmJOMUSdEVxIKvdcJzQC+nQhe8FUZQTXQy6+I75skNgn3OoQ0DZA8YnFa7gp8tqtL3KPf1kmo0R5DoApeSGQ==}
-    engines: {node: '>=0.10.0'}
-
   source-map@0.6.1:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
@@ -9190,10 +9144,6 @@ packages:
 
   to-array@0.1.4:
     resolution: {integrity: sha512-LhVdShQD/4Mk4zXNroIQZJC+Ap3zgLcDuwEdcmLv9CCO73NWockQDwyUnW/m8VX/EElfL6FcYx7EeutN4HJA6A==}
-
-  to-fast-properties@2.0.0:
-    resolution: {integrity: sha512-/OaKK0xYrs3DmxRYqL/yDc+FxFUVYhDlXMhRmv3z915w2HF1tnN1omB354j8VUGO/hbRzyD6Y3sA7v7GS/ceog==}
-    engines: {node: '>=4'}
 
   to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
@@ -10284,12 +10234,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/generator@7.17.7':
-    dependencies:
-      '@babel/types': 7.26.3
-      jsesc: 2.5.2
-      source-map: 0.5.7
-
   '@babel/generator@7.26.3':
     dependencies:
       '@babel/parser': 7.26.3
@@ -10342,19 +10286,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
     optional: true
-
-  '@babel/helper-environment-visitor@7.24.7':
-    dependencies:
-      '@babel/types': 7.26.3
-
-  '@babel/helper-function-name@7.24.7':
-    dependencies:
-      '@babel/template': 7.25.9
-      '@babel/types': 7.26.3
-
-  '@babel/helper-hoist-variables@7.24.7':
-    dependencies:
-      '@babel/types': 7.26.3
 
   '@babel/helper-member-expression-to-functions@7.25.9':
     dependencies:
@@ -10410,10 +10341,6 @@ snapshots:
       '@babel/types': 7.26.3
     transitivePeerDependencies:
       - supports-color
-
-  '@babel/helper-split-export-declaration@7.24.7':
-    dependencies:
-      '@babel/types': 7.26.3
 
   '@babel/helper-string-parser@7.25.9': {}
 
@@ -11071,21 +10998,6 @@ snapshots:
       '@babel/parser': 7.26.3
       '@babel/types': 7.26.3
 
-  '@babel/traverse@7.23.2':
-    dependencies:
-      '@babel/code-frame': 7.26.2
-      '@babel/generator': 7.26.3
-      '@babel/helper-environment-visitor': 7.24.7
-      '@babel/helper-function-name': 7.24.7
-      '@babel/helper-hoist-variables': 7.24.7
-      '@babel/helper-split-export-declaration': 7.24.7
-      '@babel/parser': 7.26.3
-      '@babel/types': 7.26.3
-      debug: 4.4.0(supports-color@5.5.0)
-      globals: 11.12.0
-    transitivePeerDependencies:
-      - supports-color
-
   '@babel/traverse@7.26.4':
     dependencies:
       '@babel/code-frame': 7.26.2
@@ -11097,11 +11009,6 @@ snapshots:
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
-
-  '@babel/types@7.17.0':
-    dependencies:
-      '@babel/helper-validator-identifier': 7.25.9
-      to-fast-properties: 2.0.0
 
   '@babel/types@7.26.3':
     dependencies:
@@ -12494,12 +12401,12 @@ snapshots:
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
 
-  '@trivago/prettier-plugin-sort-imports@4.3.0(@vue/compiler-sfc@3.5.13)(prettier@3.3.2)':
+  '@trivago/prettier-plugin-sort-imports@5.2.1(@vue/compiler-sfc@3.5.13)(prettier@3.3.2)':
     dependencies:
-      '@babel/generator': 7.17.7
+      '@babel/generator': 7.26.3
       '@babel/parser': 7.26.3
-      '@babel/traverse': 7.23.2
-      '@babel/types': 7.17.0
+      '@babel/traverse': 7.26.4
+      '@babel/types': 7.26.3
       javascript-natural-sort: 0.7.1
       lodash: 4.17.21
       prettier: 3.3.2
@@ -12508,7 +12415,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@trivago/prettier-plugin-sort-imports@5.2.0(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)':
+  '@trivago/prettier-plugin-sort-imports@5.2.1(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)':
     dependencies:
       '@babel/generator': 7.26.3
       '@babel/parser': 7.26.3
@@ -13039,7 +12946,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vitest/coverage-v8@2.0.5(vitest@2.0.5(@types/node@20.10.4)(@vitest/ui@2.0.5)(jsdom@25.0.1))':
+  '@vitest/coverage-v8@2.0.5(vitest@2.0.5)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3
@@ -13057,25 +12964,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vitest/coverage-v8@2.1.8(vitest@2.1.8(@types/node@22.10.2)(@vitest/ui@2.1.8)(jsdom@25.0.1))':
-    dependencies:
-      '@ampproject/remapping': 2.3.0
-      '@bcoe/v8-coverage': 0.2.3
-      debug: 4.4.0(supports-color@5.5.0)
-      istanbul-lib-coverage: 3.2.2
-      istanbul-lib-report: 3.0.1
-      istanbul-lib-source-maps: 5.0.6
-      istanbul-reports: 3.1.7
-      magic-string: 0.30.17
-      magicast: 0.3.5
-      std-env: 3.8.0
-      test-exclude: 7.0.1
-      tinyrainbow: 1.2.0
-      vitest: 2.1.8(@types/node@22.10.2)(@vitest/ui@2.1.8)(jsdom@25.0.1)
-    transitivePeerDependencies:
-      - supports-color
-
-  '@vitest/coverage-v8@2.1.8(vitest@2.1.8(@types/node@22.10.5)(@vitest/ui@2.1.8)(jsdom@25.0.1))':
+  '@vitest/coverage-v8@2.1.8(vitest@2.1.8)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3
@@ -14822,7 +14711,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.18.2(eslint@9.17.0)(typescript@5.7.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0(eslint-plugin-import@2.31.0)(eslint@9.17.0))(eslint@9.17.0):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.18.2(eslint@9.17.0)(typescript@5.7.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0)(eslint@9.17.0):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
@@ -14844,7 +14733,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.17.0
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.18.2(eslint@9.17.0)(typescript@5.7.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0(eslint-plugin-import@2.31.0)(eslint@9.17.0))(eslint@9.17.0)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.18.2(eslint@9.17.0)(typescript@5.7.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0)(eslint@9.17.0)
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -16396,8 +16285,6 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  jsesc@2.5.2: {}
-
   jsesc@3.0.2:
     optional: true
 
@@ -17243,7 +17130,7 @@ snapshots:
 
   nwsapi@2.2.16: {}
 
-  nx@20.3.0(@swc/core@1.10.7):
+  nx@20.3.0(@swc/core@1.10.7(@swc/helpers@0.5.15)):
     dependencies:
       '@napi-rs/wasm-runtime': 0.2.4
       '@yarnpkg/lockfile': 1.1.0
@@ -19033,8 +18920,6 @@ snapshots:
       buffer-from: 1.1.2
       source-map: 0.6.1
 
-  source-map@0.5.7: {}
-
   source-map@0.6.1: {}
 
   source-map@0.7.4: {}
@@ -19450,8 +19335,6 @@ snapshots:
 
   to-array@0.1.4: {}
 
-  to-fast-properties@2.0.0: {}
-
   to-regex-range@5.0.1:
     dependencies:
       is-number: 7.0.0
@@ -19503,7 +19386,7 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-node@10.9.2(@swc/core@1.10.7)(@types/node@22.10.5)(typescript@5.7.2):
+  ts-node@10.9.2(@swc/core@1.10.7(@swc/helpers@0.5.15))(@types/node@22.10.5)(typescript@5.7.2):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.11
