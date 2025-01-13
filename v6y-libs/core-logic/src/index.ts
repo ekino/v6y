@@ -46,6 +46,7 @@ export * from './types/NotificationType.ts';
 export * from './types/RepositoryType.ts';
 export * from './types/SearchQueryType.ts';
 export * from './types/LinkType.ts';
+export * from './types/ServerConfigType.ts';
 
 export {
     AppLogger,

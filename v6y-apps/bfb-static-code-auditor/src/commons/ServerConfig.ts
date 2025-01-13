@@ -1,35 +1,20 @@
-import { AppLogger } from '@v6y/core-logic';
+import { AppLogger, ServerEnvConfigType } from '@v6y/core-logic';
 
-const V6Y_API_PATH = '/v6y/bfb-static-code-auditor/';
-const V6Y_HEALTH_CHECK_PATH = `${V6Y_API_PATH}health-checks`;
-const V6Y_MONITORING_PATH = `${V6Y_API_PATH}monitoring`;
-const STATIC_CODE_AUDITOR_API_PATH = `${V6Y_API_PATH}auditor`;
+const V6Y_HEALTH_CHECK_PATH = `${process.env.V6Y_STATIC_ANALYZER_API_PATH}health-checks`;
+const V6Y_MONITORING_PATH = `${process.env.V6Y_STATIC_ANALYZER_API_PATH}monitoring`;
+const STATIC_CODE_AUDITOR_API_PATH = `${process.env.V6Y_STATIC_ANALYZER_API_PATH}auditor`;
 
 const execEnv = process?.argv;
 
-interface ServerEnvConfig {
-    ssl: boolean;
-    port: number;
-    hostname: string;
-    apiPath: string;
-    healthCheckPath: string;
-    monitoringPath: string;
-    serverTimeout: number;
-    staticCodeAuditorApiPath: string;
-    databaseUri: string;
-    chromeExecutablePath: string;
-}
-
 /**
  * Server configuration for different environments.
- * @type {Object}
  */
-const SERVER_ENV_CONFIGURATION: { [key: string]: ServerEnvConfig } = {
+const SERVER_ENV_CONFIGURATION = {
     production: {
         ssl: false,
-        port: 4003,
+        port: parseInt(process.env.V6Y_STATIC_ANALYZER_API_PORT || '4003', 10),
         hostname: 'localhost',
-        apiPath: V6Y_API_PATH,
+        apiPath: process.env.V6Y_STATIC_ANALYZER_API_PATH,
         staticCodeAuditorApiPath: STATIC_CODE_AUDITOR_API_PATH,
         healthCheckPath: V6Y_HEALTH_CHECK_PATH,
         monitoringPath: V6Y_MONITORING_PATH,
@@ -39,9 +24,9 @@ const SERVER_ENV_CONFIGURATION: { [key: string]: ServerEnvConfig } = {
     },
     development: {
         ssl: false,
-        port: 4003,
+        port: parseInt(process.env.V6Y_STATIC_ANALYZER_API_PORT || '4003', 10),
         hostname: 'localhost',
-        apiPath: V6Y_API_PATH,
+        apiPath: process.env.V6Y_STATIC_ANALYZER_API_PATH,
         staticCodeAuditorApiPath: STATIC_CODE_AUDITOR_API_PATH,
         healthCheckPath: V6Y_HEALTH_CHECK_PATH,
         monitoringPath: V6Y_MONITORING_PATH,
@@ -49,10 +34,16 @@ const SERVER_ENV_CONFIGURATION: { [key: string]: ServerEnvConfig } = {
         serverTimeout: 900000, // milliseconds
         chromeExecutablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
     },
-};
+} as ServerEnvConfigType;
 
+/**
+ * Get the current context of the server.
+ */
 const getCurrentContext = () => (execEnv?.includes('--dev') ? 'development' : 'production');
 
+/**
+ * Get the current configuration of the server.
+ */
 const getCurrentConfig = () => {
     const currentContext = getCurrentContext();
     AppLogger.info(`[getCurrentConfig] currentContext: ${currentContext}`);
