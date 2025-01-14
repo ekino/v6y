@@ -14,6 +14,7 @@
   },
   "scripts": {
     "build:tsc": "tsc --project ./tsconfig.json",
+    "check:tsc": "tsc --noEmit --project ./tsconfig.json",
     "start:dev": "nodemon --exec node --env-file=./.env --loader ts-node/esm src/index.ts -- --dev",
     "start": "nodemon --exec node --env-file=./.env --loader ts-node/esm src/index.ts -- --dev",
     "code:analyze": "es6-plato -r -d target/report src",

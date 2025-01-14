@@ -26,7 +26,7 @@ app.use(
             {
                 protocol: ssl ? 'https' : 'http',
                 host: hostname as string,
-                port: port as string,
+                port: port,
                 path: healthCheckPath as string,
             },
         ],
