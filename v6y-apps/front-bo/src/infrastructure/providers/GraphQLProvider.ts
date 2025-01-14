@@ -16,7 +16,7 @@ export const gqlAuthProvider: AuthProvider = {
         try {
             const apiUrl = process.env.NEXT_PUBLIC_V6Y_BFF_PATH;
             if (!apiUrl) {
-                throw new Error('NEXT_PUBLIC_V6Y_BFF_PATH is not defined');
+                throw new Error('An error was occurred when loading env variables');
             }
 
             const response = await fetch(apiUrl, {
@@ -122,7 +122,7 @@ export const gqlAuthProvider: AuthProvider = {
         try {
             const apiUrl = process.env.NEXT_PUBLIC_V6Y_BFF_PATH;
             if (!apiUrl) {
-                throw new Error('NEXT_PUBLIC_V6Y_BFF_PATH is not defined');
+                throw new Error('An error was occurred when loading env variables');
             }
 
             const response = await fetch(apiUrl, {
