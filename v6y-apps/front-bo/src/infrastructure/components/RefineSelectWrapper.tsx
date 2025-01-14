@@ -43,6 +43,8 @@ export default function RefineSelectWrapper({
                           gqlQueryParams:
                               editFormAdapter?.({
                                   ...(editQueryParams || {}),
+                                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                  // @ts-expect-error
                                   ...(form?.getFieldsValue() || {}),
                               }) || {},
                       });
@@ -66,6 +68,8 @@ export default function RefineSelectWrapper({
                           gqlQueryParams:
                               createFormAdapter?.({
                                   ...(createQueryParams || {}),
+                                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                  // @ts-expect-error
                                   ...(form?.getFieldsValue() || {}),
                               }) || {},
                       });
@@ -81,14 +85,14 @@ export default function RefineSelectWrapper({
         defaultFormValues: {},
     });
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     const { query: selectQueryResult } = useSelect({
         queryOptions: {
             enabled: true,
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-expect-error
             queryKey: [selectOptions?.resource, selectOptions?.queryParams],
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             queryFn: async (): Promise<GetOneResponse<BaseRecord>> =>
                 gqlClientRequest({
                     gqlQueryPath: selectOptions?.query,
@@ -102,6 +106,8 @@ export default function RefineSelectWrapper({
     useEffect(() => {
         const formDetails = query?.data?.[queryOptions?.queryResource];
         if (Object.keys(formDetails || {})?.length) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             form?.setFieldsValue(queryOptions?.queryFormAdapter?.(formDetails));
         }
     }, [form, query?.data, queryOptions]);

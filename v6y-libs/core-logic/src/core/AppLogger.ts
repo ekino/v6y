@@ -17,7 +17,7 @@ const logOptions = {
     logDir: './v6y-logs',
     logAppName: 'V6Y',
     logDisableConsole: false,
-    logDisableFileRotate: false,
+    logDisableFileRotate: true,
 };
 
 const AppLogger = winston.createLogger({

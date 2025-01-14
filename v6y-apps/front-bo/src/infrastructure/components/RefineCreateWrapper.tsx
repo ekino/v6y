@@ -15,8 +15,6 @@ export default function RefineCreateWrapper({
     const { form, formProps, saveButtonProps } = useForm({
         defaultFormValues: {},
         createMutationOptions: {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             mutationFn: async (): Promise<GetOneResponse<BaseRecord>> =>
                 gqlClientRequest({
                     gqlQueryPath: createOptions?.createQuery,
@@ -25,6 +23,8 @@ export default function RefineCreateWrapper({
                     gqlQueryParams:
                         createOptions?.createFormAdapter?.({
                             ...(createOptions?.createQueryParams || {}),
+                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                            // @ts-expect-error
                             ...(form?.getFieldsValue() || {}),
                         }) || {},
                 }),

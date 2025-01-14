@@ -1,28 +1,22 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import type { AuthProvider } from '@refinedev/core';
-import dataProvider, { createLiveProvider } from '@refinedev/graphql';
+import { createLiveProvider } from '@refinedev/graphql';
 import { createClient } from 'graphql-ws';
-import Cookies from 'js-cookie';
-
-import { gqlClient } from '../adapters/api/GraphQLClient';
-
-const dataClient = gqlClient;
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+import Cookie from 'js-cookie';
 
 const wsClient = createClient({
-    url: process.env.NEXT_PUBLIC_GQL_API_BASE_PATH as string,
+    url: process.env.NEXT_PUBLIC_V6Y_BFF_PATH as string,
 });
-
-export const gqlDataProvider = dataProvider(dataClient);
 
 export const gqlLiveProvider = createLiveProvider(wsClient);
 
 export const gqlAuthProvider: AuthProvider = {
     login: async ({ email, password }) => {
         try {
-            const apiUrl = process.env.NEXT_PUBLIC_GQL_API_BASE_PATH;
+            const apiUrl = process.env.NEXT_PUBLIC_V6Y_BFF_PATH;
             if (!apiUrl) {
-                throw new Error('NEXT_PUBLIC_GQL_API_BASE_PATH is not defined');
+                throw new Error('NEXT_PUBLIC_V6Y_BFF_PATH is not defined');
             }
 
             const response = await fetch(apiUrl, {
@@ -70,7 +64,7 @@ export const gqlAuthProvider: AuthProvider = {
                     };
                 }
 
-                Cookies.set(
+                Cookie.set(
                     'auth',
                     JSON.stringify({
                         token: data.loginAccount.token,
@@ -126,16 +120,16 @@ export const gqlAuthProvider: AuthProvider = {
     },
     updatePassword: async ({ password }) => {
         try {
-            const apiUrl = process.env.NEXT_PUBLIC_GQL_API_BASE_PATH;
+            const apiUrl = process.env.NEXT_PUBLIC_V6Y_BFF_PATH;
             if (!apiUrl) {
-                throw new Error('NEXT_PUBLIC_GQL_API_BASE_PATH is not defined');
+                throw new Error('NEXT_PUBLIC_V6Y_BFF_PATH is not defined');
             }
 
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${JSON.parse(Cookies.get('auth') || '{}')?.token}`,
+                    Authorization: `Bearer ${JSON.parse(Cookie.get('auth') || '{}')?.token}`,
                 },
                 body: JSON.stringify({
                     operationName: 'UpdateAccountPassword',
@@ -148,7 +142,7 @@ export const gqlAuthProvider: AuthProvider = {
                     `,
                     variables: {
                         input: {
-                            _id: JSON.parse(Cookies.get('auth') || '{}')?._id,
+                            _id: JSON.parse(Cookie.get('auth') || '{}')?._id,
                             password: password,
                         },
                     },
@@ -191,14 +185,14 @@ export const gqlAuthProvider: AuthProvider = {
         }
     },
     logout: async () => {
-        Cookies.remove('auth', { path: '/' });
+        Cookie.remove('auth', { path: '/' });
         return {
             success: true,
             redirectTo: '/login',
         };
     },
     check: async () => {
-        const auth = Cookies.get('auth');
+        const auth = Cookie.get('auth');
         if (auth) {
             return {
                 authenticated: true,
@@ -212,7 +206,7 @@ export const gqlAuthProvider: AuthProvider = {
         };
     },
     getPermissions: async () => {
-        const auth = Cookies.get('auth');
+        const auth = Cookie.get('auth');
         if (auth) {
             const parsedUser = JSON.parse(auth);
             return parsedUser.role;
@@ -220,7 +214,7 @@ export const gqlAuthProvider: AuthProvider = {
         return null;
     },
     getIdentity: async () => {
-        const auth = Cookies.get('auth');
+        const auth = Cookie.get('auth');
         if (auth) {
             return JSON.parse(auth);
         }
