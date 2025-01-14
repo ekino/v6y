@@ -9,6 +9,17 @@ services:
     ports:
       - "4001:4001"
     image: ghcr.io/<registry-owner>/v6y-bff:latest
+    environment:
+      - PSQL_DB_HOST=${PSQL_DB_HOST}
+      - PSQL_DB_NAME=${PSQL_DB_NAME}
+      - PSQL_DB_USER=${PSQL_DB_USER}
+      - PSQL_DB_PASSWORD=${PSQL_DB_PASSWORD}
+      - PSQL_DB_PORT=${PSQL_DB_PORT}
+      - GITLAB_PRIVATE_TOKEN=${GITLAB_PRIVATE_TOKEN}
+      - GITHUB_PRIVATE_TOKEN=${GITHUB_PRIVATE_TOKEN}
+      - JWT_SECRET=${JWT_SECRET}
+      - V6Y_BFF_API_PATH=${V6Y_BFF_API_PATH}
+      - V6Y_BFF_API_PORT=${V6Y_BFF_API_PORT}
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4001/health" ]
       interval: 30s
@@ -23,6 +34,19 @@ services:
     ports:
       - "4002:4002"
     image: ghcr.io/<registry-owner>/v6y-bfb-main-analyzer:latest
+    environment:
+      - PSQL_DB_HOST=${PSQL_DB_HOST}
+      - PSQL_DB_NAME=${PSQL_DB_NAME}
+      - PSQL_DB_USER=${PSQL_DB_USER}
+      - PSQL_DB_PASSWORD=${PSQL_DB_PASSWORD}
+      - PSQL_DB_PORT=${PSQL_DB_PORT}
+      - GITLAB_PRIVATE_TOKEN=${GITLAB_PRIVATE_TOKEN}
+      - GITHUB_PRIVATE_TOKEN=${GITHUB_PRIVATE_TOKEN}
+      - JWT_SECRET=${JWT_SECRET}
+      - V6Y_MAIN_API_PATH=${V6Y_MAIN_API_PATH}
+      - V6Y_MAIN_API_PORT=${V6Y_MAIN_API_PORT}
+      - V6Y_STATIC_ANALYZER_API_PATH=${V6Y_STATIC_ANALYZER_API_PATH}
+      - V6Y_DYNAMIC_ANALYZER_API_PATH=${V6Y_DYNAMIC_ANALYZER_API_PATH}
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4002/health" ]
       interval: 30s
@@ -37,6 +61,17 @@ services:
     ports:
       - "4003:4003"
     image: ghcr.io/<registry-owner>/v6y-bfb-static-code-auditor:latest
+    environment:
+      - PSQL_DB_HOST=${PSQL_DB_HOST}
+      - PSQL_DB_NAME=${PSQL_DB_NAME}
+      - PSQL_DB_USER=${PSQL_DB_USER}
+      - PSQL_DB_PASSWORD=${PSQL_DB_PASSWORD}
+      - PSQL_DB_PORT=${PSQL_DB_PORT}
+      - GITLAB_PRIVATE_TOKEN=${GITLAB_PRIVATE_TOKEN}
+      - GITHUB_PRIVATE_TOKEN=${GITHUB_PRIVATE_TOKEN}
+      - JWT_SECRET=${JWT_SECRET}
+      - V6Y_STATIC_ANALYZER_API_PATH=${V6Y_STATIC_ANALYZER_API_PATH}
+      - V6Y_STATIC_ANALYZER_API_PORT=${V6Y_STATIC_ANALYZER_API_PORT}
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4003/health" ]
       interval: 30s
@@ -51,6 +86,17 @@ services:
     ports:
       - "4004:4004"
     image: ghcr.io/<registry-owner>/v6y-bfb-url-dynamic-auditor:latest
+    environment:
+      - PSQL_DB_HOST=${PSQL_DB_HOST}
+      - PSQL_DB_NAME=${PSQL_DB_NAME}
+      - PSQL_DB_USER=${PSQL_DB_USER}
+      - PSQL_DB_PASSWORD=${PSQL_DB_PASSWORD}
+      - PSQL_DB_PORT=${PSQL_DB_PORT}
+      - GITLAB_PRIVATE_TOKEN=${GITLAB_PRIVATE_TOKEN}
+      - GITHUB_PRIVATE_TOKEN=${GITHUB_PRIVATE_TOKEN}
+      - JWT_SECRET=${JWT_SECRET}
+      - V6Y_DYNAMIC_ANALYZER_API_PATH=${V6Y_DYNAMIC_ANALYZER_API_PATH}
+      - V6Y_DYNAMIC_ANALYZER_API_PORT=${V6Y_DYNAMIC_ANALYZER_API_PORT}
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4004/health" ]
       interval: 30s
@@ -65,6 +111,17 @@ services:
     ports:
       - "4005:4005"
     image: ghcr.io/<registry-owner>/v6y-bfb-devops-auditor:latest
+    environment:
+      - PSQL_DB_HOST=${PSQL_DB_HOST}
+      - PSQL_DB_NAME=${PSQL_DB_NAME}
+      - PSQL_DB_USER=${PSQL_DB_USER}
+      - PSQL_DB_PASSWORD=${PSQL_DB_PASSWORD}
+      - PSQL_DB_PORT=${PSQL_DB_PORT}
+      - GITLAB_PRIVATE_TOKEN=${GITLAB_PRIVATE_TOKEN}
+      - GITHUB_PRIVATE_TOKEN=${GITHUB_PRIVATE_TOKEN}
+      - JWT_SECRET=${JWT_SECRET}
+      - V6Y_DEVOPS_API_PATH=${V6Y_DEVOPS_API_PATH}
+      - V6Y_DEVOPS_API_PORT=${V6Y_DEVOPS_API_PORT}
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4005/health" ]
       interval: 30s
@@ -79,6 +136,8 @@ services:
     ports:
       - "4006:4006"
     image: ghcr.io/<registry-owner>/v6y-frontend:latest
+    environment:
+      - NEXT_PUBLIC_V6Y_BFF_PATH=${NEXT_PUBLIC_V6Y_BFF_PATH}
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4006/health" ]
       interval: 30s
@@ -93,6 +152,9 @@ services:
     ports:
       - "4008:4008"
     image: ghcr.io/<registry-owner>/v6y-frontend-bo:latest
+    environment:
+      - NEXT_PUBLIC_V6Y_BFF_PATH=${NEXT_PUBLIC_V6Y_BFF_PATH}
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4008/health" ]
       interval: 30s

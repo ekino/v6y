@@ -2,20 +2,41 @@ name: Docker Compose Deploy
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   release:
-    types: [ "created" ]
-
-env:
-  REGISTRY: ghcr.io
+    types: ["created"]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
       packages: write
       id-token: write
+
+    env:
+      REGISTRY: ghcr.io
+      PSQL_DB_HOST: ${{ secrets.PSQL_DB_HOST }}
+      PSQL_DB_NAME: ${{ secrets.PSQL_DB_NAME }}
+      PSQL_DB_USER: ${{ secrets.PSQL_DB_USER }}
+      PSQL_DB_PASSWORD: ${{ secrets.PSQL_DB_PASSWORD }}
+      PSQL_DB_PORT: ${{ secrets.PSQL_DB_PORT }}
+      GITLAB_PRIVATE_TOKEN: ${{ secrets.GITLAB_PRIVATE_TOKEN }}
+      GITHUB_PRIVATE_TOKEN: ${{ secrets.GITHUB_PRIVATE_TOKEN }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      V6Y_STATIC_ANALYZER_API_PATH: ${{ secrets.V6Y_STATIC_ANALYZER_API_PATH }}
+      V6Y_STATIC_ANALYZER_API_PORT: ${{ secrets.V6Y_STATIC_ANALYZER_API_PORT }}
+      V6Y_DEVOPS_API_PATH: ${{ secrets.V6Y_DEVOPS_API_PATH }}
+      V6Y_DEVOPS_API_PORT: ${{ secrets.V6Y_DEVOPS_API_PORT }}
+      V6Y_DYNAMIC_ANALYZER_API_PATH: ${{ secrets.V6Y_DYNAMIC_ANALYZER_API_PATH }}
+      V6Y_DYNAMIC_ANALYZER_API_PORT: ${{ secrets.V6Y_DYNAMIC_ANALYZER_API_PORT }}
+      V6Y_MAIN_API_PATH: ${{ secrets.V6Y_MAIN_API_PATH }}
+      V6Y_MAIN_API_PORT: ${{ secrets.V6Y_MAIN_API_PORT }}
+      V6Y_BFF_API_PATH: ${{ secrets.V6Y_BFF_API_PATH }}
+      V6Y_BFF_API_PORT: ${{ secrets.V6Y_BFF_API_PORT }}
+      NEXT_PUBLIC_V6Y_BFF_PATH: ${{ secrets.NEXT_PUBLIC_V6Y_BFF_PATH }}
+      NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
 
     steps:
       - name: Checkout repository
@@ -55,6 +76,9 @@ jobs:
         run: |
           sed -i "s|<registry-owner>|${{ github.repository_owner }}|g" docker-compose.yml
           sed -i "s|:latest|:${{ env.IMAGE_TAG }}|g" docker-compose.yml
+
+      - name: Validate Docker Compose Configuration
+        run: docker-compose -f docker-compose.yml config
 
       - name: Build and push images using Docker Compose
         run: |
