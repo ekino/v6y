@@ -4,7 +4,7 @@ import { RefineThemes } from '@refinedev/antd';
 import { App as AntdApp, ConfigProvider, theme } from 'antd';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
-import Cookies from 'js-cookie';
+import Cookie from 'js-cookie';
 import * as React from 'react';
 import { createContext, useEffect, useState } from 'react';
 
@@ -22,7 +22,7 @@ export const ColorModeProvider = ({ children, defaultMode }: AppProviderProps) =
 
     useEffect(() => {
         if (isMounted) {
-            const theme = Cookies.get('theme') || 'light';
+            const theme = Cookie.get('theme') || 'light';
             setMode(theme);
         }
     }, [isMounted]);
@@ -30,10 +30,10 @@ export const ColorModeProvider = ({ children, defaultMode }: AppProviderProps) =
     const setColorMode = () => {
         if (mode === 'light') {
             setMode('dark');
-            Cookies.set('theme', 'dark');
+            Cookie.set('theme', 'dark');
         } else {
             setMode('light');
-            Cookies.set('theme', 'light');
+            Cookie.set('theme', 'light');
         }
     };
 

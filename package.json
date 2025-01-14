@@ -10,13 +10,13 @@
     "url": "https://github.com/ekino/v6y"
   },
   "scripts": {
-    "start:frontend": "nx run @v6y/front:start:dev",
-    "start:frontend:bo": "nx run @v6y/front-bo:start:dev",
-    "start:bff": "nx run @v6y/bff:start:dev",
-    "start:bfb:main": "nx run @v6y/bfb-main-analyzer:start:dev",
-    "start:bfb:static": "nx run @v6y/bfb-static-code-auditor:start:dev",
-    "start:bfb:dynamic": "nx run @v6y/bfb-url-dynamic-auditor:start:dev",
-    "start:bfb:devops": "nx run @v6y/bfb-devops-auditor:start:dev",
+    "start:frontend": "nx run @v6y/front:start",
+    "start:frontend:bo": "nx run @v6y/front-bo:start",
+    "start:bff": "nx run @v6y/bff:start",
+    "start:bfb:main": "nx run @v6y/bfb-main-analyzer:start",
+    "start:bfb:static": "nx run @v6y/bfb-static-code-auditor:start",
+    "start:bfb:dynamic": "nx run @v6y/bfb-url-dynamic-auditor:start",
+    "start:bfb:devops": "nx run @v6y/bfb-devops-auditor:start",
     "start:all": "nx run-many --target=start --all",
     "stop:all": "nx run-many --target=stop --all",
     "build:tsc": "nx run-many --target=build:tsc --all",
@@ -27,7 +27,6 @@
     "ts-coverage": "typescript-coverage-report",
     "test": "nx run-many --target=test --all",
     "init-db": "nx run-many --target=init-db --all",
-    "nx:reset": "nx reset",
     "nx:analyze:graph": "nx graph",
     "nx:analyze:graph:affected": "nx graph --affected",
     "nx:clear:cache": "nx reset",
@@ -35,10 +34,7 @@
   },
   "devDependencies": {
     "husky": "=9.1.7",
-    "nx": "=20.3.0",
+    "nx": "=20.3.1",
     "typescript-coverage-report": "=1.1.0"
-  },
-  "workspaces": [
-    "src/**"
-  ]
+  }
 }

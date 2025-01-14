@@ -15,38 +15,30 @@
   "scripts": {
     "build:tsc": "tsc --project ./tsconfig.json",
     "start:dev": "nodemon --exec node --env-file=./.env --loader ts-node/esm src/index.ts -- --dev",
-    "start": "pm2 start ecosystem.config.cjs",
-    "stop": "pm2 stop v6y-bfb-main-analyzer",
-    "logs": "pm2 logs",
-    "info": "pm2 list",
-    "monitor": "pm2 monit",
+    "start": "nodemon --exec node --env-file=./.env --loader ts-node/esm src/index.ts -- --dev",
     "lint": "eslint --config ./eslint.config.mjs --cache-location ./.eslintcache \"./**/*.ts\" --cache",
     "lint:fix": "eslint --config ./eslint.config.mjs --cache-location ./.eslintcache \"./**/*.ts\" --cache --fix",
     "format": "prettier --write ./src"
   },
   "devDependencies": {
-    "@eslint/js": "=9.17.0",
-    "@trivago/prettier-plugin-sort-imports": "=5.2.0",
+    "@eslint/js": "=9.18.0",
+    "@trivago/prettier-plugin-sort-imports": "=5.2.1",
     "@types/cookie-parser": "=1.4.8",
     "@types/cors": "=2.8.17",
     "@types/express-status-monitor": "=1.3.3",
     "@types/node-cron": "=3.0.11",
     "chai": "=5.1.2",
-    "eslint": "=9.17.0",
-    "eslint-config-prettier": "=9.1.0",
+    "eslint": "=9.18.0",
+    "eslint-config-prettier": "=10.0.1",
     "eslint-plugin-prettier": "=5.2.1",
-    "nodemon": "=3.1.9",
-    "pm2": "=5.4.3",
-    "ts-node": "=10.9.2",
-    "typescript": "=5.7.2",
-    "typescript-eslint": "=8.18.2",
-    "sequelize-mock": "=0.10.2",
     "globals": "=15.14.0",
-    "fs-extra": "=11.2.0"
+    "nodemon": "=3.1.9",
+    "ts-node": "=10.9.2",
+    "typescript": "=5.7.3",
+    "typescript-eslint": "=8.20.0"
   },
   "dependencies": {
     "@sequelize/core": "7.0.0-alpha.43",
-    "sequelize": "=6.37.5",
     "@types/body-parser": "=1.19.5",
     "@types/express": "=5.0.0",
     "@v6y/core-logic": "workspace:^",
@@ -58,7 +50,8 @@
     "cors": "=2.8.5",
     "express": "=4.21.2",
     "express-status-monitor": "=1.3.4",
-    "mongoose": "=8.9.2",
-    "node-cron": "=3.0.3"
+    "mongoose": "=8.9.5",
+    "node-cron": "=3.0.3",
+    "sequelize": "=6.37.5"
   }
 }

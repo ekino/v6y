@@ -6,6 +6,8 @@ import { configDefaults, defineConfig } from 'vitest/config';
  * https://vitest.dev/config/#configuration
  */
 export default defineConfig({
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     plugins: [react()],
     resolve: {
         alias: {

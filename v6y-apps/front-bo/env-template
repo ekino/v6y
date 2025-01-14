@@ -1,0 +1,6 @@
+# API
+NEXT_PUBLIC_V6Y_BFF_PATH=xxxx
+
+# AUTH
+NEXTAUTH_URL=xxxx
+

@@ -5,28 +5,129 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - "*"
   pull_request:
+    branches:
+      - "*"
+  release:
+    types: [ "created" ]
     branches: [ "main" ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm i -g pnpm@9.1.3
-    - run: pnpm i
-    - run: pnpm build
-    - run: pnpm lint
-    - run: pnpm test
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set Environment Variables
+        id: set-env
+        run: |
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            echo "ENV=prod" >> $GITHUB_ENV
+            echo "PSQL_DB_HOST=${{ secrets.PROD_PSQL_DB_HOST }}" >> $GITHUB_ENV
+            echo "PSQL_DB_NAME=${{ secrets.PROD_PSQL_DB_NAME }}" >> $GITHUB_ENV
+            echo "PSQL_DB_USER=${{ secrets.PROD_PSQL_DB_USER }}" >> $GITHUB_ENV
+            echo "PSQL_DB_PASSWORD=${{ secrets.PROD_PSQL_DB_PASSWORD }}" >> $GITHUB_ENV
+            echo "PSQL_DB_PORT=${{ secrets.PROD_PSQL_DB_PORT }}" >> $GITHUB_ENV
+            echo "GITLAB_PRIVATE_TOKEN=${{ secrets.PROD_GITLAB_PRIVATE_TOKEN }}" >> $GITHUB_ENV
+            echo "GITHUB_PRIVATE_TOKEN=${{ secrets.PROD_GITHUB_PRIVATE_TOKEN }}" >> $GITHUB_ENV
+            echo "JWT_SECRET=${{ secrets.PROD_JWT_SECRET }}" >> $GITHUB_ENV
+            echo "V6Y_STATIC_ANALYZER_API_PATH=${{ secrets.PROD_V6Y_STATIC_ANALYZER_API_PATH }}" >> $GITHUB_ENV
+            echo "V6Y_STATIC_ANALYZER_API_PORT=${{ secrets.PROD_V6Y_STATIC_ANALYZER_API_PORT }}" >> $GITHUB_ENV
+            echo "V6Y_DEVOPS_API_PATH=${{ secrets.PROD_V6Y_DEVOPS_API_PATH }}" >> $GITHUB_ENV
+            echo "V6Y_DEVOPS_API_PORT=${{ secrets.PROD_V6Y_DEVOPS_API_PORT }}" >> $GITHUB_ENV
+            echo "V6Y_DYNAMIC_ANALYZER_API_PATH=${{ secrets.PROD_V6Y_DYNAMIC_ANALYZER_API_PATH }}" >> $GITHUB_ENV
+            echo "V6Y_DYNAMIC_ANALYZER_API_PORT=${{ secrets.PROD_V6Y_DYNAMIC_ANALYZER_API_PORT }}" >> $GITHUB_ENV
+            echo "V6Y_MAIN_API_PATH=${{ secrets.PROD_V6Y_MAIN_API_PATH }}" >> $GITHUB_ENV
+            echo "V6Y_MAIN_API_PORT=${{ secrets.PROD_V6Y_MAIN_API_PORT }}" >> $GITHUB_ENV
+            echo "V6Y_BFF_API_PATH=${{ secrets.PROD_V6Y_BFF_API_PATH }}" >> $GITHUB_ENV
+            echo "V6Y_BFF_API_PORT=${{ secrets.PROD_V6Y_BFF_API_PORT }}" >> $GITHUB_ENV
+            echo "NEXT_PUBLIC_V6Y_BFF_PATH=${{ secrets.PROD_NEXT_PUBLIC_V6Y_BFF_PATH }}" >> $GITHUB_ENV
+            echo "NEXTAUTH_URL=${{ secrets.PROD_NEXTAUTH_URL }}" >> $GITHUB_ENV
+          else
+            echo "ENV=dev" >> $GITHUB_ENV
+            echo "PSQL_DB_HOST=${{ secrets.DEV_PSQL_DB_HOST }}" >> $GITHUB_ENV
+            echo "PSQL_DB_NAME=${{ secrets.DEV_PSQL_DB_NAME }}" >> $GITHUB_ENV
+            echo "PSQL_DB_USER=${{ secrets.DEV_PSQL_DB_USER }}" >> $GITHUB_ENV
+            echo "PSQL_DB_PASSWORD=${{ secrets.DEV_PSQL_DB_PASSWORD }}" >> $GITHUB_ENV
+            echo "PSQL_DB_PORT=${{ secrets.DEV_PSQL_DB_PORT }}" >> $GITHUB_ENV
+            echo "GITLAB_PRIVATE_TOKEN=${{ secrets.DEV_GITLAB_PRIVATE_TOKEN }}" >> $GITHUB_ENV
+            echo "GITHUB_PRIVATE_TOKEN=${{ secrets.DEV_GITHUB_PRIVATE_TOKEN }}" >> $GITHUB_ENV
+            echo "JWT_SECRET=${{ secrets.DEV_JWT_SECRET }}" >> $GITHUB_ENV
+            echo "V6Y_STATIC_ANALYZER_API_PATH=${{ secrets.DEV_V6Y_STATIC_ANALYZER_API_PATH }}" >> $GITHUB_ENV
+            echo "V6Y_STATIC_ANALYZER_API_PORT=${{ secrets.DEV_V6Y_STATIC_ANALYZER_API_PORT }}" >> $GITHUB_ENV
+            echo "V6Y_DEVOPS_API_PATH=${{ secrets.DEV_V6Y_DEVOPS_API_PATH }}" >> $GITHUB_ENV
+            echo "V6Y_DEVOPS_API_PORT=${{ secrets.DEV_V6Y_DEVOPS_API_PORT }}" >> $GITHUB_ENV
+            echo "V6Y_DYNAMIC_ANALYZER_API_PATH=${{ secrets.DEV_V6Y_DYNAMIC_ANALYZER_API_PATH }}" >> $GITHUB_ENV
+            echo "V6Y_DYNAMIC_ANALYZER_API_PORT=${{ secrets.DEV_V6Y_DYNAMIC_ANALYZER_API_PORT }}" >> $GITHUB_ENV
+            echo "V6Y_MAIN_API_PATH=${{ secrets.DEV_V6Y_MAIN_API_PATH }}" >> $GITHUB_ENV
+            echo "V6Y_MAIN_API_PORT=${{ secrets.DEV_V6Y_MAIN_API_PORT }}" >> $GITHUB_ENV
+            echo "V6Y_BFF_API_PATH=${{ secrets.DEV_V6Y_BFF_API_PATH }}" >> $GITHUB_ENV
+            echo "V6Y_BFF_API_PORT=${{ secrets.DEV_V6Y_BFF_API_PORT }}" >> $GITHUB_ENV
+            echo "NEXT_PUBLIC_V6Y_BFF_PATH=${{ secrets.DEV_NEXT_PUBLIC_V6Y_BFF_PATH }}" >> $GITHUB_ENV
+            echo "NEXTAUTH_URL=${{ secrets.DEV_NEXTAUTH_URL }}" >> $GITHUB_ENV
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - run: npm i -g pnpm@9.1.3
+      - run: pnpm i
+
+      - run: pnpm build
+        env:
+          ENV: ${{ env.ENV }}
+          PSQL_DB_HOST: ${{ env.PSQL_DB_HOST }}
+          PSQL_DB_NAME: ${{ env.PSQL_DB_NAME }}
+          PSQL_DB_USER: ${{ env.PSQL_DB_USER }}
+          PSQL_DB_PASSWORD: ${{ env.PSQL_DB_PASSWORD }}
+          PSQL_DB_PORT: ${{ env.PSQL_DB_PORT }}
+          GITLAB_PRIVATE_TOKEN: ${{ env.GITLAB_PRIVATE_TOKEN }}
+          GITHUB_PRIVATE_TOKEN: ${{ env.GITHUB_PRIVATE_TOKEN }}
+          JWT_SECRET: ${{ env.JWT_SECRET }}
+          V6Y_STATIC_ANALYZER_API_PATH: ${{ env.V6Y_STATIC_ANALYZER_API_PATH }}
+          V6Y_STATIC_ANALYZER_API_PORT: ${{ env.V6Y_STATIC_ANALYZER_API_PORT }}
+          V6Y_DEVOPS_API_PATH: ${{ env.V6Y_DEVOPS_API_PATH }}
+          V6Y_DEVOPS_API_PORT: ${{ env.V6Y_DEVOPS_API_PORT }}
+          V6Y_DYNAMIC_ANALYZER_API_PATH: ${{ env.V6Y_DYNAMIC_ANALYZER_API_PATH }}
+          V6Y_DYNAMIC_ANALYZER_API_PORT: ${{ env.V6Y_DYNAMIC_ANALYZER_API_PORT }}
+          V6Y_MAIN_API_PATH: ${{ env.V6Y_MAIN_API_PATH }}
+          V6Y_MAIN_API_PORT: ${{ env.V6Y_MAIN_API_PORT }}
+          V6Y_BFF_API_PATH: ${{ env.V6Y_BFF_API_PATH }}
+          V6Y_BFF_API_PORT: ${{ env.V6Y_BFF_API_PORT }}
+          NEXT_PUBLIC_V6Y_BFF_PATH: ${{ env.NEXT_PUBLIC_V6Y_BFF_PATH }}
+          NEXTAUTH_URL: ${{ env.NEXTAUTH_URL }}
+
+      - run: pnpm lint
+
+      - run: pnpm test
+        env:
+          ENV: ${{ env.ENV }}
+          PSQL_DB_HOST: ${{ env.PSQL_DB_HOST }}
+          PSQL_DB_NAME: ${{ env.PSQL_DB_NAME }}
+          PSQL_DB_USER: ${{ env.PSQL_DB_USER }}
+          PSQL_DB_PASSWORD: ${{ env.PSQL_DB_PASSWORD }}
+          PSQL_DB_PORT: ${{ env.PSQL_DB_PORT }}
+          GITLAB_PRIVATE_TOKEN: ${{ env.GITLAB_PRIVATE_TOKEN }}
+          GITHUB_PRIVATE_TOKEN: ${{ env.GITHUB_PRIVATE_TOKEN }}
+          JWT_SECRET: ${{ env.JWT_SECRET }}
+          V6Y_STATIC_ANALYZER_API_PATH: ${{ env.V6Y_STATIC_ANALYZER_API_PATH }}
+          V6Y_STATIC_ANALYZER_API_PORT: ${{ env.V6Y_STATIC_ANALYZER_API_PORT }}
+          V6Y_DEVOPS_API_PATH: ${{ env.V6Y_DEVOPS_API_PATH }}
+          V6Y_DEVOPS_API_PORT: ${{ env.V6Y_DEVOPS_API_PORT }}
+          V6Y_DYNAMIC_ANALYZER_API_PATH: ${{ env.V6Y_DYNAMIC_ANALYZER_API_PATH }}
+          V6Y_DYNAMIC_ANALYZER_API_PORT: ${{ env.V6Y_DYNAMIC_ANALYZER_API_PORT }}
+          V6Y_MAIN_API_PATH: ${{ env.V6Y_MAIN_API_PATH }}
+          V6Y_MAIN_API_PORT: ${{ env.V6Y_MAIN_API_PORT }}
+          V6Y_BFF_API_PATH: ${{ env.V6Y_BFF_API_PATH }}
+          V6Y_BFF_API_PORT: ${{ env.V6Y_BFF_API_PORT }}
+          NEXT_PUBLIC_V6Y_BFF_PATH: ${{ env.NEXT_PUBLIC_V6Y_BFF_PATH }}
+          NEXTAUTH_URL: ${{ env.NEXTAUTH_URL }}

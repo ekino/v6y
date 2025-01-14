@@ -1,4 +1,3 @@
-import type { AuthCookie } from '../../infrastructure/storage/CookieHelper';
 import { useState } from 'react';
 import { z } from 'zod';
 
@@ -6,10 +5,11 @@ import LoginAccount from '../../features/auth/api/loginAccount';
 import { buildClientQuery } from '../../infrastructure/adapters/api/useQueryAdapter';
 import useNavigationAdapter from '../../infrastructure/adapters/navigation/useNavigationAdapter';
 import {
-    getAuthCookie,
-    removeAuthCookie,
-    setAuthCookie,
-} from '../../infrastructure/storage/CookieHelper';
+    SessionType,
+    getSession,
+    removeSession,
+    setSession,
+} from '../../infrastructure/providers/SessionProvider';
 import VitalityApiConfig from '../config/VitalityApiConfig';
 import VitalityTerms from '../config/VitalityTerms';
 
@@ -24,15 +24,14 @@ export type LoginAccountFormType = {
 const loginSchemaValidator = z.string().email(VitalityTerms.VITALITY_APP_LOGIN_FORM_EMAIL_WARNING);
 
 const getAuthToken = (): string | undefined => {
-    const auth: AuthCookie | null = getAuthCookie();
+    const auth: SessionType | null = getSession();
 
     return auth?.token;
 };
 
-
 const useLogin = () => {
-    const auth: AuthCookie | null = getAuthCookie();
-    
+    const auth: SessionType | null = getSession();
+
     if (auth) {
         return {
             isLoggedIn: true,
@@ -48,7 +47,7 @@ const useLogin = () => {
 
 const useLogout = () => {
     const onLogout = () => {
-        removeAuthCookie();
+        removeSession();
     };
 
     return { onLogout };
@@ -78,11 +77,7 @@ const useAuthentication = () => {
 
             if (data?.loginAccount?.token) {
                 setAuthenticationError(undefined);
-                setAuthCookie(
-                    data.loginAccount.token,
-                    data.loginAccount._id,
-                    data.loginAccount.role,
-                );
+                setSession(data.loginAccount.token, data.loginAccount._id, data.loginAccount.role);
                 router.push('/');
             } else {
                 setAuthenticationError(VitalityTerms.VITALITY_APP_LOGIN_ERROR_MESSAGE);

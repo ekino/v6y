@@ -12,7 +12,9 @@ import {
     Typography,
     theme,
 } from 'antd';
-import Cookies from 'js-cookie';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+import Cookie from 'js-cookie';
 import * as React from 'react';
 import { useContext } from 'react';
 
@@ -42,7 +44,7 @@ export const VitalityPageHeader = () => {
         key: lang,
         onClick: () => {
             changeLocale(lang);
-            Cookies.set('NEXT_LOCALE', lang);
+            Cookie.set('NEXT_LOCALE', lang);
         },
         label: lang === 'en' ? 'English' : 'French',
         icon: (
