@@ -2,7 +2,7 @@
 
 import { useParsed } from '@refinedev/core';
 import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
-import { VitalityTitle } from '@v6y/shared-ui';
+import { VitalityTitle } from '@v6y/shared-ui/src/components/VitalityTitle';
 import { useEffect, useState } from 'react';
 import React from 'react';
 

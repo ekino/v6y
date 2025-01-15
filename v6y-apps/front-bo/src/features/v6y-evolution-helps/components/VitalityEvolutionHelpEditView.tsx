@@ -1,6 +1,6 @@
 import { useParsed } from '@refinedev/core';
 import { EvolutionHelpType } from '@v6y/core-logic';
-import { VitalityTitle } from '@v6y/shared-ui';
+import { VitalityTitle } from '@v6y/shared-ui/src/components/VitalityTitle';
 import * as React from 'react';
 
 import {

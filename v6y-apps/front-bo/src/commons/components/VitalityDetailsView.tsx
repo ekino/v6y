@@ -1,5 +1,5 @@
 import { HttpError } from '@refinedev/core';
-import { VitalityText } from '@v6y/shared-ui';
+import { VitalityText } from '@v6y/shared-ui/src/components/VitalityText';
 import { Descriptions } from 'antd';
 import * as React from 'react';
 import { ReactNode } from 'react';

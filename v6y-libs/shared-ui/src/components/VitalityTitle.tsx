@@ -1,28 +1,29 @@
 import { Typography } from 'antd';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { useTranslation } from '../hooks/useTranslation';
-import VitalityText from './VitalityText';
+import { VitalityText } from './VitalityText';
 
 interface VitalityTitleProps {
-    title: string;
+    title: string | ReactNode;
     subTitle?: string;
     style?: React.CSSProperties;
     level?: 1 | 2 | 3 | 4 | 5 | undefined;
     underline?: boolean;
 }
 
-const VitalityTitle: React.FC<VitalityTitleProps> = ({
+export function VitalityTitle({
     title,
     subTitle,
     level = 2,
     style,
     underline,
-}) => {
+}: VitalityTitleProps) {
     const { translate } = useTranslation();
+    const translatedTitle = typeof title === 'string' ? translate(title) : title;
     return (
         <Typography.Title style={style} level={level} underline={underline}>
-            {translate(title)}
+            {translatedTitle}
             {subTitle && (
                 <sup>
                     <VitalityText text={subTitle} />
@@ -30,6 +31,4 @@ const VitalityTitle: React.FC<VitalityTitleProps> = ({
             )}
         </Typography.Title>
     );
-};
-
-export default VitalityTitle;
+}

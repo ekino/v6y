@@ -1100,6 +1100,12 @@ importers:
       '@types/node':
         specifier: '=22.10.6'
         version: 22.10.6
+      '@types/react':
+        specifier: '=19.0.7'
+        version: 19.0.7
+      '@types/react-dom':
+        specifier: '=19.0.3'
+        version: 19.0.3(@types/react@19.0.7)
       '@vitejs/plugin-react-swc':
         specifier: '=3.7.2'
         version: 3.7.2(@swc/helpers@0.5.15)(vite@6.0.7(@types/node@22.10.6)(yaml@2.7.0))

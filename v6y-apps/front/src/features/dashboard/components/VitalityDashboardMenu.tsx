@@ -1,4 +1,4 @@
-import { VitalityTitle } from '@v6y/shared-ui';
+import { VitalityTitle } from '@v6y/shared-ui/src/components/VitalityTitle';
 import { Col, Row } from 'antd';
 import * as React from 'react';
 

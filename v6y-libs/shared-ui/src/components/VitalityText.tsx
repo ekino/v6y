@@ -8,12 +8,10 @@ interface VitalityTextProps {
     underline?: boolean;
 }
 
-const VitalityText: React.FC<VitalityTextProps> = ({ text, style, strong, underline }) => {
+export function VitalityText({ text, style, strong, underline }: VitalityTextProps) {
     return (
         <Typography.Text style={style} strong={strong} underline={underline}>
             {text}
         </Typography.Text>
     );
-};
-
-export default VitalityText;
+}

@@ -1,7 +1,7 @@
 'use client';
 
 import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
-import { VitalityTitle } from '@v6y/shared-ui';
+import { VitalityTitle } from '@v6y/shared-ui/src/components/VitalityTitle';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 

@@ -1,4 +1,4 @@
-import { VitalityText } from '@v6y/shared-ui';
+import { VitalityText } from '@v6y/shared-ui/src/components/VitalityText';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 

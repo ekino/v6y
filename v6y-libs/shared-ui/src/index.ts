@@ -1,4 +1,4 @@
-import VitalityText from './components/VitalityText';
-import VitalityTitle from './components/VitalityTitle';
+import * as VitalityText from './components/VitalityText';
+import * as VitalityTitle from './components/VitalityTitle';
 
-export { VitalityTitle, VitalityText };
+export { VitalityText, VitalityTitle };

@@ -1,5 +1,6 @@
 import { InfoCircleOutlined, PushpinOutlined } from '@ant-design/icons';
-import { VitalityText, VitalityTitle } from '@v6y/shared-ui';
+import { VitalityText } from '@v6y/shared-ui/src/components/VitalityText';
+import { VitalityTitle } from '@v6y/shared-ui/src/components/VitalityTitle';
 import { Avatar, Button, Card, Divider, List, Space, Statistic } from 'antd';
 import * as React from 'react';
 import { useEffect, useState } from 'react';

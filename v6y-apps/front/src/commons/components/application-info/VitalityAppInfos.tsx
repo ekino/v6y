@@ -1,4 +1,4 @@
-import { VitalityText } from '@v6y/shared-ui';
+import { VitalityText } from '@v6y/shared-ui/src/components/VitalityText';
 import { Col, Divider, List, Row, Tag } from 'antd';
 import Link from 'next/link';
 import * as React from 'react';

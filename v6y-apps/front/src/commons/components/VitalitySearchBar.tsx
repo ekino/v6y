@@ -1,6 +1,6 @@
 'use client';
 
-import { VitalityText } from '@v6y/shared-ui';
+import { VitalityText } from '@v6y/shared-ui/src/components/VitalityText';
 import { Col, Form, Input, Row } from 'antd';
 import * as React from 'react';
 

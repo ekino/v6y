@@ -1,5 +1,5 @@
 import { List, RefreshButton, useTable } from '@refinedev/antd';
-import { VitalityTitle } from '@v6y/shared-ui';
+import { VitalityTitle } from '@v6y/shared-ui/src/components/VitalityTitle';
 import { ReactNode } from 'react';
 
 import VitalityLoader from '../../commons/components/VitalityLoader';

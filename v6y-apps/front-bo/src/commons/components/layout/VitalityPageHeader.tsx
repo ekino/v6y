@@ -2,7 +2,7 @@
 
 import { DownOutlined } from '@ant-design/icons';
 import { useGetIdentity } from '@refinedev/core';
-import { VitalityText } from '@v6y/shared-ui';
+import { VitalityText } from '@v6y/shared-ui/src/components/VitalityText';
 import { Layout as AntdLayout, Avatar, Button, Dropdown, Space, Switch, theme } from 'antd';
 import Cookie from 'js-cookie';
 import * as React from 'react';
