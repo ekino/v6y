@@ -16,18 +16,27 @@ const MSTOHOURS = 1000 * 60 * 60;
 const computeDeploymentFrequency = ({ deployments }: DoraMetricsData): DoraMetricType => {
     AppLogger.info(`[DoraMetricsUtils - computeDeploymentFrequency] start`);
     if (deployments && deployments.length > 0) {
-        const deploymentTimes = deployments.map((d) => new Date(d.created_at));
-        deploymentTimes.sort((a, b) => a.getTime() - b.getTime());
-        const timePeriod =
-            (deploymentTimes[deploymentTimes.length - 1].getTime() - deploymentTimes[0].getTime()) /
-            (MSTOHOURS * 24);
-        const frequency = timePeriod > 0 ? deployments.length / timePeriod : deployments.length;
-        AppLogger.info(
-            `[DoraMetricsUtils - computeDeploymentFrequency] deployement frequency: ${frequency}`,
-        );
-        return { status: 'success', value: frequency };
+        const successfulDeployments = deployments.filter((d) => d.status === 'success');
+        if (successfulDeployments.length > 0) {
+            const deploymentTimes = successfulDeployments.map((d) => new Date(d.created_at));
+            deploymentTimes.sort((a, b) => a.getTime() - b.getTime());
+            const timePeriod =
+                (deploymentTimes[deploymentTimes.length - 1].getTime() -
+                    deploymentTimes[0].getTime()) /
+                (MSTOHOURS * 24);
+            const frequency =
+                timePeriod > 0
+                    ? successfulDeployments.length / timePeriod
+                    : successfulDeployments.length;
+            AppLogger.info(
+                `[DoraMetricsUtils - computeDeploymentFrequency] deployment frequency: ${frequency}`,
+            );
+            return { status: 'success', value: frequency };
+        }
     }
-    AppLogger.info(`[DoraMetricsUtils - computeDeploymentFrequency] deployments is empty`);
+    AppLogger.info(
+        `[DoraMetricsUtils - computeDeploymentFrequency] deployments is empty or no successful deployments`,
+    );
     return { status: 'failure', value: 0 };
 };
 
@@ -53,11 +62,11 @@ const computeLeadTimeForChanges = ({ deployments, commits }: DoraMetricsData): D
     }
 
     const leadTimes = deployments
-        .filter((deploy) => deploy.sha in commitTimes)
+        .filter((deploy) => deploy.status === 'success' && deploy.sha in commitTimes)
         .map(
             (deploy) =>
                 (new Date(deploy.created_at).getTime() - commitTimes[deploy.sha].getTime()) /
-                (MSTOHOURS * 24),
+                MSTOHOURS,
         );
 
     const leadTimeForChanges =
@@ -182,6 +191,11 @@ const formatDoraMetricsReports = ({
 const DoraMetricsUtils = {
     computeDoraMetricsReport,
     formatDoraMetricsReports,
+
+    computeDeploymentFrequency,
+    computeLeadTimeForChanges,
+    computeChangeFailureRate,
+    computeMeanTimeToRestoreService,
 };
 
 export default DoraMetricsUtils;

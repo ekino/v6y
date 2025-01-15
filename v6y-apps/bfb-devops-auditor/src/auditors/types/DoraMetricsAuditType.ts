@@ -7,6 +7,7 @@ export interface DoraMetricsAuditConfigType {
 export interface DeploymentDataType {
     created_at: string;
     sha: string;
+    status: string;
 }
 
 export interface CommitsDataType {
