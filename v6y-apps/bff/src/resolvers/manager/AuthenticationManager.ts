@@ -13,6 +13,8 @@ export function buildUserMiddleware(
         apiPath as string,
         Cors(),
         BodyParser.json(),
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         expressMiddleware(server, {
             context: async ({ req }) => {
                 if (

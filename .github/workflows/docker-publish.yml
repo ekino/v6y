@@ -7,6 +7,9 @@ on:
     types: ["created"]
     branches: ["main"]
 
+env:
+  REGISTRY: ghcr.io
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -67,6 +70,7 @@ jobs:
             echo "V6Y_BFF_API_PORT=${{ secrets.DEV_V6Y_BFF_API_PORT }}" >> $GITHUB_ENV
             echo "NEXT_PUBLIC_V6Y_BFF_PATH=${{ secrets.DEV_NEXT_PUBLIC_V6Y_BFF_PATH }}" >> $GITHUB_ENV
             echo "NEXTAUTH_URL=${{ secrets.DEV_NEXTAUTH_URL }}" >> $GITHUB_ENV
+          fi
 
       - name: Install Docker
         run: |

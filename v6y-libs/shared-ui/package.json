@@ -12,7 +12,8 @@
     "url": "https://github.com/ekino/v6y"
   },
   "scripts": {
-    "build": "tsc && vite build",
+    "build:tsc": "tsc --project ./tsconfig.json && vite build",
+    "check:tsc": "tsc --noEmit --project ./tsconfig.json",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "analyze": "vite-bundle-visualizer -c vite.config.ts",

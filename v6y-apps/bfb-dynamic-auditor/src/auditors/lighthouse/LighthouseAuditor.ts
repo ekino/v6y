@@ -48,6 +48,8 @@ const startLighthouseAudit = async (auditConfig: LighthouseAuditConfigType) => {
         );
 
         // Lighthouse will open the URL.
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         const result = await lighthouse(link, LIGHTHOUSE_FLAGS, lightHouseConfig, page);
         const report = result?.report;
         AppLogger.info(
