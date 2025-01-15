@@ -1,8 +1,8 @@
 import { Typography } from 'antd';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 interface VitalityTextProps {
-    text: string;
+    text: string | ReactNode;
     style?: React.CSSProperties;
     strong?: boolean;
     underline?: boolean;
