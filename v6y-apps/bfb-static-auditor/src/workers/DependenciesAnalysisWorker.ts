@@ -1,7 +1,7 @@
 import { AppLogger, DataBaseManager, PerformancesUtils } from '@v6y/core-logic';
 import { parentPort, workerData } from 'worker_threads';
 
-import DependenciesAuditor from '../auditors/dependencies-auditor/DependenciesAuditor.ts';
+import DependenciesAuditor from '../auditors/dependencies/DependenciesAuditor.ts';
 
 AppLogger.info('******************** Starting background Audit **************************');
 
