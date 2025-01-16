@@ -5,7 +5,7 @@ import VitalityTerms from '../../config/VitalityTerms';
 import { VitalityModuleType } from '../../types/VitalityModulesProps';
 
 const VitalityHelpView = ({ module }: { module: VitalityModuleType }) => {
-    const moduleHelp = module?.auditHelp || module?.statusHelp || module?.evolutionHelp;
+    const moduleHelp = module?.auditHelp || module?.versionStatusHelp || module?.evolutionHelp;
     return (
         <Descriptions
             bordered

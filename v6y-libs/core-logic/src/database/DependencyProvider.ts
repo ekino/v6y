@@ -2,7 +2,7 @@ import { FindOptions } from 'sequelize';
 
 import AppLogger from '../core/AppLogger.ts';
 import { DependencyType } from '../types/DependencyType.ts';
-import DependencyStatusHelpProvider from './DependencyStatusHelpProvider.ts';
+import DependencyVersionStatusHelpProvider from './DependencyVersionStatusHelpProvider.ts';
 import { DependencyModelType } from './models/DependencyModel.ts';
 
 /**
@@ -30,14 +30,16 @@ const createDependency = async (dependency: DependencyType) => {
         }
 
         const depStatusHelp =
-            await DependencyStatusHelpProvider.getDependencyStatusHelpDetailsByParams({
-                category: dependency.status,
-            });
+            await DependencyVersionStatusHelpProvider.getDependencyVersionStatusHelpDetailsByParams(
+                {
+                    category: dependency.versionStatus,
+                },
+            );
 
         const createdDependency = await DependencyModelType.create({
             ...dependency,
             appId: dependency.module?.appId,
-            statusHelp: depStatusHelp,
+            versionStatusHelp: depStatusHelp,
         });
         AppLogger.info(
             `[DependencyProvider - createDependency] createdDependency: ${createdDependency?._id}`,

@@ -30,7 +30,7 @@ describe('VitalityModulesView', () => {
             },
             branch: 'main',
             path: '/path/to/file1',
-            statusHelp: {},
+            versionStatusHelp: {},
             evolutionHelp: {},
         },
         {
@@ -42,7 +42,7 @@ describe('VitalityModulesView', () => {
             scoreUnit: 'points',
             status: 'warning',
             auditHelp: {},
-            statusHelp: {
+            versionStatusHelp: {
                 category: 'Help Category 2',
                 title: 'Help Title 2',
                 description: 'Help Description 2',
@@ -91,7 +91,7 @@ describe('VitalityModulesView', () => {
                 auditHelp: {},
                 branch: '',
                 path: '',
-                statusHelp: {},
+                versionStatusHelp: {},
                 evolutionHelp: {},
             },
         ];

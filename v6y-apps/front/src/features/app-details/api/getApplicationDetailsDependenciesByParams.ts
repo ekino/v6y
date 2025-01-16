@@ -9,7 +9,7 @@ const GetApplicationDetailsDependenciesByParams = gql`
             version
             recommendedVersion
             status
-            statusHelp {
+            versionStatusHelp {
                 _id
                 category
                 title

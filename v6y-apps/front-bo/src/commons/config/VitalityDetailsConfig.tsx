@@ -2,7 +2,7 @@ import {
     AccountType,
     ApplicationType,
     AuditHelpType,
-    DependencyStatusHelpType,
+    DependencyVersionStatusHelpType,
     DeprecatedDependencyType,
     EvolutionHelpType,
     FaqType,
@@ -89,13 +89,13 @@ export const formatEvolutionHelpDetails = (
     }
 
     return {
-        [translate('v6y-evolution-helps.fields.evolution-help-category.label') || '']:
+        [translate('v6y-evolution-help.fields.evolution-help-category.label') || '']:
             details.category,
-        [translate('v6y-evolution-helps.fields.evolution-help-status.label') || '']: details.status,
-        [translate('v6y-evolution-helps.fields.evolution-help-title.label') || '']: details.title,
-        [translate('v6y-evolution-helps.fields.evolution-help-description.label') || '']:
+        [translate('v6y-evolution-help.fields.evolution-help-status.label') || '']: details.status,
+        [translate('v6y-evolution-help.fields.evolution-help-title.label') || '']: details.title,
+        [translate('v6y-evolution-help.fields.evolution-help-description.label') || '']:
             details.description,
-        [translate('v6y-evolution-helps.fields.evolution-help-link.label') || '']: (
+        [translate('v6y-evolution-help.fields.evolution-help-link.label') || '']: (
             <VitalityLinks links={details.links as LinkType[]} align="start" />
         ),
     };
@@ -107,32 +107,36 @@ export const formatAuditHelpDetails = (translate: TranslateType, details: AuditH
     }
 
     return {
-        [translate('v6y-audit-helps.fields.audit-help-category.label') || '']: details.category,
-        [translate('v6y-audit-helps.fields.audit-help-title.label') || '']: details.title,
-        [translate('v6y-audit-helps.fields.audit-help-description.label') || '']:
+        [translate('v6y-audit-help.fields.audit-help-category.label') || '']: details.category,
+        [translate('v6y-audit-help.fields.audit-help-title.label') || '']: details.title,
+        [translate('v6y-audit-help.fields.audit-help-description.label') || '']:
             details.description,
-        [translate('v6y-audit-helps.fields.audit-help-explanation.label') || '']:
+        [translate('v6y-audit-help.fields.audit-help-explanation.label') || '']:
             details.explanation,
     };
 };
 
-export const formatDependencyStatusHelpDetails = (
+export const formatDependencyVersionStatusHelpDetails = (
     translate: TranslateType,
-    details: DependencyStatusHelpType,
+    details: DependencyVersionStatusHelpType,
 ) => {
     if (!Object.keys(details || {})?.length) {
         return {};
     }
 
     return {
-        [translate('v6y-dependency-status-helps.fields.dependency-status-help-category.label') ||
-        '']: details.category,
-        [translate('v6y-dependency-status-helps.fields.dependency-status-help-title.label') || '']:
-            details.title,
-        [translate('v6y-dependency-status-helps.fields.dependency-status-help-description.label') ||
-        '']: details.description,
-        [translate('v6y-dependency-status-helps.fields.dependency-status-help-links.label') || '']:
-            <VitalityLinks links={details.links as LinkType[]} align="start" />,
+        [translate(
+            'v6y-dependency-version-status-help.fields.dependency-version-status-help-category.label',
+        ) || '']: details.category,
+        [translate(
+            'v6y-dependency-version-status-help.fields.dependency-version-status-help-title.label',
+        ) || '']: details.title,
+        [translate(
+            'v6y-dependency-version-status-help.fields.dependency-version-status-help-description.label',
+        ) || '']: details.description,
+        [translate(
+            'v6y-dependency-version-status-help.fields.dependency-version-status-help-links.label',
+        ) || '']: <VitalityLinks links={details.links as LinkType[]} align="start" />,
     };
 };
 

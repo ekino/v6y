@@ -1,50 +1,11 @@
-import {
-    AppLogger,
-    AuditUtils,
-    DeprecatedDependencyProvider,
-    SemverUtils,
-    dependencyStatus,
-} from '@v6y/core-logic';
+import { AppLogger, AuditUtils } from '@v6y/core-logic';
 
 import { AuditCommonsType } from '../types/AuditCommonsType.ts';
 import { DependencyAuditParamsType } from '../types/DependencyAuditType.ts';
+import DependencyVersionStatusAnalyzer from './DependencyVersionStatusAnalyzer.ts';
 
 const { getFilesRecursively, getFileContent } = AuditUtils;
-
-const { compareVersions } = SemverUtils;
-
-const DEPENDENCIES_REFERENCE_API = 'https://skimdb.npmjs.com/registry/';
-
-/**
- * Get dependencies reference
- * @param dependencyName
- */
-const getDependenciesReference = async ({ dependencyName }: DependencyAuditParamsType) => {
-    try {
-        // https://skimdb.npmjs.com/registry/react-cookie
-        // https://docs.npmjs.com/cli/v8/using-npm/registry
-        const dependencyReferenceResponse = await fetch(
-            `${DEPENDENCIES_REFERENCE_API}/${encodeURIComponent(dependencyName || '')}`,
-            {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-            },
-        );
-        AppLogger.info(
-            `[DependenciesUtils - getDependenciesReference] dependencyReferenceResponse:  ${dependencyReferenceResponse}`,
-        );
-
-        const dependencyReferenceJsonResponse = await dependencyReferenceResponse.json();
-        AppLogger.info(
-            `[DependenciesUtils - getDependenciesReference] dependencyReferenceJsonResponse:  ${dependencyReferenceJsonResponse}`,
-        );
-
-        return dependencyReferenceJsonResponse;
-    } catch (error) {
-        AppLogger.info(`[DependenciesUtils - getDependenciesReference] error:  ${error}`);
-        return {};
-    }
-};
+const { analyzeDependencyVersionStatus } = DependencyVersionStatusAnalyzer;
 
 /**
  * Build dependency audit report
@@ -69,45 +30,17 @@ const buildDependencyAuditReport = async ({
             return {};
         }
 
-        const dependencyReference = await getDependenciesReference({ dependencyName });
-        AppLogger.info(
-            `[DependenciesUtils - buildDependencyAuditReport] dependencyReference:  ${dependencyReference}`,
-        );
-
-        const recommendedVersion = dependencyReference?.['dist-tags']?.latest;
-        AppLogger.info(
-            `[DependenciesUtils - buildDependencyAuditReport] recommendedVersion:  ${recommendedVersion}`,
-        );
-
-        const isOutDated = compareVersions(dependencyVersion, recommendedVersion, '<');
-        AppLogger.info(
-            `[DependenciesUtils - buildDependencyAuditReport] isOutDated:  ${isOutDated}`,
-        );
-
-        const deprecatedDependency =
-            await DeprecatedDependencyProvider.getDeprecatedDependencyDetailsByParams({
-                name: dependencyName,
-            });
-        const isDeprecated = deprecatedDependency?._id !== undefined || false;
-        AppLogger.info(
-            `[DependenciesUtils - buildDependencyAuditReport] isDeprecated:  ${isDeprecated}`,
-        );
-
-        let depStatus = dependencyStatus['up-to-date'];
-        if (isDeprecated) {
-            depStatus = dependencyStatus.deprecated;
-        } else if (isOutDated) {
-            depStatus = dependencyStatus.outdated;
-        }
-
-        AppLogger.info(`[DependenciesUtils - buildDependencyAuditReport] depStatus:  ${depStatus}`);
+        const dependencyVersionStatus = await analyzeDependencyVersionStatus({
+            dependencyName,
+            dependencyVersion,
+        });
 
         return {
             type: 'frontend',
             name: dependencyName,
             version: dependencyVersion,
-            recommendedVersion: recommendedVersion || dependencyVersion,
-            status: depStatus,
+            recommendedVersion: dependencyVersionStatus?.recommendedVersion || dependencyVersion,
+            status: dependencyVersionStatus?.depStatus,
             module,
         };
     } catch (error) {

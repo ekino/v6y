@@ -1,4 +1,4 @@
-import { DependencyStatusHelpType } from './DependencyStatusHelpType.ts';
+import { DependencyVersionStatusHelpType } from './DependencyVersionStatusHelpType.ts';
 import { ModuleType } from './ModuleType.ts';
 
 export interface DependencyType {
@@ -8,7 +8,7 @@ export interface DependencyType {
     name?: string;
     version?: string;
     recommendedVersion?: string;
-    status?: string;
-    statusHelp?: DependencyStatusHelpType | null;
+    versionStatus?: string;
+    versionStatusHelp?: DependencyVersionStatusHelpType | null;
     module?: ModuleType;
 }

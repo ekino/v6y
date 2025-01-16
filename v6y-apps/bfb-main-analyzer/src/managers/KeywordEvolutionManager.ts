@@ -6,7 +6,7 @@ import {
     KeywordProvider,
     auditStatus,
     codeSmellTypes,
-    dependencyStatus,
+    dependencyVersionStatus,
 } from '@v6y/core-logic';
 
 /**
@@ -28,18 +28,18 @@ const buildKeywordEvolutionList = async () => {
                 // eslint-disable-next-line max-depth
                 if (
                     !dependency.module ||
-                    !dependency.status ||
-                    dependency.status === dependencyStatus['up-to-date']
+                    !dependency.versionStatus ||
+                    dependency.versionStatus === dependencyVersionStatus['up-to-date']
                 ) {
                     continue;
                 }
 
                 // add evolution according to keyword
                 await EvolutionProvider.createEvolution({
-                    category: `${codeSmellTypes.Dependency}-${dependency.status}`,
+                    category: `${codeSmellTypes.Dependency}-${dependency.versionStatus}`,
                     module: {
                         ...dependency.module,
-                        status: dependency.status,
+                        status: dependency.versionStatus,
                     },
                 });
             }

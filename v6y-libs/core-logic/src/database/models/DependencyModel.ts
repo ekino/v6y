@@ -1,7 +1,7 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
-import { DependencyStatusHelpType } from '../../types/DependencyStatusHelpType.ts';
 import { DependencyType } from '../../types/DependencyType.ts';
+import { DependencyVersionStatusHelpType } from '../../types/DependencyVersionStatusHelpType.ts';
 import { ModuleType } from '../../types/ModuleType.ts';
 
 export class DependencyModelType extends Model<DependencyType> implements DependencyType {
@@ -11,8 +11,8 @@ export class DependencyModelType extends Model<DependencyType> implements Depend
     public name?: string;
     public version?: string;
     public recommendedVersion?: string;
-    public status?: string;
-    public statusHelp?: DependencyStatusHelpType;
+    public versionStatus?: string;
+    public versionStatusHelp?: DependencyVersionStatusHelpType;
     public module?: ModuleType;
 }
 
@@ -38,10 +38,10 @@ const dependencyModelSchema = {
     recommendedVersion: {
         type: DataTypes.TEXT,
     },
-    status: {
+    versionStatus: {
         type: DataTypes.TEXT,
     },
-    statusHelp: {
+    versionStatusHelp: {
         type: DataTypes.JSON,
     },
     module: {

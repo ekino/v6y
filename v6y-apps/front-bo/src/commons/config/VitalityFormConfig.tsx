@@ -430,48 +430,48 @@ export const evolutionHelpInfosFormItems = (translate: TranslateType) => {
         {
             id: 'evolution-help-category',
             name: 'evolution-help-category',
-            label: translate('v6y-evolution-helps.fields.evolution-help-category.label'),
+            label: translate('v6y-evolution-help.fields.evolution-help-category.label'),
             disabled: true,
             rules: [],
         },
         {
             id: 'evolution-help-status',
             name: 'evolution-help-status',
-            label: translate('v6y-evolution-helps.fields.evolution-help-status.label'),
-            placeholder: translate('v6y-evolution-helps.fields.evolution-help-status.placeholder'),
+            label: translate('v6y-evolution-help.fields.evolution-help-status.label'),
+            placeholder: translate('v6y-evolution-help.fields.evolution-help-status.placeholder'),
             type: 'select',
             rules: [
                 {
                     required: true,
-                    message: translate('v6y-evolution-helps.fields.evolution-help-status.error'),
+                    message: translate('v6y-evolution-help.fields.evolution-help-status.error'),
                 },
             ],
         },
         {
             id: 'evolution-help-title',
             name: 'evolution-help-title',
-            label: translate('v6y-evolution-helps.fields.evolution-help-title.label'),
-            placeholder: translate('v6y-evolution-helps.fields.evolution-help-title.placeholder'),
+            label: translate('v6y-evolution-help.fields.evolution-help-title.label'),
+            placeholder: translate('v6y-evolution-help.fields.evolution-help-title.placeholder'),
             rules: [
                 {
                     required: true,
-                    message: translate('v6y-evolution-helps.fields.evolution-help-title.error'),
+                    message: translate('v6y-evolution-help.fields.evolution-help-title.error'),
                 },
             ],
         },
         {
             id: 'evolution-help-description',
             name: 'evolution-help-description',
-            label: translate('v6y-evolution-helps.fields.evolution-help-description.label'),
+            label: translate('v6y-evolution-help.fields.evolution-help-description.label'),
             placeholder: translate(
-                'v6y-evolution-helps.fields.evolution-help-description.placeholder',
+                'v6y-evolution-help.fields.evolution-help-description.placeholder',
             ),
             type: 'textarea',
             rules: [
                 {
                     required: true,
                     message: translate(
-                        'v6y-evolution-helps.fields.evolution-help-description.error',
+                        'v6y-evolution-help.fields.evolution-help-description.error',
                     ),
                 },
             ],
@@ -483,22 +483,22 @@ export const evolutionHelpOptionalLinksFormItems = (translate: TranslateType) =>
     {
         id: 'evolution-help-optional-link-1',
         name: 'evolution-help-optional-link-1',
-        label: translate('v6y-evolution-helps.fields.evolution-help-link.label'),
-        placeholder: translate('v6y-evolution-helps.fields.evolution-help-link.placeholder'),
+        label: translate('v6y-evolution-help.fields.evolution-help-link.label'),
+        placeholder: translate('v6y-evolution-help.fields.evolution-help-link.placeholder'),
         rules: [],
     },
     {
         id: 'evolution-help-optional-link-2',
         name: 'evolution-help-optional-link-2',
-        label: translate('v6y-evolution-helps.fields.evolution-help-link.label'),
-        placeholder: translate('v6y-evolution-helps.fields.evolution-help-link.placeholder'),
+        label: translate('v6y-evolution-help.fields.evolution-help-link.label'),
+        placeholder: translate('v6y-evolution-help.fields.evolution-help-link.placeholder'),
         rules: [],
     },
     {
         id: 'evolution-help-optional-link-3',
         name: 'evolution-help-optional-link-3',
-        label: translate('v6y-evolution-helps.fields.evolution-help-link.label'),
-        placeholder: translate('v6y-evolution-helps.fields.evolution-help-link.placeholder'),
+        label: translate('v6y-evolution-help.fields.evolution-help-link.label'),
+        placeholder: translate('v6y-evolution-help.fields.evolution-help-link.placeholder'),
         rules: [],
     },
 ];
@@ -509,14 +509,14 @@ export const evolutionHelpCreateEditItems = (
 ) => {
     return [
         <VitalityFormFieldSet
-            key={translate('v6y-evolution-helps.fields.evolution-help-infos-group')}
-            groupTitle={translate('v6y-evolution-helps.fields.evolution-help-infos-group')}
+            key={translate('v6y-evolution-help.fields.evolution-help-infos-group')}
+            groupTitle={translate('v6y-evolution-help.fields.evolution-help-infos-group')}
             items={evolutionHelpInfosFormItems(translate)}
             selectOptions={selectOptions}
         />,
         <VitalityFormFieldSet
-            key={translate('v6y-evolution-helps.fields.evolution-help-optional-link-group')}
-            groupTitle={translate('v6y-evolution-helps.fields.evolution-help-optional-link-group')}
+            key={translate('v6y-evolution-help.fields.evolution-help-optional-link-group')}
+            groupTitle={translate('v6y-evolution-help.fields.evolution-help-optional-link-group')}
             items={evolutionHelpOptionalLinksFormItems(translate)}
         />,
     ];
@@ -555,44 +555,44 @@ export const auditHelpInfosFormItems = (translate: TranslateType) => {
         {
             id: 'audit-help-category',
             name: 'audit-help-category',
-            label: translate('v6y-audit-helps.fields.audit-help-category.label'),
+            label: translate('v6y-audit-help.fields.audit-help-category.label'),
             disabled: true,
             rules: [],
         },
         {
             id: 'audit-help-title',
             name: 'audit-help-title',
-            label: translate('v6y-audit-helps.fields.audit-help-title.label'),
-            placeholder: translate('v6y-audit-helps.fields.audit-help-title.placeholder'),
+            label: translate('v6y-audit-help.fields.audit-help-title.label'),
+            placeholder: translate('v6y-audit-help.fields.audit-help-title.placeholder'),
             rules: [
                 {
                     required: true,
-                    message: translate('v6y-audit-helps.fields.audit-help-title.error'),
+                    message: translate('v6y-audit-help.fields.audit-help-title.error'),
                 },
             ],
         },
         {
             id: 'audit-help-description',
             name: 'audit-help-description',
-            label: translate('v6y-audit-helps.fields.audit-help-description.label'),
-            placeholder: translate('v6y-audit-helps.fields.audit-help-description.placeholder'),
+            label: translate('v6y-audit-help.fields.audit-help-description.label'),
+            placeholder: translate('v6y-audit-help.fields.audit-help-description.placeholder'),
             type: 'textarea',
             rules: [
                 {
                     required: true,
-                    message: translate('v6y-audit-helps.fields.audit-help-description.error'),
+                    message: translate('v6y-audit-help.fields.audit-help-description.error'),
                 },
             ],
         },
         {
             id: 'audit-help-explanation',
             name: 'audit-help-explanation',
-            label: translate('v6y-audit-helps.fields.audit-help-explanation.label'),
-            placeholder: translate('v6y-audit-helps.fields.audit-help-explanation.placeholder'),
+            label: translate('v6y-audit-help.fields.audit-help-explanation.label'),
+            placeholder: translate('v6y-audit-help.fields.audit-help-explanation.placeholder'),
             rules: [
                 {
                     required: true,
-                    message: translate('v6y-audit-helps.fields.audit-help-explanation.error'),
+                    message: translate('v6y-audit-help.fields.audit-help-explanation.error'),
                 },
             ],
         },
@@ -602,8 +602,8 @@ export const auditHelpInfosFormItems = (translate: TranslateType) => {
 export const auditHelpCreateEditItems = (translate: TranslateType) => {
     return [
         <VitalityFormFieldSet
-            key={translate('v6y-audit-helps.fields.audit-help-infos-group')}
-            groupTitle={translate('v6y-audit-helps.fields.audit-help-infos-group')}
+            key={translate('v6y-audit-help.fields.audit-help-infos-group')}
+            groupTitle={translate('v6y-audit-help.fields.audit-help-infos-group')}
             items={auditHelpInfosFormItems(translate)}
         />,
     ];
@@ -627,50 +627,50 @@ export const auditHelpCreateOrEditFormOutputAdapter = (params: Record<string, un
     },
 });
 
-export const dependencyStatusHelpInfosFormItems = (translate: TranslateType) => {
+export const dependencyVersionStatusHelpInfosFormItems = (translate: TranslateType) => {
     return [
         {
-            id: 'dependency-status-help-category',
-            name: 'dependency-status-help-category',
+            id: 'dependency-version-status-help-category',
+            name: 'dependency-version-status-help-category',
             label: translate(
-                'v6y-dependency-status-helps.fields.dependency-status-help-category.label',
+                'v6y-dependency-version-status-help.fields.dependency-version-status-help-category.label',
             ),
             disabled: true,
             rules: [],
         },
         {
-            id: 'dependency-status-help-title',
-            name: 'dependency-status-help-title',
+            id: 'dependency-version-status-help-title',
+            name: 'dependency-version-status-help-title',
             label: translate(
-                'v6y-dependency-status-helps.fields.dependency-status-help-title.label',
+                'v6y-dependency-version-status-help.fields.dependency-version-status-help-title.label',
             ),
             placeholder: translate(
-                'v6y-dependency-status-helps.fields.dependency-status-help-title.placeholder',
+                'v6y-dependency-version-status-help.fields.dependency-version-status-help-title.placeholder',
             ),
             rules: [
                 {
                     required: true,
                     message: translate(
-                        'v6y-dependency-status-helps.fields.dependency-status-help-title.error',
+                        'v6y-dependency-version-status-help.fields.dependency-version-status-help-title.error',
                     ),
                 },
             ],
         },
         {
-            id: 'dependency-status-help-description',
-            name: 'dependency-status-help-description',
+            id: 'dependency-version-status-help-description',
+            name: 'dependency-version-status-help-description',
             label: translate(
-                'v6y-dependency-status-helps.fields.dependency-status-help-description.label',
+                'v6y-dependency-version-status-help.fields.dependency-version-status-help-description.label',
             ),
             placeholder: translate(
-                'v6y-dependency-status-helps.fields.dependency-status-help-description.placeholder',
+                'v6y-dependency-version-status-help.fields.dependency-version-status-help-description.placeholder',
             ),
             type: 'textarea',
             rules: [
                 {
                     required: true,
                     message: translate(
-                        'v6y-dependency-status-helps.fields.dependency-status-help-description.error',
+                        'v6y-dependency-version-status-help.fields.dependency-version-status-help-description.error',
                     ),
                 },
             ],
@@ -678,33 +678,37 @@ export const dependencyStatusHelpInfosFormItems = (translate: TranslateType) => 
     ];
 };
 
-export const dependencyStatusHelpCreateEditItems = (translate: TranslateType) => {
+export const dependencyVersionStatusHelpCreateEditItems = (translate: TranslateType) => {
     return [
         <VitalityFormFieldSet
-            key={translate('v6y-dependency-status-helps.fields.dependency-status-help-infos-group')}
-            groupTitle={translate(
-                'v6y-dependency-status-helps.fields.dependency-status-help-infos-group',
+            key={translate(
+                'v6y-dependency-version-status-help.fields.dependency-version-status-help-infos-group',
             )}
-            items={dependencyStatusHelpInfosFormItems(translate)}
+            groupTitle={translate(
+                'v6y-dependency-version-status-help.fields.dependency-version-status-help-infos-group',
+            )}
+            items={dependencyVersionStatusHelpInfosFormItems(translate)}
         />,
     ];
 };
 
-export const dependencyStatusHelpCreateOrEditFormInAdapter = (params: Record<string, unknown>) => ({
-    _id: params?._id,
-    'dependency-status-help-category': params?.['category'],
-    'dependency-status-help-title': params?.['title'],
-    'dependency-status-help-description': params?.['description'],
-});
-
-export const dependencyStatusHelpCreateOrEditFormOutputAdapter = (
+export const dependencyVersionStatusHelpCreateOrEditFormInAdapter = (
     params: Record<string, unknown>,
 ) => ({
-    dependencyStatusHelpInput: {
+    _id: params?._id,
+    'dependency-version-status-help-category': params?.['category'],
+    'dependency-version-status-help-title': params?.['title'],
+    'dependency-version-status-help-description': params?.['description'],
+});
+
+export const dependencyVersionStatusHelpCreateOrEditFormOutputAdapter = (
+    params: Record<string, unknown>,
+) => ({
+    dependencyVersionStatusHelpInput: {
         _id: params?.['_id'],
-        category: params?.['dependency-status-help-category'],
-        title: params?.['dependency-status-help-title'],
-        description: params?.['dependency-status-help-description'],
+        category: params?.['dependency-version-status-help-category'],
+        title: params?.['dependency-version-status-help-title'],
+        description: params?.['dependency-version-status-help-description'],
     },
 });
 
