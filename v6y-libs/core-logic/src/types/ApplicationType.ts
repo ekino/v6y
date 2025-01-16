@@ -1,5 +1,5 @@
 import { LinkType } from './LinkType.ts';
-import { RepositoryType } from './RepositoryType.ts';
+import { RegistryType } from './RegistryType.ts';
 
 export interface ApplicationType {
     _id: number;
@@ -7,7 +7,7 @@ export interface ApplicationType {
     acronym?: string;
     contactMail?: string;
     description?: string;
-    repo?: RepositoryType;
+    repo?: RegistryType;
     links?: LinkType[];
 }
 

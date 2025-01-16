@@ -2,7 +2,7 @@ import { DataTypes, Model, Sequelize } from 'sequelize';
 
 import { ApplicationType } from '../../types/ApplicationType.ts';
 import { LinkType } from '../../types/LinkType.ts';
-import { RepositoryType } from '../../types/RepositoryType.ts';
+import { RegistryType } from '../../types/RegistryType.ts';
 
 export class ApplicationModelType extends Model<ApplicationType> implements ApplicationType {
     public _id!: number;
@@ -10,7 +10,7 @@ export class ApplicationModelType extends Model<ApplicationType> implements Appl
     public acronym!: string;
     public contactMail!: string;
     public description!: string;
-    public repo?: RepositoryType;
+    public repo?: RegistryType;
     public links?: LinkType[];
 }
 

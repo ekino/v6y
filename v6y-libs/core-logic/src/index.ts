@@ -1,9 +1,9 @@
-import RepositoryApi from './apis/RepositoryApi.ts';
 import AppLogger from './core/AppLogger.ts';
 import AuditUtils from './core/AuditUtils.ts';
 import Matcher from './core/Matcher.ts';
 import PasswordUtils from './core/PasswordUtils.ts';
 import PerformancesUtils from './core/PerformancesUtils.ts';
+import RegistryManager from './core/RegistryManager.ts';
 import SemverUtils from './core/SemverUtils.ts';
 import ServerUtils from './core/ServerUtils.ts';
 import StringUtils from './core/StringUtils.ts';
@@ -43,10 +43,11 @@ export * from './types/EvolutionType.ts';
 export * from './types/FaqType.ts';
 export * from './types/KeywordType.ts';
 export * from './types/NotificationType.ts';
-export * from './types/RepositoryType.ts';
+export * from './types/RegistryType.ts';
 export * from './types/SearchQueryType.ts';
 export * from './types/LinkType.ts';
 export * from './types/ServerConfigType.ts';
+export * from './types/DependencySecurityAdvisoriesType.ts';
 
 export {
     AppLogger,
@@ -72,5 +73,5 @@ export {
     DependencyProvider,
     DependencyVersionStatusHelpProvider,
     DeprecatedDependencyProvider,
-    RepositoryApi,
+    RegistryManager,
 };

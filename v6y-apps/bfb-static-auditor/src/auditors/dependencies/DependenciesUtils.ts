@@ -2,10 +2,12 @@ import { AppLogger, AuditUtils } from '@v6y/core-logic';
 
 import { AuditCommonsType } from '../types/AuditCommonsType.ts';
 import { DependencyAuditParamsType } from '../types/DependencyAuditType.ts';
+import DependencySecurityAdvisoriesAnalyzer from './DependencySecurityAdvisoriesAnalyzer.js';
 import DependencyVersionStatusAnalyzer from './DependencyVersionStatusAnalyzer.ts';
 
 const { getFilesRecursively, getFileContent } = AuditUtils;
 const { analyzeDependencyVersionStatus } = DependencyVersionStatusAnalyzer;
+const { analyzeDependencySecurityAdvisories } = DependencySecurityAdvisoriesAnalyzer;
 
 /**
  * Build dependency audit report
@@ -35,13 +37,19 @@ const buildDependencyAuditReport = async ({
             dependencyVersion,
         });
 
+        const dependencySecurityAdvisories = await analyzeDependencySecurityAdvisories({
+            dependencyName,
+            dependencyVersion,
+        });
+
         return {
+            module,
             type: 'frontend',
             name: dependencyName,
             version: dependencyVersion,
             recommendedVersion: dependencyVersionStatus?.recommendedVersion || dependencyVersion,
             status: dependencyVersionStatus?.depStatus,
-            module,
+            securityAdvisories: dependencySecurityAdvisories,
         };
     } catch (error) {
         AppLogger.info(`[DependenciesUtils - buildDependencyAuditReport] error:  ${error}`);

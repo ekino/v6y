@@ -2,13 +2,13 @@ import {
     AppLogger,
     ApplicationProvider,
     ApplicationType,
-    RepositoryApi,
+    RegistryManager,
     ZipUtils,
 } from '@v6y/core-logic';
 
 import ServerConfig from '../config/ServerConfig.ts';
 
-const { getRepositoryDetails, getRepositoryBranches, prepareGitBranchZipConfig } = RepositoryApi;
+const { getRepositoryDetails, getRepositoryBranches, prepareGitBranchZipConfig } = RegistryManager;
 
 const { getCurrentConfig } = ServerConfig;
 const { staticAuditorApiPath, dynamicAuditorApiPath } = getCurrentConfig() || {};

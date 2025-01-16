@@ -1,6 +1,7 @@
 import {
     AppLogger,
     DeprecatedDependencyProvider,
+    RegistryManager,
     SemverUtils,
     dependencyVersionStatus,
 } from '@v6y/core-logic';
@@ -8,41 +9,7 @@ import {
 import { DependencyAuditParamsType } from '../types/DependencyAuditType.ts';
 
 const { compareVersions } = SemverUtils;
-
-const NPM_REGISTRY_API = 'https://skimdb.npmjs.com/registry/';
-
-/**
- * Get dependency registry infos
- * @param dependencyName
- */
-const getDependencyRegistryInfos = async ({ dependencyName }: DependencyAuditParamsType) => {
-    try {
-        // https://skimdb.npmjs.com/registry/react-cookie
-        // https://docs.npmjs.com/cli/v8/using-npm/registry
-        const dependencyRegistryResponse = await fetch(
-            `${NPM_REGISTRY_API}/${encodeURIComponent(dependencyName || '')}`,
-            {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-            },
-        );
-        AppLogger.info(
-            `[DependencyVersionStatusAnalyzer - getDependencyRegistryInfos] dependencyRegistryResponse:  ${dependencyRegistryResponse}`,
-        );
-
-        const dependencyRegistryJsonResponse = await dependencyRegistryResponse.json();
-        AppLogger.info(
-            `[DependencyVersionStatusAnalyzer - getDependencyRegistryInfos] dependencyRegistryJsonResponse:  ${dependencyRegistryJsonResponse}`,
-        );
-
-        return dependencyRegistryJsonResponse;
-    } catch (error) {
-        AppLogger.info(
-            `[DependencyVersionStatusAnalyzer - getDependencyRegistryInfos] error:  ${error}`,
-        );
-        return {};
-    }
-};
+const { getPackageInfos } = RegistryManager;
 
 /**
  * Analyze dependency version status
@@ -58,7 +25,11 @@ const analyzeDependencyVersionStatus = async ({
             return {};
         }
 
-        const dependencyRegistryInfos = await getDependencyRegistryInfos({ dependencyName });
+        const dependencyRegistryInfos = await getPackageInfos({
+            packageName: dependencyName,
+            type: 'npm',
+        });
+
         AppLogger.info(
             `[DependencyVersionStatusAnalyzer - buildDependencyAuditReport] dependencyRegistryInfos:  ${dependencyRegistryInfos}`,
         );

@@ -22,6 +22,9 @@ const DependencyType = `
     """ Dependency Version Status help """
     versionStatusHelp: DependencyVersionStatusHelpType  
     
+    """ Dependency Security Advisories """
+    securityAdvisories: [DependencySecurityAdvisoriesType]
+    
     """ Dependency Concerned Module """
     module: ModuleType
   }
