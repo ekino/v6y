@@ -1,4 +1,4 @@
-import RenderVitalityTable from '../../../commons/components/RenderVitalityTable';
+import RenderVitalityTable from '../../../commons/components/VitalityTable';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
 import DeleteAccount from '../apis/deleteAccount';

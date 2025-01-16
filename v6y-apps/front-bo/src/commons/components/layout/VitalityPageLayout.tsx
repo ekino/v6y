@@ -1,7 +1,7 @@
 'use client';
 
 import { ThemedLayoutV2 } from '@refinedev/antd';
-import { VitalityTitle } from '@v6y/shared-ui/src/components/VitalityTitle';
+import { VitalityTitle } from '@v6y/shared-ui/src/components/VitalityTitle/VitalityTitle';
 import * as React from 'react';
 import { ReactNode } from 'react';
 

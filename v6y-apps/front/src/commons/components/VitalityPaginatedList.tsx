@@ -1,4 +1,4 @@
-import { VitalityText } from '@v6y/shared-ui/src/components/VitalityText';
+import { VitalityText } from '@v6y/shared-ui/src/components/VitalityText/VitalityText';
 import { List } from 'antd';
 import * as React from 'react';
 

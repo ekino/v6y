@@ -1,4 +1,4 @@
-import { VitalityText } from '@v6y/shared-ui/src/components/VitalityText';
+import { VitalityText } from '@v6y/shared-ui/src/components/VitalityText/VitalityText';
 import { Col, Form, Row, Select } from 'antd';
 import * as React from 'react';
 import { useEffect } from 'react';

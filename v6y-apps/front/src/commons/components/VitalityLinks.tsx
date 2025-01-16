@@ -1,5 +1,5 @@
 import { LinkType } from '@v6y/core-logic';
-import { VitalityText } from '@v6y/shared-ui/src/components/VitalityText';
+import { VitalityText } from '@v6y/shared-ui/src/components/VitalityText/VitalityText';
 import { Col, Row } from 'antd';
 import Link from 'next/link';
 import * as React from 'react';

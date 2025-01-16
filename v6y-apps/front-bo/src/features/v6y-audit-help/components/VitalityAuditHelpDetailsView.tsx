@@ -1,6 +1,6 @@
 import { HttpError, useParsed } from '@refinedev/core';
 import { AuditHelpType } from '@v6y/core-logic';
-import { VitalityTitle } from '@v6y/shared-ui/src/components/VitalityTitle';
+import { VitalityTitle } from '@v6y/shared-ui/src/components/VitalityTitle/VitalityTitle';
 import * as React from 'react';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';

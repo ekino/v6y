@@ -1,8 +1,8 @@
 import { Typography } from 'antd';
 import React, { ReactNode } from 'react';
 
-import { useTranslation } from '../hooks/useTranslation';
-import { VitalityText } from './VitalityText';
+import { useTranslation } from '../../hooks/useTranslation';
+import { VitalityText } from '../VitalityText/VitalityText';
 
 interface VitalityTitleProps {
     title: string | ReactNode;

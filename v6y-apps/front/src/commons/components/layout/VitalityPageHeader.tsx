@@ -1,4 +1,4 @@
-import { VitalityTitle } from '@v6y/shared-ui/src/components/VitalityTitle';
+import { VitalityTitle } from '@v6y/shared-ui/src/components/VitalityTitle/VitalityTitle';
 import { Col, Row } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';

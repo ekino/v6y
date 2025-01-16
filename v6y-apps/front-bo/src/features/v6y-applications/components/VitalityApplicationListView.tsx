@@ -1,7 +1,7 @@
 import { ApplicationType } from '@v6y/core-logic';
 
 import GetApplicationListByPageAndParams from '../../../commons/apis/getApplicationListByPageAndParams';
-import RenderVitalityTable from '../../../commons/components/RenderVitalityTable';
+import RenderVitalityTable from '../../../commons/components/VitalityTable';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
 import DeleteApplication from '../apis/deleteApplication';
