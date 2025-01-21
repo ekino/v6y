@@ -3,14 +3,14 @@ import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
 import { NotificationType } from '@v6y/core-logic/src';
 import VitalityCollapse from '@v6y/shared-ui/src/components/VitalityCollapse/VitalityCollapse';
+import VitalityLinks from '@v6y/shared-ui/src/components/VitalityLinks/VitalityLinks';
 import { describe, expect, it, vi } from 'vitest';
 
-import VitalityLinks from '../../../../commons/components/VitalityLinks';
 import VitalityNotificationList from '../VitalityNotificationList';
 
 // Mock VitalityCollapse and VitalityLinks
 vi.mock('@v6y/shared-ui/src/components/VitalityCollapse/VitalityCollapse');
-vi.mock('../../../../commons/components/VitalityLinks');
+vi.mock('@v6y/shared-ui/src/components/VitalityLinks/VitalityLinks');
 
 describe('VitalityNotificationList', () => {
     const mockDataSource: NotificationType[] = [

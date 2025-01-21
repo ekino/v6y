@@ -9,10 +9,10 @@ import {
     LinkType,
     NotificationType,
 } from '@v6y/core-logic';
+import VitalityLinks from '@v6y/shared-ui/src/components/VitalityLinks/VitalityLinks';
 import { ReactNode } from 'react';
 
 import { TranslateType } from '../../infrastructure/types/TranslationType';
-import VitalityLinks from '../components/VitalityLinks';
 
 export const formatAccountDetails = (
     translate: TranslateType,

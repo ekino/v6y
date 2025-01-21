@@ -1,10 +1,10 @@
-import { LinkType } from '@v6y/core-logic';
-import { VitalityText } from '@v6y/shared-ui';
 import { Col, Row } from 'antd';
 import Link from 'next/link';
 import * as React from 'react';
 
-import { VitalityLinksProps } from '../types/VitalityLinksProps';
+import { VitalityLinksProps } from '../../../../../v6y-apps/front/src/commons/types/VitalityLinksProps';
+import { LinkType } from '../../../../core-logic/src';
+import { VitalityText } from '../VitalityText/VitalityText';
 
 const VitalityLinks = ({ links, align }: VitalityLinksProps) => {
     const dataSource = (links || [])

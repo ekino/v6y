@@ -1,3 +1,4 @@
+import VitalityLinks from '@v6y/shared-ui/src/components/VitalityLinks';
 import { VitalityText } from '@v6y/shared-ui';
 import { Col, Divider, List, Row, Tag } from 'antd';
 import Link from 'next/link';
@@ -8,7 +9,6 @@ import { QUALITY_METRIC_STATUS } from '../../config/VitalityCommonConfig';
 import VitalityNavigationPaths from '../../config/VitalityNavigationPaths';
 import VitalityTerms from '../../config/VitalityTerms';
 import { VitalityAppInfosProps } from '../../types/VitalityAppInfosProps';
-import VitalityLinks from '../VitalityLinks';
 
 const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: VitalityAppInfosProps) => {
     const { createUrlQueryParam } = useNavigationAdapter();
