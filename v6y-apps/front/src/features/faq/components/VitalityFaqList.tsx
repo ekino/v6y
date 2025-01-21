@@ -1,9 +1,9 @@
 import { FaqType } from '@v6y/core-logic/src';
+import VitalityCollapse from '@v6y/shared-ui/src/components/VitalityCollapse/VitalityCollapse';
+import { CollapseItemType } from '@v6y/shared-ui/src/types/VitalityCollapseProps';
 import * as React from 'react';
 
-import VitalityCollapse from '../../../commons/components/VitalityCollapse';
 import VitalityLinks from '../../../commons/components/VitalityLinks';
-import { CollapseItemType } from '../../../commons/types/VitalityCollapseProps';
 
 const VitalityFaqList = ({ dataSource }: { dataSource: FaqType[] }) => {
     if (!dataSource?.length) {

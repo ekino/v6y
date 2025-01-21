@@ -1,8 +1,8 @@
 import { NotificationType } from '@v6y/core-logic';
+import VitalityCollapse from '@v6y/shared-ui/src/components/VitalityCollapse/VitalityCollapse';
+import { CollapseItemType } from '@v6y/shared-ui/src/types/VitalityCollapseProps';
 
-import VitalityCollapse from '../../../commons/components/VitalityCollapse';
 import VitalityLinks from '../../../commons/components/VitalityLinks';
-import { CollapseItemType } from '../../../commons/types/VitalityCollapseProps';
 
 const VitalityNotificationList = ({ dataSource }: { dataSource: NotificationType[] }) => {
     if (!dataSource?.length) {
