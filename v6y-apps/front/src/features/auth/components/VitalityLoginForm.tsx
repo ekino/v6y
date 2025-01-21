@@ -7,7 +7,7 @@ import { z } from 'zod';
 
 import VitalityCheckbox from '../../../commons/components/form/VitalityCheckbox';
 import VitalityInput from '../../../commons/components/form/VitalityInput';
-import VitalityTerms from '../../../commons/config/VitalityTerms';
+import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import {
     LoginAccountFormType,
     loginSchemaValidator,

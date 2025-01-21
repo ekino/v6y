@@ -7,7 +7,7 @@ import * as React from 'react';
 
 import VitalitySectionView from '../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
-import VitalityTerms from '../../../commons/config/VitalityTerms';
+import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import {
     buildClientQuery,
     useClientQuery,

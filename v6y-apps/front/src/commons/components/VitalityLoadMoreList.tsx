@@ -1,7 +1,7 @@
 import { SyncOutlined } from '@ant-design/icons';
 import { Button, Flex, List } from 'antd';
 
-import VitalityTerms from '../config/VitalityTerms';
+import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import { VitalityListProps } from '../types/VitalityListProps';
 
 const VitalityLoadMoreList = ({

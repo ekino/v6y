@@ -5,7 +5,7 @@ import * as React from 'react';
 
 import VitalityDynamicLoader from '../../../commons/components/VitalityDynamicLoader';
 import VitalitySearchBar from '../../../commons/components/VitalitySearchBar';
-import VitalityTerms from '../../../commons/config/VitalityTerms';
+import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 
 const VitalityCheckableKeywords = VitalityDynamicLoader(
     () => import('../../../commons/components/indicators/VitalitySelectableIndicators'),

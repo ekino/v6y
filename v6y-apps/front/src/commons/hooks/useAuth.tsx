@@ -11,7 +11,7 @@ import {
     setSession,
 } from '../../infrastructure/providers/SessionProvider';
 import VitalityApiConfig from '../config/VitalityApiConfig';
-import VitalityTerms from '../config/VitalityTerms';
+import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 
 type LoginAccountType = { token: string; _id: string; role: string };
 

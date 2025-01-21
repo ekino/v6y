@@ -2,7 +2,7 @@ import { Col, Row } from 'antd';
 import Link from 'next/link';
 import * as React from 'react';
 
-import { VitalityLinksProps } from '../../../../../v6y-apps/front/src/commons/types/VitalityLinksProps';
+import { VitalityLinksProps } from '../../types/VitalityLinksProps';
 import { LinkType } from '../../../../core-logic/src';
 import { VitalityText } from '../VitalityText/VitalityText';
 

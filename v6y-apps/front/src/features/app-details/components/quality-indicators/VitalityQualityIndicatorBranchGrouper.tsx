@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import VitalityDynamicLoader from '../../../../commons/components/VitalityDynamicLoader';
 import VitalitySelectGrouperView from '../../../../commons/components/VitalitySelectGrouperView';
-import VitalityTerms from '../../../../commons/config/VitalityTerms';
+import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 
 const VitalityQualityIndicatorStatusGrouper = VitalityDynamicLoader(
     () => import('./VitalityQualityIndicatorStatusGrouper'),

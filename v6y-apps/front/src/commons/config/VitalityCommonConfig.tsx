@@ -19,7 +19,7 @@ import * as React from 'react';
 import { ReactNode } from 'react';
 
 import VitalityNavigationPaths from './VitalityNavigationPaths';
-import VitalityTerms from './VitalityTerms';
+import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import VitalityTheme from './VitalityTheme';
 
 export interface BreadCrumbItemType {

@@ -27,6 +27,7 @@ export * from './config/EvolutionHelpStatusConfig.ts';
 export * from './config/AuditHelpConfig.ts';
 export * from './config/CodeSmellConfig.ts';
 export * from './config/DependencyStatusHelpConfig.ts';
+export * from './config/VitalityTerms.ts';
 
 export * from './core/AuthenticationHelper.ts';
 
