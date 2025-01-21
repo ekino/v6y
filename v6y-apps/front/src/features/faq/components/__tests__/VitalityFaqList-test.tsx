@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
 import { FaqType } from '@v6y/core-logic/src';
 import VitalityCollapse from '@v6y/shared-ui/src/components/VitalityCollapse/VitalityCollapse';
-import VitalityLinks from '@v6y/shared-ui/src/components/VitalityLinks';
+import VitalityLinks from '@v6y/shared-ui/src/components/VitalityLinks/VitalityLinks';
 import * as React from 'react';
 import { describe, expect, it, vi } from 'vitest';
 
@@ -13,7 +13,7 @@ import VitalityFaqList from '../VitalityFaqList';
 vi.mock('@v6y/shared-ui/src/components/VitalityCollapse/VitalityCollapse');
 
 // Mock VitalityLinks
-vi.mock('../../../../commons/components/VitalityLinks');
+vi.mock('v6y/shared-ui/src/components/VitalityLinks/VitalityLinks');
 
 describe('VitalityFaqList', () => {
     const mockDataSource: FaqType[] = [
