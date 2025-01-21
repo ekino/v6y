@@ -1,9 +1,10 @@
 'use client';
 
+import VitalityLoader from '@v6y/shared-ui/src/components/VitalityLoader/VitalityLoader';
 import { Suspense, lazy, useEffect, useState } from 'react';
+import React from 'react';
 import { Settings } from 'react-chatbotify';
 
-import VitalityLoader from '../VitalityLoader';
 import { VitalityBotFlow } from './VitalityBotFlow';
 import VitalityBotSettings from './VitalityBotSettings';
 

@@ -1,10 +1,10 @@
 import { KeywordStatsType } from '@v6y/core-logic';
+import VitalityLoader from '@v6y/shared-ui/src/components/VitalityLoader/VitalityLoader';
 import { AgCharts } from 'ag-charts-react';
 import { Col, Row } from 'antd';
 import * as React from 'react';
 import { useEffect } from 'react';
 
-import VitalityLoader from '../../../commons/components/VitalityLoader';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import VitalityTerms from '../../../commons/config/VitalityTerms';
 import {
