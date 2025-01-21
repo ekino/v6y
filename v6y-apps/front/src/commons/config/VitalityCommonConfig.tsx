@@ -12,6 +12,7 @@ import {
     ThunderboltOutlined,
 } from '@ant-design/icons';
 import { ApplicationType } from '@v6y/core-logic';
+import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import Matcher from '@v6y/core-logic/src/core/Matcher';
 import { VitalityText } from '@v6y/shared-ui';
 import Link from 'next/link';
@@ -19,7 +20,6 @@ import * as React from 'react';
 import { ReactNode } from 'react';
 
 import VitalityNavigationPaths from './VitalityNavigationPaths';
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import VitalityTheme from './VitalityTheme';
 
 export interface BreadCrumbItemType {

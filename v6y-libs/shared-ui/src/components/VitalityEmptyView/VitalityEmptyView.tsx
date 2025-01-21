@@ -1,9 +1,8 @@
 import { Empty } from 'antd';
 import * as React from 'react';
 
-
-import { VitalityText } from '../VitalityText/VitalityText';
 import VitalityTerms from '../../../../core-logic/src/config/VitalityTerms';
+import { VitalityText } from '../VitalityText/VitalityText';
 
 const VitalityEmptyView = ({ message }: { message?: string }) => (
     <Empty

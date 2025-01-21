@@ -1,7 +1,7 @@
+import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import { Descriptions } from 'antd';
 import * as React from 'react';
 
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import { VitalityModuleType } from '../../types/VitalityModulesProps';
 
 const VitalityHelpView = ({ module }: { module: VitalityModuleType }) => {

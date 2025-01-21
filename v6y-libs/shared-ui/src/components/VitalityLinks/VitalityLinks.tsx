@@ -2,8 +2,8 @@ import { Col, Row } from 'antd';
 import Link from 'next/link';
 import * as React from 'react';
 
-import { VitalityLinksProps } from '../../types/VitalityLinksProps';
 import { LinkType } from '../../../../core-logic/src';
+import { VitalityLinksProps } from '../../types/VitalityLinksProps';
 import { VitalityText } from '../VitalityText/VitalityText';
 
 const VitalityLinks = ({ links, align }: VitalityLinksProps) => {

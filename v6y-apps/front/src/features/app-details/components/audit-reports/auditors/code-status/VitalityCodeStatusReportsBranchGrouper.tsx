@@ -1,9 +1,9 @@
 import { AuditType } from '@v6y/core-logic';
+import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import * as React from 'react';
 
 import VitalityDynamicLoader from '../../../../../../commons/components/VitalityDynamicLoader';
 import VitalitySelectGrouperView from '../../../../../../commons/components/VitalitySelectGrouperView';
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';
 
 const VitalityCodeStatusReportsSmellGrouper = VitalityDynamicLoader(

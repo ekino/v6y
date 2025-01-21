@@ -1,9 +1,9 @@
+import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import { VitalityTitle } from '@v6y/shared-ui';
 import { Col, Row } from 'antd';
 import * as React from 'react';
 
 import { DashboardItemType } from '../../../commons/config/VitalityCommonConfig';
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import VitalityDashboardMenuItem from './VitalityDashboardMenuItem';
 
 const VitalityDashboardMenu = ({ options }: { options: DashboardItemType[] }) => {

@@ -1,10 +1,10 @@
 'use client';
 
+import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import * as React from 'react';
 
 import VitalitySearchBar from '../../../commons/components/VitalitySearchBar';
 import { VITALITY_DASHBOARD_DATASOURCE } from '../../../commons/config/VitalityCommonConfig';
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import VitalityDashboardMenu from './VitalityDashboardMenu';
 
 const VitalityDashboardView = () => (

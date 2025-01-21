@@ -2,12 +2,12 @@
 
 import { QuestionOutlined } from '@ant-design/icons';
 import { FaqType } from '@v6y/core-logic';
+import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import VitalityEmptyView from '@v6y/shared-ui/src/components/VitalityEmptyView/VitalityEmptyView';
 import * as React from 'react';
 
 import VitalitySectionView from '../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import {
     buildClientQuery,
     useClientQuery,

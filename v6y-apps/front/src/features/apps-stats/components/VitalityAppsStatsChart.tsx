@@ -1,4 +1,5 @@
 import { KeywordStatsType } from '@v6y/core-logic';
+import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import VitalityLoader from '@v6y/shared-ui/src/components/VitalityLoader/VitalityLoader';
 import { AgCharts } from 'ag-charts-react';
 import { Col, Row } from 'antd';
@@ -6,7 +7,6 @@ import * as React from 'react';
 import { useEffect } from 'react';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import {
     buildClientQuery,
     useClientQuery,

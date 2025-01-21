@@ -1,11 +1,11 @@
 import { FormOutlined } from '@ant-design/icons';
 import { AuditType } from '@v6y/core-logic';
+import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import * as React from 'react';
 
 import VitalityDynamicLoader from '../../../../commons/components/VitalityDynamicLoader';
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import { exportAppAuditReportsToCSV } from '../../../../commons/utils/VitalityDataExportUtils';
 import {
     buildClientQuery,

@@ -2,11 +2,11 @@
 
 import { NotificationOutlined } from '@ant-design/icons';
 import { NotificationType } from '@v6y/core-logic';
+import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import VitalityEmptyView from '@v6y/shared-ui/src/components/VitalityEmptyView/VitalityEmptyView';
 
 import VitalitySectionView from '../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
 import {
     buildClientQuery,
     useClientQuery,

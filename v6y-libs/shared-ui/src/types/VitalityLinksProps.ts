@@ -1,5 +1,4 @@
-import { LinkType } from "../../../core-logic/src";
-
+import { LinkType } from '../../../core-logic/src';
 
 export interface VitalityLinksProps {
     links: LinkType[];
