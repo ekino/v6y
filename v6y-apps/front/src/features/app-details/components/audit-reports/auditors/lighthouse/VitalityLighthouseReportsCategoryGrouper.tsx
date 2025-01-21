@@ -1,8 +1,6 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { AuditType } from '@v6y/core-logic';
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
-import { VitalityText } from '@v6y/shared-ui';
-import { VitalityTitle } from '@v6y/shared-ui';
+import { AuditType, VitalityTerms } from '@v6y/core-logic';
+import { VitalityText, VitalityTitle } from '@v6y/shared-ui';
 import { Button, Card, Col, List, Row, Statistic } from 'antd';
 import Link from 'next/link';
 import * as React from 'react';

@@ -1,12 +1,11 @@
 // VitalityEvolutionBranchGrouper.test.tsx
 import '@testing-library/jest-dom/vitest';
 import { render } from '@testing-library/react';
-import { EvolutionType } from '@v6y/core-logic';
+import { EvolutionType, VitalityTerms } from '@v6y/core-logic';
 import * as React from 'react';
 import { describe, expect, it, vi } from 'vitest';
 
 import VitalitySelectGrouperView from '../../../../commons/components/VitalitySelectGrouperView';
-import VitalityTerms from '../../../../commons/config/VitalityTerms';
 import VitalityEvolutionBranchGrouper from '../evolutions/VitalityEvolutionBranchGrouper';
 
 // Mock dynamic import to return the actual VitalityEvolutionStatusGrouper component

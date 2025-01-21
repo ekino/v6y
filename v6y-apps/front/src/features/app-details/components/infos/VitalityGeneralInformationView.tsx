@@ -1,6 +1,5 @@
 import { InfoOutlined } from '@ant-design/icons';
-import { ApplicationType } from '@v6y/core-logic';
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
+import { ApplicationType, VitalityTerms } from '@v6y/core-logic';
 import * as React from 'react';
 
 import VitalityDynamicLoader from '../../../../commons/components/VitalityDynamicLoader';

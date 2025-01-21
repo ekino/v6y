@@ -1,6 +1,6 @@
 'use client';
 
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
+import { VitalityTerms } from '@v6y/core-logic';
 import * as React from 'react';
 
 import VitalitySearchBar from '../../../commons/components/VitalitySearchBar';

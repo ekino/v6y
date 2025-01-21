@@ -1,6 +1,5 @@
-import { KeywordStatsType } from '@v6y/core-logic';
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
-import VitalityLoader from '@v6y/shared-ui/src/components/VitalityLoader/VitalityLoader';
+import { KeywordStatsType, VitalityTerms } from '@v6y/core-logic';
+import { VitalityLoader } from '@v6y/shared-ui';
 import { AgCharts } from 'ag-charts-react';
 import { Col, Row } from 'antd';
 import * as React from 'react';

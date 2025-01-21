@@ -1,6 +1,5 @@
 import { List, RefreshButton, useTable } from '@refinedev/antd';
-import VitalityLoader from '@v6y/shared-ui/src/components/VitalityLoader/VitalityLoader';
-import { VitalityTitle } from '@v6y/shared-ui';
+import { VitalityLoader, VitalityTitle } from '@v6y/shared-ui';
 import { ReactNode } from 'react';
 
 import { RefineTableType } from '../types/RefineTableType';

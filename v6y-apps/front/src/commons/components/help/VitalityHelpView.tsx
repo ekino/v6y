@@ -1,4 +1,4 @@
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
+import { VitalityTerms } from '@v6y/core-logic';
 import { Descriptions } from 'antd';
 import * as React from 'react';
 

@@ -1,9 +1,8 @@
 'use client';
 
 import { QuestionOutlined } from '@ant-design/icons';
-import { FaqType } from '@v6y/core-logic';
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
-import VitalityEmptyView from '@v6y/shared-ui/src/components/VitalityEmptyView/VitalityEmptyView';
+import { FaqType, VitalityTerms } from '@v6y/core-logic';
+import { VitalityEmptyView } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalitySectionView from '../../../commons/components/VitalitySectionView';

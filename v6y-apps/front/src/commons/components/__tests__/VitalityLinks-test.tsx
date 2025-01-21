@@ -1,7 +1,7 @@
 // VitalityLinks.test.tsx
 import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
-import VitalityLinks from '@v6y/shared-ui/src/components/VitalityLinks/VitalityLinks';
+import { VitalityLinks } from '@v6y/shared-ui';
 import * as React from 'react';
 import { describe, expect, it } from 'vitest';
 

@@ -1,6 +1,5 @@
 import { KeywordType } from '@v6y/core-logic';
-import VitalityEmptyView from '@v6y/shared-ui/src/components/VitalityEmptyView/VitalityEmptyView';
-import VitalityLoader from '@v6y/shared-ui/src/components/VitalityLoader/VitalityLoader';
+import { VitalityEmptyView, VitalityLoader } from '@v6y/shared-ui';
 import { Card, Checkbox } from 'antd';
 import { CheckboxOptionType } from 'antd/es/checkbox/Group';
 import * as React from 'react';

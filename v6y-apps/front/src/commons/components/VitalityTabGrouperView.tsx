@@ -1,4 +1,4 @@
-import VitalityEmptyView from '@v6y/shared-ui/src/components/VitalityEmptyView/VitalityEmptyView';
+import { VitalityEmptyView } from '@v6y/shared-ui';
 import { Col, Row, Tabs } from 'antd';
 import * as React from 'react';
 

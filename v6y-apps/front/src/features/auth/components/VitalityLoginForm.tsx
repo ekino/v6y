@@ -1,6 +1,6 @@
 'use client';
 
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
+import { VitalityTerms } from '@v6y/core-logic';
 import { Button, Form, message } from 'antd';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';

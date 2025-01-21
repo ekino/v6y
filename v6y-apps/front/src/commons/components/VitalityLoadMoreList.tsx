@@ -1,5 +1,5 @@
 import { SyncOutlined } from '@ant-design/icons';
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
+import { VitalityTerms } from '@v6y/core-logic';
 import { Button, Flex, List } from 'antd';
 
 import { VitalityListProps } from '../types/VitalityListProps';

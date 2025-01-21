@@ -1,6 +1,5 @@
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
-import VitalityLinks from '@v6y/shared-ui/src/components/VitalityLinks/VitalityLinks';
-import { VitalityText } from '@v6y/shared-ui';
+import { VitalityTerms } from '@v6y/core-logic';
+import { VitalityLinks, VitalityText } from '@v6y/shared-ui';
 import { Col, Divider, List, Row, Tag } from 'antd';
 import Link from 'next/link';
 import * as React from 'react';

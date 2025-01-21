@@ -1,5 +1,4 @@
-import { AuditType } from '@v6y/core-logic';
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
+import { AuditType, VitalityTerms } from '@v6y/core-logic';
 import * as React from 'react';
 
 import VitalityDynamicLoader from '../../../../../../commons/components/VitalityDynamicLoader';

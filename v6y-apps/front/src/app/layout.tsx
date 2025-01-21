@@ -1,5 +1,5 @@
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
-import VitalityLoader from '@v6y/shared-ui/src/components/VitalityLoader/VitalityLoader';
+import { VitalityTerms } from '@v6y/core-logic';
+import { VitalityLoader } from '@v6y/shared-ui';
 import * as React from 'react';
 import { ReactNode, Suspense } from 'react';
 

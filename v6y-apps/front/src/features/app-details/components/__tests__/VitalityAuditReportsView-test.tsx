@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom/vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { VitalityTerms } from '@v6y/core-logic';
 import * as React from 'react';
 import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { AUDIT_REPORT_TYPES } from '../../../../commons/config/VitalityCommonConfig';
-import VitalityTerms from '../../../../commons/config/VitalityTerms';
 import { exportAppAuditReportsToCSV } from '../../../../commons/utils/VitalityDataExportUtils';
 import { useClientQuery } from '../../../../infrastructure/adapters/api/useQueryAdapter';
 import useNavigationAdapter from '../../../../infrastructure/adapters/navigation/useNavigationAdapter';

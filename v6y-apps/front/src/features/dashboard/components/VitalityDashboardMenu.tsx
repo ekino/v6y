@@ -1,4 +1,4 @@
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
+import { VitalityTerms } from '@v6y/core-logic';
 import { VitalityTitle } from '@v6y/shared-ui';
 import { Col, Row } from 'antd';
 import * as React from 'react';

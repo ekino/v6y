@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { LinkType } from '../../../../core-logic/src';
 import { VitalityLinksProps } from '../../types/VitalityLinksProps';
-import { VitalityText } from '../VitalityText/VitalityText';
+import VitalityText from '../VitalityText/VitalityText';
 
 const VitalityLinks = ({ links, align }: VitalityLinksProps) => {
     const dataSource = (links || [])

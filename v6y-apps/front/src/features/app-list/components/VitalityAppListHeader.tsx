@@ -1,5 +1,5 @@
 import { ExportOutlined } from '@ant-design/icons';
-import VitalityTerms from '@v6y/core-logic/src/config/VitalityTerms';
+import { VitalityTerms } from '@v6y/core-logic';
 import { VitalityTitle } from '@v6y/shared-ui';
 import { Button, Col, Row } from 'antd';
 import { useEffect, useState } from 'react';

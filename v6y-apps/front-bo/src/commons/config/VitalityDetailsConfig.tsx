@@ -9,7 +9,7 @@ import {
     LinkType,
     NotificationType,
 } from '@v6y/core-logic';
-import VitalityLinks from '@v6y/shared-ui/src/components/VitalityLinks/VitalityLinks';
+import { VitalityLinks } from '@v6y/shared-ui';
 import { ReactNode } from 'react';
 
 import { TranslateType } from '../../infrastructure/types/TranslationType';

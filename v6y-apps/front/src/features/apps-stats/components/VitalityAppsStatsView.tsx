@@ -1,6 +1,6 @@
 'use client';
 
-import VitalityLoader from '@v6y/shared-ui/src/components/VitalityLoader/VitalityLoader';
+import { VitalityLoader } from '@v6y/shared-ui';
 import * as React from 'react';
 import { Suspense } from 'react';
 
