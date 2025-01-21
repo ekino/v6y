@@ -1,12 +1,12 @@
 'use client';
 
 import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
+import VitalityEmptyView from '@v6y/shared-ui/src/components/VitalityEmptyView/VitalityEmptyView';
 import { VitalityTitle } from '@v6y/shared-ui';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
 import GetApplicationListByPageAndParams from '../../../commons/apis/getApplicationListByPageAndParams';
-import VitalityEmptyView from '../../../commons/components/VitalityEmptyView';
 import {
     accountCreateEditItems,
     accountCreateOrEditFormOutputAdapter,

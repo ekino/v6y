@@ -2,12 +2,12 @@
 
 import { useParsed } from '@refinedev/core';
 import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
+import VitalityEmptyView from '@v6y/shared-ui/src/components/VitalityEmptyView/VitalityEmptyView';
 import { VitalityTitle } from '@v6y/shared-ui';
 import { useEffect, useState } from 'react';
 import React from 'react';
 
 import GetApplicationListByPageAndParams from '../../../commons/apis/getApplicationListByPageAndParams';
-import VitalityEmptyView from '../../../commons/components/VitalityEmptyView';
 import {
     accountCreateEditItems,
     accountCreateOrEditFormInAdapter,

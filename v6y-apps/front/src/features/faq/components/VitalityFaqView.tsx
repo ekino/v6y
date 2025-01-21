@@ -2,9 +2,9 @@
 
 import { QuestionOutlined } from '@ant-design/icons';
 import { FaqType } from '@v6y/core-logic';
+import VitalityEmptyView from '@v6y/shared-ui/src/components/VitalityEmptyView/VitalityEmptyView';
 import * as React from 'react';
 
-import VitalityEmptyView from '../../../commons/components/VitalityEmptyView';
 import VitalitySectionView from '../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import VitalityTerms from '../../../commons/config/VitalityTerms';

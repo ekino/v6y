@@ -1,6 +1,6 @@
+import VitalityEmptyView from '@v6y/shared-ui/src/components/VitalityEmptyView/VitalityEmptyView';
 import { Collapse } from 'antd';
-
-import VitalityEmptyView from './VitalityEmptyView';
+import * as React from 'react';
 
 const VitalityCollapse = ({ bordered, accordion, dataSource }) => {
     return (

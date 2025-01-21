@@ -1,4 +1,5 @@
 import { KeywordType } from '@v6y/core-logic';
+import VitalityEmptyView from '@v6y/shared-ui/src/components/VitalityEmptyView/VitalityEmptyView';
 import VitalityLoader from '@v6y/shared-ui/src/components/VitalityLoader/VitalityLoader';
 import { Card, Checkbox } from 'antd';
 import { CheckboxOptionType } from 'antd/es/checkbox/Group';
@@ -11,7 +12,6 @@ import {
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import VitalityApiConfig from '../../config/VitalityApiConfig';
-import VitalityEmptyView from '../VitalityEmptyView';
 import GetIndicatorListByParams from './getIndicatorListByParams';
 
 interface VitalitySelectableIndicatorsQueryType {

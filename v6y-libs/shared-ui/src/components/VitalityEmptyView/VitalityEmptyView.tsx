@@ -1,8 +1,8 @@
-import { VitalityText } from '@v6y/shared-ui';
 import { Empty } from 'antd';
 import * as React from 'react';
 
-import VitalityTerms from '../config/VitalityTerms';
+import VitalityTerms from '../../../../../v6y-apps/front/src/commons/config/VitalityTerms';
+import { VitalityText } from '../VitalityText/VitalityText';
 
 const VitalityEmptyView = ({ message }: { message?: string }) => (
     <Empty
