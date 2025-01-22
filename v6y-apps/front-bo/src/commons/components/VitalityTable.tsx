@@ -3,7 +3,7 @@ import React from 'react';
 import { buildCommonTableColumns, buildCommonTableDataSource } from '../config/VitalityTableConfig';
 import VitalityBaseTable from './VitalityBaseTable';
 
-interface RenderVitalityTableProps {
+interface VitalityTableProps {
     dataSource: unknown[];
     columnKeys: string[];
     columnOptions: {
@@ -17,11 +17,7 @@ interface RenderVitalityTableProps {
     };
 }
 
-const VitalityTable: React.FC<RenderVitalityTableProps> = ({
-    dataSource,
-    columnKeys,
-    columnOptions,
-}) => {
+const VitalityTable: React.FC<VitalityTableProps> = ({ dataSource, columnKeys, columnOptions }) => {
     return (
         <VitalityBaseTable
             dataSource={buildCommonTableDataSource(dataSource)}
