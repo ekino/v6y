@@ -4,6 +4,7 @@ import VitalityLinks from './components/VitalityLinks/VitalityLinks.tsx';
 import VitalityLoader from './components/VitalityLoader/VitalityLoader.tsx';
 import VitalityText from './components/VitalityText/VitalityText.tsx';
 import VitalityTitle from './components/VitalityTitle/VitalityTitle.tsx';
+import VitalityModal from './components/VitalityModal/VitalityModal.tsx';
 
 export * from './types/VitalityCollapseProps.ts';
 export * from './types/VitalityLinksProps.ts';
