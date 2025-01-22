@@ -13,7 +13,7 @@ importers:
         version: 9.1.7
       nx:
         specifier: '=20.3.1'
-        version: 20.3.1(@swc/core@1.10.7)
+        version: 20.3.1(@swc/core@1.10.7(@swc/helpers@0.5.15))
       typescript-coverage-report:
         specifier: '=1.1.0'
         version: 1.1.0(typescript@5.7.3)
@@ -92,7 +92,7 @@ importers:
         version: 22.10.6
       '@vitest/coverage-v8':
         specifier: '=2.1.8'
-        version: 2.1.8(vitest@2.1.8(@types/node@22.10.6)(@vitest/ui@2.1.8)(jsdom@26.0.0))
+        version: 2.1.8(vitest@2.1.8)
       '@vitest/ui':
         specifier: '=2.1.8'
         version: 2.1.8(vitest@2.1.8)
@@ -119,7 +119,7 @@ importers:
         version: 3.1.9
       ts-node:
         specifier: '=10.9.2'
-        version: 10.9.2(@swc/core@1.10.7)(@types/node@22.10.6)(typescript@5.7.3)
+        version: 10.9.2(@swc/core@1.10.7(@swc/helpers@0.5.15))(@types/node@22.10.6)(typescript@5.7.3)
       typescript:
         specifier: '=5.7.3'
         version: 5.7.3
@@ -195,7 +195,7 @@ importers:
         version: 1.3.3
       '@vitest/coverage-v8':
         specifier: '=2.1.8'
-        version: 2.1.8(vitest@2.1.8(@types/node@22.10.6)(@vitest/ui@2.1.8)(jsdom@26.0.0))
+        version: 2.1.8(vitest@2.1.8)
       '@vitest/ui':
         specifier: '=2.1.8'
         version: 2.1.8(vitest@2.1.8)
@@ -228,7 +228,7 @@ importers:
         version: 24.0.0(bare-buffer@3.0.1)
       ts-node:
         specifier: '=10.9.2'
-        version: 10.9.2(@swc/core@1.10.7)(@types/node@22.10.6)(typescript@5.7.3)
+        version: 10.9.2(@swc/core@1.10.7(@swc/helpers@0.5.15))(@types/node@22.10.6)(typescript@5.7.3)
       typescript:
         specifier: '=5.7.3'
         version: 5.7.3
@@ -325,7 +325,7 @@ importers:
         version: 3.1.9
       ts-node:
         specifier: '=10.9.2'
-        version: 10.9.2(@swc/core@1.10.7)(@types/node@22.10.6)(typescript@5.7.3)
+        version: 10.9.2(@swc/core@1.10.7(@swc/helpers@0.5.15))(@types/node@22.10.6)(typescript@5.7.3)
       typescript:
         specifier: '=5.7.3'
         version: 5.7.3
@@ -455,7 +455,7 @@ importers:
         version: 0.4.14
       '@vitest/coverage-v8':
         specifier: '=2.1.8'
-        version: 2.1.8(vitest@2.1.8(@types/node@22.10.6)(@vitest/ui@2.1.8)(jsdom@26.0.0))
+        version: 2.1.8(vitest@2.1.8)
       '@vitest/ui':
         specifier: '=2.1.8'
         version: 2.1.8(vitest@2.1.8)
@@ -485,7 +485,7 @@ importers:
         version: 1.2.1
       ts-node:
         specifier: '=10.9.2'
-        version: 10.9.2(@swc/core@1.10.7)(@types/node@22.10.6)(typescript@5.7.3)
+        version: 10.9.2(@swc/core@1.10.7(@swc/helpers@0.5.15))(@types/node@22.10.6)(typescript@5.7.3)
       typescript:
         specifier: '=5.7.3'
         version: 5.7.3
@@ -579,7 +579,7 @@ importers:
         version: 3.1.9
       ts-node:
         specifier: '=10.9.2'
-        version: 10.9.2(@swc/core@1.10.7)(@types/node@22.10.6)(typescript@5.7.3)
+        version: 10.9.2(@swc/core@1.10.7(@swc/helpers@0.5.15))(@types/node@22.10.6)(typescript@5.7.3)
       typescript:
         specifier: '=5.7.3'
         version: 5.7.3
@@ -721,7 +721,7 @@ importers:
         version: 4.3.4(vite@6.0.7(@types/node@22.10.6)(yaml@2.7.0))
       '@vitest/coverage-v8':
         specifier: '=2.1.8'
-        version: 2.1.8(vitest@2.1.8(@types/node@22.10.6)(@vitest/ui@2.1.8)(jsdom@26.0.0))
+        version: 2.1.8(vitest@2.1.8)
       '@vitest/ui':
         specifier: '=2.1.8'
         version: 2.1.8(vitest@2.1.8)
@@ -893,7 +893,7 @@ importers:
         version: 4.3.4(vite@6.0.7(@types/node@22.10.6)(yaml@2.7.0))
       '@vitest/coverage-v8':
         specifier: '=2.1.8'
-        version: 2.1.8(vitest@2.1.8(@types/node@22.10.6)(@vitest/ui@2.1.8)(jsdom@26.0.0))
+        version: 2.1.8(vitest@2.1.8)
       '@vitest/ui':
         specifier: '=2.1.8'
         version: 2.1.8(vitest@2.1.8)
@@ -1044,7 +1044,7 @@ importers:
         version: 4.0.1
       '@vitest/coverage-v8':
         specifier: '=2.1.8'
-        version: 2.1.8(vitest@2.1.8(@types/node@22.10.6)(@vitest/ui@2.1.8)(jsdom@26.0.0))
+        version: 2.1.8(vitest@2.1.8)
       '@vitest/ui':
         specifier: '=2.1.8'
         version: 2.1.8(vitest@2.1.8)
@@ -1115,12 +1115,15 @@ importers:
       '@types/react-dom':
         specifier: '=19.0.3'
         version: 19.0.3(@types/react@19.0.7)
+      '@vitejs/plugin-react':
+        specifier: '=4.3.4'
+        version: 4.3.4(vite@6.0.7(@types/node@22.10.6)(yaml@2.7.0))
       '@vitejs/plugin-react-swc':
         specifier: '=3.7.2'
         version: 3.7.2(@swc/helpers@0.5.15)(vite@6.0.7(@types/node@22.10.6)(yaml@2.7.0))
       '@vitest/coverage-v8':
         specifier: '=2.1.8'
-        version: 2.1.8(vitest@2.1.8(@types/node@22.10.6)(@vitest/ui@2.1.8)(jsdom@26.0.0))
+        version: 2.1.8(vitest@2.1.8)
       '@vitest/ui':
         specifier: '=2.1.8'
         version: 2.1.8(vitest@2.1.8)
@@ -12594,7 +12597,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vitest/coverage-v8@2.1.8(vitest@2.1.8(@types/node@22.10.6)(@vitest/ui@2.1.8)(jsdom@26.0.0))':
+  '@vitest/coverage-v8@2.1.8(vitest@2.1.8)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3
@@ -14326,7 +14329,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.20.0(eslint@9.18.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0(eslint-plugin-import@2.31.0)(eslint@9.18.0))(eslint@9.18.0):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.20.0(eslint@9.18.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0)(eslint@9.18.0):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
@@ -14348,7 +14351,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.18.0
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.20.0(eslint@9.18.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0(eslint-plugin-import@2.31.0)(eslint@9.18.0))(eslint@9.18.0)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.20.0(eslint@9.18.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0)(eslint@9.18.0)
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -16623,7 +16626,7 @@ snapshots:
 
   nwsapi@2.2.16: {}
 
-  nx@20.3.1(@swc/core@1.10.7):
+  nx@20.3.1(@swc/core@1.10.7(@swc/helpers@0.5.15)):
     dependencies:
       '@napi-rs/wasm-runtime': 0.2.4
       '@yarnpkg/lockfile': 1.1.0
@@ -18919,7 +18922,7 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-node@10.9.2(@swc/core@1.10.7)(@types/node@22.10.6)(typescript@5.7.3):
+  ts-node@10.9.2(@swc/core@1.10.7(@swc/helpers@0.5.15))(@types/node@22.10.6)(typescript@5.7.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.11
