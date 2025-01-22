@@ -1,6 +1,7 @@
 'use client';
 
-import { Col, Form, Input, Row, Typography } from 'antd';
+import { VitalityText } from '@v6y/shared-ui';
+import { Col, Form, Input, Row } from 'antd';
 import * as React from 'react';
 
 import useNavigationAdapter from '../../infrastructure/adapters/navigation/useNavigationAdapter';
@@ -36,8 +37,8 @@ const VitalitySearchBar = ({ helper, label, status, placeholder }: VitalitySearc
                 <Form layout="vertical">
                     <Form.Item
                         name="vitality_search"
-                        label={<Typography.Text>{label}</Typography.Text>}
-                        help={<Typography.Text>{helper}</Typography.Text>}
+                        label={<VitalityText text={label} />}
+                        help={<VitalityText text={helper || ''} />}
                         initialValue={searchText}
                     >
                         <Search

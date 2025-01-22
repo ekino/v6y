@@ -1,4 +1,5 @@
-import { Col, Divider, List, Row, Tag, Typography } from 'antd';
+import { VitalityText } from '@v6y/shared-ui';
+import { Col, Divider, List, Row, Tag } from 'antd';
 import Link from 'next/link';
 import * as React from 'react';
 
@@ -49,7 +50,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                     <Row gutter={[12, 16]} justify="end" align="middle">
                         <Col span={24} />
                         <Col span={24} style={{ textAlign: 'left', marginTop: '0' }}>
-                            <Typography.Text>{app.description}</Typography.Text>
+                            <VitalityText text={app.description || ''} />
                         </Col>
                         <Col span={24}>
                             <VitalityLinks
@@ -66,18 +67,19 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                         <Col>
                             {app.contactMail?.length && (
                                 <Link key="team-mail-contact" href={`mailto:${app.contactMail}`}>
-                                    <Typography.Text>
-                                        {VitalityTerms.VITALITY_APP_LIST_CONTACT_EMAIL}
-                                    </Typography.Text>
+                                    <VitalityText
+                                        text={VitalityTerms.VITALITY_APP_LIST_CONTACT_EMAIL}
+                                    />
                                 </Link>
                             )}
                         </Col>
                         <Col>
                             {canOpenDetails && (
                                 <Link key="app-details-link" href={appDetailsLink}>
-                                    <Typography.Text underline>
-                                        {VitalityTerms.VITALITY_APP_LIST_OPEN_DETAILS_LABEL}
-                                    </Typography.Text>
+                                    <VitalityText
+                                        text={VitalityTerms.VITALITY_APP_LIST_OPEN_DETAILS_LABEL}
+                                        underline
+                                    />
                                 </Link>
                             )}
                         </Col>

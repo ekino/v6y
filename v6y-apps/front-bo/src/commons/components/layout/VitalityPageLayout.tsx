@@ -1,7 +1,7 @@
 'use client';
 
 import { ThemedLayoutV2 } from '@refinedev/antd';
-import { Typography } from 'antd';
+import { VitalityTitle } from '@v6y/shared-ui';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
@@ -12,14 +12,13 @@ const VitalityPageLayout = ({ children }: { children: ReactNode }) => {
     return (
         <ThemedLayoutV2
             Title={() => (
-                <Typography.Title
+                <VitalityTitle
                     level={1}
                     style={{
                         marginTop: '1rem',
                     }}
-                >
-                    V6Y
-                </Typography.Title>
+                    title="V6Y"
+                />
             )}
             Header={() => <VitalityPageHeader />}
             Footer={() => <VitalityPageFooter />}

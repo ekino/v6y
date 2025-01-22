@@ -1,4 +1,4 @@
-import { Typography } from 'antd';
+import { VitalityText } from '@v6y/shared-ui';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
@@ -33,14 +33,14 @@ const useDataGrouper = ({
         const groups = Object.keys(groupedDataSource || {})?.map((group) => ({
             key: group,
             value: group,
-            label: <Typography.Text>{group}</Typography.Text>,
+            label: <VitalityText text={group} />,
         }));
 
         if (hasAllGroup) {
             const hasAllGroup = {
                 key: 'All',
                 value: 'All',
-                label: <Typography.Text>All</Typography.Text>,
+                label: <VitalityText text="All" />,
             };
             setCriteriaGroups([hasAllGroup, ...(groups || [])]);
         } else {

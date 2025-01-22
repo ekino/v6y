@@ -4,9 +4,7 @@
   "main": "src/index.ts",
   "type": "module",
   "files": [
-    "src/config",
-    "src/core",
-    "src/services",
+    "src",
     "dist",
     "README.md"
   ],

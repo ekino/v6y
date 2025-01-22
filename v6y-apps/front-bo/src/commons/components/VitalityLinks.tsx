@@ -1,6 +1,8 @@
 import { LinkType } from '@v6y/core-logic';
-import { Col, Row, Typography } from 'antd';
+import { VitalityText } from '@v6y/shared-ui';
+import { Col, Row } from 'antd';
 import Link from 'next/link';
+import * as React from 'react';
 
 type ContentJustify =
     | 'end'
@@ -34,7 +36,7 @@ const VitalityLinks = ({ links, align }: { links: LinkType[]; align: ContentJust
                             rel="noopener noreferrer"
                             style={{ textDecoration: 'underline' }}
                         >
-                            <Typography.Text>{link.label}</Typography.Text>
+                            <VitalityText text={link.label} />
                         </Link>
                     </Col>
                 );

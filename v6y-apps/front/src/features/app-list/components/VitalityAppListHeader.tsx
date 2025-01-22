@@ -1,6 +1,8 @@
 import { ExportOutlined } from '@ant-design/icons';
-import { Button, Col, Row, Typography } from 'antd';
+import { VitalityTitle } from '@v6y/shared-ui';
+import { Button, Col, Row } from 'antd';
 import { useEffect, useState } from 'react';
+import * as React from 'react';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import VitalityTerms from '../../../commons/config/VitalityTerms';
@@ -57,9 +59,10 @@ const VitalityAppListHeader = ({
         <Row justify="space-between" align="middle" gutter={[16, 16]}>
             <Col xs={24} sm={24} md={24} lg={10} xl={10} style={{ textAlign: 'left' }}>
                 {appsTotal > 0 && (
-                    <Typography.Title level={3}>
-                        {`${VitalityTerms.VITALITY_APP_LIST_TOTAL_LABEL} ${appsTotal}`}
-                    </Typography.Title>
+                    <VitalityTitle
+                        title={`${VitalityTerms.VITALITY_APP_LIST_TOTAL_LABEL} ${appsTotal}`}
+                        level={3}
+                    />
                 )}
             </Col>
             <Col xs={24} sm={24} md={24} lg={10} xl={10} style={{ textAlign: 'right' }}>

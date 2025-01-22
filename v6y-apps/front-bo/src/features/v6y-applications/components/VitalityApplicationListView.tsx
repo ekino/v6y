@@ -1,11 +1,7 @@
 import { ApplicationType } from '@v6y/core-logic';
 
 import GetApplicationListByPageAndParams from '../../../commons/apis/getApplicationListByPageAndParams';
-import VitalityTable from '../../../commons/components/VitalityTable';
-import {
-    buildCommonTableColumns,
-    buildCommonTableDataSource,
-} from '../../../commons/config/VitalityTableConfig';
+import RenderVitalityTable from '../../../commons/components/VitalityTable';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
 import DeleteApplication from '../apis/deleteApplication';
@@ -28,9 +24,10 @@ export default function VitalityApplicationListView() {
                 query: GetApplicationListByPageAndParams,
             }}
             renderTable={(dataSource: ApplicationType[]) => (
-                <VitalityTable
-                    dataSource={buildCommonTableDataSource(dataSource)}
-                    columns={buildCommonTableColumns(dataSource, [], {
+                <RenderVitalityTable
+                    dataSource={dataSource}
+                    columnKeys={[]}
+                    columnOptions={{
                         enableEdit: true,
                         enableShow: true,
                         enableDelete: true,
@@ -38,7 +35,7 @@ export default function VitalityApplicationListView() {
                             gqlMutation: DeleteApplication,
                             operation: 'deleteApplication',
                         },
-                    })}
+                    }}
                 />
             )}
         />

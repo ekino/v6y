@@ -1,6 +1,6 @@
 import { useParsed } from '@refinedev/core';
 import { EvolutionHelpType } from '@v6y/core-logic';
-import { Typography } from 'antd';
+import { VitalityTitle } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';
@@ -16,11 +16,7 @@ export default function VitalityEvolutionHelpDetailsView() {
 
     return (
         <RefineShowWrapper
-            title={
-                <Typography.Title level={2}>
-                    {translate('v6y-evolution-helps.titles.show')}
-                </Typography.Title>
-            }
+            title={<VitalityTitle title="v6y-evolution-helps.titles.show" />}
             queryOptions={{
                 resource: 'getEvolutionHelpDetailsByParams',
                 query: GetEvolutionHelpDetailsByParams,

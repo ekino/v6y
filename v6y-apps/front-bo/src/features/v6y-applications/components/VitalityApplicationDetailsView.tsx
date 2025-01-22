@@ -1,7 +1,7 @@
 import { HttpError, useParsed } from '@refinedev/core';
 import { ApplicationType } from '@v6y/core-logic';
 import Matcher from '@v6y/core-logic/src/core/Matcher';
-import { Typography } from 'antd';
+import { VitalityTitle } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';
@@ -42,11 +42,7 @@ export default function VitalityApplicationDetailsView() {
 
     return (
         <RefineShowWrapper
-            title={
-                <Typography.Title level={2}>
-                    {translate('v6y-applications.titles.show')}
-                </Typography.Title>
-            }
+            title={<VitalityTitle title="v6y-applications.titles.show" />}
             queryOptions={{
                 resource: 'getApplicationDetailsInfoByParams',
                 query: GetApplicationDetails,

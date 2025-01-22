@@ -1,4 +1,6 @@
-import { List, Typography } from 'antd';
+import { VitalityText } from '@v6y/shared-ui';
+import { List } from 'antd';
+import * as React from 'react';
 
 import { VitalityListProps } from '../types/VitalityListProps';
 
@@ -26,9 +28,7 @@ const VitalityPaginatedList = ({
         renderItem={renderItem}
         header={header}
         footer={
-            showFooter ? (
-                <Typography.Text strong>{`Total: ${dataSource?.length || 0}`}</Typography.Text>
-            ) : null
+            showFooter ? <VitalityText text={`Total: ${dataSource?.length || 0}`} strong /> : null
         }
         style={{
             ...(style || {}),
