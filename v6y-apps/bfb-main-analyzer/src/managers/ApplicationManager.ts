@@ -12,7 +12,6 @@ const { getRepositoryDetails, getRepositoryBranches, prepareGitBranchZipConfig }
 
 const { getCurrentConfig } = ServerConfig;
 const { staticAuditorApiPath, dynamicAuditorApiPath } = getCurrentConfig() || {};
-const ZIP_BASE_DIR = '../code-analysis-workspace';
 
 interface BuildApplicationBranchParams {
     name: string;
@@ -100,10 +99,18 @@ const buildApplicationDetailsByBranch = async ({ application, branch }: BuildApp
             application,
         );
         AppLogger.info('[ApplicationManager - buildApplicationDetailsByBranch] branch: ', branch);
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationDetailsByBranch] ZIP_BASE_DIR: ',
+            process.env.ZIP_BASE_DIR,
+        );
+
+        if (!process.env.ZIP_BASE_DIR?.length) {
+            return false;
+        }
 
         const { zipSourceUrl, zipDestinationDir, zipFileName, zipBaseFileName, zipOptions } =
             prepareGitBranchZipConfig({
-                zipBaseDir: ZIP_BASE_DIR,
+                zipBaseDir: process.env.ZIP_BASE_DIR,
                 application,
                 branchName: branch?.name || '',
             }) || {};
@@ -249,6 +256,31 @@ const buildDynamicReports = async ({ application }: BuildApplicationParams) => {
  */
 const buildApplicationReports = async (application: ApplicationType) => {
     try {
+        AppLogger.info(
+            '[ApplicationManager -  buildApplicationReports] application name: ',
+            application?.name,
+        );
+        AppLogger.info(
+            '[ApplicationManager -  buildApplicationReports] application acronym: ',
+            application?.acronym,
+        );
+        AppLogger.info(
+            '[ApplicationManager -  buildApplicationReports] application contactMail: ',
+            application?.contactMail,
+        );
+        AppLogger.info(
+            '[ApplicationManager -  buildApplicationReports] application description: ',
+            application?.description,
+        );
+        AppLogger.info(
+            '[ApplicationManager -  buildApplicationReports] application repo organization: ',
+            application?.repo?.organization,
+        );
+        AppLogger.info(
+            '[ApplicationManager -  buildApplicationReports] application repo gitUrl: ',
+            application?.repo?.gitUrl,
+        );
+
         if (
             !application?.name?.length ||
             !application?.acronym?.length ||
@@ -262,11 +294,27 @@ const buildApplicationReports = async (application: ApplicationType) => {
 
         const { organization, gitUrl } = application.repo;
         const gitRepositoryName = gitUrl?.split('/')?.pop()?.replace('.git', '');
+        AppLogger.info(
+            '[ApplicationManager -  buildApplicationReports] gitRepositoryName: ',
+            gitRepositoryName,
+        );
 
         const repositoryDetails = await getRepositoryDetails({
             organization,
             gitRepositoryName,
         });
+        AppLogger.info(
+            '[ApplicationManager -  buildApplicationReports] repositoryDetails id: ',
+            repositoryDetails?.id,
+        );
+        AppLogger.info(
+            '[ApplicationManager -  buildApplicationReports] repositoryDetails archived: ',
+            repositoryDetails?.archived,
+        );
+        AppLogger.info(
+            '[ApplicationManager -  buildApplicationReports] repositoryDetails empty_repo: ',
+            repositoryDetails?.empty_repo,
+        );
 
         if (
             !repositoryDetails?.id ||
@@ -277,10 +325,18 @@ const buildApplicationReports = async (application: ApplicationType) => {
         }
 
         const { _links: repositoryLinks } = repositoryDetails;
+        AppLogger.info(
+            '[ApplicationManager -  buildApplicationReports] repo_branches: ',
+            repositoryLinks?.repo_branches?.length,
+        );
 
         const repositoryBranches = await getRepositoryBranches({
             repoBranchesUrl: repositoryLinks?.repo_branches,
         });
+        AppLogger.info(
+            '[ApplicationManager -  buildApplicationReports] repositoryBranches: ',
+            repositoryBranches?.length,
+        );
 
         if (!repositoryBranches?.length) {
             return false;
@@ -327,6 +383,7 @@ const buildApplicationList = async () => {
             {},
             { role: 'ADMIN' },
         );
+
         AppLogger.info(
             '[ApplicationManager -  buildApplicationList] applications: ',
             applications?.length,

@@ -7,18 +7,18 @@ interface TransformableInfo {
     [key: string | symbol]: unknown;
 }
 
-const formatStdout = winston.format.printf((info: TransformableInfo) => {
-    const { timestamp, level, message, label } = info;
-    return `${timestamp} [${label}] ${level}: ${message}`;
-});
-
 const logOptions = {
     logPath: '/v6y/logs',
     logDir: './v6y-logs',
     logAppName: 'V6Y',
     logDisableConsole: false,
-    logDisableFileRotate: true,
+    logDisableFileRotate: false,
 };
+
+const formatStdout = winston.format.printf((info: TransformableInfo) => {
+    const { timestamp, level, message } = info;
+    return `${timestamp} [${logOptions.logAppName}] ${level}: ${message}`;
+});
 
 const AppLogger = winston.createLogger({
     level: 'info',

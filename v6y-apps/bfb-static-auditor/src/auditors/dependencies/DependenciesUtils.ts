@@ -1,4 +1,4 @@
-import { AppLogger, AuditUtils } from '@v6y/core-logic';
+import { AppLogger, AuditUtils, sleep } from '@v6y/core-logic';
 
 import { AuditCommonsType } from '../types/AuditCommonsType.ts';
 import { DependencyAuditParamsType } from '../types/DependencyAuditType.ts';
@@ -36,11 +36,17 @@ const buildDependencyAuditReport = async ({
             dependencyName,
             dependencyVersion,
         });
+        AppLogger.info(
+            `[DependenciesUtils - buildDependencyAuditReport] dependencyVersionStatus:  ${dependencyVersionStatus}`,
+        );
 
         const dependencySecurityAdvisories = await analyzeDependencySecurityAdvisories({
             dependencyName,
             dependencyVersion,
         });
+        AppLogger.info(
+            `[DependenciesUtils - buildDependencyAuditReport] dependencySecurityAdvisories:  ${dependencySecurityAdvisories?.length}`,
+        );
 
         return {
             module,
@@ -90,6 +96,9 @@ const buildModuleDependenciesAuditReports = async ({
             });
 
             dependenciesAuditReports.push(dependencyAuditReport);
+
+            // to avoid GitHub rate limit, we should create delay between request
+            await sleep(2000);
         }
 
         return dependenciesAuditReports;

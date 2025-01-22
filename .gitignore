@@ -134,7 +134,7 @@ dist
 .nx/workspace-data
 
 **/v6y-database/**
-**/code-analysis-workspace/**
+**/v6y-code-analysis-workspace/**
 **/jest-cache/**
 **/jest-stare/**
 **/v6y-logs/**

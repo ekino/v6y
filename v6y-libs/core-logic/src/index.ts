@@ -23,6 +23,8 @@ import FaqProvider from './database/FaqProvider.ts';
 import KeywordProvider from './database/KeywordProvider.ts';
 import NotificationProvider from './database/NotificationProvider.ts';
 
+export * from './core/TaskUtils.js';
+
 export * from './config/EvolutionHelpStatusConfig.ts';
 export * from './config/AuditHelpConfig.ts';
 export * from './config/CodeSmellConfig.ts';

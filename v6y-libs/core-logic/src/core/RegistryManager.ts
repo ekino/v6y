@@ -107,12 +107,24 @@ const getRepositoryDetails = async ({
     type,
 }: GetRepositoryFileContentOptions): Promise<RegistryType | null> => {
     try {
+        AppLogger.info(`[RegistryManager - getRepositoryDetails] organization:  ${organization}`);
+        AppLogger.info(
+            `[RegistryManager - getRepositoryDetails] gitRepositoryName:  ${gitRepositoryName}`,
+        );
+        AppLogger.info(`[RegistryManager - getRepositoryDetails] type:  ${type}`);
+
         const queryOptions = buildQueryOptions({ organization, type });
+        AppLogger.info(
+            `[RegistryManager - getRepositoryDetails] queryOptions:  ${queryOptions?.baseURL}`,
+        );
+
         if (!queryOptions) {
             return null;
         }
 
         const repositoryUrl = queryOptions.urls?.repositoryDetailsUrl?.(gitRepositoryName || '');
+        AppLogger.info(`[RegistryManager - getRepositoryDetails] repositoryUrl:  ${repositoryUrl}`);
+
         if (!repositoryUrl) {
             return null;
         }
@@ -121,13 +133,22 @@ const getRepositoryDetails = async ({
             method: 'GET',
             headers: queryOptions.headers,
         });
+        AppLogger.info(
+            `[RegistryManager - getRepositoryDetails] repositoryResponse:  ${Object.keys(repositoryResponse || {})}`,
+        );
 
         const repositoryJsonResponse = await repositoryResponse.json();
 
         if (!repositoryJsonResponse || !Array.isArray(repositoryJsonResponse)) {
+            AppLogger.info(
+                `[RegistryManager - getRepositoryDetails] error:  ${repositoryJsonResponse?.error}`,
+            );
             return null;
         }
 
+        AppLogger.info(
+            `[RegistryManager - getRepositoryDetails] repositoryJsonResponse length:  ${repositoryJsonResponse?.length}`,
+        );
         return repositoryJsonResponse[0];
     } catch (error) {
         AppLogger.info(
@@ -153,7 +174,18 @@ const getFileContent = async ({
     type,
 }: GetRepositoryFileContentOptions): Promise<unknown | null> => {
     try {
+        AppLogger.info(`[RegistryManager - getFileContent] organization:  ${organization}`);
+        AppLogger.info(
+            `[RegistryManager - getFileContent] gitRepositoryName:  ${gitRepositoryName}`,
+        );
+        AppLogger.info(`[RegistryManager - getFileContent] fileName:  ${fileName}`);
+        AppLogger.info(`[RegistryManager - getFileContent] type:  ${type}`);
+
         const queryOptions = buildQueryOptions({ organization, type });
+        AppLogger.info(
+            `[RegistryManager - getFileContent] queryOptions:  ${queryOptions?.baseURL}`,
+        );
+
         if (!queryOptions) {
             return null;
         }
@@ -163,6 +195,7 @@ const getFileContent = async ({
             fileName || '',
         );
         AppLogger.info(`[RegistryManager - getFileContent] baseUrl:  ${baseUrl}`);
+
         if (!baseUrl) {
             return null;
         }
@@ -178,6 +211,11 @@ const getFileContent = async ({
                 Object.keys(fileJsonResponse || {}).length
             }`,
         );
+
+        if (fileJsonResponse.error) {
+            AppLogger.info(`[RegistryManager - getFileContent] error:  ${fileJsonResponse?.error}`);
+            return null;
+        }
 
         if (!fileJsonResponse || !Object.keys(fileJsonResponse || {}).length) {
             return null;
@@ -203,14 +241,31 @@ const getRepositoryBranches = async ({
     type,
 }: GetRepositoryBranchesOptions): Promise<RepositoryBranchType[] | null> => {
     try {
+        AppLogger.info(
+            `[RegistryManager - getRepositoryBranches] repoBranchesUrl:  ${repoBranchesUrl}`,
+        );
+        AppLogger.info(`[RegistryManager - getRepositoryBranches] type:  ${type}`);
+
         const queryOptions = buildQueryOptions({ organization: undefined, type });
+        AppLogger.info(
+            `[RegistryManager - getRepositoryBranches] queryOptions:  ${queryOptions?.baseURL}`,
+        );
 
         const repositoryResponse = await fetch(repoBranchesUrl || '', {
             method: 'GET',
             headers: queryOptions.headers,
         });
 
-        return await repositoryResponse.json();
+        const repositoryJsonResponse = await repositoryResponse.json();
+
+        if (repositoryJsonResponse.error) {
+            AppLogger.info(
+                `[RegistryManager - getRepositoryBranches] error:  ${repositoryJsonResponse?.error}`,
+            );
+            return null;
+        }
+
+        return repositoryJsonResponse;
     } catch (error) {
         AppLogger.info(
             `[RegistryManager - getRepositoryDetails] error:  ${
@@ -233,6 +288,10 @@ const prepareGitBranchZipConfig = ({
     branchName,
 }: ApplicationZipConfigOptions): DownloadZipOptions | null => {
     try {
+        AppLogger.info(`[RegistryManager - prepareGitZipConfig] zipBaseDir:  ${zipBaseDir}`);
+        AppLogger.info(
+            `[RegistryManager - prepareGitZipConfig] application:  ${application?.acronym}`,
+        );
         AppLogger.info(`[RegistryManager - prepareGitZipConfig] branchName:  ${branchName}`);
 
         if (!application || !branchName?.length) {
@@ -293,7 +352,19 @@ const getRepositorySecurityAdvisories = async ({
     type,
 }: GetRepositorySecurityAdvisoriesOptions): Promise<DependencySecurityAdvisoriesType[] | null> => {
     try {
+        AppLogger.info(
+            `[RegistryManager - getRepositorySecurityAdvisories] pageSize:  ${pageSize}`,
+        );
+        AppLogger.info(
+            `[RegistryManager - getRepositorySecurityAdvisories] affectedModule:  ${affectedModule}`,
+        );
+        AppLogger.info(`[RegistryManager - getRepositorySecurityAdvisories] type:  ${type}`);
+
         const queryOptions = buildQueryOptions({ organization: undefined, type });
+        AppLogger.info(
+            `[RegistryManager - getRepositorySecurityAdvisories] queryOptions:  ${queryOptions?.baseURL}`,
+        );
+
         if (!queryOptions) {
             return null;
         }
@@ -311,6 +382,26 @@ const getRepositorySecurityAdvisories = async ({
 
         const repositorySecurityAdvisoriesJsonResponse =
             await repositorySecurityAdvisoriesResponse.json();
+
+        console.log({
+            repositorySecurityAdvisoriesResponse,
+            repositorySecurityAdvisoriesJsonResponse,
+        });
+
+        AppLogger.info(
+            `[RegistryManager - getRepositorySecurityAdvisories] repositorySecurityAdvisoriesResponse:  ${repositorySecurityAdvisoriesResponse}`,
+        );
+        AppLogger.info(
+            `[RegistryManager - getRepositorySecurityAdvisories] repositorySecurityAdvisoriesJsonResponse:  ${repositorySecurityAdvisoriesJsonResponse}`,
+        );
+
+        if (repositorySecurityAdvisoriesJsonResponse.error) {
+            AppLogger.info(
+                `[RegistryManager - getRepositorySecurityAdvisories] error:  ${repositorySecurityAdvisoriesJsonResponse?.error}`,
+            );
+            return null;
+        }
+
         AppLogger.info(
             `[RegistryManager - getRepositorySecurityAdvisories] repositorySecurityAdvisories length:  ${
                 repositorySecurityAdvisoriesJsonResponse?.length
@@ -357,6 +448,9 @@ const getRepositorySecurityAdvisories = async ({
  */
 const getPackageInfos = async ({ packageName, type }: GetPackageInfosOptions) => {
     try {
+        AppLogger.info(`[RegistryManager - getPackageInfos] packageName:  ${packageName}`);
+        AppLogger.info(`[RegistryManager - getPackageInfos] type:  ${type}`);
+
         // https://skimdb.npmjs.com/registry/react-cookie
         // https://docs.npmjs.com/cli/v8/using-npm/registry
         if (!packageName?.length) {
@@ -364,13 +458,10 @@ const getPackageInfos = async ({ packageName, type }: GetPackageInfosOptions) =>
         }
 
         const queryOptions = buildQueryOptions({ organization: undefined, type });
-        if (!queryOptions) {
-            return null;
-        }
-
         AppLogger.info(
-            `[RegistryManager - getRepositorySecurityAdvisories] baseUrl:  ${queryOptions.baseURL}`,
+            `[RegistryManager - getPackageInfos] queryOptions:  ${queryOptions?.baseURL}`,
         );
+
         if (!queryOptions.baseURL) {
             return null;
         }
@@ -388,6 +479,13 @@ const getPackageInfos = async ({ packageName, type }: GetPackageInfosOptions) =>
         AppLogger.info(
             `[RegistryManager - getPackageInfos] registryInfosJsonResponse:  ${registryInfosJsonResponse}`,
         );
+
+        if (registryInfosJsonResponse.error) {
+            AppLogger.info(
+                `[RegistryManager - registryInfosJsonResponse] error:  ${registryInfosJsonResponse?.error}`,
+            );
+            return null;
+        }
 
         return registryInfosJsonResponse;
     } catch (error) {
