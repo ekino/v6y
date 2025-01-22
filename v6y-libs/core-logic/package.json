@@ -42,7 +42,7 @@
     "sequelize-mock": "=0.10.2",
     "typescript": "=5.7.3",
     "typescript-eslint": "=8.20.0",
-    "vitest": "=2.1.8"
+    "vitest": "=3.0.3"
   },
   "dependencies": {
     "@sequelize/core": "7.0.0-alpha.43",
