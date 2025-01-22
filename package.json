@@ -36,7 +36,7 @@
   "devDependencies": {
     "husky": "=9.1.7",
     "jscpd": "=4.0.5",
-    "nx": "=20.3.1",
+    "nx": "=9999.0.1",
     "typescript-coverage-report": "=1.1.0"
   }
 }
