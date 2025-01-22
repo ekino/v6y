@@ -1,7 +1,7 @@
 import { HttpError, useParsed } from '@refinedev/core';
 import { AccountType } from '@v6y/core-logic';
 import Matcher from '@v6y/core-logic/src/core/Matcher';
-import { VitalityTitle } from '@v6y/shared-ui/src/components/VitalityTitle/VitalityTitle';
+import { VitalityTitle } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';

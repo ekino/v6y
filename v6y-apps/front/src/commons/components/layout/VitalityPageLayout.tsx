@@ -1,6 +1,6 @@
 'use client';
 
-import { VitalityTitle } from '@v6y/shared-ui/src/components/VitalityTitle/VitalityTitle';
+import { VitalityTitle } from '@v6y/shared-ui';
 import { Col, FloatButton, Layout, Row } from 'antd';
 import * as React from 'react';
 import { ReactNode } from 'react';

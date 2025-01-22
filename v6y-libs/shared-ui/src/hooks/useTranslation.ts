@@ -2,7 +2,7 @@
 
 import { useTranslation as useRefineTranslate } from '@refinedev/core';
 
-import { TranslationType } from '../types/TranslationType';
+import { TranslationType } from '../types/TranslationType.ts';
 
 export const useTranslation = () => {
     const { translate, getLocale, changeLocale }: TranslationType = useRefineTranslate();

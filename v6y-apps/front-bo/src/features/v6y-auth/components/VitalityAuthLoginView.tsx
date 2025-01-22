@@ -1,7 +1,7 @@
 'use client';
 
 import { AuthPage as AuthPageBase } from '@refinedev/antd';
-import { VitalityTitle } from '@v6y/shared-ui/src/components/VitalityTitle/VitalityTitle';
+import { VitalityTitle } from '@v6y/shared-ui';
 import { Checkbox, Form } from 'antd';
 import React from 'react';
 

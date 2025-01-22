@@ -1,4 +1,4 @@
-import * as VitalityText from './components/VitalityText/VitalityText';
-import * as VitalityTitle from './components/VitalityTitle/VitalityTitle';
+import VitalityText from './components/VitalityText/VitalityText.tsx';
+import VitalityTitle from './components/VitalityTitle/VitalityTitle.tsx';
 
 export { VitalityText, VitalityTitle };

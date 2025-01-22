@@ -1,5 +1,5 @@
 import { useParsed } from '@refinedev/core';
-import { VitalityTitle } from '@v6y/shared-ui/src/components/VitalityTitle/VitalityTitle';
+import { VitalityTitle } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import {

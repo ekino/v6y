@@ -1,5 +1,5 @@
 import { ExportOutlined } from '@ant-design/icons';
-import { VitalityTitle } from '@v6y/shared-ui/src/components/VitalityTitle/VitalityTitle';
+import { VitalityTitle } from '@v6y/shared-ui';
 import { Avatar, Button, Card, Col, Row, Space, Typography } from 'antd';
 import * as React from 'react';
 

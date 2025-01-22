@@ -1,5 +1,5 @@
-import { VitalityText } from '@v6y/shared-ui/src/components/VitalityText/VitalityText';
-import { VitalityTitle } from '@v6y/shared-ui/src/components/VitalityTitle/VitalityTitle';
+import { VitalityText } from '@v6y/shared-ui';
+import { VitalityTitle } from '@v6y/shared-ui';
 import { Avatar, Card } from 'antd';
 import Link from 'next/link';
 import * as React from 'react';

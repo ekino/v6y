@@ -5,6 +5,19 @@ import dts from 'vite-plugin-dts';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    plugins: [
+        react(),
+        dts({
+            include: ['src/**/*.ts', 'src/**/*.tsx'],
+            copyDtsFiles: true,
+            outDir: 'dist/types',
+            staticImport: true,
+            insertTypesEntry: true,
+            compilerOptions: {
+                declarationMap: true,
+            },
+        }),
+    ],
     build: {
         lib: {
             entry: resolve('.', './src/index.ts'),
@@ -21,10 +34,7 @@ export default defineConfig({
                 },
             },
         },
-        sourcemap: true,
-        emptyOutDir: true,
     },
-    plugins: [react(), dts({ rollupTypes: true })],
     css: {
         postcss: {
             plugins: [],

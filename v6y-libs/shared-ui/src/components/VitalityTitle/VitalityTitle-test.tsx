@@ -3,8 +3,8 @@ import { render, screen } from '@testing-library/react';
 import * as React from 'react';
 import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { useTranslation } from '../../hooks/useTranslation';
-import { VitalityTitle } from './VitalityTitle';
+import { useTranslation } from '../../hooks/useTranslation.ts';
+import VitalityTitle from './VitalityTitle.tsx';
 
 // Mock useTranslation
 vi.mock('../../hooks/useTranslation');

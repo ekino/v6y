@@ -4,9 +4,7 @@
   "main": "src/index.ts",
   "type": "module",
   "files": [
-    "src/config",
-    "src/core",
-    "src/services",
+    "src",
     "dist",
     "README.md"
   ],
@@ -15,6 +13,7 @@
     "url": "https://github.com/ekino/v6y"
   },
   "scripts": {
+    "build:vite": "vite build",
     "build:tsc": "tsc --project ./tsconfig.json && vite build",
     "check:tsc": "tsc --noEmit --project ./tsconfig.json",
     "lint": "eslint",

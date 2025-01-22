@@ -8,10 +8,12 @@ interface VitalityTextProps {
     underline?: boolean;
 }
 
-export function VitalityText({ text, style, strong, underline }: VitalityTextProps) {
+const VitalityText = ({ text, style, strong, underline }: VitalityTextProps) => {
     return (
         <Typography.Text style={style} strong={strong} underline={underline}>
             {text}
         </Typography.Text>
     );
-}
+};
+
+export default VitalityText;

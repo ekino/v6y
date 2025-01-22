@@ -13,7 +13,7 @@ import {
 } from '@ant-design/icons';
 import { ApplicationType } from '@v6y/core-logic';
 import Matcher from '@v6y/core-logic/src/core/Matcher';
-import { VitalityText } from '@v6y/shared-ui/src/components/VitalityText/VitalityText';
+import { VitalityText } from '@v6y/shared-ui';
 import Link from 'next/link';
 import * as React from 'react';
 import { ReactNode } from 'react';

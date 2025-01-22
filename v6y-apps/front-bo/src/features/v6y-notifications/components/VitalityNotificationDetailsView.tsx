@@ -1,6 +1,6 @@
 import { useParsed } from '@refinedev/core';
 import { NotificationType } from '@v6y/core-logic/src';
-import { VitalityTitle } from '@v6y/shared-ui/src/components/VitalityTitle/VitalityTitle';
+import { VitalityTitle } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';
