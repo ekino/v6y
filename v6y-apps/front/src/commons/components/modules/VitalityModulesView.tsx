@@ -41,8 +41,8 @@ const VitalityModulesView = ({ modules }: VitalityModulesProps) => {
                         ? `${itemModule.score || 0} ${itemModule.scoreUnit || ''}`
                         : '';
                     const hasAuditHelp = Object.keys(itemModule.auditHelp || {}).length > 0;
-                    const hasDependencyStatusHelp =
-                        Object.keys(itemModule.statusHelp || {}).length > 0;
+                    const hasDependencyVersionStatusHelp =
+                        Object.keys(itemModule.versionStatusHelp || {}).length > 0;
                     const hasEvolutionHelp = Object.keys(itemModule.evolutionHelp || {}).length > 0;
 
                     return (
@@ -52,7 +52,7 @@ const VitalityModulesView = ({ modules }: VitalityModulesProps) => {
                                     <Space direction="horizontal" size="middle">
                                         {patternName}
                                         {(hasAuditHelp ||
-                                            hasDependencyStatusHelp ||
+                                            hasDependencyVersionStatusHelp ||
                                             hasEvolutionHelp) && (
                                             <Button
                                                 type="text"

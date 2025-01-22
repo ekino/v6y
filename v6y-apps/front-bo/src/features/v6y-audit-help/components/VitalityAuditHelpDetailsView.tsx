@@ -18,7 +18,7 @@ export default function VitalityAuditHelpDetailsView() {
         <RefineShowWrapper
             title={
                 <Typography.Title level={2}>
-                    {translate('v6y-audit-helps.titles.show')}
+                    {translate('v6y-audit-help.titles.show')}
                 </Typography.Title>
             }
             queryOptions={{

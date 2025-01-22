@@ -313,8 +313,8 @@
       "show": "Show Faq"
     }
   },
-  "v6y-evolution-helps": {
-    "v6y-evolution-helps": "Evolution Help List",
+  "v6y-evolution-help": {
+    "v6y-evolution-help": "Evolution Help List",
     "fields": {
       "evolution-help-infos-group": "Evolution Help Information",
       "evolution-help-optional-link-group": "Other Link(s)",
@@ -349,8 +349,8 @@
       "show": "Show Evolution Help"
     }
   },
-  "v6y-audit-helps": {
-    "v6y-audit-helps": "Audit Help List",
+  "v6y-audit-help": {
+    "v6y-audit-help": "Audit Help List",
     "fields": {
       "audit-help-infos-group": "Audit Help Information",
       "audit-help-category": {
@@ -379,26 +379,26 @@
       "show": "Show Audit Help"
     }
   },
-  "v6y-dependency-status-helps": {
-    "v6y-dependency-status-helps": "Dependency Status Help List",
+  "v6y-dependency-version-status-help": {
+    "v6y-dependency-version-status-help": "Dependency Version Status Help List",
     "fields": {
-      "dependency-status-help-infos-group": "Dependency Status Help Information",
-      "dependency-status-help-category": {
-        "label": "Dependency Status Help"
+      "dependency-version-status-help-infos-group": "Dependency Version Status Help Information",
+      "dependency-version-status-help-category": {
+        "label": "Dependency Version Status Help"
       },
-      "dependency-status-help-title": {
-        "label": "Dependency Status Help Title",
-        "placeholder": "Enter your Dependency Status Help Title",
+      "dependency-version-status-help-title": {
+        "label": "Dependency Version Status Help Title",
+        "placeholder": "Enter your Dependency Version Status Help Title",
         "error": ""
       },
-      "dependency-status-help-description": {
-        "label": "Dependency Status Help Description",
-        "placeholder": "Enter your Dependency Status Help Description",
+      "dependency-version-status-help-description": {
+        "label": "Dependency Version Status Help Description",
+        "placeholder": "Enter your Dependency Version Status Help Description",
         "error": ""
       },
-      "dependency-status-help-links": {
-        "label": "Dependency Status Help Link",
-        "placeholder": "Enter your Dependency Status Help Link",
+      "dependency-version-status-help-links": {
+        "label": "Dependency Version Status Help Link",
+        "placeholder": "Enter your Dependency Version Status Help Link",
         "error": ""
       }
     },

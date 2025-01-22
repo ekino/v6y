@@ -16,11 +16,14 @@ const DependencyType = `
     """ Dependency Recommended Version """
     recommendedVersion: String
                             
-    """ Dependency status (deprecated, outdated or up-to-date) """
-    status: String
+    """ Dependency version status (deprecated, outdated or up-to-date) """
+    versionStatus: String
     
-    """ Dependency Status help """
-    statusHelp: DependencyStatusHelpType  
+    """ Dependency Version Status help """
+    versionStatusHelp: DependencyVersionStatusHelpType  
+    
+    """ Dependency Security Advisories """
+    securityAdvisories: [DependencySecurityAdvisoriesType]
     
     """ Dependency Concerned Module """
     module: ModuleType

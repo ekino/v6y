@@ -2,14 +2,14 @@ import { OperatorsAliases, Sequelize } from 'sequelize';
 
 import AppLogger from '../core/AppLogger.ts';
 import AuditHelpProvider from './AuditHelpProvider.ts';
-import DependencyStatusHelpProvider from './DependencyStatusHelpProvider.ts';
+import DependencyVersionStatusHelpProvider from './DependencyVersionStatusHelpProvider.ts';
 import EvolutionHelpProvider from './EvolutionHelpProvider.ts';
 import AccountModel from './models/AccountModel.ts';
 import ApplicationModel from './models/ApplicationModel.ts';
 import AuditHelpModel from './models/AuditHelpModel.ts';
 import AuditModel from './models/AuditModel.ts';
 import DependencyModel from './models/DependencyModel.ts';
-import DependencyStatusHelpModel from './models/DependencyStatusHelpModel.ts';
+import DependencyVersionStatusHelpModel from './models/DependencyVersionStatusHelpModel.ts';
 import DeprecatedDependencyModel from './models/DeprecatedDependencyModel.ts';
 import EvolutionHelpModelModel from './models/EvolutionHelpModel.ts';
 import EvolutionModel from './models/EvolutionModel.ts';
@@ -68,7 +68,7 @@ const getDataBaseInstance = () => postgresDataBase;
 const initDefaultData = async () => {
     await EvolutionHelpProvider.initDefaultData();
     await AuditHelpProvider.initDefaultData();
-    await DependencyStatusHelpProvider.initDefaultData();
+    await DependencyVersionStatusHelpProvider.initDefaultData();
 };
 
 /**
@@ -89,7 +89,7 @@ const registerModels = async () => {
     NotificationModel(postgresDataBase);
     AuditHelpModel(postgresDataBase);
     EvolutionHelpModelModel(postgresDataBase);
-    DependencyStatusHelpModel(postgresDataBase);
+    DependencyVersionStatusHelpModel(postgresDataBase);
 };
 
 /**

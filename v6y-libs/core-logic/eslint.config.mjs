@@ -8,7 +8,6 @@ export default [
     ...tsEslint.configs.recommended,
     {
         files: ['src/**/*.js', 'src/**/*.mjs', 'src/**/*.tsx', 'src/**/*.ts'],
-        ignores: ['**/*.test.js', '*.d.ts'],
         rules: {
             'max-depth': ['error', 3],
             'max-nested-callbacks': ['error', 3],
@@ -26,5 +25,8 @@ export default [
                 ...globals.node,
             },
         },
+    },
+    {
+        ignores: ['**/*.test.js', '*.d.ts', '**/*.d.ts', 'dist/**'],
     },
 ];

@@ -34,12 +34,12 @@ import DeprecatedDependencyDeleteOutput from './dependency/deprecated-status/Dep
 import DeprecatedDependencyMutationsType from './dependency/deprecated-status/DeprecatedDependencyMutationsType.ts';
 import DeprecatedDependencyQueriesType from './dependency/deprecated-status/DeprecatedDependencyQueriesType.ts';
 import DeprecatedDependencyType from './dependency/deprecated-status/DeprecatedDependencyType.ts';
-import DependencyStatusHelpCreateOrEditInput from './dependency/status-help/DependencyStatusHelpCreateOrEditInput.ts';
-import DependencyStatusHelpDeleteInput from './dependency/status-help/DependencyStatusHelpDeleteInput.ts';
-import DependencyStatusHelpDeleteOutput from './dependency/status-help/DependencyStatusHelpDeleteOutput.ts';
-import DependencyStatusHelpMutationsType from './dependency/status-help/DependencyStatusHelpMutationsType.ts';
-import DependencyStatusHelpQueriesType from './dependency/status-help/DependencyStatusHelpQueriesType.ts';
-import DependencyStatusHelpType from './dependency/status-help/DependencyStatusHelpType.ts';
+import DependencyVersionStatusHelpCreateOrEditInput from './dependency/version-status-help/DependencyVersionStatusHelpCreateOrEditInput.ts';
+import DependencyVersionStatusHelpDeleteInput from './dependency/version-status-help/DependencyVersionStatusHelpDeleteInput.ts';
+import DependencyVersionStatusHelpDeleteOutput from './dependency/version-status-help/DependencyVersionStatusHelpDeleteOutput.ts';
+import DependencyVersionStatusHelpMutationsType from './dependency/version-status-help/DependencyVersionStatusHelpMutationsType.ts';
+import DependencyVersionStatusHelpQueriesType from './dependency/version-status-help/DependencyVersionStatusHelpQueriesType.ts';
+import DependencyVersionStatusHelpType from './dependency/version-status-help/DependencyVersionStatusHelpType.ts';
 import EvolutionType from './evolution/EvolutionType.ts';
 import EvolutionHelpCreateOrEditInput from './evolution/help/EvolutionHelpCreateOrEditInput.ts';
 import EvolutionHelpDeleteInput from './evolution/help/EvolutionHelpDeleteInput.ts';
@@ -72,7 +72,7 @@ const VitalityTypes = gql(`
     ${RepositoryType}
     ${KeywordType}
     ${DeprecatedDependencyType}
-    ${DependencyStatusHelpType}
+    ${DependencyVersionStatusHelpType}
     ${DependencyType}
     ${KeywordStatsType}
 
@@ -94,7 +94,7 @@ const VitalityTypes = gql(`
     ${NotificationQueriesType}
     ${EvolutionHelpQueriesType}
     ${AuditHelpQueriesType}
-    ${DependencyStatusHelpQueriesType}
+    ${DependencyVersionStatusHelpQueriesType}
     ${DeprecatedDependencyQueriesType}
     ${AccountQueriesType}
 
@@ -124,10 +124,10 @@ const VitalityTypes = gql(`
     ${AuditHelpDeleteInput}
     ${AuditHelpMutationsType}
 
-    ${DependencyStatusHelpCreateOrEditInput}
-    ${DependencyStatusHelpDeleteOutput}
-    ${DependencyStatusHelpDeleteInput}
-    ${DependencyStatusHelpMutationsType}
+    ${DependencyVersionStatusHelpCreateOrEditInput}
+    ${DependencyVersionStatusHelpDeleteOutput}
+    ${DependencyVersionStatusHelpDeleteInput}
+    ${DependencyVersionStatusHelpMutationsType}
 
     ${DeprecatedDependencyCreateOrEditInput}
     ${DeprecatedDependencyDeleteOutput}

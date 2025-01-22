@@ -12,7 +12,7 @@ export default function VitalityAuditHelpListView() {
 
     return (
         <RefineTableWrapper
-            title={translate('v6y-audit-helps.titles.list')}
+            title={translate('v6y-audit-help.titles.list')}
             subTitle=""
             defaultSorter={[
                 {

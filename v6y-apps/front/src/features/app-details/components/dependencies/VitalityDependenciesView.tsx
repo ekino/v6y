@@ -46,14 +46,14 @@ const VitalityDependenciesView = ({}) => {
         ?.filter(
             (dependency) =>
                 dependency?.module?.branch?.length &&
-                dependency?.statusHelp?.category?.length &&
-                dependency?.statusHelp?.title?.length,
+                dependency?.versionStatusHelp?.category?.length &&
+                dependency?.versionStatusHelp?.title?.length,
         )
         ?.map((dependency) => ({
             ...dependency,
             ...dependency?.module,
-            ...dependency?.statusHelp,
-            status: dependency.status,
+            ...dependency?.versionStatusHelp,
+            status: dependency.versionStatus,
         }));
 
     const onExportClicked = () => {

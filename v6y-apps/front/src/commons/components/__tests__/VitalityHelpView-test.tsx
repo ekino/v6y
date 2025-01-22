@@ -24,7 +24,7 @@ describe('VitalityHelpView', () => {
             description: 'Default Description',
             explanation: 'Default Explanation',
         },
-        statusHelp: undefined,
+        versionStatusHelp: undefined,
         evolutionHelp: undefined,
     };
 
@@ -103,11 +103,11 @@ describe('VitalityHelpView', () => {
         ).not.toBeInTheDocument();
     });
 
-    it('should render statusHelp if auditHelp is not available', () => {
+    it('should render versionStatusHelp if auditHelp is not available', () => {
         const mockModuleWithStatusHelp = {
             ...mockModule,
             auditHelp: undefined,
-            statusHelp: {
+            versionStatusHelp: {
                 category: 'Status Category',
                 title: 'Status Title',
                 description: 'Status Description',
@@ -123,11 +123,11 @@ describe('VitalityHelpView', () => {
         expect(screen.getByText('Status Category')).toBeInTheDocument();
     });
 
-    it('should render evolutionHelp if auditHelp and statusHelp are not available', () => {
+    it('should render evolutionHelp if auditHelp and versionStatusHelp are not available', () => {
         const mockModuleWithEvolutionHelp = {
             ...mockModule,
             auditHelp: undefined,
-            statusHelp: undefined,
+            versionStatusHelp: undefined,
             evolutionHelp: {
                 category: 'Evolution Category',
                 title: 'Evolution Title',

@@ -46,7 +46,7 @@ const createOrEditDeprecatedDependency = async (
             });
 
         AppLogger.info(
-            `[DependencyStatusHelpMutations - createOrEditDependencyStatusHelp] createdDeprecatedDependency : ${createdDeprecatedDependency?._id}`,
+            `[DeprecatedDependencyMutations - createOrEditDeprecatedDependency] createdDeprecatedDependency : ${createdDeprecatedDependency?._id}`,
         );
 
         return createdDeprecatedDependency;

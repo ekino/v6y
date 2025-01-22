@@ -20,7 +20,7 @@ export default function VitalityAuditHelpEditView() {
         <RefineEditWrapper
             title={
                 <Typography.Title level={2}>
-                    {translate('v6y-audit-helps.titles.edit')}
+                    {translate('v6y-audit-help.titles.edit')}
                 </Typography.Title>
             }
             queryOptions={{

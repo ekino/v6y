@@ -14,3 +14,5 @@ V6Y_MAIN_API_PORT=4005
 
 V6Y_STATIC_ANALYZER_API_PATH=http://localhost:port/v6y/bfb-static-auditor/auditor/start-static-auditor.json
 V6Y_DYNAMIC_ANALYZER_API_PATH=http://localhost:port/v6y/bfb-dynamic-auditor/auditor/start-dynamic-auditor.json
+
+ZIP_BASE_DIR=../../v6y-code-analysis-workspace

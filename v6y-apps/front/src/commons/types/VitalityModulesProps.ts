@@ -9,7 +9,7 @@ export interface VitalityModuleType {
     branch: string;
     path: string;
     auditHelp: Record<string, string>;
-    statusHelp: Record<string, string>;
+    versionStatusHelp: Record<string, string>;
     evolutionHelp: Record<string, string>;
 }
 
