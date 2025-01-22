@@ -16,4 +16,5 @@ export {
     VitalityEmptyView,
     VitalityCollapse,
     VitalityLinks,
+    VitalityModal
 };

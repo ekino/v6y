@@ -2,7 +2,7 @@ import { Table } from 'antd';
 import { AnyObject } from 'antd/es/_util/type';
 import React from 'react';
 
-const VitalityTable = ({
+const VitalityBaseTable = ({
     dataSource,
     columns,
 }: {
@@ -10,4 +10,4 @@ const VitalityTable = ({
     columns: AnyObject[];
 }) => <Table dataSource={dataSource} columns={columns} rowKey="key" />;
 
-export default VitalityTable;
+export default VitalityBaseTable;

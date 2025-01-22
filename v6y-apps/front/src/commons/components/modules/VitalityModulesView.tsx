@@ -1,6 +1,6 @@
 import { InfoCircleOutlined, PushpinOutlined } from '@ant-design/icons';
 import { VitalityTerms } from '@v6y/core-logic';
-import { VitalityText, VitalityTitle } from '@v6y/shared-ui';
+import { VitalityModal, VitalityText, VitalityTitle } from '@v6y/shared-ui';
 import { Avatar, Button, Card, Divider, List, Space, Statistic } from 'antd';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 import { QUALITY_METRIC_ICONS, QUALITY_METRIC_STATUS } from '../../config/VitalityCommonConfig';
 import { VitalityModuleType, VitalityModulesProps } from '../../types/VitalityModulesProps';
 import VitalityDynamicLoader from '../VitalityDynamicLoader';
-import VitalityModal from '../VitalityModal';
 import VitalityPaginatedList from '../VitalityPaginatedList';
 
 const VitalityHelpView = VitalityDynamicLoader(() => import('../help/VitalityHelpView'));

@@ -1,13 +1,12 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { AuditType, VitalityTerms } from '@v6y/core-logic';
-import { VitalityText, VitalityTitle } from '@v6y/shared-ui';
+import { VitalityText, VitalityTitle, VitalityModal } from '@v6y/shared-ui';
 import { Button, Card, Col, List, Row, Statistic } from 'antd';
 import Link from 'next/link';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
 import VitalityDynamicLoader from '../../../../../../commons/components/VitalityDynamicLoader';
-import VitalityModal from '../../../../../../commons/components/VitalityModal';
 import VitalityPaginatedList from '../../../../../../commons/components/VitalityPaginatedList';
 import {
     QUALITY_METRIC_ICONS,
