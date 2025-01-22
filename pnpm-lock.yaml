@@ -11,6 +11,9 @@ importers:
       husky:
         specifier: '=9.1.7'
         version: 9.1.7
+      jscpd:
+        specifier: '=4.0.5'
+        version: 4.0.5
       nx:
         specifier: '=20.3.1'
         version: 20.3.1(@swc/core@1.10.7(@swc/helpers@0.5.15))

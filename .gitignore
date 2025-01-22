@@ -141,3 +141,4 @@ dist
 .vscode/
 **/coverage**
 **/.DS_Store
+**/duplications-report
