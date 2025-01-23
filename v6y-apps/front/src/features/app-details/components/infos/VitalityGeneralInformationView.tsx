@@ -1,10 +1,11 @@
 import { InfoOutlined } from '@ant-design/icons';
-import { ApplicationType, VitalityTerms } from '@v6y/core-logic';
+import { ApplicationType } from '@v6y/core-logic';
 import * as React from 'react';
 
 import VitalityDynamicLoader from '../../../../commons/components/VitalityDynamicLoader';
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
+import VitalityTerms from '../../../../commons/config/VitalityTerms';
 import { exportAppDetailsDataToCSV } from '../../../../commons/utils/VitalityDataExportUtils';
 import {
     buildClientQuery,

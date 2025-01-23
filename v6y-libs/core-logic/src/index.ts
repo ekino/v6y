@@ -2,7 +2,6 @@ import RepositoryApi from './apis/RepositoryApi.ts';
 import AppLogger from './core/AppLogger.ts';
 import AuditUtils from './core/AuditUtils.ts';
 import Matcher from './core/Matcher.ts';
-import PasswordUtils from './core/PasswordUtils.ts';
 import PerformancesUtils from './core/PerformancesUtils.ts';
 import SemverUtils from './core/SemverUtils.ts';
 import ServerUtils from './core/ServerUtils.ts';
@@ -27,7 +26,6 @@ export * from './config/EvolutionHelpStatusConfig.ts';
 export * from './config/AuditHelpConfig.ts';
 export * from './config/CodeSmellConfig.ts';
 export * from './config/DependencyStatusHelpConfig.ts';
-export * from './config/VitalityTerms.ts';
 
 export * from './core/AuthenticationHelper.ts';
 
@@ -49,10 +47,11 @@ export * from './types/SearchQueryType.ts';
 export * from './types/LinkType.ts';
 export * from './types/ServerConfigType.ts';
 
+// export * from './core/PasswordUtils.ts';
+
 export {
     AppLogger,
     Matcher,
-    PasswordUtils,
     PerformancesUtils,
     SemverUtils,
     StringUtils,

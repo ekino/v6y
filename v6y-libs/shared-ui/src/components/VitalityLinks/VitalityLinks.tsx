@@ -1,10 +1,10 @@
+import { LinkType } from '@v6y/core-logic';
 import { Col, Row } from 'antd';
 import Link from 'next/link';
 import * as React from 'react';
 
-import { LinkType } from '../../../../core-logic/src/types/LinkType.ts';
 import { VitalityLinksProps } from '../../types/VitalityLinksProps.ts';
-import VitalityText from '../VitalityText/VitalityText.jsx';
+import VitalityText from '../VitalityText/VitalityText.tsx';
 
 const VitalityLinks = ({ links, align }: VitalityLinksProps) => {
     const dataSource = (links || [])

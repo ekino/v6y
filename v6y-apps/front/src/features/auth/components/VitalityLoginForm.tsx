@@ -1,6 +1,5 @@
 'use client';
 
-import { VitalityTerms } from '@v6y/core-logic';
 import { Button, Form, message } from 'antd';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -8,6 +7,7 @@ import { z } from 'zod';
 
 import VitalityCheckbox from '../../../commons/components/form/VitalityCheckbox';
 import VitalityInput from '../../../commons/components/form/VitalityInput';
+import VitalityTerms from '../../../commons/config/VitalityTerms';
 import {
     LoginAccountFormType,
     loginSchemaValidator,

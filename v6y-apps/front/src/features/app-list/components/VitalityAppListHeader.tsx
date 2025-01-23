@@ -1,11 +1,11 @@
 import { ExportOutlined } from '@ant-design/icons';
-import { VitalityTerms } from '@v6y/core-logic';
 import { VitalityTitle } from '@v6y/shared-ui';
 import { Button, Col, Row } from 'antd';
 import { useEffect, useState } from 'react';
 import * as React from 'react';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
+import VitalityTerms from '../../../commons/config/VitalityTerms';
 import {
     buildClientQuery,
     useClientQuery,

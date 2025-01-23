@@ -11,13 +11,15 @@ import { useNextTranslation } from '../adapters/translation/TranslationAdapter';
 import '../adapters/translation/i18nHelper';
 import { AppProviderProps } from '../types/AppProviderProps';
 import { ColorModeProvider } from './ColorModeProvider';
-import { gqlAuthProvider, gqlDataProvider, gqlLiveProvider } from './GraphQLProvider';
+import { gqlAuthProvider, gqlLiveProvider } from './GraphQLProvider';
 import { RefineDevtoolsProvider } from './RefineDevtoolsProvider';
 
 export const RefineProvider = ({ resources, defaultMode, children }: AppProviderProps) => {
     const { translateHelper, i18n } = useNextTranslation();
 
     const i18nProvider = {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         translate: (key: string, params: TFunction) => translateHelper(key, params),
         changeLocale: (lang: string) => i18n.changeLanguage(lang),
         getLocale: () => i18n.language,
@@ -28,7 +30,6 @@ export const RefineProvider = ({ resources, defaultMode, children }: AppProvider
             <ColorModeProvider defaultMode={defaultMode}>
                 <Refine
                     routerProvider={routerProvider}
-                    dataProvider={gqlDataProvider}
                     liveProvider={gqlLiveProvider}
                     authProvider={gqlAuthProvider}
                     notificationProvider={useNotificationProvider}

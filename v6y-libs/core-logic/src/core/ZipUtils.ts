@@ -1,9 +1,9 @@
 import AdmZip from 'adm-zip';
 import axios from 'axios';
 import fs from 'fs-extra';
-import path from 'node:path';
-import * as stream from 'node:stream';
-import { promisify } from 'node:util';
+import path from 'path';
+import * as stream from 'stream';
+import { promisify } from 'util';
 
 import { DownloadZipOptions, ZipFileOptions } from '../types/ZipType.ts';
 import AppLogger from './AppLogger.ts';

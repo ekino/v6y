@@ -1,6 +1,6 @@
 import { Table } from 'antd';
 import { AnyObject } from 'antd/es/_util/type';
-import React from 'react';
+import * as React from 'react';
 
 const VitalityBaseTable = ({
     dataSource,

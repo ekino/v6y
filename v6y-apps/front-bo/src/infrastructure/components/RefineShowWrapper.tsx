@@ -45,7 +45,7 @@ export default function RefineShowWrapper({
         >
             {renderShowView?.({
                 data: resourceQueryData?.[queryOptions?.resource as keyof typeof resourceQueryData],
-                error: resourceQueryError,
+                error: resourceQueryError || undefined,
             })}
         </Show>
     );

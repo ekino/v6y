@@ -16,7 +16,7 @@ importers:
         version: 4.0.5
       nx:
         specifier: '=20.3.1'
-        version: 20.3.1(@swc/core@1.10.7)
+        version: 20.3.1(@swc/core@1.10.7(@swc/helpers@0.5.15))
       typescript-coverage-report:
         specifier: '=1.1.0'
         version: 1.1.0(typescript@5.7.3)
@@ -95,7 +95,7 @@ importers:
         version: 22.10.6
       '@vitest/coverage-v8':
         specifier: '=2.1.8'
-        version: 2.1.8(vitest@2.1.8(@types/node@22.10.6)(@vitest/ui@2.1.8)(jsdom@26.0.0))
+        version: 2.1.8(vitest@2.1.8)
       '@vitest/ui':
         specifier: '=2.1.8'
         version: 2.1.8(vitest@2.1.8)
@@ -122,7 +122,7 @@ importers:
         version: 3.1.9
       ts-node:
         specifier: '=10.9.2'
-        version: 10.9.2(@swc/core@1.10.7)(@types/node@22.10.6)(typescript@5.7.3)
+        version: 10.9.2(@swc/core@1.10.7(@swc/helpers@0.5.15))(@types/node@22.10.6)(typescript@5.7.3)
       typescript:
         specifier: '=5.7.3'
         version: 5.7.3
@@ -198,7 +198,7 @@ importers:
         version: 1.3.3
       '@vitest/coverage-v8':
         specifier: '=2.1.8'
-        version: 2.1.8(vitest@2.1.8(@types/node@22.10.6)(@vitest/ui@2.1.8)(jsdom@26.0.0))
+        version: 2.1.8(vitest@2.1.8)
       '@vitest/ui':
         specifier: '=2.1.8'
         version: 2.1.8(vitest@2.1.8)
@@ -231,7 +231,7 @@ importers:
         version: 24.0.0(bare-buffer@3.0.1)
       ts-node:
         specifier: '=10.9.2'
-        version: 10.9.2(@swc/core@1.10.7)(@types/node@22.10.6)(typescript@5.7.3)
+        version: 10.9.2(@swc/core@1.10.7(@swc/helpers@0.5.15))(@types/node@22.10.6)(typescript@5.7.3)
       typescript:
         specifier: '=5.7.3'
         version: 5.7.3
@@ -328,7 +328,7 @@ importers:
         version: 3.1.9
       ts-node:
         specifier: '=10.9.2'
-        version: 10.9.2(@swc/core@1.10.7)(@types/node@22.10.6)(typescript@5.7.3)
+        version: 10.9.2(@swc/core@1.10.7(@swc/helpers@0.5.15))(@types/node@22.10.6)(typescript@5.7.3)
       typescript:
         specifier: '=5.7.3'
         version: 5.7.3
@@ -458,7 +458,7 @@ importers:
         version: 0.4.14
       '@vitest/coverage-v8':
         specifier: '=2.1.8'
-        version: 2.1.8(vitest@2.1.8(@types/node@22.10.6)(@vitest/ui@2.1.8)(jsdom@26.0.0))
+        version: 2.1.8(vitest@2.1.8)
       '@vitest/ui':
         specifier: '=2.1.8'
         version: 2.1.8(vitest@2.1.8)
@@ -488,7 +488,7 @@ importers:
         version: 1.2.1
       ts-node:
         specifier: '=10.9.2'
-        version: 10.9.2(@swc/core@1.10.7)(@types/node@22.10.6)(typescript@5.7.3)
+        version: 10.9.2(@swc/core@1.10.7(@swc/helpers@0.5.15))(@types/node@22.10.6)(typescript@5.7.3)
       typescript:
         specifier: '=5.7.3'
         version: 5.7.3
@@ -582,7 +582,7 @@ importers:
         version: 3.1.9
       ts-node:
         specifier: '=10.9.2'
-        version: 10.9.2(@swc/core@1.10.7)(@types/node@22.10.6)(typescript@5.7.3)
+        version: 10.9.2(@swc/core@1.10.7(@swc/helpers@0.5.15))(@types/node@22.10.6)(typescript@5.7.3)
       typescript:
         specifier: '=5.7.3'
         version: 5.7.3
@@ -724,7 +724,7 @@ importers:
         version: 4.3.4(vite@6.0.7(@types/node@22.10.6)(yaml@2.7.0))
       '@vitest/coverage-v8':
         specifier: '=2.1.8'
-        version: 2.1.8(vitest@2.1.8(@types/node@22.10.6)(@vitest/ui@2.1.8)(jsdom@26.0.0))
+        version: 2.1.8(vitest@2.1.8)
       '@vitest/ui':
         specifier: '=2.1.8'
         version: 2.1.8(vitest@2.1.8)
@@ -830,12 +830,9 @@ importers:
       next:
         specifier: '=15.1.4'
         version: 15.1.4(@babel/core@7.26.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      next-compose-plugins:
-        specifier: '=2.2.1'
-        version: 2.2.1
       next-i18next:
         specifier: '=15.4.1'
-        version: 15.4.1(i18next@24.2.1(typescript@5.7.3))(next@15.1.4(@babel/core@7.26.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-i18next@15.4.0(i18next@24.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
+        version: 15.4.1(i18next@24.2.1(typescript@5.7.3))(next@15.1.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-i18next@15.4.0(i18next@24.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
       react:
         specifier: '=19.0.0'
         version: 19.0.0
@@ -896,7 +893,7 @@ importers:
         version: 4.3.4(vite@6.0.7(@types/node@22.10.6)(yaml@2.7.0))
       '@vitest/coverage-v8':
         specifier: '=2.1.8'
-        version: 2.1.8(vitest@2.1.8(@types/node@22.10.6)(@vitest/ui@2.1.8)(jsdom@26.0.0))
+        version: 2.1.8(vitest@2.1.8)
       '@vitest/ui':
         specifier: '=2.1.8'
         version: 2.1.8(vitest@2.1.8)
@@ -1047,7 +1044,7 @@ importers:
         version: 4.0.1
       '@vitest/coverage-v8':
         specifier: '=2.1.8'
-        version: 2.1.8(vitest@2.1.8(@types/node@22.10.6)(@vitest/ui@2.1.8)(jsdom@26.0.0))
+        version: 2.1.8(vitest@2.1.8)
       '@vitest/ui':
         specifier: '=2.1.8'
         version: 2.1.8(vitest@2.1.8)
@@ -1078,9 +1075,18 @@ importers:
       '@refinedev/core':
         specifier: '=4.57.5'
         version: 4.57.5(@tanstack/react-query@5.64.1(react@19.0.0))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@v6y/core-logic':
+        specifier: workspace:^
+        version: link:../core-logic
       antd:
         specifier: '=5.22.6'
         version: 5.22.6(date-fns@4.1.0)(luxon@3.5.0)(moment@2.30.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      next:
+        specifier: '=15.1.4'
+        version: 15.1.4(@babel/core@7.26.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      next-i18next:
+        specifier: '=15.4.1'
+        version: 15.4.1(i18next@24.2.1(typescript@5.7.3))(next@15.1.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-i18next@15.4.0(i18next@24.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
       react:
         specifier: '=19.0.0'
         version: 19.0.0
@@ -1126,7 +1132,7 @@ importers:
         version: 3.7.2(@swc/helpers@0.5.15)(vite@6.0.7(@types/node@22.10.6)(yaml@2.7.0))
       '@vitest/coverage-v8':
         specifier: '=2.1.8'
-        version: 2.1.8(vitest@2.1.8(@types/node@22.10.6)(@vitest/ui@2.1.8)(jsdom@26.0.0))
+        version: 2.1.8(vitest@2.1.8)
       '@vitest/ui':
         specifier: '=2.1.8'
         version: 2.1.8(vitest@2.1.8)
@@ -1148,15 +1154,6 @@ importers:
       globals:
         specifier: '=15.14.0'
         version: 15.14.0
-      next:
-        specifier: ^15.1.4
-        version: 15.1.4(@babel/core@7.26.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      next-compose-plugins:
-        specifier: '=2.2.1'
-        version: 2.2.1
-      next-i18next:
-        specifier: '=15.4.1'
-        version: 15.4.1(i18next@24.2.1(typescript@5.7.3))(next@15.1.4(@babel/core@7.26.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-i18next@15.4.0(i18next@24.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
       prettier:
         specifier: '=3.4.2'
         version: 3.4.2
@@ -7009,9 +7006,6 @@ packages:
     resolution: {integrity: sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==}
     engines: {node: '>= 0.4.0'}
 
-  next-compose-plugins@2.2.1:
-    resolution: {integrity: sha512-OjJ+fV15FXO2uQXQagLD4C0abYErBjyjE0I0FHpOEIB8upw0hg1ldFP6cqHTJBH1cZqy96OeR3u1dJ+Ez2D4Bg==}
-
   next-i18next@15.4.1:
     resolution: {integrity: sha512-n3cFqBKDpEDLXZVYD52H6k2QzLAnUSuBie02BmVpfywNZGxcNgq6QXdpVpvONQ7WkBVntPtldt867ZgtEcP1Og==}
     engines: {node: '>=14'}
@@ -12609,7 +12603,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vitest/coverage-v8@2.1.8(vitest@2.1.8(@types/node@22.10.6)(@vitest/ui@2.1.8)(jsdom@26.0.0))':
+  '@vitest/coverage-v8@2.1.8(vitest@2.1.8)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3
@@ -14341,7 +14335,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.20.0(eslint@9.18.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0(eslint-plugin-import@2.31.0)(eslint@9.18.0))(eslint@9.18.0):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.20.0(eslint@9.18.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0)(eslint@9.18.0):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
@@ -14363,7 +14357,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.18.0
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.20.0(eslint@9.18.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0(eslint-plugin-import@2.31.0)(eslint@9.18.0))(eslint@9.18.0)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.20.0(eslint@9.18.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0)(eslint@9.18.0)
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -16498,9 +16492,7 @@ snapshots:
 
   netmask@2.0.2: {}
 
-  next-compose-plugins@2.2.1: {}
-
-  next-i18next@15.4.1(i18next@24.2.1(typescript@5.7.3))(next@15.1.4(@babel/core@7.26.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-i18next@15.4.0(i18next@24.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0):
+  next-i18next@15.4.1(i18next@24.2.1(typescript@5.7.3))(next@15.1.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-i18next@15.4.0(i18next@24.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0):
     dependencies:
       '@babel/runtime': 7.26.0
       core-js: 3.40.0
@@ -16638,7 +16630,7 @@ snapshots:
 
   nwsapi@2.2.16: {}
 
-  nx@20.3.1(@swc/core@1.10.7):
+  nx@20.3.1(@swc/core@1.10.7(@swc/helpers@0.5.15)):
     dependencies:
       '@napi-rs/wasm-runtime': 0.2.4
       '@yarnpkg/lockfile': 1.1.0
@@ -18934,7 +18926,7 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-node@10.9.2(@swc/core@1.10.7)(@types/node@22.10.6)(typescript@5.7.3):
+  ts-node@10.9.2(@swc/core@1.10.7(@swc/helpers@0.5.15))(@types/node@22.10.6)(typescript@5.7.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.11

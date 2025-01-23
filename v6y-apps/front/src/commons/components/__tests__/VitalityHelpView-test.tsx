@@ -1,10 +1,10 @@
 // VitalityHelpView.test.tsx
 import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
-import { VitalityTerms } from '@v6y/core-logic';
 import * as React from 'react';
 import { describe, expect, it } from 'vitest';
 
+import VitalityTerms from '../../config/VitalityTerms';
 import VitalityHelpView from '../help/VitalityHelpView';
 
 describe('VitalityHelpView', () => {

@@ -1,4 +1,3 @@
-import { VitalityTerms } from '@v6y/core-logic';
 import { VitalityLinks, VitalityText } from '@v6y/shared-ui';
 import { Col, Divider, List, Row, Tag } from 'antd';
 import Link from 'next/link';
@@ -7,6 +6,7 @@ import * as React from 'react';
 import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import { QUALITY_METRIC_STATUS } from '../../config/VitalityCommonConfig';
 import VitalityNavigationPaths from '../../config/VitalityNavigationPaths';
+import VitalityTerms from '../../config/VitalityTerms';
 import { VitalityAppInfosProps } from '../../types/VitalityAppInfosProps';
 
 const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: VitalityAppInfosProps) => {

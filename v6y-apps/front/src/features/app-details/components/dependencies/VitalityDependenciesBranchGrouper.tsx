@@ -1,8 +1,9 @@
-import { DependencyType, VitalityTerms } from '@v6y/core-logic';
+import { DependencyType } from '@v6y/core-logic';
 import * as React from 'react';
 
 import VitalityDynamicLoader from '../../../../commons/components/VitalityDynamicLoader';
 import VitalitySelectGrouperView from '../../../../commons/components/VitalitySelectGrouperView';
+import VitalityTerms from '../../../../commons/config/VitalityTerms';
 
 const VitalityDependenciesStatusGrouper = VitalityDynamicLoader(
     () => import('./VitalityDependenciesStatusGrouper'),

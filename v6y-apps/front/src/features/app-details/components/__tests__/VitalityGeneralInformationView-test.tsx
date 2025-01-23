@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom/vitest';
 import { render, screen, waitFor } from '@testing-library/react';
-import { VitalityTerms } from '@v6y/core-logic';
 import * as React from 'react';
 import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import VitalityTerms from '../../../../commons/config/VitalityTerms';
 import { useClientQuery } from '../../../../infrastructure/adapters/api/useQueryAdapter';
 import useNavigationAdapter from '../../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import VitalityGeneralInformationView from '../infos/VitalityGeneralInformationView';

@@ -1,9 +1,9 @@
-import { VitalityTerms } from '@v6y/core-logic';
 import { VitalityLoader } from '@v6y/shared-ui';
 import * as React from 'react';
 import { ReactNode, Suspense } from 'react';
 
 import VitalityPageLayout from '../commons/components/layout/VitalityPageLayout';
+import VitalityTerms from '../commons/config/VitalityTerms';
 import VitalityTheme from '../commons/config/VitalityTheme';
 import { AppProvider } from '../infrastructure/providers/AppProvider';
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import { buildCommonTableColumns, buildCommonTableDataSource } from '../config/VitalityTableConfig';
 import VitalityBaseTable from './VitalityBaseTable';

@@ -11,13 +11,14 @@ import {
     SplitCellsOutlined,
     ThunderboltOutlined,
 } from '@ant-design/icons';
-import { ApplicationType, Matcher, VitalityTerms } from '@v6y/core-logic';
+import { ApplicationType, Matcher } from '@v6y/core-logic';
 import { VitalityText } from '@v6y/shared-ui';
 import Link from 'next/link';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
 import VitalityNavigationPaths from './VitalityNavigationPaths';
+import VitalityTerms from './VitalityTerms';
 import VitalityTheme from './VitalityTheme';
 
 export interface BreadCrumbItemType {

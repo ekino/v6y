@@ -1,5 +1,5 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { AuditType, VitalityTerms } from '@v6y/core-logic';
+import { AuditType } from '@v6y/core-logic';
 import { VitalityModal, VitalityText, VitalityTitle } from '@v6y/shared-ui';
 import { Button, Card, Col, List, Row, Statistic } from 'antd';
 import Link from 'next/link';
@@ -12,6 +12,7 @@ import {
     QUALITY_METRIC_ICONS,
     QUALITY_METRIC_STATUS,
 } from '../../../../../../commons/config/VitalityCommonConfig';
+import VitalityTerms from '../../../../../../commons/config/VitalityTerms';
 import useDataGrouper from '../../../../../../commons/hooks/useDataGrouper';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';
 

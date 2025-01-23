@@ -1,13 +1,13 @@
 'use client';
 
-import { VitalityTerms } from '@v6y/core-logic';
 import { Col, Row } from 'antd';
 import * as React from 'react';
 
 import VitalityDynamicLoader from '../../../commons/components/VitalityDynamicLoader';
 import VitalitySearchBar from '../../../commons/components/VitalitySearchBar';
+import VitalityTerms from '../../../commons/config/VitalityTerms';
 
-const VitalityCheckableKeywords = VitalityDynamicLoader(
+const VitalitySelectableIndicators = VitalityDynamicLoader(
     () => import('../../../commons/components/indicators/VitalitySelectableIndicators'),
 );
 
@@ -24,7 +24,7 @@ const VitalityAppListView = () => {
                 />
             </Col>
             <Col span={22}>
-                <VitalityCheckableKeywords />
+                <VitalitySelectableIndicators />
             </Col>
             <Col span={22}>
                 <VitalityAppList />
