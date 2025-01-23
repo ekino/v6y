@@ -32,7 +32,7 @@ To use **Vitality (v6y)**, follow these steps:
 4. Use the dashboard to view real-time data and detailed reports on the health of your codebases and applications.
 
 ## Contributing
-We welcome contributions to **Vitality (v6y)**. To contribute, please read our guidelines outlined in the project Wiki.
+We welcome contributions to **Vitality (v6y)**. To contribute, please read our guidelines outlined in the project [Wiki](https://github.com/ekino/v6y/wiki).
 
 ## License
 **Vitality (v6y)** is licensed under the MIT License. See the `LICENSE` file for more details.
