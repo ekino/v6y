@@ -79,7 +79,7 @@
     "prettier": "=3.4.2",
     "semantic-ui-react": "=2.1.5",
     "typescript": "=5.7.3",
-    "vitest": "=2.1.8"
+    "vitest": "=3.0.4"
   },
   "browserslist": {
     "production": [
