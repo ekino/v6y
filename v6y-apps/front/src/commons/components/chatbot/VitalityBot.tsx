@@ -2,7 +2,7 @@
 
 import { VitalityLoader } from '@v6y/shared-ui';
 import { Suspense, lazy, useEffect, useState } from 'react';
-import React from 'react';
+import * as React from 'react';
 import { Settings } from 'react-chatbotify';
 
 import { VitalityBotFlow } from './VitalityBotFlow';
