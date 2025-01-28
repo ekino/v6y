@@ -9,6 +9,11 @@ import FileSaver from 'file-saver';
 import { json2csv } from 'json-2-csv';
 import { Json2CsvOptions } from 'json-2-csv/lib/types';
 
+interface ExportDataToCSVProps {
+    data: ApplicationType[] | KeywordType[] | EvolutionType[] | DependencyType[] | AuditType[];
+    baseName: string;
+}
+
 const EXPORT_CSV_OPTIONS: Json2CsvOptions = {
     delimiter: {
         field: ';',
@@ -25,15 +30,15 @@ const buildCSVFileName = (baseName: string) => {
     return `${baseName}_${year}_${month}_${day}.csv`;
 };
 
-export const exportAppListDataToCSV = (appList: ApplicationType[]) => {
+const exportDataToCSV = ({ data, baseName }: ExportDataToCSVProps): boolean => {
     try {
-        if (!appList?.length) {
+        if (!data?.length) {
             return false;
         }
 
-        const csvData = json2csv(appList, EXPORT_CSV_OPTIONS);
+        const csvData = json2csv(data, EXPORT_CSV_OPTIONS);
         const csvBlob = new Blob([csvData], { type: 'text/plain;charset=utf-8' });
-        FileSaver.saveAs(csvBlob, buildCSVFileName('VitalityAppList'));
+        FileSaver.saveAs(csvBlob, buildCSVFileName(baseName));
 
         return true;
     } catch {
@@ -41,82 +46,15 @@ export const exportAppListDataToCSV = (appList: ApplicationType[]) => {
     }
 };
 
-export const exportAppDetailsDataToCSV = (appDetails: ApplicationType) => {
-    try {
-        if (!appDetails) {
-            return false;
-        }
-
-        const csvData = json2csv([appDetails], EXPORT_CSV_OPTIONS);
-        const csvBlob = new Blob([csvData], { type: 'text/plain;charset=utf-8' });
-        FileSaver.saveAs(csvBlob, buildCSVFileName('VitalityAppDetails'));
-
-        return true;
-    } catch {
-        return false;
-    }
-};
-
-export const exportAppQualityIndicatorsToCSV = (indicators: KeywordType[]) => {
-    try {
-        if (!indicators?.length) {
-            return false;
-        }
-
-        const csvData = json2csv(indicators, EXPORT_CSV_OPTIONS);
-        const csvBlob = new Blob([csvData], { type: 'text/plain;charset=utf-8' });
-        FileSaver.saveAs(csvBlob, buildCSVFileName('VitalityAppDetails'));
-
-        return true;
-    } catch {
-        return false;
-    }
-};
-
-export const exportAppEvolutionsToCSV = (evolutions: EvolutionType[]) => {
-    try {
-        if (!evolutions?.length) {
-            return false;
-        }
-
-        const csvData = json2csv(evolutions, EXPORT_CSV_OPTIONS);
-        const csvBlob = new Blob([csvData], { type: 'text/plain;charset=utf-8' });
-        FileSaver.saveAs(csvBlob, buildCSVFileName('VitalityAppDetails'));
-
-        return true;
-    } catch {
-        return false;
-    }
-};
-
-export const exportAppDependenciesToCSV = (dependencies: DependencyType[]) => {
-    try {
-        if (!dependencies?.length) {
-            return false;
-        }
-
-        const csvData = json2csv(dependencies, EXPORT_CSV_OPTIONS);
-        const csvBlob = new Blob([csvData], { type: 'text/plain;charset=utf-8' });
-        FileSaver.saveAs(csvBlob, buildCSVFileName('VitalityAppDetails'));
-
-        return true;
-    } catch {
-        return false;
-    }
-};
-
-export const exportAppAuditReportsToCSV = (auditReports: AuditType[]) => {
-    try {
-        if (!auditReports?.length) {
-            return false;
-        }
-
-        const csvData = json2csv(auditReports, EXPORT_CSV_OPTIONS);
-        const csvBlob = new Blob([csvData], { type: 'text/plain;charset=utf-8' });
-        FileSaver.saveAs(csvBlob, buildCSVFileName('VitalityAppDetails'));
-
-        return true;
-    } catch {
-        return false;
-    }
-};
+export const exportAppListDataToCSV = (appList: ApplicationType[]) =>
+    exportDataToCSV({ data: appList, baseName: 'VitalityAppList' });
+export const exportAppDetailsDataToCSV = (appDetails: ApplicationType) =>
+    exportDataToCSV({ data: [appDetails], baseName: 'VitalityAppDetails' });
+export const exportAppQualityIndicatorsToCSV = (indicators: KeywordType[]) =>
+    exportDataToCSV({ data: indicators, baseName: 'VitalityAppQualityIndicators' });
+export const exportAppEvolutionsToCSV = (evolutions: EvolutionType[]) =>
+    exportDataToCSV({ data: evolutions, baseName: 'VitalityAppEvolutions' });
+export const exportAppDependenciesToCSV = (dependencies: DependencyType[]) =>
+    exportDataToCSV({ data: dependencies, baseName: 'VitalityAppDependencies' });
+export const exportAppAuditReportsToCSV = (auditReports: AuditType[]) =>
+    exportDataToCSV({ data: auditReports, baseName: 'VitalityAppAuditReports' });
