@@ -1,4 +1,4 @@
-import { AppLogger, ServerUtils } from '@v6y/core-logic';
+import { AppLogger, CorsOptions, ServerUtils } from '@v6y/core-logic';
 import BodyParser from 'body-parser';
 import CookieParser from 'cookie-parser';
 import Cors from 'cors';
@@ -28,17 +28,7 @@ app.use(CookieParser());
 
 // configure cors
 // https://expressjs.com/en/resources/middleware/cors.html
-const corsOptions = {
-    origin: function (
-        origin: string | undefined,
-        callback: (err: Error | null, origin?: string) => void,
-    ) {
-        AppLogger.debug('Redirection cors orgin : ' + origin);
-        callback(null, origin);
-    },
-};
-
-app.use(Cors(corsOptions));
+app.use(Cors(CorsOptions));
 
 // parse application/x-www-form-urlencoded
 app.use(

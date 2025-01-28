@@ -28,6 +28,7 @@ export * from './config/CodeSmellConfig.ts';
 export * from './config/DependencyStatusHelpConfig.ts';
 export * from './config/getServerConfig.ts';
 export * from './config/getEnvironmentContext.ts';
+export * from './config/CorsOptions.ts';
 
 export * from './core/AuthenticationHelper.ts';
 

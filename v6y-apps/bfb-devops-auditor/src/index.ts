@@ -1,4 +1,4 @@
-import { AppLogger, ServerUtils } from '@v6y/core-logic';
+import { AppLogger, CorsOptions, ServerUtils } from '@v6y/core-logic';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -34,17 +34,7 @@ const httpServer = createServer({
 app.use(cookieParser());
 
 // CORS (Cross-Origin Resource Sharing): Configures the server to allow requests from other origins.
-const corsOptions = {
-    origin: function (
-        origin: string | undefined,
-        callback: (err: Error | null, origin?: string) => void,
-    ) {
-        AppLogger.debug(`CORS origin redirect: ${origin}`);
-        callback(null, origin);
-    },
-};
-
-app.use(cors(corsOptions));
+app.use(cors(CorsOptions));
 
 // Body Parser: Parses incoming request bodies in different formats (URL-encoded, JSON).
 app.use(bodyParser.json());
