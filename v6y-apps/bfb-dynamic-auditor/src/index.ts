@@ -9,7 +9,7 @@ import ServerConfig from './commons/ServerConfig.ts';
 import DynamicAuditorRouter from './routes/DynamicAuditorRouter.ts';
 
 const { createServer } = ServerUtils;
-const { getCurrentConfig } = ServerConfig;
+const { currentConfig } = ServerConfig;
 
 const {
     ssl,
@@ -20,13 +20,13 @@ const {
     dynamicAuditorApiPath,
     serverTimeout,
     serverUrl,
-} = getCurrentConfig() || {}; // Destructuring with defaults
+} = currentConfig || {}; // Destructuring with defaults
 
 const app = express();
 
 const httpServer = createServer({
     app,
-    config: getCurrentConfig(),
+    config: currentConfig,
 });
 
 // *********************************************** Server Configuration ***********************************************

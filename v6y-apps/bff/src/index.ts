@@ -11,9 +11,9 @@ import VitalityTypes from './types/VitalityTypes.ts';
 
 const { createServer } = ServerUtils;
 
-const { getCurrentConfig } = ServerConfig;
+const { currentConfig } = ServerConfig;
 
-const { ssl, monitoringPath, hostname, port, apiPath, healthCheckPath } = getCurrentConfig() || {};
+const { ssl, monitoringPath, hostname, port, apiPath, healthCheckPath } = currentConfig || {};
 
 const app = Express();
 
@@ -39,7 +39,7 @@ app.use(configureAuthMiddleware());
 
 const httpServer = createServer({
     app,
-    config: getCurrentConfig(),
+    config: currentConfig,
 });
 
 const server = new ApolloServer({
@@ -79,6 +79,6 @@ await new Promise((resolve) =>
     ),
 );
 
-httpServer.timeout = getCurrentConfig()?.serverTimeout as number; // milliseconds
+httpServer.timeout = currentConfig?.serverTimeout as number; // milliseconds
 
-AppLogger.info(`🚀 Server started at ${getCurrentConfig()?.serverUrl}`);
+AppLogger.info(`🚀 Server started at ${currentConfig?.serverUrl}`);

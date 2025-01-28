@@ -10,15 +10,15 @@ import DataUpdateScheduler from './workers/DataUpdateScheduler.ts';
 
 const { createServer } = ServerUtils;
 
-const { getCurrentConfig } = ServerConfig;
+const { currentConfig } = ServerConfig;
 
-const { ssl, monitoringPath, hostname, port, healthCheckPath } = getCurrentConfig() || {};
+const { ssl, monitoringPath, hostname, port, healthCheckPath } = currentConfig || {};
 
 const app = Express();
 
 const httpServer = createServer({
     app,
-    config: getCurrentConfig(),
+    config: currentConfig,
 });
 
 // *********************************************** Configure Server ***********************************************
@@ -94,9 +94,9 @@ await new Promise((resolve) =>
     ),
 );
 
-httpServer.timeout = getCurrentConfig()?.serverTimeout;
+httpServer.timeout = currentConfig?.serverTimeout;
 
-AppLogger.info(`🚀 Server started at ${getCurrentConfig()?.serverUrl}`);
+AppLogger.info(`🚀 Server started at ${currentConfig?.serverUrl}`);
 
 // *********************************************** Data Update Scheduler ***********************************************
 DataUpdateScheduler.start();
