@@ -13,7 +13,7 @@ import {
 } from '@ant-design/icons';
 import { ApplicationType } from '@v6y/core-logic';
 import Matcher from '@v6y/core-logic/src/core/Matcher';
-import { Typography } from 'antd';
+import { VitalityText } from '@v6y/shared-ui';
 import Link from 'next/link';
 import * as React from 'react';
 import { ReactNode } from 'react';
@@ -289,7 +289,7 @@ const VITALITY_HEADER_MENU_ITEMS = [
         icon: <NotificationOutlined />,
         label: (
             <Link href={VitalityNavigationPaths.NOTIFICATIONS} style={{ textDecoration: 'none' }}>
-                <Typography.Text>Notifications</Typography.Text>
+                <VitalityText text="Notifications" />
             </Link>
         ),
     },
@@ -298,7 +298,7 @@ const VITALITY_HEADER_MENU_ITEMS = [
         icon: <QuestionOutlined />,
         label: (
             <Link href={VitalityNavigationPaths.FAQ} style={{ textDecoration: 'none' }}>
-                <Typography.Text>FAQ</Typography.Text>
+                <VitalityText text="FAQ" />
             </Link>
         ),
     },
@@ -315,7 +315,7 @@ export const buildVitalityHeaderMenuItems = (isLogged: boolean, onLogout: () => 
                 onClick={onLogout}
                 style={{ textDecoration: 'none' }}
             >
-                <Typography.Text>Logout</Typography.Text>
+                <VitalityText text="Logout" />
             </Link>
         ),
     },

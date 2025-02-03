@@ -1,6 +1,6 @@
 import { useParsed } from '@refinedev/core';
 import { DependencyStatusHelpType } from '@v6y/core-logic/src';
-import { Typography } from 'antd';
+import { VitalityTitle } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';
@@ -16,11 +16,7 @@ export default function VitalityDependencyStatusHelpDetailsView() {
 
     return (
         <RefineShowWrapper
-            title={
-                <Typography.Title level={2}>
-                    {translate('v6y-dependency-status-helps.titles.show')}
-                </Typography.Title>
-            }
+            title={<VitalityTitle title="v6y-dependency-status-helps.titles.show" />}
             queryOptions={{
                 resource: 'getDependencyStatusHelpDetailsByParams',
                 query: GetDependencyStatusHelpDetailsByParams,

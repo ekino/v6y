@@ -24,6 +24,7 @@
     "lint": "nx run-many --target=lint --all",
     "lint:fix": "nx run-many --target=lint:fix --all --verbose",
     "format": "nx run-many --target=format --all",
+    "verify:code:duplication": "jscpd --config .jscpd.json",
     "ts-coverage": "typescript-coverage-report",
     "test": "nx run-many --target=test --all",
     "init-db": "nx run-many --target=init-db --all",
@@ -34,6 +35,7 @@
   },
   "devDependencies": {
     "husky": "=9.1.7",
+    "jscpd": "=4.0.5",
     "nx": "=20.3.1",
     "typescript-coverage-report": "=1.1.0"
   }

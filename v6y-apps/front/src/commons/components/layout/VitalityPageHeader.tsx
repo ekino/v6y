@@ -1,6 +1,8 @@
-import { Col, Row, Typography } from 'antd';
+import { VitalityTitle } from '@v6y/shared-ui';
+import { Col, Row } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
+import React from 'react';
 
 import VitalityNavigationPaths from '../../config/VitalityNavigationPaths';
 import VitalityPageHeaderMenu from './VitalityPageHeaderMenu';
@@ -20,12 +22,7 @@ const VitalityPageHeader = ({ title, subTitle }: { title: string; subTitle: stri
             </Link>
         </Col>
         <Col xs={16} sm={16} md={16} lg={16} xl={16}>
-            <Typography.Title>
-                {title}
-                <sup>
-                    <Typography.Text>{subTitle}</Typography.Text>
-                </sup>
-            </Typography.Title>
+            <VitalityTitle title={title} subTitle={subTitle} />
         </Col>
         <Col xs={8} sm={8} md={4} lg={4} xl={4}>
             <VitalityPageHeaderMenu />

@@ -1,8 +1,4 @@
-import VitalityTable from '../../../commons/components/VitalityTable';
-import {
-    buildCommonTableColumns,
-    buildCommonTableDataSource,
-} from '../../../commons/config/VitalityTableConfig';
+import RenderVitalityTable from '../../../commons/components/VitalityTable';
 import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
 import GetDependencyStatusHelpListByPageAndParams from '../apis/getDependencyStatusHelpListByPageAndParams';
@@ -25,13 +21,14 @@ export default function VitalityDependencyStatusHelpListView() {
                 query: GetDependencyStatusHelpListByPageAndParams,
             }}
             renderTable={(dataSource) => (
-                <VitalityTable
-                    dataSource={buildCommonTableDataSource(dataSource)}
-                    columns={buildCommonTableColumns(dataSource, ['id'], {
+                <RenderVitalityTable
+                    dataSource={dataSource}
+                    columnKeys={['id']}
+                    columnOptions={{
                         enableEdit: true,
                         enableShow: true,
                         enableDelete: false,
-                    })}
+                    }}
                 />
             )}
         />

@@ -2,7 +2,7 @@
 
 ![image](https://github.com/ekino/v6y/assets/1331451/60950262-3a75-4a57-ae53-08a9d553f1f8)
 
-Vitality (v6y) is a web-based application developed by Ekino, designed to maintain and optimize the health and performance of codebases and applications. While it is primarily used for Ekino projects, it can also be generalized for use by the wider development community.
+**Vitality (v6y)** is a web-based application developed by Ekino, designed to maintain and optimize the health and performance of codebases and applications. While it is primarily used for Ekino projects, it can also be generalized for use by the wider development community.
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -32,7 +32,7 @@ To use **Vitality (v6y)**, follow these steps:
 4. Use the dashboard to view real-time data and detailed reports on the health of your codebases and applications.
 
 ## Contributing
-We welcome contributions to **Vitality (v6y)**. To contribute, please read our guidelines outlined in the project Wiki.
+We welcome contributions to **Vitality (v6y)**. To contribute, please read our guidelines outlined in the project [Wiki](https://github.com/ekino/v6y/wiki).
 
 ## License
 **Vitality (v6y)** is licensed under the MIT License. See the `LICENSE` file for more details.

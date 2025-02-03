@@ -1,4 +1,5 @@
-import { Col, Form, Row, Select, Typography } from 'antd';
+import { VitalityText } from '@v6y/shared-ui';
+import { Col, Form, Row, Select } from 'antd';
 import * as React from 'react';
 import { useEffect } from 'react';
 
@@ -62,8 +63,8 @@ const VitalitySelectGrouperView = ({
                 >
                     <Form.Item
                         name={name}
-                        label={<Typography.Text>{label}</Typography.Text>}
-                        help={<Typography.Text>{helper}</Typography.Text>}
+                        label={<VitalityText text={label} />}
+                        help={<VitalityText text={helper} />}
                     >
                         <Select
                             placeholder={placeholder}

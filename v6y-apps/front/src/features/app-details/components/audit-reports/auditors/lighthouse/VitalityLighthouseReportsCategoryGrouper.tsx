@@ -1,6 +1,8 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { AuditType } from '@v6y/core-logic';
-import { Button, Card, Col, List, Row, Statistic, Typography } from 'antd';
+import { VitalityText } from '@v6y/shared-ui';
+import { VitalityTitle } from '@v6y/shared-ui';
+import { Button, Card, Col, List, Row, Statistic } from 'antd';
 import Link from 'next/link';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -51,7 +53,7 @@ const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditT
                         <List.Item>
                             <Card
                                 key={`${report.type}-${report.category}-${report.subCategory}`}
-                                title={<Typography.Title level={4}>{report.type}</Typography.Title>}
+                                title={<VitalityTitle level={4} title={report.type as string} />}
                                 actions={[
                                     <Button
                                         key="help-button"
@@ -66,9 +68,9 @@ const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditT
                                     description={
                                         <Row gutter={[16, 16]} justify="center" align="middle">
                                             <Col span={22} style={{ textAlign: 'left' }}>
-                                                <Typography.Text>
-                                                    {`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_HELP_CATEGORY_LABEL}: ${report.category}`}
-                                                </Typography.Text>
+                                                <VitalityText
+                                                    text={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_HELP_CATEGORY_LABEL}: ${report.category}`}
+                                                />
                                             </Col>
                                             <Col span={22} style={{ textAlign: 'center' }}>
                                                 <Statistic
@@ -91,13 +93,12 @@ const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditT
                                             {report.module?.url?.length && (
                                                 <Col span={22} style={{ textAlign: 'right' }}>
                                                     <Link href={report.module?.url} target="_blank">
-                                                        <Typography.Text
-                                                            style={{ textDecoration: 'underline' }}
-                                                        >
-                                                            {
+                                                        <VitalityText
+                                                            text={
                                                                 VitalityTerms.VITALITY_APP_DETAILS_AUDIT_OPEN_APP_LABEL
                                                             }
-                                                        </Typography.Text>
+                                                            underline
+                                                        />
                                                     </Link>
                                                 </Col>
                                             )}
@@ -111,9 +112,10 @@ const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditT
             />
             <VitalityModal
                 title={
-                    <Typography.Title level={5}>
-                        {VitalityTerms.VITALITY_APP_DETAILS_AUDIT_MODULE_HELP_TITLE}
-                    </Typography.Title>
+                    <VitalityTitle
+                        title={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_MODULE_HELP_TITLE}
+                        level={5}
+                    />
                 }
                 onCloseModal={() => setHelpDetails(undefined)}
                 isOpen={isHelpModalOpen}

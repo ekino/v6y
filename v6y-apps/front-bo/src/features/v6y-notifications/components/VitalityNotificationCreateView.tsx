@@ -1,4 +1,4 @@
-import { Typography } from 'antd';
+import { VitalityTitle } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import {
@@ -14,11 +14,7 @@ export default function VitalityNotificationCreateView() {
 
     return (
         <RefineCreateWrapper
-            title={
-                <Typography.Title level={2}>
-                    {translate('v6y-notifications.titles.create')}
-                </Typography.Title>
-            }
+            title={<VitalityTitle title="v6y-notifications.titles.create" />}
             createOptions={{
                 createFormAdapter: notificationCreateOrEditFormOutputAdapter as (
                     data: unknown,
