@@ -1,15 +1,21 @@
 // VitalityAppListHeader.test.tsx
 import '@testing-library/jest-dom/vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
+import { useNavigationAdapter } from '@v6y/shared-ui';
 import * as React from 'react';
 import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useClientQuery } from '../../../../infrastructure/adapters/api/useQueryAdapter';
-import useNavigationAdapter from '../../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import VitalityAppListHeader from '../VitalityAppListHeader';
 
 // Mock useNavigationAdapter
-vi.mock('../../../../infrastructure/adapters/navigation/useNavigationAdapter');
+vi.mock(import('@v6y/shared-ui'), async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+        ...actual,
+        useNavigationAdapter: vi.fn(),
+    };
+});
 
 // Mock useClientQuery
 vi.mock('../../../../infrastructure/adapters/api/useQueryAdapter');

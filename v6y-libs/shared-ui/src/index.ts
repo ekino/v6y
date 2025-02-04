@@ -5,6 +5,7 @@ import VitalityLoader from './components/VitalityLoader/VitalityLoader.tsx';
 import VitalityModal from './components/VitalityModal/VitalityModal.tsx';
 import VitalityText from './components/VitalityText/VitalityText.tsx';
 import VitalityTitle from './components/VitalityTitle/VitalityTitle.tsx';
+import useNavigationAdapter from './hooks/useNavigationAdapter.tsx';
 
 export * from './types/VitalityCollapseProps.ts';
 export * from './types/VitalityLinksProps.ts';
@@ -18,4 +19,5 @@ export {
     VitalityCollapse,
     VitalityLinks,
     VitalityModal,
+    useNavigationAdapter,
 };

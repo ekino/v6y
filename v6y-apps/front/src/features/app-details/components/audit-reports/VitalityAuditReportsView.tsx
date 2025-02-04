@@ -1,5 +1,6 @@
 import { FormOutlined } from '@ant-design/icons';
 import { AuditType } from '@v6y/core-logic';
+import { useNavigationAdapter } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalityDynamicLoader from '../../../../commons/components/VitalityDynamicLoader';
@@ -11,7 +12,6 @@ import {
     buildClientQuery,
     useClientQuery,
 } from '../../../../infrastructure/adapters/api/useQueryAdapter';
-import useNavigationAdapter from '../../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import GetApplicationDetailsAuditReportsByParams from '../../api/getApplicationDetailsAuditReportsByParams';
 
 const VitalityAuditReportsTypeGrouper = VitalityDynamicLoader(

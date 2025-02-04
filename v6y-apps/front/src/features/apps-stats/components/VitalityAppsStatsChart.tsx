@@ -1,5 +1,5 @@
 import { KeywordStatsType } from '@v6y/core-logic';
-import { VitalityLoader } from '@v6y/shared-ui';
+import { VitalityLoader, useNavigationAdapter } from '@v6y/shared-ui';
 import { AgCharts } from 'ag-charts-react';
 import { Col, Row } from 'antd';
 import * as React from 'react';
@@ -11,7 +11,6 @@ import {
     buildClientQuery,
     useClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
-import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import GetApplicationStatsByParams from '../api/getApplicationStatsByParams';
 
 interface VitalityAppsStatsQueryType {

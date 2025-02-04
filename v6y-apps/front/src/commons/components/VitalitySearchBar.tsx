@@ -1,10 +1,9 @@
 'use client';
 
-import { VitalityText } from '@v6y/shared-ui';
+import { VitalityText, useNavigationAdapter } from '@v6y/shared-ui';
 import { Col, Form, Input, Row } from 'antd';
 import * as React from 'react';
 
-import useNavigationAdapter from '../../infrastructure/adapters/navigation/useNavigationAdapter';
 import VitalityNavigationPaths from '../config/VitalityNavigationPaths';
 import { VitalitySearchBarProps } from '../types/VitalitySearchBarProps';
 

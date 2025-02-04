@@ -1,5 +1,5 @@
 import { ExportOutlined } from '@ant-design/icons';
-import { VitalityTitle } from '@v6y/shared-ui';
+import { VitalityTitle, useNavigationAdapter } from '@v6y/shared-ui';
 import { Button, Col, Row } from 'antd';
 import { useEffect, useState } from 'react';
 import * as React from 'react';
@@ -10,7 +10,6 @@ import {
     buildClientQuery,
     useClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
-import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import GetApplicationTotalByParams from '../api/getApplicationTotalByParams';
 
 interface VitalityAppListQueryType {

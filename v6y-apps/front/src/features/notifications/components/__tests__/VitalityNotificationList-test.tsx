@@ -9,7 +9,6 @@ import VitalityNotificationList from '../VitalityNotificationList';
 
 // Mock VitalityCollapse and VitalityLinks
 vi.mock('@v6y/shared-ui');
-vi.mock('@v6y/shared-ui');
 
 describe('VitalityNotificationList', () => {
     const mockDataSource: NotificationType[] = [

@@ -1,6 +1,7 @@
 'use client';
 
 import { ApplicationType } from '@v6y/core-logic';
+import { useNavigationAdapter } from '@v6y/shared-ui';
 import { Col, Row } from 'antd';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -15,7 +16,6 @@ import {
     buildClientQuery,
     useInfiniteClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
-import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import GetApplicationListByPageAndParams from '../api/getApplicationListByPageAndParams';
 
 const VitalityAppListHeader = VitalityDynamicLoader(() => import('./VitalityAppListHeader'));

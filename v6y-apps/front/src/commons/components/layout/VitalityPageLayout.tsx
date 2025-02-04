@@ -1,11 +1,10 @@
 'use client';
 
-import { VitalityTitle } from '@v6y/shared-ui';
+import { VitalityTitle, useNavigationAdapter } from '@v6y/shared-ui';
 import { Col, FloatButton, Layout, Row } from 'antd';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
-import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import { buildPageTitle } from '../../config/VitalityCommonConfig';
 import ProtectedRoute from '../ProtectedRoute';
 import VitalityBot from '../chatbot/VitalityBot';

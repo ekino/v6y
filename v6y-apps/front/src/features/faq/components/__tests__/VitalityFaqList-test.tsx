@@ -8,11 +8,8 @@ import { describe, expect, it, vi } from 'vitest';
 
 import VitalityFaqList from '../VitalityFaqList';
 
-// Mock VitalityCollapse
+// Mock VitalityCollapse and VitalityLinks
 vi.mock('@v6y/shared-ui');
-
-// Mock VitalityLinks
-vi.mock('v6y/shared-ui');
 
 describe('VitalityFaqList', () => {
     const mockDataSource: FaqType[] = [
