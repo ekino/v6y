@@ -10,7 +10,8 @@ GITHUB_PRIVATE_TOKEN=x
 JWT_SECRET=x
 
 V6Y_MAIN_API_PATH=/v6y/bfb-main/
-V6Y_MAIN_API_PORT=4005
+V6Y_MAIN_API_PORT=4006
 
-V6Y_STATIC_ANALYZER_API_PATH=http://localhost:port/v6y/bfb-static-auditor/auditor/start-static-auditor.json
-V6Y_DYNAMIC_ANALYZER_API_PATH=http://localhost:port/v6y/bfb-dynamic-auditor/auditor/start-dynamic-auditor.json
+V6Y_STATIC_ANALYZER_API_PATH=http://localhost:4003/v6y/bfb-static-auditor/auditor/start-static-auditor.json
+V6Y_DYNAMIC_ANALYZER_API_PATH=http://localhost:4004/v6y/bfb-dynamic-auditor/auditor/start-dynamic-auditor.json
+V6Y_DEVOPS_ANALYSER_API_PATH=http://localhost:4005/v6y/bfb-devops-auditor/auditor/start-devops-auditor.json

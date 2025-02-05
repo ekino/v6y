@@ -75,7 +75,7 @@ app.get(healthCheckPath, (req, res) => {
 });
 
 // *********************************************** App Auditor Routes ***********************************************
-app.use(devopsAuditorApiPath, DevOpsAuditorRouter);
+app.use(devopsAuditorApiPath || '', DevOpsAuditorRouter);
 
 // *********************************************** Default Route (404) ***********************************************
 
