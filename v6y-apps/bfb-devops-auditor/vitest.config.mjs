@@ -20,7 +20,7 @@ export default defineConfig({
                 '**/*Type.ts',
                 '**/ServerConfig.ts',
                 '**/*AuditorManager.ts',
-                '**/FrontendAuditorRouter.ts',
+                '**/*AuditorRouter.ts',
                 '**/*Auditor.ts',
                 '**/index.ts',
             ],
