@@ -1,6 +1,7 @@
 import RepositoryApi from './apis/RepositoryApi.ts';
 import AppLogger from './core/AppLogger.ts';
 import AuditUtils from './core/AuditUtils.ts';
+import CsvUtils from './core/CsvUtils.ts';
 import Matcher from './core/Matcher.ts';
 import PerformancesUtils from './core/PerformancesUtils.ts';
 import SemverUtils from './core/SemverUtils.ts';
@@ -53,6 +54,7 @@ export * from './types/ServerConfigType.ts';
 export {
     AppLogger,
     Matcher,
+    CsvUtils,
     PerformancesUtils,
     SemverUtils,
     StringUtils,
