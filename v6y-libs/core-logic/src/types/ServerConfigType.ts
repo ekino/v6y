@@ -1,3 +1,5 @@
+import { CorsType } from './CorsType.ts';
+
 export interface ServerConfigType {
     ssl: boolean;
     port: number;
@@ -8,6 +10,7 @@ export interface ServerConfigType {
     serverTimeout: number;
     databaseUri: string;
     serverUrl?: string;
+    corsOptions?: CorsType;
     chromeExecutablePath?: string;
     devopsAuditorApiPath?: string;
     staticAuditorApiPath?: string;

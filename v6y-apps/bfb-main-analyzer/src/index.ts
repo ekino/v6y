@@ -1,4 +1,4 @@
-import { AppLogger, CorsOptions, ServerUtils } from '@v6y/core-logic';
+import { AppLogger, ServerUtils } from '@v6y/core-logic';
 import BodyParser from 'body-parser';
 import CookieParser from 'cookie-parser';
 import Cors from 'cors';
@@ -12,7 +12,7 @@ const { createServer } = ServerUtils;
 
 const { currentConfig } = ServerConfig;
 
-const { ssl, monitoringPath, hostname, port, healthCheckPath } = currentConfig || {};
+const { ssl, monitoringPath, hostname, port, healthCheckPath, corsOptions } = currentConfig || {};
 
 const app = Express();
 
@@ -28,7 +28,7 @@ app.use(CookieParser());
 
 // configure cors
 // https://expressjs.com/en/resources/middleware/cors.html
-app.use(Cors(CorsOptions));
+app.use(Cors(corsOptions));
 
 // parse application/x-www-form-urlencoded
 app.use(

@@ -1,4 +1,4 @@
-import { AppLogger, CorsOptions, ServerUtils } from '@v6y/core-logic';
+import { AppLogger, ServerUtils } from '@v6y/core-logic';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -19,6 +19,7 @@ const {
     //devopsAuditorApiPath,
     serverTimeout,
     serverUrl,
+    corsOptions,
 } = currentConfig || {}; // Destructuring with defaults
 
 const app = express();
@@ -34,7 +35,7 @@ const httpServer = createServer({
 app.use(cookieParser());
 
 // CORS (Cross-Origin Resource Sharing): Configures the server to allow requests from other origins.
-app.use(cors(CorsOptions));
+app.use(cors(corsOptions));
 
 // Body Parser: Parses incoming request bodies in different formats (URL-encoded, JSON).
 app.use(bodyParser.json());

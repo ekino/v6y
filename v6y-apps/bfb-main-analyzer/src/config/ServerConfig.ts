@@ -1,4 +1,4 @@
-import { ServerEnvConfigType, getEnvironmentContext, getServerConfig } from '@v6y/core-logic';
+import { ServerEnvConfigType, getServerConfig } from '@v6y/core-logic';
 
 const V6Y_HEALTH_CHECK_PATH = `${process.env.V6Y_MAIN_API_PATH}health-checks`;
 const V6Y_MONITORING_PATH = `${process.env.V6Y_MAIN_API_PATH}monitoring`;
@@ -29,18 +29,10 @@ const SERVER_ENV_CONFIGURATION = {
 } as ServerEnvConfigType;
 
 /**
- * Get the current context of the server
+ * Get the current context and configuration of the server.
  */
-const currentContext = getEnvironmentContext();
-
-/**
- * Get the current configuration of the server
- */
-const currentConfig = getServerConfig(SERVER_ENV_CONFIGURATION);
-
 const ServerConfig = {
-    currentConfig,
-    currentContext,
+    currentConfig: getServerConfig(SERVER_ENV_CONFIGURATION),
 };
 
 export default ServerConfig;
