@@ -14,8 +14,6 @@ export default function RefineEditWrapper({
     mutationOptions,
     formItems,
 }: FormWrapperProps) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     const { form, formProps, saveButtonProps, query } = useForm({
         queryOptions: {
             queryKey: [queryOptions?.resource, queryOptions?.queryParams],
@@ -27,6 +25,8 @@ export default function RefineEditWrapper({
         },
         updateMutationOptions: {
             mutationKey: [mutationOptions?.resource, mutationOptions?.editQuery],
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             mutationFn: async (): Promise<GetOneResponse<BaseRecord>> =>
                 gqlClientRequest({
                     gqlQueryPath: mutationOptions?.editQuery,
@@ -35,8 +35,6 @@ export default function RefineEditWrapper({
                     gqlQueryParams:
                         mutationOptions?.editFormAdapter?.({
                             ...(mutationOptions?.editQueryParams || {}),
-                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                            // @ts-expect-error
                             ...(form?.getFieldsValue() || {}),
                         }) || {},
                 }),
@@ -48,8 +46,6 @@ export default function RefineEditWrapper({
             queryOptions?.queryResource as keyof typeof query.data
         ] as Record<string, unknown> | undefined;
         if (formDetails && Object.keys(formDetails).length) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             form?.setFieldsValue(
                 queryOptions?.queryFormAdapter?.(formDetails as Record<string, unknown>) || {},
             );

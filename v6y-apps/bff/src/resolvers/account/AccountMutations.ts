@@ -4,11 +4,9 @@ import {
     AccountType,
     AccountUpdatePasswordType,
     AppLogger,
-    PasswordUtils,
     SearchQueryType,
+    hashPassword,
 } from '@v6y/core-logic';
-
-const { hashPassword } = PasswordUtils;
 
 /**
  * Create or edit account
@@ -128,7 +126,7 @@ const updateAccountPassword = async (
 
         const updatedAccount = await AccountProvider.updateAccountPassword({
             _id,
-            password: await PasswordUtils.hashPassword(password),
+            password: await hashPassword(password),
             currentUser: context.user,
         });
 

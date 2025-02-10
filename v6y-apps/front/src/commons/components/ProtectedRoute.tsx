@@ -1,8 +1,8 @@
 'use client';
 
+import { useNavigationAdapter } from '@v6y/shared-ui';
 import { useEffect } from 'react';
 
-import useNavigationAdapter from '../../infrastructure/adapters/navigation/useNavigationAdapter';
 import { useLogin } from '../hooks/useAuth';
 
 function ProtectedRoute({ children }) {

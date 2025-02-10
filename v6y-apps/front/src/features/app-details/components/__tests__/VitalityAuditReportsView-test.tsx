@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { useNavigationAdapter } from '@v6y/shared-ui';
 import * as React from 'react';
 import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -7,14 +8,19 @@ import { AUDIT_REPORT_TYPES } from '../../../../commons/config/VitalityCommonCon
 import VitalityTerms from '../../../../commons/config/VitalityTerms';
 import { exportAppAuditReportsToCSV } from '../../../../commons/utils/VitalityDataExportUtils';
 import { useClientQuery } from '../../../../infrastructure/adapters/api/useQueryAdapter';
-import useNavigationAdapter from '../../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import VitalityAuditReportsView from '../audit-reports/VitalityAuditReportsView';
 
 // Mock useClientQuery
 vi.mock('../../../../infrastructure/adapters/api/useQueryAdapter');
 
 // Mock useNavigationAdapter
-vi.mock('../../../../infrastructure/adapters/navigation/useNavigationAdapter');
+vi.mock(import('@v6y/shared-ui'), async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+        ...actual,
+        useNavigationAdapter: vi.fn(),
+    };
+});
 
 // Mock VitalityDataExportUtils
 vi.mock('../../../../commons/utils/VitalityDataExportUtils');

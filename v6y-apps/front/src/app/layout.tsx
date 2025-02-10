@@ -1,7 +1,7 @@
+import { VitalityLoader } from '@v6y/shared-ui';
 import * as React from 'react';
 import { ReactNode, Suspense } from 'react';
 
-import VitalityLoader from '../commons/components/VitalityLoader';
 import VitalityPageLayout from '../commons/components/layout/VitalityPageLayout';
 import VitalityTerms from '../commons/config/VitalityTerms';
 import VitalityTheme from '../commons/config/VitalityTheme';

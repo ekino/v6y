@@ -2,15 +2,13 @@
 import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
 import { NotificationType } from '@v6y/core-logic/src';
+import { VitalityCollapse, VitalityLinks } from '@v6y/shared-ui';
 import { describe, expect, it, vi } from 'vitest';
 
-import VitalityCollapse from '../../../../commons/components/VitalityCollapse';
-import VitalityLinks from '../../../../commons/components/VitalityLinks';
 import VitalityNotificationList from '../VitalityNotificationList';
 
 // Mock VitalityCollapse and VitalityLinks
-vi.mock('../../../../commons/components/VitalityCollapse');
-vi.mock('../../../../commons/components/VitalityLinks');
+vi.mock('@v6y/shared-ui');
 
 describe('VitalityNotificationList', () => {
     const mockDataSource: NotificationType[] = [

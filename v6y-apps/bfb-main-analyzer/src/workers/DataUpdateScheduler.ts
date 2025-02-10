@@ -4,15 +4,13 @@ import CronJob from 'node-cron';
 import ServerConfig from '../config/ServerConfig.ts';
 
 const { forkWorker } = WorkerHelper;
-const { getCurrentConfig } = ServerConfig;
+const { currentConfig } = ServerConfig;
 
 /**
  * Start the workers that will update the database.
  */
 const startUpdateWorkers = () => {
     (async () => {
-        const currentConfig = getCurrentConfig();
-
         // *********************************************** Update APP List ***********************************************
         await forkWorker('./src/workers/ApplicationWorker.ts', currentConfig as WorkerOptions); // Start worker thread
 

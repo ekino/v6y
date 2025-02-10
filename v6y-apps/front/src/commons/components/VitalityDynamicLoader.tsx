@@ -1,7 +1,6 @@
+import { VitalityLoader } from '@v6y/shared-ui';
 import dynamic, { DynamicOptions } from 'next/dynamic';
 import * as React from 'react';
-
-import VitalityLoader from './VitalityLoader';
 
 interface DynamicComponentProps {
     [key: string]: unknown;

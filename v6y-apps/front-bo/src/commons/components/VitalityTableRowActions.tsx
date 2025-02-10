@@ -1,4 +1,5 @@
 import { DeleteButton, EditButton, ShowButton } from '@refinedev/antd';
+import { MetaQuery } from '@refinedev/core';
 import { Space } from 'antd';
 
 import { RefineTableOptions } from '../../infrastructure/types/RefineTableType';
@@ -36,7 +37,7 @@ const VitalityTableRowActions = <T,>({
                     size="small"
                     recordItemId={`${(record as TableRowActionType<T>)._id}`}
                     resource={`${(record as TableRowActionType<T>)._id}`}
-                    meta={options?.deleteMetaQuery}
+                    meta={options?.deleteMetaQuery as MetaQuery}
                 />
             )}
         </Space>

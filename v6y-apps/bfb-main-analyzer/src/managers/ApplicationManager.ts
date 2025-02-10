@@ -10,8 +10,8 @@ import ServerConfig from '../config/ServerConfig.ts';
 
 const { getRepositoryDetails, getRepositoryBranches, prepareGitBranchZipConfig } = RepositoryApi;
 
-const { getCurrentConfig } = ServerConfig;
-const { staticAuditorApiPath, dynamicAuditorApiPath } = getCurrentConfig() || {};
+const { currentConfig } = ServerConfig;
+const { staticAuditorApiPath, dynamicAuditorApiPath } = currentConfig || {};
 const ZIP_BASE_DIR = '../code-analysis-workspace';
 
 interface BuildApplicationBranchParams {

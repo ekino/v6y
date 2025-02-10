@@ -1,10 +1,8 @@
-import { AppLogger, ServerConfigType, ServerEnvConfigType } from '@v6y/core-logic';
+import { ServerEnvConfigType, getServerConfig } from '@v6y/core-logic';
 
 const V6Y_DYNAMIC_HEALTH_CHECK_PATH = `${process.env.V6Y_DYNAMIC_ANALYZER_API_PATH}/health-checks`;
 const V6Y_DYNAMIC_MONITORING_PATH = `${process.env.V6Y_DYNAMIC_ANALYZER_API_PATH}/monitoring`;
 const V6Y_DYNAMIC_AUDITOR_API_PATH = `${process.env.V6Y_DYNAMIC_ANALYZER_API_PATH}/auditor`;
-
-const execEnv = process?.argv;
 
 /**
  * Server configuration for different environments.
@@ -37,29 +35,10 @@ const SERVER_ENV_CONFIGURATION = {
 } as ServerEnvConfigType;
 
 /**
- * Get the current context of the server.
+ * Get the current context and configuration of the server.
  */
-const getCurrentContext = () => (execEnv?.includes('--dev') ? 'development' : 'production');
-
-/**
- * Get the current configuration of the server.
- */
-const getCurrentConfig = (): ServerConfigType => {
-    const currentContext = getCurrentContext();
-    AppLogger.info(`[getCurrentConfig] currentContext: ${currentContext}`);
-
-    const currentConfig = SERVER_ENV_CONFIGURATION[currentContext];
-    return {
-        ...(currentConfig || {}),
-        serverUrl: `http${currentConfig.ssl ? 's' : ''}://${
-            currentConfig.hostname
-        }:${currentConfig.port}${currentConfig.apiPath}`,
-    };
-};
-
 const ServerConfig = {
-    getCurrentConfig,
-    getCurrentContext,
+    currentConfig: getServerConfig(SERVER_ENV_CONFIGURATION),
 };
 
 export default ServerConfig;

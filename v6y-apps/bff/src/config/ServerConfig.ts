@@ -1,9 +1,7 @@
-import { AppLogger, ServerConfigType, ServerEnvConfigType } from '@v6y/core-logic';
+import { ServerEnvConfigType, getServerConfig } from '@v6y/core-logic';
 
 const V6Y_HEALTH_CHECK_PATH = `${process.env.V6Y_BFF_API_PATH}health-checks`;
 const V6Y_MONITORING_PATH = `${process.env.V6Y_BFF_API_PATH}monitoring`;
-
-const execEnv = process?.argv;
 
 const SERVER_ENV_CONFIGURATION = {
     production: {
@@ -27,27 +25,10 @@ const SERVER_ENV_CONFIGURATION = {
 } as ServerEnvConfigType;
 
 /**
- * Get current context
+ * Get the current context and configuration of the server.
  */
-const getCurrentContext = () => (execEnv?.includes('--dev') ? 'development' : 'production');
-
-/**
- * Get current config
- */
-const getCurrentConfig = (): ServerConfigType => {
-    const currentContext = getCurrentContext();
-    AppLogger.info(`[getCurrentConfig] currentContext: ${currentContext}`);
-
-    const currentConfig = SERVER_ENV_CONFIGURATION[currentContext];
-    return {
-        ...(currentConfig || {}),
-        serverUrl: `http${currentConfig.ssl ? 's' : ''}://${currentConfig.hostname}:${currentConfig.port}${currentConfig.apiPath}`,
-    };
-};
-
 const ServerConfig = {
-    getCurrentConfig,
-    getCurrentContext,
+    currentConfig: getServerConfig(SERVER_ENV_CONFIGURATION),
 };
 
 export default ServerConfig;

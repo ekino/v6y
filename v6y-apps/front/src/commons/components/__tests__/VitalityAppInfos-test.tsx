@@ -1,13 +1,19 @@
 import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
+import { useNavigationAdapter } from '@v6y/shared-ui';
 import * as React from 'react';
 import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import useNavigationAdapter from '../../../infrastructure/adapters/navigation/useNavigationAdapter';
 import VitalityAppInfos from '../application-info/VitalityAppInfos';
 
 // Mock useNavigationAdapter
-vi.mock('../../../infrastructure/adapters/navigation/useNavigationAdapter');
+vi.mock(import('@v6y/shared-ui'), async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+        ...actual,
+        useNavigationAdapter: vi.fn(),
+    };
+});
 
 describe('VitalityAppInfos', () => {
     const mockApp = {
