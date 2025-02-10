@@ -38,12 +38,12 @@ const buildApplicationBackendByBranch = async ({
 }: BuildApplicationParams) => {
     try {
         AppLogger.info(
-            '[ApplicationManager - buildApplicationFrontendByBranch] applicationId: ' +
-                applicationId,
+            '[ApplicationManager - buildApplicationFrontendByBranch] applicationId: ',
+            applicationId,
         );
         AppLogger.info(
-            '[ApplicationManager - buildApplicationFrontendByBranch] workspaceFolder: ' +
-                workspaceFolder,
+            '[ApplicationManager - buildApplicationFrontendByBranch] workspaceFolder: ',
+            workspaceFolder,
         );
         return true;
     } catch (error) {
@@ -63,17 +63,17 @@ const buildApplicationFrontendByBranch = async ({
 }: BuildApplicationParams) => {
     try {
         AppLogger.info(
-            '[ApplicationManager - buildApplicationFrontendByBranch] applicationId: ' +
-                applicationId,
+            '[ApplicationManager - buildApplicationFrontendByBranch] applicationId: ',
+            applicationId,
         );
         AppLogger.info(
-            '[ApplicationManager - buildApplicationFrontendByBranch] workspaceFolder: ' +
-                workspaceFolder,
+            '[ApplicationManager - buildApplicationFrontendByBranch] workspaceFolder: ',
+            workspaceFolder,
         );
 
         AppLogger.info(
-            '[ApplicationManager - buildApplicationFrontendByBranch] staticAuditorApiPath: ' +
-                staticAuditorApiPath,
+            '[ApplicationManager - buildApplicationFrontendByBranch] staticAuditorApiPath: ',
+            staticAuditorApiPath,
         );
 
         await fetch(staticAuditorApiPath as string, {
@@ -137,8 +137,8 @@ const buildApplicationDetailsByBranch = async ({ application, branch }: BuildApp
             zipOptions,
         });
         AppLogger.info(
-            '[ApplicationManager - buildApplicationDetailsByBranch] zipDownloadStatus: ' +
-                zipDownloadStatus,
+            '[ApplicationManager - buildApplicationDetailsByBranch] zipDownloadStatus: ',
+            zipDownloadStatus,
         );
 
         if (!zipDownloadStatus) {
@@ -151,8 +151,8 @@ const buildApplicationDetailsByBranch = async ({ application, branch }: BuildApp
             zipNewSourceDir: zipBaseFileName,
         });
         AppLogger.info(
-            '[ApplicationManager - buildApplicationDetailsByBranch] workspaceFolder: ' +
-                workspaceFolder,
+            '[ApplicationManager - buildApplicationDetailsByBranch] workspaceFolder: ',
+            workspaceFolder,
         );
 
         if (!workspaceFolder) {
@@ -337,7 +337,8 @@ const buildApplicationList = async () => {
             { role: 'ADMIN' },
         );
         AppLogger.info(
-            '[ApplicationManager -  buildApplicationList] applications: ' + applications?.length,
+            '[ApplicationManager -  buildApplicationList] applications: ',
+            applications?.length,
         );
 
         if (!applications?.length) {

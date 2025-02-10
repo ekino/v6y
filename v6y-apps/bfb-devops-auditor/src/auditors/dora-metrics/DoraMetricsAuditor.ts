@@ -3,7 +3,7 @@ import { AppLogger, ApplicationProvider, AuditProvider } from '@v6y/core-logic';
 import { DoraMetricsAuditConfigType } from '../types/DoraMetricsAuditType.ts';
 import DoraMetricsUtils from './DoraMetricsUtils.ts';
 
-const { formatDoraMetricsReports, computeDoraMetricsReport } = DoraMetricsUtils;
+const { analyseDoraMetrics } = DoraMetricsUtils;
 
 /**
  * Starts the Dora Metrics auditor analysis.
@@ -31,12 +31,7 @@ const startAuditorAnalysis = async ({ applicationId }: DoraMetricsAuditConfigTyp
             `[DoraMetricsAuditor - startAuditorAnalysis] application _id:  ${application?._id}`,
         );
 
-        const report = computeDoraMetricsReport({
-            deployments: [],
-            commits: [],
-        });
-
-        const auditReports = formatDoraMetricsReports({ report, application });
+        const auditReports = analyseDoraMetrics({ deployments: [], commits: [], application });
 
         await AuditProvider.insertAuditList(auditReports);
 

@@ -25,14 +25,9 @@ export interface DoraMetricType {
     value: number;
     status: 'success' | 'failure';
 }
-export interface DoraMetricsReportType {
-    deploymentFrequency: DoraMetricType;
-    leadTimeForChanges: DoraMetricType;
-    changeFailureRate: DoraMetricType;
-    meanTimeToRestoreService: DoraMetricType;
-}
 
 export interface DoraMetricsAuditParamsType {
-    report: DoraMetricsReportType;
+    deployments?: DeploymentDataType[];
+    commits?: CommitsDataType[];
     application: ApplicationType;
 }

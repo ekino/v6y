@@ -14,6 +14,7 @@ try {
 
     // *********************************************** Audit Configuration and Launch ***********************************************
     PerformancesUtils.startMeasure('DoraMetricsAnalysisWorker-startAuditorAnalysis');
+
     const result = await DoraMetricsAuditor.startAuditorAnalysis({
         applicationId,
     });
