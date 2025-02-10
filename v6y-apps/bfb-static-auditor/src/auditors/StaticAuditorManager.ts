@@ -4,7 +4,7 @@ import ServerConfig from '../commons/ServerConfig.ts';
 import { AuditCommonsType } from './types/AuditCommonsType.ts';
 
 const { forkWorker } = WorkerHelper;
-const { getCurrentConfig } = ServerConfig;
+const { currentConfig } = ServerConfig;
 
 const startStaticAudit = async ({ applicationId, workspaceFolder }: AuditCommonsType) => {
     try {
@@ -15,7 +15,6 @@ const startStaticAudit = async ({ applicationId, workspaceFolder }: AuditCommons
         );
 
         // Start audits in a worker thread to prevent blocking the main thread
-        const currentConfig = getCurrentConfig();
         const workerConfig = {
             ...currentConfig,
             applicationId,

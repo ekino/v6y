@@ -1,11 +1,10 @@
-import { VitalityText } from '@v6y/shared-ui';
+import { VitalityEmptyView, VitalityText } from '@v6y/shared-ui';
 import { Col, Form, Row, Select } from 'antd';
 import * as React from 'react';
 import { useEffect } from 'react';
 
 import useDataGrouper from '../hooks/useDataGrouper';
 import { VitalityDataGrouperProps } from '../types/VitalityDataGrouperProps';
-import VitalityEmptyView from './VitalityEmptyView';
 
 const VitalitySelectGrouperView = ({
     dataSource,

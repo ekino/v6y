@@ -3,12 +3,10 @@ import {
     AccountProvider,
     AccountType,
     AppLogger,
-    PasswordUtils,
     SearchQueryType,
     generateAuthenticationToken,
+    validatePassword,
 } from '@v6y/core-logic';
-
-const { validatePassword } = PasswordUtils;
 
 /**
  * Fetch the Account details by parameters

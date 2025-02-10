@@ -9,7 +9,7 @@ import ServerConfig from './commons/ServerConfig.ts';
 import DevOpsAuditorRouter from './routes/DevOpsAuditorRouter.ts';
 
 const { createServer } = ServerUtils;
-const { getCurrentConfig } = ServerConfig;
+const { currentConfig } = ServerConfig;
 
 const {
     ssl,
@@ -20,13 +20,14 @@ const {
     devopsAuditorApiPath,
     serverTimeout,
     serverUrl,
-} = getCurrentConfig() || {}; // Destructuring with defaults
+    corsOptions,
+} = currentConfig || {}; // Destructuring with defaults
 
 const app = express();
 
 const httpServer = createServer({
     app,
-    config: getCurrentConfig(),
+    config: currentConfig,
 });
 
 // *********************************************** Server Configuration ***********************************************
@@ -35,16 +36,6 @@ const httpServer = createServer({
 app.use(cookieParser());
 
 // CORS (Cross-Origin Resource Sharing): Configures the server to allow requests from other origins.
-const corsOptions = {
-    origin: function (
-        origin: string | undefined,
-        callback: (err: Error | null, origin?: string) => void,
-    ) {
-        AppLogger.debug(`CORS origin redirect: ${origin}`);
-        callback(null, origin);
-    },
-};
-
 app.use(cors(corsOptions));
 
 // Body Parser: Parses incoming request bodies in different formats (URL-encoded, JSON).

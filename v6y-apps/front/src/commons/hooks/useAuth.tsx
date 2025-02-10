@@ -1,9 +1,9 @@
+import { useNavigationAdapter } from '@v6y/shared-ui';
 import { useState } from 'react';
 import { z } from 'zod';
 
 import LoginAccount from '../../features/auth/api/loginAccount';
 import { buildClientQuery } from '../../infrastructure/adapters/api/useQueryAdapter';
-import useNavigationAdapter from '../../infrastructure/adapters/navigation/useNavigationAdapter';
 import {
     SessionType,
     getSession,

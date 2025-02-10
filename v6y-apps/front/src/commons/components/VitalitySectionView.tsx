@@ -1,12 +1,10 @@
 import { ExportOutlined } from '@ant-design/icons';
-import { VitalityTitle } from '@v6y/shared-ui';
+import { VitalityEmptyView, VitalityLoader, VitalityTitle } from '@v6y/shared-ui';
 import { Avatar, Button, Card, Col, Row, Space, Typography } from 'antd';
 import * as React from 'react';
 
 import vitalityTheme from '../config/VitalityTheme';
 import { VitalitySectionViewProps } from '../types/VitalitySectionViewProps';
-import VitalityEmptyView from './VitalityEmptyView';
-import VitalityLoader from './VitalityLoader';
 
 const VitalitySectionView = ({
     isLoading,

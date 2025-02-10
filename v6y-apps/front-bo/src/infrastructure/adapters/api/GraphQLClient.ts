@@ -1,4 +1,4 @@
-import { GraphQLClient } from 'graphql-request';
+import { GraphQLClient, RequestDocument } from 'graphql-request';
 import Cookie from 'js-cookie';
 
 export const gqlClient = new GraphQLClient(process.env.NEXT_PUBLIC_V6Y_BFF_PATH as string, {
@@ -14,11 +14,12 @@ export const gqlClient = new GraphQLClient(process.env.NEXT_PUBLIC_V6Y_BFF_PATH 
 });
 
 type GqlClientRequestParams = {
-    gqlQueryPath?: string;
+    gqlQueryPath?: RequestDocument;
     gqlQueryParams?: Record<string, unknown>;
 };
 
 export const gqlClientRequest = <T>({
     gqlQueryPath,
     gqlQueryParams,
-}: GqlClientRequestParams): Promise<T> => gqlClient.request(gqlQueryPath, gqlQueryParams);
+}: GqlClientRequestParams): Promise<T> =>
+    gqlQueryPath ? gqlClient.request(gqlQueryPath, gqlQueryParams) : Promise.resolve({} as T);

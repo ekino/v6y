@@ -1,9 +1,9 @@
+import { VitalityEmptyView } from '@v6y/shared-ui';
 import { Col, Row, Tabs } from 'antd';
 import * as React from 'react';
 
 import useDataGrouper from '../hooks/useDataGrouper';
 import { VitalityDataGrouperProps } from '../types/VitalityDataGrouperProps';
-import VitalityEmptyView from './VitalityEmptyView';
 
 const VitalityTabGrouperView = ({
     name,

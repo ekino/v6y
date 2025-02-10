@@ -1,4 +1,4 @@
-const VitalityTerms = {
+export const VitalityTerms = {
     VITALITY_APP_TITLE: 'Vitality',
     VITALITY_APP_DESCRIPTION:
         'Vitality (v6y) is a web-based application developed by Ekino, designed to maintain and optimize the health and performance of codebases and applications.',

@@ -10,15 +10,15 @@ import DataUpdateScheduler from './workers/DataUpdateScheduler.ts';
 
 const { createServer } = ServerUtils;
 
-const { getCurrentConfig } = ServerConfig;
+const { currentConfig } = ServerConfig;
 
-const { ssl, monitoringPath, hostname, port, healthCheckPath } = getCurrentConfig() || {};
+const { ssl, monitoringPath, hostname, port, healthCheckPath, corsOptions } = currentConfig || {};
 
 const app = Express();
 
 const httpServer = createServer({
     app,
-    config: getCurrentConfig(),
+    config: currentConfig,
 });
 
 // *********************************************** Configure Server ***********************************************
@@ -28,16 +28,6 @@ app.use(CookieParser());
 
 // configure cors
 // https://expressjs.com/en/resources/middleware/cors.html
-const corsOptions = {
-    origin: function (
-        origin: string | undefined,
-        callback: (err: Error | null, origin?: string) => void,
-    ) {
-        AppLogger.debug('Redirection cors orgin : ' + origin);
-        callback(null, origin);
-    },
-};
-
 app.use(Cors(corsOptions));
 
 // parse application/x-www-form-urlencoded
@@ -94,9 +84,9 @@ await new Promise((resolve) =>
     ),
 );
 
-httpServer.timeout = getCurrentConfig()?.serverTimeout;
+httpServer.timeout = currentConfig?.serverTimeout;
 
-AppLogger.info(`🚀 Server started at ${getCurrentConfig()?.serverUrl}`);
+AppLogger.info(`🚀 Server started at ${currentConfig?.serverUrl}`);
 
 // *********************************************** Data Update Scheduler ***********************************************
 DataUpdateScheduler.start();

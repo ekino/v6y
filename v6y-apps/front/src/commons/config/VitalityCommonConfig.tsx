@@ -11,8 +11,7 @@ import {
     SplitCellsOutlined,
     ThunderboltOutlined,
 } from '@ant-design/icons';
-import { ApplicationType } from '@v6y/core-logic';
-import Matcher from '@v6y/core-logic/src/core/Matcher';
+import { ApplicationType, Matcher } from '@v6y/core-logic';
 import { VitalityText } from '@v6y/shared-ui';
 import Link from 'next/link';
 import * as React from 'react';
