@@ -3,24 +3,22 @@ import {
     AuditProvider,
     DependencyProvider,
     EvolutionProvider,
-    KeywordProvider,
     auditStatus,
-    codeSmellTypes,
     dependencyStatus,
 } from '@v6y/core-logic';
 
 /**
- * Builds the keyword evolution list.
+ * Builds the Evolution list.
  */
-const buildKeywordEvolutionList = async () => {
+const buildEvolutionList = async () => {
     try {
-        // *********************************************** Keywords Related To Dependencies ******************************************
+        // *********************************************** Evolutions Related To Dependencies ******************************************
         const dependencyList = await DependencyProvider.getDependencyListByPageAndParams({
             appId: undefined,
         });
 
         AppLogger.info(
-            `[KeywordEvolutionManager - buildKeywordEvolutionList] dependencyList:  ${dependencyList?.length}`,
+            `[EvolutionManager - buildEvolutionList] dependencyList:  ${dependencyList?.length}`,
         );
 
         if (dependencyList?.length) {
@@ -34,9 +32,9 @@ const buildKeywordEvolutionList = async () => {
                     continue;
                 }
 
-                // add evolution according to keyword
+                // add evolution according to Evolution
                 await EvolutionProvider.createEvolution({
-                    category: `${codeSmellTypes.Dependency}-${dependency.status}`,
+                    category: `Dependency-${dependency.status}`,
                     module: {
                         ...dependency.module,
                         status: dependency.status,
@@ -45,36 +43,25 @@ const buildKeywordEvolutionList = async () => {
             }
         }
 
-        // *********************************************** Keywords Related To Audit ******************************************
+        // *********************************************** Evolutions Related To Audit ******************************************
 
         const auditList = await AuditProvider.getAuditListByPageAndParams({});
 
-        AppLogger.info(
-            `[KeywordEvolutionManager - buildKeywordEvolutionList] auditList:  ${auditList?.length}`,
-        );
+        AppLogger.info(`[EvolutionManager - buildEvolutionList] auditList:  ${auditList?.length}`);
 
         if (auditList?.length) {
             for (const audit of auditList) {
                 // eslint-disable-next-line max-depth
-                if (!audit.module || !audit.status || audit.status === auditStatus.info) {
+                if (
+                    !audit.module ||
+                    !audit.status ||
+                    audit.status === auditStatus.info ||
+                    audit.status === auditStatus.success
+                ) {
                     continue;
                 }
 
-                // update keyword
-                await KeywordProvider.createKeyword({
-                    label: `${audit.type}-${audit.category}`,
-                    module: {
-                        ...audit.module,
-                        status: audit.status,
-                    },
-                });
-
-                // eslint-disable-next-line max-depth
-                if (audit.status === auditStatus.success) {
-                    continue;
-                }
-
-                // add evolution according to keyword
+                // add evolution according to Evolution
                 await EvolutionProvider.createEvolution({
                     category: `${audit.type}-${audit.category}`,
                     module: {
@@ -87,13 +74,13 @@ const buildKeywordEvolutionList = async () => {
 
         return true;
     } catch (error) {
-        AppLogger.info('[KeywordEvolutionManager - buildKeywordEvolutionList] error: ', error);
+        AppLogger.info('[EvolutionManager - buildEvolutionList] error: ', error);
         return false;
     }
 };
 
-const KeywordEvolutionManager = {
-    buildKeywordEvolutionList,
+const EvolutionManager = {
+    buildEvolutionList,
 };
 
-export default KeywordEvolutionManager;
+export default EvolutionManager;

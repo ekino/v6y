@@ -1,5 +1,7 @@
 import { AuditHelpType } from '../types/AuditHelpType.ts';
-import { codeSmellCategories, codeSmellTypes, securityAntiPatterns } from './CodeSmellConfig.ts';
+import { codeSmellCategories, codeSmellTypes } from './CodeSmellConfig.ts';
+import { devOpsCategories, devOpsType } from './DevOpsConfig.js';
+import { securityAntiPatterns } from './SecuritySmellConfig.js';
 
 export const auditStatus: Record<string, string> = {
     success: 'success',
@@ -207,4 +209,11 @@ export const defaultAuditHelpStatus: AuditHelpType[] = [
         description: 'Default Description',
         explanation: '',
     })),
+    // DORA Metrics
+    {
+        category: `${devOpsType.DORA}-${devOpsCategories.LEAD_TIME_FOR_CHANGES}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
 ];

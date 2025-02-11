@@ -1,5 +1,7 @@
 import { EvolutionHelpInputType } from '../types/EvolutionHelpType.ts';
-import { codeSmellCategories, codeSmellTypes, securityAntiPatterns } from './CodeSmellConfig.ts';
+import { codeSmellCategories, codeSmellTypes } from './CodeSmellConfig.ts';
+import { devOpsCategories, devOpsType } from './DevOpsConfig.js';
+import { securityAntiPatterns } from './SecuritySmellConfig.js';
 
 export const evolutionHelpStatus: Record<string, string> = {
     critical: 'critical',
@@ -149,13 +151,6 @@ export const defaultEvolutionHelpStatus: EvolutionHelpInputType[] = [
         status: evolutionHelpStatus.important,
         links: [],
     },
-    ...securityAntiPatterns.map(({ category }) => ({
-        category: `${codeSmellTypes['Code-Security']}-${category}`,
-        title: 'Default Title',
-        description: 'Default Description',
-        status: evolutionHelpStatus.important,
-        links: [],
-    })),
     {
         category: `${codeSmellTypes['Code-Duplication']}-${codeSmellCategories['code-duplication-percent']}`,
         title: 'Default Title',
@@ -187,6 +182,21 @@ export const defaultEvolutionHelpStatus: EvolutionHelpInputType[] = [
     },
     {
         category: `${codeSmellTypes.Dependency}-${codeSmellCategories['outdated']}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        status: evolutionHelpStatus.recommended,
+        links: [],
+    },
+    ...securityAntiPatterns.map(({ category }) => ({
+        category: `${codeSmellTypes['Code-Security']}-${category}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        status: evolutionHelpStatus.important,
+        links: [],
+    })),
+    // DORA Metrics
+    {
+        category: `${devOpsType.DORA}-${devOpsCategories.LEAD_TIME_FOR_CHANGES}`,
         title: 'Default Title',
         description: 'Default Description',
         status: evolutionHelpStatus.recommended,
