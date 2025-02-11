@@ -14,8 +14,11 @@ const startUpdateWorkers = () => {
         // *********************************************** Update APP List ***********************************************
         await forkWorker('./src/workers/ApplicationWorker.ts', currentConfig as WorkerOptions); // Start worker thread
 
-        // *********************************************** Update Keywords & Evolutions List ******************************************
-        await forkWorker('./src/workers/KeywordEvolutionWorker.ts', currentConfig as WorkerOptions); // Start worker thread
+        // *********************************************** Update Keywords List ******************************************
+        await forkWorker('./src/workers/KeywordWorker.ts', currentConfig as WorkerOptions); // Start worker thread
+
+        // *********************************************** Update Evolutions List ******************************************
+        await forkWorker('./src/workers/EvolutionWorker.ts', currentConfig as WorkerOptions); // Start worker thread
     })();
 };
 

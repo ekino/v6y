@@ -1,6 +1,6 @@
 import { FindOptions } from 'sequelize';
 
-import { defaultDependencyStatusHelp } from '../config/DependencyStatusHelpConfig.ts';
+import { defaultDependencyStatusHelp } from '../config/DependencyHelpConfig.ts';
 import AppLogger from '../core/AppLogger.ts';
 import {
     DependencyStatusHelpInputType,

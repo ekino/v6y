@@ -12,12 +12,12 @@ export const getServerConfig = (
             origin: string | undefined,
             callback: (err: Error | null, origin?: string) => void,
         ) {
-            AppLogger.debug(`CORS origin redirect: ${origin}`);
+            AppLogger.debug(`[getServerConfig] CORS origin redirect: ${origin}`);
             callback(null, origin);
         },
     };
 
-    AppLogger.info(`[getCurrentConfig] currentContext: ${currentContext}`);
+    AppLogger.info(`[getServerConfig] currentContext: ${currentContext}`);
 
     const currentConfig = SERVER_ENV_CONFIGURATION[currentContext];
     return {

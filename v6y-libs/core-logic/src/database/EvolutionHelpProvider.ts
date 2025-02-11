@@ -1,6 +1,6 @@
 import { FindOptions } from 'sequelize';
 
-import { defaultEvolutionHelpStatus } from '../config/EvolutionHelpStatusConfig.ts';
+import { defaultEvolutionHelpStatus } from '../config/EvolutionHelpConfig.ts';
 import AppLogger from '../core/AppLogger.ts';
 import { EvolutionHelpInputType, EvolutionHelpType } from '../types/EvolutionHelpType.ts';
 import { SearchQueryType } from '../types/SearchQueryType.ts';

@@ -23,11 +23,11 @@ import FaqProvider from './database/FaqProvider.ts';
 import KeywordProvider from './database/KeywordProvider.ts';
 import NotificationProvider from './database/NotificationProvider.ts';
 
-export * from './config/EvolutionHelpStatusConfig.ts';
+export * from './config/EvolutionHelpConfig.ts';
 export * from './config/AuditHelpConfig.ts';
-export * from './config/CodeSmellConfig.ts';
-export * from './config/DependencyStatusHelpConfig.ts';
-export * from './config/getServerConfig.ts';
+export * from './config/SecuritySmellConfig.ts';
+export * from './config/DependencyHelpConfig.ts';
+export * from './config/ServerConfig.ts';
 
 export * from './core/AuthenticationHelper.ts';
 

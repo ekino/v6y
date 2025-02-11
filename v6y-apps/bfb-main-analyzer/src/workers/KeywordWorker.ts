@@ -1,32 +1,25 @@
-import {
-    AppLogger,
-    DataBaseManager,
-    EvolutionProvider,
-    KeywordProvider,
-    PerformancesUtils,
-} from '@v6y/core-logic';
+import { AppLogger, DataBaseManager, KeywordProvider, PerformancesUtils } from '@v6y/core-logic';
 import { parentPort, workerData } from 'worker_threads';
 
-import KeywordEvolutionManager from '../managers/KeywordEvolutionManager.ts';
+import KeywordManager from '../managers/KeywordManager.ts';
 
 AppLogger.info('******************** Starting background analysis **************************');
 
 try {
     const { applicationId, workspaceFolder } = workerData || {};
-    AppLogger.info(`[KeywordEvolutionWorker] applicationId:  ${applicationId}`);
-    AppLogger.info(`[KeywordEvolutionWorker] workspaceFolder:  ${workspaceFolder}`);
+    AppLogger.info(`[KeywordWorker] applicationId:  ${applicationId}`);
+    AppLogger.info(`[KeywordWorker] workspaceFolder:  ${workspaceFolder}`);
 
     // *********************************************** Database Configuration and Connection ***********************************************
     await DataBaseManager.connect();
 
     // Clear dynamic data in preparation for updates
     await KeywordProvider.deleteKeywordList();
-    await EvolutionProvider.deleteEvolutionList();
 
     // *********************************************** Keywords Analysis Configuration and Launch ***********************************************
-    PerformancesUtils.startMeasure('KeywordEvolutionWorker-startAuditorAnalysis');
-    await KeywordEvolutionManager.buildKeywordEvolutionList();
-    PerformancesUtils.endMeasure('KeywordEvolutionWorker-startAuditorAnalysis');
+    PerformancesUtils.startMeasure('KeywordWorker-startAuditorAnalysis');
+    await KeywordManager.buildKeywordList();
+    PerformancesUtils.endMeasure('KeywordWorker-startAuditorAnalysis');
 
     AppLogger.info(
         '******************** Keywords Analysis  completed successfully ********************',
@@ -34,7 +27,7 @@ try {
     // @ts-expect-error TS(2531): Object is possibly 'null'.
     parentPort.postMessage('Keywords Analysis have completed.');
 } catch (error) {
-    AppLogger.error('[KeywordEvolutionWorker] An exception occurred during the analysis:', error);
+    AppLogger.error('[KeywordWorker] An exception occurred during the analysis:', error);
     // @ts-expect-error TS(2531): Object is possibly 'null'.
     parentPort.postMessage('Keywords Analysis  encountered an error.'); // Notify the parent of the error
 }
