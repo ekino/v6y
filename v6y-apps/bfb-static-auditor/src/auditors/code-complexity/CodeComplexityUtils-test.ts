@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import CodeComplexityUtils from './CodeComplexityUtils.js';
+import CodeComplexityUtils from './CodeComplexityUtils.ts';
 
 describe('CodeComplexityUtils', () => {
     const mockWorkspaceFolder = './src/auditors/code-complexity';

@@ -3,7 +3,7 @@ import { auditStatus } from '@v6y/core-logic';
 import Madge from 'madge';
 import { describe, expect, it, vi } from 'vitest';
 
-import { AuditCommonsType } from '../types/AuditCommonsType.js';
+import { AuditCommonsType } from '../types/AuditCommonsType.ts';
 import CodeCouplingUtils from './CodeCouplingUtils.ts';
 
 // Mock external modules

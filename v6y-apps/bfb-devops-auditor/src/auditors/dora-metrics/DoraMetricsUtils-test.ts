@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import DoraMetricsUtils from './DoraMetricsUtils.js';
+import DoraMetricsUtils from './DoraMetricsUtils.ts';
 import mockDeployments from './mockDeploymentsData.json' with { type: 'json' };
 import mockMergeRequests from './mockMergeRequestsData.json' with { type: 'json' };
 
