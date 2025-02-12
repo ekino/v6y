@@ -5,9 +5,12 @@ export interface DoraMetricsAuditConfigType {
 }
 
 export interface DeploymentDataType {
-    created_at: string;
     sha: string;
     status: string;
+    deployable: {
+        created_at: string;
+        finished_at: string;
+    };
 }
 
 export interface CommitsDataType {
@@ -15,19 +18,39 @@ export interface CommitsDataType {
     created_at: string;
 }
 
-export interface DoraMetricsData {
-    deployments?: DeploymentDataType[];
+export interface MergeRequestDataType {
+    created_at: string;
+    merged_at: string;
+}
 
-    commits?: CommitsDataType[];
+export interface DeploymentFrequencyParamsType {
+    deployments: DeploymentDataType[];
+    dateStart: string;
+    dateEnd: string;
+}
+
+export interface LeadReviewTimeParamsType {
+    mergeRequests: MergeRequestDataType[];
+    dateStart: string;
+    dateEnd: string;
+}
+
+export interface LeadTimeForChangesParamsType {
+    leadReviewTime: number;
+    deployments: DeploymentDataType[];
+    dateStart: string;
+    dateEnd: string;
 }
 
 export interface DoraMetricType {
     value: number;
-    status: 'success' | 'failure';
+    status: string;
 }
 
 export interface DoraMetricsAuditParamsType {
-    deployments?: DeploymentDataType[];
-    commits?: CommitsDataType[];
+    deployments: DeploymentDataType[];
+    mergeRequests: MergeRequestDataType[];
     application: ApplicationType;
+    dateStart: string;
+    dateEnd: string;
 }

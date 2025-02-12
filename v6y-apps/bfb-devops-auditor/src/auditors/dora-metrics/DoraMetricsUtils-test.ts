@@ -1,17 +1,19 @@
 import { describe, expect, it } from 'vitest';
 
 import DoraMetricsUtils from './DoraMetricsUtils.js';
-import mockCommits from './mockCommitsData.json' with { type: 'json' };
 import mockDeployments from './mockDeploymentsData.json' with { type: 'json' };
+import mockMergeRequests from './mockMergeRequestsData.json' with { type: 'json' };
 
 const mockApplication = { _id: 1, name: 'TestApp' };
+const mockDateRange = { dateStart: '2025-02-01', dateEnd: '2025-02-10' };
 
 describe('DoraMetricsUtils', () => {
     it('should compute and format Dora metrics report correctly', () => {
         const result = DoraMetricsUtils.analyseDoraMetrics({
             deployments: mockDeployments,
-            commits: mockCommits,
+            mergeRequests: mockMergeRequests,
             application: mockApplication,
+            ...mockDateRange,
         });
 
         expect(result).not.toBeNull();
@@ -19,41 +21,72 @@ describe('DoraMetricsUtils', () => {
             {
                 type: 'DORA_Metrics',
                 category: 'deployment_frequency',
-                status: 'success',
-                extraInfos: 'Number of deployments per day.',
+                status: 'info',
+                extraInfos:
+                    'Number of deployments per day. Date range: ' +
+                    mockDateRange.dateStart +
+                    ' - ' +
+                    mockDateRange.dateEnd,
                 module: {
                     appId: 1,
                 },
-                score: 0.5352103228528413,
+                score: 0.3333333333333333,
                 scoreUnit: 'deployments/day',
             },
             {
                 type: 'DORA_Metrics',
-                category: 'lead_time_for_changes',
-                status: 'success',
-                extraInfos: 'Time between commit and deployment.',
+                category: 'lead_review_time',
+                status: 'info',
+                extraInfos:
+                    'Time between the opening and the merge of a MR. Date range: ' +
+                    mockDateRange.dateStart +
+                    ' - ' +
+                    mockDateRange.dateEnd,
                 module: {
                     appId: 1,
                 },
-                score: 14.950542530864194,
+                score: 1.4602633333333332,
                 scoreUnit: 'hours',
             },
             {
-                extraInfos: 'Percentage of failed deployments.',
+                category: 'lead_time_for_changes',
+                extraInfos:
+                    'Time between the creation of a change and the deployment. Date range: ' +
+                    mockDateRange.dateStart +
+                    ' - ' +
+                    mockDateRange.dateEnd,
+                module: {
+                    appId: 1,
+                },
+                score: 1.493859074074074,
+                scoreUnit: 'hours',
+                status: 'info',
+                type: 'DORA_Metrics',
+            },
+            {
+                extraInfos:
+                    'Percentage of failed deployments. Date range: ' +
+                    mockDateRange.dateStart +
+                    ' - ' +
+                    mockDateRange.dateEnd,
                 category: 'change_failure_rate',
                 module: {
                     appId: 1,
                 },
                 score: 0,
                 scoreUnit: 'percentage',
-                status: 'failure',
+                status: 'error',
                 type: 'DORA_Metrics',
             },
             {
                 type: 'DORA_Metrics',
                 category: 'mean_time_to_restore_service',
-                status: 'failure',
-                extraInfos: 'Time to restore service after a failure.',
+                status: 'error',
+                extraInfos:
+                    'Time to restore service after a failure. Date range: ' +
+                    mockDateRange.dateStart +
+                    ' - ' +
+                    mockDateRange.dateEnd,
                 module: {
                     appId: 1,
                 },
@@ -69,24 +102,38 @@ describe('DoraMetricsUtils', () => {
     it('should compute deployment frequency correctly', () => {
         const result = DoraMetricsUtils.calculateDeploymentFrequency({
             deployments: mockDeployments,
+            ...mockDateRange,
         });
 
         expect(result).not.toBeNull();
         expect(result).toHaveProperty('status');
         expect(result).toHaveProperty('value');
-        expect(result.value).toBeCloseTo(0.5423728813559322, 0.5);
+        expect(result.value).toBeCloseTo(0.3333333333333333, 0.5);
+    });
+
+    it('should compute lead review time correctly', () => {
+        const result = DoraMetricsUtils.calculateLeadReviewTime({
+            mergeRequests: mockMergeRequests,
+            ...mockDateRange,
+        });
+
+        expect(result).not.toBeNull();
+        expect(result).toHaveProperty('status');
+        expect(result).toHaveProperty('value');
+        expect(result.value).toBeCloseTo(1.4602633333333332, 1);
     });
 
     it('should compute lead time for changes correctly', () => {
         const result = DoraMetricsUtils.calculateLeadTimeForChanges({
+            leadReviewTime: 1.4602633333333332,
             deployments: mockDeployments,
-            commits: mockCommits,
+            ...mockDateRange,
         });
 
         expect(result).not.toBeNull();
         expect(result).toHaveProperty('status');
         expect(result).toHaveProperty('value');
-        expect(result.value).toBeCloseTo(14.950542530864197, 1);
+        expect(result.value).toBeCloseTo(1.493859074074074, 1);
     });
 
     it('should compute change failure rate correctly', () => {
@@ -95,7 +142,7 @@ describe('DoraMetricsUtils', () => {
         expect(result).not.toBeNull();
         expect(result).toHaveProperty('status');
         expect(result).toHaveProperty('value');
-        expect(result.status).toEqual('failure'); // Function not implemented yet
+        expect(result.status).toEqual('error'); // Function not implemented yet
         expect(result.value).toEqual(0); // Function not implemented yet
     });
 
@@ -106,7 +153,7 @@ describe('DoraMetricsUtils', () => {
         expect(result).toHaveProperty('status');
         expect(result).toHaveProperty('value');
 
-        expect(result.status).toEqual('failure'); // Function not implemented yet
+        expect(result.status).toEqual('error'); // Function not implemented yet
         expect(result.value).toEqual(0); // Function not implemented yet
     });
 });

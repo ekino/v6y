@@ -216,4 +216,28 @@ export const defaultAuditHelpStatus: AuditHelpType[] = [
         description: 'Default Description',
         explanation: '',
     },
+    {
+        category: `${devOpsType.DORA}-${devOpsCategories.LEAD_REVIEW_TIME}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
+    {
+        category: `${devOpsType.DORA}-${devOpsCategories.DEPLOYMENT_FREQUENCY}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
+    {
+        category: `${devOpsType.DORA}-${devOpsCategories.CHANGE_FAILURE_RATE}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
+    {
+        category: `${devOpsType.DORA}-${devOpsCategories.MEAN_TIME_TO_RESTORE_SERVICE}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
 ];
