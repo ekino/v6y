@@ -5,8 +5,8 @@ import {
     AppLogger,
     SearchQueryType,
     generateAuthenticationToken,
-    validatePassword,
 } from '@v6y/core-logic';
+import { validatePassword } from '@v6y/core-logic/src/core/PasswordUtils.js';
 
 /**
  * Fetch the Account details by parameters
