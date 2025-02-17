@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
     CodeComplexityReportSummaryType,
     HalsteadMetricType,
-} from '../types/CodeComplexityAuditType.js';
+} from '../types/CodeComplexityAuditType.ts';
 import CodeComplexityConfig from './CodeComplexityConfig.ts';
 
 describe('CodeComplexityConfig', () => {

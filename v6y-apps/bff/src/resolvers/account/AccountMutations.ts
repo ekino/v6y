@@ -5,8 +5,8 @@ import {
     AccountUpdatePasswordType,
     AppLogger,
     SearchQueryType,
-    hashPassword,
 } from '@v6y/core-logic';
+import { hashPassword } from '@v6y/core-logic/src/core/PasswordUtils.js';
 
 /**
  * Create or edit account
