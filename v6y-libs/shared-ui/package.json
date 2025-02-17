@@ -26,13 +26,13 @@
   },
   "dependencies": {
     "@refinedev/core": "=4.57.5",
+    "@v6y/core-logic": "workspace:^",
     "antd": "=5.22.6",
+    "next": "=15.1.4",
+    "next-i18next": "=15.4.1",
     "react": "=19.0.0",
     "react-dom": "=19.0.0",
-    "react-hook-form": "=7.54.2",
-    "@v6y/core-logic": "workspace:^",
-    "next": "=15.1.4",
-    "next-i18next": "=15.4.1"
+    "react-hook-form": "=7.54.2"
   },
   "devDependencies": {
     "@eslint/js": "=9.18.0",

@@ -49,7 +49,7 @@ export * from './types/SearchQueryType.ts';
 export * from './types/LinkType.ts';
 export * from './types/ServerConfigType.ts';
 
-// export * from './core/PasswordUtils.ts';
+export * from './core/PasswordUtils.ts';
 
 export {
     AppLogger,
