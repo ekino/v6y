@@ -1,4 +1,5 @@
 import { AppLogger, AuditType, Matcher, auditStatus } from '@v6y/core-logic';
+import { devOpsCategories, devOpsType } from '@v6y/core-logic/src/config/DevOpsConfig.ts';
 
 import {
     DeploymentFrequencyParamsType,
@@ -29,7 +30,7 @@ const calculateDeploymentFrequency = ({
 
     if (!deployments || deployments.length === 0) {
         AppLogger.info(`[DoraMetricsUtils - calculateDeploymentFrequency] deployments is empty`);
-        return { status: 'failure', value: 0 };
+        return { status: auditStatus.error, value: 0 };
     }
 
     const start = new Date(dateStart);
@@ -45,7 +46,7 @@ const calculateDeploymentFrequency = ({
         AppLogger.info(
             `[DoraMetricsUtils - calculateDeploymentFrequency] no successful deployments in date range`,
         );
-        return { status: 'failure', value: 0 };
+        return { status: auditStatus.error, value: 0 };
     }
 
     const timePeriod = (end.getTime() - start.getTime()) / (MSTOHOURS * 24);
@@ -88,7 +89,7 @@ const calculateLeadReviewTime = ({
 
     if (!mergeRequests || mergeRequests.length === 0) {
         AppLogger.info(`[DoraMetricsUtils - calculateLeadReviewTime] mergeRequests is empty`);
-        return { status: 'failure', value: 0 };
+        return { status: auditStatus.error, value: 0 };
     }
 
     const start = new Date(dateStart);
@@ -153,7 +154,7 @@ const calculateLeadTimeForChanges = ({
         AppLogger.info(
             `[DoraMetricsUtils - calculateLeadTimeForChanges] deployments or leadReviewTime is empty`,
         );
-        return { status: 'failure', value: 0 };
+        return { status: auditStatus.error, value: 0 };
     }
 
     const start = new Date(dateStart);
@@ -216,7 +217,7 @@ const calculateChangeFailureRate = (): DoraMetricType => {
         )
         .otherwise(() => auditStatus.warning); // Above 30%
 
-    status = 'error';
+    status = auditStatus.error;
 
     return { status: status as string, value };
 };
@@ -233,19 +234,19 @@ const calculateMeanTimeToRestoreService = (): DoraMetricType => {
     let status = Matcher()
         .on(
             () => value < 1,
-            () => 'success', // Elite Performers: Less than 1 hour
+            () => auditStatus.success, // Elite Performers: Less than 1 hour
         )
         .on(
             () => value < 24,
-            () => 'info', // High Performers: Less than 1 day
+            () => auditStatus.info, // High Performers: Less than 1 day
         )
         .on(
             () => value < 24 * 7,
-            () => 'warning', // Medium Performers: 1 day to 1 week
+            () => auditStatus.warning, // Medium Performers: 1 day to 1 week
         )
-        .otherwise(() => 'warning'); // Low Performers: Over 6 months
+        .otherwise(() => auditStatus.warning); // Low Performers: Over 6 months
 
-    status = 'error';
+    status = auditStatus.error;
 
     return { status: status as string, value };
 };
@@ -278,8 +279,8 @@ const analyseDoraMetrics = ({
         });
 
         const leadTimeForChanges =
-            leadReviewTime.status === 'failure'
-                ? { status: 'failure', value: 0 }
+            leadReviewTime.status === auditStatus.error
+                ? { status: auditStatus.error, value: 0 }
                 : calculateLeadTimeForChanges({
                       leadReviewTime: leadReviewTime.value,
                       deployments,
@@ -292,73 +293,65 @@ const analyseDoraMetrics = ({
         const auditReports: AuditType[] = [];
 
         auditReports.push({
-            type: 'DORA_Metrics',
-            category: 'deployment_frequency',
+            dateStart: new Date(dateStart),
+            dateEnd: new Date(dateEnd),
+            type: devOpsType.DORA,
+            category: devOpsCategories.DEPLOYMENT_FREQUENCY,
             status: deploymentFrequency.status,
             score: deploymentFrequency.value,
             scoreUnit: 'deployments/day',
-            extraInfos: 'Number of deployments per day. Date range: ' + dateStart + ' - ' + dateEnd,
             module: {
                 appId: application?._id,
             },
         });
 
         auditReports.push({
-            type: 'DORA_Metrics',
-            category: 'lead_review_time',
+            dateStart: new Date(dateStart),
+            dateEnd: new Date(dateEnd),
+            type: devOpsType.DORA,
+            category: devOpsCategories.LEAD_REVIEW_TIME,
             status: leadReviewTime.status,
             score: leadReviewTime.value,
             scoreUnit: 'hours',
-            extraInfos:
-                'Time between the opening and the merge of a MR. Date range: ' +
-                dateStart +
-                ' - ' +
-                dateEnd,
             module: {
                 appId: application?._id,
             },
         });
 
         auditReports.push({
-            type: 'DORA_Metrics',
-            category: 'lead_time_for_changes',
+            dateStart: new Date(dateStart),
+            dateEnd: new Date(dateEnd),
+            type: devOpsType.DORA,
+            category: devOpsCategories.LEAD_TIME_FOR_CHANGES,
             status: leadTimeForChanges.status,
             score: leadTimeForChanges.value,
             scoreUnit: 'hours',
-            extraInfos:
-                'Time between the creation of a change and the deployment. Date range: ' +
-                dateStart +
-                ' - ' +
-                dateEnd,
             module: {
                 appId: application?._id,
             },
         });
 
         auditReports.push({
-            type: 'DORA_Metrics',
-            category: 'change_failure_rate',
+            dateStart: new Date(dateStart),
+            dateEnd: new Date(dateEnd),
+            type: devOpsType.DORA,
+            category: devOpsCategories.CHANGE_FAILURE_RATE,
             status: changeFailureRate.status,
             score: changeFailureRate.value,
             scoreUnit: 'percentage',
-            extraInfos:
-                'Percentage of failed deployments. Date range: ' + dateStart + ' - ' + dateEnd,
             module: {
                 appId: application?._id,
             },
         });
 
         auditReports.push({
-            type: 'DORA_Metrics',
-            category: 'mean_time_to_restore_service',
+            dateStart: new Date(dateStart),
+            dateEnd: new Date(dateEnd),
+            type: devOpsType.DORA,
+            category: devOpsCategories.MEAN_TIME_TO_RESTORE_SERVICE,
             status: meanTimeToRestoreService.status,
             score: meanTimeToRestoreService.value,
             scoreUnit: 'hours',
-            extraInfos:
-                'Time to restore service after a failure. Date range: ' +
-                dateStart +
-                ' - ' +
-                dateEnd,
             module: {
                 appId: application?._id,
             },

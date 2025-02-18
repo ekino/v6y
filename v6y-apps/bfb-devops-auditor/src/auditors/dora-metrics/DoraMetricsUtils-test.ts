@@ -1,3 +1,5 @@
+import { auditStatus } from '@v6y/core-logic';
+import { devOpsCategories, devOpsType } from '@v6y/core-logic/src/config/DevOpsConfig.ts';
 import { describe, expect, it } from 'vitest';
 
 import DoraMetricsUtils from './DoraMetricsUtils.ts';
@@ -19,14 +21,11 @@ describe('DoraMetricsUtils', () => {
         expect(result).not.toBeNull();
         const expectedResults = [
             {
-                type: 'DORA_Metrics',
-                category: 'deployment_frequency',
-                status: 'info',
-                extraInfos:
-                    'Number of deployments per day. Date range: ' +
-                    mockDateRange.dateStart +
-                    ' - ' +
-                    mockDateRange.dateEnd,
+                dateStart: new Date(mockDateRange.dateStart),
+                dateEnd: new Date(mockDateRange.dateEnd),
+                type: devOpsType.DORA,
+                category: devOpsCategories.DEPLOYMENT_FREQUENCY,
+                status: auditStatus.info,
                 module: {
                     appId: 1,
                 },
@@ -34,14 +33,11 @@ describe('DoraMetricsUtils', () => {
                 scoreUnit: 'deployments/day',
             },
             {
-                type: 'DORA_Metrics',
-                category: 'lead_review_time',
-                status: 'info',
-                extraInfos:
-                    'Time between the opening and the merge of a MR. Date range: ' +
-                    mockDateRange.dateStart +
-                    ' - ' +
-                    mockDateRange.dateEnd,
+                dateStart: new Date(mockDateRange.dateStart),
+                dateEnd: new Date(mockDateRange.dateEnd),
+                type: devOpsType.DORA,
+                category: devOpsCategories.LEAD_REVIEW_TIME,
+                status: auditStatus.info,
                 module: {
                     appId: 1,
                 },
@@ -49,49 +45,40 @@ describe('DoraMetricsUtils', () => {
                 scoreUnit: 'hours',
             },
             {
-                category: 'lead_time_for_changes',
-                extraInfos:
-                    'Time between the creation of a change and the deployment. Date range: ' +
-                    mockDateRange.dateStart +
-                    ' - ' +
-                    mockDateRange.dateEnd,
+                dateStart: new Date(mockDateRange.dateStart),
+                dateEnd: new Date(mockDateRange.dateEnd),
+                type: devOpsType.DORA,
+                category: devOpsCategories.LEAD_TIME_FOR_CHANGES,
+                score: 1.493859074074074,
+                scoreUnit: 'hours',
+                status: auditStatus.info,
                 module: {
                     appId: 1,
                 },
-                score: 1.493859074074074,
-                scoreUnit: 'hours',
-                status: 'info',
-                type: 'DORA_Metrics',
             },
             {
-                extraInfos:
-                    'Percentage of failed deployments. Date range: ' +
-                    mockDateRange.dateStart +
-                    ' - ' +
-                    mockDateRange.dateEnd,
-                category: 'change_failure_rate',
+                dateStart: new Date(mockDateRange.dateStart),
+                dateEnd: new Date(mockDateRange.dateEnd),
+                type: devOpsType.DORA,
+                category: devOpsCategories.CHANGE_FAILURE_RATE,
                 module: {
                     appId: 1,
                 },
                 score: 0,
                 scoreUnit: 'percentage',
-                status: 'error',
-                type: 'DORA_Metrics',
+                status: auditStatus.error,
             },
             {
-                type: 'DORA_Metrics',
-                category: 'mean_time_to_restore_service',
-                status: 'error',
-                extraInfos:
-                    'Time to restore service after a failure. Date range: ' +
-                    mockDateRange.dateStart +
-                    ' - ' +
-                    mockDateRange.dateEnd,
+                dateStart: new Date(mockDateRange.dateStart),
+                dateEnd: new Date(mockDateRange.dateEnd),
+                type: devOpsType.DORA,
+                category: devOpsCategories.MEAN_TIME_TO_RESTORE_SERVICE,
+                status: auditStatus.error,
+                score: 0,
+                scoreUnit: 'hours',
                 module: {
                     appId: 1,
                 },
-                score: 0,
-                scoreUnit: 'hours',
             },
         ];
         expect(result).not.toBeNull();

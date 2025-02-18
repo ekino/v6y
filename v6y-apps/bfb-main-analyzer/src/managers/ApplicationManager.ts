@@ -60,32 +60,33 @@ const buildApplicationFrontendByBranch = async ({
     applicationId,
     workspaceFolder,
 }: BuildApplicationParams) => {
+    AppLogger.info(
+        '[ApplicationManager - buildApplicationFrontendByBranch] applicationId: ',
+        applicationId,
+    );
+    AppLogger.info(
+        '[ApplicationManager - buildApplicationFrontendByBranch] workspaceFolder: ',
+        workspaceFolder,
+    );
+
+    AppLogger.info(
+        '[ApplicationManager - buildApplicationFrontendByBranch] staticAuditorApiPath: ',
+        staticAuditorApiPath,
+    );
+
     try {
-        AppLogger.info(
-            '[ApplicationManager - buildApplicationFrontendByBranch] applicationId: ',
-            applicationId,
-        );
-        AppLogger.info(
-            '[ApplicationManager - buildApplicationFrontendByBranch] workspaceFolder: ',
-            workspaceFolder,
-        );
-
-        AppLogger.info(
-            '[ApplicationManager - buildApplicationFrontendByBranch] staticAuditorApiPath: ',
-            staticAuditorApiPath,
-        );
-
         await fetch(staticAuditorApiPath as string, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ applicationId, workspaceFolder }),
         });
-
-        return true;
     } catch (error) {
-        AppLogger.info(`[ApplicationManager - buildApplicationFrontendByBranch] error:  ${error}`);
-        return false;
+        AppLogger.info(
+            `[ApplicationManager - buildApplicationFrontendByBranch - staticAuditor] error:  ${error}`,
+        );
     }
+
+    return true;
 };
 
 /**
@@ -214,21 +215,18 @@ const buildStaticReports = async ({ application, branches }: BuildApplicationPar
  * @param application
  */
 const buildDynamicReports = async ({ application }: BuildApplicationParams) => {
+    AppLogger.info('[ApplicationManager - buildDynamicReports] application: ', application?._id);
+
+    if (!application) {
+        return false;
+    }
+
+    AppLogger.info(
+        '[ApplicationManager - buildDynamicReports] dynamicAuditorApiPath: ',
+        dynamicAuditorApiPath,
+    );
+
     try {
-        AppLogger.info(
-            '[ApplicationManager - buildDynamicReports] application: ',
-            application?._id,
-        );
-
-        if (!application) {
-            return false;
-        }
-
-        AppLogger.info(
-            '[ApplicationManager - buildDynamicReports] dynamicAuditorApiPath: ',
-            dynamicAuditorApiPath,
-        );
-
         await fetch(dynamicAuditorApiPath as string, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -237,7 +235,13 @@ const buildDynamicReports = async ({ application }: BuildApplicationParams) => {
                 workspaceFolder: null,
             }),
         });
+    } catch (error) {
+        AppLogger.info(
+            `[ApplicationManager - buildDynamicReports - dynamicAuditor] error:  ${error}`,
+        );
+    }
 
+    try {
         await fetch(devopsAuditorApiPath as string, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -246,9 +250,12 @@ const buildDynamicReports = async ({ application }: BuildApplicationParams) => {
             }),
         });
     } catch (error) {
-        AppLogger.info(`[ApplicationManager - buildDynamicReports] error:  ${error}`);
-        return false;
+        AppLogger.info(
+            `[ApplicationManager - buildDynamicReports - devOpsAuditor] error:  ${error}`,
+        );
     }
+
+    return true;
 };
 
 /**

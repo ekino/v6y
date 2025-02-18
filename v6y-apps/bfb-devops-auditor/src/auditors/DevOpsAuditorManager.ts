@@ -4,14 +4,13 @@ import ServerConfig from '../commons/ServerConfig.ts';
 import { AuditCommonsType } from './types/AuditCommonsType.ts';
 
 const { forkWorker } = WorkerHelper;
-const { getCurrentConfig } = ServerConfig;
+const { currentConfig } = ServerConfig;
 
 const startDevOpsAudit = async ({ applicationId }: AuditCommonsType) => {
     try {
         AppLogger.info('[DevOpsAuditorManager - startDevOpsAudit] applicationId: ', applicationId);
 
         // Start audits in a worker thread to prevent blocking the main thread
-        const currentConfig = getCurrentConfig();
         const workerConfig = {
             ...currentConfig,
             applicationId,
