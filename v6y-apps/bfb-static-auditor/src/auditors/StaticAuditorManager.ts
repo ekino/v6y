@@ -23,12 +23,17 @@ const startStaticAudit = async ({ applicationId, workspaceFolder }: AuditCommons
 
         await forkWorker('./src/workers/CodeQualityAnalysisWorker.ts', workerConfig);
         AppLogger.info(
-            '[StaticAuditorManager - startStaticAudit] CodeQuality Audit have completed successfully.',
+            '[StaticAuditorManager - startStaticAudit] CodeQuality Audits have completed successfully.',
         );
 
         await forkWorker('./src/workers/DependenciesAnalysisWorker.ts', workerConfig);
         AppLogger.info(
-            '[StaticAuditorManager - startStaticAudit] Dependencies Audit have completed successfully.',
+            '[StaticAuditorManager - startStaticAudit] Dependencies Audits have completed successfully.',
+        );
+
+        await forkWorker('./src/workers/BundleAnalyzeWorker.ts', workerConfig);
+        AppLogger.info(
+            '[StaticAuditorManager - startStaticAudit] Bundle Analyze Audits have completed successfully.',
         );
 
         return true; // Indicates successful initiation of audits
