@@ -204,9 +204,13 @@ const calculateChangeFailureRate = (): DoraMetricType => {
     // TODO: Implement the function
     AppLogger.info(`[DoraMetricsUtils - calculateChangeFailureRate] - Not implemented`);
 
-    const value = 0;
+    const value = -1;
 
-    let status = Matcher()
+    const status = Matcher()
+        .on(
+            () => value <= 0,
+            () => auditStatus.error,
+        )
         .on(
             () => value <= 15,
             () => auditStatus.success, // Elite Performers: 0-15%
@@ -216,8 +220,6 @@ const calculateChangeFailureRate = (): DoraMetricType => {
             () => auditStatus.info, // High, Medium, and Low Performers: 16-30%
         )
         .otherwise(() => auditStatus.warning); // Above 30%
-
-    status = auditStatus.error;
 
     return { status: status as string, value };
 };
@@ -229,9 +231,13 @@ const calculateMeanTimeToRestoreService = (): DoraMetricType => {
     // TODO: Implement the function
     AppLogger.info(`[DoraMetricsUtils - calculateMeanTimeToRestoreService] - Not implemented`);
 
-    const value = 0;
+    const value = -1;
 
-    let status = Matcher()
+    const status = Matcher()
+        .on(
+            () => value <= 0,
+            () => auditStatus.error,
+        )
         .on(
             () => value < 1,
             () => auditStatus.success, // Elite Performers: Less than 1 hour
@@ -240,13 +246,7 @@ const calculateMeanTimeToRestoreService = (): DoraMetricType => {
             () => value < 24,
             () => auditStatus.info, // High Performers: Less than 1 day
         )
-        .on(
-            () => value < 24 * 7,
-            () => auditStatus.warning, // Medium Performers: 1 day to 1 week
-        )
-        .otherwise(() => auditStatus.warning); // Low Performers: Over 6 months
-
-    status = auditStatus.error;
+        .otherwise(() => auditStatus.warning); // Medium Performers: 1 day to 1 week and Low Performers: over 1 weeks
 
     return { status: status as string, value };
 };
@@ -254,8 +254,10 @@ const calculateMeanTimeToRestoreService = (): DoraMetricType => {
 /**
  * Format the DORA metrics reports.
  * @param deployments
- * @param commits
+ * @param mergeRequests
  * @param application
+ * @param dateStart
+ * @param dateEnd
  */
 const analyseDoraMetrics = ({
     deployments,

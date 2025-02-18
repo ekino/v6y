@@ -64,7 +64,7 @@ describe('DoraMetricsUtils', () => {
                 module: {
                     appId: 1,
                 },
-                score: 0,
+                score: -1,
                 scoreUnit: 'percentage',
                 status: auditStatus.error,
             },
@@ -74,7 +74,7 @@ describe('DoraMetricsUtils', () => {
                 type: devOpsType.DORA,
                 category: devOpsCategories.MEAN_TIME_TO_RESTORE_SERVICE,
                 status: auditStatus.error,
-                score: 0,
+                score: -1,
                 scoreUnit: 'hours',
                 module: {
                     appId: 1,
@@ -130,7 +130,7 @@ describe('DoraMetricsUtils', () => {
         expect(result).toHaveProperty('status');
         expect(result).toHaveProperty('value');
         expect(result.status).toEqual('error'); // Function not implemented yet
-        expect(result.value).toEqual(0); // Function not implemented yet
+        expect(result.value).toEqual(-1); // Function not implemented yet
     });
 
     it('should compute mean time to restore service correctly', () => {
@@ -141,6 +141,6 @@ describe('DoraMetricsUtils', () => {
         expect(result).toHaveProperty('value');
 
         expect(result.status).toEqual('error'); // Function not implemented yet
-        expect(result.value).toEqual(0); // Function not implemented yet
+        expect(result.value).toEqual(-1); // Function not implemented yet
     });
 });
