@@ -6,6 +6,7 @@ import express from 'express';
 import expressStatusMonitor from 'express-status-monitor';
 
 import ServerConfig from './commons/ServerConfig.ts';
+import DevOpsAuditorRouter from './routes/DevOpsAuditorRouter.ts';
 
 const { createServer } = ServerUtils;
 const { currentConfig } = ServerConfig;
@@ -16,7 +17,7 @@ const {
     hostname,
     port,
     healthCheckPath,
-    //devopsAuditorApiPath,
+    devopsAuditorApiPath,
     serverTimeout,
     serverUrl,
 } = currentConfig || {}; // Destructuring with defaults
@@ -64,7 +65,7 @@ app.get(healthCheckPath, (req, res) => {
 });
 
 // *********************************************** App Auditor Routes ***********************************************
-// app.use(devopsAuditorApiPath, FrontendAuditorRouter);
+app.use(devopsAuditorApiPath || '', DevOpsAuditorRouter);
 
 // *********************************************** Default Route (404) ***********************************************
 

@@ -9,6 +9,8 @@ const auditModelOptions = {};
 export class AuditModelType extends Model<AuditType> implements AuditType {
     public _id!: number;
     public appId!: number;
+    public dateStart?: Date;
+    public dateEnd?: Date;
     public type?: string;
     public category?: string;
     public subCategory?: string;
@@ -29,6 +31,12 @@ const auditModelSchema = {
     appId: {
         type: DataTypes.INTEGER,
         allowNull: false,
+    },
+    dateStart: {
+        type: DataTypes.DATE,
+    },
+    dateEnd: {
+        type: DataTypes.DATE,
     },
     type: {
         type: DataTypes.TEXT,
