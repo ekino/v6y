@@ -1,6 +1,5 @@
 'use client';
 
-import { RefineThemes } from '@refinedev/antd';
 import { App as AntdApp, ConfigProvider, theme } from 'antd';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
@@ -8,13 +7,17 @@ import Cookie from 'js-cookie';
 import * as React from 'react';
 import { createContext, useEffect, useState } from 'react';
 
-import { AppProviderProps } from '../types/AppProviderProps';
+import { ThemeProviderProps } from './ThemeProviderProps';
 
 export const ColorModeContext = createContext({});
 
-export const ColorModeProvider = ({ children, defaultMode }: AppProviderProps) => {
+export const ColorModeProvider = ({
+    children,
+    defaultTheme,
+    defaultThemeMode,
+}: ThemeProviderProps) => {
     const [isMounted, setIsMounted] = useState(false);
-    const [mode, setMode] = useState(defaultMode || 'light');
+    const [mode, setMode] = useState(defaultThemeMode || 'light');
 
     useEffect(() => {
         setIsMounted(true);
@@ -48,7 +51,7 @@ export const ColorModeProvider = ({ children, defaultMode }: AppProviderProps) =
         >
             <ConfigProvider
                 theme={{
-                    ...RefineThemes.Blue,
+                    ...(defaultTheme || {}),
                     algorithm: mode === 'light' ? defaultAlgorithm : darkAlgorithm,
                 }}
             >

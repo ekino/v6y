@@ -1,21 +1,21 @@
 'use client';
 
 import { useNotificationProvider } from '@refinedev/antd';
+import { RefineThemes } from '@refinedev/antd';
 import '@refinedev/antd/dist/reset.css';
 import { Refine } from '@refinedev/core';
 import routerProvider from '@refinedev/nextjs-router';
+import { ColorModeProvider, useTranslationProvider } from '@v6y/shared-ui';
 import { TFunction } from 'i18next';
 import * as React from 'react';
 
-import { useNextTranslation } from '../adapters/translation/TranslationAdapter';
-import '../adapters/translation/i18nHelper';
+import '../translation/i18nHelper';
 import { AppProviderProps } from '../types/AppProviderProps';
-import { ColorModeProvider } from './ColorModeProvider';
 import { gqlAuthProvider, gqlLiveProvider } from './GraphQLProvider';
 import { RefineDevtoolsProvider } from './RefineDevtoolsProvider';
 
 export const RefineProvider = ({ resources, defaultMode, children }: AppProviderProps) => {
-    const { translateHelper, i18n } = useNextTranslation();
+    const { translateHelper, i18n } = useTranslationProvider();
 
     const i18nProvider = {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -27,7 +27,7 @@ export const RefineProvider = ({ resources, defaultMode, children }: AppProvider
 
     return (
         <RefineDevtoolsProvider>
-            <ColorModeProvider defaultMode={defaultMode}>
+            <ColorModeProvider defaultThemeMode={defaultMode} defaultTheme={RefineThemes}>
                 <Refine
                     routerProvider={routerProvider}
                     liveProvider={gqlLiveProvider}

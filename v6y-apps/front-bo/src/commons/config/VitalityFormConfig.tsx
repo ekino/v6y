@@ -1,8 +1,8 @@
 import { ApplicationType } from '@v6y/core-logic';
+import { TranslateType } from '@v6y/shared-ui';
 import { DefaultOptionType } from 'antd/es/select';
 import { Variables } from 'graphql-request';
 
-import { TranslateType } from '../../infrastructure/types/TranslationType';
 import VitalityFormFieldSet from '../components/VitalityFormFieldSet';
 
 interface LinkOptions {

@@ -28,11 +28,19 @@
     "@refinedev/core": "=4.57.5",
     "@v6y/core-logic": "workspace:^",
     "antd": "=5.22.6",
+    "@ant-design/icons": "=5.5.2",
+    "@ant-design/nextjs-registry": "=1.0.2",
     "next": "=15.1.4",
     "next-i18next": "=15.4.1",
     "react": "=19.0.0",
     "react-dom": "=19.0.0",
-    "react-hook-form": "=7.54.2"
+    "react-hook-form": "=7.54.2",
+    "react-i18next": "=15.4.0",
+    "i18next": "=24.2.1",
+    "i18next-browser-languagedetector": "=8.0.2",
+    "i18next-resources-to-backend": "=1.2.1",
+    "i18next-xhr-backend": "=3.2.2",
+    "js-cookie": "=3.0.5"
   },
   "devDependencies": {
     "@eslint/js": "=9.18.0",

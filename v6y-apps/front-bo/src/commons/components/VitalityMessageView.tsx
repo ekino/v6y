@@ -1,11 +1,11 @@
 import { SmileOutlined } from '@ant-design/icons';
+import { useTranslationProvider } from '@v6y/shared-ui';
 import { Result } from 'antd';
 
-import { useTranslation } from '../../infrastructure/adapters/translation/TranslationAdapter';
 import { VitalityMessageType } from '../types/VitalityMessageType';
 
 const VitalityMessageView = ({ type }: VitalityMessageType) => {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
     return (
         <>
             {type === 'error' && <Result status="error" title={translate('pages.error.general')} />}

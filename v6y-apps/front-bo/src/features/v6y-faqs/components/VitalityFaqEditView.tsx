@@ -1,5 +1,6 @@
 import { useParsed } from '@refinedev/core';
 import { VitalityTitle } from '@v6y/shared-ui';
+import { useTranslationProvider } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import {
@@ -7,13 +8,12 @@ import {
     faqCreateOrEditFormInAdapter,
     faqCreateOrEditFormOutputAdapter,
 } from '../../../commons/config/VitalityFormConfig';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineEditWrapper from '../../../infrastructure/components/RefineEditWrapper';
 import CreateOrEditFaq from '../apis/createOrEditFaq';
 import GetFaqDetailsByParams from '../apis/getFaqDetailsByParams';
 
 export default function VitalityFaqEditView() {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
     const { id } = useParsed();
 
     return (

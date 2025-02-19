@@ -1,16 +1,16 @@
 import { VitalityTitle } from '@v6y/shared-ui';
+import { useTranslationProvider } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import {
     faqCreateEditItems,
     faqCreateOrEditFormOutputAdapter,
 } from '../../../commons/config/VitalityFormConfig';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineCreateWrapper from '../../../infrastructure/components/RefineCreateWrapper';
 import CreateOrEditFaq from '../apis/createOrEditFaq';
 
 export default function VitalityFaqCreateView() {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
 
     return (
         <RefineCreateWrapper

@@ -1,11 +1,12 @@
+import { useTranslationProvider } from '@v6y/shared-ui';
+
 import RenderVitalityTable from '../../../commons/components/VitalityTable';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
 import DeleteFaq from '../apis/deleteFaq';
 import GetFaqListByPageAndParams from '../apis/getFaqListByPageAndParams';
 
 export default function VitalityFaqListView() {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
 
     return (
         <RefineTableWrapper

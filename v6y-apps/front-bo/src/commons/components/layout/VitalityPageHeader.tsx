@@ -2,14 +2,13 @@
 
 import { DownOutlined } from '@ant-design/icons';
 import { useGetIdentity } from '@refinedev/core';
-import { VitalityText } from '@v6y/shared-ui';
+import { ColorModeContext, VitalityText, useTranslationProvider } from '@v6y/shared-ui';
 import { Layout as AntdLayout, Avatar, Button, Dropdown, Space, Switch, theme } from 'antd';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import Cookie from 'js-cookie';
 import * as React from 'react';
 import { useContext } from 'react';
-
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
-import { ColorModeContext } from '../../../infrastructure/providers/ColorModeProvider';
 
 interface ColorModeContextType {
     setMode: (mode: string) => void;
@@ -24,7 +23,7 @@ interface UserType {
 }
 
 export const VitalityPageHeader = () => {
-    const { getLocale, changeLocale } = useTranslation();
+    const { getLocale, changeLocale } = useTranslationProvider();
     const currentLocale = getLocale();
     const { token } = theme.useToken();
     const { data: user } = useGetIdentity() as UserType;

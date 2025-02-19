@@ -2,7 +2,7 @@ import { VitalityTitle } from '@v6y/shared-ui';
 import { Col, Row } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import * as React from 'react';
 
 import VitalityNavigationPaths from '../../config/VitalityNavigationPaths';
 import VitalityPageHeaderMenu from './VitalityPageHeaderMenu';

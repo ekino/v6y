@@ -1,16 +1,16 @@
 import { HttpError, useParsed } from '@refinedev/core';
 import { AuditHelpType } from '@v6y/core-logic';
 import { VitalityTitle } from '@v6y/shared-ui';
+import { useTranslationProvider } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';
 import { formatAuditHelpDetails } from '../../../commons/config/VitalityDetailsConfig';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineShowWrapper from '../../../infrastructure/components/RefineShowWrapper';
 import GetAuditHelpDetailsByParams from '../apis/getAuditHelpDetailsByParams';
 
 export default function VitalityAuditHelpDetailsView() {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
 
     const { id } = useParsed();
 

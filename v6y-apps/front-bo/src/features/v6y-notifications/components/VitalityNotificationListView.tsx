@@ -1,11 +1,12 @@
+import { useTranslationProvider } from '@v6y/shared-ui';
+
 import RenderVitalityTable from '../../../commons/components/VitalityTable';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
 import DeleteNotification from '../apis/deleteNotification';
 import GetNotificationListByPageAndParams from '../apis/getNotificationListByPageAndParams';
 
 export default function VitalityNotificationListView() {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
 
     return (
         <RefineTableWrapper

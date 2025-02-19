@@ -3,15 +3,15 @@ import { render, screen } from '@testing-library/react';
 import * as React from 'react';
 import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { useTranslation } from '../../hooks/useTranslation.ts';
-import VitalityTitle from './VitalityTitle.tsx';
+import { useTranslationProvider } from '../../translation/useTranslationProvider';
+import VitalityTitle from './VitalityTitle';
 
-// Mock useTranslation
-vi.mock('../../hooks/useTranslation');
+// Mock useTranslationProvider
+vi.mock('../../translation/useTranslationProvider');
 
 describe('VitalityTitle', () => {
     beforeEach(() => {
-        (useTranslation as Mock).mockReturnValue({
+        (useTranslationProvider as Mock).mockReturnValue({
             translate: (key: string) => key,
         });
     });
@@ -22,7 +22,7 @@ describe('VitalityTitle', () => {
     });
 
     it('should render the translated title', () => {
-        (useTranslation as Mock).mockReturnValue({
+        (useTranslationProvider as Mock).mockReturnValue({
             translate: (key: string) => `Translated: ${key}`,
         });
         render(<VitalityTitle title="Test Title" />);
@@ -39,17 +39,4 @@ describe('VitalityTitle', () => {
         const titleElement = screen.getByText('Test Title');
         expect(titleElement.tagName).toBe('H3');
     });
-
-    /*it('should apply the underline style', () => {
-        render(<VitalityTitle title="Test Title" underline />);
-        const titleElement = screen.getByText('Test Title');
-        expect(titleElement).toHaveStyle('text-decoration: underline');
-    });
-
-    it('should apply custom styles', () => {
-        const customStyle = { color: 'red' };
-        render(<VitalityTitle title="Test Title" style={customStyle} />);
-        const titleElement = screen.getByText('Test Title');
-        expect(titleElement).toHaveStyle('color: red');
-    });*/
 });

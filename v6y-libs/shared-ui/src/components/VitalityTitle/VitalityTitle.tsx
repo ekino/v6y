@@ -1,7 +1,7 @@
 import { Typography } from 'antd';
 import React, { ReactNode } from 'react';
 
-import { useTranslation } from '../../hooks/useTranslation.ts';
+import { useTranslationProvider } from '../../translation/useTranslationProvider.ts';
 import VitalityText from '../VitalityText/VitalityText.tsx';
 
 interface VitalityTitleProps {
@@ -13,7 +13,7 @@ interface VitalityTitleProps {
 }
 
 const VitalityTitle = ({ title, subTitle, level = 2, style, underline }: VitalityTitleProps) => {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
     const translatedTitle = typeof title === 'string' ? translate(title) : title;
     return (
         <Typography.Title style={style} level={level} underline={underline}>

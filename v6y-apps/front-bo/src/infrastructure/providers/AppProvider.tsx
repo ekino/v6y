@@ -1,14 +1,14 @@
 'use client';
 
+import { ThemeProvider } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import { AppProviderProps } from '../types/AppProviderProps';
 import { RefineProvider } from './RefineProvider';
-import ThemeProvider from './ThemeProvider';
 
 export function AppProvider({ defaultMode, resources, children }: AppProviderProps) {
     return (
-        <ThemeProvider>
+        <ThemeProvider enableConfig={false}>
             <RefineProvider defaultMode={defaultMode} resources={resources}>
                 {children}
             </RefineProvider>

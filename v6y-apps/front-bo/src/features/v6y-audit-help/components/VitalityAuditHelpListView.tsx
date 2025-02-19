@@ -1,10 +1,11 @@
+import { useTranslationProvider } from '@v6y/shared-ui';
+
 import RenderVitalityTable from '../../../commons/components/VitalityTable';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
 import GetAuditHelpListByPageAndParams from '../apis/getAuditHelpListByPageAndParams';
 
 export default function VitalityAuditHelpListView() {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
 
     return (
         <RefineTableWrapper

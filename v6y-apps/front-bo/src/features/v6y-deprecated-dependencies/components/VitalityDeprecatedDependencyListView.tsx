@@ -1,11 +1,12 @@
+import { useTranslationProvider } from '@v6y/shared-ui';
+
 import RenderVitalityTable from '../../../commons/components/VitalityTable';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
 import DeleteDeprecatedDependency from '../apis/deleteDeprecatedDependency';
 import GetDeprecatedDependencyListByPageAndParams from '../apis/getDeprecatedDependencyListByPageAndParams';
 
 export default function VitalityDeprecatedDependencyListView() {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
 
     return (
         <RefineTableWrapper

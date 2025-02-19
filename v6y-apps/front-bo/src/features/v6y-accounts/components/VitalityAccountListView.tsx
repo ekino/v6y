@@ -1,11 +1,12 @@
+import { useTranslationProvider } from '@v6y/shared-ui';
+
 import RenderVitalityTable from '../../../commons/components/VitalityTable';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
 import DeleteAccount from '../apis/deleteAccount';
 import GetAccountListByPageAndParams from '../apis/getAccountListByPageAndParams';
 
 export default function VitalityAccountListView() {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
 
     return (
         <RefineTableWrapper

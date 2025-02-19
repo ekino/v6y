@@ -1,6 +1,7 @@
 import { useParsed } from '@refinedev/core';
 import { EvolutionHelpType } from '@v6y/core-logic';
 import { VitalityTitle } from '@v6y/shared-ui';
+import { useTranslationProvider } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import {
@@ -8,14 +9,13 @@ import {
     evolutionHelpCreateOrEditFormInAdapter,
     evolutionHelpCreateOrEditFormOutputAdapter,
 } from '../../../commons/config/VitalityFormConfig';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineSelectWrapper from '../../../infrastructure/components/RefineSelectWrapper';
 import CreateOrEditEvolutionHelp from '../apis/createOrEditEvolutionHelp';
 import GetEvolutionHelpDetailsByParams from '../apis/getEvolutionHelpDetailsByParams';
 import GetEvolutionHelpStatus from '../apis/getEvolutionHelpStatus';
 
 export default function VitalityEvolutionHelpEditView() {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
     const { id } = useParsed();
 
     return (

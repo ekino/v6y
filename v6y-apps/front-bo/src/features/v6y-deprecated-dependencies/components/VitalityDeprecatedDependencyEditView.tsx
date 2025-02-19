@@ -1,5 +1,6 @@
 import { useParsed } from '@refinedev/core';
 import { VitalityTitle } from '@v6y/shared-ui';
+import { useTranslationProvider } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import {
@@ -7,13 +8,12 @@ import {
     deprecatedDependencyCreateOrEditFormInAdapter,
     deprecatedDependencyCreateOrEditFormOutputAdapter,
 } from '../../../commons/config/VitalityFormConfig';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineEditWrapper from '../../../infrastructure/components/RefineEditWrapper';
 import CreateOrEditDeprecatedDependency from '../apis/createOrEditDeprecatedDependency';
 import GetDeprecatedDependencyDetailsByParams from '../apis/getDeprecatedDependencyDetailsByParams';
 
 export default function VitalityDeprecatedDependencyEditView() {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
     const { id } = useParsed();
 
     return (

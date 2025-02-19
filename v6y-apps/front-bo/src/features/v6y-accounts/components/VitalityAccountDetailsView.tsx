@@ -1,17 +1,16 @@
 import { HttpError, useParsed } from '@refinedev/core';
 import { AccountType } from '@v6y/core-logic';
 import Matcher from '@v6y/core-logic/src/core/Matcher';
-import { VitalityTitle } from '@v6y/shared-ui';
+import { VitalityTitle, useTranslationProvider } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';
 import { formatAccountDetails } from '../../../commons/config/VitalityDetailsConfig';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineShowWrapper from '../../../infrastructure/components/RefineShowWrapper';
 import GetAccountDetailsByParams from '../apis/getAccountDetailsByParams';
 
 export default function VitalityAccountDetailsView() {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
 
     const { id } = useParsed();
 

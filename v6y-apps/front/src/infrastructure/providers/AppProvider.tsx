@@ -1,13 +1,13 @@
 'use client';
 
-import QueryProvider from './QueryProvider';
-import ThemeProvider from './ThemeProvider';
-import { AppProviderProps } from './ThemeType';
+import { ThemeProvider, ThemeProviderProps } from '@v6y/shared-ui';
 
-export function AppProvider({ theme, children }: AppProviderProps) {
+import QueryProvider from './QueryProvider';
+
+export const AppProvider = ({ theme, children }: ThemeProviderProps) => {
     return (
         <QueryProvider>
             <ThemeProvider theme={theme}>{children}</ThemeProvider>
         </QueryProvider>
     );
-}
+};

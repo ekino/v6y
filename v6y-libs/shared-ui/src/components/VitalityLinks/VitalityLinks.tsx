@@ -3,8 +3,8 @@ import { Col, Row } from 'antd';
 import Link from 'next/link';
 import * as React from 'react';
 
-import { VitalityLinksProps } from '../../types/VitalityLinksProps.ts';
 import VitalityText from '../VitalityText/VitalityText.tsx';
+import { VitalityLinksProps } from './VitalityLinksProps.ts';
 
 const VitalityLinks = ({ links, align }: VitalityLinksProps) => {
     const dataSource = (links || [])

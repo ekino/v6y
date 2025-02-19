@@ -1,7 +1,7 @@
 'use client';
 
 import { ApplicationType } from '@v6y/core-logic';
-import { VitalityEmptyView, VitalityTitle } from '@v6y/shared-ui';
+import { VitalityEmptyView, VitalityTitle, useTranslationProvider } from '@v6y/shared-ui';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
@@ -11,12 +11,11 @@ import {
     accountCreateOrEditFormOutputAdapter,
 } from '../../../commons/config/VitalityFormConfig';
 import { useRole } from '../../../commons/hooks/useRole';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
 import RefineSelectWrapper from '../../../infrastructure/components/RefineSelectWrapper';
 import CreateOrEditAccount from '../apis/createOrEditAccount';
 
 export default function VitalityAccountCreateView() {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
     const [userRole, setUserRole] = useState<string | null>(null);
     const { getRole } = useRole();
 
