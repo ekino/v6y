@@ -1,4 +1,5 @@
 import { AppLogger, AuditType } from '@v6y/core-logic';
+import { exec } from 'child_process';
 import { readdir } from 'fs/promises';
 
 import { AuditCommonsType } from '../types/AuditCommonsType.ts';
@@ -55,6 +56,24 @@ const formatBundleAnalyzeReports = async ({
         AppLogger.info(
             `[BundleAnalyzeUtils - formatBundleAnalyzeReports] packageManager:  ${packageManager}`,
         );
+
+        exec(`${packageManager} install`, (error, stdout, stderr) => {
+            if (error) {
+                AppLogger.error(
+                    `[BundleAnalyzeUtils - formatBundleAnalyzeReports] Error while executing program : ${error.message}`,
+                );
+                return;
+            }
+
+            if (stderr) {
+                AppLogger.error(
+                    `[BundleAnalyzeUtils - formatBundleAnalyzeReports] Error: ${stderr}`,
+                );
+                return;
+            }
+
+            AppLogger.info(`[BundleAnalyzeUtils - formatBundleAnalyzeReports] Output: ${stdout}`);
+        });
 
         const auditReports: AuditType[] = [];
         return auditReports;
