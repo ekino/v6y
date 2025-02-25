@@ -1,14 +1,23 @@
-import { VitalityLinks, VitalityText, useNavigationAdapter } from '@v6y/shared-ui';
-import { Col, Divider, List, Row, Tag } from 'antd';
+import {
+    Col,
+    Divider,
+    List,
+    Row,
+    Tag,
+    VitalityLinks,
+    VitalityText,
+    useNavigationAdapter,
+    useThemeConfigProvider,
+} from '@v6y/shared-ui';
 import Link from 'next/link';
 import * as React from 'react';
 
-import { QUALITY_METRIC_STATUS } from '../../config/VitalityCommonConfig';
 import VitalityNavigationPaths from '../../config/VitalityNavigationPaths';
 import VitalityTerms from '../../config/VitalityTerms';
 import { VitalityAppInfosProps } from '../../types/VitalityAppInfosProps';
 
 const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: VitalityAppInfosProps) => {
+    const { currentConfig } = useThemeConfigProvider();
     const { createUrlQueryParam } = useNavigationAdapter();
     const queryParams = createUrlQueryParam('_id', `${app._id}`);
     const appDetailsLink = source
@@ -18,6 +27,8 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
     const appLinks = app.links;
     const appRepository = app.repo;
     const appOpenedBranches = app.repo?.allBranches?.length || 0;
+
+    const qualityMetricStatus = currentConfig?.status || {};
 
     return (
         <List.Item style={{ marginTop: '1rem', ...(style || {}) }}>
@@ -32,8 +43,8 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                             <Tag
                                 color={
                                     appOpenedBranches >= 4
-                                        ? QUALITY_METRIC_STATUS['error']
-                                        : QUALITY_METRIC_STATUS['success']
+                                        ? qualityMetricStatus['error']
+                                        : qualityMetricStatus['success']
                                 }
                             >
                                 {`${VitalityTerms.VITALITY_APP_LIST_NB_BRANCHES}${appOpenedBranches}`}

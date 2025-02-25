@@ -1,5 +1,5 @@
 import { ApplicationType } from '@v6y/core-logic';
-import Matcher from '@v6y/core-logic/src/core/Matcher';
+import Matcher from '@v6y/core-logic/src/utils/Matcher';
 import {
     AdminHttpError,
     AdminShowWrapper,

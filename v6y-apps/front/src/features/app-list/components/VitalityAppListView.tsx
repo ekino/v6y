@@ -1,6 +1,6 @@
 'use client';
 
-import { Col, Row } from 'antd';
+import { Col, Row } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalityDynamicLoader from '../../../commons/components/VitalityDynamicLoader';

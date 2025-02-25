@@ -1,4 +1,4 @@
-import { NotificationType } from '@v6y/core-logic';
+import { NotificationType } from '@v6y/core-logic/src/types';
 import { CollapseItemType, VitalityCollapse, VitalityLinks } from '@v6y/shared-ui';
 
 const VitalityNotificationList = ({ dataSource }: { dataSource: NotificationType[] }) => {

@@ -1,5 +1,11 @@
-import { ExportOutlined, VitalityTitle, useNavigationAdapter } from '@v6y/shared-ui';
-import { Button, Col, Row } from 'antd';
+import {
+    Button,
+    Col,
+    ExportOutlined,
+    Row,
+    VitalityTitle,
+    useNavigationAdapter,
+} from '@v6y/shared-ui';
 import { useEffect, useState } from 'react';
 import * as React from 'react';
 

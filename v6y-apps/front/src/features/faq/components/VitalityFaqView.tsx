@@ -1,6 +1,6 @@
 'use client';
 
-import { FaqType } from '@v6y/core-logic';
+import { FaqType } from '@v6y/core-logic/src/types';
 import { QuestionOutlined, VitalityEmptyView } from '@v6y/shared-ui';
 import * as React from 'react';
 

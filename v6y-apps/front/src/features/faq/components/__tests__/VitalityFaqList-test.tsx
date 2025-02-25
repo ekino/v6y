@@ -1,7 +1,7 @@
 // VitalityFaqList.test.tsx
 import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
-import { FaqType } from '@v6y/core-logic/src';
+import { FaqType } from '@v6y/core-logic/src/types';
 import { VitalityCollapse, VitalityLinks } from '@v6y/shared-ui';
 import * as React from 'react';
 import { describe, expect, it, vi } from 'vitest';

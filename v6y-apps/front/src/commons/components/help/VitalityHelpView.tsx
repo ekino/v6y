@@ -1,4 +1,4 @@
-import { Descriptions } from 'antd';
+import { Descriptions } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalityTerms from '../../config/VitalityTerms';

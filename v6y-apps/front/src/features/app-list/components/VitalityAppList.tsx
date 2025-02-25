@@ -1,8 +1,7 @@
 'use client';
 
-import { ApplicationType } from '@v6y/core-logic';
-import { useNavigationAdapter } from '@v6y/shared-ui';
-import { Col, Row } from 'antd';
+import { ApplicationType } from '@v6y/core-logic/src/types';
+import { Col, Row, useNavigationAdapter } from '@v6y/shared-ui';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 

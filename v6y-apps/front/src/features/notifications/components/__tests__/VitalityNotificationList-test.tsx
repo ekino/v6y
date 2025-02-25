@@ -1,7 +1,7 @@
 // VitalityNotificationList.test.tsx
 import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
-import { NotificationType } from '@v6y/core-logic/src';
+import { NotificationType } from '@v6y/core-logic/src/types';
 import { VitalityCollapse, VitalityLinks } from '@v6y/shared-ui';
 import { describe, expect, it, vi } from 'vitest';
 

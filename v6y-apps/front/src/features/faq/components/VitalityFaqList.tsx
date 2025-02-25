@@ -1,4 +1,4 @@
-import { FaqType } from '@v6y/core-logic/src';
+import { FaqType } from '@v6y/core-logic/src/types';
 import { CollapseItemType, VitalityCollapse, VitalityLinks } from '@v6y/shared-ui';
 import * as React from 'react';
 

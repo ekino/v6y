@@ -1,13 +1,13 @@
-import { useTheme } from '@v6y/shared-ui';
+import { useThemeConfigProvider } from '@v6y/shared-ui';
 import * as React from 'react';
 
 const VitalityPageFooter = () => {
-    const { themeToken } = useTheme();
+    const { currentConfig } = useThemeConfigProvider();
 
     return (
         <div
             style={{
-                backgroundColor: themeToken.colorBgElevated,
+                backgroundColor: currentConfig?.token?.colorBgElevated,
                 display: 'flex',
                 justifyContent: 'flex-end',
                 alignItems: 'center',

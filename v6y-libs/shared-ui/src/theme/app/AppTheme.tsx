@@ -77,8 +77,8 @@ const ThemeStatusIcons = {
 
 const AppTheme = {
     type: 'app-default',
-    token: ThemeTokensConfig,
     components: ThemeComponentsConfig,
+    token: ThemeTokensConfig,
     status: ThemeStatusConfig,
     statusIcons: ThemeStatusIcons,
 };

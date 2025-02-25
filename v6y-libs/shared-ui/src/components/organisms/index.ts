@@ -5,6 +5,8 @@ export { default as VitalityLoader } from './app/VitalityLoader.tsx';
 export { default as VitalityModal } from './app/VitalityModal.tsx';
 export { default as VitalityText } from './app/VitalityText.tsx';
 export { default as VitalityTitle } from './app/VitalityTitle.tsx';
+export { default as VitalityInput } from './app/VitalityInput.tsx';
+export { default as VitalityCheckbox } from './app/VitalityCheckbox.tsx';
 export { default as VitalityLanguageSettings } from './app/VitalityLanguageSettings.tsx';
 export { default as AdminLayout } from './admin/AdminLayout.tsx';
 export { default as AdminCreateWrapper } from './admin/AdminCreateWrapper.tsx';

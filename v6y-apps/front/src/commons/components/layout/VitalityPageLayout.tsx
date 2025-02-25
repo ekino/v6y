@@ -1,7 +1,6 @@
 'use client';
 
-import { VitalityTitle, useNavigationAdapter } from '@v6y/shared-ui';
-import { Col, FloatButton, Layout, Row } from 'antd';
+import { Col, FloatButton, Layout, Row, VitalityTitle, useNavigationAdapter } from '@v6y/shared-ui';
 import * as React from 'react';
 import { ReactNode } from 'react';
 

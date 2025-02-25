@@ -1,6 +1,6 @@
 'use client';
 
-import { NotificationType } from '@v6y/core-logic';
+import { NotificationType } from '@v6y/core-logic/src/types';
 import { NotificationOutlined, VitalityEmptyView } from '@v6y/shared-ui';
 
 import VitalitySectionView from '../../../commons/components/VitalitySectionView';

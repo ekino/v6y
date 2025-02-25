@@ -1,5 +1,4 @@
-import { VitalityTitle } from '@v6y/shared-ui';
-import { Col, Row } from 'antd';
+import { Col, Row, VitalityTitle } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import { DashboardItemType } from '../../../commons/config/VitalityCommonConfig';

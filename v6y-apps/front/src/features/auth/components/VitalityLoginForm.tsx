@@ -1,12 +1,9 @@
 'use client';
 
-import { Button, Form, message } from 'antd';
+import { Button, Form, Message, VitalityCheckbox, VitalityInput, useForm } from '@v6y/shared-ui';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import VitalityCheckbox from '../../../commons/components/form/VitalityCheckbox';
-import VitalityInput from '../../../commons/components/form/VitalityInput';
 import VitalityTerms from '../../../commons/config/VitalityTerms';
 import {
     LoginAccountFormType,
@@ -15,7 +12,7 @@ import {
 } from '../../../commons/hooks/useAuth';
 
 const VitalityLoginForm = () => {
-    const [messageApi, contextHolder] = message.useMessage();
+    const [messageApi, contextHolder] = Message.useMessage();
     const { isAuthenticationLoading, authenticationError, onAuthentication } = useAuthentication();
 
     const {

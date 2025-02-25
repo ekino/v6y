@@ -1,5 +1,8 @@
-import { Input } from 'antd';
+'use client';
+
 import { Control, Controller } from 'react-hook-form';
+
+import { Input } from '../../atoms';
 
 type VitalityInputProps = {
     name: string;

@@ -1,7 +1,7 @@
 import { RefineThemes } from '@refinedev/antd';
 
 const AdminTheme = {
-    ...RefineThemes.Green,
+    ...RefineThemes.Purple,
     type: 'admin-default',
     status: {},
     statusIcons: {},

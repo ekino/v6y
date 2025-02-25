@@ -1,5 +1,4 @@
-import { VitalityText, VitalityTitle } from '@v6y/shared-ui';
-import { Avatar, Card } from 'antd';
+import { Avatar, Card, VitalityText, VitalityTitle } from '@v6y/shared-ui';
 import Link from 'next/link';
 import * as React from 'react';
 

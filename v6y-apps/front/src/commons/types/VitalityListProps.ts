@@ -1,4 +1,4 @@
-import { ListGridType } from 'antd/es/list';
+import { ListGridType } from '@v6y/shared-ui';
 import { CSSProperties, ReactNode } from 'react';
 
 export interface VitalityListProps {

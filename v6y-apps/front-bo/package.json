@@ -23,12 +23,10 @@
   },
   "dependencies": {
     "@refinedev/cli": "=2.16.42",
-    "@refinedev/core": "=4.57.5",
     "@urql/core": "=5.1.0",
     "@v6y/core-logic": "workspace:^",
     "@v6y/shared-ui": "workspace:^",
     "cross-env": "=7.0.3",
-    "@refinedev/graphql": "=7.1.1",
     "graphql": "=16.10.0",
     "graphql-request": "=7.1.2",
     "graphql-ws": "=6.0.4",

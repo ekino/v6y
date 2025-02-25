@@ -1,5 +1,5 @@
-import { AuditType } from '@v6y/core-logic';
-import { Card, Checkbox, Col, Row } from 'antd';
+import { AuditType } from '@v6y/core-logic/src/types';
+import { Card, Checkbox, Col, Row } from '@v6y/shared-ui';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
@@ -10,7 +10,6 @@ import { VitalityModuleType } from '../../../../../../commons/types/VitalityModu
 const VitalityModulesView = VitalityDynamicLoader(
     () => import('../../../../../../commons/components/modules/VitalityModulesView'),
 );
-//souci de typage
 
 const VitalityCodeStatusReportsSmellGrouper = ({ reports }: { reports: AuditType[] }) => {
     const [selectedSmells, setSelectedSmells] = useState<string[]>();

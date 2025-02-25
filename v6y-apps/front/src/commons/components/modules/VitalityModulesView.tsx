@@ -1,15 +1,21 @@
 import {
+    Avatar,
+    Button,
+    Card,
+    Divider,
     InfoCircleOutlined,
+    List,
     PushpinOutlined,
+    Space,
+    Statistic,
     VitalityModal,
     VitalityText,
     VitalityTitle,
+    useThemeConfigProvider,
 } from '@v6y/shared-ui';
-import { Avatar, Button, Card, Divider, List, Space, Statistic } from 'antd';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import { QUALITY_METRIC_ICONS, QUALITY_METRIC_STATUS } from '../../config/VitalityCommonConfig';
 import VitalityTerms from '../../config/VitalityTerms';
 import { VitalityModuleType, VitalityModulesProps } from '../../types/VitalityModulesProps';
 import VitalityDynamicLoader from '../VitalityDynamicLoader';
@@ -18,6 +24,7 @@ import VitalityPaginatedList from '../VitalityPaginatedList';
 const VitalityHelpView = VitalityDynamicLoader(() => import('../help/VitalityHelpView'));
 
 const VitalityModulesView = ({ modules }: VitalityModulesProps) => {
+    const { currentConfig } = useThemeConfigProvider();
     const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
     const [helpDetails, setHelpDetails] = useState<VitalityModuleType>();
 
@@ -28,6 +35,9 @@ const VitalityModulesView = ({ modules }: VitalityModulesProps) => {
             setIsHelpModalOpen(false);
         }
     }, [helpDetails]);
+
+    const qualityMetricStatus = currentConfig?.status || {};
+    const qualityMetricStatusIcons = currentConfig?.statusIcons || {};
 
     return (
         <>
@@ -49,6 +59,7 @@ const VitalityModulesView = ({ modules }: VitalityModulesProps) => {
                     const hasDependencyStatusHelp =
                         Object.keys(itemModule.statusHelp || {}).length > 0;
                     const hasEvolutionHelp = Object.keys(itemModule.evolutionHelp || {}).length > 0;
+                    const modulePath = itemModule?.path?.replaceAll(' -> []', '');
 
                     return (
                         <List.Item>
@@ -75,8 +86,8 @@ const VitalityModulesView = ({ modules }: VitalityModulesProps) => {
                                         size="small"
                                         style={{
                                             background:
-                                                QUALITY_METRIC_STATUS[
-                                                    (itemModule.status as keyof typeof QUALITY_METRIC_STATUS) ||
+                                                qualityMetricStatus[
+                                                    (itemModule.status as keyof typeof qualityMetricStatus) ||
                                                         'default'
                                                 ],
                                         }}
@@ -92,14 +103,14 @@ const VitalityModulesView = ({ modules }: VitalityModulesProps) => {
                                                     value={itemModule.score || 0}
                                                     suffix={itemModule.scoreUnit || ''}
                                                     valueStyle={{
-                                                        color: QUALITY_METRIC_STATUS[
-                                                            (itemModule.status as keyof typeof QUALITY_METRIC_STATUS) ||
+                                                        color: qualityMetricStatus[
+                                                            (itemModule.status as keyof typeof qualityMetricStatus) ||
                                                                 'default'
                                                         ],
                                                     }}
                                                     prefix={
-                                                        QUALITY_METRIC_ICONS[
-                                                            (itemModule.status as keyof typeof QUALITY_METRIC_ICONS) ||
+                                                        qualityMetricStatusIcons[
+                                                            (itemModule.status as keyof typeof qualityMetricStatusIcons) ||
                                                                 'default'
                                                         ]
                                                     }
@@ -117,7 +128,7 @@ const VitalityModulesView = ({ modules }: VitalityModulesProps) => {
                                                     />
                                                 </>
                                             )}
-                                            {(itemModule.path?.length || 0) > 0 && (
+                                            {(modulePath?.length || 0) > 0 && (
                                                 <>
                                                     <VitalityText
                                                         style={{ fontWeight: 'bold' }}
@@ -125,10 +136,7 @@ const VitalityModulesView = ({ modules }: VitalityModulesProps) => {
                                                     />
                                                     <VitalityText
                                                         style={{ fontWeight: 'normal' }}
-                                                        text={itemModule.path?.replaceAll(
-                                                            ' -> []',
-                                                            '',
-                                                        )}
+                                                        text={modulePath}
                                                     />
                                                 </>
                                             )}

@@ -1,5 +1,8 @@
-import { Checkbox } from 'antd';
+'use client';
+
 import { Control, Controller } from 'react-hook-form';
+
+import { Checkbox } from '../../atoms';
 
 type VitalityCheckboxProps = {
     name: string;

@@ -1,4 +1,4 @@
-import { AuditType } from '@v6y/core-logic';
+import { AuditType } from '@v6y/core-logic/src/types';
 import * as React from 'react';
 
 import VitalityDynamicLoader from '../../../../../../commons/components/VitalityDynamicLoader';

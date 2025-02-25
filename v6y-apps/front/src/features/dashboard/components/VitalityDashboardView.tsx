@@ -1,6 +1,6 @@
 'use client';
 
-import { useTheme } from '@v6y/shared-ui';
+import { useThemeConfigProvider } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalitySearchBar from '../../../commons/components/VitalitySearchBar';
@@ -9,7 +9,7 @@ import VitalityTerms from '../../../commons/config/VitalityTerms';
 import VitalityDashboardMenu from './VitalityDashboardMenu';
 
 const VitalityDashboardView = () => {
-    const { themeToken } = useTheme();
+    const { currentConfig } = useThemeConfigProvider();
 
     return (
         <>
@@ -18,7 +18,7 @@ const VitalityDashboardView = () => {
                 helper={VitalityTerms.VITALITY_GLOBAL_SEARCHBAR_INPUT_HELPER}
                 label={VitalityTerms.VITALITY_SEARCHBAR_INPUT_LABEL}
             />
-            <VitalityDashboardMenu options={buildDashboardMenuItems(themeToken)} />
+            <VitalityDashboardMenu options={buildDashboardMenuItems(currentConfig?.token)} />
         </>
     );
 };

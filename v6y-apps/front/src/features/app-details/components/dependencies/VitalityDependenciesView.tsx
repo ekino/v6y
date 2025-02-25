@@ -1,4 +1,4 @@
-import { DependencyType } from '@v6y/core-logic';
+import { DependencyType } from '@v6y/core-logic/src/types';
 import { ProductOutlined, useNavigationAdapter } from '@v6y/shared-ui';
 import * as React from 'react';
 

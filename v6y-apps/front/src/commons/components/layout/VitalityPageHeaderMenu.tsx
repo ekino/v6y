@@ -1,6 +1,6 @@
 'use client';
 
-import { Menu } from 'antd';
+import { Menu } from '@v6y/shared-ui';
 import * as React from 'react';
 import { useState } from 'react';
 

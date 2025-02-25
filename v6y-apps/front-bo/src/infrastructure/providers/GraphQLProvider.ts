@@ -1,8 +1,6 @@
 import { Client, fetchExchange } from '@urql/core';
 import { AdminAuthProviderType, createDataProvider, createLiveProvider } from '@v6y/shared-ui';
 import { createClient } from 'graphql-ws';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
 import Cookie from 'js-cookie';
 
 const wsClient = createClient({

@@ -1,6 +1,17 @@
-import { AuditType } from '@v6y/core-logic';
-import { InfoCircleOutlined, VitalityModal, VitalityText, VitalityTitle } from '@v6y/shared-ui';
-import { Button, Card, Col, List, Row, Statistic } from 'antd';
+import { AuditType } from '@v6y/core-logic/src/types';
+import {
+    Button,
+    Card,
+    Col,
+    InfoCircleOutlined,
+    List,
+    Row,
+    Statistic,
+    VitalityModal,
+    VitalityText,
+    VitalityTitle,
+    useThemeConfigProvider,
+} from '@v6y/shared-ui';
 import Link from 'next/link';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -16,6 +27,7 @@ const VitalityHelpView = VitalityDynamicLoader(
 );
 
 const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditType[] }) => {
+    const { currentConfig } = useThemeConfigProvider();
     const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
     const [helpDetails, setHelpDetails] = useState<VitalityModuleType>();
 
@@ -32,6 +44,9 @@ const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditT
             setIsHelpModalOpen(false);
         }
     }, [helpDetails]);
+
+    const qualityMetricStatus = currentConfig?.status || {};
+    const qualityMetricStatusIcons = currentConfig?.statusIcons || {};
 
     return (
         <>
@@ -69,14 +84,14 @@ const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditT
                                                     value={report.score || 0}
                                                     suffix={report.scoreUnit || ''}
                                                     valueStyle={{
-                                                        color: QUALITY_METRIC_STATUS[
-                                                            (report.status as keyof typeof QUALITY_METRIC_STATUS) ||
+                                                        color: qualityMetricStatus[
+                                                            (report.status as keyof typeof qualityMetricStatus) ||
                                                                 'default'
                                                         ],
                                                     }}
                                                     prefix={
-                                                        QUALITY_METRIC_ICONS[
-                                                            (report.status as keyof typeof QUALITY_METRIC_ICONS) ||
+                                                        qualityMetricStatusIcons[
+                                                            (report.status as keyof typeof qualityMetricStatusIcons) ||
                                                                 'default'
                                                         ]
                                                     }

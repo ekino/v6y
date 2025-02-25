@@ -1,17 +1,18 @@
 import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
-import { useNavigationAdapter } from '@v6y/shared-ui';
+import { useNavigationAdapter } from '@v6y/shared-ui/src/hooks';
+import { useThemeConfigProvider } from '@v6y/shared-ui/src/hooks';
 import * as React from 'react';
 import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import VitalityAppInfos from '../application-info/VitalityAppInfos';
 
-// Mock useNavigationAdapter
-vi.mock(import('@v6y/shared-ui'), async (importOriginal) => {
+vi.mock(import('@v6y/shared-ui/src/hooks'), async (importOriginal) => {
     const actual = await importOriginal();
     return {
         ...actual,
         useNavigationAdapter: vi.fn(),
+        useThemeConfigProvider: vi.fn(),
     };
 });
 
@@ -37,6 +38,9 @@ describe('VitalityAppInfos', () => {
     beforeEach(() => {
         (useNavigationAdapter as Mock).mockReturnValue({
             createUrlQueryParam: vi.fn((key, value) => `${key}=${value}`),
+        });
+        (useThemeConfigProvider as Mock).mockReturnValue({
+            currentConfig: {},
         });
     });
 

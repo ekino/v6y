@@ -1,7 +1,12 @@
-import { KeywordType } from '@v6y/core-logic';
-import { VitalityEmptyView, VitalityLoader, useNavigationAdapter } from '@v6y/shared-ui';
-import { Card, Checkbox } from 'antd';
-import { CheckboxOptionType } from 'antd/es/checkbox/Group';
+import { KeywordType } from '@v6y/core-logic/src/types';
+import {
+    Card,
+    Checkbox,
+    CheckboxOptionType,
+    VitalityEmptyView,
+    VitalityLoader,
+    useNavigationAdapter,
+} from '@v6y/shared-ui';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 

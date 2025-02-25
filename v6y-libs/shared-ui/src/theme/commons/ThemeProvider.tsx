@@ -1,24 +1,33 @@
+'use client';
+
 import { AntdRegistry } from '@ant-design/nextjs-registry';
-import { RefineThemes } from '@refinedev/antd';
 import { App as AntdApp, theme as AntdTheme, ConfigProvider } from 'antd';
 import * as React from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 
-import { ThemeProps } from '../types/ThemeProps.ts';
+import { ThemeContextConfigType, ThemeContextType, ThemeProps } from '../types/ThemeProps.ts';
 import { ThemeModes, loadTheme } from './ThemeLoader.ts';
 
-const ThemeProvider = ({ theme, themeMode, config, children }: ThemeProps) => {
-    const { darkAlgorithm, defaultAlgorithm } = AntdTheme;
+const { darkAlgorithm, defaultAlgorithm } = AntdTheme;
 
-    const AppTheme = {
-        ...(loadTheme({ theme }) || {}),
-        algorithm: themeMode === ThemeModes.LIGHT ? defaultAlgorithm : darkAlgorithm,
-    };
+/**
+ * Theme Config Provider
+ */
+export const ThemeConfigProvider = React.createContext<ThemeContextType>({} as ThemeContextType);
 
+/**
+ * Theme Provider Content View
+ * @param themeConfig
+ * @param config
+ * @param children
+ * @constructor
+ */
+const ThemeProviderContentView = ({ themeConfig, config, children }: ThemeProps) => {
     if (config?.useSSRProvider) {
         if (config?.useConfigProvider) {
             return (
                 <AntdRegistry>
-                    <ConfigProvider theme={AppTheme}>
+                    <ConfigProvider theme={themeConfig}>
                         <AntdApp>{children}</AntdApp>
                     </ConfigProvider>
                 </AntdRegistry>
@@ -34,7 +43,7 @@ const ThemeProvider = ({ theme, themeMode, config, children }: ThemeProps) => {
 
     if (config?.useConfigProvider) {
         return (
-            <ConfigProvider theme={RefineThemes.Green}>
+            <ConfigProvider theme={themeConfig}>
                 <AntdApp>{children}</AntdApp>
             </ConfigProvider>
         );
@@ -43,4 +52,62 @@ const ThemeProvider = ({ theme, themeMode, config, children }: ThemeProps) => {
     return children;
 };
 
-export default ThemeProvider;
+/**
+ * Theme Provider Component
+ * @param theme
+ * @param themeMode
+ * @param config
+ * @param children
+ * @constructor
+ */
+export const ThemeProvider = ({ theme, themeMode, config, children }: ThemeProps) => {
+    const [currentTheme, setCurrentTheme] = React.useState(theme);
+    const [currentConfig, setCurrentConfig] = React.useState<ThemeContextConfigType | undefined>(
+        undefined,
+    );
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    useLayoutEffect(() => {
+        if (isMounted) {
+            setCurrentTheme(theme);
+        }
+    }, [isMounted, theme]);
+
+    useEffect(() => {
+        if (currentTheme) {
+            setCurrentConfig({
+                components: undefined,
+                cssVar: undefined,
+                hashed: false,
+                inherit: false,
+                status: undefined,
+                statusIcons: undefined,
+                token: undefined,
+                ...(loadTheme({ theme: currentTheme }) || {}),
+                algorithm: themeMode === ThemeModes.LIGHT ? defaultAlgorithm : darkAlgorithm,
+            });
+        }
+    }, [currentTheme, themeMode]);
+
+    const onThemeChanged = (theme: string) => {
+        setCurrentTheme(theme);
+    };
+
+    return (
+        <ThemeConfigProvider.Provider
+            value={{
+                currentTheme,
+                currentConfig,
+                onThemeChanged,
+            }}
+        >
+            <ThemeProviderContentView themeConfig={currentConfig} config={config}>
+                {children}
+            </ThemeProviderContentView>
+        </ThemeConfigProvider.Provider>
+    );
+};

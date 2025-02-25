@@ -1,4 +1,4 @@
-import { KeywordType } from '@v6y/core-logic';
+import { KeywordType } from '@v6y/core-logic/src/types';
 import { CompassOutlined, useNavigationAdapter } from '@v6y/shared-ui';
 import * as React from 'react';
 

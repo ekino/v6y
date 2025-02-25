@@ -1,5 +1,4 @@
-import { VitalityEmptyView } from '@v6y/shared-ui';
-import { Col, Row, Tabs } from 'antd';
+import { Col, Row, Tabs, VitalityEmptyView } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import useDataGrouper from '../hooks/useDataGrouper';

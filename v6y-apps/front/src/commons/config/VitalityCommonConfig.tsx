@@ -1,4 +1,5 @@
-import { ApplicationType, Matcher } from '@v6y/core-logic';
+import { ApplicationType } from '@v6y/core-logic/src/types';
+import { Matcher } from '@v6y/core-logic/src/utils';
 import {
     ApiOutlined,
     AppstoreAddOutlined,
@@ -8,6 +9,7 @@ import {
     PieChartOutlined,
     QuestionOutlined,
     SplitCellsOutlined,
+    ThemeTokenType,
     VitalityText,
 } from '@v6y/shared-ui';
 import Link from 'next/link';
@@ -33,7 +35,7 @@ export interface DashboardItemType {
     avatarColor: string;
 }
 
-export const buildDashboardMenuItems = (themeToken) =>
+export const buildDashboardMenuItems = (themeToken: ThemeTokenType | undefined) =>
     [
         {
             autoFocus: true,
@@ -42,7 +44,7 @@ export const buildDashboardMenuItems = (themeToken) =>
             description: 'Choose this option to view React applications.',
             url: VitalityNavigationPaths.APP_LIST + '?keywords=react',
             avatar: <DashboardOutlined />,
-            avatarColor: themeToken.colorPrimary,
+            avatarColor: themeToken?.colorPrimary,
         },
         {
             autoFocus: false,
@@ -51,7 +53,7 @@ export const buildDashboardMenuItems = (themeToken) =>
             description: 'Choose this option to view Angular applications.',
             url: VitalityNavigationPaths.APP_LIST + '?keywords=angular',
             avatar: <AppstoreAddOutlined />,
-            avatarColor: themeToken.colorSecondary,
+            avatarColor: themeToken?.colorSecondary,
         },
         {
             autoFocus: false,
@@ -60,7 +62,7 @@ export const buildDashboardMenuItems = (themeToken) =>
             description: 'Choose this option to view React Legacy applications.',
             url: VitalityNavigationPaths.APP_LIST + '?keywords=legacy-react',
             avatar: <SplitCellsOutlined />,
-            avatarColor: themeToken.colorError,
+            avatarColor: themeToken?.colorError,
         },
         {
             autoFocus: false,
@@ -69,7 +71,7 @@ export const buildDashboardMenuItems = (themeToken) =>
             description: 'Choose this option to view Angular Legacy applications.',
             url: VitalityNavigationPaths.APP_LIST + '?keywords=legacy-angular',
             avatar: <ApiOutlined />,
-            avatarColor: themeToken.colorWarning,
+            avatarColor: themeToken?.colorWarning,
         },
         {
             autoFocus: false,
@@ -78,7 +80,7 @@ export const buildDashboardMenuItems = (themeToken) =>
             description: 'Choose this option to see health statistics for all apps.',
             url: VitalityNavigationPaths.APPS_STATS,
             avatar: <PieChartOutlined />,
-            avatarColor: themeToken.colorInfo,
+            avatarColor: themeToken?.colorInfo,
         },
     ] as DashboardItemType[];
 

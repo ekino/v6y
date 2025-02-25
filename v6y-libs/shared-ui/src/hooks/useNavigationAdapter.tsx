@@ -3,7 +3,7 @@
 import { redirect, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 
-const useNavigationAdapter = () => {
+export const useNavigationAdapter = () => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
@@ -36,5 +36,3 @@ const useNavigationAdapter = () => {
         pathname,
     };
 };
-
-export default useNavigationAdapter;

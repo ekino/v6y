@@ -7,7 +7,7 @@ import {
     VitalityLanguageSettings,
     VitalityText,
     useAdminGetIdentity,
-    useTheme,
+    useThemeConfigProvider,
 } from '@v6y/shared-ui';
 import * as React from 'react';
 
@@ -19,13 +19,13 @@ interface UserType {
 }
 
 export const VitalityPageHeader = () => {
-    const { themeToken } = useTheme();
+    const { currentConfig } = useThemeConfigProvider();
     const { data: user } = useAdminGetIdentity() as UserType;
 
     return (
         <Layout.Header
             style={{
-                backgroundColor: themeToken.colorBgElevated,
+                backgroundColor: currentConfig?.token?.colorBgElevated,
                 display: 'flex',
                 justifyContent: 'flex-end',
                 alignItems: 'center',

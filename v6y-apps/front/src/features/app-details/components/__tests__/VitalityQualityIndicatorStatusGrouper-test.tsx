@@ -1,7 +1,7 @@
 // VitalityQualityIndicatorStatusGrouper.test.tsx
 import '@testing-library/jest-dom/vitest';
 import { render } from '@testing-library/react';
-import { KeywordType } from '@v6y/core-logic';
+import { KeywordType } from '@v6y/core-logic/src/types';
 import * as React from 'react';
 import { describe, expect, it, vi } from 'vitest';
 

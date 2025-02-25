@@ -1,5 +1,4 @@
-import { SyncOutlined } from '@v6y/shared-ui';
-import { Button, Flex, List } from 'antd';
+import { Button, Flex, List, SyncOutlined } from '@v6y/shared-ui';
 
 import VitalityTerms from '../config/VitalityTerms';
 import { VitalityListProps } from '../types/VitalityListProps';

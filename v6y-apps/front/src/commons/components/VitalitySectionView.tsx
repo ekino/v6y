@@ -1,5 +1,16 @@
-import { ExportOutlined, VitalityEmptyView, VitalityLoader, VitalityTitle } from '@v6y/shared-ui';
-import { Avatar, Button, Card, Col, Row, Space, Typography } from 'antd';
+import {
+    Avatar,
+    Button,
+    Card,
+    Col,
+    ExportOutlined,
+    Paragraph,
+    Row,
+    Space,
+    VitalityEmptyView,
+    VitalityLoader,
+    VitalityTitle,
+} from '@v6y/shared-ui';
 import * as React from 'react';
 
 import { VitalitySectionViewProps } from '../types/VitalitySectionViewProps';
@@ -49,9 +60,9 @@ const VitalitySectionView = ({
                 {(description?.length || 0) > 0 && (
                     <Card.Meta
                         description={
-                            <Typography.Paragraph>
+                            <Paragraph>
                                 <p>{description || ''}</p>
-                            </Typography.Paragraph>
+                            </Paragraph>
                         }
                     />
                 )}

@@ -1,7 +1,7 @@
 // VitalityLighthouseReportsCategoryGrouper.test.tsx
 import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
-import { AuditType } from '@v6y/core-logic';
+import { AuditType } from '@v6y/core-logic/src/types';
 import * as React from 'react';
 import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 

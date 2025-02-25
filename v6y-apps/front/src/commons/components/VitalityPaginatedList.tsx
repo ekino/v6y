@@ -1,5 +1,4 @@
-import { VitalityText } from '@v6y/shared-ui';
-import { List } from 'antd';
+import { List, VitalityText } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import { VitalityListProps } from '../types/VitalityListProps';
