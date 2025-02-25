@@ -1,14 +1,13 @@
-import { theme } from 'antd';
+import { useTheme } from '@v6y/shared-ui';
 import * as React from 'react';
 
-const { useToken } = theme;
-
 const VitalityPageFooter = () => {
-    const { token } = useToken();
+    const { themeToken } = useTheme();
+
     return (
         <div
             style={{
-                backgroundColor: token.colorBgElevated,
+                backgroundColor: themeToken.colorBgElevated,
                 display: 'flex',
                 justifyContent: 'flex-end',
                 alignItems: 'center',

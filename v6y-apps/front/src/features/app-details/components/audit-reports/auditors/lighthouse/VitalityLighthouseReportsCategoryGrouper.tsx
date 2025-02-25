@@ -1,6 +1,5 @@
-import { InfoCircleOutlined } from '@ant-design/icons';
 import { AuditType } from '@v6y/core-logic';
-import { VitalityModal, VitalityText, VitalityTitle } from '@v6y/shared-ui';
+import { InfoCircleOutlined, VitalityModal, VitalityText, VitalityTitle } from '@v6y/shared-ui';
 import { Button, Card, Col, List, Row, Statistic } from 'antd';
 import Link from 'next/link';
 import * as React from 'react';
@@ -8,10 +7,6 @@ import { useEffect, useState } from 'react';
 
 import VitalityDynamicLoader from '../../../../../../commons/components/VitalityDynamicLoader';
 import VitalityPaginatedList from '../../../../../../commons/components/VitalityPaginatedList';
-import {
-    QUALITY_METRIC_ICONS,
-    QUALITY_METRIC_STATUS,
-} from '../../../../../../commons/config/VitalityCommonConfig';
 import VitalityTerms from '../../../../../../commons/config/VitalityTerms';
 import useDataGrouper from '../../../../../../commons/hooks/useDataGrouper';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';
@@ -61,7 +56,6 @@ const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditT
                                     />,
                                 ]}
                             >
-                                ccccccc
                                 <Card.Meta
                                     description={
                                         <Row gutter={[16, 16]} justify="center" align="middle">

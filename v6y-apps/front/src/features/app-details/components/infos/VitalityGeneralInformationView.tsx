@@ -1,6 +1,5 @@
-import { InfoOutlined } from '@ant-design/icons';
 import { ApplicationType } from '@v6y/core-logic';
-import { useNavigationAdapter } from '@v6y/shared-ui';
+import { InfoOutlined, useNavigationAdapter } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalityDynamicLoader from '../../../../commons/components/VitalityDynamicLoader';

@@ -260,12 +260,12 @@
     }
   },
   "v6y-accounts": {
-    "v6y-accounts":"Accounts",
+    "v6y-accounts":"Comptes",
     "titles" : {
-      "list": "Accounts",
-      "create": "Create Account",
-      "edit": "Edit Account",
-      "show": "Show Account"
+      "list": "Comptes",
+      "create": "Créer un compte",
+      "edit": "Mis à jour du compte",
+      "show": "Détails du compte"
     },
     "fields": {
       "account-username":{

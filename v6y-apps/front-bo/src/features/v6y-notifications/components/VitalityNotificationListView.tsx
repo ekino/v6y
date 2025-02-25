@@ -1,7 +1,7 @@
-import { useTranslationProvider } from '@v6y/shared-ui';
+import { AdminTableWrapper, useTranslationProvider } from '@v6y/shared-ui';
+import type { DocumentNode } from 'graphql/index';
 
 import RenderVitalityTable from '../../../commons/components/VitalityTable';
-import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
 import DeleteNotification from '../apis/deleteNotification';
 import GetNotificationListByPageAndParams from '../apis/getNotificationListByPageAndParams';
 
@@ -9,7 +9,7 @@ export default function VitalityNotificationListView() {
     const { translate } = useTranslationProvider();
 
     return (
-        <RefineTableWrapper
+        <AdminTableWrapper
             title={translate('v6y-notifications.titles.list')}
             subTitle=""
             defaultSorter={[
@@ -31,7 +31,7 @@ export default function VitalityNotificationListView() {
                         enableShow: true,
                         enableDelete: true,
                         deleteMetaQuery: {
-                            gqlMutation: DeleteNotification,
+                            gqlMutation: DeleteNotification as unknown as DocumentNode,
                             operation: 'deleteNotification',
                         },
                     }}

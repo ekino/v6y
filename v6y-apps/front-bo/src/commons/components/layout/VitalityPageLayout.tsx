@@ -1,7 +1,7 @@
 'use client';
 
-import { ThemedLayoutV2 } from '@refinedev/antd';
 import { VitalityTitle } from '@v6y/shared-ui';
+import { AdminLayout } from '@v6y/shared-ui';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
@@ -10,21 +10,13 @@ import { VitalityPageHeader } from './VitalityPageHeader';
 
 const VitalityPageLayout = ({ children }: { children: ReactNode }) => {
     return (
-        <ThemedLayoutV2
-            Title={() => (
-                <VitalityTitle
-                    level={1}
-                    style={{
-                        marginTop: '1rem',
-                    }}
-                    title="V6Y"
-                />
-            )}
-            Header={() => <VitalityPageHeader />}
-            Footer={() => <VitalityPageFooter />}
+        <AdminLayout
+            title={() => <VitalityTitle level={1} title="V6Y" />}
+            header={() => <VitalityPageHeader />}
+            footer={() => <VitalityPageFooter />}
         >
             {children}
-        </ThemedLayoutV2>
+        </AdminLayout>
     );
 };
 

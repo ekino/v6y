@@ -4,7 +4,6 @@ import { ReactNode, Suspense } from 'react';
 
 import VitalityPageLayout from '../commons/components/layout/VitalityPageLayout';
 import VitalityTerms from '../commons/config/VitalityTerms';
-import VitalityTheme from '../commons/config/VitalityTheme';
 import { AppProvider } from '../infrastructure/providers/AppProvider';
 
 export const metadata = {
@@ -21,7 +20,7 @@ export default function RootLayout({
         <html lang="en">
             <body>
                 <main>
-                    <AppProvider theme={VitalityTheme}>
+                    <AppProvider>
                         <Suspense fallback={<VitalityLoader />}>
                             <VitalityPageLayout>{children}</VitalityPageLayout>
                         </Suspense>

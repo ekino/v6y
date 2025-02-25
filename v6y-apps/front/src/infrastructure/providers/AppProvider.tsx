@@ -1,13 +1,20 @@
 'use client';
 
-import { ThemeProvider, ThemeProviderProps } from '@v6y/shared-ui';
+import { ThemeModes, ThemeProvider, ThemeTypes } from '@v6y/shared-ui';
+import { ThemeProps } from '@v6y/shared-ui/src/theme/types/ThemeProps';
 
 import QueryProvider from './QueryProvider';
 
-export const AppProvider = ({ theme, children }: ThemeProviderProps) => {
+export const AppProvider = ({ children }: ThemeProps) => {
     return (
         <QueryProvider>
-            <ThemeProvider theme={theme}>{children}</ThemeProvider>
+            <ThemeProvider
+                theme={ThemeTypes.APP_DEFAULT}
+                themeMode={ThemeModes.LIGHT}
+                config={{ useSSRProvider: true, useConfigProvider: true }}
+            >
+                {children}
+            </ThemeProvider>
         </QueryProvider>
     );
 };

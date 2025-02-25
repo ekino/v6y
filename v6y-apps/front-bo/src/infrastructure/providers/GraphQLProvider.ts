@@ -1,5 +1,5 @@
-import type { AuthProvider } from '@refinedev/core';
-import { createLiveProvider } from '@refinedev/graphql';
+import { Client, fetchExchange } from '@urql/core';
+import { AdminAuthProviderType, createDataProvider, createLiveProvider } from '@v6y/shared-ui';
 import { createClient } from 'graphql-ws';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
@@ -11,7 +11,28 @@ const wsClient = createClient({
 
 export const gqlLiveProvider = createLiveProvider(wsClient);
 
-export const gqlAuthProvider: AuthProvider = {
+const gqlClient = new Client({
+    url: process.env.NEXT_PUBLIC_V6Y_BFF_PATH as string,
+    exchanges: [fetchExchange],
+});
+
+export const gqlDataProvider = createDataProvider(gqlClient);
+
+export const gqlAuthProvider: AdminAuthProviderType = {
+    check: async () => {
+        const auth = Cookie.get('auth');
+        if (auth) {
+            return {
+                authenticated: true,
+            };
+        }
+
+        return {
+            authenticated: false,
+            logout: true,
+            redirectTo: '/login',
+        };
+    },
     login: async ({ email, password }) => {
         try {
             const apiUrl = process.env.NEXT_PUBLIC_V6Y_BFF_PATH;
@@ -188,20 +209,6 @@ export const gqlAuthProvider: AuthProvider = {
         Cookie.remove('auth', { path: '/' });
         return {
             success: true,
-            redirectTo: '/login',
-        };
-    },
-    check: async () => {
-        const auth = Cookie.get('auth');
-        if (auth) {
-            return {
-                authenticated: true,
-            };
-        }
-
-        return {
-            authenticated: false,
-            logout: true,
             redirectTo: '/login',
         };
     },

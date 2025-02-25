@@ -1,8 +1,7 @@
 'use client';
 
-import { NotificationOutlined } from '@ant-design/icons';
 import { NotificationType } from '@v6y/core-logic';
-import { VitalityEmptyView } from '@v6y/shared-ui';
+import { NotificationOutlined, VitalityEmptyView } from '@v6y/shared-ui';
 
 import VitalitySectionView from '../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';

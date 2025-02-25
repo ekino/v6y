@@ -1,7 +1,7 @@
-import { useTranslationProvider } from '@v6y/shared-ui';
+import { AdminTableWrapper, useTranslationProvider } from '@v6y/shared-ui';
+import type { DocumentNode } from 'graphql/index';
 
 import RenderVitalityTable from '../../../commons/components/VitalityTable';
-import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
 import DeleteFaq from '../apis/deleteFaq';
 import GetFaqListByPageAndParams from '../apis/getFaqListByPageAndParams';
 
@@ -9,7 +9,7 @@ export default function VitalityFaqListView() {
     const { translate } = useTranslationProvider();
 
     return (
-        <RefineTableWrapper
+        <AdminTableWrapper
             title={translate('v6y-faqs.titles.list')}
             subTitle=""
             defaultSorter={[
@@ -31,7 +31,7 @@ export default function VitalityFaqListView() {
                         enableShow: true,
                         enableDelete: true,
                         deleteMetaQuery: {
-                            gqlMutation: DeleteFaq,
+                            gqlMutation: DeleteFaq as unknown as DocumentNode,
                             operation: 'deleteFaq',
                         },
                     }}

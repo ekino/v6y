@@ -1,16 +1,16 @@
 import { ApplicationType } from '@v6y/core-logic';
-import { useTranslationProvider } from '@v6y/shared-ui';
+import { AdminTableWrapper, useTranslationProvider } from '@v6y/shared-ui';
+import type { DocumentNode } from 'graphql/index';
 
 import GetApplicationListByPageAndParams from '../../../commons/apis/getApplicationListByPageAndParams';
 import RenderVitalityTable from '../../../commons/components/VitalityTable';
-import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
 import DeleteApplication from '../apis/deleteApplication';
 
 export default function VitalityApplicationListView() {
     const { translate } = useTranslationProvider();
 
     return (
-        <RefineTableWrapper
+        <AdminTableWrapper
             title={translate('v6y-applications.titles.list') || ''}
             subTitle=""
             defaultSorter={[
@@ -32,7 +32,7 @@ export default function VitalityApplicationListView() {
                         enableShow: true,
                         enableDelete: true,
                         deleteMetaQuery: {
-                            gqlMutation: DeleteApplication,
+                            gqlMutation: DeleteApplication as unknown as DocumentNode,
                             operation: 'deleteApplication',
                         },
                     }}

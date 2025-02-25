@@ -1,5 +1,4 @@
-import { useParsed } from '@refinedev/core';
-import { VitalityTitle } from '@v6y/shared-ui';
+import { AdminEditWrapper, VitalityTitle, useAdminNavigationParamsParser } from '@v6y/shared-ui';
 import { useTranslationProvider } from '@v6y/shared-ui';
 import * as React from 'react';
 
@@ -8,17 +7,16 @@ import {
     notificationCreateOrEditFormInAdapter,
     notificationCreateOrEditFormOutputAdapter,
 } from '../../../commons/config/VitalityFormConfig';
-import RefineEditWrapper from '../../../infrastructure/components/RefineEditWrapper';
 import CreateOrEditNotification from '../apis/createOrEditNotification';
 import GetNotificationDetailsByParams from '../apis/getNotificationDetailsByParams';
 
 export default function VitalityNotificationEditView() {
     const { translate } = useTranslationProvider();
-    const { id } = useParsed();
+    const { id } = useAdminNavigationParamsParser();
 
     return (
-        <RefineEditWrapper
-            title={<VitalityTitle title="v6y-notifications.titles.edit" />}
+        <AdminEditWrapper
+            title={<VitalityTitle title={translate('v6y-notifications.titles.edit')} />}
             queryOptions={{
                 queryFormAdapter: notificationCreateOrEditFormInAdapter as (
                     data: unknown,

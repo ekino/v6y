@@ -1,25 +1,21 @@
+import { ApplicationType, Matcher } from '@v6y/core-logic';
 import {
     ApiOutlined,
     AppstoreAddOutlined,
     DashboardOutlined,
-    DislikeOutlined,
-    LikeOutlined,
     LogoutOutlined,
     NotificationOutlined,
     PieChartOutlined,
     QuestionOutlined,
     SplitCellsOutlined,
-    ThunderboltOutlined,
-} from '@ant-design/icons';
-import { ApplicationType, Matcher } from '@v6y/core-logic';
-import { VitalityText } from '@v6y/shared-ui';
+    VitalityText,
+} from '@v6y/shared-ui';
 import Link from 'next/link';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
 import VitalityNavigationPaths from './VitalityNavigationPaths';
 import VitalityTerms from './VitalityTerms';
-import VitalityTheme from './VitalityTheme';
 
 export interface BreadCrumbItemType {
     currentPage: string;
@@ -37,53 +33,54 @@ export interface DashboardItemType {
     avatarColor: string;
 }
 
-export const VITALITY_DASHBOARD_DATASOURCE: DashboardItemType[] = [
-    {
-        autoFocus: true,
-        defaultChecked: false,
-        title: 'React',
-        description: 'Choose this option to view React applications.',
-        url: VitalityNavigationPaths.APP_LIST + '?keywords=react',
-        avatar: <DashboardOutlined />,
-        avatarColor: VitalityTheme.token.colorPrimary,
-    },
-    {
-        autoFocus: false,
-        defaultChecked: false,
-        title: 'Angular',
-        description: 'Choose this option to view Angular applications.',
-        url: VitalityNavigationPaths.APP_LIST + '?keywords=angular',
-        avatar: <AppstoreAddOutlined />,
-        avatarColor: VitalityTheme.token.colorSecondary,
-    },
-    {
-        autoFocus: false,
-        defaultChecked: false,
-        title: 'React Legacy',
-        description: 'Choose this option to view React Legacy applications.',
-        url: VitalityNavigationPaths.APP_LIST + '?keywords=legacy-react',
-        avatar: <SplitCellsOutlined />,
-        avatarColor: VitalityTheme.token.colorError,
-    },
-    {
-        autoFocus: false,
-        defaultChecked: false,
-        title: 'Angular Legacy',
-        description: 'Choose this option to view Angular Legacy applications.',
-        url: VitalityNavigationPaths.APP_LIST + '?keywords=legacy-angular',
-        avatar: <ApiOutlined />,
-        avatarColor: VitalityTheme.token.colorWarning,
-    },
-    {
-        autoFocus: false,
-        defaultChecked: false,
-        title: VitalityTerms.VITALITY_APP_STATS_PAGE_TITLE,
-        description: 'Choose this option to see health statistics for all apps.',
-        url: VitalityNavigationPaths.APPS_STATS,
-        avatar: <PieChartOutlined />,
-        avatarColor: VitalityTheme.token.colorInfo,
-    },
-];
+export const buildDashboardMenuItems = (themeToken) =>
+    [
+        {
+            autoFocus: true,
+            defaultChecked: false,
+            title: 'React',
+            description: 'Choose this option to view React applications.',
+            url: VitalityNavigationPaths.APP_LIST + '?keywords=react',
+            avatar: <DashboardOutlined />,
+            avatarColor: themeToken.colorPrimary,
+        },
+        {
+            autoFocus: false,
+            defaultChecked: false,
+            title: 'Angular',
+            description: 'Choose this option to view Angular applications.',
+            url: VitalityNavigationPaths.APP_LIST + '?keywords=angular',
+            avatar: <AppstoreAddOutlined />,
+            avatarColor: themeToken.colorSecondary,
+        },
+        {
+            autoFocus: false,
+            defaultChecked: false,
+            title: 'React Legacy',
+            description: 'Choose this option to view React Legacy applications.',
+            url: VitalityNavigationPaths.APP_LIST + '?keywords=legacy-react',
+            avatar: <SplitCellsOutlined />,
+            avatarColor: themeToken.colorError,
+        },
+        {
+            autoFocus: false,
+            defaultChecked: false,
+            title: 'Angular Legacy',
+            description: 'Choose this option to view Angular Legacy applications.',
+            url: VitalityNavigationPaths.APP_LIST + '?keywords=legacy-angular',
+            avatar: <ApiOutlined />,
+            avatarColor: themeToken.colorWarning,
+        },
+        {
+            autoFocus: false,
+            defaultChecked: false,
+            title: VitalityTerms.VITALITY_APP_STATS_PAGE_TITLE,
+            description: 'Choose this option to see health statistics for all apps.',
+            url: VitalityNavigationPaths.APPS_STATS,
+            avatar: <PieChartOutlined />,
+            avatarColor: themeToken.colorInfo,
+        },
+    ] as DashboardItemType[];
 
 export const AUDIT_REPORT_TYPES = {
     lighthouse: 'Lighthouse',
@@ -92,70 +89,6 @@ export const AUDIT_REPORT_TYPES = {
     codeCoupling: 'Code-Coupling',
     codeSecurity: 'Code-Security',
     codeDuplication: 'Code-Duplication',
-};
-
-export const AUDIT_STATUS_COLORS = {
-    success: VitalityTheme.token.colorSuccess,
-    warning: VitalityTheme.token.colorWarning,
-    error: VitalityTheme.token.colorError,
-};
-
-export const DEPENDENCIES_STATUS_INFOS = {
-    'up-to-date': {
-        statusColor: VitalityTheme.token.colorSuccess,
-        statusLabel: 'Up-to-date',
-    },
-    outdated: {
-        statusColor: VitalityTheme.token.colorWarning,
-        statusLabel: 'Outdated',
-    },
-    deprecated: {
-        statusColor: VitalityTheme.token.colorError,
-        statusLabel: 'Deprecated',
-    },
-};
-
-// critical, important, recommended
-export const EVOLUTIONS_STATUS_INFOS = {
-    critical: {
-        statusColor: 'error',
-        statusLabel: 'Critical',
-    },
-    important: {
-        statusColor: 'warning',
-        statusLabel: 'Important',
-    },
-    recommended: {
-        statusColor: 'processing',
-        statusLabel: 'Recommended',
-    },
-};
-
-export const QUALITY_METRIC_STATUS = {
-    success: VitalityTheme.token.colorSuccess,
-    warning: VitalityTheme.token.colorWarning,
-    error: VitalityTheme.token.colorError,
-    'up-to-date': VitalityTheme.token.colorSuccess,
-    outdated: VitalityTheme.token.colorWarning,
-    deprecated: VitalityTheme.token.colorError,
-    default: VitalityTheme.token.colorInfo,
-    important: VitalityTheme.token.colorWarning,
-    critical: VitalityTheme.token.colorError,
-    recommended: VitalityTheme.token.colorInfo,
-};
-
-export const QUALITY_METRIC_ICONS = {
-    success: <LikeOutlined />,
-    warning: <DislikeOutlined />,
-    error: <DislikeOutlined />,
-    'up-to-date': <LikeOutlined />,
-    outdated: <DislikeOutlined />,
-    deprecated: <DislikeOutlined />,
-    default: <ThunderboltOutlined />,
-    info: <ThunderboltOutlined />,
-    important: <ThunderboltOutlined />,
-    critical: <ThunderboltOutlined />,
-    recommended: <ThunderboltOutlined />,
 };
 
 export const buildBreadCrumbItems = ({ currentPage, lastPage, urlParams }: BreadCrumbItemType) => {

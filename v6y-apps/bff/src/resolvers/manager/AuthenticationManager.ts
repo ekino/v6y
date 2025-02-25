@@ -23,7 +23,7 @@ export function buildUserMiddleware(
                 ) {
                     const user = await validateCredentials(req);
                     if (!user) {
-                        throw new Error('Unauthorized');
+                        throw new Error('Unauthorized User');
                     }
                     return { user };
                 }

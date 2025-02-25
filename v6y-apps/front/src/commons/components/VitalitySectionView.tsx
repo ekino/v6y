@@ -1,9 +1,7 @@
-import { ExportOutlined } from '@ant-design/icons';
-import { VitalityEmptyView, VitalityLoader, VitalityTitle } from '@v6y/shared-ui';
+import { ExportOutlined, VitalityEmptyView, VitalityLoader, VitalityTitle } from '@v6y/shared-ui';
 import { Avatar, Button, Card, Col, Row, Space, Typography } from 'antd';
 import * as React from 'react';
 
-import vitalityTheme from '../config/VitalityTheme';
 import { VitalitySectionViewProps } from '../types/VitalitySectionViewProps';
 
 const VitalitySectionView = ({
@@ -40,7 +38,7 @@ const VitalitySectionView = ({
                                 icon={avatar}
                                 style={{
                                     marginTop: '-1rem',
-                                    backgroundColor: vitalityTheme.token.colorTextBase,
+                                    backgroundColor: '#1a1a1a',
                                 }}
                             />
                         )}

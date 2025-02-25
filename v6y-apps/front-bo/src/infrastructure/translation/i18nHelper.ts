@@ -5,6 +5,20 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import resourcesToBackend from 'i18next-resources-to-backend';
 import { initReactI18next } from 'react-i18next';
 
+const DETECTION_OPTIONS = {
+    order: [
+        'querystring',
+        'cookie',
+        'localStorage',
+        'sessionStorage',
+        'navigator',
+        'htmlTag',
+        'path',
+        'subdomain',
+    ],
+    caches: ['localStorage', 'cookie'],
+};
+
 i18next
     .use(initReactI18next)
     .use(LanguageDetector)
@@ -15,10 +29,8 @@ i18next
         ),
     )
     .init({
-        lng: undefined, // let detect the language on client side
+        supportedLngs: ['en', 'fr'],
         fallbackLng: 'en',
+        detection: DETECTION_OPTIONS,
         defaultNS: 'common',
-        detection: {
-            order: ['htmlTag', 'cookie'],
-        },
     });

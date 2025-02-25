@@ -1,10 +1,8 @@
-import { cookies } from 'next/headers';
 import * as React from 'react';
 import { Suspense } from 'react';
 
-import VitalityPageLayout from '../commons/components/layout/VitalityPageLayout';
-import { VitalityRoutes } from '../commons/config/VitalityNavigationConfig';
-import { AppProvider } from '../infrastructure/providers/AppProvider';
+import AppProvider from '../infrastructure/providers/AppProvider';
+import '../infrastructure/translation/i18nHelper';
 
 export const metadata = {
     title: 'Vitality Back Office (V6Y BO)',
@@ -16,16 +14,11 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-    const cookieStore = await cookies();
-    const theme = cookieStore.get('theme');
-
     return (
         <html lang="en">
             <body>
                 <Suspense>
-                    <AppProvider defaultMode={theme?.value} resources={VitalityRoutes}>
-                        <VitalityPageLayout>{children}</VitalityPageLayout>
-                    </AppProvider>
+                    <AppProvider>{children}</AppProvider>
                 </Suspense>
             </body>
         </html>

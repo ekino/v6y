@@ -1,6 +1,5 @@
-import { CompassOutlined } from '@ant-design/icons';
 import { KeywordType } from '@v6y/core-logic';
-import { useNavigationAdapter } from '@v6y/shared-ui';
+import { CompassOutlined, useNavigationAdapter } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalityDynamicLoader from '../../../../commons/components/VitalityDynamicLoader';

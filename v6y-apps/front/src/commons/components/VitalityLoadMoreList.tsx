@@ -1,4 +1,4 @@
-import { SyncOutlined } from '@ant-design/icons';
+import { SyncOutlined } from '@v6y/shared-ui';
 import { Button, Flex, List } from 'antd';
 
 import VitalityTerms from '../config/VitalityTerms';

@@ -51,7 +51,7 @@ const createOrEditFaq = async (_: unknown, params: { faqInput: FaqInputType }) =
  */
 const deleteFaq = async (_: unknown, params: { input: SearchQueryType }) => {
     try {
-        const whereClause = params?.input?.where;
+        const whereClause = params?.input;
         if (!whereClause) {
             return null;
         }

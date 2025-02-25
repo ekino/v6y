@@ -1,10 +1,7 @@
-import { SmileOutlined } from '@ant-design/icons';
-import { useTranslationProvider } from '@v6y/shared-ui';
-import { Result } from 'antd';
+import { Result, SmileOutlined, useTranslationProvider } from '@v6y/shared-ui';
+import { AdminMessageType } from '@v6y/shared-ui/src';
 
-import { VitalityMessageType } from '../types/VitalityMessageType';
-
-const VitalityMessageView = ({ type }: VitalityMessageType) => {
+const VitalityMessageView = ({ type }: AdminMessageType) => {
     const { translate } = useTranslationProvider();
     return (
         <>

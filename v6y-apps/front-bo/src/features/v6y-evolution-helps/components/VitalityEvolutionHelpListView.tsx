@@ -1,14 +1,13 @@
-import { useTranslationProvider } from '@v6y/shared-ui';
+import { AdminTableWrapper, useTranslationProvider } from '@v6y/shared-ui';
 
 import RenderVitalityTable from '../../../commons/components/VitalityTable';
-import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
 import GetEvolutionHelpListByPageAndParams from '../apis/getEvolutionHelpListByPageAndParams';
 
 export default function VitalityEvolutionHelpListView() {
     const { translate } = useTranslationProvider();
 
     return (
-        <RefineTableWrapper
+        <AdminTableWrapper
             title={translate('v6y-evolution-helps.titles.list')}
             subTitle=""
             defaultSorter={[

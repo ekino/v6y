@@ -1,7 +1,7 @@
-import { useTranslationProvider } from '@v6y/shared-ui';
+import { AdminTableWrapper, useTranslationProvider } from '@v6y/shared-ui';
+import { DocumentNode } from 'graphql/index';
 
 import RenderVitalityTable from '../../../commons/components/VitalityTable';
-import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
 import DeleteAccount from '../apis/deleteAccount';
 import GetAccountListByPageAndParams from '../apis/getAccountListByPageAndParams';
 
@@ -9,7 +9,7 @@ export default function VitalityAccountListView() {
     const { translate } = useTranslationProvider();
 
     return (
-        <RefineTableWrapper
+        <AdminTableWrapper
             title={translate('v6y-accounts.titles.list')}
             subTitle=""
             defaultSorter={[
@@ -31,7 +31,7 @@ export default function VitalityAccountListView() {
                         enableShow: true,
                         enableDelete: true,
                         deleteMetaQuery: {
-                            gqlMutation: DeleteAccount,
+                            gqlMutation: DeleteAccount as unknown as DocumentNode,
                             operation: 'deleteAccount',
                         },
                     }}

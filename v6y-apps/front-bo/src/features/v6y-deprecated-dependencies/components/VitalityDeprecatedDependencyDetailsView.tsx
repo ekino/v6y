@@ -1,22 +1,20 @@
-import { useParsed } from '@refinedev/core';
 import { DeprecatedDependencyType } from '@v6y/core-logic/src';
-import { VitalityTitle } from '@v6y/shared-ui';
+import { AdminShowWrapper, VitalityTitle, useAdminNavigationParamsParser } from '@v6y/shared-ui';
 import { useTranslationProvider } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';
 import { formatDeprecatedDependencyDetails } from '../../../commons/config/VitalityDetailsConfig';
-import RefineShowWrapper from '../../../infrastructure/components/RefineShowWrapper';
 import GetDeprecatedDependencyDetailsByParams from '../apis/getDeprecatedDependencyDetailsByParams';
 
 export default function VitalityDeprecatedDependencyDetailsView() {
     const { translate } = useTranslationProvider();
 
-    const { id } = useParsed();
+    const { id } = useAdminNavigationParamsParser();
 
     return (
-        <RefineShowWrapper
-            title={<VitalityTitle title="v6y-audit-helps.titles.show" />}
+        <AdminShowWrapper
+            title={<VitalityTitle title={translate('v6y-audit-helps.titles.show')} />}
             queryOptions={{
                 resource: 'getDeprecatedDependencyDetailsByParams',
                 query: GetDeprecatedDependencyDetailsByParams,

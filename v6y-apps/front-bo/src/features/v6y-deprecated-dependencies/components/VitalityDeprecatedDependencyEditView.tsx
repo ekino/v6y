@@ -1,5 +1,4 @@
-import { useParsed } from '@refinedev/core';
-import { VitalityTitle } from '@v6y/shared-ui';
+import { AdminEditWrapper, VitalityTitle, useAdminNavigationParamsParser } from '@v6y/shared-ui';
 import { useTranslationProvider } from '@v6y/shared-ui';
 import * as React from 'react';
 
@@ -8,17 +7,16 @@ import {
     deprecatedDependencyCreateOrEditFormInAdapter,
     deprecatedDependencyCreateOrEditFormOutputAdapter,
 } from '../../../commons/config/VitalityFormConfig';
-import RefineEditWrapper from '../../../infrastructure/components/RefineEditWrapper';
 import CreateOrEditDeprecatedDependency from '../apis/createOrEditDeprecatedDependency';
 import GetDeprecatedDependencyDetailsByParams from '../apis/getDeprecatedDependencyDetailsByParams';
 
 export default function VitalityDeprecatedDependencyEditView() {
     const { translate } = useTranslationProvider();
-    const { id } = useParsed();
+    const { id } = useAdminNavigationParamsParser();
 
     return (
-        <RefineEditWrapper
-            title={<VitalityTitle title="v6y-deprecated-dependencies.titles.edit" />}
+        <AdminEditWrapper
+            title={<VitalityTitle title={translate('v6y-deprecated-dependencies.titles.edit')} />}
             queryOptions={{
                 queryFormAdapter: deprecatedDependencyCreateOrEditFormInAdapter,
                 query: GetDeprecatedDependencyDetailsByParams,

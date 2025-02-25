@@ -1,5 +1,4 @@
-import { ExportOutlined } from '@ant-design/icons';
-import { VitalityTitle, useNavigationAdapter } from '@v6y/shared-ui';
+import { ExportOutlined, VitalityTitle, useNavigationAdapter } from '@v6y/shared-ui';
 import { Button, Col, Row } from 'antd';
 import { useEffect, useState } from 'react';
 import * as React from 'react';

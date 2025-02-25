@@ -1,3 +1,4 @@
+import { AdminTableOptions } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import { buildCommonTableColumns, buildCommonTableDataSource } from '../config/VitalityTableConfig';
@@ -6,18 +7,10 @@ import VitalityBaseTable from './VitalityBaseTable';
 interface VitalityTableProps {
     dataSource: unknown[];
     columnKeys: string[];
-    columnOptions: {
-        enableEdit: boolean;
-        enableShow: boolean;
-        enableDelete: boolean;
-        deleteMetaQuery?: {
-            gqlMutation: string;
-            operation: string;
-        };
-    };
+    columnOptions: AdminTableOptions;
 }
 
-const VitalityTable: React.FC<VitalityTableProps> = ({ dataSource, columnKeys, columnOptions }) => {
+const VitalityTable = ({ dataSource, columnKeys, columnOptions }: VitalityTableProps) => {
     return (
         <VitalityBaseTable
             dataSource={buildCommonTableDataSource(dataSource)}

@@ -1,19 +1,18 @@
 'use client';
 
-import { useTranslation as useRefineTranslate } from '@refinedev/core';
+import { TFunction } from 'i18next';
 import { useTranslation as useNextTranslate } from 'react-i18next';
-
-import { TranslationType } from './TranslationType';
 
 export const useTranslationProvider = () => {
     const { t, i18n } = useNextTranslate();
-    const { translate, getLocale, changeLocale }: TranslationType = useRefineTranslate();
 
     return {
         translateHelper: t,
         i18n,
-        translate,
-        getLocale,
-        changeLocale,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        translate: (key: string, params?: TFunction) => t(key, params),
+        changeLocale: (lang: string) => i18n.changeLanguage(lang),
+        getLocale: () => i18n.language,
     };
 };
