@@ -1,4 +1,11 @@
-import { AppLogger, ApplicationProvider, AuditProvider } from '@v6y/core-logic';
+import {
+    AppLogger,
+    ApplicationProvider,
+    ApplicationType,
+    AuditProvider,
+    RepositoryApi,
+    RepositoryType,
+} from '@v6y/core-logic';
 
 import { DoraMetricsAuditConfigType } from '../types/DoraMetricsAuditType.ts';
 import DoraMetricsUtils from './DoraMetricsUtils.ts';
@@ -31,50 +38,37 @@ const startAuditorAnalysis = async ({ applicationId }: DoraMetricsAuditConfigTyp
             `[DoraMetricsAuditor - startAuditorAnalysis] application _id:  ${application?._id}`,
         );
 
-        const currentDate = new Date();
-        const dateEnd = currentDate.toISOString().split('T')[0];
+        AppLogger.info(
+            `[DoraMetricsAuditor - startAuditorAnalysis] application repo:  ${JSON.stringify(application?.repo)}`,
+        );
 
-        const dateStartD30 = new Date(currentDate);
-        dateStartD30.setDate(dateStartD30.getDate() - 30);
-        const dateStartD30Str = dateStartD30.toISOString().split('T')[0];
-
-        const dateStartD90 = new Date(currentDate);
-        dateStartD90.setDate(dateStartD90.getDate() - 90);
-        const dateStartD90Str = dateStartD90.toISOString().split('T')[0];
-
-        const dateStartD365 = new Date(currentDate);
-        dateStartD365.setDate(dateStartD365.getDate() - 365);
-        const dateStartD365Str = dateStartD365.toISOString().split('T')[0];
-
-        const auditReportsD30 = analyseDoraMetrics({
-            deployments: [],
-            mergeRequests: [],
-            application,
-            dateStart: dateStartD30Str,
-            dateEnd,
+        const repositoryDetails = await RepositoryApi.getRepositoryDetails({
+            organization: application.repo?.organization,
+            gitRepositoryName: application.repo?.gitUrl?.split('/').pop()?.replace('.git', ''),
+            type: 'gitlab',
         });
 
-        const auditReportsD90 = analyseDoraMetrics({
-            deployments: [],
-            mergeRequests: [],
-            application,
-            dateStart: dateStartD90Str,
-            dateEnd,
-        });
+        if (!repositoryDetails?.id) {
+            AppLogger.error(`[DoraMetricsAuditor - startAuditorAnalysis] repository id is missing`);
+            return false;
+        }
 
-        const auditReportsD365 = analyseDoraMetrics({
-            deployments: [],
-            mergeRequests: [],
-            application,
-            dateStart: dateStartD365Str,
-            dateEnd,
-        });
+        const auditReports = [];
+        const testRanges = [30]; // 30 days, 60 days, 1 year
+        const dateEndStr = new Date('2025-02-20').toISOString().split('T')[0]; // Today's date
 
-        const auditReports = [
-            ...(auditReportsD30 || []),
-            ...(auditReportsD90 || []),
-            ...(auditReportsD365 || []),
-        ];
+        for (const range of testRanges) {
+            const dateStart = new Date(dateEndStr);
+            dateStart.setDate(dateStart.getDate() - range);
+            const dateStartStr = dateStart.toISOString().split('T')[0];
+            const reports = await startDoraMetricsAnalysis({
+                application,
+                repositoryDetails,
+                dateStartStr,
+                dateEndStr,
+            });
+            auditReports.push(...reports);
+        }
 
         await AuditProvider.insertAuditList(auditReports);
 
@@ -90,6 +84,55 @@ const startAuditorAnalysis = async ({ applicationId }: DoraMetricsAuditConfigTyp
         );
         return false;
     }
+};
+
+export interface startDoraMetricsAnalysisOptions {
+    application: ApplicationType;
+    repositoryDetails: RepositoryType;
+    dateStartStr: string;
+    dateEndStr: string;
+}
+
+const startDoraMetricsAnalysis = async ({
+    application,
+    repositoryDetails,
+    dateStartStr,
+    dateEndStr,
+}: startDoraMetricsAnalysisOptions) => {
+    if (!repositoryDetails?.id) {
+        AppLogger.error(`[DoraMetricsAuditor - startAuditorAnalysis] repository id is missing`);
+        return [];
+    }
+
+    const mergeRequests = await RepositoryApi.getRepositoryMergeRequests({
+        organization: application.repo?.organization,
+        repositoryId: repositoryDetails?.id,
+        startDate: dateStartStr,
+        endDate: dateEndStr,
+    });
+
+    AppLogger.info(
+        `[DoraMetricsAuditor - startAuditorAnalysis] mergeRequests:  ${mergeRequests?.length}`,
+    );
+
+    const deployments = await RepositoryApi.getRepositoryDeployments({
+        organization: application.repo?.organization,
+        repositoryId: repositoryDetails?.id,
+        startDate: dateStartStr,
+        endDate: dateEndStr,
+    });
+
+    AppLogger.info(
+        `[DoraMetricsAuditor - startAuditorAnalysis] deployments:  ${deployments?.length}`,
+    );
+
+    return analyseDoraMetrics({
+        deployments: deployments || [],
+        mergeRequests: mergeRequests || [],
+        application,
+        dateStart: dateStartStr,
+        dateEnd: dateEndStr,
+    });
 };
 
 const DoraMetricsAuditor = {

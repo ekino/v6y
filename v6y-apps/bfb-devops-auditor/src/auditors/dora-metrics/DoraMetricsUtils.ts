@@ -265,7 +265,7 @@ const analyseDoraMetrics = ({
     application,
     dateStart,
     dateEnd,
-}: DoraMetricsAuditParamsType): AuditType[] | null => {
+}: DoraMetricsAuditParamsType): AuditType[] => {
     try {
         AppLogger.info(`[DoraMetricsUtils - analyseDoraMetrics] start`);
 

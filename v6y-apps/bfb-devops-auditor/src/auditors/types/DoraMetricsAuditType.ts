@@ -1,43 +1,24 @@
-import { ApplicationType } from '@v6y/core-logic';
+import { ApplicationType, DeployementType, MergeRequestType } from '@v6y/core-logic';
 
 export interface DoraMetricsAuditConfigType {
     applicationId?: number;
 }
 
-export interface DeploymentDataType {
-    sha: string;
-    status: string;
-    deployable: {
-        created_at: string;
-        finished_at: string;
-    };
-}
-
-export interface CommitsDataType {
-    id: string;
-    created_at: string;
-}
-
-export interface MergeRequestDataType {
-    created_at: string;
-    merged_at: string;
-}
-
 export interface DeploymentFrequencyParamsType {
-    deployments: DeploymentDataType[];
+    deployments: DeployementType[];
     dateStart: string;
     dateEnd: string;
 }
 
 export interface LeadReviewTimeParamsType {
-    mergeRequests: MergeRequestDataType[];
+    mergeRequests: MergeRequestType[];
     dateStart: string;
     dateEnd: string;
 }
 
 export interface LeadTimeForChangesParamsType {
     leadReviewTime: number;
-    deployments: DeploymentDataType[];
+    deployments: DeployementType[];
     dateStart: string;
     dateEnd: string;
 }
@@ -48,8 +29,8 @@ export interface DoraMetricType {
 }
 
 export interface DoraMetricsAuditParamsType {
-    deployments: DeploymentDataType[];
-    mergeRequests: MergeRequestDataType[];
+    deployments: DeployementType[];
+    mergeRequests: MergeRequestType[];
     application: ApplicationType;
     dateStart: string;
     dateEnd: string;
