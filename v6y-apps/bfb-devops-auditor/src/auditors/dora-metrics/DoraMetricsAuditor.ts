@@ -54,7 +54,7 @@ const startAuditorAnalysis = async ({ applicationId }: DoraMetricsAuditConfigTyp
         }
 
         const auditReports = [];
-        const testRanges = [30]; // 30 days, 60 days, 1 year
+        const testRanges = [30]; // 30 days
         const dateEndStr = new Date('2025-02-20').toISOString().split('T')[0]; // Today's date
 
         for (const range of testRanges) {
