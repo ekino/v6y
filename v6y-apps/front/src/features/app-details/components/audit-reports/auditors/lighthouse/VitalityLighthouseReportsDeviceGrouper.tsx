@@ -1,7 +1,7 @@
 import { AuditType } from '@v6y/core-logic/src/types';
+import { VitalityDynamicLoader } from '@v6y/shared-ui';
 import * as React from 'react';
 
-import VitalityDynamicLoader from '../../../../../../commons/components/VitalityDynamicLoader';
 import VitalityTabGrouperView from '../../../../../../commons/components/VitalityTabGrouperView';
 
 const VitalityLighthouseReportsCategoryGrouper = VitalityDynamicLoader(

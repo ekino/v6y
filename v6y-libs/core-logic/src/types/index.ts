@@ -15,3 +15,4 @@ export * from './RepositoryType.ts';
 export * from './SearchQueryType.ts';
 export * from './LinkType.ts';
 export * from './ServerConfigType.ts';
+export * from './ModuleType.ts';

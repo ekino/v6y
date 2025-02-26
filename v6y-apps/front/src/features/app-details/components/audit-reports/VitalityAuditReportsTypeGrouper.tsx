@@ -1,7 +1,7 @@
 import { AuditType } from '@v6y/core-logic/src/types';
+import { VitalityDynamicLoader } from '@v6y/shared-ui';
 import * as React from 'react';
 
-import VitalityDynamicLoader from '../../../../commons/components/VitalityDynamicLoader';
 import VitalityTabGrouperView from '../../../../commons/components/VitalityTabGrouperView';
 import { AUDIT_REPORT_TYPES } from '../../../../commons/config/VitalityCommonConfig';
 
@@ -31,7 +31,10 @@ const VitalityAuditReportsTypeGrouper = ({ auditReports }: { auditReports: Audit
             ]}
             onRenderChildren={(group, data) => {
                 return (
-                    <div id="audit_reports_grouper_tab_content">
+                    <div
+                        id="audit_reports_grouper_tab_content"
+                        data-testid="audit_reports_grouper_tab_content"
+                    >
                         {group === AUDIT_REPORT_TYPES.lighthouse && data && (
                             <VitalityLighthouseReportsDeviceGrouper reports={data as AuditType[]} />
                         )}

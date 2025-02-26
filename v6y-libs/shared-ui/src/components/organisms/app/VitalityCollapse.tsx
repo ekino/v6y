@@ -1,7 +1,7 @@
-import { Collapse } from 'antd';
 import * as React from 'react';
 
-import { CollapseProps } from '../../types/CollapseProps.ts';
+import { Collapse } from '../../atoms';
+import { CollapseProps } from '../../types';
 import VitalityEmptyView from './VitalityEmptyView';
 
 const VitalityCollapse = ({ bordered, accordion, dataSource }: CollapseProps) => {

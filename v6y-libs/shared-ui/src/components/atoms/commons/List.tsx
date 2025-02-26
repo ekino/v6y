@@ -1,3 +1,6 @@
 import { List } from 'antd';
 
-export default List;
+const { Item: ListItem } = List;
+const { Meta: ListItemMeta } = ListItem;
+
+export { List, ListItem, ListItemMeta };

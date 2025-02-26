@@ -1,9 +1,8 @@
 'use client';
 
-import { Col, Row } from '@v6y/shared-ui';
+import { Col, Row, VitalityDynamicLoader } from '@v6y/shared-ui';
 import * as React from 'react';
 
-import VitalityDynamicLoader from '../../../commons/components/VitalityDynamicLoader';
 import VitalitySearchBar from '../../../commons/components/VitalitySearchBar';
 import VitalityTerms from '../../../commons/config/VitalityTerms';
 

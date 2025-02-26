@@ -3,7 +3,7 @@ import { Col, Row } from 'antd';
 import Link from 'next/link';
 import * as React from 'react';
 
-import { LinksProps } from '../../types/LinksProps.ts';
+import { LinksProps } from '../../types';
 import VitalityText from './VitalityText';
 
 const VitalityLinks = ({ links, align }: LinksProps) => {

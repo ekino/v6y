@@ -1,14 +1,13 @@
 import { AuditType } from '@v6y/core-logic/src/types';
-import { Card, Checkbox, Col, Row } from '@v6y/shared-ui';
+import { Card, Checkbox, Col, Row, VitalityDynamicLoader } from '@v6y/shared-ui';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import VitalityDynamicLoader from '../../../../../../commons/components/VitalityDynamicLoader';
 import useDataGrouper from '../../../../../../commons/hooks/useDataGrouper';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';
 
-const VitalityModulesView = VitalityDynamicLoader(
-    () => import('../../../../../../commons/components/modules/VitalityModulesView'),
+const VitalityModuleList = VitalityDynamicLoader(
+    () => import('../../../../../../commons/components/modules/VitalityModuleList'),
 );
 
 const VitalityCodeStatusReportsSmellGrouper = ({ reports }: { reports: AuditType[] }) => {
@@ -42,10 +41,7 @@ const VitalityCodeStatusReportsSmellGrouper = ({ reports }: { reports: AuditType
                     </Col>
                 </Row>
             </Card>
-            <VitalityModulesView
-                modules={selectedReports as VitalityModuleType[]}
-                source="smells"
-            />
+            <VitalityModuleList modules={selectedReports as VitalityModuleType[]} source="smells" />
         </>
     );
 };

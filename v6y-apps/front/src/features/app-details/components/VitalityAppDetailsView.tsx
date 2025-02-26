@@ -1,8 +1,7 @@
 'use client';
 
+import { VitalityDynamicLoader } from '@v6y/shared-ui';
 import * as React from 'react';
-
-import VitalityDynamicLoader from '../../../commons/components/VitalityDynamicLoader';
 
 const VitalityGeneralInformationView = VitalityDynamicLoader(
     () => import('./infos/VitalityGeneralInformationView'),

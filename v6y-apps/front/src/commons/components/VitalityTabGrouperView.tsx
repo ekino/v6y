@@ -30,14 +30,14 @@ const VitalityTabGrouperView = ({
     }
 
     const valuesByGroup =
-        (selectedCriteria?.key !== 'All'
+        (selectedCriteria && selectedCriteria?.key !== 'All'
             ? groupedDataSource?.[selectedCriteria?.key || '']
             : dataSource) || [];
 
     return (
         <Row wrap gutter={[16, 16]} justify={align || 'end'} align="middle">
             <Col span={24}>
-                <form name={name}>
+                <form name={name} data-testid={name}>
                     {criteriaGroups?.length > 0 && (
                         <Tabs
                             centered

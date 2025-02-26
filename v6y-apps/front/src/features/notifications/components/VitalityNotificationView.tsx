@@ -1,7 +1,7 @@
 'use client';
 
 import { NotificationType } from '@v6y/core-logic/src/types';
-import { NotificationOutlined, VitalityEmptyView } from '@v6y/shared-ui';
+import { NotificationOutlined } from '@v6y/shared-ui';
 
 import VitalitySectionView from '../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
@@ -30,9 +30,6 @@ const VitalityNotificationView = () => {
     });
 
     const dataSource = data?.getNotificationListByPageAndParams;
-    if (!dataSource) {
-        return <VitalityEmptyView />;
-    }
 
     return (
         <VitalitySectionView

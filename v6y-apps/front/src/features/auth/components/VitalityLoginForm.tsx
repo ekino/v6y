@@ -2,7 +2,6 @@
 
 import { Button, Form, Message, VitalityCheckbox, VitalityInput, useForm } from '@v6y/shared-ui';
 import { useEffect } from 'react';
-import { z } from 'zod';
 
 import VitalityTerms from '../../../commons/config/VitalityTerms';
 import {
@@ -64,21 +63,20 @@ const VitalityLoginForm = () => {
             >
                 <VitalityInput
                     name="email"
+                    ariaLabel="Email"
                     control={control}
                     rules={{
                         required: VitalityTerms.VITALITY_APP_LOGIN_FORM_EMAIL_WARNING,
                         validate: (value: string) => {
-                            try {
-                                loginSchemaValidator.parse(value);
-                                return true;
-                            } catch (error) {
-                                if (error instanceof z.ZodError) {
-                                    return error?.errors?.[0]?.message;
-                                }
-                            }
+                            const result = loginSchemaValidator.safeParse({
+                                email: value,
+                                password: '',
+                            });
+                            return result?.success
+                                ? true
+                                : result?.error?.format?.()?.email?._errors?.[0];
                         },
                     }}
-                    ariaLabel="Email"
                 />
             </Form.Item>
 
@@ -96,11 +94,20 @@ const VitalityLoginForm = () => {
                 <VitalityInput
                     name="password"
                     control={control}
-                    rules={{
-                        required: VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_WARNING,
-                    }}
                     ariaLabel={VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_LABEL}
                     type="password"
+                    rules={{
+                        required: VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_WARNING,
+                        validate: (value: string) => {
+                            const result = loginSchemaValidator.safeParse({
+                                email: '',
+                                password: value,
+                            });
+                            return result?.success
+                                ? true
+                                : result?.error?.format?.()?.password?._errors?.[0];
+                        },
+                    }}
                 />
             </Form.Item>
 

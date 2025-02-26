@@ -87,7 +87,7 @@ export const VitalityTerms = {
     VITALITY_APP_LOGIN_FORM_EMAIL_LABEL: 'Email',
     VITALITY_APP_LOGIN_FORM_EMAIL_WARNING: 'Please enter a valid email address',
     VITALITY_APP_LOGIN_FORM_PASSWORD_LABEL: 'Password',
-    VITALITY_APP_LOGIN_FORM_PASSWORD_WARNING: 'Please enter a password',
+    VITALITY_APP_LOGIN_FORM_PASSWORD_WARNING: 'Please enter a valid password',
     VITALITY_APP_LOGIN_FORM_REMEMBER_LABEL: 'Remember me',
     VITALITY_APP_LOGIN_FORM_SUBMIT_LABEL: 'Login',
     VITALITY_APP_LOGOUT_LABEL: 'Logout',

@@ -48,6 +48,7 @@ const VitalitySelectGrouperView = ({
             <Col span={24}>
                 <Form
                     role="form"
+                    data-testid={name}
                     layout="vertical"
                     form={selectGroupForm}
                     disabled={disabled}

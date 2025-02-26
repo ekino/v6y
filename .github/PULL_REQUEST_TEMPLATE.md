@@ -9,7 +9,7 @@
 ## 📄 Description
 Please explain in detail what this PR does, why it is needed, and how it addresses a specific problem. Include any relevant context and background information.
 
-## ✅ Checklist
+##  Checklist
 - [ ] I have read and followed the [Contribution Guide](https://github.com/ekino/v6y/wiki/Contribution-Guide).
 - [ ] My code follows the style guidelines of this project.
 - [ ] I have performed a self-review of my own code.

@@ -1,12 +1,6 @@
-import { cleanup } from '@testing-library/react';
 import { vi } from 'vitest';
-import { afterEach } from 'vitest';
 
 import './setupTests';
-
-afterEach(() => {
-    cleanup();
-});
 
 Object.defineProperty(window, 'getComputedStyle', {
     value: () => ({

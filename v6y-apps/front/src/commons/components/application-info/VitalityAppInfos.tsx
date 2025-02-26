@@ -1,7 +1,8 @@
 import {
     Col,
     Divider,
-    List,
+    ListItem,
+    ListItemMeta,
     Row,
     Tag,
     VitalityLinks,
@@ -31,8 +32,8 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
     const qualityMetricStatus = currentConfig?.status || {};
 
     return (
-        <List.Item style={{ marginTop: '1rem', ...(style || {}) }}>
-            <List.Item.Meta
+        <ListItem style={{ marginTop: '1rem', ...(style || {}) }}>
+            <ListItemMeta
                 title={
                     <Row gutter={[12, 0]} justify="end" align="middle">
                         <Col span={24} />
@@ -95,7 +96,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                     </Row>
                 }
             />
-        </List.Item>
+        </ListItem>
     );
 };
 
