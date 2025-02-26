@@ -11,10 +11,7 @@ type DateStringFormatType = 'YYYY-MM-DD' | 'ISO';
  * @param date - The Date object to format.
  * @param format - The format to use for the date string. Defaults to 'ISO'.
  */
-const formatDateToString = (date: Date, format?: DateStringFormatType): string => {
-    if (!format) {
-        format = 'ISO';
-    }
+const formatDateToString = (date: Date, format: DateStringFormatType = 'ISO'): string => {
     switch (format) {
         case 'YYYY-MM-DD':
             return date.toISOString().split('T')[0];
