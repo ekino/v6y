@@ -3,14 +3,18 @@ import {
     ApplicationProvider,
     ApplicationType,
     AuditProvider,
+    DateUtils,
     RepositoryApi,
     RepositoryType,
 } from '@v6y/core-logic';
 
 import { DoraMetricsAuditConfigType } from '../types/DoraMetricsAuditType.ts';
+import DoraMetricsConfig from './DoraMetricsConfig.ts';
 import DoraMetricsUtils from './DoraMetricsUtils.ts';
 
 const { analyseDoraMetrics } = DoraMetricsUtils;
+
+const { formatDateToString, formatStringToDate } = DateUtils;
 
 /**
  * Starts the Dora Metrics auditor analysis.
@@ -54,13 +58,14 @@ const startAuditorAnalysis = async ({ applicationId }: DoraMetricsAuditConfigTyp
         }
 
         const auditReports = [];
-        const testRanges = [30]; // 30 days
-        const dateEndStr = new Date('2025-02-20').toISOString().split('T')[0]; // Today's date
+        const dateEndStr = formatDateToString(new Date(), 'YYYY-MM-DD');
 
-        for (const range of testRanges) {
-            const dateStart = new Date(dateEndStr);
+        const { AUDIT_RANGES } = DoraMetricsConfig;
+
+        for (const range of AUDIT_RANGES) {
+            const dateStart = formatStringToDate(dateEndStr);
             dateStart.setDate(dateStart.getDate() - range);
-            const dateStartStr = dateStart.toISOString().split('T')[0];
+            const dateStartStr = formatDateToString(dateStart, 'YYYY-MM-DD');
             const reports = await startDoraMetricsAnalysis({
                 application,
                 repositoryDetails,
@@ -93,6 +98,13 @@ export interface startDoraMetricsAnalysisOptions {
     dateEndStr: string;
 }
 
+/**
+ * Starts the Dora Metrics analysis.
+ * @param application
+ * @param repositoryDetails
+ * @param dateStartStr
+ * @param dateEndStr
+ */
 const startDoraMetricsAnalysis = async ({
     application,
     repositoryDetails,
