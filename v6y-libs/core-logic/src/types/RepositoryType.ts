@@ -19,6 +19,8 @@ export interface GitlabConfigType {
     urls: {
         repositoryDetailsUrl: (repoName: string) => string;
         fileContentUrl: (repoName: string, fileName: string) => string;
+        repositoryDeploymentsUrl: (repoId: string) => string;
+        repositoryMergeRequestsUrl: (repoId: string) => string;
     };
     headers: {
         'PRIVATE-TOKEN': string;
@@ -57,5 +59,35 @@ export interface RepositoryType {
     empty_repo?: string;
     _links?: {
         repo_branches?: string;
+    };
+}
+
+export interface getRepositoryMergeRequestsOptions {
+    organization?: string;
+    repositoryId: string;
+    startDate?: string;
+    endDate?: string;
+    type?: string;
+}
+
+export interface MergeRequestType {
+    created_at: string;
+    merged_at: string;
+}
+
+export interface getRepositoryDeploymentsOptions {
+    organization?: string;
+    repositoryId: string;
+    startDate?: string;
+    endDate?: string;
+    type?: string;
+}
+
+export interface DeployementType {
+    sha: string;
+    status: string;
+    deployable: {
+        created_at: string;
+        finished_at: string;
     };
 }
