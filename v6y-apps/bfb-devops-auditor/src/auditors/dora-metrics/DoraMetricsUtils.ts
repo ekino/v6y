@@ -1,4 +1,5 @@
 import { AppLogger, AuditType, Matcher, auditStatus } from '@v6y/core-logic';
+import { DateUtils } from '@v6y/core-logic';
 import { devOpsCategories, devOpsType } from '@v6y/core-logic/src/config/DevOpsConfig.ts';
 
 import {
@@ -8,6 +9,8 @@ import {
     LeadReviewTimeParamsType,
     LeadTimeForChangesParamsType,
 } from '../types/DoraMetricsAuditType.ts';
+
+const { formatStringToDate } = DateUtils;
 
 const MSTOHOURS = 1000 * 60 * 60;
 
@@ -33,12 +36,12 @@ const calculateDeploymentFrequency = ({
         return { status: auditStatus.error, value: 0 };
     }
 
-    const start = new Date(dateStart);
-    const end = new Date(dateEnd);
+    const start = formatStringToDate(dateStart);
+    const end = formatStringToDate(dateEnd);
 
     const deploymentTimes = deployments
         .filter((d) => d.status === 'success')
-        .map((d) => new Date(d.deployable.finished_at))
+        .map((d) => formatStringToDate(d.deployable.finished_at))
         .filter((date) => date >= start && date <= end)
         .sort((a, b) => a.getTime() - b.getTime());
 
@@ -92,21 +95,21 @@ const calculateLeadReviewTime = ({
         return { status: auditStatus.error, value: 0 };
     }
 
-    const start = new Date(dateStart);
-    const end = new Date(dateEnd);
+    const start = formatStringToDate(dateStart);
+    const end = formatStringToDate(dateEnd);
 
     const leadTimes = mergeRequests
         // Filter MRs that have been merged
         .filter((mr) => mr.merged_at)
         // Filter MRs within the date range based on merge date
         .filter((mr) => {
-            const mergeDate = new Date(mr.merged_at);
+            const mergeDate = formatStringToDate(mr.merged_at);
             return mergeDate >= start && mergeDate <= end;
         })
         // Calculate lead review time for each MR (time between creation and merge)
         .map((mr) => {
-            const createTime = new Date(mr.created_at);
-            const mergeTime = new Date(mr.merged_at);
+            const createTime = formatStringToDate(mr.created_at);
+            const mergeTime = formatStringToDate(mr.merged_at);
             return (mergeTime.getTime() - createTime.getTime()) / MSTOHOURS;
         })
         // Filter out negative or zero lead times
@@ -157,19 +160,19 @@ const calculateLeadTimeForChanges = ({
         return { status: auditStatus.error, value: 0 };
     }
 
-    const start = new Date(dateStart);
-    const end = new Date(dateEnd);
+    const start = formatStringToDate(dateStart);
+    const end = formatStringToDate(dateEnd);
 
     const deploymentLeadTimes = deployments
         .filter(
             (d) =>
                 d.status === 'success' &&
-                new Date(d.deployable.finished_at) >= start &&
-                new Date(d.deployable.finished_at) <= end,
+                formatStringToDate(d.deployable.finished_at) >= start &&
+                formatStringToDate(d.deployable.finished_at) <= end,
         )
         .map((d) => {
-            const createTime = new Date(d.deployable.created_at);
-            const finishTime = new Date(d.deployable.finished_at);
+            const createTime = formatStringToDate(d.deployable.created_at);
+            const finishTime = formatStringToDate(d.deployable.finished_at);
             return (finishTime.getTime() - createTime.getTime()) / MSTOHOURS;
         })
         .filter((leadTime) => leadTime > 0);
@@ -265,7 +268,7 @@ const analyseDoraMetrics = ({
     application,
     dateStart,
     dateEnd,
-}: DoraMetricsAuditParamsType): AuditType[] | null => {
+}: DoraMetricsAuditParamsType): AuditType[] => {
     try {
         AppLogger.info(`[DoraMetricsUtils - analyseDoraMetrics] start`);
 
@@ -295,8 +298,8 @@ const analyseDoraMetrics = ({
         const auditReports: AuditType[] = [];
 
         auditReports.push({
-            dateStart: new Date(dateStart),
-            dateEnd: new Date(dateEnd),
+            dateStart: formatStringToDate(dateStart),
+            dateEnd: formatStringToDate(dateEnd),
             type: devOpsType.DORA,
             category: devOpsCategories.DEPLOYMENT_FREQUENCY,
             status: deploymentFrequency.status,
@@ -308,8 +311,8 @@ const analyseDoraMetrics = ({
         });
 
         auditReports.push({
-            dateStart: new Date(dateStart),
-            dateEnd: new Date(dateEnd),
+            dateStart: formatStringToDate(dateStart),
+            dateEnd: formatStringToDate(dateEnd),
             type: devOpsType.DORA,
             category: devOpsCategories.LEAD_REVIEW_TIME,
             status: leadReviewTime.status,
@@ -321,8 +324,8 @@ const analyseDoraMetrics = ({
         });
 
         auditReports.push({
-            dateStart: new Date(dateStart),
-            dateEnd: new Date(dateEnd),
+            dateStart: formatStringToDate(dateStart),
+            dateEnd: formatStringToDate(dateEnd),
             type: devOpsType.DORA,
             category: devOpsCategories.LEAD_TIME_FOR_CHANGES,
             status: leadTimeForChanges.status,
@@ -334,8 +337,8 @@ const analyseDoraMetrics = ({
         });
 
         auditReports.push({
-            dateStart: new Date(dateStart),
-            dateEnd: new Date(dateEnd),
+            dateStart: formatStringToDate(dateStart),
+            dateEnd: formatStringToDate(dateEnd),
             type: devOpsType.DORA,
             category: devOpsCategories.CHANGE_FAILURE_RATE,
             status: changeFailureRate.status,
@@ -347,8 +350,8 @@ const analyseDoraMetrics = ({
         });
 
         auditReports.push({
-            dateStart: new Date(dateStart),
-            dateEnd: new Date(dateEnd),
+            dateStart: formatStringToDate(dateStart),
+            dateEnd: formatStringToDate(dateEnd),
             type: devOpsType.DORA,
             category: devOpsCategories.MEAN_TIME_TO_RESTORE_SERVICE,
             status: meanTimeToRestoreService.status,

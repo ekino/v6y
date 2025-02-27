@@ -1,12 +1,16 @@
 import AppLogger from '../core/AppLogger.ts';
 import {
     BuildQueryOptions,
+    DeployementType,
     GetFileContentOptions,
     GetRepositoryBranchesOptions,
     GithubConfigType,
     GitlabConfigType,
+    MergeRequestType,
     RepositoryBranchType,
     RepositoryType,
+    getRepositoryDeploymentsOptions,
+    getRepositoryMergeRequestsOptions,
 } from '../types/RepositoryType.ts';
 import { ApplicationZipConfigOptions, DownloadZipOptions } from '../types/ZipType.ts';
 
@@ -39,22 +43,29 @@ const GithubConfig = (organization: string): GithubConfigType => ({
  * @param organization
  * @constructor
  */
-const GitlabConfig = (organization: string): GitlabConfigType => ({
-    baseURL: `https://gitlab.${organization}.com`,
-    api: 'api/v4',
+const GitlabConfig = (organization: string | null): GitlabConfigType => {
+    const baseURL = organization ? `https://gitlab.${organization}.com` : 'https://gitlab.com';
+    return {
+        baseURL,
+        api: 'api/v4',
 
-    urls: {
-        repositoryDetailsUrl: (repoName: string) =>
-            `https://gitlab.${organization}.com/api/v4/projects?search=${repoName}`,
-        fileContentUrl: (repoName: string, fileName: string) =>
-            `https://gitlab.${organization}.com/api/v4/projects?search=${repoName}/${fileName}`,
-    },
+        urls: {
+            repositoryDetailsUrl: (repoName: string) =>
+                `${baseURL}/api/v4/projects?search=${repoName}`,
+            fileContentUrl: (repoName: string, fileName: string) =>
+                `${baseURL}/api/v4/projects?search=${repoName}/${fileName}`,
+            repositoryDeploymentsUrl: (repoId: string) =>
+                `${baseURL}/api/v4/projects/${repoId}/deployments`,
+            repositoryMergeRequestsUrl: (repoId: string) =>
+                `${baseURL}/api/v4/projects/${repoId}/merge_requests`,
+        },
 
-    headers: {
-        'PRIVATE-TOKEN': process.env.GITLAB_PRIVATE_TOKEN || '',
-        'Content-Type': 'application/json',
-    },
-});
+        headers: {
+            'PRIVATE-TOKEN': process.env.GITLAB_PRIVATE_TOKEN || '',
+            'Content-Type': 'application/json',
+        },
+    };
+};
 
 /**
  * Builds the query options for the API.
@@ -179,6 +190,94 @@ const getRepositoryBranches = async ({
 };
 
 /**
+ * Gets the merge requests of a repository.
+ * @param organization
+ * @param repositoryId
+ * @param type
+ */
+const getRepositoryMergeRequests = async ({
+    organization,
+    repositoryId,
+    startDate,
+    endDate,
+    type = 'gitlab',
+}: getRepositoryMergeRequestsOptions): Promise<MergeRequestType[]> => {
+    try {
+        const queryOptions = buildQueryOptions({ organization, type });
+        let mergeRequestsUrl = (queryOptions as GitlabConfigType).urls.repositoryMergeRequestsUrl(
+            repositoryId,
+        );
+
+        if (startDate && endDate) {
+            mergeRequestsUrl += `?created_after=${startDate}&created_before=${endDate}`;
+        }
+
+        AppLogger.info(
+            `[RepositoryApi - getRepositoryMergeRequests] mergeRequestsUrl:  ${mergeRequestsUrl}`,
+        );
+
+        const mergeRequestsResponse = await fetch(mergeRequestsUrl, {
+            method: 'GET',
+            headers: queryOptions.headers,
+        });
+
+        return await mergeRequestsResponse.json();
+    } catch (error) {
+        AppLogger.info(
+            `[RepositoryApi - getRepositoryMergeRequests] error: ${
+                error instanceof Error ? error.message : error
+            }`,
+        );
+        return [];
+    }
+};
+
+/**
+ * Gets the deployments of a repository.
+ * @param organization
+ * @param repositoryId
+ * @param startDate
+ * @param endDate
+ * @param type
+ */
+const getRepositoryDeployments = async ({
+    organization,
+    repositoryId,
+    startDate,
+    endDate,
+    type = 'gitlab',
+}: getRepositoryDeploymentsOptions): Promise<DeployementType[]> => {
+    try {
+        const queryOptions = buildQueryOptions({ organization, type });
+        let deploymentsUrl =
+            (queryOptions as GitlabConfigType).urls.repositoryDeploymentsUrl(repositoryId) +
+            '?status=success';
+
+        if (startDate && endDate) {
+            deploymentsUrl += `&finished_after=${startDate}&finished_before=${endDate}&order_by=finished_at&sort=desc`;
+        }
+
+        AppLogger.info(
+            `[RepositoryApi - getRepositoryDeployments] deploymentsUrl:  ${deploymentsUrl}`,
+        );
+
+        const deploymentsResponse = await fetch(deploymentsUrl, {
+            method: 'GET',
+            headers: queryOptions.headers,
+        });
+
+        return await deploymentsResponse.json();
+    } catch (error) {
+        AppLogger.info(
+            `[RepositoryApi - getRepositoryDeployments] error: ${
+                error instanceof Error ? error.message : error
+            }`,
+        );
+        return [];
+    }
+};
+
+/**
  * Prepares the configuration for the Git branch zip.
  * @param zipBaseDir
  * @param application
@@ -243,6 +342,8 @@ const RepositoryApi = {
     getRepositoryBranches,
     getFileContent,
     prepareGitBranchZipConfig,
+    getRepositoryMergeRequests,
+    getRepositoryDeployments,
 };
 
 export default RepositoryApi;
