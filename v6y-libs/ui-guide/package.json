@@ -11,9 +11,7 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "format": "prettier --write src",
-    "test": "vitest --coverage --watch false",
-    "test:watch": "vitest",
-    "test:ui": "vitest --ui"
+    "test:storybook": "vitest --coverage --watch false"
   },
   "dependencies": {
     "react": "=19.0.0",
