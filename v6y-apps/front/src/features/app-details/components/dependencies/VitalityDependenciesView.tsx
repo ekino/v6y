@@ -1,9 +1,7 @@
-import { ProductOutlined } from '@ant-design/icons';
-import { DependencyType } from '@v6y/core-logic';
-import { useNavigationAdapter } from '@v6y/shared-ui';
+import { DependencyType } from '@v6y/core-logic/src/types';
+import { DynamicLoader, ProductOutlined, useNavigationAdapter } from '@v6y/ui-kit';
 import * as React from 'react';
 
-import VitalityDynamicLoader from '../../../../commons/components/VitalityDynamicLoader';
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
 import VitalityTerms from '../../../../commons/config/VitalityTerms';
@@ -14,7 +12,7 @@ import {
 } from '../../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationDetailsDependenciesByParams from '../../api/getApplicationDetailsDependenciesByParams';
 
-const VitalityDependenciesBranchGrouper = VitalityDynamicLoader(
+const VitalityDependenciesBranchGrouper = DynamicLoader(
     () => import('./VitalityDependenciesBranchGrouper'),
 );
 

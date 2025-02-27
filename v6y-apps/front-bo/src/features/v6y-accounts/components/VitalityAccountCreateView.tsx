@@ -1,7 +1,7 @@
 'use client';
 
-import { ApplicationType } from '@v6y/core-logic';
-import { VitalityEmptyView, VitalityTitle } from '@v6y/shared-ui';
+import { ApplicationType } from '@v6y/core-logic/src/types';
+import { AdminSelectWrapper, EmptyView, TitleView, useTranslationProvider } from '@v6y/ui-kit';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
@@ -11,12 +11,10 @@ import {
     accountCreateOrEditFormOutputAdapter,
 } from '../../../commons/config/VitalityFormConfig';
 import { useRole } from '../../../commons/hooks/useRole';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
-import RefineSelectWrapper from '../../../infrastructure/components/RefineSelectWrapper';
 import CreateOrEditAccount from '../apis/createOrEditAccount';
 
 export default function VitalityAccountCreateView() {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
     const [userRole, setUserRole] = useState<string | null>(null);
     const { getRole } = useRole();
 
@@ -25,15 +23,13 @@ export default function VitalityAccountCreateView() {
     }, [getRole]);
 
     if (!userRole) {
-        return <VitalityEmptyView />;
+        return <EmptyView />;
     }
 
     return (
-        <RefineSelectWrapper
-            title={<VitalityTitle title="v6y-accounts.titles.create" />}
+        <AdminSelectWrapper
+            title={<TitleView title={translate('v6y-accounts.titles.create')} />}
             createOptions={{
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-expect-error
                 createResource: 'createOrEditAccount',
                 createFormAdapter: accountCreateOrEditFormOutputAdapter,
                 createQuery: CreateOrEditAccount,
@@ -43,10 +39,12 @@ export default function VitalityAccountCreateView() {
                 resource: 'getApplicationListByPageAndParams',
                 query: GetApplicationListByPageAndParams,
             }}
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            renderSelectOption={(applications: ApplicationType[]) => {
-                return accountCreateEditItems(translate, userRole, applications);
+            renderSelectOption={(applications) => {
+                return accountCreateEditItems(
+                    translate,
+                    userRole,
+                    applications as ApplicationType[],
+                );
             }}
         />
     );

@@ -1,12 +1,12 @@
-import { AuditType } from '@v6y/core-logic';
+import { AuditType } from '@v6y/core-logic/src/types';
+import { DynamicLoader } from '@v6y/ui-kit';
 import * as React from 'react';
 
-import VitalityDynamicLoader from '../../../../../../commons/components/VitalityDynamicLoader';
 import VitalitySelectGrouperView from '../../../../../../commons/components/VitalitySelectGrouperView';
 import VitalityTerms from '../../../../../../commons/config/VitalityTerms';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';
 
-const VitalityCodeStatusReportsSmellGrouper = VitalityDynamicLoader(
+const VitalityCodeStatusReportsSmellGrouper = DynamicLoader(
     () => import('./VitalityCodeStatusReportsSmellGrouper'),
 );
 

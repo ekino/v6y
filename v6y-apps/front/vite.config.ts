@@ -6,8 +6,6 @@ import { configDefaults, defineConfig } from 'vitest/config';
  * https://vitest.dev/config/#configuration
  */
 export default defineConfig({
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     plugins: [react()],
     resolve: {
         alias: {
@@ -29,7 +27,18 @@ export default defineConfig({
         coverage: {
             provider: 'v8',
             include: ['src/**'],
-            exclude: [...configDefaults.coverage.exclude, '**/types/**', '**/app/**', '**/api/**'],
+            exclude: [
+                ...configDefaults.coverage.exclude,
+                '**/types/**',
+                '**/app/**',
+                '**/api/**',
+                '**/chatbot/**',
+                '**/ProtectedRoute.tsx',
+                '**/test-utils/**',
+                '**/apps-stats/**',
+                '**/pages/**',
+                '**/infrastructure/providers/**',
+            ],
         },
     },
 });

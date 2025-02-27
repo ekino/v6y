@@ -1,14 +1,15 @@
 'use client';
 
-import { AuthPage as AuthPageBase } from '@refinedev/antd';
-import { VitalityTitle } from '@v6y/shared-ui';
+import { AdminAuthenticationWrapper, TitleView, useTranslationProvider } from '@v6y/ui-kit';
 import * as React from 'react';
 
 export const VitalityAuthForgotPasswordView = () => {
+    const { translate } = useTranslationProvider();
+
     return (
-        <AuthPageBase
+        <AdminAuthenticationWrapper
             type="forgotPassword"
-            title={<VitalityTitle title="v6y-authentication.title" />}
+            title={<TitleView title={translate('v6y-authentication.title')} />}
         />
     );
 };

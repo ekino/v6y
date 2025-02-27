@@ -1,17 +1,25 @@
 'use client';
 
+import { AdminProvider } from '@v6y/ui-kit';
 import * as React from 'react';
 
-import { AppProviderProps } from '../types/AppProviderProps';
-import { RefineProvider } from './RefineProvider';
-import ThemeProvider from './ThemeProvider';
+import VitalityPageLayout from '../../commons/components/layout/VitalityPageLayout';
+import { VitalityRoutes } from '../../commons/config/VitalityNavigationConfig';
+import { gqlAuthProvider, gqlDataProvider, gqlLiveProvider } from './GraphQLProvider';
 
-export function AppProvider({ defaultMode, resources, children }: AppProviderProps) {
-    return (
-        <ThemeProvider>
-            <RefineProvider defaultMode={defaultMode} resources={resources}>
-                {children}
-            </RefineProvider>
-        </ThemeProvider>
-    );
-}
+type AppProviderProps = {
+    children: React.ReactNode;
+};
+
+const AppProvider = ({ children }: AppProviderProps) => (
+    <AdminProvider
+        dataProvider={gqlDataProvider}
+        liveProvider={gqlLiveProvider}
+        authProvider={gqlAuthProvider}
+        resources={VitalityRoutes}
+    >
+        <VitalityPageLayout>{children}</VitalityPageLayout>
+    </AdminProvider>
+);
+
+export default AppProvider;

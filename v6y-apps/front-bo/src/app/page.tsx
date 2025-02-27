@@ -1,16 +1,15 @@
 'use client';
 
-import { Authenticated } from '@refinedev/core';
-import { NavigateToResource } from '@refinedev/nextjs-router';
+import { AdminAuthenticatedWrapper, AdminNavigationWrapper } from '@v6y/ui-kit';
 import * as React from 'react';
 import { Suspense } from 'react';
 
 export default function IndexPage() {
     return (
         <Suspense>
-            <Authenticated key="home-page" v3LegacyAuthProviderCompatible={true}>
-                <NavigateToResource />
-            </Authenticated>
+            <AdminAuthenticatedWrapper key="home-page">
+                <AdminNavigationWrapper />
+            </AdminAuthenticatedWrapper>
         </Suspense>
     );
 }

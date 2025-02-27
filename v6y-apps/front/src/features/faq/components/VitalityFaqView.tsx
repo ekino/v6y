@@ -1,8 +1,7 @@
 'use client';
 
-import { QuestionOutlined } from '@ant-design/icons';
-import { FaqType } from '@v6y/core-logic';
-import { VitalityEmptyView } from '@v6y/shared-ui';
+import { FaqType } from '@v6y/core-logic/src/types';
+import { QuestionOutlined } from '@v6y/ui-kit';
 import * as React from 'react';
 
 import VitalitySectionView from '../../../commons/components/VitalitySectionView';
@@ -32,9 +31,6 @@ const VitalityFaqView = () => {
     });
 
     const dataSource = data?.getFaqListByPageAndParams;
-    if (!dataSource) {
-        return <VitalityEmptyView />;
-    }
 
     return (
         <VitalitySectionView

@@ -1,13 +1,13 @@
-import RenderVitalityTable from '../../../commons/components/VitalityTable';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
-import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
+import { AdminListWrapper, useTranslationProvider } from '@v6y/ui-kit';
+
+import VitalityTable from '../../../commons/components/VitalityTable';
 import GetAuditHelpListByPageAndParams from '../apis/getAuditHelpListByPageAndParams';
 
 export default function VitalityAuditHelpListView() {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
 
     return (
-        <RefineTableWrapper
+        <AdminListWrapper
             title={translate('v6y-audit-helps.titles.list')}
             subTitle=""
             defaultSorter={[
@@ -20,8 +20,8 @@ export default function VitalityAuditHelpListView() {
                 resource: 'getAuditHelpListByPageAndParams',
                 query: GetAuditHelpListByPageAndParams,
             }}
-            renderTable={(dataSource) => (
-                <RenderVitalityTable
+            renderContent={(dataSource) => (
+                <VitalityTable
                     dataSource={dataSource}
                     columnKeys={['id']}
                     columnOptions={{

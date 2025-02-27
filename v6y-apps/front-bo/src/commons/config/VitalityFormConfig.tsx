@@ -1,8 +1,7 @@
-import { ApplicationType } from '@v6y/core-logic';
-import { DefaultOptionType } from 'antd/es/select';
+import { ApplicationType } from '@v6y/core-logic/src/types';
+import { SelectOptionType, TranslateType } from '@v6y/ui-kit';
 import { Variables } from 'graphql-request';
 
-import { TranslateType } from '../../infrastructure/types/TranslationType';
 import VitalityFormFieldSet from '../components/VitalityFormFieldSet';
 
 interface LinkOptions {
@@ -505,7 +504,7 @@ export const evolutionHelpOptionalLinksFormItems = (translate: TranslateType) =>
 
 export const evolutionHelpCreateEditItems = (
     translate: TranslateType,
-    selectOptions: DefaultOptionType[],
+    selectOptions: SelectOptionType[],
 ) => {
     return [
         <VitalityFormFieldSet

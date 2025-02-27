@@ -107,7 +107,7 @@ const createOrEditApplication = async (
  */
 const deleteApplication = async (_: unknown, params: { input: SearchQueryType }) => {
     try {
-        const whereClause = params?.input?.where;
+        const whereClause = params?.input;
         if (!whereClause) {
             return null;
         }

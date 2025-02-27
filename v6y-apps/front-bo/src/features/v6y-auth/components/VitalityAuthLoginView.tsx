@@ -1,26 +1,25 @@
 'use client';
 
-import { AuthPage as AuthPageBase } from '@refinedev/antd';
-import { VitalityTitle } from '@v6y/shared-ui';
-import { Checkbox, Form } from 'antd';
+import {
+    AdminAuthenticationWrapper,
+    Checkbox,
+    Form,
+    TitleView,
+    useTranslationProvider,
+} from '@v6y/ui-kit';
 import * as React from 'react';
 
 export const VitalityAuthLoginView = () => {
+    const { translate } = useTranslationProvider();
+
     return (
-        <AuthPageBase
+        <AdminAuthenticationWrapper
             type="login"
-            title={<VitalityTitle title="v6y-authentication.title" />}
+            title={<TitleView title={translate('v6y-authentication.title')} />}
             rememberMe={
-                <div
-                    style={{
-                        border: '1px dashed cornflowerblue',
-                        padding: 3,
-                    }}
-                >
-                    <Form.Item name="remember" valuePropName="checked" noStyle>
-                        <Checkbox>Custom remember me</Checkbox>
-                    </Form.Item>
-                </div>
+                <Form.Item name="remember" valuePropName="checked" noStyle>
+                    <Checkbox>Custom remember me</Checkbox>
+                </Form.Item>
             }
         />
     );

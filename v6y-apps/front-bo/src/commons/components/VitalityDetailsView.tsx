@@ -1,6 +1,4 @@
-import { HttpError } from '@refinedev/core';
-import { VitalityText } from '@v6y/shared-ui';
-import { Descriptions } from 'antd';
+import { AdminHttpError, Descriptions, TextView } from '@v6y/ui-kit';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
@@ -11,7 +9,7 @@ const VitalityDetailsView = ({
     error,
 }: {
     details: Record<string, string | ReactNode>;
-    error: HttpError | string | undefined;
+    error?: AdminHttpError | string;
 }) => {
     if (error || !Object.keys(details || {})?.length) {
         return <VitalityMessageView type="error" />;
@@ -21,7 +19,7 @@ const VitalityDetailsView = ({
         <Descriptions bordered size="middle" column={1}>
             {Object.keys(details).map((itemKey, index) => (
                 <Descriptions.Item key={`${itemKey}-${index}`} label={itemKey}>
-                    <VitalityText text={details[itemKey] as string} />
+                    <TextView content={details[itemKey] as string} />
                 </Descriptions.Item>
             ))}
         </Descriptions>

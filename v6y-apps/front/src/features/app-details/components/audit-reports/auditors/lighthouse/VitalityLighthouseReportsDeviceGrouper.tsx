@@ -1,10 +1,10 @@
-import { AuditType } from '@v6y/core-logic';
+import { AuditType } from '@v6y/core-logic/src/types';
+import { DynamicLoader } from '@v6y/ui-kit';
 import * as React from 'react';
 
-import VitalityDynamicLoader from '../../../../../../commons/components/VitalityDynamicLoader';
 import VitalityTabGrouperView from '../../../../../../commons/components/VitalityTabGrouperView';
 
-const VitalityLighthouseReportsCategoryGrouper = VitalityDynamicLoader(
+const VitalityLighthouseReportsCategoryGrouper = DynamicLoader(
     () => import('./VitalityLighthouseReportsCategoryGrouper'),
 );
 

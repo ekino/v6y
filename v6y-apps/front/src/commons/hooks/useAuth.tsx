@@ -1,4 +1,4 @@
-import { useNavigationAdapter } from '@v6y/shared-ui';
+import { useNavigationAdapter } from '@v6y/ui-kit';
 import { useState } from 'react';
 import { z } from 'zod';
 
@@ -21,7 +21,12 @@ export type LoginAccountFormType = {
     remember?: boolean;
 };
 
-const loginSchemaValidator = z.string().email(VitalityTerms.VITALITY_APP_LOGIN_FORM_EMAIL_WARNING);
+const loginSchemaValidator = z.object({
+    email: z.string().email({ message: VitalityTerms.VITALITY_APP_LOGIN_FORM_EMAIL_WARNING }),
+    password: z
+        .string()
+        .min(8, { message: VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_WARNING }),
+});
 
 const getAuthToken = (): string | undefined => {
     const auth: SessionType | null = getSession();

@@ -17,7 +17,7 @@ Steps to reproduce the behavior:
 3. Scroll down to '....'
 4. See error
 
-### ✅ Expected Behavior
+###  Expected Behavior
 A clear and concise description of what you expected to happen.
 
 ### ❌ Actual Behavior

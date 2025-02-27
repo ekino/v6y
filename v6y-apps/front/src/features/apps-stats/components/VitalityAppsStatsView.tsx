@@ -1,6 +1,6 @@
 'use client';
 
-import { VitalityLoader } from '@v6y/shared-ui';
+import { LoaderView } from '@v6y/ui-kit';
 import * as React from 'react';
 import { Suspense } from 'react';
 
@@ -11,10 +11,10 @@ import VitalityAppsStatsChart from './VitalityAppsStatsChart';
 const VitalityAppsStatsView = () => {
     return (
         <>
-            <Suspense fallback={<VitalityLoader />}>
+            <Suspense fallback={<LoaderView />}>
                 <VitalitySelectableIndicators />
             </Suspense>
-            <Suspense fallback={<VitalityLoader />}>
+            <Suspense fallback={<LoaderView />}>
                 <VitalityAppsStatsChart />
                 <VitalityAppList source="stats" />
             </Suspense>

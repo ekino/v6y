@@ -1,20 +1,18 @@
-import { VitalityTitle } from '@v6y/shared-ui';
+import { AdminCreateWrapper, TitleView, useTranslationProvider } from '@v6y/ui-kit';
 import * as React from 'react';
 
 import {
     deprecatedDependencyCreateEditItems,
     deprecatedDependencyCreateOrEditFormOutputAdapter,
 } from '../../../commons/config/VitalityFormConfig';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
-import RefineCreateWrapper from '../../../infrastructure/components/RefineCreateWrapper';
 import CreateOrEditDeprecatedDependency from '../apis/createOrEditDeprecatedDependency';
 
 export default function VitalityDeprecatedDependencyCreateView() {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
 
     return (
-        <RefineCreateWrapper
-            title={<VitalityTitle title="v6y-deprecated-dependencies.titles.create" />}
+        <AdminCreateWrapper
+            title={<TitleView title={translate('v6y-deprecated-dependencies.titles.create')} />}
             createOptions={{
                 createFormAdapter: deprecatedDependencyCreateOrEditFormOutputAdapter,
                 createQuery: CreateOrEditDeprecatedDependency,

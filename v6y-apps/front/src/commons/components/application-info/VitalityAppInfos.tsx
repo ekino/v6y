@@ -1,14 +1,24 @@
-import { VitalityLinks, VitalityText, useNavigationAdapter } from '@v6y/shared-ui';
-import { Col, Divider, List, Row, Tag } from 'antd';
+import {
+    Col,
+    Divider,
+    Links,
+    ListItem,
+    ListItemMeta,
+    Row,
+    Tag,
+    TextView,
+    useNavigationAdapter,
+    useThemeConfigProvider,
+} from '@v6y/ui-kit';
 import Link from 'next/link';
 import * as React from 'react';
 
-import { QUALITY_METRIC_STATUS } from '../../config/VitalityCommonConfig';
 import VitalityNavigationPaths from '../../config/VitalityNavigationPaths';
 import VitalityTerms from '../../config/VitalityTerms';
 import { VitalityAppInfosProps } from '../../types/VitalityAppInfosProps';
 
-const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: VitalityAppInfosProps) => {
+const VitalityAppInfos = ({ app, source, canOpenDetails = true }: VitalityAppInfosProps) => {
+    const { currentConfig } = useThemeConfigProvider();
     const { createUrlQueryParam } = useNavigationAdapter();
     const queryParams = createUrlQueryParam('_id', `${app._id}`);
     const appDetailsLink = source
@@ -19,39 +29,39 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
     const appRepository = app.repo;
     const appOpenedBranches = app.repo?.allBranches?.length || 0;
 
+    const qualityMetricStatus = currentConfig?.status || {};
+
     return (
-        <List.Item style={{ marginTop: '1rem', ...(style || {}) }}>
-            <List.Item.Meta
+        <ListItem>
+            <ListItemMeta
                 title={
                     <Row gutter={[12, 0]} justify="end" align="middle">
                         <Col span={24} />
-                        <Col span={12} style={{ textAlign: 'left' }}>
-                            {app.name}
-                        </Col>
-                        <Col span={12} style={{ textAlign: 'right' }}>
+                        <Col span={12}>{app.name}</Col>
+                        <Col span={12}>
                             <Tag
                                 color={
                                     appOpenedBranches >= 4
-                                        ? QUALITY_METRIC_STATUS['error']
-                                        : QUALITY_METRIC_STATUS['success']
+                                        ? qualityMetricStatus['error']
+                                        : qualityMetricStatus['success']
                                 }
                             >
                                 {`${VitalityTerms.VITALITY_APP_LIST_NB_BRANCHES}${appOpenedBranches}`}
                             </Tag>
                         </Col>
                         <Col span={24}>
-                            <Divider style={{ marginBottom: '0' }} />
+                            <Divider />
                         </Col>
                     </Row>
                 }
                 description={
                     <Row gutter={[12, 16]} justify="end" align="middle">
                         <Col span={24} />
-                        <Col span={24} style={{ textAlign: 'left', marginTop: '0' }}>
-                            <VitalityText text={app.description || ''} />
+                        <Col span={24}>
+                            <TextView content={app.description || ''} />
                         </Col>
                         <Col span={24}>
-                            <VitalityLinks
+                            <Links
                                 align="center"
                                 links={[
                                     ...(appLinks || []),
@@ -65,8 +75,8 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                         <Col>
                             {app.contactMail?.length && (
                                 <Link key="team-mail-contact" href={`mailto:${app.contactMail}`}>
-                                    <VitalityText
-                                        text={VitalityTerms.VITALITY_APP_LIST_CONTACT_EMAIL}
+                                    <TextView
+                                        content={VitalityTerms.VITALITY_APP_LIST_CONTACT_EMAIL}
                                     />
                                 </Link>
                             )}
@@ -74,8 +84,8 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                         <Col>
                             {canOpenDetails && (
                                 <Link key="app-details-link" href={appDetailsLink}>
-                                    <VitalityText
-                                        text={VitalityTerms.VITALITY_APP_LIST_OPEN_DETAILS_LABEL}
+                                    <TextView
+                                        content={VitalityTerms.VITALITY_APP_LIST_OPEN_DETAILS_LABEL}
                                         underline
                                     />
                                 </Link>
@@ -84,7 +94,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                     </Row>
                 }
             />
-        </List.Item>
+        </ListItem>
     );
 };
 

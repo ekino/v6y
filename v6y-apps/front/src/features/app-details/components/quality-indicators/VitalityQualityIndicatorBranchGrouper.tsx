@@ -1,11 +1,11 @@
-import { KeywordType } from '@v6y/core-logic';
+import { KeywordType } from '@v6y/core-logic/src/types';
+import { DynamicLoader } from '@v6y/ui-kit';
 import * as React from 'react';
 
-import VitalityDynamicLoader from '../../../../commons/components/VitalityDynamicLoader';
 import VitalitySelectGrouperView from '../../../../commons/components/VitalitySelectGrouperView';
 import VitalityTerms from '../../../../commons/config/VitalityTerms';
 
-const VitalityQualityIndicatorStatusGrouper = VitalityDynamicLoader(
+const VitalityQualityIndicatorStatusGrouper = DynamicLoader(
     () => import('./VitalityQualityIndicatorStatusGrouper'),
 );
 

@@ -1,11 +1,7 @@
-import { SmileOutlined } from '@ant-design/icons';
-import { Result } from 'antd';
+import { AdminMessageType, Result, SmileOutlined, useTranslationProvider } from '@v6y/ui-kit';
 
-import { useTranslation } from '../../infrastructure/adapters/translation/TranslationAdapter';
-import { VitalityMessageType } from '../types/VitalityMessageType';
-
-const VitalityMessageView = ({ type }: VitalityMessageType) => {
-    const { translate } = useTranslation();
+const VitalityMessageView = ({ type }: AdminMessageType) => {
+    const { translate } = useTranslationProvider();
     return (
         <>
             {type === 'error' && <Result status="error" title={translate('pages.error.general')} />}

@@ -1,16 +1,21 @@
 'use client';
 
-import { ApplicationType } from '@v6y/core-logic';
-import { useNavigationAdapter } from '@v6y/shared-ui';
-import { Col, Row } from 'antd';
+import { ApplicationType } from '@v6y/core-logic/src/types';
+import {
+    Col,
+    DynamicLoader,
+    EmptyView,
+    LoadMoreList,
+    Row,
+    useNavigationAdapter,
+} from '@v6y/ui-kit';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import VitalityDynamicLoader from '../../../commons/components/VitalityDynamicLoader';
-import VitalityLoadMoreList from '../../../commons/components/VitalityLoadMoreList';
 import VitalityAppInfos from '../../../commons/components/application-info/VitalityAppInfos';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import { formatApplicationDataSource } from '../../../commons/config/VitalityCommonConfig';
+import VitalityTerms from '../../../commons/config/VitalityTerms';
 import { exportAppListDataToCSV } from '../../../commons/utils/VitalityDataExportUtils';
 import {
     buildClientQuery,
@@ -18,7 +23,7 @@ import {
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationListByPageAndParams from '../api/getApplicationListByPageAndParams';
 
-const VitalityAppListHeader = VitalityDynamicLoader(() => import('./VitalityAppListHeader'));
+const VitalityAppListHeader = DynamicLoader(() => import('./VitalityAppListHeader'));
 
 let currentAppListPage = 0;
 
@@ -91,17 +96,22 @@ const VitalityAppList = ({ source }: { source?: string }) => {
             <Col span={24}>
                 <VitalityAppListHeader onExportApplicationsClicked={onExportApplicationsClicked} />
             </Col>
-            <Col span={20}>
-                <VitalityLoadMoreList
-                    isDataSourceLoading={isAppListLoading}
-                    dataSource={appList || []}
-                    renderItem={(item: unknown) => {
-                        const app = item as ApplicationType;
-                        return <VitalityAppInfos key={app._id} app={app} source={source} />;
-                    }}
-                    onLoadMore={onLoadMore}
-                />
-            </Col>
+            {appList?.length === 0 ? (
+                <EmptyView />
+            ) : (
+                <Col span={20}>
+                    <LoadMoreList
+                        isDataSourceLoading={isAppListLoading}
+                        loadMoreLabel={VitalityTerms.VITALITY_APP_LIST_LOAD_MORE_LABEL}
+                        dataSource={appList || []}
+                        renderItem={(item: unknown) => {
+                            const app = item as ApplicationType;
+                            return <VitalityAppInfos key={app._id} app={app} source={source} />;
+                        }}
+                        onLoadMore={onLoadMore}
+                    />
+                </Col>
+            )}
         </Row>
     );
 };

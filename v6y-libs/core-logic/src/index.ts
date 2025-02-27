@@ -1,9 +1,6 @@
 import RepositoryApi from './apis/RepositoryApi.ts';
 import AppLogger from './core/AppLogger.ts';
 import AuditUtils from './core/AuditUtils.ts';
-import CsvUtils from './core/CsvUtils.ts';
-import DateUtils from './core/DateUtils.ts';
-import Matcher from './core/Matcher.ts';
 import PerformancesUtils from './core/PerformancesUtils.ts';
 import SemverUtils from './core/SemverUtils.ts';
 import ServerUtils from './core/ServerUtils.ts';
@@ -29,32 +26,13 @@ export * from './config/AuditHelpConfig.ts';
 export * from './config/SecuritySmellConfig.ts';
 export * from './config/DependencyHelpConfig.ts';
 export * from './config/ServerConfig.ts';
+export * from './utils/index.ts';
 
 export * from './core/AuthenticationHelper.ts';
-
-export * from './types/AccountType.ts';
-export * from './types/ApplicationType.ts';
-export * from './types/AuditHelpType.ts';
-export * from './types/AuditType.ts';
-export * from './types/AuditParserType.ts';
-export * from './types/DependencyType.ts';
-export * from './types/DependencyStatusHelpType.ts';
-export * from './types/DeprecatedDependencyType.ts';
-export * from './types/EvolutionHelpType.ts';
-export * from './types/EvolutionType.ts';
-export * from './types/FaqType.ts';
-export * from './types/KeywordType.ts';
-export * from './types/NotificationType.ts';
-export * from './types/RepositoryType.ts';
-export * from './types/SearchQueryType.ts';
-export * from './types/LinkType.ts';
-export * from './types/ServerConfigType.ts';
+export * from './types/index.ts';
 
 export {
     AppLogger,
-    DateUtils,
-    Matcher,
-    CsvUtils,
     PerformancesUtils,
     SemverUtils,
     StringUtils,

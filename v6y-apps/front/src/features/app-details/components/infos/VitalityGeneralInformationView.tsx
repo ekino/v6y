@@ -1,9 +1,7 @@
-import { InfoOutlined } from '@ant-design/icons';
-import { ApplicationType } from '@v6y/core-logic';
-import { useNavigationAdapter } from '@v6y/shared-ui';
+import { ApplicationType } from '@v6y/core-logic/src/types';
+import { DynamicLoader, InfoOutlined, useNavigationAdapter } from '@v6y/ui-kit';
 import * as React from 'react';
 
-import VitalityDynamicLoader from '../../../../commons/components/VitalityDynamicLoader';
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
 import VitalityTerms from '../../../../commons/config/VitalityTerms';
@@ -14,7 +12,7 @@ import {
 } from '../../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationDetailsInfosByParams from '../../api/getApplicationDetailsInfosByParams';
 
-const VitalityAppInfos = VitalityDynamicLoader(
+const VitalityAppInfos = DynamicLoader(
     () => import('../../../../commons/components/application-info/VitalityAppInfos'),
 );
 
@@ -58,13 +56,7 @@ const VitalityGeneralInformationView = ({}) => {
             exportButtonLabel={VitalityTerms.VITALITY_APP_DETAILS_INFOS_EXPORT_LABEL}
             onExportClicked={onExportClicked}
         >
-            {appInfos && (
-                <VitalityAppInfos
-                    app={appInfos}
-                    canOpenDetails={false}
-                    style={{ marginTop: '-20px' }}
-                />
-            )}
+            {appInfos && <VitalityAppInfos app={appInfos} canOpenDetails={false} />}
         </VitalitySectionView>
     );
 };

@@ -1,10 +1,15 @@
 'use client';
 
-import { useParsed } from '@refinedev/core';
-import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
-import { VitalityEmptyView, VitalityTitle } from '@v6y/shared-ui';
-import { useEffect, useState } from 'react';
+import { ApplicationType } from '@v6y/core-logic/src/types';
+import {
+    AdminSelectWrapper,
+    EmptyView,
+    TitleView,
+    useAdminNavigationParamsParser,
+    useTranslationProvider,
+} from '@v6y/ui-kit';
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 
 import GetApplicationListByPageAndParams from '../../../commons/apis/getApplicationListByPageAndParams';
 import {
@@ -13,28 +18,26 @@ import {
     accountCreateOrEditFormOutputAdapter,
 } from '../../../commons/config/VitalityFormConfig';
 import { useRole } from '../../../commons/hooks/useRole';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
-import RefineSelectWrapper from '../../../infrastructure/components/RefineSelectWrapper';
 import CreateOrEditAccount from '../apis/createOrEditAccount';
 import GetAccountDetailsByParams from '../apis/getAccountDetailsByParams';
 
 export default function VitalityAccountEditView() {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
     const [userRole, setUserRole] = useState<string | null>(null);
     const { getRole } = useRole();
-    const { id } = useParsed();
+    const { id } = useAdminNavigationParamsParser();
 
     useEffect(() => {
         setUserRole(getRole());
     }, [getRole]);
 
     if (!userRole) {
-        return <VitalityEmptyView />;
+        return <EmptyView />;
     }
 
     return (
-        <RefineSelectWrapper
-            title={<VitalityTitle title="v6y-accounts.titles.edit" />}
+        <AdminSelectWrapper
+            title={<TitleView title={translate('v6y-accounts.titles.edit')} />}
             queryOptions={{
                 queryFormAdapter: accountCreateOrEditFormInAdapter,
                 query: GetAccountDetailsByParams,
@@ -45,8 +48,6 @@ export default function VitalityAccountEditView() {
             }}
             mutationOptions={{
                 editResource: 'createOrEditAccount',
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-expect-error
                 editFormAdapter: accountCreateOrEditFormOutputAdapter,
                 editQuery: CreateOrEditAccount,
                 editQueryParams: {
@@ -57,10 +58,13 @@ export default function VitalityAccountEditView() {
                 resource: 'getApplicationListByPageAndParams',
                 query: GetApplicationListByPageAndParams,
             }}
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            renderSelectOption={(applications: ApplicationType[]) => {
-                return accountCreateEditItems(translate, userRole, applications, true);
+            renderSelectOption={(applications) => {
+                return accountCreateEditItems(
+                    translate,
+                    userRole,
+                    applications as ApplicationType[],
+                    true,
+                );
             }}
         />
     );

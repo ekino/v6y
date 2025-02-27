@@ -1,10 +1,9 @@
-import { VitalityLoader } from '@v6y/shared-ui';
+import { LoaderView } from '@v6y/ui-kit';
 import * as React from 'react';
 import { ReactNode, Suspense } from 'react';
 
 import VitalityPageLayout from '../commons/components/layout/VitalityPageLayout';
 import VitalityTerms from '../commons/config/VitalityTerms';
-import VitalityTheme from '../commons/config/VitalityTheme';
 import { AppProvider } from '../infrastructure/providers/AppProvider';
 
 export const metadata = {
@@ -21,8 +20,8 @@ export default function RootLayout({
         <html lang="en">
             <body>
                 <main>
-                    <AppProvider theme={VitalityTheme}>
-                        <Suspense fallback={<VitalityLoader />}>
+                    <AppProvider>
+                        <Suspense fallback={<LoaderView />}>
                             <VitalityPageLayout>{children}</VitalityPageLayout>
                         </Suspense>
                     </AppProvider>

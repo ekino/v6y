@@ -1,9 +1,9 @@
 'use client';
 
-import { VitalityLoader } from '@v6y/shared-ui';
-import { Suspense, lazy, useEffect, useState } from 'react';
+import { LoaderView } from '@v6y/ui-kit';
 import * as React from 'react';
-import { Settings } from 'react-chatbotify';
+import { Suspense, lazy, useEffect, useState } from 'react';
+import { Flow, Settings } from 'react-chatbotify';
 
 import { VitalityBotFlow } from './VitalityBotFlow';
 import VitalityBotSettings from './VitalityBotSettings';
@@ -19,9 +19,9 @@ export default function VitalityBot() {
     return (
         <>
             {isLoaded && (
-                <Suspense fallback={<VitalityLoader />}>
+                <Suspense fallback={<LoaderView />}>
                     <ChatBot
-                        flow={VitalityBotFlow}
+                        flow={VitalityBotFlow as unknown as Flow}
                         themes={VitalityBotSettings.themes}
                         styles={VitalityBotSettings.styles}
                         settings={VitalityBotSettings.settings as unknown as Settings}

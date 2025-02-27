@@ -1,12 +1,7 @@
 const FaqDeleteInput = `
-  input FaqDeleteInputClause {
-      """ Faq to delete id """
-      id: String!
-  }
-  
   input FaqDeleteInput {
       """ Faq to delete id """
-      where: FaqDeleteInputClause!
+      id: String!
   }
 `;
 

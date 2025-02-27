@@ -1,9 +1,18 @@
-import { ExportOutlined } from '@ant-design/icons';
-import { VitalityEmptyView, VitalityLoader, VitalityTitle } from '@v6y/shared-ui';
-import { Avatar, Button, Card, Col, Row, Space, Typography } from 'antd';
+import {
+    Avatar,
+    Button,
+    Card,
+    Col,
+    EmptyView,
+    ExportOutlined,
+    LoaderView,
+    Paragraph,
+    Row,
+    Space,
+    TitleView,
+} from '@v6y/ui-kit';
 import * as React from 'react';
 
-import vitalityTheme from '../config/VitalityTheme';
 import { VitalitySectionViewProps } from '../types/VitalitySectionViewProps';
 
 const VitalitySectionView = ({
@@ -16,12 +25,7 @@ const VitalitySectionView = ({
     exportButtonLabel,
     onExportClicked,
 }: VitalitySectionViewProps) => (
-    <Row
-        justify="center"
-        align="middle"
-        gutter={[0, 24]}
-        style={{ marginTop: '1rem', marginBottom: '1rem' }}
-    >
+    <Row justify="center" align="middle" gutter={[0, 24]}>
         <Col span={20}>
             <Card
                 bordered
@@ -34,30 +38,21 @@ const VitalitySectionView = ({
                 }
                 title={
                     <Space split size="small" align="baseline">
-                        {avatar && (
-                            <Avatar
-                                size={32}
-                                icon={avatar}
-                                style={{
-                                    marginTop: '-1rem',
-                                    backgroundColor: vitalityTheme.token.colorTextBase,
-                                }}
-                            />
-                        )}
-                        <VitalityTitle title={title || ''} level={3} />
+                        {avatar && <Avatar size={32} icon={avatar} />}
+                        <TitleView title={title || ''} level={3} />
                     </Space>
                 }
             >
                 {(description?.length || 0) > 0 && (
                     <Card.Meta
                         description={
-                            <Typography.Paragraph>
+                            <Paragraph>
                                 <p>{description || ''}</p>
-                            </Typography.Paragraph>
+                            </Paragraph>
                         }
                     />
                 )}
-                {isLoading ? <VitalityLoader /> : <>{isEmpty ? <VitalityEmptyView /> : children}</>}
+                {isLoading ? <LoaderView /> : <>{isEmpty ? <EmptyView /> : children}</>}
             </Card>
         </Col>
     </Row>

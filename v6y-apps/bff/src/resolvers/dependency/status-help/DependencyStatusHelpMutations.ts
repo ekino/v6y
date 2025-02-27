@@ -80,7 +80,7 @@ const createOrEditDependencyStatusHelp = async (
  */
 const deleteDependencyStatusHelp = async (_: unknown, params: { input: SearchQueryType }) => {
     try {
-        const whereClause = params?.input?.where;
+        const whereClause = params?.input;
         if (!whereClause) {
             return null;
         }

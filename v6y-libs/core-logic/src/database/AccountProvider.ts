@@ -2,8 +2,7 @@ import { FindOptions, Op, Sequelize } from 'sequelize';
 
 import AppLogger from '../core/AppLogger.ts';
 import { isAdmin, isSuperAdmin } from '../core/AuthenticationHelper.ts';
-import { AccountInputType, AccountType } from '../types/AccountType.ts';
-import { SearchQueryType } from '../types/SearchQueryType.ts';
+import { AccountInputType, AccountType, SearchQueryType } from '../types/index.ts';
 import { AccountModelType } from './models/AccountModel.ts';
 
 /**

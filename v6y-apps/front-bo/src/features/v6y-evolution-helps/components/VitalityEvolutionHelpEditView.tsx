@@ -1,6 +1,10 @@
-import { useParsed } from '@refinedev/core';
-import { EvolutionHelpType } from '@v6y/core-logic';
-import { VitalityTitle } from '@v6y/shared-ui';
+import { EvolutionHelpType } from '@v6y/core-logic/src/types';
+import {
+    AdminSelectWrapper,
+    TitleView,
+    useAdminNavigationParamsParser,
+    useTranslationProvider,
+} from '@v6y/ui-kit';
 import * as React from 'react';
 
 import {
@@ -8,19 +12,17 @@ import {
     evolutionHelpCreateOrEditFormInAdapter,
     evolutionHelpCreateOrEditFormOutputAdapter,
 } from '../../../commons/config/VitalityFormConfig';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
-import RefineSelectWrapper from '../../../infrastructure/components/RefineSelectWrapper';
 import CreateOrEditEvolutionHelp from '../apis/createOrEditEvolutionHelp';
 import GetEvolutionHelpDetailsByParams from '../apis/getEvolutionHelpDetailsByParams';
 import GetEvolutionHelpStatus from '../apis/getEvolutionHelpStatus';
 
 export default function VitalityEvolutionHelpEditView() {
-    const { translate } = useTranslation();
-    const { id } = useParsed();
+    const { translate } = useTranslationProvider();
+    const { id } = useAdminNavigationParamsParser();
 
     return (
-        <RefineSelectWrapper
-            title={<VitalityTitle title="v6y-evolution-helps.titles.edit" />}
+        <AdminSelectWrapper
+            title={<TitleView title={translate('v6y-evolution-helps.titles.edit')} />}
             queryOptions={{
                 queryFormAdapter: evolutionHelpCreateOrEditFormInAdapter,
                 query: GetEvolutionHelpDetailsByParams,

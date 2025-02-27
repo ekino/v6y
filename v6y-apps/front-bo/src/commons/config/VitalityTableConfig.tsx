@@ -1,4 +1,5 @@
-import { RefineTableOptions } from '../../infrastructure/types/RefineTableType';
+import { AdminTableOptions } from '@v6y/ui-kit/src';
+
 import VitalityTableRowActions from '../components/VitalityTableRowActions';
 
 type TableRecordType<T> = T & {
@@ -14,7 +15,7 @@ export const buildCommonTableDataSource = <T,>(dataSource: T[]) =>
 export const buildCommonTableColumns = <T,>(
     dataSource: T[],
     excludedKeys: string[],
-    options: RefineTableOptions,
+    options: AdminTableOptions,
 ) => [
     ...(Object.keys(dataSource?.[0] || {})
         ?.filter((key) => key !== 'links' && !excludedKeys?.includes(key))

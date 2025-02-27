@@ -1,22 +1,14 @@
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { AuditType } from '@v6y/core-logic';
-import { VitalityModal, VitalityText, VitalityTitle } from '@v6y/shared-ui';
-import { Button, Card, Col, List, Row, Statistic } from 'antd';
-import Link from 'next/link';
+import { AuditType } from '@v6y/core-logic/src/types';
+import { DynamicLoader, List, ModalView, PaginatedList, TitleView } from '@v6y/ui-kit';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import VitalityDynamicLoader from '../../../../../../commons/components/VitalityDynamicLoader';
-import VitalityPaginatedList from '../../../../../../commons/components/VitalityPaginatedList';
-import {
-    QUALITY_METRIC_ICONS,
-    QUALITY_METRIC_STATUS,
-} from '../../../../../../commons/config/VitalityCommonConfig';
 import VitalityTerms from '../../../../../../commons/config/VitalityTerms';
 import useDataGrouper from '../../../../../../commons/hooks/useDataGrouper';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';
+import VitalityLighthouseReportItem from './VitalityLighthouseReportItem';
 
-const VitalityHelpView = VitalityDynamicLoader(
+const VitalityHelpView = DynamicLoader(
     () => import('../../../../../../commons/components/help/VitalityHelpView'),
 );
 
@@ -40,8 +32,7 @@ const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditT
 
     return (
         <>
-            <VitalityPaginatedList
-                style={{ paddingTop: '2rem', marginTop: '2rem' }}
+            <PaginatedList
                 pageSize={15}
                 grid={{ gutter: 4, xs: 1, sm: 1, md: 1, lg: 2, xl: 2, xxl: 2 }}
                 dataSource={Object.keys(groupedDataSource || {})}
@@ -49,68 +40,17 @@ const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditT
                     const report = groupedDataSource[item as string][0] as AuditType;
                     return (
                         <List.Item>
-                            <Card
-                                key={`${report.type}-${report.category}-${report.subCategory}`}
-                                title={<VitalityTitle level={4} title={report.type as string} />}
-                                actions={[
-                                    <Button
-                                        key="help-button"
-                                        icon={<InfoCircleOutlined />}
-                                        type="text"
-                                        onClick={() => setHelpDetails(report as VitalityModuleType)}
-                                    />,
-                                ]}
-                            >
-                                ccccccc
-                                <Card.Meta
-                                    description={
-                                        <Row gutter={[16, 16]} justify="center" align="middle">
-                                            <Col span={22} style={{ textAlign: 'left' }}>
-                                                <VitalityText
-                                                    text={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_HELP_CATEGORY_LABEL}: ${report.category}`}
-                                                />
-                                            </Col>
-                                            <Col span={22} style={{ textAlign: 'center' }}>
-                                                <Statistic
-                                                    value={report.score || 0}
-                                                    suffix={report.scoreUnit || ''}
-                                                    valueStyle={{
-                                                        color: QUALITY_METRIC_STATUS[
-                                                            (report.status as keyof typeof QUALITY_METRIC_STATUS) ||
-                                                                'default'
-                                                        ],
-                                                    }}
-                                                    prefix={
-                                                        QUALITY_METRIC_ICONS[
-                                                            (report.status as keyof typeof QUALITY_METRIC_ICONS) ||
-                                                                'default'
-                                                        ]
-                                                    }
-                                                />
-                                            </Col>
-                                            {report.module?.url?.length && (
-                                                <Col span={22} style={{ textAlign: 'right' }}>
-                                                    <Link href={report.module?.url} target="_blank">
-                                                        <VitalityText
-                                                            text={
-                                                                VitalityTerms.VITALITY_APP_DETAILS_AUDIT_OPEN_APP_LABEL
-                                                            }
-                                                            underline
-                                                        />
-                                                    </Link>
-                                                </Col>
-                                            )}
-                                        </Row>
-                                    }
-                                />
-                            </Card>
+                            <VitalityLighthouseReportItem
+                                report={report}
+                                onOpenHelpClicked={setHelpDetails}
+                            />
                         </List.Item>
                     );
                 }}
             />
-            <VitalityModal
+            <ModalView
                 title={
-                    <VitalityTitle
+                    <TitleView
                         title={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_MODULE_HELP_TITLE}
                         level={5}
                     />
@@ -119,7 +59,7 @@ const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditT
                 isOpen={isHelpModalOpen}
             >
                 <VitalityHelpView module={helpDetails as VitalityModuleType} />
-            </VitalityModal>
+            </ModalView>
         </>
     );
 };

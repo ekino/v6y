@@ -1,22 +1,24 @@
-import { useParsed } from '@refinedev/core';
-import { DeprecatedDependencyType } from '@v6y/core-logic/src';
-import { VitalityTitle } from '@v6y/shared-ui';
+import { DeprecatedDependencyType } from '@v6y/core-logic/src/types';
+import {
+    AdminShowWrapper,
+    TitleView,
+    useAdminNavigationParamsParser,
+    useTranslationProvider,
+} from '@v6y/ui-kit';
 import * as React from 'react';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';
 import { formatDeprecatedDependencyDetails } from '../../../commons/config/VitalityDetailsConfig';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
-import RefineShowWrapper from '../../../infrastructure/components/RefineShowWrapper';
 import GetDeprecatedDependencyDetailsByParams from '../apis/getDeprecatedDependencyDetailsByParams';
 
 export default function VitalityDeprecatedDependencyDetailsView() {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
 
-    const { id } = useParsed();
+    const { id } = useAdminNavigationParamsParser();
 
     return (
-        <RefineShowWrapper
-            title={<VitalityTitle title="v6y-audit-helps.titles.show" />}
+        <AdminShowWrapper
+            title={<TitleView title={translate('v6y-audit-helps.titles.show')} />}
             queryOptions={{
                 resource: 'getDeprecatedDependencyDetailsByParams',
                 query: GetDeprecatedDependencyDetailsByParams,

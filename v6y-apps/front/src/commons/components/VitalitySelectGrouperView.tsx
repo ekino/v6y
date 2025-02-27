@@ -1,5 +1,4 @@
-import { VitalityEmptyView, VitalityText } from '@v6y/shared-ui';
-import { Col, Form, Row, Select } from 'antd';
+import { Col, EmptyView, Form, Row, Select, TextView } from '@v6y/ui-kit';
 import * as React from 'react';
 import { useEffect } from 'react';
 
@@ -32,11 +31,11 @@ const VitalitySelectGrouperView = ({
     }, [groupedDataSource]);
 
     if (!dataSource?.length || !criteria?.length) {
-        return <VitalityEmptyView />;
+        return <EmptyView />;
     }
 
     if (!Object.keys(groupedDataSource || {})?.length) {
-        return <VitalityEmptyView />;
+        return <EmptyView />;
     }
 
     const valuesByGroup =
@@ -49,6 +48,7 @@ const VitalitySelectGrouperView = ({
             <Col span={24}>
                 <Form
                     role="form"
+                    data-testid={name}
                     layout="vertical"
                     form={selectGroupForm}
                     disabled={disabled}
@@ -62,14 +62,10 @@ const VitalitySelectGrouperView = ({
                 >
                     <Form.Item
                         name={name}
-                        label={<VitalityText text={label} />}
-                        help={<VitalityText text={helper} />}
+                        label={<TextView content={label} />}
+                        help={<TextView content={helper} />}
                     >
-                        <Select
-                            placeholder={placeholder}
-                            options={criteriaGroups}
-                            style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }}
-                        />
+                        <Select placeholder={placeholder} options={criteriaGroups} />
                     </Form.Item>
                 </Form>
             </Col>
@@ -77,7 +73,7 @@ const VitalitySelectGrouperView = ({
                 {valuesByGroup?.length ? (
                     <>{onRenderChildren?.(selectedCriteria?.value || '', valuesByGroup)}</>
                 ) : (
-                    <VitalityEmptyView />
+                    <EmptyView />
                 )}
             </Col>
         </Row>

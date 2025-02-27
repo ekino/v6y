@@ -1,12 +1,8 @@
 'use client';
 
-import { Button, Form, message } from 'antd';
+import { Button, ControlledCheckbox, ControlledInput, Form, Message, useForm } from '@v6y/ui-kit';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
-import VitalityCheckbox from '../../../commons/components/form/VitalityCheckbox';
-import VitalityInput from '../../../commons/components/form/VitalityInput';
 import VitalityTerms from '../../../commons/config/VitalityTerms';
 import {
     LoginAccountFormType,
@@ -15,7 +11,7 @@ import {
 } from '../../../commons/hooks/useAuth';
 
 const VitalityLoginForm = () => {
-    const [messageApi, contextHolder] = message.useMessage();
+    const [messageApi, contextHolder] = Message.useMessage();
     const { isAuthenticationLoading, authenticationError, onAuthentication } = useAuthentication();
 
     const {
@@ -49,7 +45,6 @@ const VitalityLoginForm = () => {
             name="basic"
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
-            style={{ maxWidth: 600, margin: 'auto' }}
             onFinish={handleSubmit(onAuthentication)}
             autoComplete="off"
         >
@@ -65,23 +60,22 @@ const VitalityLoginForm = () => {
                     },
                 ]}
             >
-                <VitalityInput
+                <ControlledInput
                     name="email"
+                    ariaLabel="Email"
                     control={control}
                     rules={{
                         required: VitalityTerms.VITALITY_APP_LOGIN_FORM_EMAIL_WARNING,
                         validate: (value: string) => {
-                            try {
-                                loginSchemaValidator.parse(value);
-                                return true;
-                            } catch (error) {
-                                if (error instanceof z.ZodError) {
-                                    return error?.errors?.[0]?.message;
-                                }
-                            }
+                            const result = loginSchemaValidator.safeParse({
+                                email: value,
+                                password: '',
+                            });
+                            return result?.success
+                                ? true
+                                : result?.error?.format?.()?.email?._errors?.[0];
                         },
                     }}
-                    ariaLabel="Email"
                 />
             </Form.Item>
 
@@ -96,19 +90,28 @@ const VitalityLoginForm = () => {
                     },
                 ]}
             >
-                <VitalityInput
+                <ControlledInput
                     name="password"
                     control={control}
-                    rules={{
-                        required: VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_WARNING,
-                    }}
                     ariaLabel={VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_LABEL}
                     type="password"
+                    rules={{
+                        required: VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_WARNING,
+                        validate: (value: string) => {
+                            const result = loginSchemaValidator.safeParse({
+                                email: '',
+                                password: value,
+                            });
+                            return result?.success
+                                ? true
+                                : result?.error?.format?.()?.password?._errors?.[0];
+                        },
+                    }}
                 />
             </Form.Item>
 
             <Form.Item name="remember" wrapperCol={{ offset: 8, span: 16 }}>
-                <VitalityCheckbox
+                <ControlledCheckbox
                     name="remember"
                     control={control}
                     ariaLabel={VitalityTerms.VITALITY_APP_LOGIN_FORM_REMEMBER_LABEL}

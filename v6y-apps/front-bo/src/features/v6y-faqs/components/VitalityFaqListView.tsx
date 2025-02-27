@@ -1,14 +1,15 @@
-import RenderVitalityTable from '../../../commons/components/VitalityTable';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
-import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
+import { AdminListWrapper, useTranslationProvider } from '@v6y/ui-kit';
+import type { DocumentNode } from 'graphql/index';
+
+import VitalityTable from '../../../commons/components/VitalityTable';
 import DeleteFaq from '../apis/deleteFaq';
 import GetFaqListByPageAndParams from '../apis/getFaqListByPageAndParams';
 
 export default function VitalityFaqListView() {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
 
     return (
-        <RefineTableWrapper
+        <AdminListWrapper
             title={translate('v6y-faqs.titles.list')}
             subTitle=""
             defaultSorter={[
@@ -21,8 +22,8 @@ export default function VitalityFaqListView() {
                 resource: 'getFaqListByPageAndParams',
                 query: GetFaqListByPageAndParams,
             }}
-            renderTable={(dataSource) => (
-                <RenderVitalityTable
+            renderContent={(dataSource) => (
+                <VitalityTable
                     dataSource={dataSource}
                     columnKeys={[]}
                     columnOptions={{
@@ -30,7 +31,7 @@ export default function VitalityFaqListView() {
                         enableShow: true,
                         enableDelete: true,
                         deleteMetaQuery: {
-                            gqlMutation: DeleteFaq,
+                            gqlMutation: DeleteFaq as unknown as DocumentNode,
                             operation: 'deleteFaq',
                         },
                     }}

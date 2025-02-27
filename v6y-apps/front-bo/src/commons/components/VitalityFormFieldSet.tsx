@@ -1,11 +1,10 @@
-import { Form, Input, Select } from 'antd';
-import { DefaultOptionType } from 'antd/es/select';
+import { Form, Input, Select, SelectOptionType } from '@v6y/ui-kit';
 import * as React from 'react';
 
 interface VitalityFormFieldSetProps {
     groupTitle?: string;
-    items: DefaultOptionType[];
-    selectOptions?: DefaultOptionType[];
+    items: SelectOptionType[];
+    selectOptions?: SelectOptionType[];
 }
 
 const VitalityFormFieldSet = ({ groupTitle, items, selectOptions }: VitalityFormFieldSetProps) => (

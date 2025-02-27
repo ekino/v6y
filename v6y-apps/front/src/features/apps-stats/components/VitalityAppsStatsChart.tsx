@@ -1,7 +1,5 @@
-import { KeywordStatsType } from '@v6y/core-logic';
-import { VitalityLoader, useNavigationAdapter } from '@v6y/shared-ui';
-import { AgCharts } from 'ag-charts-react';
-import { Col, Row } from 'antd';
+import { KeywordStatsType } from '@v6y/core-logic/src/types';
+import { Charts, Col, LoaderView, Row, useNavigationAdapter } from '@v6y/ui-kit';
 import * as React from 'react';
 import { useEffect } from 'react';
 
@@ -43,7 +41,7 @@ const VitalityAppsStatsChart = () => {
     }, [keywords]);
 
     if (isLoading) {
-        return <VitalityLoader />;
+        return <LoaderView />;
     }
 
     const dataSource = data?.getApplicationStatsByParams;
@@ -54,14 +52,9 @@ const VitalityAppsStatsChart = () => {
     }));
 
     return (
-        <Row
-            justify="center"
-            align="middle"
-            gutter={[0, 24]}
-            style={{ marginTop: '2rem', marginBottom: '2rem' }}
-        >
+        <Row justify="center" align="middle" gutter={[0, 24]}>
             <Col span={24}>
-                <AgCharts
+                <Charts
                     options={{
                         theme: 'ag-vivid-dark',
                         data: chartDataSource,

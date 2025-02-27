@@ -1,5 +1,9 @@
-import { useParsed } from '@refinedev/core';
-import { VitalityTitle } from '@v6y/shared-ui';
+import {
+    AdminEditWrapper,
+    TitleView,
+    useAdminNavigationParamsParser,
+    useTranslationProvider,
+} from '@v6y/ui-kit';
 import * as React from 'react';
 
 import {
@@ -7,18 +11,16 @@ import {
     faqCreateOrEditFormInAdapter,
     faqCreateOrEditFormOutputAdapter,
 } from '../../../commons/config/VitalityFormConfig';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
-import RefineEditWrapper from '../../../infrastructure/components/RefineEditWrapper';
 import CreateOrEditFaq from '../apis/createOrEditFaq';
 import GetFaqDetailsByParams from '../apis/getFaqDetailsByParams';
 
 export default function VitalityFaqEditView() {
-    const { translate } = useTranslation();
-    const { id } = useParsed();
+    const { translate } = useTranslationProvider();
+    const { id } = useAdminNavigationParamsParser();
 
     return (
-        <RefineEditWrapper
-            title={<VitalityTitle title="v6y-faqs.titles.edit" />}
+        <AdminEditWrapper
+            title={<TitleView title={translate('v6y-faqs.titles.edit')} />}
             queryOptions={{
                 queryFormAdapter: faqCreateOrEditFormInAdapter,
                 query: GetFaqDetailsByParams,

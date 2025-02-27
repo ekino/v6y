@@ -1,5 +1,9 @@
-import { useParsed } from '@refinedev/core';
-import { VitalityTitle } from '@v6y/shared-ui';
+import {
+    AdminEditWrapper,
+    TitleView,
+    useAdminNavigationParamsParser,
+    useTranslationProvider,
+} from '@v6y/ui-kit';
 import * as React from 'react';
 
 import {
@@ -7,18 +11,16 @@ import {
     dependencyStatusHelpCreateOrEditFormInAdapter,
     dependencyStatusHelpCreateOrEditFormOutputAdapter,
 } from '../../../commons/config/VitalityFormConfig';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
-import RefineEditWrapper from '../../../infrastructure/components/RefineEditWrapper';
 import CreateOrEditDependencyStatusHelp from '../apis/createOrEditDependencyStatusHelp';
 import GetDependencyStatusHelpDetailsByParams from '../apis/getDependencyStatusHelpDetailsByParams';
 
 export default function VitalityDependencyStatusHelpEditView() {
-    const { translate } = useTranslation();
-    const { id } = useParsed();
+    const { translate } = useTranslationProvider();
+    const { id } = useAdminNavigationParamsParser();
 
     return (
-        <RefineEditWrapper
-            title={<VitalityTitle title="v6y-evolution-helps.titles.edit" />}
+        <AdminEditWrapper
+            title={<TitleView title={translate('v6y-evolution-helps.titles.edit')} />}
             queryOptions={{
                 queryFormAdapter: dependencyStatusHelpCreateOrEditFormInAdapter,
                 query: GetDependencyStatusHelpDetailsByParams,

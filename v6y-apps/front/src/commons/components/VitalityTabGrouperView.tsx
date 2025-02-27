@@ -1,5 +1,4 @@
-import { VitalityEmptyView } from '@v6y/shared-ui';
-import { Col, Row, Tabs } from 'antd';
+import { Col, EmptyView, Row, Tabs } from '@v6y/ui-kit';
 import * as React from 'react';
 
 import useDataGrouper from '../hooks/useDataGrouper';
@@ -23,22 +22,22 @@ const VitalityTabGrouperView = ({
         });
 
     if (!dataSource?.length || !criteria?.length) {
-        return <VitalityEmptyView />;
+        return <EmptyView />;
     }
 
     if (!Object.keys(groupedDataSource || {})?.length) {
-        return <VitalityEmptyView />;
+        return <EmptyView />;
     }
 
     const valuesByGroup =
-        (selectedCriteria?.key !== 'All'
+        (selectedCriteria && selectedCriteria?.key !== 'All'
             ? groupedDataSource?.[selectedCriteria?.key || '']
             : dataSource) || [];
 
     return (
         <Row wrap gutter={[16, 16]} justify={align || 'end'} align="middle">
             <Col span={24}>
-                <form name={name}>
+                <form name={name} data-testid={name}>
                     {criteriaGroups?.length > 0 && (
                         <Tabs
                             centered
@@ -60,7 +59,7 @@ const VitalityTabGrouperView = ({
                 {valuesByGroup?.length ? (
                     <>{onRenderChildren?.(selectedCriteria?.key || '', valuesByGroup)}</>
                 ) : (
-                    <VitalityEmptyView />
+                    <EmptyView />
                 )}
             </Col>
         </Row>

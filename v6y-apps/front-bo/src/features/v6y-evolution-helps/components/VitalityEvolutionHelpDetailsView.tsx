@@ -1,22 +1,24 @@
-import { useParsed } from '@refinedev/core';
-import { EvolutionHelpType } from '@v6y/core-logic';
-import { VitalityTitle } from '@v6y/shared-ui';
+import { EvolutionHelpType } from '@v6y/core-logic/src/types';
+import {
+    AdminShowWrapper,
+    TitleView,
+    useAdminNavigationParamsParser,
+    useTranslationProvider,
+} from '@v6y/ui-kit';
 import * as React from 'react';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';
 import { formatEvolutionHelpDetails } from '../../../commons/config/VitalityDetailsConfig';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
-import RefineShowWrapper from '../../../infrastructure/components/RefineShowWrapper';
 import GetEvolutionHelpDetailsByParams from '../apis/getEvolutionHelpDetailsByParams';
 
 export default function VitalityEvolutionHelpDetailsView() {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
 
-    const { id } = useParsed();
+    const { id } = useAdminNavigationParamsParser();
 
     return (
-        <RefineShowWrapper
-            title={<VitalityTitle title="v6y-evolution-helps.titles.show" />}
+        <AdminShowWrapper
+            title={<TitleView title={translate('v6y-evolution-helps.titles.show')} />}
             queryOptions={{
                 resource: 'getEvolutionHelpDetailsByParams',
                 query: GetEvolutionHelpDetailsByParams,

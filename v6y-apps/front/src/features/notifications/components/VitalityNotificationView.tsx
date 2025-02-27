@@ -1,8 +1,7 @@
 'use client';
 
-import { NotificationOutlined } from '@ant-design/icons';
-import { NotificationType } from '@v6y/core-logic';
-import { VitalityEmptyView } from '@v6y/shared-ui';
+import { NotificationType } from '@v6y/core-logic/src/types';
+import { NotificationOutlined } from '@v6y/ui-kit';
 
 import VitalitySectionView from '../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
@@ -31,9 +30,6 @@ const VitalityNotificationView = () => {
     });
 
     const dataSource = data?.getNotificationListByPageAndParams;
-    if (!dataSource) {
-        return <VitalityEmptyView />;
-    }
 
     return (
         <VitalitySectionView

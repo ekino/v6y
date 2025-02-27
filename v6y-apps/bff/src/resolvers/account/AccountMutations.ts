@@ -6,7 +6,7 @@ import {
     AppLogger,
     SearchQueryType,
 } from '@v6y/core-logic';
-import { hashPassword } from '@v6y/core-logic/src/core/PasswordUtils.js';
+import { hashPassword } from '@v6y/core-logic/src/core/PasswordUtils.ts';
 
 /**
  * Create or edit account
@@ -151,6 +151,7 @@ const updateAccountPassword = async (
  * Delete account
  * @param _
  * @param params
+ * @param context
  */
 const deleteAccount = async (
     _: unknown,
@@ -158,23 +159,25 @@ const deleteAccount = async (
     context: { user: AccountType },
 ) => {
     try {
-        const whereClause = params?.input?.where;
-
+        const whereClause = params?.input;
         if (!whereClause?.id) {
             return null;
         }
+
         const accountId = parseInt(whereClause.id, 10);
         AppLogger.info(`[AccountMutations - deleteAccount] accountId : ${accountId}`);
 
         const user = await AccountProvider.getAccountDetailsByParams({
             _id: accountId,
         });
+
         if (!user) {
             throw new Error('User does not exist');
         }
 
         await AccountProvider.deleteAccount({ userToDelete: user, currentUser: context.user });
         AppLogger.info(`[AccountMutations - deleteAccount] deleted account : ${accountId}`);
+
         return {
             _id: accountId,
         };

@@ -1,13 +1,13 @@
-import RenderVitalityTable from '../../../commons/components/VitalityTable';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
-import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
+import { AdminListWrapper, useTranslationProvider } from '@v6y/ui-kit';
+
+import VitalityTable from '../../../commons/components/VitalityTable';
 import GetEvolutionHelpListByPageAndParams from '../apis/getEvolutionHelpListByPageAndParams';
 
 export default function VitalityEvolutionHelpListView() {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
 
     return (
-        <RefineTableWrapper
+        <AdminListWrapper
             title={translate('v6y-evolution-helps.titles.list')}
             subTitle=""
             defaultSorter={[
@@ -20,8 +20,8 @@ export default function VitalityEvolutionHelpListView() {
                 resource: 'getEvolutionHelpListByPageAndParams',
                 query: GetEvolutionHelpListByPageAndParams,
             }}
-            renderTable={(dataSource) => (
-                <RenderVitalityTable
+            renderContent={(dataSource) => (
+                <VitalityTable
                     dataSource={dataSource}
                     columnKeys={['id']}
                     columnOptions={{

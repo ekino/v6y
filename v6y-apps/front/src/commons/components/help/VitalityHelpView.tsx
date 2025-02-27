@@ -1,11 +1,26 @@
-import { Descriptions } from 'antd';
+import { Matcher } from '@v6y/core-logic/src/utils';
+import { Descriptions } from '@v6y/ui-kit';
 import * as React from 'react';
 
 import VitalityTerms from '../../config/VitalityTerms';
 import { VitalityModuleType } from '../../types/VitalityModulesProps';
 
 const VitalityHelpView = ({ module }: { module: VitalityModuleType }) => {
-    const moduleHelp = module?.auditHelp || module?.statusHelp || module?.evolutionHelp;
+    const moduleHelp = Matcher()
+        .on(
+            () => module?.auditHelp && Object.keys(module?.auditHelp).length > 0,
+            () => module?.auditHelp,
+        )
+        .on(
+            () => module?.statusHelp && Object.keys(module?.statusHelp).length > 0,
+            () => module?.statusHelp,
+        )
+        .on(
+            () => module?.evolutionHelp && Object.keys(module?.evolutionHelp).length > 0,
+            () => module?.evolutionHelp,
+        )
+        .otherwise(() => ({})) as Record<string, string>;
+
     return (
         <Descriptions
             bordered

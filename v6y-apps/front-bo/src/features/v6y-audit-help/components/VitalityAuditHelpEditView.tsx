@@ -1,5 +1,9 @@
-import { useParsed } from '@refinedev/core';
-import { VitalityTitle } from '@v6y/shared-ui';
+import {
+    AdminEditWrapper,
+    TitleView,
+    useAdminNavigationParamsParser,
+    useTranslationProvider,
+} from '@v6y/ui-kit';
 import * as React from 'react';
 
 import {
@@ -7,18 +11,16 @@ import {
     auditHelpCreateOrEditFormInAdapter,
     auditHelpCreateOrEditFormOutputAdapter,
 } from '../../../commons/config/VitalityFormConfig';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
-import RefineEditWrapper from '../../../infrastructure/components/RefineEditWrapper';
 import CreateOrEditAuditHelp from '../apis/createOrEditAuditHelp';
 import GetAuditHelpDetailsByParams from '../apis/getAuditHelpDetailsByParams';
 
 export default function VitalityAuditHelpEditView() {
-    const { translate } = useTranslation();
-    const { id } = useParsed();
+    const { translate } = useTranslationProvider();
+    const { id } = useAdminNavigationParamsParser();
 
     return (
-        <RefineEditWrapper
-            title={<VitalityTitle title="v6y-audit-helps.titles.edit" />}
+        <AdminEditWrapper
+            title={<TitleView title={translate('v6y-audit-helps.titles.edit')} />}
             queryOptions={{
                 queryFormAdapter: auditHelpCreateOrEditFormInAdapter,
                 query: GetAuditHelpDetailsByParams,

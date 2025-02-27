@@ -1,7 +1,12 @@
-import { KeywordType } from '@v6y/core-logic';
-import { VitalityEmptyView, VitalityLoader, useNavigationAdapter } from '@v6y/shared-ui';
-import { Card, Checkbox } from 'antd';
-import { CheckboxOptionType } from 'antd/es/checkbox/Group';
+import { KeywordType } from '@v6y/core-logic/src/types';
+import {
+    Card,
+    Checkbox,
+    CheckboxOptionType,
+    EmptyView,
+    LoaderView,
+    useNavigationAdapter,
+} from '@v6y/ui-kit';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
@@ -69,11 +74,11 @@ const VitalitySelectableIndicators = () => {
     };
 
     if (isIndicatorsLoading) {
-        return <VitalityLoader />;
+        return <LoaderView />;
     }
 
     if (!indicatorsList?.length) {
-        return <VitalityEmptyView />;
+        return <EmptyView />;
     }
 
     return (

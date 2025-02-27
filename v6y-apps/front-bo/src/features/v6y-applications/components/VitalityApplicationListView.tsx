@@ -1,16 +1,16 @@
-import { ApplicationType } from '@v6y/core-logic';
+import { ApplicationType } from '@v6y/core-logic/src/types';
+import { AdminListWrapper, useTranslationProvider } from '@v6y/ui-kit';
+import type { DocumentNode } from 'graphql/index';
 
 import GetApplicationListByPageAndParams from '../../../commons/apis/getApplicationListByPageAndParams';
-import RenderVitalityTable from '../../../commons/components/VitalityTable';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
-import RefineTableWrapper from '../../../infrastructure/components/RefineTableWrapper';
+import VitalityTable from '../../../commons/components/VitalityTable';
 import DeleteApplication from '../apis/deleteApplication';
 
 export default function VitalityApplicationListView() {
-    const { translate } = useTranslation();
+    const { translate } = useTranslationProvider();
 
     return (
-        <RefineTableWrapper
+        <AdminListWrapper
             title={translate('v6y-applications.titles.list') || ''}
             subTitle=""
             defaultSorter={[
@@ -23,8 +23,8 @@ export default function VitalityApplicationListView() {
                 resource: 'getApplicationListByPageAndParams',
                 query: GetApplicationListByPageAndParams,
             }}
-            renderTable={(dataSource: ApplicationType[]) => (
-                <RenderVitalityTable
+            renderContent={(dataSource: ApplicationType[]) => (
+                <VitalityTable
                     dataSource={dataSource}
                     columnKeys={[]}
                     columnOptions={{
@@ -32,7 +32,7 @@ export default function VitalityApplicationListView() {
                         enableShow: true,
                         enableDelete: true,
                         deleteMetaQuery: {
-                            gqlMutation: DeleteApplication,
+                            gqlMutation: DeleteApplication as unknown as DocumentNode,
                             operation: 'deleteApplication',
                         },
                     }}

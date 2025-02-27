@@ -1,5 +1,4 @@
-import { VitalityText, VitalityTitle } from '@v6y/shared-ui';
-import { Avatar, Card } from 'antd';
+import { Avatar, Card, TextView, TitleView } from '@v6y/ui-kit';
 import Link from 'next/link';
 import * as React from 'react';
 
@@ -11,7 +10,7 @@ const VitalityDashboardMenuItem = ({ option }: { option: DashboardItemType }) =>
     }
 
     return (
-        <Link href={option.url} style={{ textDecoration: 'none' }}>
+        <Link href={option.url}>
             <Card bordered hoverable>
                 <Card.Meta
                     avatar={
@@ -21,8 +20,8 @@ const VitalityDashboardMenuItem = ({ option }: { option: DashboardItemType }) =>
                             style={{ backgroundColor: option.avatarColor }}
                         />
                     }
-                    title={<VitalityTitle title={option.title} level={4} underline />}
-                    description={<VitalityText text={option.description} />}
+                    title={<TitleView title={option.title} level={4} underline />}
+                    description={<TextView content={option.description} />}
                 />
             </Card>
         </Link>

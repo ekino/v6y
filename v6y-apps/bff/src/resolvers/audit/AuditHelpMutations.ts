@@ -58,7 +58,7 @@ const createOrEditAuditHelp = async (_: unknown, params: { auditHelpInput: Audit
  */
 const deleteAuditHelp = async (_: unknown, params: { input: SearchQueryType }) => {
     try {
-        const whereClause = params?.input?.where;
+        const whereClause = params?.input;
         if (!whereClause) {
             return null;
         }

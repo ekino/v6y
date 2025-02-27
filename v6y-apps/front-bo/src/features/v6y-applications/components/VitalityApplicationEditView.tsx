@@ -1,5 +1,9 @@
-import { useParsed } from '@refinedev/core';
-import { VitalityTitle } from '@v6y/shared-ui';
+import {
+    AdminEditWrapper,
+    TitleView,
+    useAdminNavigationParamsParser,
+    useTranslationProvider,
+} from '@v6y/ui-kit';
 import * as React from 'react';
 
 import {
@@ -7,18 +11,16 @@ import {
     applicationCreateOrEditFormInAdapter,
     applicationCreateOrEditFormOutputAdapter,
 } from '../../../commons/config/VitalityFormConfig';
-import { useTranslation } from '../../../infrastructure/adapters/translation/TranslationAdapter';
-import RefineEditWrapper from '../../../infrastructure/components/RefineEditWrapper';
 import CreateOrEditApplication from '../apis/createOrEditApplication';
 import GetApplicationDetails from '../apis/getApplicationDetails';
 
 export default function VitalityApplicationEditView() {
-    const { translate } = useTranslation();
-    const { id } = useParsed();
+    const { translate } = useTranslationProvider();
+    const { id } = useAdminNavigationParamsParser();
 
     return (
-        <RefineEditWrapper
-            title={<VitalityTitle title="v6y-applications.titles.edit" />}
+        <AdminEditWrapper
+            title={<TitleView title={translate('v6y-applications.titles.edit')} />}
             queryOptions={{
                 queryFormAdapter: applicationCreateOrEditFormInAdapter as (
                     data: unknown,
