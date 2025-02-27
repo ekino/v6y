@@ -142,3 +142,5 @@ dist
 **/coverage**
 **/.DS_Store
 **/duplications-report
+
+storybook-static
