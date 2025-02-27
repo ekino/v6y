@@ -4,7 +4,7 @@
 - **[FEATURE]:** for a new feature
 - **[EVOL]:** for an enhancement
 - **[FIX]:** for a bug fix
-- **[REFACTORING]:** for a refactor
+- **[REFACTOR]:** for a refactor
 
 ## 📄 Description
 Please explain in detail what this PR does, why it is needed, and how it addresses a specific problem. Include any relevant context and background information.
