@@ -4,14 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "storybook": "storybook dev -p 6006",
+    "build:tsc": "tsc --project ./tsconfig.json",
+    "check:tsc": "tsc --noEmit --project ./tsconfig.json",
+    "build": "storybook build",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "format": "prettier --write src",
-    "preview": "vite preview",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
     "test": "vitest --coverage --watch false",
     "test:watch": "vitest",
     "test:ui": "vitest --ui"

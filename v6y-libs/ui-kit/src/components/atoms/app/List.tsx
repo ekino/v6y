@@ -1,6 +1,4 @@
 import { List } from 'antd';
+import Item, { Meta } from 'antd/es/list/Item';
 
-const { Item: ListItem } = List;
-const { Meta: ListItemMeta } = ListItem;
-
-export { List, ListItem, ListItemMeta };
+export { List, Item as ListItem, Meta as ListItemMeta };
