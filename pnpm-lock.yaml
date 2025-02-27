@@ -30,11 +30,11 @@ importers:
         specifier: workspace:^
         version: link:../../v6y-libs/core-logic
       axios:
-        specifier: '=1.7.9'
-        version: 1.7.9
+        specifier: '=1.8.0'
+        version: 1.8.0
       axios-retry:
         specifier: '=4.5.0'
-        version: 4.5.0(axios@1.7.9)
+        version: 4.5.0(axios@1.8.0)
       body-parser:
         specifier: '=1.20.3'
         version: 1.20.3
@@ -142,11 +142,11 @@ importers:
         specifier: workspace:^
         version: link:../../v6y-libs/core-logic
       axios:
-        specifier: '=1.7.9'
-        version: 1.7.9
+        specifier: '=1.8.0'
+        version: 1.8.0
       axios-retry:
         specifier: '=4.5.0'
-        version: 4.5.0(axios@1.7.9)
+        version: 4.5.0(axios@1.8.0)
       body-parser:
         specifier: '=1.20.3'
         version: 1.20.3
@@ -257,11 +257,11 @@ importers:
         specifier: workspace:^
         version: link:../../v6y-libs/core-logic
       axios:
-        specifier: '=1.7.9'
-        version: 1.7.9
+        specifier: '=1.8.0'
+        version: 1.8.0
       axios-retry:
         specifier: '=4.5.0'
-        version: 4.5.0(axios@1.7.9)
+        version: 4.5.0(axios@1.8.0)
       body-parser:
         specifier: '=1.20.3'
         version: 1.20.3
@@ -348,11 +348,11 @@ importers:
         specifier: workspace:^
         version: link:../../v6y-libs/core-logic
       axios:
-        specifier: '=1.7.9'
-        version: 1.7.9
+        specifier: '=1.8.0'
+        version: 1.8.0
       axios-retry:
         specifier: '=4.5.0'
-        version: 4.5.0(axios@1.7.9)
+        version: 4.5.0(axios@1.8.0)
       body-parser:
         specifier: '=1.20.3'
         version: 1.20.3
@@ -520,11 +520,11 @@ importers:
         specifier: '=3.8.2'
         version: 3.8.2(graphql@16.10.0)
       axios:
-        specifier: '=1.7.9'
-        version: 1.7.9
+        specifier: '=1.8.0'
+        version: 1.8.0
       axios-retry:
         specifier: '=4.5.0'
-        version: 4.5.0(axios@1.7.9)
+        version: 4.5.0(axios@1.8.0)
       body-parser:
         specifier: '=1.20.3'
         version: 1.20.3
@@ -910,11 +910,11 @@ importers:
         specifier: '=0.5.16'
         version: 0.5.16
       axios:
-        specifier: '=1.7.9'
-        version: 1.7.9
+        specifier: '=1.8.0'
+        version: 1.8.0
       axios-retry:
         specifier: '=4.5.0'
-        version: 4.5.0(axios@1.7.9)
+        version: 4.5.0(axios@1.8.0)
       bcrypt:
         specifier: '=5.1.1'
         version: 5.1.1
@@ -4878,8 +4878,8 @@ packages:
   axios@0.26.0:
     resolution: {integrity: sha512-lKoGLMYtHvFrPVt3r+RBMp9nh34N0M8zEfCWqdWZx6phynIEhQqAdydpyBAAG211zlhX9Rgu08cOamy6XjE5Og==}
 
-  axios@1.7.9:
-    resolution: {integrity: sha512-LhLcE7Hbiryz8oMDdDptSrWowmB4Bl6RCt6sIJKpRB4XtVf0iEgewX3au/pJqm+Py1kCASkb/FFKjxQaLtxJvw==}
+  axios@1.8.0:
+    resolution: {integrity: sha512-AS3x1klSQ4VeoeAaOyITVjomjITxIRgpKVgAXhE8QFJiNiYliuU+cW0p7XpqvlwNKmiwE57aNEyhPtsfAxERqg==}
 
   axios@1.8.1:
     resolution: {integrity: sha512-NN+fvwH/kV01dYUQ3PTOZns4LWtWhOFCAhQ/pHb88WQ1hNe5V/dvFwc4VJcDL11LT9xSX0QtsR8sWUuyOuOq7g==}
@@ -14137,7 +14137,7 @@ snapshots:
       std-env: 3.8.0
       test-exclude: 7.0.1
       tinyrainbow: 2.0.0
-      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@22.13.5)(@vitest/ui@3.0.5)(jsdom@26.0.0)(msw@2.7.3(@types/node@22.13.5)(typescript@5.7.3))(yaml@2.7.0)
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@22.10.6)(@vitest/ui@3.0.5)(jsdom@26.0.0)(msw@2.7.3(@types/node@22.10.6)(typescript@5.7.3))(yaml@2.7.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -14268,7 +14268,7 @@ snapshots:
       sirv: 3.0.1
       tinyglobby: 0.2.12
       tinyrainbow: 2.0.0
-      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@22.13.5)(@vitest/ui@3.0.5)(jsdom@26.0.0)(msw@2.7.3(@types/node@22.13.5)(typescript@5.7.3))(yaml@2.7.0)
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@22.10.6)(@vitest/ui@3.0.5)(jsdom@26.0.0)(msw@2.7.3(@types/node@22.10.6)(typescript@5.7.3))(yaml@2.7.0)
 
   '@vitest/utils@2.0.5':
     dependencies:
@@ -14737,9 +14737,9 @@ snapshots:
 
   axe-core@4.10.2: {}
 
-  axios-retry@4.5.0(axios@1.7.9):
+  axios-retry@4.5.0(axios@1.8.0):
     dependencies:
-      axios: 1.7.9
+      axios: 1.8.0
       is-retry-allowed: 2.2.0
 
   axios@0.26.0(debug@4.1.1):
@@ -14748,7 +14748,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  axios@1.7.9:
+  axios@1.8.0:
     dependencies:
       follow-redirects: 1.15.9(debug@4.4.0)
       form-data: 4.0.2
