@@ -1,19 +1,14 @@
 'use client';
 
-import { Edit, useForm } from '@refinedev/antd';
+import { useForm } from '@refinedev/antd';
 import { BaseRecord, GetOneResponse, UseFormProps, UseUpdateProps } from '@refinedev/core';
-import { Form } from 'antd';
 import { useEffect } from 'react';
 
 import { gqlClientRequest } from '../../../api';
-import { FormWrapperProps } from '../../types';
+import { EditLayout, Form } from '../../atoms';
+import { FormWrapperType } from '../../types';
 
-export default function AdminEditWrapper({
-    title,
-    queryOptions,
-    mutationOptions,
-    formItems,
-}: FormWrapperProps) {
+const AdminEditWrapper = ({ title, queryOptions, mutationOptions, formItems }: FormWrapperType) => {
     const { form, formProps, saveButtonProps, query } = useForm<UseFormProps>({
         queryOptions: {
             queryKey: [queryOptions?.resource, queryOptions?.queryParams],
@@ -55,10 +50,12 @@ export default function AdminEditWrapper({
     const { onValuesChange, ...otherFormProps } = formProps || {};
 
     return (
-        <Edit canDelete={false} title={title} saveButtonProps={saveButtonProps}>
+        <EditLayout canDelete={false} title={title} saveButtonProps={saveButtonProps}>
             <Form {...otherFormProps} layout="vertical" variant="filled">
                 {formItems?.map((item) => item)}
             </Form>
-        </Edit>
+        </EditLayout>
     );
-}
+};
+
+export default AdminEditWrapper;

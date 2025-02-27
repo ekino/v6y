@@ -1,7 +1,6 @@
 'use client';
 
-import { VitalityTitle } from '@v6y/shared-ui';
-import { AdminLayout } from '@v6y/shared-ui';
+import { AdminLayout, TitleView } from '@v6y/shared-ui';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
@@ -11,7 +10,7 @@ import { VitalityPageHeader } from './VitalityPageHeader';
 const VitalityPageLayout = ({ children }: { children: ReactNode }) => {
     return (
         <AdminLayout
-            title={() => <VitalityTitle level={1} title="V6Y" />}
+            title={() => <TitleView level={1} title="V6Y" />}
             header={() => <VitalityPageHeader />}
             footer={() => <VitalityPageFooter />}
         >

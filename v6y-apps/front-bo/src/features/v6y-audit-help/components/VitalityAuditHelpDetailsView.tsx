@@ -1,11 +1,11 @@
-import { AuditHelpType } from '@v6y/core-logic';
+import { AuditHelpType } from '@v6y/core-logic/src/types';
 import {
     AdminHttpError,
     AdminShowWrapper,
-    VitalityTitle,
+    TitleView,
     useAdminNavigationParamsParser,
+    useTranslationProvider,
 } from '@v6y/shared-ui';
-import { useTranslationProvider } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';
@@ -19,7 +19,7 @@ export default function VitalityAuditHelpDetailsView() {
 
     return (
         <AdminShowWrapper
-            title={<VitalityTitle title={translate('v6y-audit-helps.titles.show')} />}
+            title={<TitleView title={translate('v6y-audit-helps.titles.show')} />}
             queryOptions={{
                 resource: 'getAuditHelpDetailsByParams',
                 query: GetAuditHelpDetailsByParams,

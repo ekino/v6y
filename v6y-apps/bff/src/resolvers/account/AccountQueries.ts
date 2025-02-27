@@ -6,7 +6,7 @@ import {
     SearchQueryType,
     generateAuthenticationToken,
 } from '@v6y/core-logic';
-import { validatePassword } from '@v6y/core-logic/src/core/PasswordUtils.js';
+import { validatePassword } from '@v6y/core-logic/src/core/PasswordUtils.ts';
 
 /**
  * Fetch the Account details by parameters

@@ -1,7 +1,7 @@
-import { AdminTableWrapper, useTranslationProvider } from '@v6y/shared-ui';
+import { AdminListWrapper, useTranslationProvider } from '@v6y/shared-ui';
 import type { DocumentNode } from 'graphql/index';
 
-import RenderVitalityTable from '../../../commons/components/VitalityTable';
+import VitalityTable from '../../../commons/components/VitalityTable';
 import DeleteNotification from '../apis/deleteNotification';
 import GetNotificationListByPageAndParams from '../apis/getNotificationListByPageAndParams';
 
@@ -9,7 +9,7 @@ export default function VitalityNotificationListView() {
     const { translate } = useTranslationProvider();
 
     return (
-        <AdminTableWrapper
+        <AdminListWrapper
             title={translate('v6y-notifications.titles.list')}
             subTitle=""
             defaultSorter={[
@@ -22,8 +22,8 @@ export default function VitalityNotificationListView() {
                 resource: 'getNotificationListByPageAndParams',
                 query: GetNotificationListByPageAndParams,
             }}
-            renderTable={(dataSource) => (
-                <RenderVitalityTable
+            renderContent={(dataSource) => (
+                <VitalityTable
                     dataSource={dataSource}
                     columnKeys={[]}
                     columnOptions={{

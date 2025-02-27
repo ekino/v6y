@@ -1,7 +1,7 @@
 import { NotificationType } from '@v6y/core-logic/src/types';
-import { CollapseItemType, VitalityCollapse, VitalityLinks } from '@v6y/shared-ui';
+import { CollapseItemType, CollapseView, Links } from '@v6y/shared-ui';
 
-const VitalityNotificationList = ({ dataSource }: { dataSource: NotificationType[] }) => {
+const VitalityNotificationList = ({ dataSource }: { dataSource?: NotificationType[] }) => {
     if (!dataSource?.length) {
         return null;
     }
@@ -15,14 +15,14 @@ const VitalityNotificationList = ({ dataSource }: { dataSource: NotificationType
                 children: (
                     <>
                         <p>{option.description}</p>
-                        <VitalityLinks links={option.links || []} />
+                        <Links links={option.links || []} />
                     </>
                 ),
                 showArrow: true,
             }),
         );
 
-    return <VitalityCollapse accordion bordered dataSource={notificationList} />;
+    return <CollapseView accordion bordered dataSource={notificationList} />;
 };
 
 export default VitalityNotificationList;

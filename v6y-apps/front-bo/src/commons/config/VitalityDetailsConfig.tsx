@@ -8,8 +8,8 @@ import {
     FaqType,
     LinkType,
     NotificationType,
-} from '@v6y/core-logic';
-import { TranslateType, VitalityLinks } from '@v6y/shared-ui';
+} from '@v6y/core-logic/src/types';
+import { Links, TranslateType } from '@v6y/shared-ui';
 import { ReactNode } from 'react';
 
 export const formatAccountDetails = (
@@ -44,7 +44,7 @@ export const formatApplicationDetails = (
         [translate('v6y-applications.fields.app-contact-email.label') || '']: details.contactMail,
         [translate('v6y-applications.fields.app-git-url.label') || '']: details.repo?.gitUrl,
         [translate('v6y-applications.fields.app-links.label') || '']: (
-            <VitalityLinks links={details.links as LinkType[]} align="start" />
+            <Links links={details.links as LinkType[]} align="start" />
         ),
     };
 };
@@ -58,7 +58,7 @@ export const formatFaqDetails = (translate: TranslateType, details: FaqType) => 
         [translate('v6y-faqs.fields.faq-title.label') || '']: details.title,
         [translate('v6y-faqs.fields.faq-description.label') || '']: details.description,
         [translate('v6y-faqs.fields.faq-links.label') || '']: (
-            <VitalityLinks links={details.links as LinkType[]} align="start" />
+            <Links links={details.links as LinkType[]} align="start" />
         ),
     };
 };
@@ -73,7 +73,7 @@ export const formatNotificationDetails = (translate: TranslateType, details: Not
         [translate('v6y-notifications.fields.notification-description.label') || '']:
             details.description,
         [translate('v6y-notifications.fields.notification-links.label') || '']: (
-            <VitalityLinks links={details.links as LinkType[]} align="start" />
+            <Links links={details.links as LinkType[]} align="start" />
         ),
     };
 };
@@ -94,7 +94,7 @@ export const formatEvolutionHelpDetails = (
         [translate('v6y-evolution-helps.fields.evolution-help-description.label') || '']:
             details.description,
         [translate('v6y-evolution-helps.fields.evolution-help-link.label') || '']: (
-            <VitalityLinks links={details.links as LinkType[]} align="start" />
+            <Links links={details.links as LinkType[]} align="start" />
         ),
     };
 };
@@ -130,7 +130,7 @@ export const formatDependencyStatusHelpDetails = (
         [translate('v6y-dependency-status-helps.fields.dependency-status-help-description.label') ||
         '']: details.description,
         [translate('v6y-dependency-status-helps.fields.dependency-status-help-links.label') || '']:
-            <VitalityLinks links={details.links as LinkType[]} align="start" />,
+            <Links links={details.links as LinkType[]} align="start" />,
     };
 };
 

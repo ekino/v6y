@@ -1,12 +1,12 @@
 'use client';
 
-import { RefreshButton, Show } from '@refinedev/antd';
 import { BaseRecord, GetOneResponse, useShow } from '@refinedev/core';
 
 import { gqlClientRequest } from '../../../api';
+import { RefreshButton, ShowLayout } from '../../atoms';
 import { FormShowOptions } from '../../types';
 
-export default function AdminShowWrapper({ title, renderShowView, queryOptions }: FormShowOptions) {
+const AdminShowWrapper = ({ title, renderShowView, queryOptions }: FormShowOptions) => {
     const { query } = useShow({
         queryOptions: {
             enabled: queryOptions?.enabled || true,
@@ -26,7 +26,7 @@ export default function AdminShowWrapper({ title, renderShowView, queryOptions }
     } = query || {};
 
     return (
-        <Show
+        <ShowLayout
             title={title}
             isLoading={resourceQueryIsLoading}
             headerProps={{
@@ -43,6 +43,8 @@ export default function AdminShowWrapper({ title, renderShowView, queryOptions }
                 data: resourceQueryData?.[queryOptions?.resource as keyof typeof resourceQueryData],
                 error: resourceQueryError || undefined,
             })}
-        </Show>
+        </ShowLayout>
     );
-}
+};
+
+export default AdminShowWrapper;

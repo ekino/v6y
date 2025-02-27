@@ -1,5 +1,5 @@
 import { EvolutionType } from '@v6y/core-logic/src/types';
-import { BulbOutlined, VitalityDynamicLoader, useNavigationAdapter } from '@v6y/shared-ui';
+import { BulbOutlined, DynamicLoader, useNavigationAdapter } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView';
@@ -12,7 +12,7 @@ import {
 } from '../../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationDetailsEvolutionsByParams from '../../api/getApplicationDetailsEvolutionsByParams';
 
-const VitalityEvolutionBranchGrouper = VitalityDynamicLoader(
+const VitalityEvolutionBranchGrouper = DynamicLoader(
     () => import('./VitalityEvolutionBranchGrouper'),
 );
 

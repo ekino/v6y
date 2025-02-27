@@ -1,12 +1,12 @@
 import { AuditType } from '@v6y/core-logic/src/types';
-import { Card, Checkbox, Col, Row, VitalityDynamicLoader } from '@v6y/shared-ui';
+import { Card, Checkbox, Col, DynamicLoader, Row } from '@v6y/shared-ui';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
 import useDataGrouper from '../../../../../../commons/hooks/useDataGrouper';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';
 
-const VitalityModuleList = VitalityDynamicLoader(
+const VitalityModuleList = DynamicLoader(
     () => import('../../../../../../commons/components/modules/VitalityModuleList'),
 );
 

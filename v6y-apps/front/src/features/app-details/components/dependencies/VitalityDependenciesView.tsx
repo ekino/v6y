@@ -1,5 +1,5 @@
 import { DependencyType } from '@v6y/core-logic/src/types';
-import { ProductOutlined, VitalityDynamicLoader, useNavigationAdapter } from '@v6y/shared-ui';
+import { DynamicLoader, ProductOutlined, useNavigationAdapter } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView';
@@ -12,7 +12,7 @@ import {
 } from '../../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationDetailsDependenciesByParams from '../../api/getApplicationDetailsDependenciesByParams';
 
-const VitalityDependenciesBranchGrouper = VitalityDynamicLoader(
+const VitalityDependenciesBranchGrouper = DynamicLoader(
     () => import('./VitalityDependenciesBranchGrouper'),
 );
 

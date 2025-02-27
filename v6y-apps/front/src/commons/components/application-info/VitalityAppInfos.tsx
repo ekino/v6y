@@ -1,12 +1,12 @@
 import {
     Col,
     Divider,
+    Links,
     ListItem,
     ListItemMeta,
     Row,
     Tag,
-    VitalityLinks,
-    VitalityText,
+    TextView,
     useNavigationAdapter,
     useThemeConfigProvider,
 } from '@v6y/shared-ui';
@@ -17,7 +17,7 @@ import VitalityNavigationPaths from '../../config/VitalityNavigationPaths';
 import VitalityTerms from '../../config/VitalityTerms';
 import { VitalityAppInfosProps } from '../../types/VitalityAppInfosProps';
 
-const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: VitalityAppInfosProps) => {
+const VitalityAppInfos = ({ app, source, canOpenDetails = true }: VitalityAppInfosProps) => {
     const { currentConfig } = useThemeConfigProvider();
     const { createUrlQueryParam } = useNavigationAdapter();
     const queryParams = createUrlQueryParam('_id', `${app._id}`);
@@ -32,15 +32,13 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
     const qualityMetricStatus = currentConfig?.status || {};
 
     return (
-        <ListItem style={{ marginTop: '1rem', ...(style || {}) }}>
+        <ListItem>
             <ListItemMeta
                 title={
                     <Row gutter={[12, 0]} justify="end" align="middle">
                         <Col span={24} />
-                        <Col span={12} style={{ textAlign: 'left' }}>
-                            {app.name}
-                        </Col>
-                        <Col span={12} style={{ textAlign: 'right' }}>
+                        <Col span={12}>{app.name}</Col>
+                        <Col span={12}>
                             <Tag
                                 color={
                                     appOpenedBranches >= 4
@@ -52,18 +50,18 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                             </Tag>
                         </Col>
                         <Col span={24}>
-                            <Divider style={{ marginBottom: '0' }} />
+                            <Divider />
                         </Col>
                     </Row>
                 }
                 description={
                     <Row gutter={[12, 16]} justify="end" align="middle">
                         <Col span={24} />
-                        <Col span={24} style={{ textAlign: 'left', marginTop: '0' }}>
-                            <VitalityText text={app.description || ''} />
+                        <Col span={24}>
+                            <TextView content={app.description || ''} />
                         </Col>
                         <Col span={24}>
-                            <VitalityLinks
+                            <Links
                                 align="center"
                                 links={[
                                     ...(appLinks || []),
@@ -77,8 +75,8 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                         <Col>
                             {app.contactMail?.length && (
                                 <Link key="team-mail-contact" href={`mailto:${app.contactMail}`}>
-                                    <VitalityText
-                                        text={VitalityTerms.VITALITY_APP_LIST_CONTACT_EMAIL}
+                                    <TextView
+                                        content={VitalityTerms.VITALITY_APP_LIST_CONTACT_EMAIL}
                                     />
                                 </Link>
                             )}
@@ -86,8 +84,8 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                         <Col>
                             {canOpenDetails && (
                                 <Link key="app-details-link" href={appDetailsLink}>
-                                    <VitalityText
-                                        text={VitalityTerms.VITALITY_APP_LIST_OPEN_DETAILS_LABEL}
+                                    <TextView
+                                        content={VitalityTerms.VITALITY_APP_LIST_OPEN_DETAILS_LABEL}
                                         underline
                                     />
                                 </Link>

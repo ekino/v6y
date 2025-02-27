@@ -1,5 +1,5 @@
 import { KeywordType } from '@v6y/core-logic/src/types';
-import { CompassOutlined, VitalityDynamicLoader, useNavigationAdapter } from '@v6y/shared-ui';
+import { CompassOutlined, DynamicLoader, useNavigationAdapter } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView';
@@ -12,7 +12,7 @@ import {
 } from '../../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationDetailsQualityIndicatorsByParams from '../../api/getApplicationDetailsQualityIndicatorsByParams';
 
-const VitalityQualityIndicatorBranchGrouper = VitalityDynamicLoader(
+const VitalityQualityIndicatorBranchGrouper = DynamicLoader(
     () => import('./VitalityQualityIndicatorBranchGrouper'),
 );
 

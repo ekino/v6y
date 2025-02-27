@@ -19,7 +19,7 @@ vi.mock('../../infrastructure/adapters/api/useQueryAdapter', () => {
         })),
         useInfiniteClientQuery: vi.fn(() => ({
             status: 'success',
-            data: { pages: [] }, // ✅ Always return a valid object
+            data: { pages: [] }, //  Always return a valid object
             fetchNextPage: vi.fn(),
             isFetching: false,
             isFetchingNextPage: false,

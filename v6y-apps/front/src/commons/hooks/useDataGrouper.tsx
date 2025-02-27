@@ -1,4 +1,4 @@
-import { VitalityText } from '@v6y/shared-ui';
+import { TextView } from '@v6y/shared-ui';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
@@ -33,14 +33,14 @@ const useDataGrouper = ({
         const groups = Object.keys(groupedDataSource || {})?.map((group) => ({
             key: group,
             value: group,
-            label: <VitalityText text={group} />,
+            label: <TextView content={group} />,
         }));
 
         if (hasAllGroup) {
             const hasAllGroup = {
                 key: 'All',
                 value: 'All',
-                label: <VitalityText text="All" />,
+                label: <TextView content="All" />,
             };
             setCriteriaGroups([hasAllGroup, ...(groups || [])]);
         } else {

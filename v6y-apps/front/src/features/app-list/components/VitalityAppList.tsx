@@ -3,10 +3,10 @@
 import { ApplicationType } from '@v6y/core-logic/src/types';
 import {
     Col,
+    DynamicLoader,
+    EmptyView,
+    LoadMoreList,
     Row,
-    VitalityDynamicLoader,
-    VitalityEmptyView,
-    VitalityLoadMoreList,
     useNavigationAdapter,
 } from '@v6y/shared-ui';
 import * as React from 'react';
@@ -23,7 +23,7 @@ import {
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationListByPageAndParams from '../api/getApplicationListByPageAndParams';
 
-const VitalityAppListHeader = VitalityDynamicLoader(() => import('./VitalityAppListHeader'));
+const VitalityAppListHeader = DynamicLoader(() => import('./VitalityAppListHeader'));
 
 let currentAppListPage = 0;
 
@@ -97,10 +97,10 @@ const VitalityAppList = ({ source }: { source?: string }) => {
                 <VitalityAppListHeader onExportApplicationsClicked={onExportApplicationsClicked} />
             </Col>
             {appList?.length === 0 ? (
-                <VitalityEmptyView />
+                <EmptyView />
             ) : (
                 <Col span={20}>
-                    <VitalityLoadMoreList
+                    <LoadMoreList
                         isDataSourceLoading={isAppListLoading}
                         loadMoreLabel={VitalityTerms.VITALITY_APP_LIST_LOAD_MORE_LABEL}
                         dataSource={appList || []}

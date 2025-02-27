@@ -1,16 +1,16 @@
 'use client';
 
-import { Col, Row, VitalityDynamicLoader } from '@v6y/shared-ui';
+import { Col, DynamicLoader, Row } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalitySearchBar from '../../../commons/components/VitalitySearchBar';
 import VitalityTerms from '../../../commons/config/VitalityTerms';
 
-const VitalitySelectableIndicators = VitalityDynamicLoader(
+const VitalitySelectableIndicators = DynamicLoader(
     () => import('../../../commons/components/indicators/VitalitySelectableIndicators'),
 );
 
-const VitalityAppList = VitalityDynamicLoader(() => import('./VitalityAppList'));
+const VitalityAppList = DynamicLoader(() => import('./VitalityAppList'));
 
 const VitalityAppListView = () => {
     return (

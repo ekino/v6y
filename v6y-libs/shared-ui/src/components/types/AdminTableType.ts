@@ -11,7 +11,7 @@ export interface AdminTableType<T> {
         queryParams?: Record<string, unknown>;
     };
     defaultSorter?: CrudSort[];
-    renderTable: (dataSource: T[]) => ReactNode;
+    renderContent: (dataSource: T[]) => ReactNode;
 }
 
 export interface AdminTableOptions {

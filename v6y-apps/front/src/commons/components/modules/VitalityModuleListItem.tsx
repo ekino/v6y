@@ -9,7 +9,7 @@ import {
     PushpinOutlined,
     Space,
     Statistic,
-    VitalityText,
+    TextView,
     useThemeConfigProvider,
 } from '@v6y/shared-ui';
 import * as React from 'react';
@@ -88,26 +88,18 @@ const VitalityModuleListItem = ({ module, onModuleClicked }: VitalityModuleItemP
                             )}
                             {(module.branch?.length || 0) > 0 && (
                                 <>
-                                    <VitalityText
-                                        style={{ fontWeight: 'bold' }}
-                                        text={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_DETECT_ON_BRANCH_LABEL}: `}
+                                    <TextView
+                                        content={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_DETECT_ON_BRANCH_LABEL}: `}
                                     />
-                                    <VitalityText
-                                        style={{ fontWeight: 'normal' }}
-                                        text={module.branch}
-                                    />
+                                    <TextView content={module.branch} />
                                 </>
                             )}
                             {(modulePath?.length || 0) > 0 && (
                                 <>
-                                    <VitalityText
-                                        style={{ fontWeight: 'bold' }}
-                                        text={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_DETECT_ON_PATH_LABEL}: `}
+                                    <TextView
+                                        content={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_DETECT_ON_PATH_LABEL}: `}
                                     />
-                                    <VitalityText
-                                        style={{ fontWeight: 'normal' }}
-                                        text={modulePath}
-                                    />
+                                    <TextView content={modulePath} />
                                 </>
                             )}
                         </Space>

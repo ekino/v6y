@@ -1,4 +1,4 @@
-import { AdminCreateWrapper, VitalityTitle, useTranslationProvider } from '@v6y/shared-ui';
+import { AdminCreateWrapper, TitleView, useTranslationProvider } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import {
@@ -12,7 +12,7 @@ export default function VitalityApplicationCreateView() {
 
     return (
         <AdminCreateWrapper
-            title={<VitalityTitle title={translate('v6y-applications.titles.create')} />}
+            title={<TitleView title={translate('v6y-applications.titles.create')} />}
             createOptions={{
                 createFormAdapter: applicationCreateOrEditFormOutputAdapter,
                 createQuery: CreateOrEditApplication,

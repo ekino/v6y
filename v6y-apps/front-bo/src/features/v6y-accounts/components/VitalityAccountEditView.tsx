@@ -1,15 +1,15 @@
 'use client';
 
-import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
+import { ApplicationType } from '@v6y/core-logic/src/types';
 import {
     AdminSelectWrapper,
-    VitalityEmptyView,
-    VitalityTitle,
+    EmptyView,
+    TitleView,
     useAdminNavigationParamsParser,
     useTranslationProvider,
 } from '@v6y/shared-ui';
-import { useEffect, useState } from 'react';
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 
 import GetApplicationListByPageAndParams from '../../../commons/apis/getApplicationListByPageAndParams';
 import {
@@ -32,12 +32,12 @@ export default function VitalityAccountEditView() {
     }, [getRole]);
 
     if (!userRole) {
-        return <VitalityEmptyView />;
+        return <EmptyView />;
     }
 
     return (
         <AdminSelectWrapper
-            title={<VitalityTitle title={translate('v6y-accounts.titles.edit')} />}
+            title={<TitleView title={translate('v6y-accounts.titles.edit')} />}
             queryOptions={{
                 queryFormAdapter: accountCreateOrEditFormInAdapter,
                 query: GetAccountDetailsByParams,

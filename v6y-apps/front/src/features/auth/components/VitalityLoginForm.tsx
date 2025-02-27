@@ -1,6 +1,13 @@
 'use client';
 
-import { Button, Form, Message, VitalityCheckbox, VitalityInput, useForm } from '@v6y/shared-ui';
+import {
+    Button,
+    ControlledCheckbox,
+    ControlledInput,
+    Form,
+    Message,
+    useForm,
+} from '@v6y/shared-ui';
 import { useEffect } from 'react';
 
 import VitalityTerms from '../../../commons/config/VitalityTerms';
@@ -45,7 +52,6 @@ const VitalityLoginForm = () => {
             name="basic"
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
-            style={{ maxWidth: 600, margin: 'auto' }}
             onFinish={handleSubmit(onAuthentication)}
             autoComplete="off"
         >
@@ -61,7 +67,7 @@ const VitalityLoginForm = () => {
                     },
                 ]}
             >
-                <VitalityInput
+                <ControlledInput
                     name="email"
                     ariaLabel="Email"
                     control={control}
@@ -91,7 +97,7 @@ const VitalityLoginForm = () => {
                     },
                 ]}
             >
-                <VitalityInput
+                <ControlledInput
                     name="password"
                     control={control}
                     ariaLabel={VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_LABEL}
@@ -112,7 +118,7 @@ const VitalityLoginForm = () => {
             </Form.Item>
 
             <Form.Item name="remember" wrapperCol={{ offset: 8, span: 16 }}>
-                <VitalityCheckbox
+                <ControlledCheckbox
                     name="remember"
                     control={control}
                     ariaLabel={VitalityTerms.VITALITY_APP_LOGIN_FORM_REMEMBER_LABEL}

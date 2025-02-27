@@ -1,9 +1,4 @@
-import {
-    VitalityDynamicLoader,
-    VitalityModal,
-    VitalityPaginatedList,
-    VitalityTitle,
-} from '@v6y/shared-ui';
+import { DynamicLoader, ModalView, PaginatedList, TitleView } from '@v6y/shared-ui';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
@@ -11,7 +6,7 @@ import VitalityTerms from '../../config/VitalityTerms';
 import { VitalityModuleType, VitalityModulesProps } from '../../types/VitalityModulesProps';
 import VitalityModuleListItem from './VitalityModuleListItem';
 
-const VitalityHelpView = VitalityDynamicLoader(() => import('../help/VitalityHelpView'));
+const VitalityHelpView = DynamicLoader(() => import('../help/VitalityHelpView'));
 
 const VitalityModuleList = ({ modules }: VitalityModulesProps) => {
     const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
@@ -27,8 +22,7 @@ const VitalityModuleList = ({ modules }: VitalityModulesProps) => {
 
     return (
         <>
-            <VitalityPaginatedList
-                style={{ paddingTop: '2rem', marginTop: '2rem' }}
+            <PaginatedList
                 pageSize={15}
                 grid={{ gutter: 4, xs: 1, sm: 1, md: 1, lg: 2, xl: 2, xxl: 2 }}
                 dataSource={modules}
@@ -39,9 +33,9 @@ const VitalityModuleList = ({ modules }: VitalityModulesProps) => {
                     />
                 )}
             />
-            <VitalityModal
+            <ModalView
                 title={
-                    <VitalityTitle
+                    <TitleView
                         title={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_MODULE_HELP_TITLE}
                         level={5}
                     />
@@ -50,7 +44,7 @@ const VitalityModuleList = ({ modules }: VitalityModulesProps) => {
                 isOpen={isHelpModalOpen}
             >
                 {helpDetails && <VitalityHelpView module={helpDetails} />}
-            </VitalityModal>
+            </ModalView>
         </>
     );
 };

@@ -1,6 +1,10 @@
-import { EvolutionHelpType } from '@v6y/core-logic';
-import { AdminSelectWrapper, VitalityTitle, useAdminNavigationParamsParser } from '@v6y/shared-ui';
-import { useTranslationProvider } from '@v6y/shared-ui';
+import { EvolutionHelpType } from '@v6y/core-logic/src/types';
+import {
+    AdminSelectWrapper,
+    TitleView,
+    useAdminNavigationParamsParser,
+    useTranslationProvider,
+} from '@v6y/shared-ui';
 import * as React from 'react';
 
 import {
@@ -18,7 +22,7 @@ export default function VitalityEvolutionHelpEditView() {
 
     return (
         <AdminSelectWrapper
-            title={<VitalityTitle title={translate('v6y-evolution-helps.titles.edit')} />}
+            title={<TitleView title={translate('v6y-evolution-helps.titles.edit')} />}
             queryOptions={{
                 queryFormAdapter: evolutionHelpCreateOrEditFormInAdapter,
                 query: GetEvolutionHelpDetailsByParams,

@@ -3,8 +3,8 @@ import {
     Card,
     Checkbox,
     CheckboxOptionType,
-    VitalityEmptyView,
-    VitalityLoader,
+    EmptyView,
+    LoaderView,
     useNavigationAdapter,
 } from '@v6y/shared-ui';
 import * as React from 'react';
@@ -74,11 +74,11 @@ const VitalitySelectableIndicators = () => {
     };
 
     if (isIndicatorsLoading) {
-        return <VitalityLoader />;
+        return <LoaderView />;
     }
 
     if (!indicatorsList?.length) {
-        return <VitalityEmptyView />;
+        return <EmptyView />;
     }
 
     return (

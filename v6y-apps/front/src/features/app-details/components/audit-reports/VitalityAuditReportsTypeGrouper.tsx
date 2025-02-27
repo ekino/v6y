@@ -1,15 +1,15 @@
 import { AuditType } from '@v6y/core-logic/src/types';
-import { VitalityDynamicLoader } from '@v6y/shared-ui';
+import { DynamicLoader } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalityTabGrouperView from '../../../../commons/components/VitalityTabGrouperView';
 import { AUDIT_REPORT_TYPES } from '../../../../commons/config/VitalityCommonConfig';
 
-const VitalityCodeStatusReportsBranchGrouper = VitalityDynamicLoader(
+const VitalityCodeStatusReportsBranchGrouper = DynamicLoader(
     () => import('./auditors/code-status/VitalityCodeStatusReportsBranchGrouper'),
 );
 
-const VitalityLighthouseReportsDeviceGrouper = VitalityDynamicLoader(
+const VitalityLighthouseReportsDeviceGrouper = DynamicLoader(
     () => import('./auditors/lighthouse/VitalityLighthouseReportsDeviceGrouper'),
 );
 

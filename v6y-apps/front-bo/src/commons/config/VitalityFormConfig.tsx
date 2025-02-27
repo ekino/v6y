@@ -1,4 +1,4 @@
-import { ApplicationType } from '@v6y/core-logic';
+import { ApplicationType } from '@v6y/core-logic/src/types';
 import { SelectOptionType, TranslateType } from '@v6y/shared-ui';
 import { Variables } from 'graphql-request';
 

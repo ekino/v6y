@@ -6,7 +6,7 @@ import {
     AppLogger,
     SearchQueryType,
 } from '@v6y/core-logic';
-import { hashPassword } from '@v6y/core-logic/src/core/PasswordUtils.js';
+import { hashPassword } from '@v6y/core-logic/src/core/PasswordUtils.ts';
 
 /**
  * Create or edit account

@@ -1,5 +1,9 @@
-import { AdminEditWrapper, VitalityTitle, useAdminNavigationParamsParser } from '@v6y/shared-ui';
-import { useTranslationProvider } from '@v6y/shared-ui';
+import {
+    AdminEditWrapper,
+    TitleView,
+    useAdminNavigationParamsParser,
+    useTranslationProvider,
+} from '@v6y/shared-ui';
 import * as React from 'react';
 
 import {
@@ -16,7 +20,7 @@ export default function VitalityNotificationEditView() {
 
     return (
         <AdminEditWrapper
-            title={<VitalityTitle title={translate('v6y-notifications.titles.edit')} />}
+            title={<TitleView title={translate('v6y-notifications.titles.edit')} />}
             queryOptions={{
                 queryFormAdapter: notificationCreateOrEditFormInAdapter as (
                     data: unknown,

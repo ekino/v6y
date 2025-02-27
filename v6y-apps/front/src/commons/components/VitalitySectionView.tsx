@@ -3,13 +3,13 @@ import {
     Button,
     Card,
     Col,
+    EmptyView,
     ExportOutlined,
+    LoaderView,
     Paragraph,
     Row,
     Space,
-    VitalityEmptyView,
-    VitalityLoader,
-    VitalityTitle,
+    TitleView,
 } from '@v6y/shared-ui';
 import * as React from 'react';
 
@@ -25,12 +25,7 @@ const VitalitySectionView = ({
     exportButtonLabel,
     onExportClicked,
 }: VitalitySectionViewProps) => (
-    <Row
-        justify="center"
-        align="middle"
-        gutter={[0, 24]}
-        style={{ marginTop: '1rem', marginBottom: '1rem' }}
-    >
+    <Row justify="center" align="middle" gutter={[0, 24]}>
         <Col span={20}>
             <Card
                 bordered
@@ -43,17 +38,8 @@ const VitalitySectionView = ({
                 }
                 title={
                     <Space split size="small" align="baseline">
-                        {avatar && (
-                            <Avatar
-                                size={32}
-                                icon={avatar}
-                                style={{
-                                    marginTop: '-1rem',
-                                    backgroundColor: '#1a1a1a',
-                                }}
-                            />
-                        )}
-                        <VitalityTitle title={title || ''} level={3} />
+                        {avatar && <Avatar size={32} icon={avatar} />}
+                        <TitleView title={title || ''} level={3} />
                     </Space>
                 }
             >
@@ -66,7 +52,7 @@ const VitalitySectionView = ({
                         }
                     />
                 )}
-                {isLoading ? <VitalityLoader /> : <>{isEmpty ? <VitalityEmptyView /> : children}</>}
+                {isLoading ? <LoaderView /> : <>{isEmpty ? <EmptyView /> : children}</>}
             </Card>
         </Col>
     </Row>

@@ -1,4 +1,4 @@
-import { Col, Row, VitalityTitle } from '@v6y/shared-ui';
+import { Col, Row, TitleView } from '@v6y/shared-ui';
 import Image from 'next/image';
 import Link from 'next/link';
 import * as React from 'react';
@@ -7,11 +7,10 @@ import VitalityNavigationPaths from '../../config/VitalityNavigationPaths';
 import VitalityPageHeaderMenu from './VitalityPageHeaderMenu';
 
 const VitalityPageHeader = ({ title, subTitle }: { title: string; subTitle: string }) => (
-    <Row style={{ width: '100%', textAlign: 'center' }} justify="center" align="middle">
+    <Row>
         <Col xs={0} sm={0} md={4} lg={4} xl={4}>
             <Link href={VitalityNavigationPaths.DASHBOARD}>
                 <Image
-                    style={{ marginTop: '2rem', marginLeft: '1rem', objectFit: 'fill' }}
                     width={150}
                     height={40}
                     loading="lazy"
@@ -21,7 +20,7 @@ const VitalityPageHeader = ({ title, subTitle }: { title: string; subTitle: stri
             </Link>
         </Col>
         <Col xs={16} sm={16} md={16} lg={16} xl={16}>
-            <VitalityTitle title={title} subTitle={subTitle} />
+            <TitleView title={title} subTitle={subTitle} />
         </Col>
         <Col xs={8} sm={8} md={4} lg={4} xl={4}>
             <VitalityPageHeaderMenu />

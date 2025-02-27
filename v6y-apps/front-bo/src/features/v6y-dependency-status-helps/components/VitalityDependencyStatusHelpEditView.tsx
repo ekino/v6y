@@ -1,5 +1,9 @@
-import { AdminEditWrapper, VitalityTitle, useAdminNavigationParamsParser } from '@v6y/shared-ui';
-import { useTranslationProvider } from '@v6y/shared-ui';
+import {
+    AdminEditWrapper,
+    TitleView,
+    useAdminNavigationParamsParser,
+    useTranslationProvider,
+} from '@v6y/shared-ui';
 import * as React from 'react';
 
 import {
@@ -16,7 +20,7 @@ export default function VitalityDependencyStatusHelpEditView() {
 
     return (
         <AdminEditWrapper
-            title={<VitalityTitle title={translate('v6y-evolution-helps.titles.edit')} />}
+            title={<TitleView title={translate('v6y-evolution-helps.titles.edit')} />}
             queryOptions={{
                 queryFormAdapter: dependencyStatusHelpCreateOrEditFormInAdapter,
                 query: GetDependencyStatusHelpDetailsByParams,

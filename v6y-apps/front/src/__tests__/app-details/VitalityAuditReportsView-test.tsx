@@ -20,12 +20,12 @@ const auditReports = {
             {
                 _id: '1',
                 type: 'Code-Security',
-                category: 'Code-Security', // ✅ Moved from auditHelp
-                subCategory: 'Static Analysis', // ✅ Added for completeness
+                category: 'Code-Security', //  Moved from auditHelp
+                subCategory: 'Static Analysis', //  Added for completeness
                 status: 'Completed',
-                score: 85, // ✅ Added for completeness
-                scoreUnit: '%', // ✅ Added for completeness
-                extraInfos: 'Some additional details.', // ✅ Added for completeness
+                score: 85, //  Added for completeness
+                scoreUnit: '%', //  Added for completeness
+                extraInfos: 'Some additional details.', //  Added for completeness
                 dateStart: '2025-02-20',
                 dateEnd: '2025-02-21',
                 auditHelp: {
@@ -44,12 +44,12 @@ const auditReports = {
             {
                 _id: '2',
                 type: 'Lighthouse',
-                category: 'Lighthouse', // ✅ Moved from auditHelp
-                subCategory: 'Performance', // ✅ Added for completeness
+                category: 'Lighthouse', //  Moved from auditHelp
+                subCategory: 'Performance', //  Added for completeness
                 status: 'Completed',
-                score: 92, // ✅ Added for completeness
-                scoreUnit: '%', // ✅ Added for completeness
-                extraInfos: 'Page load speed and performance audit.', // ✅ Added for completeness
+                score: 92, //  Added for completeness
+                scoreUnit: '%', //  Added for completeness
+                extraInfos: 'Page load speed and performance audit.', //  Added for completeness
                 dateStart: '2025-02-25',
                 dateEnd: '2025-02-26',
                 auditHelp: {

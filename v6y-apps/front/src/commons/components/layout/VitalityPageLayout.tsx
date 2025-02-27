@@ -1,6 +1,6 @@
 'use client';
 
-import { Col, FloatButton, Layout, Row, VitalityTitle, useNavigationAdapter } from '@v6y/shared-ui';
+import { Col, FloatButton, Layout, Row, TitleView, useNavigationAdapter } from '@v6y/shared-ui';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
@@ -18,59 +18,28 @@ const VitalityPageLayout = ({ children }: { children: ReactNode }) => {
     const pageTitle = buildPageTitle(pathname);
 
     return (
-        <Layout style={{ minHeight: '98vh', width: '100%' }}>
-            <Header
-                style={{
-                    position: 'sticky',
-                    top: 0,
-                    zIndex: 1,
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    margin: '0',
-                    padding: '0',
-                }}
-            >
+        <Layout>
+            <Header>
                 <VitalityPageHeader title="VITALITY" subTitle="v6y" />
             </Header>
-            <Content
-                style={{
-                    margin: '0',
-                    paddingTop: '1rem',
-                }}
-            >
+            <Content>
                 <ProtectedRoute>
                     <Row justify="center" align="middle" gutter={[12, 12]}>
                         <Col span={23}>
                             <VitalityBreadcrumb />
                         </Col>
-                        <Col span={20} style={{ textAlign: 'center' }}>
-                            {pageTitle && <VitalityTitle title={pageTitle as string} />}
+                        <Col span={20}>
+                            {pageTitle && <TitleView title={pageTitle as string} />}
                         </Col>
                         <Col span={18}>{children}</Col>
                     </Row>
                 </ProtectedRoute>
             </Content>
-            <Footer
-                style={{
-                    position: 'sticky',
-                    bottom: 0,
-                    zIndex: 1,
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    margin: '0',
-                    padding: '0',
-                }}
-            >
+            <Footer>
                 <VitalityPageFooter />
             </Footer>
             <VitalityBot />
-            <FloatButton.BackTop
-                style={{
-                    left: '50%',
-                }}
-            />
+            <FloatButton.BackTop />
         </Layout>
     );
 };

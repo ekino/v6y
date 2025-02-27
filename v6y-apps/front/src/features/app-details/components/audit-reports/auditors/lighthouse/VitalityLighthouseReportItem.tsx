@@ -6,8 +6,8 @@ import {
     InfoCircleOutlined,
     Row,
     Statistic,
-    VitalityText,
-    VitalityTitle,
+    TextView,
+    TitleView,
     useThemeConfigProvider,
 } from '@v6y/shared-ui';
 import Link from 'next/link';
@@ -33,7 +33,7 @@ const VitalityLighthouseReportItem = ({
     return (
         <Card
             key={`${report.type}-${report.category}-${report.subCategory}`}
-            title={<VitalityTitle level={4} title={report.type as string} />}
+            title={<TitleView level={4} title={report.type as string} />}
             actions={[
                 <Button
                     key="help-button"
@@ -47,12 +47,12 @@ const VitalityLighthouseReportItem = ({
             <Card.Meta
                 description={
                     <Row gutter={[16, 16]} justify="center" align="middle">
-                        <Col span={22} style={{ textAlign: 'left' }}>
-                            <VitalityText
-                                text={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_HELP_CATEGORY_LABEL}: ${report.category}`}
+                        <Col span={22}>
+                            <TextView
+                                content={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_HELP_CATEGORY_LABEL}: ${report.category}`}
                             />
                         </Col>
-                        <Col span={22} style={{ textAlign: 'center' }}>
+                        <Col span={22}>
                             <Statistic
                                 value={report.score || 0}
                                 suffix={report.scoreUnit || ''}
@@ -71,10 +71,10 @@ const VitalityLighthouseReportItem = ({
                             />
                         </Col>
                         {report.module?.url?.length && (
-                            <Col span={22} style={{ textAlign: 'right' }}>
+                            <Col span={22}>
                                 <Link href={report.module?.url} target="_blank">
-                                    <VitalityText
-                                        text={
+                                    <TextView
+                                        content={
                                             VitalityTerms.VITALITY_APP_DETAILS_AUDIT_OPEN_APP_LABEL
                                         }
                                         underline

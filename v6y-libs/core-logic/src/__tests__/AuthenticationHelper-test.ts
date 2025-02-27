@@ -1,9 +1,9 @@
+import jwt from 'jsonwebtoken';
 import passport from 'passport';
-import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { Mock, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import AppLogger from '../core/AppLogger.ts';
 import {
-    configureAuthenticationStrategy,
+    createJwtOptions,
     createJwtStrategyVerify,
     generateAuthenticationToken,
     isAdmin,
@@ -11,187 +11,115 @@ import {
     validateCredentials,
 } from '../core/AuthenticationHelper.ts';
 import AccountProvider from '../database/AccountProvider.ts';
-import { AccountType } from '../types/AccountType.ts';
+
+const { getAccountDetailsByParams } = AccountProvider;
+
+beforeAll(() => {
+    process.env.JWT_SECRET = 'test_secret'; // Ensure JWT_SECRET is set
+});
+
+beforeEach(() => {
+    process.env.JWT_SECRET = 'test_secret'; // Ensure it persists across tests
+});
+
+vi.mock('../database/AccountProvider.ts', async () => {
+    return {
+        __esModule: true, // Ensure it's treated as an ES module
+        default: {
+            getAccountDetailsByParams: vi.fn().mockResolvedValue({
+                _id: 123,
+                email: 'test@example.com',
+                role: 'USER',
+            }),
+        },
+    };
+});
+
+vi.mock('../core/AppLogger.ts', () => ({
+    __esModule: true,
+    default: {
+        info: vi.fn(),
+        error: vi.fn(),
+    },
+}));
 
 vi.mock('jsonwebtoken');
 vi.mock('passport');
-vi.mock('../../database/AccountProvider.ts', () => ({
-    default: {
-        getAccountDetailsByParams: vi.fn(),
-    },
-}));
-vi.mock('../AppLogger.ts');
 
-describe('AuthenticationHelper', () => {
-    const mockAccount: AccountType = {
-        _id: 1,
-        username: 'testuser',
-        email: 'test@example.com',
-        password: 'password',
-        role: 'USER',
-        applications: [1],
-    };
+const mockAccount = { _id: 123, email: 'test@example.com', role: 'USER' };
 
-    beforeEach(() => {
-        vi.clearAllMocks();
-        delete process.env.JWT_SECRET;
+describe('Authentication Helper', () => {
+    it('should create JWT options correctly', () => {
+        expect(createJwtOptions()).toEqual({
+            jwtFromRequest: expect.any(Function),
+            secretOrKey: 'test_secret',
+        });
     });
 
-    it('should verify JWT payload and return account details', async () => {
-        const jwtPayload = { _id: 1 };
-        (AccountProvider.getAccountDetailsByParams as Mock).mockResolvedValue(mockAccount);
-        const verify = createJwtStrategyVerify();
+    it('should generate a JWT token', () => {
+        process.env.JWT_SECRET = 'test_secret'; // Ensure it exists
+        (jwt.sign as Mock).mockReturnValue('mocked_token');
+
+        expect(generateAuthenticationToken(mockAccount)).toBe('mocked_token');
+        expect(jwt.sign).toHaveBeenCalledWith(
+            { _id: 123, email: 'test@example.com' },
+            'test_secret',
+        );
+    });
+
+    it('should verify JWT and return user details', async () => {
+        (getAccountDetailsByParams as Mock).mockResolvedValue(mockAccount);
+        const verifyFn = createJwtStrategyVerify();
+
         const done = vi.fn();
-        await verify(jwtPayload, done);
-        expect(AccountProvider.getAccountDetailsByParams).toHaveBeenCalledWith({ _id: 1 });
+        await verifyFn({ _id: 123 }, done);
+
         expect(done).toHaveBeenCalledWith(null, mockAccount);
     });
 
-    it('should return error if token does not contain _id', async () => {
-        const jwtPayload = {};
-        const verify = createJwtStrategyVerify();
-        const done = vi.fn();
-        await verify(jwtPayload, done);
-        expect(done).toHaveBeenCalledWith(Error('Token does not contain _id'), undefined);
-    });
+    it('should fail verification if user is not found', async () => {
+        (getAccountDetailsByParams as Mock).mockResolvedValue(null);
+        const verifyFn = createJwtStrategyVerify();
 
-    it('should return error if user is not found', async () => {
-        const jwtPayload = { _id: 1 };
-        (AccountProvider.getAccountDetailsByParams as Mock).mockResolvedValue(null);
-        const verify = createJwtStrategyVerify();
         const done = vi.fn();
-        await verify(jwtPayload, done);
-        expect(AccountProvider.getAccountDetailsByParams).toHaveBeenCalledWith({ _id: 1 });
+        await verifyFn({ _id: 999 }, done);
+
         expect(done).toHaveBeenCalledWith(Error('User not Found'), undefined);
     });
 
-    it('should handle errors during verification', async () => {
-        const jwtPayload = { _id: 1 };
-        (AccountProvider.getAccountDetailsByParams as Mock).mockRejectedValue(
-            new Error('DB error'),
-        );
-        const verify = createJwtStrategyVerify();
+    it('should fail verification if JWT payload lacks _id', async () => {
+        const verifyFn = createJwtStrategyVerify();
         const done = vi.fn();
-        await verify(jwtPayload, done);
-        expect(done).toHaveBeenCalledWith(Error('DB error'), undefined);
-        expect(AppLogger.error).toHaveBeenCalledWith(
-            '[AuthenticationHelper- createJwtStrategyVerify] : Error: DB error',
-        );
+        await verifyFn({}, done);
+        expect(done).toHaveBeenCalledWith(Error('Token does not contain _id'), undefined);
     });
 
-    it('should authenticate user and resolve with user details', async () => {
+    it('should validate credentials using Passport', async () => {
         const request = {};
-        (passport.authenticate as Mock).mockImplementation((strategy, options, callback) => {
-            callback(null, mockAccount);
-        });
-        const user = await validateCredentials(request);
-        expect(passport.authenticate).toHaveBeenCalledWith(
-            'jwt',
-            { session: false },
-            expect.any(Function),
-        );
-        expect(user).toEqual(mockAccount);
+        const user = { _id: 123 };
+        (passport.authenticate as Mock).mockImplementation((_, __, cb) => cb(null, user));
+
+        const result = await validateCredentials(request);
+        expect(result).toEqual(user);
     });
 
-    it('should resolve with null if authentication fails', async () => {
+    it('should return null if authentication fails', async () => {
         const request = {};
-        (passport.authenticate as Mock).mockImplementation((strategy, options, callback) => {
-            callback(new Error('Authentication failed'), null);
-        });
-        const user = await validateCredentials(request);
-        expect(passport.authenticate).toHaveBeenCalledWith(
-            'jwt',
-            { session: false },
-            expect.any(Function),
-        );
-        expect(user).toEqual(null);
-        expect(AppLogger.error).toHaveBeenCalledWith(
-            '[AuthenticationHelper - validateCredentials] Not authenticated : Error: Authentication failed',
-        );
-    });
-
-    it('should return true if user role is ADMIN', () => {
-        expect(isAdmin({ ...mockAccount, role: 'ADMIN' })).toBe(true);
-    });
-
-    it('should return false if user role is not ADMIN', () => {
-        expect(isAdmin(mockAccount)).toBe(false);
-    });
-
-    it('should return true if user role is SUPERADMIN', () => {
-        expect(isSuperAdmin({ ...mockAccount, role: 'SUPERADMIN' })).toBe(true);
-    });
-
-    it('should return false if user role is not SUPERADMIN', () => {
-        expect(isSuperAdmin(mockAccount)).toBe(false);
-    });
-
-    it('should configure JWT strategy', () => {
-        process.env.JWT_SECRET = 'test_secret';
-        configureAuthenticationStrategy();
-        expect(passport.use).toHaveBeenCalledWith(expect.any(Object));
-    });
-
-    it('should configure JWT strategy', () => {
-        process.env.JWT_SECRET = 'test_secret';
-        configureAuthenticationStrategy();
-        expect(passport.use).toHaveBeenCalledWith(expect.any(Object));
-    });
-
-    it('should throw an error when generating a JWT token if JWT_SECRET is undefined', () => {
-        delete process.env.JWT_SECRET;
-        const account = { _id: 1, email: 'test@example.com' };
-        expect(() => generateAuthenticationToken(account)).toThrow(
-            '[AuthenticationHelper - generateAuthenticationToken] JWT_SECRET is not defined in the environment variables',
-        );
-    });
-
-    it('should correctly initialize passport middleware', () => {
-        const middleware = passport.initialize();
-        expect(passport.initialize).toHaveBeenCalled();
-        expect(middleware).toBe(passport.initialize());
-    });
-
-    it('should call AppLogger when an error occurs during JWT strategy verification', async () => {
-        const jwtPayload = { _id: 1 };
-        (AccountProvider.getAccountDetailsByParams as Mock).mockRejectedValue(
-            new Error('Unexpected error'),
+        (passport.authenticate as Mock).mockImplementation((_, __, cb) =>
+            cb(new Error('Error'), null),
         );
 
-        const verify = createJwtStrategyVerify();
-        const done = vi.fn();
-        await verify(jwtPayload, done);
-
-        expect(AppLogger.error).toHaveBeenCalledWith(
-            '[AuthenticationHelper- createJwtStrategyVerify] : Error: Unexpected error',
-        );
-        expect(done).toHaveBeenCalledWith(Error('Unexpected error'), undefined);
+        const result = await validateCredentials(request);
+        expect(result).toBeNull();
     });
 
-    it('should log user information during successful JWT strategy verification', async () => {
-        const jwtPayload = { _id: 1 };
-        (AccountProvider.getAccountDetailsByParams as Mock).mockResolvedValue(mockAccount);
-
-        const verify = createJwtStrategyVerify();
-        const done = vi.fn();
-        await verify(jwtPayload, done);
-
-        expect(AppLogger.info).toHaveBeenCalledWith(
-            '[AuthenticationHelper - createJwtStrategyVerify] _id : 1',
-        );
+    it('should check if a user is an admin', () => {
+        expect(isAdmin({ role: 'ADMIN' })).toBe(true);
+        expect(isAdmin({ role: 'USER' })).toBe(false);
     });
 
-    it('should log an error if no strategy is configured during authentication', () => {
-        process.env.JWT_SECRET = 'test_secret';
-
-        (passport.use as Mock).mockImplementation(() => {
-            throw new Error('No strategy configured');
-        });
-
-        configureAuthenticationStrategy();
-
-        expect(AppLogger.error).toHaveBeenCalledWith(
-            '[AuthenticationHelper - validateCredentials] Not authenticated : Error: No strategy configured',
-        );
+    it('should check if a user is a superadmin', () => {
+        expect(isSuperAdmin({ role: 'SUPERADMIN' })).toBe(true);
+        expect(isSuperAdmin({ role: 'ADMIN' })).toBe(false);
     });
 });

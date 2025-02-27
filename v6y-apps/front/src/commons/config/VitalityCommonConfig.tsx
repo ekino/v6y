@@ -9,8 +9,8 @@ import {
     PieChartOutlined,
     QuestionOutlined,
     SplitCellsOutlined,
+    TextView,
     ThemeTokenType,
-    VitalityText,
 } from '@v6y/shared-ui';
 import Link from 'next/link';
 import * as React from 'react';
@@ -222,8 +222,8 @@ const VITALITY_HEADER_MENU_ITEMS = [
         key: 'notification',
         icon: <NotificationOutlined />,
         label: (
-            <Link href={VitalityNavigationPaths.NOTIFICATIONS} style={{ textDecoration: 'none' }}>
-                <VitalityText text="Notifications" />
+            <Link href={VitalityNavigationPaths.NOTIFICATIONS}>
+                <TextView content="Notifications" />
             </Link>
         ),
     },
@@ -231,8 +231,8 @@ const VITALITY_HEADER_MENU_ITEMS = [
         key: 'FAQ',
         icon: <QuestionOutlined />,
         label: (
-            <Link href={VitalityNavigationPaths.FAQ} style={{ textDecoration: 'none' }}>
-                <VitalityText text="FAQ" />
+            <Link href={VitalityNavigationPaths.FAQ}>
+                <TextView content="FAQ" />
             </Link>
         ),
     },
@@ -244,12 +244,8 @@ export const buildVitalityHeaderMenuItems = (isLogged: boolean, onLogout: () => 
         key: 'logout',
         icon: <LogoutOutlined />,
         label: (
-            <Link
-                href={VitalityNavigationPaths.LOGIN}
-                onClick={onLogout}
-                style={{ textDecoration: 'none' }}
-            >
-                <VitalityText text="Logout" />
+            <Link href={VitalityNavigationPaths.LOGIN} onClick={onLogout}>
+                <TextView content="Logout" />
             </Link>
         ),
     },

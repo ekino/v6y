@@ -1,6 +1,6 @@
 'use client';
 
-import { AdminAuthenticationWrapper, VitalityTitle, useTranslationProvider } from '@v6y/shared-ui';
+import { AdminAuthenticationWrapper, TitleView, useTranslationProvider } from '@v6y/shared-ui';
 import * as React from 'react';
 
 export const VitalityAuthUpdatePasswordView = () => {
@@ -9,7 +9,7 @@ export const VitalityAuthUpdatePasswordView = () => {
     return (
         <AdminAuthenticationWrapper
             type="updatePassword"
-            title={<VitalityTitle title={translate('v6y-authentication.title')} />}
+            title={<TitleView title={translate('v6y-authentication.title')} />}
         />
     );
 };

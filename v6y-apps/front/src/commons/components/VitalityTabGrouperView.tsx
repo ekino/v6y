@@ -1,4 +1,4 @@
-import { Col, Row, Tabs, VitalityEmptyView } from '@v6y/shared-ui';
+import { Col, EmptyView, Row, Tabs } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import useDataGrouper from '../hooks/useDataGrouper';
@@ -22,11 +22,11 @@ const VitalityTabGrouperView = ({
         });
 
     if (!dataSource?.length || !criteria?.length) {
-        return <VitalityEmptyView />;
+        return <EmptyView />;
     }
 
     if (!Object.keys(groupedDataSource || {})?.length) {
-        return <VitalityEmptyView />;
+        return <EmptyView />;
     }
 
     const valuesByGroup =
@@ -59,7 +59,7 @@ const VitalityTabGrouperView = ({
                 {valuesByGroup?.length ? (
                     <>{onRenderChildren?.(selectedCriteria?.key || '', valuesByGroup)}</>
                 ) : (
-                    <VitalityEmptyView />
+                    <EmptyView />
                 )}
             </Col>
         </Row>

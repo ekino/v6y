@@ -1,5 +1,4 @@
-import { AdminCreateWrapper, VitalityTitle } from '@v6y/shared-ui';
-import { useTranslationProvider } from '@v6y/shared-ui';
+import { AdminCreateWrapper, TitleView, useTranslationProvider } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import {
@@ -13,7 +12,7 @@ export default function VitalityNotificationCreateView() {
 
     return (
         <AdminCreateWrapper
-            title={<VitalityTitle title={translate('v6y-notifications.titles.create')} />}
+            title={<TitleView title={translate('v6y-notifications.titles.create')} />}
             createOptions={{
                 createFormAdapter: notificationCreateOrEditFormOutputAdapter as (
                     data: unknown,

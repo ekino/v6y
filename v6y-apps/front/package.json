@@ -40,7 +40,6 @@
     "react-dom": "=19.0.0",
     "react-virtualized-auto-sizer": "=1.0.25",
     "react-window": "=1.8.11",
-    "vite": "=6.1.0",
     "zod": "=3.24.1"
   },
   "devDependencies": {
@@ -71,6 +70,7 @@
     "prettier": "=3.4.2",
     "semantic-ui-react": "=2.1.5",
     "typescript": "=5.7.3",
+    "vite": "=6.1.0",
     "vitest": "=3.0.5"
   },
   "browserslist": {

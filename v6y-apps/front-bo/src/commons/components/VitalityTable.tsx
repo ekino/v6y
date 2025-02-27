@@ -1,8 +1,7 @@
-import { AdminTableOptions } from '@v6y/shared-ui';
+import { AdminTableOptions, Table } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import { buildCommonTableColumns, buildCommonTableDataSource } from '../config/VitalityTableConfig';
-import VitalityBaseTable from './VitalityBaseTable';
 
 interface VitalityTableProps {
     dataSource: unknown[];
@@ -12,9 +11,10 @@ interface VitalityTableProps {
 
 const VitalityTable = ({ dataSource, columnKeys, columnOptions }: VitalityTableProps) => {
     return (
-        <VitalityBaseTable
+        <Table
             dataSource={buildCommonTableDataSource(dataSource)}
             columns={buildCommonTableColumns(dataSource, columnKeys, columnOptions)}
+            rowKey="key"
         />
     );
 };

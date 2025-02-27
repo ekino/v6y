@@ -4,6 +4,10 @@ import { List } from '@v6y/shared-ui';
 import dynamic from 'next/dynamic';
 import { afterEach, beforeEach, vi } from 'vitest';
 
+
+
+
+
 vi.mock('next/dynamic', async () => {
     const dynamicModule = await vi.importActual<typeof import('next/dynamic')>('next/dynamic');
     return {
@@ -102,7 +106,7 @@ vi.mock('@v6y/shared-ui', () => {
                 },
             },
         ),
-        VitalityInput: vi.fn(({ name, 'aria-label': ariaLabel, rules }) => (
+        ControlledInput: vi.fn(({ name, 'aria-label': ariaLabel, rules }) => (
             <input
                 data-testid={`mock-input-${name}`}
                 aria-label={ariaLabel}
@@ -392,9 +396,11 @@ vi.mock('@v6y/shared-ui', () => {
         InfoOutlined: () => <span data-testid="info" />,
         PushpinOutlined: () => <span data-testid="pushpin" />,
         CompassOutlined: () => <span data-testid="compass" />,
-        VitalityModal: ({ isOpen, children }: { isOpen: boolean; children: React.ReactNode }) =>
+        Modal: ({ isOpen, children }: { isOpen: boolean; children: React.ReactNode }) =>
             isOpen ? <div data-testid="mock-modal">{children}</div> : null,
-        VitalityLinks: ({ links }: { links: Array<{ label: string; value: string }> }) => (
+        ModalView: ({ isOpen, children }: { isOpen: boolean; children: React.ReactNode }) =>
+            isOpen ? <div data-testid="mock-modal">{children}</div> : null,
+        Links: ({ links }: { links: Array<{ label: string; value: string }> }) => (
             <ul>
                 {links.map((link, index) => (
                     <li key={index}>
@@ -403,21 +409,21 @@ vi.mock('@v6y/shared-ui', () => {
                 ))}
             </ul>
         ),
-        VitalityCheckbox: vi.fn(({ name, 'aria-label': ariaLabel }) => (
+        ControlledCheckbox: vi.fn(({ name, 'aria-label': ariaLabel }) => (
             <input type="checkbox" data-testid={`mock-checkbox-${name}`} aria-label={ariaLabel} />
         )),
-        VitalityEmptyView: () => <div data-testid="empty-view">No Data Available</div>,
-        VitalityText: ({ text }: { text: string }) => <span>{text}</span>,
-        VitalityTitle: ({ title }: { title: string }) => <h3>{title}</h3>,
-        VitalityLoader: () => <div data-testid="mock-loader">Loading...</div>,
-        VitalityDynamicLoader: (importFn: () => Promise<{ default: React.ComponentType<any> }>) => {
+        EmptyView: () => <div data-testid="empty-view">No Data Available</div>,
+        TextView: ({ content }: { content: string }) => <span>{content}</span>,
+        TitleView: ({ title }: { title: string }) => <h3>{title}</h3>,
+        LoaderView: () => <div data-testid="mock-loader">Loading...</div>,
+        DynamicLoader: (importFn: () => Promise<{ default: React.ComponentType<any> }>) => {
             // eslint-disable-next-line react/display-name
             return (props: any) => {
                 const LazyComponent = dynamic(() => importFn(), { ssr: false });
                 return <LazyComponent {...props} />;
             };
         },
-        VitalityPaginatedList: ({
+        PaginatedList: ({
             dataSource,
             renderItem,
         }: {
@@ -434,7 +440,7 @@ vi.mock('@v6y/shared-ui', () => {
                 </div>
             );
         },
-        VitalityLoadMoreList: ({
+        LoadMoreList: ({
             dataSource,
             renderItem,
         }: {
@@ -451,7 +457,7 @@ vi.mock('@v6y/shared-ui', () => {
                 </div>
             );
         },
-        VitalityCollapse: vi.fn(({ dataSource }) => (
+        CollapseView: vi.fn(({ dataSource }) => (
             <div data-testid="mock-collapse">
                 {dataSource?.length ? (
                     dataSource.map((item: any, index: number) => (

@@ -1,13 +1,13 @@
-import { AdminTableWrapper, useTranslationProvider } from '@v6y/shared-ui';
+import { AdminListWrapper, useTranslationProvider } from '@v6y/shared-ui';
 
-import RenderVitalityTable from '../../../commons/components/VitalityTable';
+import VitalityTable from '../../../commons/components/VitalityTable';
 import GetDependencyStatusHelpListByPageAndParams from '../apis/getDependencyStatusHelpListByPageAndParams';
 
 export default function VitalityDependencyStatusHelpListView() {
     const { translate } = useTranslationProvider();
 
     return (
-        <AdminTableWrapper
+        <AdminListWrapper
             title={translate('v6y-evolution-helps.titles.list')}
             subTitle=""
             defaultSorter={[
@@ -20,8 +20,8 @@ export default function VitalityDependencyStatusHelpListView() {
                 resource: 'getDependencyStatusHelpListByPageAndParams',
                 query: GetDependencyStatusHelpListByPageAndParams,
             }}
-            renderTable={(dataSource) => (
-                <RenderVitalityTable
+            renderContent={(dataSource) => (
+                <VitalityTable
                     dataSource={dataSource}
                     columnKeys={['id']}
                     columnOptions={{

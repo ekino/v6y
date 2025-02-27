@@ -1,21 +1,21 @@
 'use client';
 
-import { Edit, useForm, useSelect } from '@refinedev/antd';
+import { useForm, useSelect } from '@refinedev/antd';
 import { BaseRecord, GetOneResponse, HttpError } from '@refinedev/core';
-import { Form } from 'antd';
 import { ReactNode, useEffect } from 'react';
 
 import { gqlClientRequest } from '../../../api';
-import { FormWrapperProps, SelectOptionsType } from '../../types';
+import { EditLayout, Form } from '../../atoms';
+import { FormWrapperType, SelectOptionsType } from '../../types';
 
-export default function AdminSelectWrapper<T extends BaseRecord>({
+const AdminSelectWrapper = <T extends BaseRecord>({
     title,
     queryOptions,
     mutationOptions,
     createOptions,
     selectOptions,
     renderSelectOption,
-}: FormWrapperProps) {
+}: FormWrapperType) => {
     const formQueryOptions = queryOptions
         ? {
               queryOptions: {
@@ -104,7 +104,7 @@ export default function AdminSelectWrapper<T extends BaseRecord>({
     const isLoading = selectQueryResult?.isLoading || (queryOptions && query?.isLoading);
 
     return (
-        <Edit
+        <EditLayout
             isLoading={isLoading}
             canDelete={false}
             title={title}
@@ -115,6 +115,8 @@ export default function AdminSelectWrapper<T extends BaseRecord>({
                     (item: ReactNode) => item,
                 )}
             </Form>
-        </Edit>
+        </EditLayout>
     );
-}
+};
+
+export default AdminSelectWrapper;

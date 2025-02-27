@@ -1,9 +1,9 @@
-import { AccountType } from '@v6y/core-logic';
-import Matcher from '@v6y/core-logic/src/utils/Matcher';
+import { AccountType } from '@v6y/core-logic/src/types';
+import { Matcher } from '@v6y/core-logic/src/utils';
 import {
     AdminHttpError,
     AdminShowWrapper,
-    VitalityTitle,
+    TitleView,
     useAdminNavigationParamsParser,
     useTranslationProvider,
 } from '@v6y/shared-ui';
@@ -45,7 +45,7 @@ export default function VitalityAccountDetailsView() {
 
     return (
         <AdminShowWrapper
-            title={<VitalityTitle title={translate('v6y-account.titles.show')} />}
+            title={<TitleView title={translate('v6y-account.titles.show')} />}
             queryOptions={{
                 resource: 'getAccountDetailsByParams',
                 query: GetAccountDetailsByParams,

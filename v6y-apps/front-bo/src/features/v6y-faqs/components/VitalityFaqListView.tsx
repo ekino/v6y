@@ -1,7 +1,7 @@
-import { AdminTableWrapper, useTranslationProvider } from '@v6y/shared-ui';
+import { AdminListWrapper, useTranslationProvider } from '@v6y/shared-ui';
 import type { DocumentNode } from 'graphql/index';
 
-import RenderVitalityTable from '../../../commons/components/VitalityTable';
+import VitalityTable from '../../../commons/components/VitalityTable';
 import DeleteFaq from '../apis/deleteFaq';
 import GetFaqListByPageAndParams from '../apis/getFaqListByPageAndParams';
 
@@ -9,7 +9,7 @@ export default function VitalityFaqListView() {
     const { translate } = useTranslationProvider();
 
     return (
-        <AdminTableWrapper
+        <AdminListWrapper
             title={translate('v6y-faqs.titles.list')}
             subTitle=""
             defaultSorter={[
@@ -22,8 +22,8 @@ export default function VitalityFaqListView() {
                 resource: 'getFaqListByPageAndParams',
                 query: GetFaqListByPageAndParams,
             }}
-            renderTable={(dataSource) => (
-                <RenderVitalityTable
+            renderContent={(dataSource) => (
+                <VitalityTable
                     dataSource={dataSource}
                     columnKeys={[]}
                     columnOptions={{

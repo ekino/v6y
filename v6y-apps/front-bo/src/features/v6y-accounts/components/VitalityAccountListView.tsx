@@ -1,7 +1,7 @@
-import { AdminTableWrapper, useTranslationProvider } from '@v6y/shared-ui';
+import { AdminListWrapper, useTranslationProvider } from '@v6y/shared-ui';
 import { DocumentNode } from 'graphql/index';
 
-import RenderVitalityTable from '../../../commons/components/VitalityTable';
+import VitalityTable from '../../../commons/components/VitalityTable';
 import DeleteAccount from '../apis/deleteAccount';
 import GetAccountListByPageAndParams from '../apis/getAccountListByPageAndParams';
 
@@ -9,7 +9,7 @@ export default function VitalityAccountListView() {
     const { translate } = useTranslationProvider();
 
     return (
-        <AdminTableWrapper
+        <AdminListWrapper
             title={translate('v6y-accounts.titles.list')}
             subTitle=""
             defaultSorter={[
@@ -22,8 +22,8 @@ export default function VitalityAccountListView() {
                 resource: 'getAccountListByPageAndParams',
                 query: GetAccountListByPageAndParams,
             }}
-            renderTable={(dataSource) => (
-                <RenderVitalityTable
+            renderContent={(dataSource) => (
+                <VitalityTable
                     dataSource={dataSource}
                     columnKeys={[]}
                     columnOptions={{

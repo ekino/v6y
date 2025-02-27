@@ -1,8 +1,8 @@
 import { FaqType } from '@v6y/core-logic/src/types';
-import { CollapseItemType, VitalityCollapse, VitalityLinks } from '@v6y/shared-ui';
+import { CollapseItemType, CollapseView, Links } from '@v6y/shared-ui';
 import * as React from 'react';
 
-const VitalityFaqList = ({ dataSource }: { dataSource: FaqType[] }) => {
+const VitalityFaqList = ({ dataSource }: { dataSource?: FaqType[] }) => {
     if (!dataSource?.length) {
         return null;
     }
@@ -15,13 +15,13 @@ const VitalityFaqList = ({ dataSource }: { dataSource: FaqType[] }) => {
             children: (
                 <>
                     <p>{option.description}</p>
-                    <VitalityLinks links={option.links || []} />
+                    <Links links={option.links || []} />
                 </>
             ),
             showArrow: true,
         }));
 
-    return <VitalityCollapse accordion bordered dataSource={faqList} />;
+    return <CollapseView accordion bordered dataSource={faqList} />;
 };
 
 export default VitalityFaqList;

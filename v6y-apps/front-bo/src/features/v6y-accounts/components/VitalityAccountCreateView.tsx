@@ -1,8 +1,7 @@
 'use client';
 
-import { ApplicationType } from '@v6y/core-logic';
-import { VitalityEmptyView, VitalityTitle, useTranslationProvider } from '@v6y/shared-ui';
-import { AdminSelectWrapper } from '@v6y/shared-ui';
+import { ApplicationType } from '@v6y/core-logic/src/types';
+import { AdminSelectWrapper, EmptyView, TitleView, useTranslationProvider } from '@v6y/shared-ui';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
@@ -24,12 +23,12 @@ export default function VitalityAccountCreateView() {
     }, [getRole]);
 
     if (!userRole) {
-        return <VitalityEmptyView />;
+        return <EmptyView />;
     }
 
     return (
         <AdminSelectWrapper
-            title={<VitalityTitle title={translate('v6y-accounts.titles.create')} />}
+            title={<TitleView title={translate('v6y-accounts.titles.create')} />}
             createOptions={{
                 createResource: 'createOrEditAccount',
                 createFormAdapter: accountCreateOrEditFormOutputAdapter,

@@ -1,6 +1,6 @@
 'use client';
 
-import { Col, Form, Input, Row, VitalityText, useNavigationAdapter } from '@v6y/shared-ui';
+import { Col, Form, Input, Row, TextView, useNavigationAdapter } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalityNavigationPaths from '../config/VitalityNavigationPaths';
@@ -35,8 +35,8 @@ const VitalitySearchBar = ({ helper, label, status, placeholder }: VitalitySearc
                 <Form layout="vertical">
                     <Form.Item
                         name="vitality_search"
-                        label={<VitalityText text={label} />}
-                        help={<VitalityText text={helper || ''} />}
+                        label={<TextView content={label} />}
+                        help={<TextView content={helper || ''} />}
                         initialValue={searchText}
                     >
                         <Search
@@ -45,7 +45,6 @@ const VitalitySearchBar = ({ helper, label, status, placeholder }: VitalitySearc
                             status={status}
                             placeholder={placeholder}
                             onSearch={handleOnSearchChanged}
-                            style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }}
                         />
                     </Form.Item>
                 </Form>

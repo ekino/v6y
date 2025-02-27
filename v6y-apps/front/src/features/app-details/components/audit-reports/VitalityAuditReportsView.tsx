@@ -1,5 +1,5 @@
 import { AuditType } from '@v6y/core-logic/src/types';
-import { FormOutlined, VitalityDynamicLoader, useNavigationAdapter } from '@v6y/shared-ui';
+import { DynamicLoader, FormOutlined, useNavigationAdapter } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView';
@@ -12,7 +12,7 @@ import {
 } from '../../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationDetailsAuditReportsByParams from '../../api/getApplicationDetailsAuditReportsByParams';
 
-const VitalityAuditReportsTypeGrouper = VitalityDynamicLoader(
+const VitalityAuditReportsTypeGrouper = DynamicLoader(
     () => import('./VitalityAuditReportsTypeGrouper'),
 );
 

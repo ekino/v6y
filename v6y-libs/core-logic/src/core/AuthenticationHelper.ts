@@ -1,12 +1,9 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
-import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
-import { VerifiedCallback } from 'passport-jwt';
+import { ExtractJwt, Strategy as JwtStrategy, VerifiedCallback } from 'passport-jwt';
 
 import AccountProvider from '../database/AccountProvider.ts';
-import { AccountType } from '../types/AccountType.ts';
+import { AccountType } from '../types/index.ts';
 import AppLogger from './AppLogger.ts';
 
 /**
@@ -34,7 +31,12 @@ export const createJwtOptions = () => {
  * @returns {Function} A function that verifies JWT payload.
  */
 export const createJwtStrategyVerify = () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     const { JwtPayload } = jwt;
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     return async (jwtPayload: JwtPayload, done: VerifiedCallback) => {
         try {
             AppLogger.info(
@@ -96,15 +98,14 @@ export const generateAuthenticationToken = (account: AccountType): string => {
 export const validateCredentials = <T>(request: T): Promise<unknown> => {
     return new Promise((resolve) => {
         passport.authenticate('jwt', { session: false }, (err: Error | null, user: unknown) => {
-            /*if (err || !user) {
+            if (err || !user) {
                 AppLogger.error(
                     `[AuthenticationHelper - validateCredentials] Not authenticated : ${err || 'No user found'}`,
                 );
                 resolve(null);
             } else {
                 resolve(user);
-            }*/
-            resolve({ firstName: 'John', lastName: 'Doe' });
+            }
         })(request);
     });
 };

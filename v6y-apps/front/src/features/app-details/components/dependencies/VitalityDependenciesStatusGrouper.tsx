@@ -1,11 +1,11 @@
 import { DependencyType } from '@v6y/core-logic/src/types';
-import { VitalityDynamicLoader } from '@v6y/shared-ui';
+import { DynamicLoader } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalityTabGrouperView from '../../../../commons/components/VitalityTabGrouperView';
 import { VitalityModuleType } from '../../../../commons/types/VitalityModulesProps';
 
-const VitalityModuleList = VitalityDynamicLoader(
+const VitalityModuleList = DynamicLoader(
     () => import('../../../../commons/components/modules/VitalityModuleList'),
 );
 

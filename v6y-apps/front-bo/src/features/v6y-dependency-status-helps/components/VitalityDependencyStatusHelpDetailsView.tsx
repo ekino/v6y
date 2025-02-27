@@ -1,6 +1,10 @@
-import { DependencyStatusHelpType } from '@v6y/core-logic/src';
-import { AdminShowWrapper, VitalityTitle, useAdminNavigationParamsParser } from '@v6y/shared-ui';
-import { useTranslationProvider } from '@v6y/shared-ui';
+import { DependencyStatusHelpType } from '@v6y/core-logic/src/types';
+import {
+    AdminShowWrapper,
+    TitleView,
+    useAdminNavigationParamsParser,
+    useTranslationProvider,
+} from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';
@@ -14,7 +18,7 @@ export default function VitalityDependencyStatusHelpDetailsView() {
 
     return (
         <AdminShowWrapper
-            title={<VitalityTitle title={translate('v6y-dependency-status-helps.titles.show')} />}
+            title={<TitleView title={translate('v6y-dependency-status-helps.titles.show')} />}
             queryOptions={{
                 resource: 'getDependencyStatusHelpDetailsByParams',
                 query: GetDependencyStatusHelpDetailsByParams,

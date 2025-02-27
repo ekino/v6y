@@ -1,4 +1,4 @@
-import { AdminHttpError, Descriptions, VitalityText } from '@v6y/shared-ui';
+import { AdminHttpError, Descriptions, TextView } from '@v6y/shared-ui';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
@@ -19,7 +19,7 @@ const VitalityDetailsView = ({
         <Descriptions bordered size="middle" column={1}>
             {Object.keys(details).map((itemKey, index) => (
                 <Descriptions.Item key={`${itemKey}-${index}`} label={itemKey}>
-                    <VitalityText text={details[itemKey] as string} />
+                    <TextView content={details[itemKey] as string} />
                 </Descriptions.Item>
             ))}
         </Descriptions>

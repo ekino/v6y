@@ -1,11 +1,5 @@
 import { AuditType } from '@v6y/core-logic/src/types';
-import {
-    List,
-    VitalityDynamicLoader,
-    VitalityModal,
-    VitalityPaginatedList,
-    VitalityTitle,
-} from '@v6y/shared-ui';
+import { DynamicLoader, List, ModalView, PaginatedList, TitleView } from '@v6y/shared-ui';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
@@ -14,7 +8,7 @@ import useDataGrouper from '../../../../../../commons/hooks/useDataGrouper';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';
 import VitalityLighthouseReportItem from './VitalityLighthouseReportItem';
 
-const VitalityHelpView = VitalityDynamicLoader(
+const VitalityHelpView = DynamicLoader(
     () => import('../../../../../../commons/components/help/VitalityHelpView'),
 );
 
@@ -38,8 +32,7 @@ const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditT
 
     return (
         <>
-            <VitalityPaginatedList
-                style={{ paddingTop: '2rem', marginTop: '2rem' }}
+            <PaginatedList
                 pageSize={15}
                 grid={{ gutter: 4, xs: 1, sm: 1, md: 1, lg: 2, xl: 2, xxl: 2 }}
                 dataSource={Object.keys(groupedDataSource || {})}
@@ -55,9 +48,9 @@ const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditT
                     );
                 }}
             />
-            <VitalityModal
+            <ModalView
                 title={
-                    <VitalityTitle
+                    <TitleView
                         title={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_MODULE_HELP_TITLE}
                         level={5}
                     />
@@ -66,7 +59,7 @@ const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditT
                 isOpen={isHelpModalOpen}
             >
                 <VitalityHelpView module={helpDetails as VitalityModuleType} />
-            </VitalityModal>
+            </ModalView>
         </>
     );
 };

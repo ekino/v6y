@@ -1,4 +1,4 @@
-import { VitalityLoader } from '@v6y/shared-ui';
+import { LoaderView } from '@v6y/shared-ui';
 import * as React from 'react';
 import { ReactNode, Suspense } from 'react';
 
@@ -21,7 +21,7 @@ export default function RootLayout({
             <body>
                 <main>
                     <AppProvider>
-                        <Suspense fallback={<VitalityLoader />}>
+                        <Suspense fallback={<LoaderView />}>
                             <VitalityPageLayout>{children}</VitalityPageLayout>
                         </Suspense>
                     </AppProvider>

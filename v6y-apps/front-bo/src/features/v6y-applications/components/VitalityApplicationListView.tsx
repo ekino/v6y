@@ -1,16 +1,16 @@
-import { ApplicationType } from '@v6y/core-logic';
-import { AdminTableWrapper, useTranslationProvider } from '@v6y/shared-ui';
+import { ApplicationType } from '@v6y/core-logic/src/types';
+import { AdminListWrapper, useTranslationProvider } from '@v6y/shared-ui';
 import type { DocumentNode } from 'graphql/index';
 
 import GetApplicationListByPageAndParams from '../../../commons/apis/getApplicationListByPageAndParams';
-import RenderVitalityTable from '../../../commons/components/VitalityTable';
+import VitalityTable from '../../../commons/components/VitalityTable';
 import DeleteApplication from '../apis/deleteApplication';
 
 export default function VitalityApplicationListView() {
     const { translate } = useTranslationProvider();
 
     return (
-        <AdminTableWrapper
+        <AdminListWrapper
             title={translate('v6y-applications.titles.list') || ''}
             subTitle=""
             defaultSorter={[
@@ -23,8 +23,8 @@ export default function VitalityApplicationListView() {
                 resource: 'getApplicationListByPageAndParams',
                 query: GetApplicationListByPageAndParams,
             }}
-            renderTable={(dataSource: ApplicationType[]) => (
-                <RenderVitalityTable
+            renderContent={(dataSource: ApplicationType[]) => (
+                <VitalityTable
                     dataSource={dataSource}
                     columnKeys={[]}
                     columnOptions={{

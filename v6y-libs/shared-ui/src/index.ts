@@ -11,3 +11,5 @@ export * from './components/atoms';
 
 export * from './theme';
 export * from './api';
+
+export * from './test-utils/TestUtils.tsx';

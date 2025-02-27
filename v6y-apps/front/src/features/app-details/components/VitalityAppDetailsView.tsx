@@ -1,27 +1,25 @@
 'use client';
 
-import { VitalityDynamicLoader } from '@v6y/shared-ui';
+import { DynamicLoader } from '@v6y/shared-ui';
 import * as React from 'react';
 
-const VitalityGeneralInformationView = VitalityDynamicLoader(
+const VitalityGeneralInformationView = DynamicLoader(
     () => import('./infos/VitalityGeneralInformationView'),
 );
 
-const VitalityAuditReportsView = VitalityDynamicLoader(
+const VitalityAuditReportsView = DynamicLoader(
     () => import('./audit-reports/VitalityAuditReportsView'),
 );
 
-const VitalityQualityIndicatorsView = VitalityDynamicLoader(
+const VitalityQualityIndicatorsView = DynamicLoader(
     () => import('./quality-indicators/VitalityQualityIndicatorsView'),
 );
 
-const VitalityDependenciesView = VitalityDynamicLoader(
+const VitalityDependenciesView = DynamicLoader(
     () => import('./dependencies/VitalityDependenciesView'),
 );
 
-const VitalityEvolutionsView = VitalityDynamicLoader(
-    () => import('./evolutions/VitalityEvolutionsView'),
-);
+const VitalityEvolutionsView = DynamicLoader(() => import('./evolutions/VitalityEvolutionsView'));
 
 const VitalityAppDetailsView = () => {
     return (

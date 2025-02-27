@@ -1,17 +1,13 @@
 'use client';
 
-import { Create, useForm } from '@refinedev/antd';
+import { useForm } from '@refinedev/antd';
 import { BaseRecord, GetOneResponse, UseCreateProps, UseFormProps } from '@refinedev/core';
-import { Form } from 'antd';
 
 import { gqlClientRequest } from '../../../api';
+import { CreateLayout, Form } from '../../atoms';
 import { FormCreateWrapperType } from '../../types';
 
-export default function AdminCreateWrapper({
-    title,
-    createOptions,
-    formItems,
-}: FormCreateWrapperType) {
+const AdminCreateWrapper = ({ title, createOptions, formItems }: FormCreateWrapperType) => {
     const { form, formProps, saveButtonProps } = useForm<UseFormProps>({
         defaultFormValues: {},
         createMutationOptions: {
@@ -31,10 +27,12 @@ export default function AdminCreateWrapper({
     }
 
     return (
-        <Create title={title} saveButtonProps={saveButtonProps}>
+        <CreateLayout title={title} saveButtonProps={saveButtonProps}>
             <Form {...formProps} layout="vertical" variant="filled">
                 {formItems?.map((item) => item)}
             </Form>
-        </Create>
+        </CreateLayout>
     );
-}
+};
+
+export default AdminCreateWrapper;

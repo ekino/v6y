@@ -28,20 +28,6 @@ export interface FormCreateOptionsType {
     createQueryParams?: Record<string, unknown>;
 }
 
-export interface FormWrapperProps {
-    title?: string | ReactNode;
-    queryOptions?: FormQueryOptionsType;
-    mutationOptions?: FormMutationOptionsType;
-    createOptions?: FormCreateOptionsType;
-    formItems?: ReactNode[];
-    selectOptions?: {
-        resource: string;
-        query: string;
-        queryParams?: Record<string, unknown>;
-    };
-    renderSelectOption?: <T>(options: T) => ReactNode[];
-}
-
 export interface FormShowOptions {
     title?: string | ReactNode;
     formItems?: ReactNode[];
@@ -57,4 +43,18 @@ export interface FormCreateWrapperType {
 
 export interface SelectOptionsType {
     resource: string;
+}
+
+export interface FormWrapperType {
+    title?: string | ReactNode;
+    queryOptions?: FormQueryOptionsType;
+    mutationOptions?: FormMutationOptionsType;
+    createOptions?: FormCreateOptionsType;
+    formItems?: ReactNode[];
+    selectOptions?: {
+        resource: string;
+        query: string;
+        queryParams?: Record<string, unknown>;
+    };
+    renderSelectOption?: <T>(options: T) => ReactNode[];
 }

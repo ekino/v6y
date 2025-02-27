@@ -1,7 +1,7 @@
-import { AdminTableWrapper, useTranslationProvider } from '@v6y/shared-ui';
+import { AdminListWrapper, useTranslationProvider } from '@v6y/shared-ui';
 import type { DocumentNode } from 'graphql/index';
 
-import RenderVitalityTable from '../../../commons/components/VitalityTable';
+import VitalityTable from '../../../commons/components/VitalityTable';
 import DeleteDeprecatedDependency from '../apis/deleteDeprecatedDependency';
 import GetDeprecatedDependencyListByPageAndParams from '../apis/getDeprecatedDependencyListByPageAndParams';
 
@@ -9,7 +9,7 @@ export default function VitalityDeprecatedDependencyListView() {
     const { translate } = useTranslationProvider();
 
     return (
-        <AdminTableWrapper
+        <AdminListWrapper
             title={translate('v6y-deprecated-dependencies.titles.list')}
             subTitle=""
             defaultSorter={[
@@ -22,8 +22,8 @@ export default function VitalityDeprecatedDependencyListView() {
                 resource: 'getDeprecatedDependencyListByPageAndParams',
                 query: GetDeprecatedDependencyListByPageAndParams,
             }}
-            renderTable={(dataSource) => (
-                <RenderVitalityTable
+            renderContent={(dataSource) => (
+                <VitalityTable
                     dataSource={dataSource}
                     columnKeys={['id']}
                     columnOptions={{

@@ -1,12 +1,12 @@
-import { ApplicationType } from '@v6y/core-logic';
-import Matcher from '@v6y/core-logic/src/utils/Matcher';
+import { ApplicationType } from '@v6y/core-logic/src/types';
+import { Matcher } from '@v6y/core-logic/src/utils';
 import {
     AdminHttpError,
     AdminShowWrapper,
-    VitalityTitle,
+    TitleView,
     useAdminNavigationParamsParser,
+    useTranslationProvider,
 } from '@v6y/shared-ui';
-import { useTranslationProvider } from '@v6y/shared-ui';
 import * as React from 'react';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';
@@ -45,7 +45,7 @@ export default function VitalityApplicationDetailsView() {
 
     return (
         <AdminShowWrapper
-            title={<VitalityTitle title={translate('v6y-applications.titles.show')} />}
+            title={<TitleView title={translate('v6y-applications.titles.show')} />}
             queryOptions={{
                 resource: 'getApplicationDetailsInfoByParams',
                 query: GetApplicationDetails,
