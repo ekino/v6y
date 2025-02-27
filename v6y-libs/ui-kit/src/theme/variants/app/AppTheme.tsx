@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { DislikeOutlined, LikeOutlined, ThunderboltOutlined } from '../../components/atoms';
+import { DislikeOutlined, LikeOutlined, ThunderboltOutlined } from '../../../components/atoms';
 
 const ThemeTokensConfig = {
     colorTextBase: '#1a1a1a',

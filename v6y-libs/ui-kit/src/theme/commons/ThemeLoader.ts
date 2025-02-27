@@ -1,6 +1,6 @@
-import AdminTheme from '../admin/AdminTheme.tsx';
-import AppTheme from '../app/AppTheme.tsx';
 import { ThemeProps } from '../types/ThemeProps.ts';
+import AdminTheme from '../variants/admin/AdminTheme.tsx';
+import AppTheme from '../variants/app/AppTheme.tsx';
 
 export const ThemeTypes = {
     ADMIN_DEFAULT: 'admin-default',
