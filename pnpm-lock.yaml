@@ -45,8 +45,8 @@ importers:
         specifier: '=2.8.5'
         version: 2.8.5
       cron:
-        specifier: '=3.5.0'
-        version: 3.5.0
+        specifier: '=4.1.0'
+        version: 4.1.0
       date-fns:
         specifier: '=4.1.0'
         version: 4.1.0
@@ -157,8 +157,8 @@ importers:
         specifier: '=2.8.5'
         version: 2.8.5
       cron:
-        specifier: '=3.5.0'
-        version: 3.5.0
+        specifier: '=4.1.0'
+        version: 4.1.0
       date-fns:
         specifier: '=4.1.0'
         version: 4.1.0
@@ -363,8 +363,8 @@ importers:
         specifier: '=2.8.5'
         version: 2.8.5
       cron:
-        specifier: '=3.5.0'
-        version: 3.5.0
+        specifier: '=4.1.0'
+        version: 4.1.0
       date-fns:
         specifier: '=4.1.0'
         version: 4.1.0
@@ -5396,8 +5396,9 @@ packages:
   create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
 
-  cron@3.5.0:
-    resolution: {integrity: sha512-0eYZqCnapmxYcV06uktql93wNWdlTmmBFP2iYz+JPVcQqlyFYcn1lFuIk4R54pkOmE7mcldTAPZv6X5XA4Q46A==}
+  cron@4.1.0:
+    resolution: {integrity: sha512-wmcuXr2qP0UZStYgwruG6jC2AYSO9n5VMm2t93hmcEXEjWY3S2bsXe3sfGUrTs/uQ1AvRCrZ0Pp9Q032L/V9tw==}
+    engines: {node: '>=18.x'}
 
   cross-env@7.0.3:
     resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
@@ -14137,7 +14138,7 @@ snapshots:
       std-env: 3.8.0
       test-exclude: 7.0.1
       tinyrainbow: 2.0.0
-      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@22.13.5)(@vitest/ui@3.0.5)(jsdom@26.0.0)(msw@2.7.3(@types/node@22.13.5)(typescript@5.7.3))(yaml@2.7.0)
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@22.10.6)(@vitest/ui@3.0.5)(jsdom@26.0.0)(msw@2.7.3(@types/node@22.10.6)(typescript@5.7.3))(yaml@2.7.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -14268,7 +14269,7 @@ snapshots:
       sirv: 3.0.1
       tinyglobby: 0.2.12
       tinyrainbow: 2.0.0
-      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@22.13.5)(@vitest/ui@3.0.5)(jsdom@26.0.0)(msw@2.7.3(@types/node@22.13.5)(typescript@5.7.3))(yaml@2.7.0)
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@22.10.6)(@vitest/ui@3.0.5)(jsdom@26.0.0)(msw@2.7.3(@types/node@22.10.6)(typescript@5.7.3))(yaml@2.7.0)
 
   '@vitest/utils@2.0.5':
     dependencies:
@@ -15275,7 +15276,7 @@ snapshots:
 
   create-require@1.1.1: {}
 
-  cron@3.5.0:
+  cron@4.1.0:
     dependencies:
       '@types/luxon': 3.4.2
       luxon: 3.5.0
