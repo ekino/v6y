@@ -1,5 +1,4 @@
-import { Result, SmileOutlined, useTranslationProvider } from '@v6y/shared-ui';
-import { AdminMessageType } from '@v6y/shared-ui/src';
+import { AdminMessageType, Result, SmileOutlined, useTranslationProvider } from '@v6y/ui-kit';
 
 const VitalityMessageView = ({ type }: AdminMessageType) => {
     const { translate } = useTranslationProvider();

@@ -1,4 +1,4 @@
-import { AdminTableOptions, DeleteButton, EditButton, ShowButton, Space } from '@v6y/shared-ui';
+import { AdminTableOptions, DeleteButton, EditButton, ShowButton, Space } from '@v6y/ui-kit';
 
 type TableRowActionType<T> = T & {
     _id: string;

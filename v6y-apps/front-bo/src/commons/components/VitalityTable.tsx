@@ -1,4 +1,4 @@
-import { AdminTableOptions, Table } from '@v6y/shared-ui';
+import { AdminTableOptions, Table } from '@v6y/ui-kit';
 import * as React from 'react';
 
 import { buildCommonTableColumns, buildCommonTableDataSource } from '../config/VitalityTableConfig';

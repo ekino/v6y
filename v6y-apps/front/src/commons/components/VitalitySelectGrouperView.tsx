@@ -1,4 +1,4 @@
-import { Col, EmptyView, Form, Row, Select, TextView } from '@v6y/shared-ui';
+import { Col, EmptyView, Form, Row, Select, TextView } from '@v6y/ui-kit';
 import * as React from 'react';
 import { useEffect } from 'react';
 

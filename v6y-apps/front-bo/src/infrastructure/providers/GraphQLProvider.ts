@@ -1,5 +1,5 @@
 import { Client, fetchExchange } from '@urql/core';
-import { AdminAuthProviderType, createDataProvider, createLiveProvider } from '@v6y/shared-ui';
+import { AdminAuthProviderType, createDataProvider, createLiveProvider } from '@v6y/ui-kit';
 import { createClient } from 'graphql-ws';
 import Cookie from 'js-cookie';
 

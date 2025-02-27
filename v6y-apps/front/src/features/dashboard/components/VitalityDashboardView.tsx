@@ -1,6 +1,6 @@
 'use client';
 
-import { useThemeConfigProvider } from '@v6y/shared-ui';
+import { useThemeConfigProvider } from '@v6y/ui-kit';
 import * as React from 'react';
 
 import VitalitySearchBar from '../../../commons/components/VitalitySearchBar';

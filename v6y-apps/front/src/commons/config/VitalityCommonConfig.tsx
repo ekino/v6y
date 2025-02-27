@@ -11,7 +11,7 @@ import {
     SplitCellsOutlined,
     TextView,
     ThemeTokenType,
-} from '@v6y/shared-ui';
+} from '@v6y/ui-kit';
 import Link from 'next/link';
 import * as React from 'react';
 import { ReactNode } from 'react';

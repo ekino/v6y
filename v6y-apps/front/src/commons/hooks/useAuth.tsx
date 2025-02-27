@@ -1,4 +1,4 @@
-import { useNavigationAdapter } from '@v6y/shared-ui';
+import { useNavigationAdapter } from '@v6y/ui-kit';
 import { useState } from 'react';
 import { z } from 'zod';
 

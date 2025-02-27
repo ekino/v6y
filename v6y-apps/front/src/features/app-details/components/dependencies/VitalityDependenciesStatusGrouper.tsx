@@ -1,5 +1,5 @@
 import { DependencyType } from '@v6y/core-logic/src/types';
-import { DynamicLoader } from '@v6y/shared-ui';
+import { DynamicLoader } from '@v6y/ui-kit';
 import * as React from 'react';
 
 import VitalityTabGrouperView from '../../../../commons/components/VitalityTabGrouperView';

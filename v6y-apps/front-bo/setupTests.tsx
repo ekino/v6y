@@ -1,12 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { cleanup } from '@testing-library/react';
-import { List } from '@v6y/shared-ui';
+import { List } from '@v6y/ui-kit';
 import dynamic from 'next/dynamic';
 import { afterEach, beforeEach, vi } from 'vitest';
-
-
-
-
 
 vi.mock('next/dynamic', async () => {
     const dynamicModule = await vi.importActual<typeof import('next/dynamic')>('next/dynamic');
@@ -34,7 +30,7 @@ afterEach(() => {
     cleanup();
 });
 
-vi.mock('@v6y/shared-ui', () => {
+vi.mock('@v6y/ui-kit', () => {
     return {
         useNavigationAdapter: vi.fn(() => {
             return {

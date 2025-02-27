@@ -1,4 +1,4 @@
-import { Col, Row, TitleView } from '@v6y/shared-ui';
+import { Col, Row, TitleView } from '@v6y/ui-kit';
 import Image from 'next/image';
 import Link from 'next/link';
 import * as React from 'react';

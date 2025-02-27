@@ -10,7 +10,7 @@ import {
     Row,
     Space,
     TitleView,
-} from '@v6y/shared-ui';
+} from '@v6y/ui-kit';
 import * as React from 'react';
 
 import { VitalitySectionViewProps } from '../types/VitalitySectionViewProps';

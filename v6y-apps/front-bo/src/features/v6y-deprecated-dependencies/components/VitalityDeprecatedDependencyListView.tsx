@@ -1,4 +1,4 @@
-import { AdminListWrapper, useTranslationProvider } from '@v6y/shared-ui';
+import { AdminListWrapper, useTranslationProvider } from '@v6y/ui-kit';
 import type { DocumentNode } from 'graphql/index';
 
 import VitalityTable from '../../../commons/components/VitalityTable';

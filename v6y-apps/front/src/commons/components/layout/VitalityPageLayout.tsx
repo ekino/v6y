@@ -1,6 +1,6 @@
 'use client';
 
-import { Col, FloatButton, Layout, Row, TitleView, useNavigationAdapter } from '@v6y/shared-ui';
+import { Col, FloatButton, Layout, Row, TitleView, useNavigationAdapter } from '@v6y/ui-kit';
 import * as React from 'react';
 import { ReactNode } from 'react';
 

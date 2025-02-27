@@ -6,7 +6,7 @@ import {
     Form,
     TitleView,
     useTranslationProvider,
-} from '@v6y/shared-ui';
+} from '@v6y/ui-kit';
 import * as React from 'react';
 
 export const VitalityAuthLoginView = () => {

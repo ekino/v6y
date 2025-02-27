@@ -1,5 +1,5 @@
 import { KeywordStatsType } from '@v6y/core-logic/src/types';
-import { Charts, Col, LoaderView, Row, useNavigationAdapter } from '@v6y/shared-ui';
+import { Charts, Col, LoaderView, Row, useNavigationAdapter } from '@v6y/ui-kit';
 import * as React from 'react';
 import { useEffect } from 'react';
 

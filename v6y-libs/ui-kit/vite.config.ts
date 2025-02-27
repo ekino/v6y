@@ -21,9 +21,9 @@ export default defineConfig({
     build: {
         lib: {
             entry: resolve('.', './src/index.ts'),
-            name: 'shared-ui',
+            name: 'ui-kit',
             formats: ['es', 'umd'],
-            fileName: (format) => `shared-ui.${format}.js`,
+            fileName: (format) => `ui-kit.${format}.js`,
         },
         rollupOptions: {
             external: ['react', 'react-dom'],

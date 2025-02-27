@@ -1,6 +1,6 @@
 'use client';
 
-import { AdminProvider } from '@v6y/shared-ui';
+import { AdminProvider } from '@v6y/ui-kit';
 import * as React from 'react';
 
 import VitalityPageLayout from '../../commons/components/layout/VitalityPageLayout';

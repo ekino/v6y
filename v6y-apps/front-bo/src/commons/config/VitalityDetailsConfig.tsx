@@ -9,7 +9,7 @@ import {
     LinkType,
     NotificationType,
 } from '@v6y/core-logic/src/types';
-import { Links, TranslateType } from '@v6y/shared-ui';
+import { Links, TranslateType } from '@v6y/ui-kit';
 import { ReactNode } from 'react';
 
 export const formatAccountDetails = (

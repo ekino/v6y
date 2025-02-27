@@ -8,7 +8,7 @@ import {
     LoadMoreList,
     Row,
     useNavigationAdapter,
-} from '@v6y/shared-ui';
+} from '@v6y/ui-kit';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 

@@ -1,13 +1,6 @@
 'use client';
 
-import {
-    Button,
-    ControlledCheckbox,
-    ControlledInput,
-    Form,
-    Message,
-    useForm,
-} from '@v6y/shared-ui';
+import { Button, ControlledCheckbox, ControlledInput, Form, Message, useForm } from '@v6y/ui-kit';
 import { useEffect } from 'react';
 
 import VitalityTerms from '../../../commons/config/VitalityTerms';

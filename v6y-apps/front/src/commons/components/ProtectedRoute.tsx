@@ -1,6 +1,6 @@
 'use client';
 
-import { useNavigationAdapter } from '@v6y/shared-ui';
+import { useNavigationAdapter } from '@v6y/ui-kit';
 import { useEffect } from 'react';
 
 import { useLogin } from '../hooks/useAuth';

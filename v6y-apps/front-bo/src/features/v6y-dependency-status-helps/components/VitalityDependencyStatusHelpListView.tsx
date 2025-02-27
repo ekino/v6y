@@ -1,4 +1,4 @@
-import { AdminListWrapper, useTranslationProvider } from '@v6y/shared-ui';
+import { AdminListWrapper, useTranslationProvider } from '@v6y/ui-kit';
 
 import VitalityTable from '../../../commons/components/VitalityTable';
 import GetDependencyStatusHelpListByPageAndParams from '../apis/getDependencyStatusHelpListByPageAndParams';

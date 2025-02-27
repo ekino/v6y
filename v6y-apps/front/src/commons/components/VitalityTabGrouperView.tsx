@@ -1,4 +1,4 @@
-import { Col, EmptyView, Row, Tabs } from '@v6y/shared-ui';
+import { Col, EmptyView, Row, Tabs } from '@v6y/ui-kit';
 import * as React from 'react';
 
 import useDataGrouper from '../hooks/useDataGrouper';

@@ -1,5 +1,5 @@
 import { FaqType } from '@v6y/core-logic/src/types';
-import { CollapseItemType, CollapseView, Links } from '@v6y/shared-ui';
+import { CollapseItemType, CollapseView, Links } from '@v6y/ui-kit';
 import * as React from 'react';
 
 const VitalityFaqList = ({ dataSource }: { dataSource?: FaqType[] }) => {

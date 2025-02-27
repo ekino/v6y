@@ -1,7 +1,7 @@
 'use client';
 
-import { ThemeModes, ThemeProvider, ThemeTypes } from '@v6y/shared-ui';
-import { ThemeProps } from '@v6y/shared-ui/src/theme/types/ThemeProps';
+import { ThemeModes, ThemeProvider, ThemeTypes } from '@v6y/ui-kit';
+import { ThemeProps } from '@v6y/ui-kit/src/theme/types/ThemeProps';
 
 import QueryProvider from './QueryProvider';
 

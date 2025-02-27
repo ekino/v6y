@@ -1,4 +1,4 @@
-import { AdminHttpError, Descriptions, TextView } from '@v6y/shared-ui';
+import { AdminHttpError, Descriptions, TextView } from '@v6y/ui-kit';
 import * as React from 'react';
 import { ReactNode } from 'react';
 

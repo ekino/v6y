@@ -1,5 +1,5 @@
 import { EvolutionType } from '@v6y/core-logic/src/types';
-import { BulbOutlined, DynamicLoader, useNavigationAdapter } from '@v6y/shared-ui';
+import { BulbOutlined, DynamicLoader, useNavigationAdapter } from '@v6y/ui-kit';
 import * as React from 'react';
 
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView';

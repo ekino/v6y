@@ -1,5 +1,5 @@
 import { AuditType } from '@v6y/core-logic/src/types';
-import { Card, Checkbox, Col, DynamicLoader, Row } from '@v6y/shared-ui';
+import { Card, Checkbox, Col, DynamicLoader, Row } from '@v6y/ui-kit';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 

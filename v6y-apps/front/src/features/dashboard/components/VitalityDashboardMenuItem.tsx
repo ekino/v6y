@@ -1,4 +1,4 @@
-import { Avatar, Card, TextView, TitleView } from '@v6y/shared-ui';
+import { Avatar, Card, TextView, TitleView } from '@v6y/ui-kit';
 import Link from 'next/link';
 import * as React from 'react';
 

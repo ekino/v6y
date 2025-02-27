@@ -1,4 +1,4 @@
-import { Form, Input, Select, SelectOptionType } from '@v6y/shared-ui';
+import { Form, Input, Select, SelectOptionType } from '@v6y/ui-kit';
 import * as React from 'react';
 
 interface VitalityFormFieldSetProps {

@@ -1,5 +1,5 @@
 import { Matcher } from '@v6y/core-logic/src/utils';
-import { Descriptions } from '@v6y/shared-ui';
+import { Descriptions } from '@v6y/ui-kit';
 import * as React from 'react';
 
 import VitalityTerms from '../../config/VitalityTerms';

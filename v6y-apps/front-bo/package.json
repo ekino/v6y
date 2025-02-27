@@ -28,7 +28,7 @@
     "@refinedev/cli": "=2.16.42",
     "@urql/core": "=5.1.0",
     "@v6y/core-logic": "workspace:^",
-    "@v6y/shared-ui": "workspace:^",
+    "@v6y/ui-kit": "workspace:^",
     "cross-env": "=7.0.3",
     "graphql": "=16.10.0",
     "graphql-request": "=7.1.2",
