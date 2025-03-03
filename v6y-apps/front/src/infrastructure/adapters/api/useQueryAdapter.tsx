@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { request } from 'graphql-request';
 
-import { getAuthToken } from '../../../commons/hooks/useAuth';
+import { SessionType, getSession } from '../../providers/SessionProvider';
 import {
     BuildClientQueryParams,
     UseClientQueryParams,
@@ -13,7 +13,8 @@ export const buildClientQuery = async <TData = unknown,>({
     query,
     variables,
 }: BuildClientQueryParams) => {
-    const token = getAuthToken();
+    const auth: SessionType | null = getSession();
+    const token = auth?.token;
 
     return request<TData>(queryBaseUrl, query, variables, {
         Authorization: token ? `Bearer ${token}` : '',

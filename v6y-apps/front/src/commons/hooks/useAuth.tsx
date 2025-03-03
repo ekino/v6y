@@ -13,12 +13,17 @@ import {
 import VitalityApiConfig from '../config/VitalityApiConfig';
 import VitalityTerms from '../config/VitalityTerms';
 
-type LoginAccountType = { token: string; _id: string; role: string };
+export type LoginAccountType = { token: string; _id: string; role: string };
 
 export type LoginAccountFormType = {
     email?: string;
     password?: string;
     remember?: boolean;
+};
+
+export type AuthenticationStatusType = {
+    token?: string;
+    error?: string;
 };
 
 const loginSchemaValidator = z.object({
@@ -27,12 +32,6 @@ const loginSchemaValidator = z.object({
         .string()
         .min(8, { message: VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_WARNING }),
 });
-
-const getAuthToken = (): string | undefined => {
-    const auth: SessionType | null = getSession();
-
-    return auth?.token;
-};
 
 const useLogin = () => {
     const auth: SessionType | null = getSession();
@@ -58,15 +57,10 @@ const useLogout = () => {
     return { onLogout };
 };
 
-export type AuthenticationStatus = {
-    token?: string;
-    error?: string;
-};
-
 const useAuthentication = () => {
     const [isAuthenticationLoading, setIsAuthenticationLoading] = useState(false);
     const [authenticationStatus, setAuthenticationStatus] = useState<
-        AuthenticationStatus | undefined
+        AuthenticationStatusType | undefined
     >();
     const { router } = useNavigationAdapter();
 
@@ -124,4 +118,4 @@ const useAuthentication = () => {
     };
 };
 
-export { useAuthentication, useLogin, useLogout, getAuthToken, loginSchemaValidator };
+export { useAuthentication, useLogin, useLogout, loginSchemaValidator };
