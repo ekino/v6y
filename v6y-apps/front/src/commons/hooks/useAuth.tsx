@@ -58,16 +58,26 @@ const useLogout = () => {
     return { onLogout };
 };
 
+export type AuthenticationStatus = {
+    token?: string;
+    error?: string;
+};
+
 const useAuthentication = () => {
     const [isAuthenticationLoading, setIsAuthenticationLoading] = useState(false);
-    const [authenticationError, setAuthenticationError] = useState<string | undefined>();
+    const [authenticationStatus, setAuthenticationStatus] = useState<
+        AuthenticationStatus | undefined
+    >();
     const { router } = useNavigationAdapter();
 
     const onAuthentication = async (values: LoginAccountFormType) => {
         try {
             setIsAuthenticationLoading(true);
 
-            loginSchemaValidator.parse(values.email);
+            loginSchemaValidator.safeParse({
+                email: values.email,
+                password: values.password,
+            });
 
             const data = (await buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
@@ -81,24 +91,37 @@ const useAuthentication = () => {
             })) as { loginAccount?: LoginAccountType };
 
             if (data?.loginAccount?.token) {
-                setAuthenticationError(undefined);
+                setAuthenticationStatus({ token: data.loginAccount.token, error: undefined });
                 setSession(data.loginAccount.token, data.loginAccount._id, data.loginAccount.role);
                 router.push('/');
             } else {
-                setAuthenticationError(VitalityTerms.VITALITY_APP_LOGIN_ERROR_MESSAGE);
+                setAuthenticationStatus({
+                    token: undefined,
+                    error: VitalityTerms.VITALITY_APP_LOGIN_ERROR_MESSAGE,
+                });
             }
         } catch (exception) {
             if (exception instanceof z.ZodError) {
-                setAuthenticationError(exception?.errors?.[0]?.message);
+                setAuthenticationStatus({
+                    token: undefined,
+                    error: exception?.errors?.[0]?.message,
+                });
             } else {
-                setAuthenticationError(VitalityTerms.VITALITY_APP_LOGIN_ERROR_CONNECTION_MESSAGE);
+                setAuthenticationStatus({
+                    token: undefined,
+                    error: VitalityTerms.VITALITY_APP_LOGIN_ERROR_CONNECTION_MESSAGE,
+                });
             }
         } finally {
             setIsAuthenticationLoading(false);
         }
     };
 
-    return { onAuthentication, isAuthenticationLoading, authenticationError };
+    return {
+        onAuthentication,
+        isAuthenticationLoading,
+        authenticationStatus,
+    };
 };
 
 export { useAuthentication, useLogin, useLogout, getAuthToken, loginSchemaValidator };

@@ -12,7 +12,7 @@ import {
 
 const VitalityLoginForm = () => {
     const [messageApi, contextHolder] = Message.useMessage();
-    const { isAuthenticationLoading, authenticationError, onAuthentication } = useAuthentication();
+    const { isAuthenticationLoading, authenticationStatus, onAuthentication } = useAuthentication();
 
     const {
         control,
@@ -27,18 +27,18 @@ const VitalityLoginForm = () => {
     });
 
     useEffect(() => {
-        if (authenticationError) {
+        if (authenticationStatus?.error) {
             messageApi.open({
                 type: 'error',
-                content: authenticationError,
+                content: authenticationStatus.error,
             });
-        } else {
+        } else if (authenticationStatus?.token) {
             messageApi.open({
                 type: 'success',
                 content: VitalityTerms.VITALITY_APP_LOGIN_SUCCESS_MESSAGE,
             });
         }
-    }, [authenticationError]);
+    }, [authenticationStatus]);
 
     return (
         <Form
@@ -49,6 +49,7 @@ const VitalityLoginForm = () => {
             autoComplete="off"
         >
             {contextHolder}
+
             <Form.Item
                 label={VitalityTerms.VITALITY_APP_LOGIN_FORM_EMAIL_LABEL}
                 validateStatus={errors.email ? 'error' : ''}

@@ -79,7 +79,7 @@ const getAccountListByPageAndParams = async (_: unknown, args: SearchQueryType) 
 const loginAccount = async (_: unknown, params: { input: AccountLoginType }) => {
     try {
         const { email, password } = params?.input || {};
-        AppLogger.info(`[AccountMutations - loginAccount] username : ${email}`);
+        AppLogger.info(`[AccountMutations - loginAccount] email : ${email}`);
 
         if (!email || !password) {
             return null;
