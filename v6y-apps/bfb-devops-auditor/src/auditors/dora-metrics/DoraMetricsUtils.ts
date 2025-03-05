@@ -243,7 +243,7 @@ const formatAndFilterDataDogData = (
     dateStartTimeStamp: number,
     dateEndTimeStamp: number,
 ): ServerStatusEventType[] => {
-    return data.data
+    return data?.data
         .filter(
             ({
                 type,
