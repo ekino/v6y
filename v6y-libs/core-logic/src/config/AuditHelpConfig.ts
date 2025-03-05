@@ -240,4 +240,10 @@ export const defaultAuditHelpStatus: AuditHelpType[] = [
         description: 'Default Description',
         explanation: '',
     },
+    {
+        category: `${devOpsType.DORA}-${devOpsCategories.UP_TIME_AVERAGE}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        explanation: '',
+    },
 ];

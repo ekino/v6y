@@ -23,6 +23,43 @@ export interface LeadTimeForChangesParamsType {
     dateEnd: string;
 }
 
+export interface DataDogEventsType {
+    data: {
+        id: string;
+        type: string;
+        attributes: {
+            attributes: {
+                status: string;
+                timestamp: number; // in ms
+            };
+        };
+    }[];
+}
+
+export interface ServerStatusEventType {
+    id: string;
+    type: string;
+    status: string;
+    timestamp: number;
+}
+
+export interface ServerDowntimePeriodType {
+    start_time: number;
+    end_time: number | null;
+    duration_miliseconds: number;
+    start_id: string;
+    end_id: string;
+}
+
+export interface CalculateMeanTimeToRestoreServiceParams {
+    downtimePeriods: ServerDowntimePeriodType[];
+}
+
+export interface calculateUpTimeAverageParams {
+    downtimePeriods: ServerDowntimePeriodType[];
+    dateStart: string;
+    dateEnd: string;
+}
 export interface DoraMetricType {
     value: number;
     status: string;
@@ -31,6 +68,7 @@ export interface DoraMetricType {
 export interface DoraMetricsAuditParamsType {
     deployments: DeployementType[];
     mergeRequests: MergeRequestType[];
+    dataDogEvents: DataDogEventsType;
     application: ApplicationType;
     dateStart: string;
     dateEnd: string;

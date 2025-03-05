@@ -23,6 +23,46 @@ const formatDateToString = (date: Date, format: DateStringFormatType = 'ISO'): s
 };
 
 /**
+ * Type representing the supported timestamp units.
+ * - 'ms': Milliseconds.
+ * - 's': Seconds.
+ */
+type TimeStampUnit = 'ms' | 's';
+
+/**
+ * Converts a Date object to a timestamp.
+ *
+ * @param date - The Date object to convert.
+ */
+const formatDateToTimestamp = (date: Date, unit: TimeStampUnit = 's'): number => {
+    const timestamp = date.getTime(); // in milliseconds
+    switch (unit) {
+        case 'ms':
+            return timestamp;
+        case 's':
+            return Math.floor(timestamp / 1000);
+        default:
+            throw new Error(`Invalid timestamp unit: ${unit}`);
+    }
+};
+
+/**
+ * Parses a integer timestamp into a Date object.
+ *
+ * @param timestamp - The timestamp to parse.
+ */
+const formatTimestampToDate = (timestamp: number, unit: TimeStampUnit = 's'): Date => {
+    switch (unit) {
+        case 'ms':
+            return new Date(timestamp);
+        case 's':
+            return new Date(timestamp * 1000);
+        default:
+            throw new Error(`Invalid timestamp unit: ${unit}`);
+    }
+};
+
+/**
  * Parses a date string into a Date object.
  *
  * @param dateStr - The date string to parse.
@@ -37,6 +77,8 @@ const formatStringToDate = (dateStr: string): Date => {
 const DateUtils = {
     formatDateToString,
     formatStringToDate,
+    formatDateToTimestamp,
+    formatTimestampToDate,
 };
 
 export default DateUtils;
