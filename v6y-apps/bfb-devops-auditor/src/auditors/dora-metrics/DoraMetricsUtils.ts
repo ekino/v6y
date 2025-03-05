@@ -243,45 +243,54 @@ const formatAndFilterDataDogData = (
     dateStartTimeStamp: number,
     dateEndTimeStamp: number,
 ): ServerStatusEventType[] => {
-    return data?.data
-        .filter(
-            ({
-                type,
-                attributes: {
-                    attributes: { status, timestamp },
-                },
-            }: {
-                type: string;
-                attributes: {
-                    attributes: { status: string; timestamp: number };
-                };
-            }) =>
-                type === 'event' &&
-                ['error', 'success'].includes(status) &&
-                timestamp >= dateStartTimeStamp &&
-                timestamp <= dateEndTimeStamp,
-        )
-        .map(
-            ({
-                id,
-                type,
-                attributes: {
-                    attributes: { status, timestamp },
-                },
-            }: {
-                id: string;
-                type: string;
-                attributes: {
-                    attributes: { status: string; timestamp: number };
-                };
-            }) => ({
-                id: id,
-                type: type,
-                status: status,
-                timestamp: timestamp,
-            }),
-        )
-        .sort((a: { timestamp: number }, b: { timestamp: number }) => a.timestamp - b.timestamp);
+    try {
+        return data.data
+            .filter(
+                ({
+                    type,
+                    attributes: {
+                        attributes: { status, timestamp },
+                    },
+                }: {
+                    type: string;
+                    attributes: {
+                        attributes: { status: string; timestamp: number };
+                    };
+                }) =>
+                    type === 'event' &&
+                    ['error', 'success'].includes(status) &&
+                    timestamp >= dateStartTimeStamp &&
+                    timestamp <= dateEndTimeStamp,
+            )
+            .map(
+                ({
+                    id,
+                    type,
+                    attributes: {
+                        attributes: { status, timestamp },
+                    },
+                }: {
+                    id: string;
+                    type: string;
+                    attributes: {
+                        attributes: { status: string; timestamp: number };
+                    };
+                }) => ({
+                    id: id,
+                    type: type,
+                    status: status,
+                    timestamp: timestamp,
+                }),
+            )
+            .sort(
+                (a: { timestamp: number }, b: { timestamp: number }) => a.timestamp - b.timestamp,
+            );
+    } catch (error) {
+        AppLogger.error(
+            `[DoraMetricsUtils - formatAndFilterDataDogData] An exception occurred during the data formatting: ${error}`,
+        );
+    }
+    return [];
 };
 
 /**
