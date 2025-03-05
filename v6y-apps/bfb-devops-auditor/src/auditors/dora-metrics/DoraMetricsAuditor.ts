@@ -11,6 +11,7 @@ import {
 import { DoraMetricsAuditConfigType } from '../types/DoraMetricsAuditType.ts';
 import DoraMetricsConfig from './DoraMetricsConfig.ts';
 import DoraMetricsUtils from './DoraMetricsUtils.ts';
+import mockDatadogEvents from './mockDataDogEventsData.json' with { type: 'json' };
 
 const { analyseDoraMetrics } = DoraMetricsUtils;
 
@@ -138,9 +139,17 @@ const startDoraMetricsAnalysis = async ({
         `[DoraMetricsAuditor - startAuditorAnalysis] deployments:  ${deployments?.length}`,
     );
 
+    // Mocked data while the DataDog API integration is not yet implemented
+    const dataDogEvents = mockDatadogEvents;
+
+    AppLogger.info(
+        `[DoraMetricsAuditor - startAuditorAnalysis] dataDogEvents:  ${dataDogEvents?.data?.length}`,
+    );
+
     return analyseDoraMetrics({
         deployments: deployments || [],
         mergeRequests: mergeRequests || [],
+        dataDogEvents: dataDogEvents || [],
         application,
         dateStart: dateStartStr,
         dateEnd: dateEndStr,

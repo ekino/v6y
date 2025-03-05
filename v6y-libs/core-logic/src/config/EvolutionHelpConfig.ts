@@ -230,4 +230,11 @@ export const defaultEvolutionHelpStatus: EvolutionHelpInputType[] = [
         status: evolutionHelpStatus.recommended,
         links: [],
     },
+    {
+        category: `${devOpsType.DORA}-${devOpsCategories.UP_TIME_AVERAGE}`,
+        title: 'Default Title',
+        description: 'Default Description',
+        status: evolutionHelpStatus.recommended,
+        links: [],
+    },
 ];
