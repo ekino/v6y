@@ -360,8 +360,8 @@ const getFilesRecursively = (directory: string, filesPaths: string[]): string[] 
         filesPaths = filesPaths || [];
 
         files.forEach(function (file: string) {
-            if (fs.statSync(directory + '/' + file).isDirectory()) {
-                filesPaths = getFilesRecursively(directory + '/' + file, filesPaths);
+            if (fs.statSync(path.join(directory, file)).isDirectory()) {
+                filesPaths = getFilesRecursively(path.join(directory, file), filesPaths); //check this
             } else {
                 filesPaths.push(path.join(directory, file));
             }
@@ -414,9 +414,77 @@ const getAuditEligibleFiles = ({ workspaceFolder }: { workspaceFolder: string })
     }
 };
 
+/**
+ * is FrontEnd module
+ * @param {string} module
+ * @return {boolean}
+ */
+const isFrontend = (module: string): boolean => {
+    try {
+        const stat = fs.lstatSync(module);
+        let packageJsonPath = module;
+
+        if (stat.isDirectory()) {
+            packageJsonPath = path.join(module, 'package.json');
+        }
+        const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+        if (
+            packageJson.dependencies?.angular ||
+            packageJson.devDependencies?.angular ||
+            packageJson.dependencies?.react ||
+            packageJson.devDependencies?.react
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        AppLogger.error(`[AuditUtils - isFrontend] error:  ${error}`);
+        return false;
+    }
+};
+
+/**
+ * Get FrontEnd Files recursively
+ * @param {string} directory
+ * @param {Array} frontendModules
+ * @return {*[]}
+ */
+
+const getFrontendDirectories = (directory: string, frontendModules: string[]): string[] => {
+    try {
+        const files = fs.readdirSync(directory);
+        AppLogger.info(`[AuditUtils - getFrontendDirectories] files: ${files?.length}`);
+        frontendModules = frontendModules || [];
+
+        files.forEach(function (module) {
+            const modulePath = path.join(directory, module);
+            if (fs.statSync(modulePath).isDirectory()) {
+                try {
+                    const directoryFiles = fs.readdirSync(modulePath);
+                    if (directoryFiles?.includes('package.json') && isFrontend(modulePath)) {
+                        frontendModules.push(modulePath);
+                    } else {
+                        frontendModules = getFrontendDirectories(modulePath, frontendModules);
+                    }
+                } catch (error) {
+                    AppLogger.info(`[AuditUtils - getFrontendDirectories] module error:  ${error}`);
+                }
+            }
+        });
+        AppLogger.info(`[AuditUtils - getFrontendDirectories] frontendFiles: ${frontendModules}`);
+
+        return frontendModules;
+    } catch (error) {
+        AppLogger.info(`[AuditUtils - getFrontendDirectories] error:  ${error}`);
+        return [];
+    }
+};
+
 const AuditUtils = {
     isAcceptedFileType,
     isExcludedFile,
+    isFrontend,
     getFiles,
     generateHash,
     parseFile,
@@ -425,6 +493,7 @@ const AuditUtils = {
     deleteAuditFile,
     getAuditEligibleFiles,
     getFilesRecursively,
+    getFrontendDirectories,
     findCommonBase,
     patternToFile,
 };
