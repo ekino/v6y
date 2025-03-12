@@ -72,6 +72,15 @@ const formatStringToDate = (dateStr: string): Date => {
 };
 
 /**
+ * Parses a date string into a timestamp.
+ *
+ * @param dateStr - The date string to parse.
+ */
+const formatStringToTimeStamp = (dateStr: string, unit: TimeStampUnit = 's'): number => {
+    return formatDateToTimestamp(formatStringToDate(dateStr), unit);
+};
+
+/**
  * DateUtils module providing utility functions for date formatting and parsing.
  */
 const DateUtils = {
@@ -79,6 +88,7 @@ const DateUtils = {
     formatStringToDate,
     formatDateToTimestamp,
     formatTimestampToDate,
+    formatStringToTimeStamp,
 };
 
 export default DateUtils;

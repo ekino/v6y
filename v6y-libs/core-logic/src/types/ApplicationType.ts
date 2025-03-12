@@ -1,3 +1,4 @@
+import { DataDogConfigType } from './ApplicationConfigType.ts';
 import { LinkType } from './LinkType.ts';
 import { RepositoryType } from './RepositoryType.ts';
 
@@ -8,6 +9,9 @@ export interface ApplicationType {
     contactMail?: string;
     description?: string;
     repo?: RepositoryType;
+    configuration?: {
+        dataDog?: DataDogConfigType;
+    };
     links?: LinkType[];
 }
 
@@ -17,6 +21,10 @@ export interface ApplicationInputType {
     name: string;
     description: string;
     contactMail: string;
+    dataDogApiKey?: string;
+    dataDogAppKey?: string;
+    dataDogUrl?: string;
+    dataDogMonitorId?: string;
     gitOrganization?: string;
     gitUrl?: string;
     gitWebUrl?: string;
