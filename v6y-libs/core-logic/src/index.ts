@@ -1,3 +1,4 @@
+import MonitoringApi from './apis/MonitoringApi.ts';
 import RepositoryApi from './apis/RepositoryApi.ts';
 import AppLogger from './core/AppLogger.ts';
 import AuditUtils from './core/AuditUtils.ts';
@@ -20,6 +21,8 @@ import EvolutionProvider from './database/EvolutionProvider.ts';
 import FaqProvider from './database/FaqProvider.ts';
 import KeywordProvider from './database/KeywordProvider.ts';
 import NotificationProvider from './database/NotificationProvider.ts';
+import DateUtils from './utils/DateUtils.ts';
+import MonitoringUtils from './utils/MonitoringUtils.ts';
 
 export * from './config/EvolutionHelpConfig.ts';
 export * from './config/AuditHelpConfig.ts';
@@ -54,4 +57,7 @@ export {
     DependencyStatusHelpProvider,
     DeprecatedDependencyProvider,
     RepositoryApi,
+    MonitoringApi,
+    MonitoringUtils,
+    DateUtils,
 };

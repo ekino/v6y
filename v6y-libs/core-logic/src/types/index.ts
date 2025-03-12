@@ -16,3 +16,5 @@ export * from './SearchQueryType.ts';
 export * from './LinkType.ts';
 export * from './ServerConfigType.ts';
 export * from './ModuleType.ts';
+export * from './ApplicationConfigType.ts';
+export * from './MonitoringType.ts';

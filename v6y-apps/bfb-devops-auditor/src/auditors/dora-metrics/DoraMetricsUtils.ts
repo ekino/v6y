@@ -1,17 +1,21 @@
-import { AppLogger, AuditType, Matcher, auditStatus } from '@v6y/core-logic';
-import { DateUtils } from '@v6y/core-logic';
+import {
+    AppLogger,
+    AuditType,
+    DateUtils,
+    Matcher,
+    MonitoringEventType,
+    auditStatus,
+} from '@v6y/core-logic';
 import { devOpsCategories, devOpsType } from '@v6y/core-logic/src/config/DevOpsConfig.ts';
 
 import {
     CalculateMeanTimeToRestoreServiceParams,
-    DataDogEventsType,
     DeploymentFrequencyParamsType,
     DoraMetricType,
     DoraMetricsAuditParamsType,
     LeadReviewTimeParamsType,
     LeadTimeForChangesParamsType,
     ServerDowntimePeriodType,
-    ServerStatusEventType,
     calculateUpTimeAverageParams,
 } from '../types/DoraMetricsAuditType.ts';
 
@@ -233,74 +237,13 @@ const calculateChangeFailureRate = (): DoraMetricType => {
 };
 
 /**
- * Format and filter the MTTR data.
- * @param data
- * @param dateStartTimeStamp
- * @param dateEndTimeStamp
- */
-const formatAndFilterDataDogData = (
-    data: DataDogEventsType,
-    dateStartTimeStamp: number,
-    dateEndTimeStamp: number,
-): ServerStatusEventType[] => {
-    try {
-        return data.data
-            .filter(
-                ({
-                    type,
-                    attributes: {
-                        attributes: { status, timestamp },
-                    },
-                }: {
-                    type: string;
-                    attributes: {
-                        attributes: { status: string; timestamp: number };
-                    };
-                }) =>
-                    type === 'event' &&
-                    ['error', 'success'].includes(status) &&
-                    timestamp >= dateStartTimeStamp &&
-                    timestamp <= dateEndTimeStamp,
-            )
-            .map(
-                ({
-                    id,
-                    type,
-                    attributes: {
-                        attributes: { status, timestamp },
-                    },
-                }: {
-                    id: string;
-                    type: string;
-                    attributes: {
-                        attributes: { status: string; timestamp: number };
-                    };
-                }) => ({
-                    id: id,
-                    type: type,
-                    status: status,
-                    timestamp: timestamp,
-                }),
-            )
-            .sort(
-                (a: { timestamp: number }, b: { timestamp: number }) => a.timestamp - b.timestamp,
-            );
-    } catch (error) {
-        AppLogger.error(
-            `[DoraMetricsUtils - formatAndFilterDataDogData] An exception occurred during the data formatting: ${error}`,
-        );
-    }
-    return [];
-};
-
-/**
  * Compute the downtime periods.
  * @param dataDogEvents
  * @param dateStart
  * @param dateEnd
  */
 const calculateDownTimePeriods = (
-    dataDogEvents: DataDogEventsType,
+    monitoringEvents: MonitoringEventType[],
     dateStart: string,
     dateEnd: string,
 ): ServerDowntimePeriodType[] => {
@@ -315,25 +258,8 @@ const calculateDownTimePeriods = (
         `[DoraMetricsUtils - calculateDownTimePeriods] dateEndTimeStamp: ${dateEndTimeStamp}`,
     );
 
-    const formatedEvents = formatAndFilterDataDogData(
-        dataDogEvents,
-        dateStartTimeStamp,
-        dateEndTimeStamp,
-    );
-
     AppLogger.info(
-        `[DoraMetricsUtils - calculateDownTimePeriods] formatedEvents count: ${
-            formatedEvents.length
-        }`,
-    );
-
-    if (!dataDogEvents || !dataDogEvents.data || dataDogEvents.data.length === 0) {
-        AppLogger.info(`[DoraMetricsUtils - calculateDownTimePeriods] data is empty`);
-        return [];
-    }
-
-    AppLogger.info(
-        `[DoraMetricsUtils - calculateDownTimePeriods] events count: ${formatedEvents.length}`,
+        `[DoraMetricsUtils - calculateDownTimePeriods] monitoringEvents count: ${monitoringEvents.length}`,
     );
 
     const downtimePeriods: ServerDowntimePeriodType[] = [];
@@ -343,7 +269,7 @@ const calculateDownTimePeriods = (
         start_id: string;
     } | null = null;
 
-    for (const event of formatedEvents) {
+    for (const event of monitoringEvents) {
         const eventTime = event.timestamp;
 
         if (event.status === 'error') {
@@ -475,7 +401,7 @@ const calculateUpTimeAverage = ({
 const analyseDoraMetrics = ({
     deployments,
     mergeRequests,
-    dataDogEvents,
+    monitoringEvents,
     application,
     dateStart,
     dateEnd,
@@ -506,7 +432,7 @@ const analyseDoraMetrics = ({
 
         const changeFailureRate = calculateChangeFailureRate();
 
-        const downtimePeriods = calculateDownTimePeriods(dataDogEvents, dateStart, dateEnd);
+        const downtimePeriods = calculateDownTimePeriods(monitoringEvents, dateStart, dateEnd);
 
         const meanTimeToRestoreService = calculateMeanTimeToRestoreService({
             downtimePeriods,

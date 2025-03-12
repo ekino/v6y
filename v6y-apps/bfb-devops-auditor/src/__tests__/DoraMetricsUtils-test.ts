@@ -3,9 +3,29 @@ import { devOpsCategories, devOpsType } from '@v6y/core-logic/src/config/DevOpsC
 import { describe, expect, it } from 'vitest';
 
 import DoraMetricsUtils from '../auditors/dora-metrics/DoraMetricsUtils.ts';
-import mockDatadogEvents from '../auditors/dora-metrics/mockDataDogEventsData.json' with { type: 'json' };
 import mockDeployments from '../auditors/dora-metrics/mockDeploymentsData.json' with { type: 'json' };
 import mockMergeRequests from '../auditors/dora-metrics/mockMergeRequestsData.json' with { type: 'json' };
+
+const mockMonitoringEvents = [
+    {
+        id: 'AwAAAZU9SDv4Jr7GUwAAABhBWlU5U0QzU0FBRGozNVdZcDdkcGdBUXYAAAAkMDE5NTNkNjYtZTNhMC00NGQ2LWE5ZWMtNTg1MDVjMmQ3MGYzAAAAAQ',
+        status: 'error',
+        timestamp: 1740489899000,
+        type: 'event',
+    },
+    {
+        id: 'AwAAAZU9ZuOgKgrGUwAAABhBWlU5WnVZMEFBQ1o2N2RFMnN1WldyUzIAAAAkMDE5NTNkNjYtZTNhMC00NGQ2LWE5ZWMtNTg1MDVjMmQ3MGYzAAAAAg',
+        status: 'success',
+        timestamp: 1740491908000,
+        type: 'event',
+    },
+    {
+        id: 'AwAAAZVBkB7YdVxDLAAAABhBWlZCa0NGUUFBQXIyb3I1SlpMc2IyLXoAAAAkMDE5NTQxOTAtMWVkOC00YWVhLTgyMzctODhmYzEyNWNmYTA2AAAAAA',
+        status: 'error',
+        timestamp: 1740561719000,
+        type: 'event',
+    },
+];
 
 const mockApplication = { _id: 1, name: 'TestApp' };
 const mockDateRange = { dateStart: '2025-02-01', dateEnd: '2025-03-03' };
@@ -15,7 +35,7 @@ describe('DoraMetricsUtils', () => {
         const result = DoraMetricsUtils.analyseDoraMetrics({
             deployments: mockDeployments,
             mergeRequests: mockMergeRequests,
-            dataDogEvents: mockDatadogEvents,
+            monitoringEvents: mockMonitoringEvents,
             application: mockApplication,
             ...mockDateRange,
         });
@@ -76,7 +96,7 @@ describe('DoraMetricsUtils', () => {
                 type: devOpsType.DORA,
                 category: devOpsCategories.MEAN_TIME_TO_RESTORE_SERVICE,
                 status: auditStatus.warning,
-                score: 55.62513888888889,
+                score: 55.59583333333333,
                 scoreUnit: 'hours',
                 module: {
                     appId: 1,
@@ -88,7 +108,7 @@ describe('DoraMetricsUtils', () => {
                 type: devOpsType.DORA,
                 category: devOpsCategories.UP_TIME_AVERAGE,
                 status: auditStatus.warning,
-                score: 84.54857253086419,
+                score: 84.55671296296296,
                 scoreUnit: 'percentage',
                 module: {
                     appId: 1,
@@ -152,7 +172,7 @@ describe('DoraMetricsUtils', () => {
 
     it('should compute mean time to restore service correctly', () => {
         const downtimePeriods = DoraMetricsUtils.calculateDownTimePeriods(
-            mockDatadogEvents,
+            mockMonitoringEvents,
             mockDateRange.dateStart,
             mockDateRange.dateEnd,
         );
@@ -163,12 +183,12 @@ describe('DoraMetricsUtils', () => {
         expect(result).toHaveProperty('value');
 
         expect(result.status).toEqual(auditStatus.warning);
-        expect(result.value).toEqual(55.62513888888889);
+        expect(result.value).toEqual(55.59583333333333);
     });
 
     it('should compute uptime average correctly', () => {
         const downtimePeriods = DoraMetricsUtils.calculateDownTimePeriods(
-            mockDatadogEvents,
+            mockMonitoringEvents,
             mockDateRange.dateStart,
             mockDateRange.dateEnd,
         );
@@ -182,6 +202,6 @@ describe('DoraMetricsUtils', () => {
         expect(result).toHaveProperty('value');
 
         expect(result.status).toEqual(auditStatus.warning);
-        expect(result.value).toEqual(84.54857253086419);
+        expect(result.value).toEqual(84.55671296296296);
     });
 });
