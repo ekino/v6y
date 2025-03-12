@@ -3,6 +3,7 @@ import { devOpsCategories, devOpsType } from '@v6y/core-logic/src/config/DevOpsC
 
 import {
     CalculateMeanTimeToRestoreServiceParams,
+    CalculateUpTimeAverageParams,
     DeploymentFrequencyParamsType,
     DoraMetricType,
     DoraMetricsAuditParamsType,
@@ -339,9 +340,10 @@ const calculateUpTimeAverage = ({
     downtimePeriods,
     dateStart,
     dateEnd,
-}: calculateUpTimeAverageParams): DoraMetricType => {
+}: CalculateUpTimeAverageParams): DoraMetricType => {
     const dateStartTimeStamp = formatDateToTimestamp(dateStart, 'ms');
     const dateEndTimeStamp = formatDateToTimestamp(dateEnd, 'ms');
+
 
     const downtime = downtimePeriods.reduce((acc, period) => acc + period.duration_miliseconds, 0);
     const totalPeriod = dateEndTimeStamp - dateStartTimeStamp;

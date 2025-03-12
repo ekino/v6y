@@ -49,7 +49,7 @@ export interface CalculateMeanTimeToRestoreServiceParams {
     downtimePeriods: ServerDowntimePeriodType[];
 }
 
-export interface calculateUpTimeAverageParams {
+export interface CalculateUpTimeAverageParams {
     downtimePeriods: ServerDowntimePeriodType[];
     dateStart: Date;
     dateEnd: Date;

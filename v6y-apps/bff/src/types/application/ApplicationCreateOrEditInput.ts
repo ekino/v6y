@@ -13,7 +13,7 @@ const ApplicationCreateOrEditInput = `
       description: String!
       
       """ Application repository organization """
-      gitOrganization: String!
+      gitOrganization: String
       
       """ Application web repository url """
       gitWebUrl: String!
