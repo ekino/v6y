@@ -1,7 +1,7 @@
 import { AppLogger, AuditType, Matcher, auditStatus } from '@v6y/core-logic';
 import { DateUtils } from '@v6y/core-logic';
+import { MonitoringEventType } from '@v6y/core-logic';
 import { devOpsCategories, devOpsType } from '@v6y/core-logic/src/config/DevOpsConfig.ts';
-import { MonitoringEventType } from '@v6y/core-logic/src/types/MonitoringType.ts';
 
 import {
     CalculateMeanTimeToRestoreServiceParams,
