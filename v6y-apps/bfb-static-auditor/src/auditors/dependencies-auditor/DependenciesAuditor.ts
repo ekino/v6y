@@ -43,7 +43,7 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: AuditCom
             `[DependenciesAuditor - startAuditorAnalysis] organization:  ${organization}`,
         );
         AppLogger.info(`[DependenciesAuditor - startAuditorAnalysis] gitUrl:  ${gitUrl}`);
-        if (!organization?.length || !gitUrl?.length) {
+        if (!gitUrl?.length) {
             return false;
         }
 

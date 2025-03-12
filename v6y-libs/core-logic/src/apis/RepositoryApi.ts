@@ -19,24 +19,26 @@ import { ApplicationZipConfigOptions, DownloadZipOptions } from '../types/ZipTyp
  * @param organization
  * @constructor
  */
-const GithubConfig = (organization: string): GithubConfigType => ({
-    baseURL: 'https://api.github.com',
-    api: '',
+const GithubConfig = (organization: string | null): GithubConfigType => {
+    const baseURL = 'https://api.github.com';
+    const reposBaseUrl = organization ? `${baseURL}/repos/${organization}` : `${baseURL}/repos`;
 
-    urls: {
-        fileContentUrl: (repoName: string, fileName: string) =>
-            `https://api.github.com/repos/${organization}/${repoName}/contents/${fileName}`,
-        repositoryDetailsUrl: (repoName: string) =>
-            `https://api.github.com/repos/${organization}/${repoName}`,
-    },
-
-    headers: {
-        Authorization: `Bearer ${process.env.GITHUB_PRIVATE_TOKEN}`,
-        Accept: 'application/vnd.github+json',
-        'Content-Type': 'application/json',
-        'User-Agent': 'V6Y',
-    },
-});
+    return {
+        baseURL,
+        api: '',
+        urls: {
+            fileContentUrl: (repoName: string, fileName: string) =>
+                `${reposBaseUrl}/${repoName}/contents/${fileName}`,
+            repositoryDetailsUrl: (repoName: string) => `${reposBaseUrl}/${repoName}`,
+        },
+        headers: {
+            Authorization: `Bearer ${process.env.GITHUB_PRIVATE_TOKEN}`,
+            Accept: 'application/vnd.github+json',
+            'Content-Type': 'application/json',
+            'User-Agent': 'V6Y',
+        },
+    };
+};
 
 /**
  * Builds the configuration for the Gitlab API.

@@ -184,8 +184,7 @@
       },
       "app-git-organization": {
         "label": "Application Git Organization (it can be ekino for example and it will be used like this gitlab.ekino.com, generally gitlab.organization.com)",
-        "placeholder": "Enter your application Git Organization",
-        "error": "Application Git Organization is a mandatory field!"
+        "placeholder": "Enter your application Git Organization"
       },
       "app-git-web-url": {
         "label": "Application Git Web URL (browser url to access the repository)",
