@@ -7,13 +7,13 @@ const { convertDataDogEventsToMonitoringEvents } = MonitoringUtils;
 
 describe('MonitoringUtils', () => {
     it('should convert DataDog events to monitoring events', () => {
-        const dateStartTimeStamp = 1740489689000;
-        const dateEndTimeStamp = 1740561729000;
+        const dateStart = new Date(1740489689000);
+        const dateEnd = new Date(1740561729000);
 
         const result = convertDataDogEventsToMonitoringEvents({
             dataDogEvents: mockDatadogEvents.data,
-            dateStartTimeStamp,
-            dateEndTimeStamp,
+            dateStart,
+            dateEnd,
         });
 
         expect(result).not.toBeNull();
