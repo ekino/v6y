@@ -1,4 +1,5 @@
 import { ApplicationType, DeployementType, MergeRequestType } from '@v6y/core-logic';
+import { MonitoringEventType } from '@v6y/core-logic/src/types/MonitoringType.ts';
 
 export interface DoraMetricsAuditConfigType {
     applicationId?: number;
@@ -21,26 +22,6 @@ export interface LeadTimeForChangesParamsType {
     deployments: DeployementType[];
     dateStart: string;
     dateEnd: string;
-}
-
-export interface DataDogEventsType {
-    data: {
-        id: string;
-        type: string;
-        attributes: {
-            attributes: {
-                status: string;
-                timestamp: number; // in ms
-            };
-        };
-    }[];
-}
-
-export interface ServerStatusEventType {
-    id: string;
-    type: string;
-    status: string;
-    timestamp: number;
 }
 
 export interface ServerDowntimePeriodType {
@@ -68,7 +49,7 @@ export interface DoraMetricType {
 export interface DoraMetricsAuditParamsType {
     deployments: DeployementType[];
     mergeRequests: MergeRequestType[];
-    dataDogEvents: DataDogEventsType;
+    monitoringEvents: MonitoringEventType[];
     application: ApplicationType;
     dateStart: string;
     dateEnd: string;

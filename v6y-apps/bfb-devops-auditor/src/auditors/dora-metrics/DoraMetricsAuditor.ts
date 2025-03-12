@@ -4,6 +4,7 @@ import {
     ApplicationType,
     AuditProvider,
     DateUtils,
+    MonitoringApi,
     RepositoryApi,
     RepositoryType,
 } from '@v6y/core-logic';
@@ -11,7 +12,6 @@ import {
 import { DoraMetricsAuditConfigType } from '../types/DoraMetricsAuditType.ts';
 import DoraMetricsConfig from './DoraMetricsConfig.ts';
 import DoraMetricsUtils from './DoraMetricsUtils.ts';
-import mockDatadogEvents from './mockDataDogEventsData.json' with { type: 'json' };
 
 const { analyseDoraMetrics } = DoraMetricsUtils;
 
@@ -41,10 +41,6 @@ const startAuditorAnalysis = async ({ applicationId }: DoraMetricsAuditConfigTyp
 
         AppLogger.info(
             `[DoraMetricsAuditor - startAuditorAnalysis] application _id:  ${application?._id}`,
-        );
-
-        AppLogger.info(
-            `[DoraMetricsAuditor - startAuditorAnalysis] application repo:  ${JSON.stringify(application?.repo)}`,
         );
 
         const repositoryDetails = await RepositoryApi.getRepositoryDetails({
@@ -139,17 +135,20 @@ const startDoraMetricsAnalysis = async ({
         `[DoraMetricsAuditor - startAuditorAnalysis] deployments:  ${deployments?.length}`,
     );
 
-    // Mocked data while the DataDog API integration is not yet implemented
-    const dataDogEvents = mockDatadogEvents;
+    const monitoringEvents = await MonitoringApi.getMonitoringEvents({
+        application,
+        dateStartStr,
+        dateEndStr,
+    });
 
     AppLogger.info(
-        `[DoraMetricsAuditor - startAuditorAnalysis] dataDogEvents:  ${dataDogEvents?.data?.length}`,
+        `[DoraMetricsAuditor - startAuditorAnalysis] events:  ${monitoringEvents?.length}`,
     );
 
     return analyseDoraMetrics({
         deployments: deployments || [],
         mergeRequests: mergeRequests || [],
-        dataDogEvents: dataDogEvents || [],
+        monitoringEvents: monitoringEvents || [],
         application,
         dateStart: dateStartStr,
         dateEnd: dateEndStr,
