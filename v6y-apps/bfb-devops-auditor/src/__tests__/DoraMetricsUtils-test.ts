@@ -1,4 +1,5 @@
 import { auditStatus } from '@v6y/core-logic';
+import { DateUtils } from '@v6y/core-logic';
 import { devOpsCategories, devOpsType } from '@v6y/core-logic/src/config/DevOpsConfig.ts';
 import { describe, expect, it } from 'vitest';
 
@@ -28,7 +29,10 @@ const mockMonitoringEvents = [
 ];
 
 const mockApplication = { _id: 1, name: 'TestApp' };
-const mockDateRange = { dateStart: '2025-02-01', dateEnd: '2025-03-03' };
+const mockDateRange = {
+    dateStart: DateUtils.formatStringToDate('2025-02-01'),
+    dateEnd: DateUtils.formatStringToDate('2025-03-03'),
+};
 
 describe('DoraMetricsUtils', () => {
     it('should compute and format Dora metrics report correctly', () => {
@@ -171,11 +175,11 @@ describe('DoraMetricsUtils', () => {
     });
 
     it('should compute mean time to restore service correctly', () => {
-        const downtimePeriods = DoraMetricsUtils.calculateDownTimePeriods(
-            mockMonitoringEvents,
-            mockDateRange.dateStart,
-            mockDateRange.dateEnd,
-        );
+        const downtimePeriods = DoraMetricsUtils.calculateDownTimePeriods({
+            monitoringEvents: mockMonitoringEvents,
+            dateStart: mockDateRange.dateStart,
+            dateEnd: mockDateRange.dateEnd,
+        });
         const result = DoraMetricsUtils.calculateMeanTimeToRestoreService({ downtimePeriods });
 
         expect(result).not.toBeNull();
@@ -187,11 +191,11 @@ describe('DoraMetricsUtils', () => {
     });
 
     it('should compute uptime average correctly', () => {
-        const downtimePeriods = DoraMetricsUtils.calculateDownTimePeriods(
-            mockMonitoringEvents,
-            mockDateRange.dateStart,
-            mockDateRange.dateEnd,
-        );
+        const downtimePeriods = DoraMetricsUtils.calculateDownTimePeriods({
+            monitoringEvents: mockMonitoringEvents,
+            dateStart: mockDateRange.dateStart,
+            dateEnd: mockDateRange.dateEnd,
+        });
         const result = DoraMetricsUtils.calculateUpTimeAverage({
             downtimePeriods,
             ...mockDateRange,

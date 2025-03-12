@@ -1,10 +1,13 @@
 import AppLogger from '../core/AppLogger.ts';
-import { DataDogConfigType } from '../types/ApplicationConfigType.ts';
-import { DataDogEventsType, GetEventsOptions } from '../types/MonitoringType.ts';
+import {
+    DataDogEventsType,
+    GetEventsOptions,
+    fetchDataDogEventsParamsType,
+} from '../types/MonitoringType.ts';
 import DateUtils from '../utils/DateUtils.ts';
 import MonitoringUtils from '../utils/MonitoringUtils.ts';
 
-const { formatStringToTimeStamp } = DateUtils;
+const { formatDateToTimestamp } = DateUtils;
 const { convertDataDogEventsToMonitoringEvents } = MonitoringUtils;
 
 /**
@@ -15,13 +18,9 @@ const { convertDataDogEventsToMonitoringEvents } = MonitoringUtils;
  **/
 const fetchDataDogEvents = async ({
     dataDogConfig,
-    dateStartTimeStamp,
-    dateEndTimeStamp,
-}: {
-    dataDogConfig: DataDogConfigType;
-    dateStartTimeStamp: number;
-    dateEndTimeStamp: number;
-}): Promise<DataDogEventsType[]> => {
+    dateStart,
+    dateEnd,
+}: fetchDataDogEventsParamsType): Promise<DataDogEventsType[]> => {
     if (
         !dataDogConfig ||
         !dataDogConfig.url ||
@@ -32,6 +31,9 @@ const fetchDataDogEvents = async ({
         AppLogger.error(`[EventApi - fetchDataDogEvents] DataDog configuration is missing`);
         return [];
     }
+
+    const dateStartTimeStamp = formatDateToTimestamp(dateStart, 'ms');
+    const dateEndTimeStamp = formatDateToTimestamp(dateEnd, 'ms');
 
     const url = `${dataDogConfig.url}/api/v2/events?filter[monitor_id]=${dataDogConfig.monitorId}&filter[from]=${dateStartTimeStamp}&filter[to]=${dateEndTimeStamp}&sort=timestamp&page[limit]=1000`;
 
@@ -65,10 +67,10 @@ const fetchDataDogEvents = async ({
 /**
  * Fetches events for a given application.
  * @param application
- * @param dateStartStr
- * @param dateEndStr
+ * @param dateStart
+ * @param dateEnd
  **/
-const getMonitoringEvents = async ({ application, dateStartStr, dateEndStr }: GetEventsOptions) => {
+const getMonitoringEvents = async ({ application, dateStart, dateEnd }: GetEventsOptions) => {
     try {
         AppLogger.info(
             `[EventApi - getEvents] Fetching events for application: ${application._id}`,
@@ -80,19 +82,16 @@ const getMonitoringEvents = async ({ application, dateStartStr, dateEndStr }: Ge
             return [];
         }
 
-        const dateStartTimeStamp = formatStringToTimeStamp(dateStartStr, 'ms');
-        const dateEndTimeStamp = formatStringToTimeStamp(dateEndStr, 'ms');
-
         const dataDogEvents = await fetchDataDogEvents({
             dataDogConfig: application.configuration.dataDog,
-            dateStartTimeStamp,
-            dateEndTimeStamp,
+            dateStart,
+            dateEnd,
         });
 
         const convertedEvents = convertDataDogEventsToMonitoringEvents({
             dataDogEvents,
-            dateStartTimeStamp,
-            dateEndTimeStamp,
+            dateStart,
+            dateEnd,
         });
 
         AppLogger.info(

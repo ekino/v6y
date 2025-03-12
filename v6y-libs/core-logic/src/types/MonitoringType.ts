@@ -1,9 +1,10 @@
+import { DataDogConfigType } from './ApplicationConfigType.ts';
 import { ApplicationType } from './ApplicationType.ts';
 
 export interface GetEventsOptions {
     application: ApplicationType;
-    dateStartStr: string;
-    dateEndStr: string;
+    dateStart: Date;
+    dateEnd: Date;
 }
 
 export interface DataDogEventsType {
@@ -15,6 +16,12 @@ export interface DataDogEventsType {
             timestamp: number; // in ms
         };
     };
+}
+
+export interface fetchDataDogEventsParamsType {
+    dataDogConfig: DataDogConfigType;
+    dateStart: Date;
+    dateEnd: Date;
 }
 
 export interface MonitoringEventType {

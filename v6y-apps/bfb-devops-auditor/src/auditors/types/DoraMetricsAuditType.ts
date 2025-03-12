@@ -1,27 +1,34 @@
 import { ApplicationType, DeployementType, MergeRequestType } from '@v6y/core-logic';
-import { MonitoringEventType } from '@v6y/core-logic';
+import { MonitoringEventType, RepositoryType } from '@v6y/core-logic';
 
 export interface DoraMetricsAuditConfigType {
     applicationId?: number;
 }
 
+export interface startDoraMetricsAnalysisParamsType {
+    application: ApplicationType;
+    repositoryDetails: RepositoryType;
+    dateStart: Date;
+    dateEnd: Date;
+}
+
 export interface DeploymentFrequencyParamsType {
     deployments: DeployementType[];
-    dateStart: string;
-    dateEnd: string;
+    dateStart: Date;
+    dateEnd: Date;
 }
 
 export interface LeadReviewTimeParamsType {
     mergeRequests: MergeRequestType[];
-    dateStart: string;
-    dateEnd: string;
+    dateStart: Date;
+    dateEnd: Date;
 }
 
 export interface LeadTimeForChangesParamsType {
     leadReviewTime: number;
     deployments: DeployementType[];
-    dateStart: string;
-    dateEnd: string;
+    dateStart: Date;
+    dateEnd: Date;
 }
 
 export interface ServerDowntimePeriodType {
@@ -32,14 +39,20 @@ export interface ServerDowntimePeriodType {
     end_id: string;
 }
 
+export interface calculateDownTimePeriodsParams {
+    monitoringEvents: MonitoringEventType[];
+    dateStart: Date;
+    dateEnd: Date;
+}
+
 export interface CalculateMeanTimeToRestoreServiceParams {
     downtimePeriods: ServerDowntimePeriodType[];
 }
 
 export interface calculateUpTimeAverageParams {
     downtimePeriods: ServerDowntimePeriodType[];
-    dateStart: string;
-    dateEnd: string;
+    dateStart: Date;
+    dateEnd: Date;
 }
 export interface DoraMetricType {
     value: number;
@@ -51,6 +64,6 @@ export interface DoraMetricsAuditParamsType {
     mergeRequests: MergeRequestType[];
     monitoringEvents: MonitoringEventType[];
     application: ApplicationType;
-    dateStart: string;
-    dateEnd: string;
+    dateStart: Date;
+    dateEnd: Date;
 }

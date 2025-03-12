@@ -1,11 +1,4 @@
-import {
-    AppLogger,
-    AuditType,
-    DateUtils,
-    Matcher,
-    MonitoringEventType,
-    auditStatus,
-} from '@v6y/core-logic';
+import { AppLogger, AuditType, DateUtils, Matcher, auditStatus } from '@v6y/core-logic';
 import { devOpsCategories, devOpsType } from '@v6y/core-logic/src/config/DevOpsConfig.ts';
 
 import {
@@ -16,6 +9,7 @@ import {
     LeadReviewTimeParamsType,
     LeadTimeForChangesParamsType,
     ServerDowntimePeriodType,
+    calculateDownTimePeriodsParams,
     calculateUpTimeAverageParams,
 } from '../types/DoraMetricsAuditType.ts';
 
@@ -45,13 +39,10 @@ const calculateDeploymentFrequency = ({
         return { status: auditStatus.error, value: 0 };
     }
 
-    const start = formatStringToDate(dateStart);
-    const end = formatStringToDate(dateEnd);
-
     const deploymentTimes = deployments
         .filter((d) => d.status === 'success')
         .map((d) => formatStringToDate(d.deployable.finished_at))
-        .filter((date) => date >= start && date <= end)
+        .filter((date) => date >= dateStart && date <= dateEnd)
         .sort((a, b) => a.getTime() - b.getTime());
 
     if (deploymentTimes.length === 0) {
@@ -61,7 +52,7 @@ const calculateDeploymentFrequency = ({
         return { status: auditStatus.error, value: 0 };
     }
 
-    const timePeriod = (end.getTime() - start.getTime()) / (MSTOHOURS * 24);
+    const timePeriod = (dateEnd.getTime() - dateStart.getTime()) / (MSTOHOURS * 24);
     const frequency = frequencyCalculation(deploymentTimes, timePeriod);
 
     AppLogger.info(
@@ -104,16 +95,13 @@ const calculateLeadReviewTime = ({
         return { status: auditStatus.error, value: 0 };
     }
 
-    const start = formatStringToDate(dateStart);
-    const end = formatStringToDate(dateEnd);
-
     const leadTimes = mergeRequests
         // Filter MRs that have been merged
         .filter((mr) => mr.merged_at)
         // Filter MRs within the date range based on merge date
         .filter((mr) => {
             const mergeDate = formatStringToDate(mr.merged_at);
-            return mergeDate >= start && mergeDate <= end;
+            return mergeDate >= dateStart && mergeDate <= dateEnd;
         })
         // Calculate lead review time for each MR (time between creation and merge)
         .map((mr) => {
@@ -169,15 +157,12 @@ const calculateLeadTimeForChanges = ({
         return { status: auditStatus.error, value: 0 };
     }
 
-    const start = formatStringToDate(dateStart);
-    const end = formatStringToDate(dateEnd);
-
     const deploymentLeadTimes = deployments
         .filter(
             (d) =>
                 d.status === 'success' &&
-                formatStringToDate(d.deployable.finished_at) >= start &&
-                formatStringToDate(d.deployable.finished_at) <= end,
+                formatStringToDate(d.deployable.finished_at) >= dateStart &&
+                formatStringToDate(d.deployable.finished_at) <= dateEnd,
         )
         .map((d) => {
             const createTime = formatStringToDate(d.deployable.created_at);
@@ -242,13 +227,13 @@ const calculateChangeFailureRate = (): DoraMetricType => {
  * @param dateStart
  * @param dateEnd
  */
-const calculateDownTimePeriods = (
-    monitoringEvents: MonitoringEventType[],
-    dateStart: string,
-    dateEnd: string,
-): ServerDowntimePeriodType[] => {
-    const dateStartTimeStamp = formatDateToTimestamp(formatStringToDate(dateStart), 'ms');
-    const dateEndTimeStamp = formatDateToTimestamp(formatStringToDate(dateEnd), 'ms');
+const calculateDownTimePeriods = ({
+    monitoringEvents,
+    dateStart,
+    dateEnd,
+}: calculateDownTimePeriodsParams): ServerDowntimePeriodType[] => {
+    const dateStartTimeStamp = formatDateToTimestamp(dateStart, 'ms');
+    const dateEndTimeStamp = formatDateToTimestamp(dateEnd, 'ms');
 
     AppLogger.info(
         `[DoraMetricsUtils - calculateDownTimePeriods] dateStartTimeStamp: ${dateStartTimeStamp}`,
@@ -355,8 +340,8 @@ const calculateUpTimeAverage = ({
     dateStart,
     dateEnd,
 }: calculateUpTimeAverageParams): DoraMetricType => {
-    const dateStartTimeStamp = formatDateToTimestamp(formatStringToDate(dateStart), 'ms');
-    const dateEndTimeStamp = formatDateToTimestamp(formatStringToDate(dateEnd), 'ms');
+    const dateStartTimeStamp = formatDateToTimestamp(dateStart, 'ms');
+    const dateEndTimeStamp = formatDateToTimestamp(dateEnd, 'ms');
 
     const downtime = downtimePeriods.reduce((acc, period) => acc + period.duration_miliseconds, 0);
     const totalPeriod = dateEndTimeStamp - dateStartTimeStamp;
@@ -432,7 +417,7 @@ const analyseDoraMetrics = ({
 
         const changeFailureRate = calculateChangeFailureRate();
 
-        const downtimePeriods = calculateDownTimePeriods(monitoringEvents, dateStart, dateEnd);
+        const downtimePeriods = calculateDownTimePeriods({ monitoringEvents, dateStart, dateEnd });
 
         const meanTimeToRestoreService = calculateMeanTimeToRestoreService({
             downtimePeriods,
@@ -443,8 +428,8 @@ const analyseDoraMetrics = ({
         const auditReports: AuditType[] = [];
 
         auditReports.push({
-            dateStart: formatStringToDate(dateStart),
-            dateEnd: formatStringToDate(dateEnd),
+            dateStart: dateStart,
+            dateEnd: dateEnd,
             type: devOpsType.DORA,
             category: devOpsCategories.DEPLOYMENT_FREQUENCY,
             status: deploymentFrequency.status,
@@ -456,8 +441,8 @@ const analyseDoraMetrics = ({
         });
 
         auditReports.push({
-            dateStart: formatStringToDate(dateStart),
-            dateEnd: formatStringToDate(dateEnd),
+            dateStart: dateStart,
+            dateEnd: dateEnd,
             type: devOpsType.DORA,
             category: devOpsCategories.LEAD_REVIEW_TIME,
             status: leadReviewTime.status,
@@ -469,8 +454,8 @@ const analyseDoraMetrics = ({
         });
 
         auditReports.push({
-            dateStart: formatStringToDate(dateStart),
-            dateEnd: formatStringToDate(dateEnd),
+            dateStart: dateStart,
+            dateEnd: dateEnd,
             type: devOpsType.DORA,
             category: devOpsCategories.LEAD_TIME_FOR_CHANGES,
             status: leadTimeForChanges.status,
@@ -482,8 +467,8 @@ const analyseDoraMetrics = ({
         });
 
         auditReports.push({
-            dateStart: formatStringToDate(dateStart),
-            dateEnd: formatStringToDate(dateEnd),
+            dateStart: dateStart,
+            dateEnd: dateEnd,
             type: devOpsType.DORA,
             category: devOpsCategories.CHANGE_FAILURE_RATE,
             status: changeFailureRate.status,
@@ -495,8 +480,8 @@ const analyseDoraMetrics = ({
         });
 
         auditReports.push({
-            dateStart: formatStringToDate(dateStart),
-            dateEnd: formatStringToDate(dateEnd),
+            dateStart: dateStart,
+            dateEnd: dateEnd,
             type: devOpsType.DORA,
             category: devOpsCategories.MEAN_TIME_TO_RESTORE_SERVICE,
             status: meanTimeToRestoreService.status,
@@ -508,8 +493,8 @@ const analyseDoraMetrics = ({
         });
 
         auditReports.push({
-            dateStart: formatStringToDate(dateStart),
-            dateEnd: formatStringToDate(dateEnd),
+            dateStart: dateStart,
+            dateEnd: dateEnd,
             type: devOpsType.DORA,
             category: devOpsCategories.UP_TIME_AVERAGE,
             status: upTimeAverage.status,

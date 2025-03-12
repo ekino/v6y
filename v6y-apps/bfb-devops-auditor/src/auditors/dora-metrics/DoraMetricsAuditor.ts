@@ -1,21 +1,19 @@
 import {
     AppLogger,
     ApplicationProvider,
-    ApplicationType,
     AuditProvider,
-    DateUtils,
     MonitoringApi,
     RepositoryApi,
-    RepositoryType,
 } from '@v6y/core-logic';
 
-import { DoraMetricsAuditConfigType } from '../types/DoraMetricsAuditType.ts';
+import {
+    DoraMetricsAuditConfigType,
+    startDoraMetricsAnalysisParamsType,
+} from '../types/DoraMetricsAuditType.ts';
 import DoraMetricsConfig from './DoraMetricsConfig.ts';
 import DoraMetricsUtils from './DoraMetricsUtils.ts';
 
 const { analyseDoraMetrics } = DoraMetricsUtils;
-
-const { formatDateToString, formatStringToDate } = DateUtils;
 
 /**
  * Starts the Dora Metrics auditor analysis.
@@ -55,19 +53,18 @@ const startAuditorAnalysis = async ({ applicationId }: DoraMetricsAuditConfigTyp
         }
 
         const auditReports = [];
-        const dateEndStr = formatDateToString(new Date(), 'YYYY-MM-DD');
+        const dateEnd = new Date();
 
         const { AUDIT_RANGES } = DoraMetricsConfig;
 
         for (const range of AUDIT_RANGES) {
-            const dateStart = formatStringToDate(dateEndStr);
+            const dateStart = new Date(dateEnd);
             dateStart.setDate(dateStart.getDate() - range);
-            const dateStartStr = formatDateToString(dateStart, 'YYYY-MM-DD');
             const reports = await startDoraMetricsAnalysis({
                 application,
                 repositoryDetails,
-                dateStartStr,
-                dateEndStr,
+                dateStart,
+                dateEnd,
             });
             auditReports.push(...reports);
         }
@@ -88,13 +85,6 @@ const startAuditorAnalysis = async ({ applicationId }: DoraMetricsAuditConfigTyp
     }
 };
 
-export interface startDoraMetricsAnalysisOptions {
-    application: ApplicationType;
-    repositoryDetails: RepositoryType;
-    dateStartStr: string;
-    dateEndStr: string;
-}
-
 /**
  * Starts the Dora Metrics analysis.
  * @param application
@@ -105,19 +95,23 @@ export interface startDoraMetricsAnalysisOptions {
 const startDoraMetricsAnalysis = async ({
     application,
     repositoryDetails,
-    dateStartStr,
-    dateEndStr,
-}: startDoraMetricsAnalysisOptions) => {
+    dateStart,
+    dateEnd,
+}: startDoraMetricsAnalysisParamsType) => {
     if (!repositoryDetails?.id) {
         AppLogger.error(`[DoraMetricsAuditor - startAuditorAnalysis] repository id is missing`);
         return [];
     }
 
+    AppLogger.info(
+        `[DoraMetricsAuditor - startAuditorAnalysis] Starting Analysis for date range : ${dateStart} - ${dateEnd}`,
+    );
+
     const mergeRequests = await RepositoryApi.getRepositoryMergeRequests({
         organization: application.repo?.organization,
         repositoryId: repositoryDetails?.id,
-        startDate: dateStartStr,
-        endDate: dateEndStr,
+        dateStart,
+        dateEnd,
     });
 
     AppLogger.info(
@@ -127,8 +121,8 @@ const startDoraMetricsAnalysis = async ({
     const deployments = await RepositoryApi.getRepositoryDeployments({
         organization: application.repo?.organization,
         repositoryId: repositoryDetails?.id,
-        startDate: dateStartStr,
-        endDate: dateEndStr,
+        dateStart: dateStart,
+        dateEnd: dateEnd,
     });
 
     AppLogger.info(
@@ -137,8 +131,8 @@ const startDoraMetricsAnalysis = async ({
 
     const monitoringEvents = await MonitoringApi.getMonitoringEvents({
         application,
-        dateStartStr,
-        dateEndStr,
+        dateStart,
+        dateEnd,
     });
 
     AppLogger.info(
@@ -150,8 +144,8 @@ const startDoraMetricsAnalysis = async ({
         mergeRequests: mergeRequests || [],
         monitoringEvents: monitoringEvents || [],
         application,
-        dateStart: dateStartStr,
-        dateEnd: dateEndStr,
+        dateStart,
+        dateEnd,
     });
 };
 

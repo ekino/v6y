@@ -1,21 +1,25 @@
 import AppLogger from '../core/AppLogger.ts';
 import { DataDogEventsType, MonitoringEventType } from '../types/MonitoringType.ts';
+import DateUtils from './DateUtils.ts';
 
 /**
  * Converts DataDog events to ServerStatusEventType.
  * @param dataDogEvents
- * @param dateStartTimeStamp
- * @param dateEndTimeStamp
+ * @param dateStart
+ * @param dateEnd
  **/
 const convertDataDogEventsToMonitoringEvents = ({
     dataDogEvents,
-    dateStartTimeStamp,
-    dateEndTimeStamp,
+    dateStart,
+    dateEnd,
 }: {
     dataDogEvents: DataDogEventsType[];
-    dateStartTimeStamp: number;
-    dateEndTimeStamp: number;
+    dateStart: Date;
+    dateEnd: Date;
 }): MonitoringEventType[] => {
+    const dateStartTimeStamp = DateUtils.formatDateToTimestamp(dateStart, 'ms');
+    const dateEndTimeStamp = DateUtils.formatDateToTimestamp(dateEnd, 'ms');
+
     try {
         return dataDogEvents
             .filter(

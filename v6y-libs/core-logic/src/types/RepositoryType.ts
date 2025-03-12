@@ -65,8 +65,8 @@ export interface RepositoryType {
 export interface getRepositoryMergeRequestsOptions {
     organization?: string;
     repositoryId: string;
-    startDate?: string;
-    endDate?: string;
+    dateStart?: Date;
+    dateEnd?: Date;
     type?: string;
 }
 
@@ -78,8 +78,8 @@ export interface MergeRequestType {
 export interface getRepositoryDeploymentsOptions {
     organization?: string;
     repositoryId: string;
-    startDate?: string;
-    endDate?: string;
+    dateStart?: Date;
+    dateEnd?: Date;
     type?: string;
 }
 

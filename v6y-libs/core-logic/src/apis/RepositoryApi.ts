@@ -13,6 +13,7 @@ import {
     getRepositoryMergeRequestsOptions,
 } from '../types/RepositoryType.ts';
 import { ApplicationZipConfigOptions, DownloadZipOptions } from '../types/ZipType.ts';
+import DateUtils from '../utils/DateUtils.ts';
 
 /**
  * Builds the configuration for the Github API.
@@ -193,13 +194,15 @@ const getRepositoryBranches = async ({
  * Gets the merge requests of a repository.
  * @param organization
  * @param repositoryId
+ * @param dateStart
+ * @param dateEnd
  * @param type
  */
 const getRepositoryMergeRequests = async ({
     organization,
     repositoryId,
-    startDate,
-    endDate,
+    dateStart,
+    dateEnd,
     type = 'gitlab',
 }: getRepositoryMergeRequestsOptions): Promise<MergeRequestType[]> => {
     try {
@@ -208,8 +211,11 @@ const getRepositoryMergeRequests = async ({
             repositoryId,
         );
 
-        if (startDate && endDate) {
-            mergeRequestsUrl += `?created_after=${startDate}&created_before=${endDate}`;
+        if (dateStart && dateEnd) {
+            mergeRequestsUrl += `?created_after=${DateUtils.formatDateToString(
+                dateStart,
+                'YYYY-MM-DD',
+            )}&created_before=${DateUtils.formatDateToString(dateEnd, 'YYYY-MM-DD')}`;
         }
 
         AppLogger.info(
@@ -236,15 +242,15 @@ const getRepositoryMergeRequests = async ({
  * Gets the deployments of a repository.
  * @param organization
  * @param repositoryId
- * @param startDate
- * @param endDate
+ * @param dateStart
+ * @param dateEnd
  * @param type
  */
 const getRepositoryDeployments = async ({
     organization,
     repositoryId,
-    startDate,
-    endDate,
+    dateStart,
+    dateEnd,
     type = 'gitlab',
 }: getRepositoryDeploymentsOptions): Promise<DeployementType[]> => {
     try {
@@ -253,8 +259,11 @@ const getRepositoryDeployments = async ({
             (queryOptions as GitlabConfigType).urls.repositoryDeploymentsUrl(repositoryId) +
             '?status=success';
 
-        if (startDate && endDate) {
-            deploymentsUrl += `&finished_after=${startDate}&finished_before=${endDate}&order_by=finished_at&sort=desc`;
+        if (dateStart && dateEnd) {
+            deploymentsUrl += `&finished_after=${DateUtils.formatDateToString(
+                dateStart,
+                'YYYY-MM-DD',
+            )}&finished_before=${DateUtils.formatDateToString(dateEnd, 'YYYY-MM-DD')}&order_by=finished_at&sort=desc`;
         }
 
         AppLogger.info(
