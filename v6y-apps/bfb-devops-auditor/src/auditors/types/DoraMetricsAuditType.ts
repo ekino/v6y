@@ -1,5 +1,5 @@
 import { ApplicationType, DeployementType, MergeRequestType } from '@v6y/core-logic';
-import { MonitoringEventType } from '@v6y/core-logic/src/types/MonitoringType.ts';
+import { MonitoringEventType } from '@v6y/core-logic';
 
 export interface DoraMetricsAuditConfigType {
     applicationId?: number;
