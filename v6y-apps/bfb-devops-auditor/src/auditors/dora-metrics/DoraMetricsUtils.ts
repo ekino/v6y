@@ -11,7 +11,6 @@ import {
     LeadTimeForChangesParamsType,
     ServerDowntimePeriodType,
     calculateDownTimePeriodsParams,
-    calculateUpTimeAverageParams,
 } from '../types/DoraMetricsAuditType.ts';
 
 const { formatStringToDate, formatDateToTimestamp } = DateUtils;
@@ -343,7 +342,6 @@ const calculateUpTimeAverage = ({
 }: CalculateUpTimeAverageParams): DoraMetricType => {
     const dateStartTimeStamp = formatDateToTimestamp(dateStart, 'ms');
     const dateEndTimeStamp = formatDateToTimestamp(dateEnd, 'ms');
-
 
     const downtime = downtimePeriods.reduce((acc, period) => acc + period.duration_miliseconds, 0);
     const totalPeriod = dateEndTimeStamp - dateStartTimeStamp;
