@@ -72,12 +72,7 @@ export const applicationGitRepositoryFormItems = (translate: TranslateType) => [
         name: 'app-git-organization',
         label: translate('v6y-applications.fields.app-git-organization.label'),
         placeholder: translate('v6y-applications.fields.app-git-organization.placeholder'),
-        rules: [
-            {
-                required: true,
-                message: translate('v6y-applications.fields.app-git-organization.error'),
-            },
-        ],
+        rules: [],
     },
     {
         id: 'app-git-web-url',
