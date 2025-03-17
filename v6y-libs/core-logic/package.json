@@ -60,6 +60,7 @@
     "bcrypt": "=5.1.1",
     "compare-versions": "=6.1.1",
     "cors": "=2.8.5",
+    "detect-package-manager": "^3.0.2",
     "dotenv": "=16.4.7",
     "eslint": "=9.18.0",
     "file-saver": "=2.0.5",

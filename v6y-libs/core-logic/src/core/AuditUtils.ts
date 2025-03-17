@@ -445,7 +445,7 @@ const isFrontend = (module: string): boolean => {
 };
 
 /**
- * Get FrontEnd Files recursively
+ * Get Frontend Files recursively
  * @param {string} directory
  * @param {Array} frontendModules
  * @return {*[]}

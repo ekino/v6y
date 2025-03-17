@@ -20,7 +20,11 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: AuditCom
             `[BundleAnalyzeAuditor - startAuditorAnalysis] workspaceFolder:  ${workspaceFolder}`,
         );
 
-        const auditReports = formatBundleAnalyzeReports({ workspaceFolder, applicationId });
+        if (applicationId === undefined || !workspaceFolder?.length) {
+            return false;
+        }
+
+        const auditReports = await formatBundleAnalyzeReports({ workspaceFolder, applicationId });
         AppLogger.info(
             `[BundleAnalyzeAuditor - startAuditorAnalysis] auditReports:  ${auditReports}`,
         );
