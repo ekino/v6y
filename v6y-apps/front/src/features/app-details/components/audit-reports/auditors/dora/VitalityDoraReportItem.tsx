@@ -20,10 +20,7 @@ type VitalityDoraReportItemProps = {
     onOpenHelpClicked: (helpDetails: VitalityModuleType) => void;
 };
 
-const VitalityDoraReportItem = ({
-    report,
-    onOpenHelpClicked,
-}: VitalityDoraReportItemProps) => {
+const VitalityDoraReportItem = ({ report, onOpenHelpClicked }: VitalityDoraReportItemProps) => {
     const { currentConfig } = useThemeConfigProvider();
     const qualityMetricStatus = currentConfig?.status || {};
     const qualityMetricStatusIcons = currentConfig?.statusIcons || {};

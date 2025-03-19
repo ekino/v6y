@@ -44,12 +44,10 @@ const VitalityAuditReportsTypeGrouper = ({ auditReports }: { auditReports: Audit
                                 <VitalityCodeStatusReportsBranchGrouper
                                     reports={data as AuditType[]}
                                 />
-                        )}
-                        {(
-                            group === AUDIT_REPORT_TYPES.DORA && data &&
-                        (
+                            )}
+                        {group === AUDIT_REPORT_TYPES.DORA && data && (
                             <VitalityDoraReportsGrouper reports={data as AuditType[]} />
-                        ))}
+                        )}
                     </div>
                 );
             }}

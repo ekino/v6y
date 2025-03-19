@@ -13,4 +13,3 @@ const VitalityDoraReportsGrouper = ({ reports }: { reports: AuditType[] }) => {
 };
 
 export default VitalityDoraReportsGrouper;
-
