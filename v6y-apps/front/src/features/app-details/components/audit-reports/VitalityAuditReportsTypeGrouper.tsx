@@ -13,6 +13,10 @@ const VitalityLighthouseReportsDeviceGrouper = DynamicLoader(
     () => import('./auditors/lighthouse/VitalityLighthouseReportsDeviceGrouper'),
 );
 
+const VitalityDoraReportsGrouper = DynamicLoader(
+    () => import('./auditors/dora/VitalityDoraReportsGrouper'),
+);
+
 const VitalityAuditReportsTypeGrouper = ({ auditReports }: { auditReports: AuditType[] }) => {
     return (
         <VitalityTabGrouperView
@@ -21,14 +25,7 @@ const VitalityAuditReportsTypeGrouper = ({ auditReports }: { auditReports: Audit
             align="center"
             criteria="type"
             hasAllGroup={false}
-            dataSource={[
-                ...(auditReports?.filter(
-                    (report) => report?.type === AUDIT_REPORT_TYPES.lighthouse,
-                ) || []),
-                ...(auditReports?.filter(
-                    (report) => report?.type !== AUDIT_REPORT_TYPES.lighthouse,
-                ) || []),
-            ]}
+            dataSource={auditReports}
             onRenderChildren={(group, data) => {
                 return (
                     <div
@@ -47,7 +44,12 @@ const VitalityAuditReportsTypeGrouper = ({ auditReports }: { auditReports: Audit
                                 <VitalityCodeStatusReportsBranchGrouper
                                     reports={data as AuditType[]}
                                 />
-                            )}
+                        )}
+                        {(
+                            group === AUDIT_REPORT_TYPES.DORA && data &&
+                        (
+                            <VitalityDoraReportsGrouper reports={data as AuditType[]} />
+                        ))}
                     </div>
                 );
             }}
