@@ -52,7 +52,7 @@
   "dependencies": {
     "@sequelize/core": "7.0.0-alpha.43",
     "@v6y/core-logic": "workspace:^",
-    "axios": "=1.7.9",
+    "axios": "=1.8.2",
     "axios-retry": "=4.5.0",
     "body-parser": "=1.20.3",
     "cookie-parser": "=1.4.7",
