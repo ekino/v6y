@@ -456,7 +456,6 @@ const getFrontendDirectories = (directory: string, frontendModules: string[]): s
         const files = fs.readdirSync(directory);
         AppLogger.info(`[AuditUtils - getFrontendDirectories] files: ${files?.length}`);
         frontendModules = frontendModules || [];
-
         files.forEach(function (module) {
             const modulePath = path.join(directory, module);
             if (fs.statSync(modulePath).isDirectory()) {

@@ -1,7 +1,9 @@
 import fs from 'fs-extra';
+import * as path from 'path';
 import { Readable } from 'stream';
-import { Mock, describe, expect, it, vi } from 'vitest';
+import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import AppLogger from '../core/AppLogger.ts';
 import AuditUtils from '../core/AuditUtils.ts';
 
 vi.mock('fs-extra', () => ({
@@ -17,10 +19,22 @@ vi.mock('fs-extra', () => ({
         readdirSync: vi.fn(() => ['mock-file.js']),
         rmSync: vi.fn(),
         statSync: vi.fn(() => ({ isDirectory: () => false })),
+        lstatSync: vi.fn(() => ({ isDirectory: () => false })),
     },
+}));
+vi.mock('../core/AppLogger.ts', () => ({
+    default: {
+        info: vi.fn(),
+    },
+}));
+vi.mock('/path/to/project/module1', () => ({
+    isFrontend: vi.fn(),
 }));
 
 describe('AuditUtils', () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
     it('should return true for accepted file types', () => {
         expect(AuditUtils.isAcceptedFileType('file.js')).toBe(true);
         expect(AuditUtils.isAcceptedFileType('file.ts')).toBe(true);
@@ -111,10 +125,65 @@ describe('AuditUtils', () => {
 
         expect(result.auditEligibleFiles?.length).toBe(2);
 
-        console.log(result.auditEligibleFiles);
-
         expect(result.auditEligibleFiles?.includes('/src/file1.js')).toBe(true);
         expect(result.auditEligibleFiles?.includes('/src/main.ts')).toBe(true);
         expect(result.auditEligibleFiles?.includes('/src/test.spec.js')).toBe(false);
+    });
+
+    it('should return frontend directories', async () => {
+        const mockDirectory = '/path/to/project';
+        const mockModule1Path = path.join(mockDirectory, 'module1');
+        const mockModule2Path = path.join(mockDirectory, 'module2');
+        const mockFiles = ['module1', 'module2'];
+        const mockPackageJsonModule1 = JSON.stringify({
+            dependencies: {
+                react: '^17.0.0',
+            },
+        });
+        const mockPackageJsonModule2 = JSON.stringify({
+            dependencies: {},
+        });
+
+        (fs.readdirSync as Mock).mockImplementation((dir) => {
+            if (dir === mockDirectory) {
+                return mockFiles;
+            } else if (dir === mockModule1Path || dir === mockModule2Path) {
+                return ['package.json'];
+            }
+            return [];
+        });
+
+        (fs.statSync as Mock).mockImplementation((module) => ({
+            isDirectory: () => module === mockModule1Path || module === mockModule2Path,
+        }));
+        (fs.lstatSync as Mock).mockImplementation((module) => ({
+            isDirectory: () => module === mockModule1Path || module === mockModule2Path,
+        }));
+
+        (fs.readFileSync as Mock).mockImplementation((filePath) => {
+            if (filePath.includes('module1/package.json')) {
+                return mockPackageJsonModule1;
+            } else if (filePath.includes('module2/package.json')) {
+                return mockPackageJsonModule2;
+            }
+            return '';
+        });
+
+        const frontendModules: string[] = [];
+        const result = AuditUtils.getFrontendDirectories(mockDirectory, frontendModules);
+        expect(result).toEqual([mockModule1Path]);
+    });
+
+    it('should handle errors gracefully', () => {
+        const directory = '/path/to/project';
+        (fs.readdirSync as Mock).mockImplementation(() => {
+            throw new Error('Test error');
+        });
+
+        const result = AuditUtils.getFrontendDirectories(directory, []);
+        expect(result).toEqual([]);
+        expect(AppLogger.info).toHaveBeenCalledWith(
+            expect.stringContaining('error:  Error: Test error'),
+        );
     });
 });

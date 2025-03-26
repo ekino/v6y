@@ -17,9 +17,10 @@ const analyzeBundle = async (workspaceFolder: string) => {
             `[BundleAnalyzeUtils - analyzeBundle] frontendModule: No frontend modules found in the workspace.`,
         );
     } else {
-        for (const frontendModule of frontendModules) {
-            AppLogger.info(`[BundleAnalyzeUtils - analyzeBundle] frontendModule:`, frontendModule);
-        }
+        AppLogger.info(
+            `[BundleAnalyzeUtils - analyzeBundle] frontendModule files:`,
+            frontendModules?.length,
+        );
     }
 };
 
