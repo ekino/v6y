@@ -371,9 +371,6 @@ importers:
       date-fns:
         specifier: '=4.1.0'
         version: 4.1.0
-      detect-package-manager:
-        specifier: ^3.0.2
-        version: 3.0.2
       express:
         specifier: '=4.21.2'
         version: 4.21.2
@@ -381,8 +378,8 @@ importers:
         specifier: '=1.3.4'
         version: 1.3.4
       fs-extra:
-        specifier: ^11.2.0
-        version: 11.3.0
+        specifier: '=11.2.0'
+        version: 11.2.0
       globals:
         specifier: '=15.14.0'
         version: 15.14.0
@@ -930,9 +927,6 @@ importers:
       cors:
         specifier: '=2.8.5'
         version: 2.8.5
-      detect-package-manager:
-        specifier: ^3.0.2
-        version: 3.0.2
       dotenv:
         specifier: '=16.4.7'
         version: 16.4.7
@@ -5605,10 +5599,6 @@ packages:
 
   detect-node@2.1.0:
     resolution: {integrity: sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g==}
-
-  detect-package-manager@3.0.2:
-    resolution: {integrity: sha512-8JFjJHutStYrfWwzfretQoyNGoZVW1Fsrp4JO9spa7h/fBfwgTMEIy4/LBzRDGsxwVPHU0q+T9YvwLDJoOApLQ==}
-    engines: {node: '>=12'}
 
   detective-amd@6.0.1:
     resolution: {integrity: sha512-TtyZ3OhwUoEEIhTFoc1C9IyJIud3y+xYkSRjmvCt65+ycQuc3VcBrPRTMWoO/AnuCyOB8T5gky+xf7Igxtjd3g==}
@@ -15451,10 +15441,6 @@ snapshots:
   detect-libc@2.0.3: {}
 
   detect-node@2.1.0: {}
-
-  detect-package-manager@3.0.2:
-    dependencies:
-      execa: 5.1.1
 
   detective-amd@6.0.1:
     dependencies:
