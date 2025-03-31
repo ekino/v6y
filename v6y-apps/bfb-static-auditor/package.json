@@ -58,6 +58,7 @@
   },
   "dependencies": {
     "@sequelize/core": "7.0.0-alpha.43",
+    "@types/fs-extra": "=11.0.4",
     "@typhonjs/babel-parser": "=0.2.0",
     "@v6y/core-logic": "workspace:^",
     "axios": "=1.7.9",
