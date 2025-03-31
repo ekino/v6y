@@ -25,7 +25,7 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
-    "@ant-design/icons": "=5.5.2",
+    "@ant-design/icons": "=6.0.0",
     "@ant-design/nextjs-registry": "=1.0.2",
     "@refinedev/antd": "=5.45.1",
     "@refinedev/cli": "=2.16.42",
