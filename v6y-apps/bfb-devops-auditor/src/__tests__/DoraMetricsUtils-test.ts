@@ -91,7 +91,7 @@ describe('DoraMetricsUtils', () => {
                     appId: 1,
                 },
                 score: -1,
-                scoreUnit: 'percentage',
+                scoreUnit: '%',
                 status: auditStatus.error,
             },
             {
@@ -113,7 +113,7 @@ describe('DoraMetricsUtils', () => {
                 category: devOpsCategories.UP_TIME_AVERAGE,
                 status: auditStatus.warning,
                 score: 84.55671296296296,
-                scoreUnit: 'percentage',
+                scoreUnit: '%',
                 module: {
                     appId: 1,
                 },

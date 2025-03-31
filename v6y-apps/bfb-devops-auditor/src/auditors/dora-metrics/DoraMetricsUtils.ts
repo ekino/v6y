@@ -473,7 +473,7 @@ const analyseDoraMetrics = ({
             category: devOpsCategories.CHANGE_FAILURE_RATE,
             status: changeFailureRate.status,
             score: changeFailureRate.value,
-            scoreUnit: 'percentage',
+            scoreUnit: '%',
             module: {
                 appId: application?._id,
             },
@@ -499,7 +499,7 @@ const analyseDoraMetrics = ({
             category: devOpsCategories.UP_TIME_AVERAGE,
             status: upTimeAverage.status,
             score: upTimeAverage.value,
-            scoreUnit: 'percentage',
+            scoreUnit: '%',
             module: {
                 appId: application?._id,
             },
