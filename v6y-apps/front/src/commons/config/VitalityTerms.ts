@@ -51,6 +51,7 @@ export const VitalityTerms = {
         "This dependency doesn't require any action.",
 
     VITALITY_APP_DETAILS_AUDIT_REPORTS_TITLE: 'Audit reports',
+    VITALITY_APP_DETAILS_AUDIT_STATUS_FAILURE_LABEL: 'Audit failed',
 
     VITALITY_APP_DETAILS_AUDIT_SELECT_LABEL: 'Select a branch',
     VITALITY_APP_DETAILS_AUDIT_SELECT_HELPER: 'Select a branch to filter metrics',

@@ -1,8 +1,10 @@
+import { auditStatus } from '@v6y/core-logic/src/config/AuditHelpConfig';
 import {
     Avatar,
     Button,
     Card,
     Divider,
+    EmptyView,
     InfoCircleOutlined,
     ListItem,
     ListItemMeta,
@@ -58,7 +60,8 @@ const VitalityModuleListItem = ({ module, onModuleClicked }: VitalityModuleItemP
                         style={{
                             background:
                                 qualityMetricStatus[
-                                    (module.status as keyof typeof qualityMetricStatus) || 'default'
+                                    (module.scoreStatus as keyof typeof qualityMetricStatus) ||
+                                        'disabled'
                                 ],
                         }}
                         icon={<PushpinOutlined />}
@@ -67,6 +70,12 @@ const VitalityModuleListItem = ({ module, onModuleClicked }: VitalityModuleItemP
                 description={
                     <Card bordered={false}>
                         <Space direction="vertical" size="small">
+                            {module?.auditStatus === auditStatus.failure && (
+                                <EmptyView
+                                    message={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_STATUS_FAILURE_LABEL}`}
+                                />
+                            )}
+
                             {moduleScore?.length > 0 && (
                                 <Statistic
                                     title={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_INDICATOR_SCORE_LABEL}: `}
@@ -74,13 +83,13 @@ const VitalityModuleListItem = ({ module, onModuleClicked }: VitalityModuleItemP
                                     suffix={module.scoreUnit || ''}
                                     valueStyle={{
                                         color: qualityMetricStatus[
-                                            (module.status as keyof typeof qualityMetricStatus) ||
+                                            (module.scoreStatus as keyof typeof qualityMetricStatus) ||
                                                 'default'
                                         ],
                                     }}
                                     prefix={
                                         qualityMetricStatusIcons[
-                                            (module.status as keyof typeof qualityMetricStatusIcons) ||
+                                            (module.scoreStatus as keyof typeof qualityMetricStatusIcons) ||
                                                 'default'
                                         ]
                                     }

@@ -91,7 +91,7 @@ export const AUDIT_REPORT_TYPES = {
     codeCoupling: 'Code-Coupling',
     codeSecurity: 'Code-Security',
     codeDuplication: 'Code-Duplication',
-    DORA: 'DORA',
+    dora: 'DORA',
 };
 
 export const buildBreadCrumbItems = ({ currentPage, lastPage, urlParams }: BreadCrumbItemType) => {

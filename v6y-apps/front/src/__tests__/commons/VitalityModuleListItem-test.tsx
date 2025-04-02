@@ -18,7 +18,8 @@ describe('VitalityModuleListItem', () => {
             category: 'Code Quality',
             score: 85,
             scoreUnit: '%',
-            status: 'Completed',
+            scoreStatus: 'success',
+            auditStatus: 'success',
             branch: 'main',
             path: 'src/security',
             auditHelp: {},
@@ -40,9 +41,10 @@ describe('VitalityModuleListItem', () => {
             label: '',
             type: 'Performance',
             category: 'Optimization',
-            score: 0, // Score is missing
+            score: 1,
             scoreUnit: '',
-            status: 'Warning',
+            scoreStatus: 'warning',
+            auditStatus: 'success',
             branch: '',
             path: '',
             auditHelp: {},
@@ -53,7 +55,6 @@ describe('VitalityModuleListItem', () => {
         render(<VitalityModuleListItem module={moduleItem} onModuleClicked={vi.fn()} />);
 
         expect(screen.getByText('Incomplete Module')).toBeInTheDocument();
-        expect(screen.queryByTestId('mock-statistic')).not.toBeInTheDocument(); // Score is missing
         expect(screen.queryByText('branch')).not.toBeInTheDocument(); // Branch is missing
         expect(screen.queryByText('path')).not.toBeInTheDocument(); // Path is missing
     });
@@ -68,7 +69,8 @@ describe('VitalityModuleListItem', () => {
             category: 'Code Quality',
             score: 85,
             scoreUnit: '%',
-            status: 'Completed',
+            scoreStatus: 'success',
+            auditStatus: 'success',
             branch: 'main',
             path: 'src/security',
             auditHelp: { key: 'value' }, // Ensures info button appears
@@ -94,7 +96,8 @@ describe('VitalityModuleListItem', () => {
             category: 'Testing',
             score: 92,
             scoreUnit: '%',
-            status: 'error', // Should apply red styling
+            scoreStatus: 'error', // Should apply red styling
+            auditStatus: 'success',
             branch: '',
             path: '',
             auditHelp: {},
@@ -140,7 +143,14 @@ describe('VitalityModuleListItem', () => {
                 {modules.map((mod, index) => (
                     <VitalityModuleListItem
                         key={index}
-                        module={{ ...mod, auditHelp: {}, statusHelp: {}, evolutionHelp: {} }}
+                        module={{
+                            ...mod,
+                            auditHelp: {},
+                            statusHelp: {},
+                            evolutionHelp: {},
+                            scoreStatus: 'info',
+                            auditStatus: 'success',
+                        }}
                         onModuleClicked={vi.fn()}
                     />
                 ))}
@@ -161,7 +171,8 @@ describe('VitalityModuleListItem', () => {
             category: 'Testing',
             score: 75,
             scoreUnit: '%',
-            status: 'Completed',
+            scoreStatus: 'success',
+            auditStatus: 'success',
             branch: 'dev',
             path: 'src/module',
             auditHelp: {}, // No help info
@@ -205,7 +216,14 @@ describe('VitalityModuleListItem', () => {
                 {modules.map((mod, index) => (
                     <VitalityModuleListItem
                         key={index}
-                        module={{ ...mod, auditHelp: {}, statusHelp: {}, evolutionHelp: {} }}
+                        module={{
+                            ...mod,
+                            auditHelp: {},
+                            statusHelp: {},
+                            evolutionHelp: {},
+                            scoreStatus: 'info',
+                            auditStatus: 'success',
+                        }}
                         onModuleClicked={vi.fn()}
                     />
                 ))}
@@ -214,5 +232,29 @@ describe('VitalityModuleListItem', () => {
 
         const items = screen.getAllByTestId('mock-statistic');
         expect(items.length).toBe(modules.length);
+    });
+
+    it('display an empty audit when auditStatus is failure', () => {
+        const moduleItem: VitalityModuleType = {
+            name: 'Security Module',
+            label: '',
+            type: 'Security',
+            category: 'Code Quality',
+            score: null,
+            scoreUnit: '%',
+            scoreStatus: null,
+            auditStatus: 'failure',
+            branch: 'main',
+            path: 'src/security',
+            auditHelp: {},
+            statusHelp: {},
+            evolutionHelp: {},
+        };
+
+        render(<VitalityModuleListItem module={moduleItem} onModuleClicked={vi.fn()} />);
+        expect(screen.getByTestId('empty-view')).toBeInTheDocument();
+        expect(screen.queryByTestId('mock-statistic')).not.toBeInTheDocument();
+        expect(screen.queryByText('main')).toBeInTheDocument();
+        expect(screen.queryByText('src/security')).toBeInTheDocument();
     });
 });
