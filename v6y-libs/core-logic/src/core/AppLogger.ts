@@ -20,7 +20,7 @@ const logOptions = {
     logDisableFileRotate: true,
 };
 
-const AppLogger = winston.createLogger({
+const logger = winston.createLogger({
     level: 'info',
     format: winston.format.json(),
     transports: [
@@ -45,5 +45,33 @@ const AppLogger = winston.createLogger({
             : undefined,
     ].filter((item) => item !== undefined),
 });
+
+// Wrapper around winston logger to handle multiple arguments
+const AppLogger = {
+    info: (...args: unknown[]) => {
+        const message = args
+            .map((arg) => (typeof arg === 'object' ? JSON.stringify(arg) : String(arg)))
+            .join(' ');
+        logger.info(message);
+    },
+    warn: (...args: unknown[]) => {
+        const message = args
+            .map((arg) => (typeof arg === 'object' ? JSON.stringify(arg) : String(arg)))
+            .join(' ');
+        logger.warn(message);
+    },
+    error: (...args: unknown[]) => {
+        const message = args
+            .map((arg) => (typeof arg === 'object' ? JSON.stringify(arg) : String(arg)))
+            .join(' ');
+        logger.error(message);
+    },
+    debug: (...args: unknown[]) => {
+        const message = args
+            .map((arg) => (typeof arg === 'object' ? JSON.stringify(arg) : String(arg)))
+            .join(' ');
+        logger.debug(message);
+    },
+};
 
 export default AppLogger;
