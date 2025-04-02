@@ -1,4 +1,4 @@
-import { auditStatus } from '@v6y/core-logic';
+import { auditStatus, scoreStatus } from '@v6y/core-logic';
 import { DateUtils } from '@v6y/core-logic';
 import { devOpsCategories, devOpsType } from '@v6y/core-logic/src/config/DevOpsConfig.ts';
 import { describe, expect, it } from 'vitest';
@@ -51,7 +51,8 @@ describe('DoraMetricsUtils', () => {
                 dateEnd: new Date(mockDateRange.dateEnd),
                 type: devOpsType.DORA,
                 category: devOpsCategories.DEPLOYMENT_FREQUENCY,
-                status: auditStatus.warning,
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.warning,
                 module: {
                     appId: 1,
                 },
@@ -63,7 +64,8 @@ describe('DoraMetricsUtils', () => {
                 dateEnd: new Date(mockDateRange.dateEnd),
                 type: devOpsType.DORA,
                 category: devOpsCategories.LEAD_REVIEW_TIME,
-                status: auditStatus.info,
+                scoreStatus: scoreStatus.info,
+                auditStatus: auditStatus.success,
                 module: {
                     appId: 1,
                 },
@@ -77,7 +79,8 @@ describe('DoraMetricsUtils', () => {
                 category: devOpsCategories.LEAD_TIME_FOR_CHANGES,
                 score: 1.493859074074074,
                 scoreUnit: 'hours',
-                status: auditStatus.info,
+                scoreStatus: scoreStatus.info,
+                auditStatus: auditStatus.success,
                 module: {
                     appId: 1,
                 },
@@ -90,16 +93,18 @@ describe('DoraMetricsUtils', () => {
                 module: {
                     appId: 1,
                 },
-                score: -1,
+                score: null,
                 scoreUnit: '%',
-                status: auditStatus.error,
+                scoreStatus: null,
+                auditStatus: auditStatus.failure,
             },
             {
                 dateStart: new Date(mockDateRange.dateStart),
                 dateEnd: new Date(mockDateRange.dateEnd),
                 type: devOpsType.DORA,
                 category: devOpsCategories.MEAN_TIME_TO_RESTORE_SERVICE,
-                status: auditStatus.warning,
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.warning,
                 score: 55.59583333333333,
                 scoreUnit: 'hours',
                 module: {
@@ -111,7 +116,8 @@ describe('DoraMetricsUtils', () => {
                 dateEnd: new Date(mockDateRange.dateEnd),
                 type: devOpsType.DORA,
                 category: devOpsCategories.UP_TIME_AVERAGE,
-                status: auditStatus.warning,
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.warning,
                 score: 84.55671296296296,
                 scoreUnit: '%',
                 module: {
@@ -132,9 +138,11 @@ describe('DoraMetricsUtils', () => {
         });
 
         expect(result).not.toBeNull();
-        expect(result).toHaveProperty('status');
+        expect(result).toHaveProperty('auditStatus');
+        expect(result).toHaveProperty('valueStatus');
         expect(result).toHaveProperty('value');
-        expect(result.status).toEqual(auditStatus.warning);
+        expect(result.auditStatus).toEqual(auditStatus.success);
+        expect(result.valueStatus).toEqual(scoreStatus.warning);
         expect(result.value).toEqual(0.1);
     });
 
@@ -145,9 +153,11 @@ describe('DoraMetricsUtils', () => {
         });
 
         expect(result).not.toBeNull();
-        expect(result).toHaveProperty('status');
+        expect(result).toHaveProperty('auditStatus');
+        expect(result).toHaveProperty('valueStatus');
         expect(result).toHaveProperty('value');
-        expect(result.status).toEqual(auditStatus.info);
+        expect(result.auditStatus).toEqual(auditStatus.success);
+        expect(result.valueStatus).toEqual(scoreStatus.info);
         expect(result.value).toBeCloseTo(1.4602633333333332, 1);
     });
 
@@ -159,8 +169,11 @@ describe('DoraMetricsUtils', () => {
         });
 
         expect(result).not.toBeNull();
-        expect(result).toHaveProperty('status');
+        expect(result).toHaveProperty('auditStatus');
+        expect(result).toHaveProperty('valueStatus');
         expect(result).toHaveProperty('value');
+        expect(result.auditStatus).toEqual(auditStatus.success);
+        expect(result.valueStatus).toEqual(scoreStatus.info);
         expect(result.value).toBeCloseTo(1.493859074074074, 1);
     });
 
@@ -168,10 +181,12 @@ describe('DoraMetricsUtils', () => {
         const result = DoraMetricsUtils.calculateChangeFailureRate();
 
         expect(result).not.toBeNull();
-        expect(result).toHaveProperty('status');
+        expect(result).toHaveProperty('auditStatus');
+        expect(result).toHaveProperty('valueStatus');
         expect(result).toHaveProperty('value');
-        expect(result.status).toEqual(auditStatus.error); // Function not implemented yet
-        expect(result.value).toEqual(-1); // Function not implemented yet
+        expect(result.auditStatus).toEqual(auditStatus.failure);
+        expect(result.valueStatus).toBeNull(); // Function not implemented yet
+        expect(result.value).toBeNull(); // Function not implemented yet
     });
 
     it('should compute mean time to restore service correctly', () => {
@@ -183,10 +198,11 @@ describe('DoraMetricsUtils', () => {
         const result = DoraMetricsUtils.calculateMeanTimeToRestoreService({ downtimePeriods });
 
         expect(result).not.toBeNull();
-        expect(result).toHaveProperty('status');
+        expect(result).toHaveProperty('auditStatus');
+        expect(result).toHaveProperty('valueStatus');
         expect(result).toHaveProperty('value');
-
-        expect(result.status).toEqual(auditStatus.warning);
+        expect(result.auditStatus).toEqual(auditStatus.success);
+        expect(result.valueStatus).toEqual(scoreStatus.warning);
         expect(result.value).toEqual(55.59583333333333);
     });
 
@@ -202,10 +218,11 @@ describe('DoraMetricsUtils', () => {
         });
 
         expect(result).not.toBeNull();
-        expect(result).toHaveProperty('status');
+        expect(result).toHaveProperty('auditStatus');
+        expect(result).toHaveProperty('valueStatus');
         expect(result).toHaveProperty('value');
-
-        expect(result.status).toEqual(auditStatus.warning);
+        expect(result.auditStatus).toEqual(auditStatus.success);
+        expect(result.valueStatus).toEqual(scoreStatus.warning);
         expect(result.value).toEqual(84.55671296296296);
     });
 });

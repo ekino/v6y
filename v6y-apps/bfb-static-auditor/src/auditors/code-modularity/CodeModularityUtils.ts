@@ -1,4 +1,4 @@
-import { AppLogger, AuditType, auditStatus } from '@v6y/core-logic';
+import { AppLogger, AuditType, auditStatus, scoreStatus } from '@v6y/core-logic';
 import xml2js from 'xml2js';
 
 import {
@@ -174,7 +174,8 @@ const formatCodeModularityReports = ({
             auditReports.push({
                 type: 'Code-Modularity',
                 category: 'interaction-density',
-                status: interactionDensity > 0.5 ? auditStatus.error : auditStatus.info,
+                auditStatus: auditStatus.success,
+                scoreStatus: interactionDensity > 0.5 ? scoreStatus.error : scoreStatus.info,
                 score: interactionDensity,
                 scoreUnit: '%',
                 module: {
@@ -185,7 +186,8 @@ const formatCodeModularityReports = ({
             auditReports.push({
                 type: 'Code-Modularity',
                 category: 'independent-files-ratio',
-                status: independentFileRatio < 0.5 ? auditStatus.error : auditStatus.info,
+                auditStatus: auditStatus.success,
+                scoreStatus: independentFileRatio < 0.5 ? scoreStatus.error : scoreStatus.info,
                 score: independentFileRatio,
                 scoreUnit: '%',
                 module: {
@@ -211,7 +213,8 @@ const formatCodeModularityReports = ({
                 auditReports.push({
                     type: 'Code-Modularity',
                     category: 'interaction-groups',
-                    status: auditStatus.info,
+                    auditStatus: auditStatus.success,
+                    scoreStatus: scoreStatus.info,
                     score: null,
                     extraInfos: interactionCommunitiesGroup,
                     scoreUnit: '',
@@ -230,7 +233,8 @@ const formatCodeModularityReports = ({
                 auditReports.push({
                     type: 'Code-Modularity',
                     category: 'file-degree-centrality',
-                    status: auditStatus.info,
+                    auditStatus: auditStatus.success,
+                    scoreStatus: scoreStatus.info,
                     score: projectDegreeCentrality[fileDegreeCentrality],
                     scoreUnit: '',
                     module: {
@@ -246,7 +250,8 @@ const formatCodeModularityReports = ({
                 auditReports.push({
                     type: 'Code-Modularity',
                     category: 'file-in-degree-centrality',
-                    status: auditStatus.info,
+                    auditStatus: auditStatus.success,
+                    scoreStatus: scoreStatus.info,
                     score: projectInDegreeCentrality[fileInDegreeCentrality],
                     scoreUnit: '',
                     module: {
@@ -262,7 +267,8 @@ const formatCodeModularityReports = ({
                 auditReports.push({
                     type: 'Code-Modularity',
                     category: 'file-out-degree-centrality',
-                    status: auditStatus.info,
+                    auditStatus: auditStatus.success,
+                    scoreStatus: scoreStatus.info,
                     score: projectOutDegreeCentrality[fileOutDegreeCentrality],
                     scoreUnit: '',
                     module: {

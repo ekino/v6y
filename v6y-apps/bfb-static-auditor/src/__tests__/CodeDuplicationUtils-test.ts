@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { AppLogger, auditStatus } from '@v6y/core-logic';
+import { AppLogger, auditStatus, scoreStatus } from '@v6y/core-logic';
 import { describe, expect, it, vi } from 'vitest';
 
 import CodeDuplicationUtils from '../auditors/code-duplication/CodeDuplicationUtils.ts';
@@ -55,7 +55,8 @@ describe('CodeDuplicationUtils.formatCodeDuplicationReports', () => {
             {
                 type: 'Code-Duplication',
                 category: 'code-duplication-percent',
-                status: auditStatus.error, // Since percentage > 0
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.error, // Since percentage > 0
                 score: 5.2,
                 scoreUnit: '%',
                 module: {
@@ -68,7 +69,8 @@ describe('CodeDuplicationUtils.formatCodeDuplicationReports', () => {
             {
                 type: 'Code-Duplication',
                 category: 'code-duplication-total-duplicated-lines',
-                status: auditStatus.error, // Since duplicatedLines > 0
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.error, // Since duplicatedLines > 0
                 score: 123,
                 scoreUnit: 'lines',
                 module: {
@@ -81,7 +83,8 @@ describe('CodeDuplicationUtils.formatCodeDuplicationReports', () => {
             {
                 type: 'Code-Duplication',
                 category: 'code-duplication-file',
-                status: auditStatus.error,
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.error,
                 score: 8,
                 scoreUnit: 'lines',
                 extraInfos: '...duplicated code...',
@@ -136,7 +139,8 @@ describe('CodeDuplicationUtils.formatCodeDuplicationReports', () => {
             {
                 type: 'Code-Duplication',
                 category: 'code-duplication-file',
-                status: auditStatus.error,
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.error,
                 score: 8,
                 scoreUnit: 'lines',
                 extraInfos: '...duplicated code...',
@@ -172,7 +176,8 @@ describe('CodeDuplicationUtils.formatCodeDuplicationReports', () => {
             {
                 type: 'Code-Duplication',
                 category: 'code-duplication-file',
-                status: auditStatus.error,
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.error,
                 score: 8,
                 scoreUnit: 'lines',
                 extraInfos: '...duplicated code...',

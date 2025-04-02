@@ -52,8 +52,9 @@ export interface LighthouseReportType {
     category?: string;
     title?: string;
     description?: string;
-    status?: string;
-    score?: number;
+    auditStatus?: string;
+    scoreStatus?: string | null;
+    score?: number | null;
     scoreUnit?: string;
     branch?: string;
 }
