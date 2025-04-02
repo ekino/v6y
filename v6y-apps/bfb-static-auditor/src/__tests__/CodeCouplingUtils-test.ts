@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { auditStatus } from '@v6y/core-logic';
 import Madge from 'madge';
 import { describe, expect, it, vi } from 'vitest';
