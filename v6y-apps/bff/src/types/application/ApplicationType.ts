@@ -17,6 +17,9 @@ const ApplicationType = `
     
     """ First matched APP Web Repository Information """
     repo: RepositoryType
+
+    """ APP Configuration """
+    configuration: ApplicationConfigType
     
     """ Application links: prod, gitlab, github, aws """
     links: [LinkType]

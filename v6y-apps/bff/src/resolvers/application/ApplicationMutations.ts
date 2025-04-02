@@ -25,6 +25,10 @@ const createOrEditApplication = async (
             gitWebUrl,
             productionLink,
             additionalProductionLinks,
+            dataDogApiKey,
+            dataDogAppKey,
+            dataDogUrl,
+            dataDogMonitorId,
             contactMail,
             codeQualityPlatformLink,
             ciPlatformLink,
@@ -40,6 +44,17 @@ const createOrEditApplication = async (
         AppLogger.info(
             `[AppMutations - createOrEditApplication] gitOrganization : ${gitOrganization}`,
         );
+        AppLogger.info(
+            `[AppMutations - createOrEditApplication] dataDogApiKey : ${dataDogApiKey ? '"********"}`,' : 'null'}`,
+        );
+        AppLogger.info(
+            `[AppMutations - createOrEditApplication] dataDogAppKey : ${dataDogAppKey ? '"********"}`,' : 'null'}`,
+        );
+        AppLogger.info(`[AppMutations - createOrEditApplication] dataDogUrl : ${dataDogUrl}`);
+        AppLogger.info(
+            `[AppMutations - createOrEditApplication] dataDogMonitorId : ${dataDogMonitorId}`,
+        );
+
         AppLogger.info(
             `[AppMutations - createOrEditApplication] productionLink : ${productionLink}`,
         );
@@ -65,7 +80,11 @@ const createOrEditApplication = async (
                 ciPlatformLink,
                 deploymentPlatformLink,
                 additionalProductionLinks,
-            });
+                dataDogApiKey,
+                dataDogAppKey,
+                dataDogUrl,
+                dataDogMonitorId,
+            } as ApplicationInputType);
 
             AppLogger.info(
                 `[AppMutations - createOrEditApplication] editedApplication : ${editedApplication?._id}`,
@@ -87,6 +106,10 @@ const createOrEditApplication = async (
             ciPlatformLink,
             deploymentPlatformLink,
             additionalProductionLinks,
+            dataDogApiKey,
+            dataDogAppKey,
+            dataDogUrl,
+            dataDogMonitorId,
         } as ApplicationInputType);
 
         AppLogger.info(

@@ -87,6 +87,10 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
         ciPlatformLink,
         deploymentPlatformLink,
         additionalProductionLinks,
+        dataDogApiKey,
+        dataDogAppKey,
+        dataDogUrl,
+        dataDogMonitorId,
     } = application || {};
 
     return {
@@ -123,6 +127,14 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
                 description: '',
             },
         ]?.filter((item) => item?.value),
+        configuration: {
+            dataDog: {
+                apiKey: dataDogApiKey,
+                appKey: dataDogAppKey,
+                url: dataDogUrl,
+                monitorId: dataDogMonitorId,
+            },
+        },
     };
 };
 
