@@ -1,4 +1,4 @@
-import { AuditUtils, auditStatus } from '@v6y/core-logic';
+import { AuditUtils, auditStatus, scoreStatus } from '@v6y/core-logic';
 import { Mock, describe, expect, it, vi } from 'vitest';
 
 import CodeSecurityUtils from '../auditors/code-security/CodeSecurityUtils.ts';
@@ -63,7 +63,8 @@ describe('CodeSecurityUtils.formatCodeModularityReports', () => {
             {
                 type: 'Code-Security',
                 category: 'react-findDOMNode',
-                status: auditStatus.error,
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.error,
                 score: null,
                 scoreUnit: '',
                 module: {

@@ -1,4 +1,10 @@
-import { AppLogger, AuditProvider, KeywordProvider, auditStatus } from '@v6y/core-logic';
+import {
+    AppLogger,
+    AuditProvider,
+    KeywordProvider,
+    auditStatus,
+    scoreStatus,
+} from '@v6y/core-logic';
 
 /**
  * Builds the keyword evolution list.
@@ -15,7 +21,12 @@ const buildKeywordList = async () => {
         if (auditList?.length) {
             for (const audit of auditList) {
                 // eslint-disable-next-line max-depth
-                if (!audit.module || !audit.status || audit.status === auditStatus.info) {
+                if (
+                    !audit.module ||
+                    audit.auditStatus === auditStatus.failure ||
+                    !audit.scoreStatus ||
+                    audit.scoreStatus === scoreStatus.info
+                ) {
                     continue;
                 }
 
@@ -24,7 +35,7 @@ const buildKeywordList = async () => {
                     label: `${audit.type}-${audit.category}`,
                     module: {
                         ...audit.module,
-                        status: audit.status,
+                        status: audit.scoreStatus,
                     },
                 });
             }

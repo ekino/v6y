@@ -7,7 +7,8 @@ const GetApplicationDetailsAuditReportsByParams = gql`
             type
             category
             subCategory
-            status
+            auditStatus
+            scoreStatus
             score
             scoreUnit
             extraInfos

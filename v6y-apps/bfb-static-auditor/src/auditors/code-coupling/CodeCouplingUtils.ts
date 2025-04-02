@@ -1,4 +1,4 @@
-import { AppLogger, AuditType, auditStatus } from '@v6y/core-logic';
+import { AppLogger, AuditType, auditStatus, scoreStatus } from '@v6y/core-logic';
 import Madge from 'madge';
 
 import { AuditCommonsType } from '../types/AuditCommonsType.ts';
@@ -96,7 +96,8 @@ const formatCodeCouplingReports = async ({
                 auditReports.push({
                     type: 'Code-Coupling',
                     category: 'circular-dependencies',
-                    status: auditStatus.error,
+                    auditStatus: auditStatus.success,
+                    scoreStatus: scoreStatus.error,
                     score: null,
                     scoreUnit: '',
                     module: {
@@ -135,7 +136,8 @@ const formatCodeCouplingReports = async ({
             auditReports.push({
                 type: 'Code-Coupling',
                 category: 'efferent-coupling',
-                status: auditStatus.info,
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.info,
                 score: efferentCoupling,
                 scoreUnit: '',
                 module: {
@@ -167,7 +169,8 @@ const formatCodeCouplingReports = async ({
             auditReports.push({
                 type: 'Code-Coupling',
                 category: 'afferent-coupling',
-                status: auditStatus.info,
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.info,
                 score: afferentCoupling,
                 scoreUnit: '',
                 module: {
@@ -190,7 +193,8 @@ const formatCodeCouplingReports = async ({
             auditReports.push({
                 type: 'Code-Coupling',
                 category: 'instability-index',
-                status: isInstabilityIndexError ? auditStatus.error : auditStatus.info,
+                auditStatus: auditStatus.success,
+                scoreStatus: isInstabilityIndexError ? scoreStatus.error : scoreStatus.info,
                 score: parseFloat(instabilityIndex),
                 scoreUnit: '',
                 module: {

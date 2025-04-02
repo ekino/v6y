@@ -55,8 +55,9 @@ export interface CalculateUpTimeAverageParams {
     dateEnd: Date;
 }
 export interface DoraMetricType {
-    value: number;
-    status: string;
+    value: number | null;
+    valueStatus: string | null;
+    auditStatus: string;
 }
 
 export interface DoraMetricsAuditParamsType {

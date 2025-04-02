@@ -48,7 +48,6 @@ const VitalityAuditReportsView = ({}) => {
         ?.map((auditReport) => ({
             ...auditReport,
             ...auditReport?.module,
-            status: auditReport.status,
         }));
 
     const onExportClicked = () => {

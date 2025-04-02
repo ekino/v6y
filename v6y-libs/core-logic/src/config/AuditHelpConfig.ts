@@ -3,11 +3,16 @@ import { codeSmellCategories, codeSmellTypes } from './CodeSmellConfig.ts';
 import { devOpsCategories, devOpsType } from './DevOpsConfig.ts';
 import { securityAntiPatterns } from './SecuritySmellConfig.ts';
 
-export const auditStatus: Record<string, string> = {
+export const scoreStatus: Record<string, string> = {
     success: 'success',
     warning: 'warning',
     error: 'error',
     info: 'info',
+};
+
+export const auditStatus: Record<string, string> = {
+    success: 'success',
+    failure: 'failure',
 };
 
 export const defaultAuditHelpStatus: AuditHelpType[] = [

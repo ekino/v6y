@@ -1,4 +1,4 @@
-import { AppLogger, auditStatus } from '@v6y/core-logic';
+import { AppLogger, AuditType, auditStatus, scoreStatus } from '@v6y/core-logic';
 
 import { CodeDuplicationAuditType } from '../types/CodeDuplicationAuditType.ts';
 
@@ -50,7 +50,7 @@ const formatCodeDuplicationReports = ({
     workspaceFolder,
     duplicationTotalSummary,
     duplicationFiles,
-}: CodeDuplicationAuditType) => {
+}: CodeDuplicationAuditType): AuditType[] => {
     try {
         AppLogger.info(
             `[CodeDuplicationUtils - formatCodeDuplicationReports] application:  ${application}`,
@@ -82,11 +82,12 @@ const formatCodeDuplicationReports = ({
             auditReports.push({
                 type: 'Code-Duplication',
                 category: 'code-duplication-percent',
-                status:
+                auditStatus: auditStatus.success,
+                scoreStatus:
                     (duplicationTotalSummary?.percentage || 0) > 0
-                        ? auditStatus.error
-                        : auditStatus.info,
-                score: duplicationTotalSummary?.percentage,
+                        ? scoreStatus.error
+                        : scoreStatus.info,
+                score: duplicationTotalSummary?.percentage ?? null,
                 scoreUnit: '%',
                 module: {
                     ...module,
@@ -96,11 +97,12 @@ const formatCodeDuplicationReports = ({
             auditReports.push({
                 type: 'Code-Duplication',
                 category: 'code-duplication-total-duplicated-lines',
-                status:
+                auditStatus: auditStatus.success,
+                scoreStatus:
                     (duplicationTotalSummary?.duplicatedLines || 0) > 0
-                        ? auditStatus.error
-                        : auditStatus.info,
-                score: duplicationTotalSummary?.duplicatedLines,
+                        ? scoreStatus.error
+                        : scoreStatus.info,
+                score: duplicationTotalSummary?.duplicatedLines ?? null,
                 scoreUnit: 'lines',
                 module: {
                     ...module,
@@ -120,8 +122,9 @@ const formatCodeDuplicationReports = ({
             auditReports.push({
                 type: 'Code-Duplication',
                 category: 'code-duplication-file',
-                status: auditStatus.error,
-                score: lines,
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.error,
+                score: lines ?? null,
                 scoreUnit: 'lines',
                 extraInfos: fragment,
                 module: {

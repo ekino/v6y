@@ -1,4 +1,11 @@
-import { AppLogger, AuditUtils, auditStatus, securityAntiPatterns } from '@v6y/core-logic';
+import {
+    AppLogger,
+    AuditType,
+    AuditUtils,
+    auditStatus,
+    scoreStatus,
+    securityAntiPatterns,
+} from '@v6y/core-logic';
 
 import { AuditCommonsType } from '../types/AuditCommonsType.ts';
 
@@ -11,7 +18,10 @@ const defaultOptions = {};
  * @param application
  * @param workspaceFolder
  */
-const formatCodeModularityReports = async ({ application, workspaceFolder }: AuditCommonsType) => {
+const formatCodeModularityReports = async ({
+    application,
+    workspaceFolder,
+}: AuditCommonsType): Promise<AuditType[]> => {
     try {
         AppLogger.info(
             `[CodeSecurityUtils - formatCodeModularityReports] workspaceFolder:  ${workspaceFolder}`,
@@ -81,7 +91,8 @@ const formatCodeModularityReports = async ({ application, workspaceFolder }: Aud
                 securityAuditReports.push({
                     type: 'Code-Security',
                     category: category,
-                    status: auditStatus.error,
+                    auditStatus: auditStatus.success,
+                    scoreStatus: scoreStatus.error,
                     score: null,
                     scoreUnit: '',
                     module: {

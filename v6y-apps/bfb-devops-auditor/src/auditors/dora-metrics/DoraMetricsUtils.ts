@@ -1,4 +1,11 @@
-import { AppLogger, AuditType, DateUtils, Matcher, auditStatus } from '@v6y/core-logic';
+import {
+    AppLogger,
+    AuditType,
+    DateUtils,
+    Matcher,
+    auditStatus,
+    scoreStatus,
+} from '@v6y/core-logic';
 import { devOpsCategories, devOpsType } from '@v6y/core-logic/src/config/DevOpsConfig.ts';
 
 import {
@@ -36,7 +43,7 @@ const calculateDeploymentFrequency = ({
 
     if (!deployments || deployments.length === 0) {
         AppLogger.info(`[DoraMetricsUtils - calculateDeploymentFrequency] deployments is empty`);
-        return { status: auditStatus.error, value: 0 };
+        return { auditStatus: auditStatus.failure, valueStatus: null, value: null };
     }
 
     const deploymentTimes = deployments
@@ -49,7 +56,7 @@ const calculateDeploymentFrequency = ({
         AppLogger.info(
             `[DoraMetricsUtils - calculateDeploymentFrequency] no successful deployments in date range`,
         );
-        return { status: auditStatus.error, value: 0 };
+        return { auditStatus: auditStatus.failure, valueStatus: null, value: null };
     }
 
     const timePeriod = (dateEnd.getTime() - dateStart.getTime()) / (MSTOHOURS * 24);
@@ -62,19 +69,19 @@ const calculateDeploymentFrequency = ({
     const status = Matcher()
         .on(
             () => frequency >= 1,
-            () => auditStatus.success, // Elite Performers: Multiple times a day
+            () => scoreStatus.success, // Elite Performers: Multiple times a day
         )
         .on(
             () => frequency >= 1 / 7,
-            () => auditStatus.info, // High Performers: Once a week to once a month
+            () => scoreStatus.info, // High Performers: Once a week to once a month
         )
         .on(
             () => frequency >= 1 / 30,
-            () => auditStatus.warning, // Medium Performers: Once a month to once every 6 months
+            () => scoreStatus.warning, // Medium Performers: Once a month to once every 6 months
         )
-        .otherwise(() => auditStatus.warning); // Low Performers: Less than once every 6 months
+        .otherwise(() => scoreStatus.error); // Low Performers: Less than once every 6 months
 
-    return { status: status as string, value: frequency };
+    return { auditStatus: auditStatus.success, valueStatus: status as string, value: frequency };
 };
 
 /**
@@ -92,7 +99,7 @@ const calculateLeadReviewTime = ({
 
     if (!mergeRequests || mergeRequests.length === 0) {
         AppLogger.info(`[DoraMetricsUtils - calculateLeadReviewTime] mergeRequests is empty`);
-        return { status: auditStatus.error, value: 0 };
+        return { auditStatus: auditStatus.failure, valueStatus: null, value: null };
     }
 
     const leadTimes = mergeRequests
@@ -120,19 +127,23 @@ const calculateLeadReviewTime = ({
     const status = Matcher()
         .on(
             () => leadTimeForChanges < 1,
-            () => auditStatus.success, // Elite Performers: Less than 1 hour
+            () => scoreStatus.success, // Elite Performers: Less than 1 hour
         )
         .on(
             () => leadTimeForChanges < 24 * 7,
-            () => auditStatus.info, // High Performers: 1 day to 1 week
+            () => scoreStatus.info, // High Performers: 1 day to 1 week
         )
         .on(
             () => leadTimeForChanges < 24 * 30 * 6,
-            () => auditStatus.warning, // Medium Performers: 1 month to 6 months
+            () => scoreStatus.warning, // Medium Performers: 1 month to 6 months
         )
-        .otherwise(() => auditStatus.warning); // Low Performers: More than 6 months
+        .otherwise(() => scoreStatus.error); // Low Performers: More than 6 months
 
-    return { value: leadTimeForChanges, status: status as string };
+    return {
+        value: leadTimeForChanges,
+        valueStatus: status as string,
+        auditStatus: auditStatus.success,
+    };
 };
 
 /**
@@ -154,7 +165,7 @@ const calculateLeadTimeForChanges = ({
         AppLogger.info(
             `[DoraMetricsUtils - calculateLeadTimeForChanges] deployments or leadReviewTime is empty`,
         );
-        return { status: auditStatus.error, value: 0 };
+        return { auditStatus: auditStatus.failure, valueStatus: null, value: null };
     }
 
     const deploymentLeadTimes = deployments
@@ -179,19 +190,23 @@ const calculateLeadTimeForChanges = ({
     const status = Matcher()
         .on(
             () => leadTimeForChanges < 1,
-            () => auditStatus.success, // Elite Performers: Less than 1 hour
+            () => scoreStatus.success, // Elite Performers: Less than 1 hour
         )
         .on(
             () => leadTimeForChanges < 24 * 7,
-            () => auditStatus.info, // High Performers: 1 day to 1 week
+            () => scoreStatus.info, // High Performers: 1 day to 1 week
         )
         .on(
             () => leadTimeForChanges < 24 * 30 * 6,
-            () => auditStatus.warning, // Medium Performers: 1 month to 6 months
+            () => scoreStatus.warning, // Medium Performers: 1 month to 6 months
         )
-        .otherwise(() => auditStatus.warning); // Low Performers: More than 6 months
+        .otherwise(() => scoreStatus.error); // Low Performers: More than 6 months
 
-    return { value: leadTimeForChanges, status: status as string };
+    return {
+        auditStatus: auditStatus.success,
+        value: leadTimeForChanges,
+        valueStatus: status as string,
+    };
 };
 
 /**
@@ -201,24 +216,12 @@ const calculateLeadTimeForChanges = ({
  * @param dateEnd
  */
 const calculateChangeFailureRate = (): DoraMetricType => {
-    const value = -1;
+    // Elite Performers: 0-15%
+    // High and Medium Performers: 16-30%
+    // Low Performers: Above 30%
 
-    const status = Matcher()
-        .on(
-            () => value <= 0,
-            () => auditStatus.error,
-        )
-        .on(
-            () => value <= 15,
-            () => auditStatus.success, // Elite Performers: 0-15%
-        )
-        .on(
-            () => value <= 30,
-            () => auditStatus.info, // High, Medium, and Low Performers: 16-30%
-        )
-        .otherwise(() => auditStatus.warning); // Above 30%
-
-    return { status: status as string, value };
+    // Function not implemented yet - return failure status
+    return { auditStatus: auditStatus.failure, valueStatus: null, value: null };
 };
 
 /**
@@ -311,22 +314,26 @@ const calculateMeanTimeToRestoreService = ({
 
     const value = meanTimeToRestoreService / MSTOHOURS;
 
+    if (value <= 0) {
+        return { auditStatus: auditStatus.failure, valueStatus: null, value: null };
+    }
+
     const status = Matcher()
         .on(
-            () => value <= 0,
-            () => auditStatus.error,
-        )
-        .on(
             () => value < 1,
-            () => auditStatus.success, // Elite Performers: Less than 1 hour
+            () => scoreStatus.success, // Elite Performers: Less than 1 hour
         )
         .on(
             () => value < 24,
-            () => auditStatus.info, // High Performers: Less than 1 day
+            () => scoreStatus.info, // High Performers: Less than 1 day
         )
-        .otherwise(() => auditStatus.warning); // Medium Performers: 1 day to 1 week and Low Performers: over 1 weeks
+        .on(
+            () => value < 24 * 7,
+            () => scoreStatus.warning, // Medium Performers: 1 day to 1 week
+        )
+        .otherwise(() => scoreStatus.error); // Low Performers: over 1 weeks
 
-    return { status: status as string, value };
+    return { auditStatus: auditStatus.success, valueStatus: status as string, value };
 };
 
 /**
@@ -352,26 +359,30 @@ const calculateUpTimeAverage = ({
         `[DoraMetricsUtils - calculateUpTimeAverage] upTimeAverage: ${upTimeAverage * 100}%`,
     );
 
+    if (upTimeAverage <= 0) {
+        return { auditStatus: auditStatus.failure, valueStatus: null, value: null };
+    }
+
     const status = Matcher()
         .on(
-            () => upTimeAverage <= 0,
-            () => auditStatus.error,
-        )
-        .on(
             () => upTimeAverage > 0.95,
-            () => auditStatus.success, // Elite Performers: 95% or more
+            () => scoreStatus.success, // Elite Performers: 95% or more
         )
         .on(
             () => upTimeAverage > 0.85,
-            () => auditStatus.info, // High Performers: 85% to 95%
+            () => scoreStatus.info, // High Performers: 85% to 95%
         )
         .on(
             () => upTimeAverage > 0.7,
-            () => auditStatus.warning, // Medium Performers: 70% to 85%
+            () => scoreStatus.warning, // Medium Performers: 70% to 85%
         )
-        .otherwise(() => auditStatus.warning); // Low Performers: Less than 70%
+        .otherwise(() => scoreStatus.error); // Low Performers: Less than 70%
 
-    return { status: status as string, value: upTimeAverage * 100 };
+    return {
+        auditStatus: auditStatus.success,
+        valueStatus: status as string,
+        value: upTimeAverage * 100,
+    };
 };
 
 /**
@@ -406,8 +417,8 @@ const analyseDoraMetrics = ({
         });
 
         const leadTimeForChanges =
-            leadReviewTime.status === auditStatus.error
-                ? { status: auditStatus.error, value: 0 }
+            leadReviewTime.auditStatus === auditStatus.failure || !leadReviewTime.value
+                ? { auditStatus: auditStatus.failure, valueStatus: null, value: null }
                 : calculateLeadTimeForChanges({
                       leadReviewTime: leadReviewTime.value,
                       deployments,
@@ -432,7 +443,8 @@ const analyseDoraMetrics = ({
             dateEnd: dateEnd,
             type: devOpsType.DORA,
             category: devOpsCategories.DEPLOYMENT_FREQUENCY,
-            status: deploymentFrequency.status,
+            auditStatus: deploymentFrequency.auditStatus,
+            scoreStatus: deploymentFrequency.valueStatus,
             score: deploymentFrequency.value,
             scoreUnit: 'deployments/day',
             module: {
@@ -445,7 +457,8 @@ const analyseDoraMetrics = ({
             dateEnd: dateEnd,
             type: devOpsType.DORA,
             category: devOpsCategories.LEAD_REVIEW_TIME,
-            status: leadReviewTime.status,
+            auditStatus: leadReviewTime.auditStatus,
+            scoreStatus: leadReviewTime.valueStatus,
             score: leadReviewTime.value,
             scoreUnit: 'hours',
             module: {
@@ -458,7 +471,8 @@ const analyseDoraMetrics = ({
             dateEnd: dateEnd,
             type: devOpsType.DORA,
             category: devOpsCategories.LEAD_TIME_FOR_CHANGES,
-            status: leadTimeForChanges.status,
+            auditStatus: leadTimeForChanges.auditStatus,
+            scoreStatus: leadTimeForChanges.valueStatus,
             score: leadTimeForChanges.value,
             scoreUnit: 'hours',
             module: {
@@ -471,7 +485,8 @@ const analyseDoraMetrics = ({
             dateEnd: dateEnd,
             type: devOpsType.DORA,
             category: devOpsCategories.CHANGE_FAILURE_RATE,
-            status: changeFailureRate.status,
+            auditStatus: changeFailureRate.auditStatus,
+            scoreStatus: changeFailureRate.valueStatus,
             score: changeFailureRate.value,
             scoreUnit: '%',
             module: {
@@ -484,7 +499,8 @@ const analyseDoraMetrics = ({
             dateEnd: dateEnd,
             type: devOpsType.DORA,
             category: devOpsCategories.MEAN_TIME_TO_RESTORE_SERVICE,
-            status: meanTimeToRestoreService.status,
+            auditStatus: meanTimeToRestoreService.auditStatus,
+            scoreStatus: meanTimeToRestoreService.valueStatus,
             score: meanTimeToRestoreService.value,
             scoreUnit: 'hours',
             module: {
@@ -497,7 +513,8 @@ const analyseDoraMetrics = ({
             dateEnd: dateEnd,
             type: devOpsType.DORA,
             category: devOpsCategories.UP_TIME_AVERAGE,
-            status: upTimeAverage.status,
+            auditStatus: upTimeAverage.auditStatus,
+            scoreStatus: upTimeAverage.valueStatus,
             score: upTimeAverage.value,
             scoreUnit: '%',
             module: {

@@ -14,8 +14,9 @@ export class AuditModelType extends Model<AuditType> implements AuditType {
     public type?: string;
     public category?: string;
     public subCategory?: string;
-    public status?: string;
-    public score?: number;
+    public auditStatus!: string;
+    public score!: number | null;
+    public scoreStatus!: string | null;
     public scoreUnit?: string;
     public extraInfos?: string;
     public auditHelp?: AuditHelpType;
@@ -47,11 +48,14 @@ const auditModelSchema = {
     subCategory: {
         type: DataTypes.TEXT,
     },
-    status: {
+    auditStatus: {
         type: DataTypes.TEXT,
     },
     score: {
         type: DataTypes.FLOAT,
+    },
+    scoreStatus: {
+        type: DataTypes.TEXT,
     },
     scoreUnit: {
         type: DataTypes.TEXT,
