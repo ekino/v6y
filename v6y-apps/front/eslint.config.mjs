@@ -16,7 +16,7 @@ const eslintConfig = [
     {
         files: ['**/__tests__/**/*-test.ts', '**/__tests__/**/*-test.js', '**/*.test.{js,ts,tsx}'],
         rules: {
-            'max-lines-per-function': 'off', // Disable this rule for test files with describe blocks
+            'max-lines-per-function': 'off',
         },
     },
 ];

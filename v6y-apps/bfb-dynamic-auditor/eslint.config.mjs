@@ -21,7 +21,7 @@ export default [
     {
         files: ['src/**/__tests__/**/*-test.ts', 'src/**/__tests__/**/*-test.js', 'src/**/*.test.{js,ts,tsx}'],
         rules: {
-            'max-lines-per-function': 'off', // Disable this rule for test files with describe blocks
+            'max-lines-per-function': 'off',
         },
     },
     eslintPluginPrettierRecommended,
