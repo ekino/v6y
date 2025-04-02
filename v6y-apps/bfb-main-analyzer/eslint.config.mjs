@@ -17,6 +17,13 @@ export default [
             'max-statements': ['error', 50], // per function
         },
     },
+    // Special rules for test files
+    {
+        files: ['src/**/__tests__/**/*-test.ts', 'src/**/__tests__/**/*-test.js', 'src/**/*.test.{js,ts,tsx}'],
+        rules: {
+            'max-lines-per-function': 'off', // Disable this rule for test files with describe blocks
+        },
+    },
     eslintPluginPrettierRecommended,
     {
         languageOptions: {

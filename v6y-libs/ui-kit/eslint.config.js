@@ -24,5 +24,12 @@ export default tseslint.config(
             'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
         },
     },
+    // Special rules for test files
+    {
+        files: ['**/__tests__/**/*-test.ts', '**/__tests__/**/*-test.js', '**/*.test.{js,ts,tsx}'],
+        rules: {
+            'max-lines-per-function': 'off', // Disable this rule for test files with describe blocks
+        },
+    },
     eslintConfigPrettier,
 );
