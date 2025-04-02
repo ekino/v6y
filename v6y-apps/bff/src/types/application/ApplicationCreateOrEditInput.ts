@@ -26,6 +26,18 @@ const ApplicationCreateOrEditInput = `
       
       """ Additional Application production urls """
       additionalProductionLinks: [String]
+
+      """ DataDog API Key """
+      dataDogApiKey: String
+      
+      """ DataDog APP Key """
+      dataDogAppKey: String
+      
+      """ DataDog URL """
+      dataDogUrl: String
+      
+      """ DataDog Monitor ID """
+      dataDogMonitorId: String
        
       """ APP Contact Mail """
       contactMail: String!

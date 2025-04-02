@@ -6,6 +6,7 @@ import {
     applicationCreateEditItems,
     applicationCreateOrEditFormInAdapter,
     applicationCreateOrEditFormOutputAdapter,
+    applicationDataDogConfigurationFormItems,
     applicationGitRepositoryFormItems,
     applicationInfosFormItems,
     applicationOptionalLinksFormItems,
@@ -51,6 +52,15 @@ describe('VitalityFormConfig - Form Items', () => {
         expect(result[2].id).toBe('app-deployment-platform-link');
     });
 
+    it('should generate datadog configuration form items correctly', () => {
+        const result = applicationDataDogConfigurationFormItems(mockTranslate);
+        expect(result).toHaveLength(4);
+        expect(result[0].id).toBe('app-data-dog-api-key');
+        expect(result[1].id).toBe('app-data-dog-app-key');
+        expect(result[2].id).toBe('app-data-dog-url');
+        expect(result[3].id).toBe('app-data-dog-monitor-id');
+    });
+
     it('should correctly adapt application data for form input', () => {
         const application: ApplicationType = {
             _id: 1,
@@ -68,6 +78,14 @@ describe('VitalityFormConfig - Form Items', () => {
                 { label: 'Additional production url (1)', value: 'https://testapp2.com' },
                 { label: 'Additional production url (2)', value: 'https://testapp3.com' },
             ] as LinkType[],
+            configuration: {
+                dataDog: {
+                    apiKey: 'testApiKey',
+                    appKey: 'testAppKey',
+                    monitorId: 'testMonitorId',
+                    url: 'https://api.testdatadog.com',
+                },
+            },
         };
 
         const result = applicationCreateOrEditFormInAdapter(application);
@@ -83,6 +101,10 @@ describe('VitalityFormConfig - Form Items', () => {
             'app-production-link-1': 'https://testapp.com',
             'app-production-link-2': 'https://testapp2.com',
             'app-production-link-3': 'https://testapp3.com',
+            'app-data-dog-api-key': 'testApiKey',
+            'app-data-dog-app-key': 'testAppKey',
+            'app-data-dog-url': 'https://api.testdatadog.com',
+            'app-data-dog-monitor-id': 'testMonitorId',
         });
     });
 
@@ -99,6 +121,10 @@ describe('VitalityFormConfig - Form Items', () => {
             'app-production-link-1': 'https://testapp.com',
             'app-production-link-2': 'https://testapp2.com',
             'app-production-link-3': 'https://testapp3.com',
+            'app-data-dog-api-key': 'testApiKey',
+            'app-data-dog-app-key': 'testAppKey',
+            'app-data-dog-url': 'https://api.testdatadog.com',
+            'app-data-dog-monitor-id': 'testMonitorId',
         };
 
         const result = applicationCreateOrEditFormOutputAdapter(formData);
@@ -114,6 +140,10 @@ describe('VitalityFormConfig - Form Items', () => {
                 gitUrl: 'https://git.testrepo.com',
                 productionLink: 'https://testapp.com',
                 additionalProductionLinks: ['https://testapp2.com', 'https://testapp3.com'],
+                dataDogApiKey: 'testApiKey',
+                dataDogAppKey: 'testAppKey',
+                dataDogUrl: 'https://api.testdatadog.com',
+                dataDogMonitorId: 'testMonitorId',
             },
         });
     });
@@ -158,6 +188,10 @@ describe('VitalityFormConfig - Form Items', () => {
             'app-production-link-1': undefined,
             'app-production-link-2': undefined,
             'app-production-link-3': undefined,
+            'app-data-dog-api-key': undefined,
+            'app-data-dog-app-key': undefined,
+            'app-data-dog-url': undefined,
+            'app-data-dog-monitor-id': undefined,
         });
     });
 

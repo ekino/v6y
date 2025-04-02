@@ -18,6 +18,14 @@ const GetApplicationDetails = gql`
                 webUrl
                 gitUrl
             }
+            configuration {
+                dataDog {
+                    apiKey
+                    appKey
+                    monitorId
+                    url
+                }
+            }
         }
     }
 `;

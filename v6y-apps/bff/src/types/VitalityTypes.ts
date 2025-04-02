@@ -24,6 +24,8 @@ import AuditHelpDeleteOutput from './audit/help/AuditHelpDeleteOutput.ts';
 import AuditHelpMutationsType from './audit/help/AuditHelpMutationsType.ts';
 import AuditHelpQueriesType from './audit/help/AuditHelpQueriesType.ts';
 import AuditHelpType from './audit/help/AuditHelpType.ts';
+import ApplicationConfigType from './commons/ApplicationConfigType.ts';
+import DataDogConfigType from './commons/DataDogConfigType.ts';
 import LinkType from './commons/LinkType.ts';
 import ModuleType from './commons/ModuleType.ts';
 import RepositoryType from './commons/RepositoryType.ts';
@@ -68,6 +70,8 @@ const VitalityTypes = gql(`
     scalar JSON
 
     # common schemas
+    ${DataDogConfigType}
+    ${ApplicationConfigType}
     ${LinkType}
     ${RepositoryType}
     ${KeywordType}

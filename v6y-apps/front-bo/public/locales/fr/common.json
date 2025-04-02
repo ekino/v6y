@@ -162,6 +162,7 @@
       "app-git-repository-group": "Git Repository Information",
       "app-required-links-group": "Production Link(s)",
       "app-optional-link-group": "Other Link(s)",
+      "app-datadog-configuration-group": "Datadog Configuration (optional)",
       "app-name": {
         "label": "Application name",
         "placeholder": "Enter your application name",
@@ -218,8 +219,29 @@
         "label": "Application deployment platform link",
         "placeholder": "Enter your application deployment platform link",
         "error": ""
+      },
+      "app-data-dog-api-key": {
+        "label": "Application DataDog API Key",
+        "placeholder": "Enter your application DataDog API Key",
+        "error": ""
+      },
+      "app-data-dog-app-key": {
+        "label": "Application DataDog APP Key",
+        "placeholder": "Enter your application DataDog APP Key",
+        "error": ""
+      },
+      "app-data-dog-url": {
+        "label": "Application DataDog API URL",
+        "placeholder": "Enter your application DataDog API URL (should look like https://api.datadoghq.com/)",
+        "error": "The format of the DataDog URL is invalid! It should look like this: https://api.datadoghq.com/ and can change depending on your organization."
+      },
+      "app-data-dog-monitor-id": {
+        "label": "Application DataDog Monitor ID",
+        "placeholder": "Enter your application DataDog Monitor ID",
+        "error": ""
       }
     },
+    
     "titles": {
       "create": "Create Application",
       "edit": "Edit Application",
