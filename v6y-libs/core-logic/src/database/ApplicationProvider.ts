@@ -128,12 +128,16 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
             },
         ]?.filter((item) => item?.value),
         configuration: {
-            dataDog: {
-                apiKey: dataDogApiKey,
-                appKey: dataDogAppKey,
-                url: dataDogUrl,
-                monitorId: dataDogMonitorId,
-            },
+            ...(dataDogApiKey && dataDogAppKey && dataDogUrl && dataDogMonitorId
+                ? {
+                      dataDog: {
+                          apiKey: dataDogApiKey,
+                          appKey: dataDogAppKey,
+                          url: dataDogUrl,
+                          monitorId: dataDogMonitorId,
+                      },
+                  }
+                : {}),
         },
     };
 };
