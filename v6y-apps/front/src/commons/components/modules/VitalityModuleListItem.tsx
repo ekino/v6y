@@ -70,30 +70,30 @@ const VitalityModuleListItem = ({ module, onModuleClicked }: VitalityModuleItemP
                 description={
                     <Card bordered={false}>
                         <Space direction="vertical" size="small">
-                            {module?.auditStatus === auditStatus.failure && (
+                            {module?.auditStatus === auditStatus.failure ? (
                                 <EmptyView
                                     message={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_STATUS_FAILURE_LABEL}`}
                                 />
-                            )}
-
-                            {moduleScore?.length > 0 && (
-                                <Statistic
-                                    title={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_INDICATOR_SCORE_LABEL}: `}
-                                    value={module.score || 0}
-                                    suffix={module.scoreUnit || ''}
-                                    valueStyle={{
-                                        color: qualityMetricStatus[
-                                            (module.scoreStatus as keyof typeof qualityMetricStatus) ||
-                                                'default'
-                                        ],
-                                    }}
-                                    prefix={
-                                        qualityMetricStatusIcons[
-                                            (module.scoreStatus as keyof typeof qualityMetricStatusIcons) ||
-                                                'default'
-                                        ]
-                                    }
-                                />
+                            ) : (
+                                moduleScore?.length > 0 && (
+                                    <Statistic
+                                        title={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_INDICATOR_SCORE_LABEL}: `}
+                                        value={module.score || 0}
+                                        suffix={module.scoreUnit || ''}
+                                        valueStyle={{
+                                            color: qualityMetricStatus[
+                                                (module.scoreStatus as keyof typeof qualityMetricStatus) ||
+                                                    'default'
+                                            ],
+                                        }}
+                                        prefix={
+                                            qualityMetricStatusIcons[
+                                                (module.scoreStatus as keyof typeof qualityMetricStatusIcons) ||
+                                                    'default'
+                                            ]
+                                        }
+                                    />
+                                )
                             )}
                             {(module.branch?.length || 0) > 0 && (
                                 <>
