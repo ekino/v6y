@@ -9,8 +9,9 @@ export interface AuditType {
     type?: string;
     category?: string;
     subCategory?: string;
-    status?: string;
-    score?: number | undefined | null;
+    auditStatus?: string;
+    score?: number | null;
+    scoreStatus?: string | null;
     scoreUnit?: string;
     extraInfos?: string;
     auditHelp?: AuditHelpType | null;

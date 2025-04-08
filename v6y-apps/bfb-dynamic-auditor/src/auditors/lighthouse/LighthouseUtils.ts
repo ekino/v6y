@@ -1,4 +1,4 @@
-import { AppLogger, AuditType, Matcher, auditStatus } from '@v6y/core-logic';
+import { AppLogger, AuditType, Matcher, auditStatus, scoreStatus } from '@v6y/core-logic';
 
 import {
     LighthouseAuditCategoryType,
@@ -11,29 +11,30 @@ import {
  * Check if the audit status is failed
  * @param status
  */
-const isAuditFailed = (status?: string) =>
-    status === auditStatus.warning || status === auditStatus.error;
+const isAuditFailed = (status: string | null): boolean => {
+    return status === auditStatus.failure || status === null || status === undefined;
+};
 
 /**
  * Check if the audit is performance and failed
  * @param report
  */
 const isAuditPerformanceFailed = (report: AuditType) =>
-    report.category === 'performance' && isAuditFailed(report.status);
+    report.category === 'performance' && isAuditFailed(report.auditStatus);
 
 /**
  * Check if the audit is accessibility and failed
  * @param report
  */
 const isAuditAccessibilityFailed = (report: AuditType) =>
-    report.category === 'accessibility' && isAuditFailed(report.status);
+    report.category === 'accessibility' && isAuditFailed(report.auditStatus);
 
 /**
  * Check if the audit is seo and failed
  * @param report
  */
 const isAuditSeoFailed = (report: AuditType) =>
-    report.category === 'seo' && isAuditFailed(report.status);
+    report.category === 'seo' && isAuditFailed(report.auditStatus);
 
 /**
  * Format the audit category
@@ -50,15 +51,15 @@ const formatAuditCategory = (
     const status = Matcher()
         .on(
             () => currentScore < 50,
-            () => auditStatus.error,
+            () => scoreStatus.error,
         )
         .on(
             () => currentScore > 50 && currentScore < 70,
-            () => auditStatus.warning,
+            () => scoreStatus.warning,
         )
         .on(
             () => currentScore > 70,
-            () => auditStatus.success,
+            () => scoreStatus.success,
         )
         .otherwise(() => auditStatus.info);
 
@@ -66,7 +67,8 @@ const formatAuditCategory = (
         category: id,
         title,
         description,
-        status: status as string,
+        auditStatus: auditStatus.success,
+        scoreStatus: status as string,
         score: currentScore,
         scoreUnit: '%',
         branch: undefined,
@@ -95,91 +97,92 @@ const formatAuditMetric = (
         indicatorStatus = Matcher()
             .on(
                 () => indicatorScore < 2.5,
-                () => auditStatus.success,
+                () => scoreStatus.success,
             )
             .on(
                 () => indicatorScore >= 2.5 && indicatorScore < 4,
-                () => auditStatus.warning,
+                () => scoreStatus.warning,
             )
             .on(
                 () => indicatorScore >= 4,
-                () => auditStatus.error,
+                () => scoreStatus.error,
             )
-            .otherwise(() => auditStatus.info);
+            .otherwise(() => scoreStatus.info);
     }
 
     if (id === 'first-contentful-paint') {
         indicatorStatus = Matcher()
             .on(
                 () => indicatorScore < 1.8,
-                () => auditStatus.success,
+                () => scoreStatus.success,
             )
             .on(
                 () => indicatorScore >= 1.8 && indicatorScore < 3,
-                () => auditStatus.warning,
+                () => scoreStatus.warning,
             )
             .on(
                 () => indicatorScore >= 3,
-                () => auditStatus.error,
+                () => scoreStatus.error,
             )
-            .otherwise(() => auditStatus.info);
+            .otherwise(() => scoreStatus.info);
     }
 
     if (id === 'total-blocking-time') {
         indicatorStatus = Matcher()
             .on(
                 () => indicatorScore < 0.2,
-                () => auditStatus.success,
+                () => scoreStatus.success,
             )
             .on(
                 () => indicatorScore >= 0.2 && indicatorScore < 0.6,
-                () => auditStatus.warning,
+                () => scoreStatus.warning,
             )
             .on(
                 () => indicatorScore >= 0.6,
-                () => auditStatus.error,
+                () => scoreStatus.error,
             )
-            .otherwise(() => auditStatus.info);
+            .otherwise(() => scoreStatus.info);
     }
 
     if (id === 'speed-index') {
         indicatorStatus = Matcher()
             .on(
                 () => indicatorScore < 3.4,
-                () => auditStatus.success,
+                () => scoreStatus.success,
             )
             .on(
                 () => indicatorScore >= 3.4 && indicatorScore < 5.8,
-                () => auditStatus.warning,
+                () => scoreStatus.warning,
             )
             .on(
                 () => indicatorScore >= 5.8,
-                () => auditStatus.error,
+                () => scoreStatus.error,
             )
-            .otherwise(() => auditStatus.info);
+            .otherwise(() => scoreStatus.info);
     }
 
     if (id === 'cumulative-layout-shift') {
         indicatorStatus = Matcher()
             .on(
                 () => indicatorScore < 0.1,
-                () => auditStatus.success,
+                () => scoreStatus.success,
             )
             .on(
                 () => indicatorScore >= 0.1 && indicatorScore < 0.25,
-                () => auditStatus.warning,
+                () => scoreStatus.warning,
             )
             .on(
                 () => indicatorScore >= 0.25,
-                () => auditStatus.error,
+                () => scoreStatus.error,
             )
-            .otherwise(() => auditStatus.info);
+            .otherwise(() => scoreStatus.info);
     }
 
     return {
         category: id,
         title: `${title || ''}`,
-        status: indicatorStatus as string,
+        auditStatus: auditStatus.success,
+        scoreStatus: indicatorStatus as string,
         description,
         score: parseFloat(indicatorScore.toFixed(2)),
         scoreUnit: indicatorScoreUnit,
@@ -193,7 +196,7 @@ const formatAuditMetric = (
  */
 const parseLighthouseAuditReport = (
     auditReportData?: string | string[] | undefined,
-): (LighthouseReportType | null)[] | null => {
+): LighthouseReportType[] | null => {
     try {
         AppLogger.info(
             `[LighthouseUtils - parseLighthouseAuditReport] data:  ${auditReportData?.length}`,
@@ -276,7 +279,9 @@ const parseLighthouseAuditReport = (
             return null;
         }
 
-        return [...(validCategories || []), ...(validMetrics || [])]?.filter(Boolean);
+        return [...(validCategories || []), ...(validMetrics || [])].filter(
+            (item): item is LighthouseReportType => item !== null,
+        );
     } catch (error) {
         AppLogger.info(`[LighthouseUtils - parseLighthouseAuditReport] error:  ${error}`);
         return null;
@@ -318,8 +323,9 @@ const formatLighthouseReports = ({
                     type: 'Lighthouse',
                     category: result?.category,
                     subCategory,
-                    status: result?.status,
-                    score: result?.score,
+                    auditStatus: result.auditStatus || auditStatus.failure,
+                    scoreStatus: result.scoreStatus || null,
+                    score: result.score || null,
                     scoreUnit: result?.scoreUnit,
                     module: {
                         appId: application?._id,

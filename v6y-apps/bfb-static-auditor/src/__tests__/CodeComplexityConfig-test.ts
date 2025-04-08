@@ -1,3 +1,4 @@
+import { scoreStatus } from '@v6y/core-logic';
 import { describe, expect, it } from 'vitest';
 
 import CodeComplexityConfig from '../auditors/code-complexity/CodeComplexityConfig.ts';
@@ -56,7 +57,7 @@ describe('CodeComplexityConfig', () => {
             analyzedBranch,
         });
 
-        expect(result.status).toBe('warning');
+        expect(result.scoreStatus).toBe(scoreStatus.warning);
     });
 
     it('should format maintainability index report correctly', () => {
@@ -75,7 +76,7 @@ describe('CodeComplexityConfig', () => {
             analyzedBranch,
         });
 
-        expect(result.status).toBe('warning');
+        expect(result.scoreStatus).toBe(scoreStatus.warning);
     });
 
     it('should format file SLOC indicators correctly', () => {
@@ -115,6 +116,6 @@ describe('CodeComplexityConfig', () => {
             analyzedBranch,
         });
 
-        expect(result.status).toBe('warning');
+        expect(result.scoreStatus).toBe(scoreStatus.warning);
     });
 });

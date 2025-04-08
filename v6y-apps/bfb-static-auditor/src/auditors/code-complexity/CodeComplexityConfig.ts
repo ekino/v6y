@@ -1,4 +1,4 @@
-import { AuditType, Matcher, auditStatus } from '@v6y/core-logic';
+import { AuditType, Matcher, auditStatus, scoreStatus } from '@v6y/core-logic';
 
 import { ApplicationCodeComplexityReportType } from '../types/CodeComplexityAuditType.ts';
 
@@ -10,19 +10,19 @@ const formatMaintainabilityStatus = (fileMaintainability: number) =>
     Matcher()
         .on(
             () => Math.round(fileMaintainability || 0) < 65,
-            () => auditStatus.error,
+            () => scoreStatus.error,
         )
         .on(
             () => Math.round(fileMaintainability || 0) >= 85,
-            () => auditStatus.success,
+            () => scoreStatus.success,
         )
         .on(
             () =>
                 Math.round(fileMaintainability || 0) >= 65 &&
                 Math.round(fileMaintainability || 0) < 85,
-            () => auditStatus.warning,
+            () => scoreStatus.warning,
         )
-        .otherwise(() => auditStatus.info);
+        .otherwise(() => scoreStatus.info);
 
 /**
  * Format halstead reports
@@ -53,7 +53,8 @@ const formatHalsteadReports = ({
             type: 'Code-Complexity',
             category: 'halstead-program-length',
             subCategory: undefined,
-            status: auditStatus.info,
+            auditStatus: auditStatus.success,
+            scoreStatus: scoreStatus.info,
             score: length,
             scoreUnit: '',
             module,
@@ -64,7 +65,8 @@ const formatHalsteadReports = ({
         halsteadReports.push({
             type: 'Code-Complexity',
             category: 'halstead-program-volume',
-            status: auditStatus.info,
+            auditStatus: auditStatus.success,
+            scoreStatus: scoreStatus.info,
             score: volume,
             scoreUnit: 'bit',
             module,
@@ -75,7 +77,8 @@ const formatHalsteadReports = ({
         halsteadReports.push({
             type: 'Code-Complexity',
             category: 'halstead-program-difficulty',
-            status: auditStatus.info,
+            auditStatus: auditStatus.success,
+            scoreStatus: scoreStatus.info,
             score: difficulty,
             scoreUnit: '',
             module,
@@ -86,7 +89,8 @@ const formatHalsteadReports = ({
         halsteadReports.push({
             type: 'Code-Complexity',
             category: 'halstead-program-effort',
-            status: auditStatus.info,
+            auditStatus: auditStatus.success,
+            scoreStatus: scoreStatus.info,
             score: effort,
             scoreUnit: 'bit',
             module,
@@ -97,7 +101,8 @@ const formatHalsteadReports = ({
         halsteadReports.push({
             type: 'Code-Complexity',
             category: 'halstead-program-estimated-bugs',
-            status: auditStatus.info,
+            auditStatus: auditStatus.success,
+            scoreStatus: scoreStatus.info,
             score: bugs,
             scoreUnit: '',
             module,
@@ -108,7 +113,8 @@ const formatHalsteadReports = ({
         halsteadReports.push({
             type: 'Code-Complexity',
             category: 'halstead-program-time-to-implement',
-            status: auditStatus.info,
+            auditStatus: auditStatus.success,
+            scoreStatus: scoreStatus.info,
             score: time,
             scoreUnit: 's',
             module,
@@ -134,19 +140,19 @@ const formatCyclomaticComplexityReport = ({
     const complexityStatus = Matcher()
         .on(
             () => cyclomaticMetric <= 10,
-            () => auditStatus.success,
+            () => scoreStatus.success,
         )
         .on(
             () => cyclomaticMetric > 10 && cyclomaticMetric <= 20,
-            () => auditStatus.warning,
+            () => scoreStatus.warning,
         )
         .on(
             () => cyclomaticMetric > 20 && cyclomaticMetric <= 40,
-            () => auditStatus.error,
+            () => scoreStatus.error,
         )
         .on(
             () => cyclomaticMetric > 40,
-            () => auditStatus.error,
+            () => scoreStatus.error,
         )
         .otherwise(() => '');
 
@@ -160,7 +166,8 @@ const formatCyclomaticComplexityReport = ({
     return {
         type: 'Code-Complexity',
         category: 'cyclomatic-complexity',
-        status: complexityStatus as string,
+        auditStatus: auditStatus.success,
+        scoreStatus: complexityStatus as string,
         score: cyclomaticMetric,
         scoreUnit: '',
         module,
@@ -190,7 +197,8 @@ const formatMaintainabilityIndexReport = ({
     return {
         type: 'Code-Complexity',
         category: 'maintainability-index',
-        status: formatMaintainabilityStatus(fileMaintainability) as string,
+        auditStatus: auditStatus.success,
+        scoreStatus: formatMaintainabilityStatus(fileMaintainability) as string,
         score: fileMaintainability,
         scoreUnit: '%',
         module,
@@ -223,7 +231,8 @@ const formatFileSLOCIndicators = ({
         codeSLOCIndicators.push({
             type: 'Code-Complexity',
             category: 'physical-sloc',
-            status: auditStatus.info,
+            auditStatus: auditStatus.success,
+            scoreStatus: scoreStatus.info,
             score: fileSLOC.physical || 0,
             scoreUnit: '',
             module,
@@ -232,7 +241,8 @@ const formatFileSLOCIndicators = ({
         codeSLOCIndicators.push({
             type: 'Code-Complexity',
             category: 'logical-sloc',
-            status: auditStatus.info,
+            auditStatus: auditStatus.success,
+            scoreStatus: scoreStatus.info,
             score: fileSLOC.logical || 0,
             scoreUnit: '',
             module,
@@ -255,10 +265,6 @@ const formatCodeComplexitySummary = ({
     analyzedFile,
     analyzedBranch,
 }: ApplicationCodeComplexityReportType): AuditType => {
-    if (!summary) {
-        return {};
-    }
-
     const module = {
         appId: application?._id,
         url: application?.repo?.webUrl,
@@ -266,10 +272,23 @@ const formatCodeComplexitySummary = ({
         path: analyzedFile,
     };
 
+    if (!summary) {
+        return {
+            type: 'Code-Complexity',
+            category: 'maintainability-index-project-average',
+            auditStatus: auditStatus.failure,
+            scoreStatus: null,
+            score: null,
+            scoreUnit: '%',
+            module,
+        };
+    }
+
     return {
         type: 'Code-Complexity',
         category: 'maintainability-index-project-average',
-        status: formatMaintainabilityStatus(summary?.average?.maintainability) as string,
+        auditStatus: auditStatus.success,
+        scoreStatus: formatMaintainabilityStatus(summary?.average?.maintainability) as string,
         score: summary?.average?.maintainability,
         scoreUnit: '%',
         module,

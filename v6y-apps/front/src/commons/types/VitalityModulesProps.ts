@@ -5,7 +5,8 @@ export interface VitalityModuleType {
     category: string;
     score: number;
     scoreUnit: string;
-    status: string;
+    scoreStatus: string;
+    auditStatus: string;
     branch: string;
     path: string;
     auditHelp: Record<string, string>;

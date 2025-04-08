@@ -45,7 +45,7 @@ const VitalityAuditReportsTypeGrouper = ({ auditReports }: { auditReports: Audit
                                     reports={data as AuditType[]}
                                 />
                             )}
-                        {group === AUDIT_REPORT_TYPES.DORA && data && (
+                        {group === AUDIT_REPORT_TYPES.dora && data && (
                             <VitalityDoraReportsGrouper reports={data as AuditType[]} />
                         )}
                     </div>

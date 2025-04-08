@@ -1,4 +1,4 @@
-import { auditStatus } from '@v6y/core-logic';
+import { auditStatus, scoreStatus } from '@v6y/core-logic';
 import Madge from 'madge';
 import { describe, expect, it, vi } from 'vitest';
 
@@ -51,7 +51,8 @@ describe('CodeCouplingUtils.formatCodeCouplingReports', () => {
             {
                 type: 'Code-Coupling',
                 category: 'circular-dependencies',
-                status: auditStatus.error,
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.error,
                 score: null,
                 scoreUnit: '',
                 module: {
@@ -64,7 +65,8 @@ describe('CodeCouplingUtils.formatCodeCouplingReports', () => {
             {
                 type: 'Code-Coupling',
                 category: 'circular-dependencies',
-                status: auditStatus.error,
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.error,
                 score: null,
                 scoreUnit: '',
                 module: {
@@ -128,22 +130,26 @@ describe('CodeCouplingUtils.formatCodeCouplingReports', () => {
                 expect.objectContaining({
                     type: 'Code-Coupling',
                     category: 'circular-dependencies',
-                    status: auditStatus.error,
+                    auditStatus: auditStatus.success,
+                    scoreStatus: scoreStatus.error,
                 }),
                 expect.objectContaining({
                     type: 'Code-Coupling',
                     category: 'efferent-coupling',
-                    status: auditStatus.info,
+                    auditStatus: auditStatus.success,
+                    scoreStatus: scoreStatus.info,
                 }),
                 expect.objectContaining({
                     type: 'Code-Coupling',
                     category: 'afferent-coupling',
-                    status: auditStatus.info,
+                    auditStatus: auditStatus.success,
+                    scoreStatus: scoreStatus.info,
                 }),
                 expect.objectContaining({
                     type: 'Code-Coupling',
                     category: 'instability-index',
-                    status: auditStatus.info,
+                    auditStatus: auditStatus.success,
+                    scoreStatus: scoreStatus.info,
                 }),
             ]),
         );
@@ -190,7 +196,8 @@ describe('CodeCouplingUtils.formatCodeCouplingReports', () => {
             {
                 type: 'Code-Coupling',
                 category: 'efferent-coupling',
-                status: auditStatus.info,
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.info,
                 score: 0,
                 scoreUnit: '',
                 module: {
@@ -203,7 +210,8 @@ describe('CodeCouplingUtils.formatCodeCouplingReports', () => {
             {
                 type: 'Code-Coupling',
                 category: 'afferent-coupling',
-                status: auditStatus.info,
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.info,
                 score: 0,
                 scoreUnit: '',
                 module: {
@@ -216,7 +224,8 @@ describe('CodeCouplingUtils.formatCodeCouplingReports', () => {
             {
                 type: 'Code-Coupling',
                 category: 'instability-index',
-                status: auditStatus.info,
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.info,
                 score: 0,
                 scoreUnit: '',
                 module: {

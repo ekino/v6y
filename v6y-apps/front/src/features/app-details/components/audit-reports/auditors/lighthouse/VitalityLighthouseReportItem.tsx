@@ -58,13 +58,13 @@ const VitalityLighthouseReportItem = ({
                                 suffix={report.scoreUnit || ''}
                                 valueStyle={{
                                     color: qualityMetricStatus[
-                                        (report.status as keyof typeof qualityMetricStatus) ||
+                                        (report.scoreStatus as keyof typeof qualityMetricStatus) ||
                                             'default'
                                     ],
                                 }}
                                 prefix={
                                     qualityMetricStatusIcons[
-                                        (report.status as keyof typeof qualityMetricStatusIcons) ||
+                                        (report.scoreStatus as keyof typeof qualityMetricStatusIcons) ||
                                             'default'
                                     ]
                                 }

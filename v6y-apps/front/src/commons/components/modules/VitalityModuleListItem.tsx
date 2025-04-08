@@ -1,8 +1,10 @@
+import { auditStatus } from '@v6y/core-logic/src/config/AuditHelpConfig';
 import {
     Avatar,
     Button,
     Card,
     Divider,
+    EmptyView,
     InfoCircleOutlined,
     ListItem,
     ListItemMeta,
@@ -58,7 +60,8 @@ const VitalityModuleListItem = ({ module, onModuleClicked }: VitalityModuleItemP
                         style={{
                             background:
                                 qualityMetricStatus[
-                                    (module.status as keyof typeof qualityMetricStatus) || 'default'
+                                    (module.scoreStatus as keyof typeof qualityMetricStatus) ||
+                                        'disabled'
                                 ],
                         }}
                         icon={<PushpinOutlined />}
@@ -67,24 +70,30 @@ const VitalityModuleListItem = ({ module, onModuleClicked }: VitalityModuleItemP
                 description={
                     <Card bordered={false}>
                         <Space direction="vertical" size="small">
-                            {moduleScore?.length > 0 && (
-                                <Statistic
-                                    title={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_INDICATOR_SCORE_LABEL}: `}
-                                    value={module.score || 0}
-                                    suffix={module.scoreUnit || ''}
-                                    valueStyle={{
-                                        color: qualityMetricStatus[
-                                            (module.status as keyof typeof qualityMetricStatus) ||
-                                                'default'
-                                        ],
-                                    }}
-                                    prefix={
-                                        qualityMetricStatusIcons[
-                                            (module.status as keyof typeof qualityMetricStatusIcons) ||
-                                                'default'
-                                        ]
-                                    }
+                            {module?.auditStatus === auditStatus.failure ? (
+                                <EmptyView
+                                    message={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_STATUS_FAILURE_LABEL}`}
                                 />
+                            ) : (
+                                moduleScore?.length > 0 && (
+                                    <Statistic
+                                        title={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_INDICATOR_SCORE_LABEL}: `}
+                                        value={module.score || 0}
+                                        suffix={module.scoreUnit || ''}
+                                        valueStyle={{
+                                            color: qualityMetricStatus[
+                                                (module.scoreStatus as keyof typeof qualityMetricStatus) ||
+                                                    'default'
+                                            ],
+                                        }}
+                                        prefix={
+                                            qualityMetricStatusIcons[
+                                                (module.scoreStatus as keyof typeof qualityMetricStatusIcons) ||
+                                                    'default'
+                                            ]
+                                        }
+                                    />
+                                )
                             )}
                             {(module.branch?.length || 0) > 0 && (
                                 <>

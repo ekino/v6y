@@ -5,6 +5,7 @@ import {
     EvolutionProvider,
     auditStatus,
     dependencyStatus,
+    scoreStatus,
 } from '@v6y/core-logic';
 
 /**
@@ -54,9 +55,10 @@ const buildEvolutionList = async () => {
                 // eslint-disable-next-line max-depth
                 if (
                     !audit.module ||
-                    !audit.status ||
-                    audit.status === auditStatus.info ||
-                    audit.status === auditStatus.success
+                    audit.auditStatus === auditStatus.failure ||
+                    !audit.scoreStatus ||
+                    audit.scoreStatus === scoreStatus.info ||
+                    audit.scoreStatus === scoreStatus.success
                 ) {
                     continue;
                 }
@@ -66,7 +68,7 @@ const buildEvolutionList = async () => {
                     category: `${audit.type}-${audit.category}`,
                     module: {
                         ...audit.module,
-                        status: audit.status,
+                        status: audit.scoreStatus,
                     },
                 });
             }

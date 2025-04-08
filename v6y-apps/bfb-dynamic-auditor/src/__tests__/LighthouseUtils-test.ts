@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { AuditType, auditStatus } from '@v6y/core-logic';
+import { AuditType, auditStatus, scoreStatus } from '@v6y/core-logic';
 import { describe, expect, it } from 'vitest';
 
 import LighthouseUtils from '../auditors/lighthouse/LighthouseUtils.ts';
@@ -9,44 +9,50 @@ import {
 } from '../auditors/types/LighthouseAuditType.ts';
 
 describe('LighthouseUtils', () => {
-    it('should return true for "warning" or "error" status', () => {
-        expect(LighthouseUtils.isAuditFailed(auditStatus.warning)).toBe(true);
-        expect(LighthouseUtils.isAuditFailed(auditStatus.error)).toBe(true);
+    it('should return true for "failure" or null status', () => {
+        expect(LighthouseUtils.isAuditFailed(auditStatus.failure)).toBe(true);
+        expect(LighthouseUtils.isAuditFailed(null)).toBe(true);
     });
 
     it('should return false for other statuses', () => {
         expect(LighthouseUtils.isAuditFailed(auditStatus.success)).toBe(false);
-        expect(LighthouseUtils.isAuditFailed(auditStatus.info)).toBe(false);
-        expect(LighthouseUtils.isAuditFailed(undefined)).toBe(false);
     });
 
     it('should return true for failed performance audits', () => {
         const report: AuditType = {
             category: 'performance',
-            status: auditStatus.error,
+            auditStatus: auditStatus.failure,
+            score: null,
+            scoreStatus: null,
         } as AuditType;
         expect(LighthouseUtils.isAuditPerformanceFailed(report)).toBe(true);
 
-        report.status = auditStatus.warning;
+        report.scoreStatus = scoreStatus.error;
         expect(LighthouseUtils.isAuditPerformanceFailed(report)).toBe(true);
     });
 
-    it('should return false for non-performance or successful audits', () => {
+    it('should return false for non performance category audits or successful audits', () => {
         const report1: AuditType = {
-            category: 'accessibility',
-            status: auditStatus.error,
+            category: 'performance',
+            auditStatus: auditStatus.success,
+            score: 1,
+            scoreStatus: scoreStatus.info,
         } as AuditType;
         expect(LighthouseUtils.isAuditPerformanceFailed(report1)).toBe(false);
 
         const report2: AuditType = {
-            category: 'performance',
-            status: auditStatus.success,
+            category: 'accessibility',
+            auditStatus: auditStatus.success,
+            score: 1,
+            scoreStatus: scoreStatus.info,
         } as AuditType;
         expect(LighthouseUtils.isAuditPerformanceFailed(report2)).toBe(false);
 
         const report3: AuditType = {
             category: 'seo',
-            status: auditStatus.success,
+            auditStatus: auditStatus.failure,
+            score: null,
+            scoreStatus: null,
         } as AuditType;
         expect(LighthouseUtils.isAuditPerformanceFailed(report3)).toBe(false);
     });
@@ -54,30 +60,35 @@ describe('LighthouseUtils', () => {
     it('should return true for failed accessibility audits', () => {
         const report: AuditType = {
             category: 'accessibility',
-            status: auditStatus.error,
+            auditStatus: auditStatus.failure,
+            score: null,
+            scoreStatus: null,
         } as AuditType;
-        expect(LighthouseUtils.isAuditAccessibilityFailed(report)).toBe(true);
-
-        report.status = auditStatus.warning;
         expect(LighthouseUtils.isAuditAccessibilityFailed(report)).toBe(true);
     });
 
-    it('should return false for non-accessibility or successful audits', () => {
+    it('should return false for non accessibility category audits or successful audits', () => {
         const report1: AuditType = {
             category: 'performance',
-            status: auditStatus.error,
+            auditStatus: auditStatus.success,
+            score: 1,
+            scoreStatus: scoreStatus.error,
         } as AuditType;
         expect(LighthouseUtils.isAuditAccessibilityFailed(report1)).toBe(false);
 
         const report2: AuditType = {
             category: 'accessibility',
-            status: auditStatus.success,
+            auditStatus: auditStatus.success,
+            score: 1,
+            scoreStatus: scoreStatus.info,
         } as AuditType;
         expect(LighthouseUtils.isAuditAccessibilityFailed(report2)).toBe(false);
 
         const report3: AuditType = {
             category: 'seo',
-            status: auditStatus.success,
+            auditStatus: auditStatus.success,
+            score: 1,
+            scoreStatus: scoreStatus.success,
         } as AuditType;
         expect(LighthouseUtils.isAuditAccessibilityFailed(report3)).toBe(false);
     });
@@ -85,30 +96,38 @@ describe('LighthouseUtils', () => {
     it('should return true for failed seo audits', () => {
         const report: AuditType = {
             category: 'seo',
-            status: auditStatus.error,
+            auditStatus: auditStatus.failure,
+            scoreStatus: null,
+            score: null,
         } as AuditType;
         expect(LighthouseUtils.isAuditSeoFailed(report)).toBe(true);
 
-        report.status = auditStatus.warning;
+        report.scoreStatus = scoreStatus.warning;
         expect(LighthouseUtils.isAuditSeoFailed(report)).toBe(true);
     });
 
-    it('should return false for non-seo or successful audits', () => {
+    it('should return false for non seo category audits or successful audits', () => {
         const report1: AuditType = {
             category: 'performance',
-            status: auditStatus.error,
+            auditStatus: auditStatus.success,
+            score: 1,
+            scoreStatus: scoreStatus.error,
         } as AuditType;
         expect(LighthouseUtils.isAuditAccessibilityFailed(report1)).toBe(false);
 
         const report2: AuditType = {
             category: 'accessibility',
-            status: auditStatus.success,
+            auditStatus: auditStatus.success,
+            score: 1,
+            scoreStatus: scoreStatus.error,
         } as AuditType;
         expect(LighthouseUtils.isAuditAccessibilityFailed(report2)).toBe(false);
 
         const report3: AuditType = {
             category: 'seo',
-            status: auditStatus.success,
+            auditStatus: auditStatus.success,
+            scoreStatus: scoreStatus.success,
+            score: 1,
         } as AuditType;
         expect(LighthouseUtils.isAuditAccessibilityFailed(report3)).toBe(false);
     });
@@ -131,7 +150,8 @@ describe('LighthouseUtils', () => {
             category: 'performance',
             title: 'Performance',
             description: 'Measures how well the page performs.',
-            status: auditStatus.success, // 0.9 * 100 = 90, which is > 70
+            auditStatus: auditStatus.success,
+            scoreStatus: scoreStatus.success, // 0.9 * 100 = 90, which is > 70
             score: 90,
             scoreUnit: '%',
             branch: undefined,
@@ -157,7 +177,8 @@ describe('LighthouseUtils', () => {
             category: 'largest-contentful-paint',
             title: 'Largest Contentful Paint',
             description: 'Measures loading performance.',
-            status: auditStatus.warning, // 3s is between 2.5s and 4s
+            auditStatus: auditStatus.success,
+            scoreStatus: scoreStatus.warning, // 3s is between 2.5s and 4s
             score: 3.0,
             scoreUnit: 's',
             branch: undefined,
@@ -218,7 +239,8 @@ describe('LighthouseUtils', () => {
                 category: 'performance',
                 title: 'Performance',
                 description: undefined, // Assuming description is not present in the mock data
-                status: auditStatus.success, // 0.85 * 100 = 85, which is > 70
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.success, // 0.85 * 100 = 85, which is > 70
                 score: 85,
                 scoreUnit: '%',
                 branch: undefined,
@@ -227,7 +249,8 @@ describe('LighthouseUtils', () => {
                 category: 'accessibility',
                 title: 'Accessibility',
                 description: undefined,
-                status: auditStatus.success, // 0.95 * 100 = 95, which is > 70
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.success, // 0.95 * 100 = 95, which is > 70
                 score: 95,
                 scoreUnit: '%',
                 branch: undefined,
@@ -236,7 +259,8 @@ describe('LighthouseUtils', () => {
                 category: 'seo',
                 title: 'SEO',
                 description: undefined,
-                status: auditStatus.success, // 0.75 * 100 = 75, which is > 70
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.success, // 0.75 * 100 = 75, which is > 70
                 score: 75,
                 scoreUnit: '%',
                 branch: undefined,
@@ -245,7 +269,8 @@ describe('LighthouseUtils', () => {
                 category: 'first-contentful-paint',
                 title: 'First Contentful Paint',
                 description: 'Measures loading experience.',
-                status: auditStatus.success, // 1.5s is < 1.8s
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.success, // 1.5s is < 1.8s
                 score: 1.5,
                 scoreUnit: 's',
                 branch: undefined,
@@ -268,7 +293,8 @@ describe('LighthouseUtils', () => {
             category: 'first-contentful-paint',
             title: 'First Contentful Paint',
             description: 'Measures loading experience.',
-            status: auditStatus.warning, // 2s is between 1.8s and 3s
+            auditStatus: auditStatus.success,
+            scoreStatus: scoreStatus.warning, // 2s is between 1.8s and 3s
             score: 2.0,
             scoreUnit: 's',
             branch: undefined,
@@ -290,7 +316,8 @@ describe('LighthouseUtils', () => {
             category: 'total-blocking-time',
             title: 'Total Blocking Time',
             description: 'Measures total blocking time.',
-            status: auditStatus.warning, // 0.5s is between 0.2s and 0.6s
+            auditStatus: auditStatus.success,
+            scoreStatus: scoreStatus.warning, // 0.5s is between 0.2s and 0.6s
             score: 0.5,
             scoreUnit: 's',
             branch: undefined,
@@ -312,7 +339,8 @@ describe('LighthouseUtils', () => {
             category: 'speed-index',
             title: 'Speed Index',
             description: 'Measures speed index.',
-            status: auditStatus.warning, // 4s is between 3.4s and 5.8s
+            auditStatus: auditStatus.success,
+            scoreStatus: scoreStatus.warning, // 4s is between 3.4s and 5.8s
             score: 4.0,
             scoreUnit: 's',
             branch: undefined,
@@ -334,7 +362,8 @@ describe('LighthouseUtils', () => {
             category: 'cumulative-layout-shift',
             title: 'Cumulative Layout Shift',
             description: 'Measures layout shift.',
-            status: auditStatus.warning, // 0.15 is between 0.1 and 0.25
+            auditStatus: auditStatus.success,
+            scoreStatus: scoreStatus.warning, // 0.15 is between 0.1 and 0.25
             score: 0.15,
             scoreUnit: '',
             branch: undefined,

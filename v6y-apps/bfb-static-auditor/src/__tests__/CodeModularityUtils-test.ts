@@ -1,4 +1,4 @@
-import { AppLogger } from '@v6y/core-logic';
+import { AppLogger, auditStatus, scoreStatus } from '@v6y/core-logic';
 import { describe, expect, it, vi } from 'vitest';
 
 import CodeModularityUtils from '../auditors/code-modularity/CodeModularityUtils.ts';
@@ -114,7 +114,8 @@ describe('CodeModularityUtils', () => {
                 },
                 score: 0.6,
                 scoreUnit: '%',
-                status: 'error',
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.error,
                 type: 'Code-Modularity',
             },
             {
@@ -127,7 +128,8 @@ describe('CodeModularityUtils', () => {
                 },
                 score: 0.4,
                 scoreUnit: '%',
-                status: 'error',
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.error,
                 type: 'Code-Modularity',
             },
             {
@@ -141,7 +143,8 @@ describe('CodeModularityUtils', () => {
                 },
                 score: null,
                 scoreUnit: '',
-                status: 'info',
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.info,
                 type: 'Code-Modularity',
             },
             {
@@ -155,7 +158,8 @@ describe('CodeModularityUtils', () => {
                 },
                 score: null,
                 scoreUnit: '',
-                status: 'info',
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.info,
                 type: 'Code-Modularity',
             },
             {
@@ -168,7 +172,8 @@ describe('CodeModularityUtils', () => {
                 },
                 score: 2,
                 scoreUnit: '',
-                status: 'info',
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.info,
                 type: 'Code-Modularity',
             },
             {
@@ -181,7 +186,8 @@ describe('CodeModularityUtils', () => {
                 },
                 score: 1,
                 scoreUnit: '',
-                status: 'info',
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.info,
                 type: 'Code-Modularity',
             },
             {
@@ -194,7 +200,8 @@ describe('CodeModularityUtils', () => {
                 },
                 score: 1,
                 scoreUnit: '',
-                status: 'info',
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.info,
                 type: 'Code-Modularity',
             },
             {
@@ -207,7 +214,8 @@ describe('CodeModularityUtils', () => {
                 },
                 score: 1,
                 scoreUnit: '',
-                status: 'info',
+                auditStatus: auditStatus.success,
+                scoreStatus: scoreStatus.info,
                 type: 'Code-Modularity',
             },
         ]);
