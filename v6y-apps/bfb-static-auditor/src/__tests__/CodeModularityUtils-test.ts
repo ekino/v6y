@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { AppLogger } from '@v6y/core-logic';
 import { describe, expect, it, vi } from 'vitest';
 
