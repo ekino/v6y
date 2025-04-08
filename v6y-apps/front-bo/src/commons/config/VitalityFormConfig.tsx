@@ -155,6 +155,42 @@ export const applicationOptionalLinksFormItems = (translate: TranslateType) => [
     },
 ];
 
+export const applicationDataDogConfigurationFormItems = (translate: TranslateType) => [
+    {
+        id: 'app-data-dog-api-key',
+        name: 'app-data-dog-api-key',
+        label: translate('v6y-applications.fields.app-data-dog-api-key.label'),
+        placeholder: translate('v6y-applications.fields.app-data-dog-api-key.placeholder'),
+        rules: [],
+    },
+    {
+        id: 'app-data-dog-app-key',
+        name: 'app-data-dog-app-key',
+        label: translate('v6y-applications.fields.app-data-dog-app-key.label'),
+        placeholder: translate('v6y-applications.fields.app-data-dog-app-key.placeholder'),
+        rules: [],
+    },
+    {
+        id: 'app-data-dog-url',
+        name: 'app-data-dog-url',
+        label: translate('v6y-applications.fields.app-data-dog-url.label'),
+        placeholder: translate('v6y-applications.fields.app-data-dog-url.placeholder'),
+        rules: [
+            {
+                type: 'url',
+                message: translate('v6y-applications.fields.app-data-dog-url.error'),
+            },
+        ],
+    },
+    {
+        id: 'app-data-dog-monitor-id',
+        name: 'app-data-dog-monitor-id',
+        label: translate('v6y-applications.fields.app-data-dog-monitor-id.label'),
+        placeholder: translate('v6y-applications.fields.app-data-dog-monitor-id.placeholder'),
+        rules: [],
+    },
+];
+
 export const applicationCreateEditItems = (translate: TranslateType) => {
     return [
         <VitalityFormFieldSet
@@ -176,6 +212,11 @@ export const applicationCreateEditItems = (translate: TranslateType) => {
             key={translate('v6y-applications.fields.app-optional-link-group')}
             groupTitle={translate('v6y-applications.fields.app-optional-link-group')}
             items={applicationOptionalLinksFormItems(translate)}
+        />,
+        <VitalityFormFieldSet
+            key={translate('v6y-applications.fields.app-datadog-configuration-group')}
+            groupTitle={translate('v6y-applications.fields.app-datadog-configuration-group')}
+            items={applicationDataDogConfigurationFormItems(translate)}
         />,
     ];
 };
@@ -207,6 +248,10 @@ export const applicationCreateOrEditFormInAdapter = (params: ApplicationType) =>
     'app-deployment-platform-link': params?.['links']?.find?.(
         (item) => item.label === 'Application deployment platform url',
     )?.value,
+    'app-data-dog-api-key': params?.['configuration']?.dataDog?.apiKey,
+    'app-data-dog-app-key': params?.['configuration']?.dataDog?.appKey,
+    'app-data-dog-url': params?.['configuration']?.dataDog?.url,
+    'app-data-dog-monitor-id': params?.['configuration']?.dataDog?.monitorId,
 });
 
 export const applicationCreateOrEditFormOutputAdapter = (data: unknown): Variables => {
@@ -229,6 +274,10 @@ export const applicationCreateOrEditFormOutputAdapter = (data: unknown): Variabl
             codeQualityPlatformLink: params?.['app-code-quality-platform-link'],
             ciPlatformLink: params?.['app-ci-cd-platform-link'],
             deploymentPlatformLink: params?.['app-deployment-platform-link'],
+            dataDogApiKey: params?.['app-data-dog-api-key'],
+            dataDogAppKey: params?.['app-data-dog-app-key'],
+            dataDogUrl: params?.['app-data-dog-url'],
+            dataDogMonitorId: params?.['app-data-dog-monitor-id'],
         },
     };
 };
