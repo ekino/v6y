@@ -12,6 +12,13 @@ const eslintConfig = [
             '@typescript-eslint/no-require-imports': 'off',
         },
     }),
+    // Special rules for test files
+    {
+        files: ['**/__tests__/**/*-test.ts', '**/__tests__/**/*-test.js', '**/*.test.{js,ts,tsx}'],
+        rules: {
+            'max-lines-per-function': 'off',
+        },
+    },
 ];
 
 export default eslintConfig;
