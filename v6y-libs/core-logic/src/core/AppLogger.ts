@@ -7,9 +7,22 @@ interface TransformableInfo {
     [key: string | symbol]: unknown;
 }
 
+// Format pour le terminal avec timestamp, label et niveau
 const formatStdout = winston.format.printf((info: TransformableInfo) => {
     const { timestamp, level, message, label } = info;
     return `${timestamp} [${label}] ${level}: ${message}`;
+});
+
+// Format personnalisé pour gérer plusieurs arguments
+const formatArgs = winston.format((info) => {
+    if (info.splat) {
+        const args = [info.message, ...((info.splat as unknown[]) || [])];
+        info.message = args
+            .map((arg) => (typeof arg === 'object' ? JSON.stringify(arg) : String(arg)))
+            .join(' ');
+        delete info.splat;
+    }
+    return info;
 });
 
 const logOptions = {
@@ -22,12 +35,13 @@ const logOptions = {
 
 const AppLogger = winston.createLogger({
     level: 'info',
-    format: winston.format.json(),
+    format: winston.format.combine(formatArgs(), winston.format.json()),
     transports: [
         !logOptions.logDisableConsole
             ? new winston.transports.Console({
                   level: 'debug',
                   format: winston.format.combine(
+                      formatArgs(),
                       winston.format.colorize(),
                       winston.format.simple(),
                   ),
@@ -35,7 +49,11 @@ const AppLogger = winston.createLogger({
             : undefined,
         !logOptions.logDisableFileRotate
             ? new winston.transports.DailyRotateFile({
-                  format: winston.format.combine(winston.format.timestamp(), formatStdout),
+                  format: winston.format.combine(
+                      formatArgs(),
+                      winston.format.timestamp(),
+                      formatStdout,
+                  ),
                   dirname: logOptions.logDir,
                   filename: `${logOptions.logAppName}-%DATE%.log`,
                   datePattern: 'YYYY-MM-DD',
