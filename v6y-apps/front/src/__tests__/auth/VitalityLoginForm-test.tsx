@@ -25,9 +25,9 @@ describe('VitalityLoginForm', () => {
 
     it('should render the component', () => {
         render(<VitalityLoginForm />);
-        expect(screen.getByText('Email')).toBeInTheDocument();
-        expect(screen.getByText('Password')).toBeInTheDocument();
-        expect(screen.getByText('Login')).toBeInTheDocument();
+        expect(screen.getByText('vitality.loginPage.formEmail.label')).toBeInTheDocument();
+        expect(screen.getByText('vitality.loginPage.formPassword.label')).toBeInTheDocument();
+        expect(screen.getByText('vitality.loginPage.formSubmit')).toBeInTheDocument();
     });
 
     it('should redirect when submitting with correct credentials', async () => {
@@ -39,11 +39,15 @@ describe('VitalityLoginForm', () => {
         fireEvent.change(screen.getByTestId('mock-input-password'), {
             target: { value: 'testtesttest' },
         });
-        fireEvent.click(screen.getByText('Login'));
+        fireEvent.click(screen.getByText('vitality.loginPage.formSubmit'));
 
         await waitFor(() => {
-            expect(screen.queryByText('Please enter a valid email')).not.toBeInTheDocument();
-            expect(screen.queryByText('Please enter a valid password')).not.toBeInTheDocument();
+            expect(
+                screen.queryByText('vitality.loginPage.formEmail.warning'),
+            ).not.toBeInTheDocument();
+            expect(
+                screen.queryByText('vitality.loginPage.formPassword.warning'),
+            ).not.toBeInTheDocument();
         });
     });
 
@@ -55,12 +59,16 @@ describe('VitalityLoginForm', () => {
         fireEvent.change(screen.getByTestId('mock-input-password'), {
             target: { value: 'xx' },
         });
-        fireEvent.click(screen.getByText('Login'));
+        fireEvent.click(screen.getByText('vitality.loginPage.formSubmit'));
 
         await waitFor(() => {
-            expect(screen.queryByText('Please enter a valid email')).not.toBeInTheDocument();
             expect(
-                screen.getByText((content) => content.includes('Please enter a valid password')),
+                screen.queryByText('vitality.loginPage.formEmail.warning'),
+            ).not.toBeInTheDocument();
+            expect(
+                screen.getByText((content) =>
+                    content.includes('vitality.loginPage.formPassword.warning'),
+                ),
             ).toBeInTheDocument();
         });
     });
@@ -73,17 +81,19 @@ describe('VitalityLoginForm', () => {
         fireEvent.change(screen.getByTestId('mock-input-password'), {
             target: { value: 'testtest' }, // 8 characters, so it's valid
         });
-        fireEvent.click(screen.getByText('Login'));
+        fireEvent.click(screen.getByText('vitality.loginPage.formSubmit'));
 
         await waitFor(() => {
             expect(
                 screen.getByText((content) =>
-                    content.includes('Please enter a valid email address'),
+                    content.includes('vitality.loginPage.formEmail.warning'),
                 ),
             ).toBeInTheDocument();
 
             expect(
-                screen.queryByText((content) => content.includes('Please enter a valid password')),
+                screen.queryByText((content) =>
+                    content.includes('vitality.loginPage.formPassword.warning'),
+                ),
             ).not.toBeInTheDocument();
         });
     });
@@ -96,16 +106,18 @@ describe('VitalityLoginForm', () => {
         fireEvent.change(screen.getByTestId('mock-input-password'), {
             target: { value: 'xx' },
         });
-        fireEvent.click(screen.getByText('Login'));
+        fireEvent.click(screen.getByText('vitality.loginPage.formSubmit'));
 
         await waitFor(() => {
             expect(
                 screen.getByText((content) =>
-                    content.includes('Please enter a valid email address'),
+                    content.includes('vitality.loginPage.formEmail.warning'),
                 ),
             ).toBeInTheDocument();
             expect(
-                screen.getByText((content) => content.includes('Please enter a valid password')),
+                screen.getByText((content) =>
+                    content.includes('vitality.loginPage.formPassword.warning'),
+                ),
             ).toBeInTheDocument();
         });
     });

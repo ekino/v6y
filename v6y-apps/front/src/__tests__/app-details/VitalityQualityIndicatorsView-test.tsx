@@ -53,11 +53,15 @@ describe('VitalityQualityIndicatorsView', () => {
         render(<VitalityQualityIndicatorsView />);
 
         await waitFor(() => {
-            expect(screen.getByText('Quality Indicators')).toBeInTheDocument();
+            expect(
+                screen.getByText('vitality.appDetailsPage.qualityStatus.title'),
+            ).toBeInTheDocument();
             expect(screen.getByText('Performance')).toBeInTheDocument();
 
             expect(screen.getAllByRole('option')).toHaveLength(4);
-            expect(screen.getAllByRole('option')[0]).toHaveTextContent('All');
+            expect(screen.getAllByRole('option')[0]).toHaveTextContent(
+                'vitality.appDetailsPage.qualityStatus.selectPlaceholder',
+            );
             expect(screen.getAllByRole('option')[1]).toHaveTextContent('All');
             expect(screen.getAllByRole('option')[2]).toHaveTextContent('main');
             expect(screen.getAllByRole('option')[3]).toHaveTextContent('develop');
@@ -166,7 +170,9 @@ describe('VitalityQualityIndicatorsView', () => {
             expect(screen.getAllByRole('button')[1]).toHaveTextContent('warning');
             expect(screen.getAllByRole('button')[2]).toHaveTextContent('success');
 
-            expect(screen.getByText('Quality Indicators')).toBeInTheDocument();
+            expect(
+                screen.getByText('vitality.appDetailsPage.qualityStatus.title'),
+            ).toBeInTheDocument();
             expect(screen.getByText('Maintainability')).toBeInTheDocument();
         });
     });

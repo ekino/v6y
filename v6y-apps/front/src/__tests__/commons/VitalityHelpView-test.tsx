@@ -117,7 +117,8 @@ describe('VitalityHelpView', () => {
             category: 'Misc',
             score: 50,
             scoreUnit: '%',
-            status: 'Unknown',
+            scoreStatus: 'Unknown',
+            auditStatus: 'Unknown',
             branch: '',
             path: '',
             auditHelp: {}, // No help data
@@ -128,12 +129,18 @@ describe('VitalityHelpView', () => {
         render(<VitalityHelpView module={moduleItem} />);
 
         // Ensure it does NOT render empty descriptions
-        expect(screen.queryByText('Category')).not.toBeInTheDocument();
-        expect(screen.queryByText('Title')).not.toBeInTheDocument();
-        expect(screen.queryByText('Description')).not.toBeInTheDocument();
-        expect(screen.queryByText('Explanation')).not.toBeInTheDocument();
-        expect(screen.queryByText('Branch')).not.toBeInTheDocument();
-        expect(screen.queryByText('Path')).not.toBeInTheDocument();
+        expect(
+            screen.queryByText('vitality.appDetailsPage.audit.helpCategory'),
+        ).not.toBeInTheDocument();
+        expect(
+            screen.queryByText('vitality.appDetailsPage.audit.helpTitleLabel'),
+        ).not.toBeInTheDocument();
+        expect(
+            screen.queryByText('vitality.appDetailsPage.audit.helpDescription'),
+        ).not.toBeInTheDocument();
+        expect(
+            screen.queryByText('vitality.appDetailsPage.audit.helpExplanation'),
+        ).not.toBeInTheDocument();
     });
 
     it('renders only relevant help information if multiple help objects exist', () => {
@@ -144,7 +151,8 @@ describe('VitalityHelpView', () => {
             category: 'MultiCategory',
             score: 75,
             scoreUnit: '%',
-            status: 'Mixed',
+            scoreStatus: 'Mixed',
+            auditStatus: 'Mixed',
             branch: 'main',
             path: 'src/multiple',
             auditHelp: {

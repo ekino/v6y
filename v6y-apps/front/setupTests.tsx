@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { cleanup } from '@testing-library/react';
-import { List } from '@v6y/ui-kit';
+import { List, useTranslationProvider } from '@v6y/ui-kit';
 import dynamic from 'next/dynamic';
 import { afterEach, beforeEach, vi } from 'vitest';
 
@@ -32,6 +32,9 @@ afterEach(() => {
 
 vi.mock('@v6y/ui-kit', () => {
     return {
+        useTranslationProvider: vi.fn(() => ({
+            translate: (key: string) => key
+        })),
         useNavigationAdapter: vi.fn(() => {
             return {
                 createUrlQueryParam: vi.fn((key, value) => `${key}=${value}`),

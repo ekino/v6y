@@ -77,7 +77,7 @@ describe('VitalityNotificationView', () => {
         render(<VitalityNotificationView />);
 
         await waitFor(() => {
-            expect(screen.getByText('Notifications')).toBeInTheDocument();
+            expect(screen.getByText('vitality.notificationsPage.pageTitle')).toBeInTheDocument();
             expect(
                 screen.getByText((content) => content.includes('How to use Vitality?')),
             ).toBeInTheDocument();
