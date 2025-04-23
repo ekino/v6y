@@ -3,12 +3,13 @@ import * as React from 'react';
 import { ReactNode, Suspense } from 'react';
 
 import VitalityPageLayout from '../commons/components/layout/VitalityPageLayout';
-import VitalityTerms from '../commons/config/VitalityTerms';
 import { AppProvider } from '../infrastructure/providers/AppProvider';
+import '../infrastructure/translation/i18nHelper';
 
 export const metadata = {
-    title: VitalityTerms.VITALITY_APP_TITLE,
-    description: VitalityTerms.VITALITY_APP_DESCRIPTION,
+    title: 'Vitality',
+    description:
+        'Vitality (v6y) is a web-based application developed by Ekino, designed to maintain and optimize the health and performance of codebases and applications.',
 };
 
 export default function RootLayout({
