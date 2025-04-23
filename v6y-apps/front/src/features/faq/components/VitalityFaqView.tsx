@@ -1,12 +1,11 @@
 'use client';
 
 import { FaqType } from '@v6y/core-logic/src/types';
-import { QuestionOutlined } from '@v6y/ui-kit';
+import { QuestionOutlined, useTranslationProvider } from '@v6y/ui-kit';
 import * as React from 'react';
 
 import VitalitySectionView from '../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
-import VitalityTerms from '../../../commons/config/VitalityTerms';
 import {
     buildClientQuery,
     useClientQuery,
@@ -32,11 +31,13 @@ const VitalityFaqView = () => {
 
     const dataSource = data?.getFaqListByPageAndParams;
 
+    const { translate } = useTranslationProvider();
+
     return (
         <VitalitySectionView
             isLoading={isLoading}
             isEmpty={!dataSource?.length}
-            title={VitalityTerms.VITALITY_FAQ_PAGE_TITLE}
+            title={translate('vitality.faqPage.pageTitle')}
             description=""
             avatar={<QuestionOutlined />}
         >

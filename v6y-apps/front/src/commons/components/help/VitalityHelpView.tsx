@@ -1,11 +1,11 @@
 import { Matcher } from '@v6y/core-logic/src/utils';
-import { Descriptions } from '@v6y/ui-kit';
+import { Descriptions, useTranslationProvider } from '@v6y/ui-kit';
 import * as React from 'react';
 
-import VitalityTerms from '../../config/VitalityTerms';
 import { VitalityModuleType } from '../../types/VitalityModulesProps';
 
 const VitalityHelpView = ({ module }: { module: VitalityModuleType }) => {
+    const { translate } = useTranslationProvider();
     const moduleHelp = Matcher()
         .on(
             () => module?.auditHelp && Object.keys(module?.auditHelp).length > 0,
@@ -36,7 +36,7 @@ const VitalityHelpView = ({ module }: { module: VitalityModuleType }) => {
         >
             {moduleHelp?.category?.length > 0 && (
                 <Descriptions.Item
-                    label={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_HELP_CATEGORY_LABEL}
+                    label={translate('vitality.appDetailsPage.audit.helpCategory')}
                     span={2}
                 >
                     {moduleHelp.category}
@@ -44,7 +44,7 @@ const VitalityHelpView = ({ module }: { module: VitalityModuleType }) => {
             )}
             {moduleHelp?.title?.length > 0 && (
                 <Descriptions.Item
-                    label={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_HELP_TITLE_LABEL}
+                    label={translate('vitality.appDetailsPage.audit.helpTitleLabel')}
                     span={2}
                 >
                     {moduleHelp.title}
@@ -52,7 +52,7 @@ const VitalityHelpView = ({ module }: { module: VitalityModuleType }) => {
             )}
             {moduleHelp?.description?.length > 0 && (
                 <Descriptions.Item
-                    label={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_HELP_DESCRIPTION_LABEL}
+                    label={translate('vitality.appDetailsPage.audit.helpDescription')}
                     span={2}
                 >
                     {moduleHelp.description}
@@ -60,7 +60,7 @@ const VitalityHelpView = ({ module }: { module: VitalityModuleType }) => {
             )}
             {moduleHelp?.explanation?.length > 0 && (
                 <Descriptions.Item
-                    label={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_HELP_EXPLANATION_LABEL}
+                    label={translate('vitality.appDetailsPage.audit.helpExplanation')}
                     span={2}
                 >
                     {moduleHelp.explanation}
@@ -68,7 +68,7 @@ const VitalityHelpView = ({ module }: { module: VitalityModuleType }) => {
             )}
             {module?.branch?.length > 0 && (
                 <Descriptions.Item
-                    label={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_DETECT_ON_BRANCH_LABEL}
+                    label={translate('vitality.appDetailsPage.audit.detectOnBranch')}
                     span={3}
                 >
                     {module?.branch}
@@ -76,7 +76,7 @@ const VitalityHelpView = ({ module }: { module: VitalityModuleType }) => {
             )}
             {module?.path?.length > 0 && (
                 <Descriptions.Item
-                    label={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_DETECT_ON_PATH_LABEL}
+                    label={translate('vitality.appDetailsPage.audit.detectOnPath')}
                     span={3}
                 >
                     {module?.path}

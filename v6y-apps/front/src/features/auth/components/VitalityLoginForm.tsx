@@ -1,9 +1,16 @@
 'use client';
 
-import { Button, ControlledCheckbox, ControlledInput, Form, Message, useForm } from '@v6y/ui-kit';
+import {
+    Button,
+    ControlledCheckbox,
+    ControlledInput,
+    Form,
+    Message,
+    useForm,
+    useTranslationProvider,
+} from '@v6y/ui-kit';
 import { useEffect } from 'react';
 
-import VitalityTerms from '../../../commons/config/VitalityTerms';
 import {
     LoginAccountFormType,
     loginSchemaValidator,
@@ -11,8 +18,10 @@ import {
 } from '../../../commons/hooks/useAuth';
 
 const VitalityLoginForm = () => {
+    const { translate } = useTranslationProvider();
     const [messageApi, contextHolder] = Message.useMessage();
-    const { isAuthenticationLoading, authenticationStatus, onAuthentication } = useAuthentication();
+    const { isAuthenticationLoading, authenticationStatus, onAuthentication } =
+        useAuthentication(translate);
 
     const {
         control,
@@ -35,10 +44,10 @@ const VitalityLoginForm = () => {
         } else if (authenticationStatus?.token) {
             messageApi.open({
                 type: 'success',
-                content: VitalityTerms.VITALITY_APP_LOGIN_SUCCESS_MESSAGE,
+                content: translate('vitality.loginPage.formSuccess'),
             });
         }
-    }, [authenticationStatus]);
+    }, [authenticationStatus, translate, messageApi]);
 
     return (
         <Form
@@ -51,13 +60,13 @@ const VitalityLoginForm = () => {
             {contextHolder}
 
             <Form.Item
-                label={VitalityTerms.VITALITY_APP_LOGIN_FORM_EMAIL_LABEL}
+                label={translate('vitality.loginPage.formEmail.label')}
                 validateStatus={errors.email ? 'error' : ''}
                 help={errors.email?.message}
                 rules={[
                     {
                         required: true,
-                        message: VitalityTerms.VITALITY_APP_LOGIN_FORM_EMAIL_WARNING,
+                        message: translate('vitality.loginPage.formEmail.warning'),
                     },
                 ]}
             >
@@ -66,46 +75,46 @@ const VitalityLoginForm = () => {
                     ariaLabel="Email"
                     control={control}
                     rules={{
-                        required: VitalityTerms.VITALITY_APP_LOGIN_FORM_EMAIL_WARNING,
+                        required: translate('vitality.loginPage.formEmail.warning'),
                         validate: (value: string) => {
-                            const result = loginSchemaValidator.safeParse({
+                            const result = loginSchemaValidator(translate).safeParse({
                                 email: value,
                                 password: '',
                             });
-                            return result?.success
-                                ? true
-                                : result?.error?.format?.()?.email?._errors?.[0];
+                            return (
+                                result?.success || result?.error?.format?.()?.email?._errors?.[0]
+                            );
                         },
                     }}
                 />
             </Form.Item>
 
             <Form.Item
-                label={VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_LABEL}
+                label={translate('vitality.loginPage.formPassword.label')}
                 validateStatus={errors.password ? 'error' : ''}
                 help={errors.password?.message}
                 rules={[
                     {
                         required: true,
-                        message: VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_WARNING,
+                        message: translate('vitality.loginPage.formPassword.warning'),
                     },
                 ]}
             >
                 <ControlledInput
                     name="password"
                     control={control}
-                    ariaLabel={VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_LABEL}
+                    ariaLabel={translate('vitality.loginPage.formPassword.label')}
                     type="password"
                     rules={{
-                        required: VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_WARNING,
+                        required: translate('vitality.loginPage.formPassword.warning'),
                         validate: (value: string) => {
-                            const result = loginSchemaValidator.safeParse({
+                            const result = loginSchemaValidator(translate).safeParse({
                                 email: '',
                                 password: value,
                             });
-                            return result?.success
-                                ? true
-                                : result?.error?.format?.()?.password?._errors?.[0];
+                            return (
+                                result?.success || result?.error?.format?.()?.password?._errors?.[0]
+                            );
                         },
                     }}
                 />
@@ -115,13 +124,13 @@ const VitalityLoginForm = () => {
                 <ControlledCheckbox
                     name="remember"
                     control={control}
-                    ariaLabel={VitalityTerms.VITALITY_APP_LOGIN_FORM_REMEMBER_LABEL}
+                    ariaLabel={translate('vitality.loginPage.formRemember')}
                 />
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                 <Button type="primary" htmlType="submit" loading={isAuthenticationLoading}>
-                    {VitalityTerms.VITALITY_APP_LOGIN_FORM_SUBMIT_LABEL}
+                    {translate('vitality.loginPage.formSubmit')}
                 </Button>
             </Form.Item>
         </Form>

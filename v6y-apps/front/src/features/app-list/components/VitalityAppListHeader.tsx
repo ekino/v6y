@@ -1,9 +1,16 @@
-import { Button, Col, ExportOutlined, Row, TitleView, useNavigationAdapter } from '@v6y/ui-kit';
+import {
+    Button,
+    Col,
+    ExportOutlined,
+    Row,
+    TitleView,
+    useNavigationAdapter,
+    useTranslationProvider,
+} from '@v6y/ui-kit';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
-import VitalityTerms from '../../../commons/config/VitalityTerms';
 import {
     buildClientQuery,
     useClientQuery,
@@ -52,19 +59,20 @@ const VitalityAppListHeader = ({
         setAppsTotal(dataAppsTotal?.getApplicationTotalByParams || 0);
     }, [dataAppsTotal?.getApplicationTotalByParams]);
 
+    const { translate } = useTranslationProvider();
     return (
         <Row justify="space-between" align="middle" gutter={[16, 16]}>
             <Col xs={24} sm={24} md={24} lg={10} xl={10}>
                 {appsTotal > 0 && (
                     <TitleView
-                        title={`${VitalityTerms.VITALITY_APP_LIST_TOTAL_LABEL} ${appsTotal}`}
+                        title={`${translate('vitality.appListPage.totalLabel')} ${appsTotal}`}
                         level={3}
                     />
                 )}
             </Col>
             <Col xs={24} sm={24} md={24} lg={10} xl={10}>
                 <Button icon={<ExportOutlined />} onClick={onExportApplicationsClicked}>
-                    {VitalityTerms.VITALITY_APP_LIST_EXPORT_LABEL}
+                    {translate('vitality.appListPage.exportLabel')}
                 </Button>
             </Col>
             <Col span={24} />

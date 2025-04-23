@@ -9,17 +9,18 @@ import {
     TextView,
     useNavigationAdapter,
     useThemeConfigProvider,
+    useTranslationProvider,
 } from '@v6y/ui-kit';
 import Link from 'next/link';
 import * as React from 'react';
 
 import VitalityNavigationPaths from '../../config/VitalityNavigationPaths';
-import VitalityTerms from '../../config/VitalityTerms';
 import { VitalityAppInfosProps } from '../../types/VitalityAppInfosProps';
 
 const VitalityAppInfos = ({ app, source, canOpenDetails = true }: VitalityAppInfosProps) => {
     const { currentConfig } = useThemeConfigProvider();
     const { createUrlQueryParam } = useNavigationAdapter();
+    const { translate } = useTranslationProvider();
     const queryParams = createUrlQueryParam('_id', `${app._id}`);
     const appDetailsLink = source
         ? VitalityNavigationPaths.APP_DETAILS + '?' + queryParams + '&' + 'source=' + source
@@ -46,7 +47,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true }: VitalityAppInf
                                         : qualityMetricStatus['success']
                                 }
                             >
-                                {`${VitalityTerms.VITALITY_APP_LIST_NB_BRANCHES}${appOpenedBranches}`}
+                                {`${translate('vitality.appListPage.nbBranches')}${appOpenedBranches}`}
                             </Tag>
                         </Col>
                         <Col span={24}>
@@ -76,7 +77,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true }: VitalityAppInf
                             {app.contactMail?.length && (
                                 <Link key="team-mail-contact" href={`mailto:${app.contactMail}`}>
                                     <TextView
-                                        content={VitalityTerms.VITALITY_APP_LIST_CONTACT_EMAIL}
+                                        content={translate('vitality.appListPage.contactEmail')}
                                     />
                                 </Link>
                             )}
@@ -85,7 +86,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true }: VitalityAppInf
                             {canOpenDetails && (
                                 <Link key="app-details-link" href={appDetailsLink}>
                                     <TextView
-                                        content={VitalityTerms.VITALITY_APP_LIST_OPEN_DETAILS_LABEL}
+                                        content={translate('vitality.appListPage.openDetails')}
                                         underline
                                     />
                                 </Link>

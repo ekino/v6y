@@ -8,6 +8,7 @@ import {
     LoadMoreList,
     Row,
     useNavigationAdapter,
+    useTranslationProvider,
 } from '@v6y/ui-kit';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -15,7 +16,6 @@ import { useEffect, useState } from 'react';
 import VitalityAppInfos from '../../../commons/components/application-info/VitalityAppInfos';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import { formatApplicationDataSource } from '../../../commons/config/VitalityCommonConfig';
-import VitalityTerms from '../../../commons/config/VitalityTerms';
 import { exportAppListDataToCSV } from '../../../commons/utils/VitalityDataExportUtils';
 import {
     buildClientQuery,
@@ -91,6 +91,8 @@ const VitalityAppList = ({ source }: { source?: string }) => {
         fetchAppListNextPage();
     };
 
+    const { translate } = useTranslationProvider();
+
     return (
         <Row justify="center" align="middle" gutter={[0, 24]}>
             <Col span={24}>
@@ -102,7 +104,7 @@ const VitalityAppList = ({ source }: { source?: string }) => {
                 <Col span={20}>
                     <LoadMoreList
                         isDataSourceLoading={isAppListLoading}
-                        loadMoreLabel={VitalityTerms.VITALITY_APP_LIST_LOAD_MORE_LABEL}
+                        loadMoreLabel={translate('vitality.appListPage.loadMore')}
                         dataSource={appList || []}
                         renderItem={(item: unknown) => {
                             const app = item as ApplicationType;

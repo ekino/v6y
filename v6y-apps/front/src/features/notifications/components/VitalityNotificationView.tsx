@@ -1,11 +1,11 @@
 'use client';
 
 import { NotificationType } from '@v6y/core-logic/src/types';
-import { NotificationOutlined } from '@v6y/ui-kit';
+import { NotificationOutlined, useTranslationProvider } from '@v6y/ui-kit';
+import * as React from 'react';
 
 import VitalitySectionView from '../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
-import VitalityTerms from '../../../commons/config/VitalityTerms';
 import {
     buildClientQuery,
     useClientQuery,
@@ -31,11 +31,12 @@ const VitalityNotificationView = () => {
 
     const dataSource = data?.getNotificationListByPageAndParams;
 
+    const { translate } = useTranslationProvider();
     return (
         <VitalitySectionView
             isLoading={isLoading}
             isEmpty={!dataSource?.length}
-            title={VitalityTerms.VITALITY_NOTIFICATIONS_PAGE_TITLE}
+            title={translate('vitality.notificationsPage.pageTitle')}
             description=""
             avatar={<NotificationOutlined />}
         >

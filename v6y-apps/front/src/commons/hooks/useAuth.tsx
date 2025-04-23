@@ -11,7 +11,6 @@ import {
     setSession,
 } from '../../infrastructure/providers/SessionProvider';
 import VitalityApiConfig from '../config/VitalityApiConfig';
-import VitalityTerms from '../config/VitalityTerms';
 
 export type LoginAccountType = { token: string; _id: string; role: string };
 
@@ -26,12 +25,14 @@ export type AuthenticationStatusType = {
     error?: string;
 };
 
-const loginSchemaValidator = z.object({
-    email: z.string().email({ message: VitalityTerms.VITALITY_APP_LOGIN_FORM_EMAIL_WARNING }),
-    password: z
-        .string()
-        .min(8, { message: VitalityTerms.VITALITY_APP_LOGIN_FORM_PASSWORD_WARNING }),
-});
+const loginSchemaValidator = (translate: (key: string) => string) => {
+    return z.object({
+        email: z.string().email({ message: translate('vitality.loginPage.formEmail.warning') }),
+        password: z
+            .string()
+            .min(8, { message: translate('vitality.loginPage.formPassword.warning') }),
+    });
+};
 
 const useLogin = () => {
     const auth: SessionType | null = getSession();
@@ -57,7 +58,7 @@ const useLogout = () => {
     return { onLogout };
 };
 
-const useAuthentication = () => {
+const useAuthentication = (translate: (key: string) => string) => {
     const [isAuthenticationLoading, setIsAuthenticationLoading] = useState(false);
     const [authenticationStatus, setAuthenticationStatus] = useState<
         AuthenticationStatusType | undefined
@@ -68,7 +69,7 @@ const useAuthentication = () => {
         try {
             setIsAuthenticationLoading(true);
 
-            loginSchemaValidator.safeParse({
+            loginSchemaValidator(translate).safeParse({
                 email: values.email,
                 password: values.password,
             });
@@ -91,7 +92,7 @@ const useAuthentication = () => {
             } else {
                 setAuthenticationStatus({
                     token: undefined,
-                    error: VitalityTerms.VITALITY_APP_LOGIN_ERROR_MESSAGE,
+                    error: translate('vitality.loginPage.formErrorIncorrectCreds'),
                 });
             }
         } catch (exception) {
@@ -103,7 +104,7 @@ const useAuthentication = () => {
             } else {
                 setAuthenticationStatus({
                     token: undefined,
-                    error: VitalityTerms.VITALITY_APP_LOGIN_ERROR_CONNECTION_MESSAGE,
+                    error: translate('vitality.loginPage.formErrorConnection'),
                 });
             }
         } finally {

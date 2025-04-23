@@ -1,8 +1,13 @@
-import { DynamicLoader, ModalView, PaginatedList, TitleView } from '@v6y/ui-kit';
+import {
+    DynamicLoader,
+    ModalView,
+    PaginatedList,
+    TitleView,
+    useTranslationProvider,
+} from '@v6y/ui-kit';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import VitalityTerms from '../../config/VitalityTerms';
 import { VitalityModuleType, VitalityModulesProps } from '../../types/VitalityModulesProps';
 import VitalityModuleListItem from './VitalityModuleListItem';
 
@@ -11,6 +16,7 @@ const VitalityHelpView = DynamicLoader(() => import('../help/VitalityHelpView'))
 const VitalityModuleList = ({ modules }: VitalityModulesProps) => {
     const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
     const [helpDetails, setHelpDetails] = useState<VitalityModuleType>();
+    const { translate } = useTranslationProvider();
 
     useEffect(() => {
         if (Object.keys(helpDetails || {})?.length > 0) {
@@ -36,7 +42,7 @@ const VitalityModuleList = ({ modules }: VitalityModulesProps) => {
             <ModalView
                 title={
                     <TitleView
-                        title={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_MODULE_HELP_TITLE}
+                        title={translate('vitality.appDetailsPage.audit.moduleHelpTitle')}
                         level={5}
                     />
                 }

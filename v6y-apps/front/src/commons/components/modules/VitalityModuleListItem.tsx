@@ -13,10 +13,10 @@ import {
     Statistic,
     TextView,
     useThemeConfigProvider,
+    useTranslationProvider,
 } from '@v6y/ui-kit';
 import * as React from 'react';
 
-import VitalityTerms from '../../config/VitalityTerms';
 import { VitalityModuleType } from '../../types/VitalityModulesProps';
 
 type VitalityModuleItemProps = {
@@ -26,6 +26,7 @@ type VitalityModuleItemProps = {
 
 const VitalityModuleListItem = ({ module, onModuleClicked }: VitalityModuleItemProps) => {
     const { currentConfig } = useThemeConfigProvider();
+    const { translate } = useTranslationProvider();
     const patternName =
         module.name || module.label || `${module.type ? `${module.type}-` : ''}${module.category}`;
     const moduleScore = module.score ? `${module.score || 0} ${module.scoreUnit || ''}` : '';
@@ -72,12 +73,14 @@ const VitalityModuleListItem = ({ module, onModuleClicked }: VitalityModuleItemP
                         <Space direction="vertical" size="small">
                             {module?.auditStatus === auditStatus.failure ? (
                                 <EmptyView
-                                    message={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_STATUS_FAILURE_LABEL}`}
+                                    message={translate(
+                                        'vitality.appDetailsPage.audit.statusFailure',
+                                    )}
                                 />
                             ) : (
                                 moduleScore?.length > 0 && (
                                     <Statistic
-                                        title={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_INDICATOR_SCORE_LABEL}: `}
+                                        title={`${translate('vitality.appDetailsPage.audit.indicatorScore')}: `}
                                         value={module.score || 0}
                                         suffix={module.scoreUnit || ''}
                                         valueStyle={{
@@ -98,7 +101,7 @@ const VitalityModuleListItem = ({ module, onModuleClicked }: VitalityModuleItemP
                             {(module.branch?.length || 0) > 0 && (
                                 <>
                                     <TextView
-                                        content={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_DETECT_ON_BRANCH_LABEL}: `}
+                                        content={`${translate('vitality.appDetailsPage.audit.detectOnBranch')}: `}
                                     />
                                     <TextView content={module.branch} />
                                 </>
@@ -106,7 +109,7 @@ const VitalityModuleListItem = ({ module, onModuleClicked }: VitalityModuleItemP
                             {(modulePath?.length || 0) > 0 && (
                                 <>
                                     <TextView
-                                        content={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_DETECT_ON_PATH_LABEL}: `}
+                                        content={`${translate('vitality.appDetailsPage.audit.detectOnPath')}: `}
                                     />
                                     <TextView content={modulePath} />
                                 </>

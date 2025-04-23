@@ -1,6 +1,14 @@
 'use client';
 
-import { Col, FloatButton, Layout, Row, TitleView, useNavigationAdapter } from '@v6y/ui-kit';
+import {
+    Col,
+    FloatButton,
+    Layout,
+    Row,
+    TitleView,
+    useNavigationAdapter,
+    useTranslationProvider,
+} from '@v6y/ui-kit';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
@@ -15,7 +23,8 @@ const { Header, Footer, Content } = Layout;
 
 const VitalityPageLayout = ({ children }: { children: ReactNode }) => {
     const { pathname } = useNavigationAdapter();
-    const pageTitle = buildPageTitle(pathname);
+    const { translate } = useTranslationProvider();
+    const pageTitle = buildPageTitle(pathname, translate);
 
     return (
         <Layout>
