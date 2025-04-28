@@ -9,11 +9,11 @@ import {
     TextView,
     TitleView,
     useThemeConfigProvider,
+    useTranslationProvider,
 } from '@v6y/ui-kit';
 import Link from 'next/link';
 import * as React from 'react';
 
-import VitalityTerms from '../../../../../../commons/config/VitalityTerms';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';
 
 type VitalityLighthouseReportItemProps = {
@@ -29,6 +29,8 @@ const VitalityLighthouseReportItem = ({
 
     const qualityMetricStatus = currentConfig?.status || {};
     const qualityMetricStatusIcons = currentConfig?.statusIcons || {};
+
+    const { translate } = useTranslationProvider();
 
     return (
         <Card
@@ -49,7 +51,7 @@ const VitalityLighthouseReportItem = ({
                     <Row gutter={[16, 16]} justify="center" align="middle">
                         <Col span={22}>
                             <TextView
-                                content={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_HELP_CATEGORY_LABEL}: ${report.category}`}
+                                content={`${translate('vitality.appDetailsPage.audit.helpCategory')}: ${report.category}`}
                             />
                         </Col>
                         <Col span={22}>
@@ -74,9 +76,7 @@ const VitalityLighthouseReportItem = ({
                             <Col span={22}>
                                 <Link href={report.module?.url} target="_blank">
                                     <TextView
-                                        content={
-                                            VitalityTerms.VITALITY_APP_DETAILS_AUDIT_OPEN_APP_LABEL
-                                        }
+                                        content={translate('vitality.appDetailsPage.audit.openApp')}
                                         underline
                                     />
                                 </Link>

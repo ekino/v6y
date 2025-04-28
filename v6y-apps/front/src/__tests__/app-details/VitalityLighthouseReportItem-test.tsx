@@ -24,12 +24,13 @@ describe('VitalityLighthouseReportItem', () => {
         render(<VitalityLighthouseReportItem report={report} onOpenHelpClicked={vi.fn()} />);
 
         expect(screen.getByText('Lighthouse')).toBeInTheDocument();
-        expect(screen.getByText('Category: Performance')).toBeInTheDocument();
+        expect(
+            screen.getByText('vitality.appDetailsPage.audit.helpCategory: Performance'),
+        ).toBeInTheDocument();
         expect(screen.getByTestId('mock-statistic')).toHaveTextContent('92%');
-        expect(screen.getByRole('link', { name: 'Open application' })).toHaveAttribute(
-            'href',
-            'https://example.com',
-        );
+        expect(
+            screen.getByRole('link', { name: 'vitality.appDetailsPage.audit.openApp' }),
+        ).toHaveAttribute('href', 'https://example.com');
     });
 
     it('triggers onOpenHelpClicked when info button is clicked', () => {
@@ -71,7 +72,9 @@ describe('VitalityLighthouseReportItem', () => {
         render(<VitalityLighthouseReportItem report={report} onOpenHelpClicked={vi.fn()} />);
 
         expect(screen.getByText('Lighthouse')).toBeInTheDocument();
-        expect(screen.getByText('Category: Accessibility')).toBeInTheDocument();
+        expect(
+            screen.getByText('vitality.appDetailsPage.audit.helpCategory: Accessibility'),
+        ).toBeInTheDocument();
         expect(screen.getByTestId('mock-statistic')).toHaveTextContent('0');
         expect(screen.queryByRole('link')).not.toBeInTheDocument();
     });
@@ -88,7 +91,9 @@ describe('VitalityLighthouseReportItem', () => {
 
         render(<VitalityLighthouseReportItem report={report} onOpenHelpClicked={vi.fn()} />);
 
-        expect(screen.getByText('Category: Accessibility')).toBeInTheDocument(); // Assuming default text
+        expect(
+            screen.getByText('vitality.appDetailsPage.audit.helpCategory: Accessibility'),
+        ).toBeInTheDocument(); // Assuming default text
     });
 
     it('handles extreme score values correctly', () => {

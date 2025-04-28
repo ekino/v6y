@@ -33,12 +33,8 @@ vi.mock('../../features/dashboard/components/VitalityDashboardMenu', () => ({
 describe('VitalityDashboardView', () => {
     it('renders the search bar', () => {
         render(<VitalityDashboardView />);
-        expect(screen.getByText('Search application')).toBeInTheDocument();
-        expect(
-            screen.getByText(
-                'You can search by application name, package name or keyword (eslint, maintainability, ...)',
-            ),
-        ).toBeInTheDocument();
+        expect(screen.getByText('vitality.searchPage.inputLabel')).toBeInTheDocument();
+        expect(screen.getByText('vitality.searchPage.inputHelper')).toBeInTheDocument();
         expect(screen.getByTestId('mock-search-input')).toBeInTheDocument();
     });
 

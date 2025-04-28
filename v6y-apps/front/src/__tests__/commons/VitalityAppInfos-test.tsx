@@ -29,7 +29,7 @@ describe('VitalityAppInfos', () => {
         expect(screen.getByText('Test App')).toBeInTheDocument();
         expect(screen.getByText('This is a test application.')).toBeInTheDocument();
         expect(screen.getByText('TestOrg')).toBeInTheDocument();
-        expect(screen.getByTestId('tag')).toHaveTextContent('Number of opened branches: 2');
+        expect(screen.getByTestId('tag')).toHaveTextContent('vitality.appListPage.nbBranches2');
     });
 
     it('handles missing optional fields gracefully', () => {
@@ -45,13 +45,13 @@ describe('VitalityAppInfos', () => {
     it('shows the app details link when canOpenDetails is true', () => {
         render(<VitalityAppInfos app={mockApp} canOpenDetails={true} />);
 
-        expect(screen.getByText('See Details')).toBeInTheDocument();
+        expect(screen.getByText('vitality.appListPage.openDetails')).toBeInTheDocument();
     });
 
     it('hides the app details link when canOpenDetails is false', () => {
         render(<VitalityAppInfos app={mockApp} canOpenDetails={false} />);
 
-        expect(screen.queryByText('See Details')).not.toBeInTheDocument();
+        expect(screen.queryByText('vitality.appListPage.openDetails')).not.toBeInTheDocument();
     });
 
     it('renders repository and external links correctly', () => {
@@ -98,7 +98,7 @@ describe('VitalityAppInfos', () => {
 
         render(<VitalityAppInfos app={app} />);
 
-        const emailLink = screen.getByRole('link', { name: 'Contact The Team' }); // Assuming this is the label
+        const emailLink = screen.getByRole('link', { name: 'vitality.appListPage.contactEmail' }); // Assuming this is the label
         expect(emailLink).toHaveAttribute('href', 'mailto:contact@example.com');
     });
 
@@ -107,7 +107,7 @@ describe('VitalityAppInfos', () => {
 
         render(<VitalityAppInfos app={app} />);
 
-        expect(screen.queryByText('Contact the team')).not.toBeInTheDocument();
+        expect(screen.queryByText('vitality.appListPage.contactEmail')).not.toBeInTheDocument();
     });
 
     it('displays open details link when canOpenDetails is true', () => {
@@ -115,7 +115,7 @@ describe('VitalityAppInfos', () => {
 
         render(<VitalityAppInfos app={app} canOpenDetails={true} />);
 
-        const detailsLink = screen.getByRole('link', { name: 'See Details' });
+        const detailsLink = screen.getByRole('link', { name: 'vitality.appListPage.openDetails' });
         expect(detailsLink).toBeInTheDocument();
     });
 
@@ -124,7 +124,7 @@ describe('VitalityAppInfos', () => {
 
         render(<VitalityAppInfos app={app} canOpenDetails={false} />);
 
-        expect(screen.queryByText('See Details')).not.toBeInTheDocument();
+        expect(screen.queryByText('vitality.appListPage.openDetails')).not.toBeInTheDocument();
     });
 
     it('renders multiple links correctly', () => {
@@ -152,7 +152,7 @@ describe('VitalityAppInfos', () => {
     it('renders without crashing when given an empty object', () => {
         render(<VitalityAppInfos app={{ _id: 999 }} canOpenDetails={true} />);
 
-        expect(screen.getByText('Number of opened branches: 0')).toBeInTheDocument(); // Should not throw an error
+        expect(screen.getByText('vitality.appListPage.nbBranches0')).toBeInTheDocument(); // Should not throw an error
     });
 
     it('handles repositories without organization correctly', () => {
@@ -202,7 +202,7 @@ describe('VitalityAppInfos', () => {
 
         render(<VitalityAppInfos app={app} />);
 
-        const emailLink = screen.getByRole('link', { name: 'Contact The Team' });
+        const emailLink = screen.getByRole('link', { name: 'vitality.appListPage.contactEmail' });
         expect(emailLink).toHaveAttribute('href', 'mailto:support@example.com');
     });
 });

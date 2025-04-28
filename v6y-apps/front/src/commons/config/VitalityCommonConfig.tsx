@@ -17,12 +17,12 @@ import * as React from 'react';
 import { ReactNode } from 'react';
 
 import VitalityNavigationPaths from './VitalityNavigationPaths';
-import VitalityTerms from './VitalityTerms';
 
 export interface BreadCrumbItemType {
     currentPage: string;
     lastPage: string;
     urlParams: string;
+    translate: (key: string) => string;
 }
 
 export interface DashboardItemType {
@@ -76,7 +76,7 @@ export const buildDashboardMenuItems = (themeToken: ThemeTokenType | undefined) 
         {
             autoFocus: false,
             defaultChecked: false,
-            title: VitalityTerms.VITALITY_APP_STATS_PAGE_TITLE,
+            title: 'Health statistics',
             description: 'Choose this option to see health statistics for all apps.',
             url: VitalityNavigationPaths.APPS_STATS,
             avatar: <PieChartOutlined />,
@@ -94,8 +94,17 @@ export const AUDIT_REPORT_TYPES = {
     dora: 'DORA',
 };
 
-export const buildBreadCrumbItems = ({ currentPage, lastPage, urlParams }: BreadCrumbItemType) => {
-    const dashboardLink = <Link href={VitalityNavigationPaths.DASHBOARD}>Dashboard</Link>;
+export const buildBreadCrumbItems = ({
+    currentPage,
+    lastPage,
+    urlParams,
+    translate,
+}: BreadCrumbItemType) => {
+    const dashboardLink = (
+        <Link href={VitalityNavigationPaths.DASHBOARD}>
+            {translate('vitality.dashboardPage.shortTitle')}
+        </Link>
+    );
 
     const sourceParams =
         (urlParams || '')
@@ -104,17 +113,17 @@ export const buildBreadCrumbItems = ({ currentPage, lastPage, urlParams }: Bread
             .join('&') || '';
     const appListLink = (
         <Link href={VitalityNavigationPaths.APP_LIST + '?' + sourceParams}>
-            {VitalityTerms.VITALITY_APP_LIST_PAGE_TITLE}
+            {translate('vitality.appListPage.shortTitle')}
         </Link>
     );
     const appsStatsLink = (
         <Link href={VitalityNavigationPaths.APPS_STATS + '?' + sourceParams}>
-            {VitalityTerms.VITALITY_APP_STATS_PAGE_TITLE}
+            {translate('vitality.appStatsPage.shortTitle')}
         </Link>
     );
     const searchLink = (
         <Link href={VitalityNavigationPaths.SEARCH + '?' + sourceParams}>
-            {VitalityTerms.VITALITY_SEARCH_PAGE_TITLE}
+            {translate('vitality.searchPage.shortTitle')}
         </Link>
     );
 
@@ -137,7 +146,7 @@ export const buildBreadCrumbItems = ({ currentPage, lastPage, urlParams }: Bread
                         .otherwise(() => appListLink),
                 },
                 {
-                    title: <Link href="">{VitalityTerms.VITALITY_APP_DETAILS_PAGE_TITLE}</Link>,
+                    title: <Link href="">{translate('vitality.appDetailsPage.shortTitle')}</Link>,
                 },
             ],
             [VitalityNavigationPaths.DASHBOARD]: [],
@@ -146,7 +155,7 @@ export const buildBreadCrumbItems = ({ currentPage, lastPage, urlParams }: Bread
                     title: dashboardLink,
                 },
                 {
-                    title: <Link href="">{VitalityTerms.VITALITY_APP_LIST_PAGE_TITLE}</Link>,
+                    title: <Link href="">{translate('vitality.appListPage.shortTitle')}</Link>,
                 },
             ],
             [VitalityNavigationPaths.FAQ]: [
@@ -154,7 +163,7 @@ export const buildBreadCrumbItems = ({ currentPage, lastPage, urlParams }: Bread
                     title: dashboardLink,
                 },
                 {
-                    title: <Link href="">{VitalityTerms.VITALITY_FAQ_PAGE_TITLE}</Link>,
+                    title: <Link href="">{translate('vitality.faqPage.shortTitle')}</Link>,
                 },
             ],
             [VitalityNavigationPaths.NOTIFICATIONS]: [
@@ -162,7 +171,9 @@ export const buildBreadCrumbItems = ({ currentPage, lastPage, urlParams }: Bread
                     title: dashboardLink,
                 },
                 {
-                    title: <Link href="">{VitalityTerms.VITALITY_NOTIFICATIONS_PAGE_TITLE}</Link>,
+                    title: (
+                        <Link href="">{translate('vitality.notificationsPage.shortTitle')}</Link>
+                    ),
                 },
             ],
             [VitalityNavigationPaths.APPS_STATS]: [
@@ -170,7 +181,7 @@ export const buildBreadCrumbItems = ({ currentPage, lastPage, urlParams }: Bread
                     title: dashboardLink,
                 },
                 {
-                    title: <Link href="">{VitalityTerms.VITALITY_APP_STATS_PAGE_TITLE}</Link>,
+                    title: <Link href="">{translate('vitality.appStatsPage.shortTitle')}</Link>,
                 },
             ],
             [VitalityNavigationPaths.SEARCH]: [
@@ -178,20 +189,23 @@ export const buildBreadCrumbItems = ({ currentPage, lastPage, urlParams }: Bread
                     title: dashboardLink,
                 },
                 {
-                    title: <Link href="">{VitalityTerms.VITALITY_SEARCH_PAGE_TITLE}</Link>,
+                    title: <Link href="">{translate('vitality.searchPage.shortTitle')}</Link>,
                 },
             ],
         }[currentPage] || []
     );
 };
 
-export const buildPageTitle = (pathname: string) =>
-    ({
-        [VitalityNavigationPaths.DASHBOARD]: VitalityTerms.VITALITY_DASHBOARD_PAGE_TITLE,
-        [VitalityNavigationPaths.APP_LIST]: VitalityTerms.VITALITY_APP_LIST_PAGE_TITLE,
-        [VitalityNavigationPaths.APP_DETAILS]: VitalityTerms.VITALITY_APP_DETAILS_PAGE_TITLE,
-        [VitalityNavigationPaths.APPS_STATS]: VitalityTerms.VITALITY_APP_STATS_PAGE_TITLE,
-    })[pathname] || [];
+export const buildPageTitle = (pathname: string, translate: (key: string) => string) => {
+    return (
+        {
+            [VitalityNavigationPaths.DASHBOARD]: translate('vitality.dashboardPage.pageTitle'),
+            [VitalityNavigationPaths.APP_LIST]: translate('vitality.appListPage.pageTitle'),
+            [VitalityNavigationPaths.APP_DETAILS]: translate('vitality.appDetailsPage.pageTitle'),
+            [VitalityNavigationPaths.APPS_STATS]: translate('vitality.appStatsPage.pageTitle'),
+        }[pathname] || []
+    );
+};
 
 export const formatApplicationDataSource = (
     pagedData: Array<{ getApplicationListByPageAndParams: ApplicationType }>,

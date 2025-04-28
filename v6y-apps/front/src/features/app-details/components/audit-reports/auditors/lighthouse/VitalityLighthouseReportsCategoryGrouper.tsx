@@ -1,9 +1,15 @@
 import { AuditType } from '@v6y/core-logic/src/types';
-import { DynamicLoader, List, ModalView, PaginatedList, TitleView } from '@v6y/ui-kit';
+import {
+    DynamicLoader,
+    List,
+    ModalView,
+    PaginatedList,
+    TitleView,
+    useTranslationProvider,
+} from '@v6y/ui-kit';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import VitalityTerms from '../../../../../../commons/config/VitalityTerms';
 import useDataGrouper from '../../../../../../commons/hooks/useDataGrouper';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';
 import VitalityLighthouseReportItem from './VitalityLighthouseReportItem';
@@ -30,6 +36,8 @@ const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditT
         }
     }, [helpDetails]);
 
+    const { translate } = useTranslationProvider();
+
     return (
         <>
             <PaginatedList
@@ -51,7 +59,7 @@ const VitalityLighthouseReportsCategoryGrouper = ({ reports }: { reports: AuditT
             <ModalView
                 title={
                     <TitleView
-                        title={VitalityTerms.VITALITY_APP_DETAILS_AUDIT_MODULE_HELP_TITLE}
+                        title={translate('vitality.appDetailsPage.audit.moduleHelpTitle')}
                         level={5}
                     />
                 }

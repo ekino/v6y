@@ -1,6 +1,6 @@
 'use client';
 
-import { Menu } from '@v6y/ui-kit';
+import { LanguageMenu, Menu, Space } from '@v6y/ui-kit';
 import * as React from 'react';
 import { useState } from 'react';
 
@@ -17,12 +17,15 @@ const VitalityPageHeaderMenu = () => {
     };
 
     return (
-        <Menu
-            mode="horizontal"
-            items={buildVitalityHeaderMenuItems(isLoggedIn, onLogout)}
-            onClick={onMenuClicked}
-            selectedKeys={[currentSelectedMenu]}
-        />
+        <Space size="middle" align="center">
+            <LanguageMenu />
+            <Menu
+                mode="horizontal"
+                items={buildVitalityHeaderMenuItems(isLoggedIn, onLogout)}
+                onClick={onMenuClicked}
+                selectedKeys={[currentSelectedMenu]}
+            />
+        </Space>
     );
 };
 

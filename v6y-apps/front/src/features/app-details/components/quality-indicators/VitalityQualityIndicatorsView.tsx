@@ -1,10 +1,14 @@
 import { KeywordType } from '@v6y/core-logic/src/types';
-import { CompassOutlined, DynamicLoader, useNavigationAdapter } from '@v6y/ui-kit';
+import {
+    CompassOutlined,
+    DynamicLoader,
+    useNavigationAdapter,
+    useTranslationProvider,
+} from '@v6y/ui-kit';
 import * as React from 'react';
 
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
-import VitalityTerms from '../../../../commons/config/VitalityTerms';
 import { exportAppQualityIndicatorsToCSV } from '../../../../commons/utils/VitalityDataExportUtils';
 import {
     buildClientQuery,
@@ -52,13 +56,15 @@ const VitalityQualityIndicatorsView = () => {
         exportAppQualityIndicatorsToCSV(dataSource);
     };
 
+    const { translate } = useTranslationProvider();
+
     return (
         <VitalitySectionView
             isLoading={isQualityIndicatorsLoading}
             isEmpty={!dataSource?.length}
-            title={VitalityTerms.VITALITY_APP_DETAILS_QUALITY_STATUS_TITLE}
+            title={translate('vitality.appDetailsPage.qualityStatus.title')}
             avatar={<CompassOutlined />}
-            exportButtonLabel={VitalityTerms.VITALITY_APP_DETAILS_QUALITY_INDICATORS_EXPORT_LABEL}
+            exportButtonLabel={translate('vitality.appDetailsPage.qualityStatus.exportLabel')}
             onExportClicked={onExportClicked}
         >
             <VitalityQualityIndicatorBranchGrouper indicators={dataSource} />

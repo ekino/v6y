@@ -1,10 +1,14 @@
 import { DependencyType } from '@v6y/core-logic/src/types';
-import { DynamicLoader, ProductOutlined, useNavigationAdapter } from '@v6y/ui-kit';
+import {
+    DynamicLoader,
+    ProductOutlined,
+    useNavigationAdapter,
+    useTranslationProvider,
+} from '@v6y/ui-kit';
 import * as React from 'react';
 
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
-import VitalityTerms from '../../../../commons/config/VitalityTerms';
 import { exportAppDependenciesToCSV } from '../../../../commons/utils/VitalityDataExportUtils';
 import {
     buildClientQuery,
@@ -58,13 +62,15 @@ const VitalityDependenciesView = ({}) => {
         exportAppDependenciesToCSV(dependencies as DependencyType[]);
     };
 
+    const { translate } = useTranslationProvider();
+
     return (
         <VitalitySectionView
             isLoading={isAppDetailsDependenciesLoading}
             isEmpty={!dependencies?.length}
-            title={VitalityTerms.VITALITY_APP_DETAILS_DEPENDENCIES_TITLE}
+            title={translate('vitality.appDetailsPage.dependencies.title')}
             avatar={<ProductOutlined />}
-            exportButtonLabel={VitalityTerms.VITALITY_APP_DETAILS_DEPENDENCIES_EXPORT_LABEL}
+            exportButtonLabel={translate('vitality.appDetailsPage.dependencies.exportLabel')}
             onExportClicked={onExportClicked}
         >
             <VitalityDependenciesBranchGrouper dependencies={dependencies || []} />

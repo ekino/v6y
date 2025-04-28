@@ -1,0 +1,101 @@
+{
+  "vitality": {
+    "searchPage": {
+      "shortTitle": "recherche",
+      "inputHelper": "Vous pouvez rechercher par nom d'application, nom de package ou mot-clé (eslint, maintenabilité, ...)",
+      "inputPlaceholder": "Motif de recherche",
+      "inputLabel": "Recherche d'application"
+    },
+    "dashboardPage": {
+      "menuTitle": "Choisissez une option pour afficher les applications pertinentes",
+      "pageTitle": "Vitality : Maintenir votre base de code saine et performante",
+      "shortTitle": "tableau de bord"
+    },
+    "appListPage": {
+      "loadMore": "Cliquez pour charger plus d'applications",
+      "openDetails": "Voir les détails",
+      "shortTitle": "applications",
+      "pageTitle": "Applications Vitality",
+      "totalLabel": "TOTAL Applications: ",
+      "exportLabel": "Exporter les applications",
+      "contactEmail": " Contacter l'équipe",
+      "nbBranches": "Nombre de branches ouvertes : "
+    },
+    "appDetailsPage": {
+      "pageTitle": "Détail de l'application",
+      "shortTitle": "détail de l'application",
+      "qualityStatus": {
+        "title": "Indicateurs de qualité",
+        "exportLabel": "Exporter les indicateurs de qualité",
+        "selectLabel": "Sélectionner une branche",
+        "selectHelper": "Sélectionnez une branche pour filtrer les indicateurs de qualité",
+        "selectPlaceholder": "Tous"
+      },
+      "infos": {
+        "title": "Informations générales",
+        "exportLabel": "Exporter les informations de l'application"
+      },
+      "evolutions": {
+        "title": "Recommandations et évolutions",
+        "exportLabel": "Exporter les évolutions",
+        "selectLabel": "Sélectionner une branche",
+        "selectHelper": "Sélectionnez une branche pour filtrer les évolutions",
+        "selectPlaceholder": "Tous"
+      },
+      "dependencies": {
+        "title": "Analyse des dépendances",
+        "exportLabel": "Exporter les dépendances",
+        "selectLabel": "Sélectionner une branche",
+        "selectHelper": "Sélectionnez une branche pour filtrer les dépendances",
+        "selectPlaceholder": "Tous"
+      },
+      "audit": {
+        "reportsTitle": "Rapports d'audit",
+        "exportLabel": "Exporter les rapports d'audit",
+        "statusFailure": "Audit échoué",
+        "selectLabel": "Sélectionner une branche",
+        "selectHelper": "Sélectionnez une branche pour filtrer les métriques",
+        "selectPlaceholder": "Tous",
+        "moduleHelpTitle": "Plus de détails sur les modules",
+        "detectOnBranch": "Branche affectée",
+        "detectOnPath": "Fichier/module affecté",
+        "indicatorScore": "Score de l'indicateur",
+        "openApp": "Ouvrir l'application",
+        "helpTitle": "Plus de détails sur les métriques et problèmes",
+        "helpCategory": "Catégorie",
+        "helpTitleLabel": "Titre",
+        "helpDescription": "Description",
+        "helpExplanation": "Explication"
+      }
+    },
+    "appStatsPage": {
+      "pageTitle": "Statistiques de santé",
+      "graphTitle": "Statistiques de santé",
+      "shortTitle": "statistiques de santé",
+      "graphEmptyMessage": "Vous devez sélectionner un filtre pour afficher les statistiques !"
+    },
+    "faqPage": {
+      "pageTitle": "Questions fréquentes",
+      "shortTitle": "faq"
+    },
+    "notificationsPage": {
+      "pageTitle": "Notifications",
+      "shortTitle": "notifications"
+    },
+    "loginPage": {
+      "formEmail": {
+        "label": "Email",
+        "warning": "Veuillez entrer une adresse e-mail valide"
+      },
+      "formPassword": {
+        "label": "Mot de passe",
+        "warning": "Veuillez entrer un mot de passe valide"
+      },
+      "formErrorIncorrectCreds": "Identifiants incorrects",
+      "formErrorConnection": "Erreur de connexion",
+      "formSuccess": "Connexion réussie",
+      "formRemember": "Se souvenir de moi",
+      "formSubmit": "Connexion"
+    }
+  }
+}

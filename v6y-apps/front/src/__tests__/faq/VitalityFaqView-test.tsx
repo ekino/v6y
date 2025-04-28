@@ -73,7 +73,7 @@ describe('VitalityFaqView', () => {
         render(<VitalityFaqView />);
 
         await waitFor(() => {
-            expect(screen.getByText('Frequent Questions')).toBeInTheDocument();
+            expect(screen.getByText('vitality.faqPage.pageTitle')).toBeInTheDocument();
             expect(
                 screen.getByText((content) => content.includes('How to use Vitality?')),
             ).toBeInTheDocument();

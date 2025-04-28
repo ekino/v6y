@@ -9,10 +9,10 @@ import {
     TextView,
     TitleView,
     useThemeConfigProvider,
+    useTranslationProvider,
 } from '@v6y/ui-kit';
 import * as React from 'react';
 
-import VitalityTerms from '../../../../../../commons/config/VitalityTerms';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';
 
 type VitalityDoraReportItemProps = {
@@ -24,6 +24,7 @@ const VitalityDoraReportItem = ({ report, onOpenHelpClicked }: VitalityDoraRepor
     const { currentConfig } = useThemeConfigProvider();
     const qualityMetricStatus = currentConfig?.status || {};
     const qualityMetricStatusIcons = currentConfig?.statusIcons || {};
+    const { translate } = useTranslationProvider();
 
     return (
         <Card
@@ -44,7 +45,7 @@ const VitalityDoraReportItem = ({ report, onOpenHelpClicked }: VitalityDoraRepor
                     <Row gutter={[16, 16]} justify="center" align="middle">
                         <Col span={22}>
                             <TextView
-                                content={`${VitalityTerms.VITALITY_APP_DETAILS_AUDIT_HELP_CATEGORY_LABEL}: ${report.category}`}
+                                content={`${translate('vitality.appDetailsPage.audit.helpCategory')}: ${report.category}`}
                             />
                         </Col>
                         <Col span={22}>
@@ -53,13 +54,13 @@ const VitalityDoraReportItem = ({ report, onOpenHelpClicked }: VitalityDoraRepor
                                 suffix={report.scoreUnit || ''}
                                 valueStyle={{
                                     color: qualityMetricStatus[
-                                        (report.status as keyof typeof qualityMetricStatus) ||
+                                        (report.scoreStatus as keyof typeof qualityMetricStatus) ||
                                             'default'
                                     ],
                                 }}
                                 prefix={
                                     qualityMetricStatusIcons[
-                                        (report.status as keyof typeof qualityMetricStatusIcons) ||
+                                        (report.scoreStatus as keyof typeof qualityMetricStatusIcons) ||
                                             'default'
                                     ]
                                 }

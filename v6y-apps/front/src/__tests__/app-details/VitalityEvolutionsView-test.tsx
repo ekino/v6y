@@ -55,7 +55,9 @@ describe('VitalityEvolutionsView', () => {
         render(<VitalityEvolutionsView />);
 
         await waitFor(() => {
-            expect(screen.getByText('Recommendations and Evolutions')).toBeInTheDocument();
+            expect(
+                screen.getByText('vitality.appDetailsPage.evolutions.title'),
+            ).toBeInTheDocument();
             expect(screen.getByText('Dark Mode')).toBeInTheDocument();
         });
     });
@@ -192,7 +194,9 @@ describe('VitalityEvolutionsView', () => {
 
         await waitFor(() => {
             expect(screen.getAllByRole('option')).toHaveLength(4);
-            expect(screen.getAllByRole('option')[0]).toHaveTextContent('All');
+            expect(screen.getAllByRole('option')[0]).toHaveTextContent(
+                'vitality.appDetailsPage.evolutions.selectPlaceholder',
+            );
             expect(screen.getAllByRole('option')[1]).toHaveTextContent('All');
             expect(screen.getAllByRole('option')[2]).toHaveTextContent('i18n');
             expect(screen.getAllByRole('option')[3]).toHaveTextContent('ui-update');

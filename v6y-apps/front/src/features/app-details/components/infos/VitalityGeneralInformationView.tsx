@@ -1,10 +1,14 @@
 import { ApplicationType } from '@v6y/core-logic/src/types';
-import { DynamicLoader, InfoOutlined, useNavigationAdapter } from '@v6y/ui-kit';
+import {
+    DynamicLoader,
+    InfoOutlined,
+    useNavigationAdapter,
+    useTranslationProvider,
+} from '@v6y/ui-kit';
 import * as React from 'react';
 
 import VitalitySectionView from '../../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
-import VitalityTerms from '../../../../commons/config/VitalityTerms';
 import { exportAppDetailsDataToCSV } from '../../../../commons/utils/VitalityDataExportUtils';
 import {
     buildClientQuery,
@@ -46,14 +50,15 @@ const VitalityGeneralInformationView = ({}) => {
         exportAppDetailsDataToCSV(appInfos as ApplicationType);
     };
 
+    const { translate } = useTranslationProvider();
     return (
         <VitalitySectionView
             isLoading={isAppDetailsInfosLoading}
             isEmpty={!appInfos?.name?.length || !appInfos?.acronym?.length}
-            title={VitalityTerms.VITALITY_APP_DETAILS_INFOS_TITLE}
+            title={translate('vitality.appDetailsPage.infos.title')}
             description=""
             avatar={<InfoOutlined />}
-            exportButtonLabel={VitalityTerms.VITALITY_APP_DETAILS_INFOS_EXPORT_LABEL}
+            exportButtonLabel={translate('vitality.appDetailsPage.infos.exportLabel')}
             onExportClicked={onExportClicked}
         >
             {appInfos && <VitalityAppInfos app={appInfos} canOpenDetails={false} />}

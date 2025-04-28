@@ -38,12 +38,8 @@ describe('VitalityAppListView', () => {
 
     it('renders search bar, selectable indicators, and app list', async () => {
         render(<VitalityAppListView />);
-        expect(screen.getByText('Search application')).toBeInTheDocument();
-        expect(
-            screen.getByText(
-                'You can search by application name, package name or keyword (eslint, maintainability, ...)',
-            ),
-        ).toBeInTheDocument();
+        expect(screen.getByText('vitality.searchPage.inputLabel')).toBeInTheDocument();
+        expect(screen.getByText('vitality.searchPage.inputHelper')).toBeInTheDocument();
         expect(screen.getByTestId('mock-search-input')).toBeInTheDocument();
     });
 
@@ -98,7 +94,7 @@ describe('VitalityAppListView', () => {
         render(<VitalityAppListHeader onExportApplicationsClicked={vi.fn()} />);
 
         await waitFor(() => {
-            expect(screen.getByText('TOTAL Applications: 25')).toBeInTheDocument();
+            expect(screen.getByText('vitality.appListPage.totalLabel 25')).toBeInTheDocument();
         });
     });
 });

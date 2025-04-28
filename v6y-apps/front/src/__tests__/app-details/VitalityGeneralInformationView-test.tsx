@@ -57,7 +57,7 @@ describe('VitalityGeneralInformationView', () => {
         await waitFor(() => {
             expect(screen.getByText('Vitality App')).toBeInTheDocument();
             expect(screen.getByText('A powerful application for testing.')).toBeInTheDocument();
-            expect(screen.getByText('Number of opened branches: 2')).toBeInTheDocument();
+            expect(screen.getByText('vitality.appListPage.nbBranches2')).toBeInTheDocument();
             expect(screen.getByText('Vitality Org')).toBeInTheDocument();
             expect(screen.getByText('Website')).toBeInTheDocument();
             expect(screen.getByText('Documentation')).toBeInTheDocument();

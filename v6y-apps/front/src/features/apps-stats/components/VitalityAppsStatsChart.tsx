@@ -1,10 +1,16 @@
 import { KeywordStatsType } from '@v6y/core-logic/src/types';
-import { Charts, Col, LoaderView, Row, useNavigationAdapter } from '@v6y/ui-kit';
+import {
+    Charts,
+    Col,
+    LoaderView,
+    Row,
+    useNavigationAdapter,
+    useTranslationProvider,
+} from '@v6y/ui-kit';
 import * as React from 'react';
 import { useEffect } from 'react';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
-import VitalityTerms from '../../../commons/config/VitalityTerms';
 import {
     buildClientQuery,
     useClientQuery,
@@ -18,6 +24,7 @@ interface VitalityAppsStatsQueryType {
 }
 
 const VitalityAppsStatsChart = () => {
+    const { translate } = useTranslationProvider();
     const { getUrlParams } = useNavigationAdapter();
     const [keywords] = getUrlParams(['keywords']);
 
@@ -59,7 +66,7 @@ const VitalityAppsStatsChart = () => {
                         theme: 'ag-vivid-dark',
                         data: chartDataSource,
                         title: {
-                            text: VitalityTerms.VITALITY_APP_STATS_GRAPH_TITLE,
+                            text: translate('vitality.appStatsPage.stats.graphTitle'),
                         },
                         series: [
                             {
@@ -70,7 +77,7 @@ const VitalityAppsStatsChart = () => {
                         ],
                         overlays: {
                             noData: {
-                                text: VitalityTerms.VITALITY_APP_STATS_GRAPH_EMPTY_MESSAGE,
+                                text: translate('vitality.appStatsPage.stats.graphEmptyMessage'),
                             },
                         },
                     }}

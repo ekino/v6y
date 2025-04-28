@@ -1,0 +1,101 @@
+{
+  "vitality": {
+    "searchPage": {
+      "shortTitle": "search",
+      "inputHelper": "You can search by application name, package name or keyword (eslint, maintainability, ...)",
+      "inputPlaceholder": "Search pattern",
+      "inputLabel": "Search application"
+    },
+    "dashboardPage": {
+      "menuTitle": "Choose an option to view the relevant applications",
+      "pageTitle": "Vitality: Keeping Your Codebase Healthy and High-Performing",
+      "shortTitle": "dashboard"
+    },
+    "appListPage": {
+      "loadMore": "Click to load more applications",
+      "openDetails": "See Details",
+      "pageTitle": "Applications Vitality",
+      "totalLabel": "Total Applications: ",
+      "exportLabel": "Export Applications",
+      "contactEmail": " Contact The Team",
+      "nbBranches": "Number of opened branches: ",
+      "shortTitle": "applications"
+    },
+    "appDetailsPage": {
+      "pageTitle": "Application details",
+      "shortTitle": "application details",
+      "qualityStatus": {
+        "title": "Quality Indicators",
+        "exportLabel": "Export Quality Indicators",
+        "selectLabel": "Select a branch",
+        "selectHelper": "Select a branch to filter quality indicators",
+        "selectPlaceholder": "All"
+      },
+      "infos": {
+        "title": "General Information",
+        "exportLabel": "Export General Information"
+      },
+      "evolutions": {
+        "title": "Recommendations and Evolutions",
+        "exportLabel": "Export Evolutions",
+        "selectLabel": "Select a branch",
+        "selectHelper": "Select a branch to filter evolutions",
+        "selectPlaceholder": "All"
+      },
+      "dependencies": {
+        "title": "Dependencies analysis",
+        "exportLabel": "Export Dependencies",
+        "selectLabel": "Select a branch",
+        "selectHelper": "Select a branch to filter dependencies",
+        "selectPlaceholder": "All"
+      },
+      "audit": {
+        "reportsTitle": "Audit reports",
+        "exportLabel": "Export Audit Reports",
+        "statusFailure": "Audit failed",
+        "selectLabel": "Select a branch",
+        "selectHelper": "Select a branch to filter metrics",
+        "selectPlaceholder": "All",
+        "moduleHelpTitle": "More details about modules",
+        "detectOnBranch": "Affected branch",
+        "detectOnPath": "Affected file/module",
+        "indicatorScore": "Indicator score",
+        "openApp": "Open application",
+        "helpTitle": "More details about metrics and issues",
+        "helpCategory": "Category",
+        "helpTitleLabel": "Title",
+        "helpDescription": "Description",
+        "helpExplanation": "Explanation"
+      }
+    },
+    "appStatsPage": {
+      "pageTitle": "Health statistics",
+      "graphTitle": "Health statistics",
+      "shortTitle": "health statistics",
+      "graphEmptyMessage": "You should select a filter to display statistics!"
+    },
+    "faqPage": {
+      "pageTitle": "Frequent Questions",
+      "shortTitle": "faq"
+    },
+    "notificationsPage": {
+      "pageTitle": "Notifications",
+      "shortTitle": "notifications"
+    },
+    "loginPage": {
+      "formEmail": {
+        "label": "Email",
+        "warning": "Please enter a valid email address"
+      },
+      "formPassword": {
+        "label": "Password",
+        "warning": "Please enter a valid password"
+      },
+      "formErrorIncorrectCreds": "Incorrect credentials",
+      "formErrorConnection": "Connection error",
+      "formSuccess": "Successful connection",
+      "formRemember": "Remember me",
+      "formSubmit": "Login"
+    }
+  }
+}
