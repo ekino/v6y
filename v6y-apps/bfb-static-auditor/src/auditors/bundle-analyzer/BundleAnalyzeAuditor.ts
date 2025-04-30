@@ -1,4 +1,4 @@
-import { AppLogger } from '@v6y/core-logic';
+import { AppLogger, AuditProvider } from '@v6y/core-logic';
 
 import { AuditCommonsType } from '../types/AuditCommonsType.ts';
 import BundleAnalyzeUtils from './BundleAnalyzeUtils.ts';
@@ -27,6 +27,11 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: AuditCom
         const auditReports = await formatBundleAnalyzeReports({ workspaceFolder, applicationId });
         AppLogger.info(
             `[BundleAnalyzeAuditor - startAuditorAnalysis] auditReports:  ${auditReports}`,
+        );
+
+        await AuditProvider.insertAuditList(auditReports);
+        AppLogger.info(
+            `[BundleAnalyzeAuditor - startAuditorAnalysis] audit reports inserted successfully`,
         );
     } catch (error) {
         AppLogger.error(

@@ -2,6 +2,7 @@ import crypto from 'crypto';
 import fs from 'fs-extra';
 import { globbySync } from 'globby';
 import lodash from 'lodash';
+import { detect as pmDetect } from 'package-manager-detector/detect';
 import path from 'path';
 import unixify from 'unixify';
 
@@ -450,13 +451,15 @@ const isFrontend = (module: string): boolean => {
  * @param {Array} frontendModules
  * @return {*[]}
  */
-
 const getFrontendDirectories = (directory: string, frontendModules: string[]): string[] => {
     try {
         const files = fs.readdirSync(directory);
-        AppLogger.info(`[AuditUtils - getFrontendDirectories] files: ${files?.length}`);
+        //AppLogger.info(`[AuditUtils - getFrontendDirectories] files: ${files?.length}`);
         frontendModules = frontendModules || [];
         files.forEach(function (module) {
+            if (module === 'node_modules') {
+                return; // Skip node_modules
+            }
             const modulePath = path.join(directory, module);
             if (fs.statSync(modulePath).isDirectory()) {
                 try {
@@ -471,12 +474,68 @@ const getFrontendDirectories = (directory: string, frontendModules: string[]): s
                 }
             }
         });
-        AppLogger.info(`[AuditUtils - getFrontendDirectories] frontendFiles: ${frontendModules}`);
+        //AppLogger.info(`[AuditUtils - getFrontendDirectories] frontendFiles: ${frontendModules}`);
 
         return frontendModules;
     } catch (error) {
         AppLogger.info(`[AuditUtils - getFrontendDirectories] error:  ${error}`);
         return [];
+    }
+};
+
+/**
+ * Get package manager
+ * @param {string} directory
+ * @return {string}
+ */
+const getPackageManager = async (directory: string): Promise<string | null> => {
+    try {
+        AppLogger.info(`[AuditUtils - getPackageManager] directory: ${directory}`);
+        const packageManager = await pmDetect({
+            cwd: directory,
+        });
+
+        if (!packageManager) {
+            return null;
+        }
+
+        const packageManagerName = packageManager?.name;
+        AppLogger.info(
+            `[AuditUtils - getPackageManager] packageManagerName: ${packageManagerName}`,
+        );
+        return packageManagerName;
+    } catch (error) {
+        AppLogger.info(`[AuditUtils - getPackageManager] error:  ${error}`);
+        return null;
+    }
+};
+
+/**
+ * Get bundler
+ * @param {string} directory
+ * @return {string}
+ */
+const getBundler = async (directory: string): Promise<string | null> => {
+    try {
+        const configs = [
+            { pattern: /^webpack\.config\.(js|mjs|cjs|ts)$/, bundler: 'webpack' },
+            { pattern: /^next\.config\.(js|mjs|cjs|ts)$/, bundler: 'next' },
+            { pattern: /^vite\.config\.(js|mjs|cjs|ts)$/, bundler: 'vite' },
+            { pattern: /^rspack\.config\.(js|mjs|cjs|ts)$/, bundler: 'rspack' },
+        ];
+
+        const files = fs.readdirSync(directory);
+
+        for (const { pattern, bundler } of configs) {
+            if (files.some((file) => pattern.test(file))) {
+                return bundler;
+            }
+        }
+
+        return null;
+    } catch (error) {
+        AppLogger.info(`[AuditUtils - getBundler] error:  ${error}`);
+        return null;
     }
 };
 
@@ -492,6 +551,8 @@ const AuditUtils = {
     deleteAuditFile,
     getAuditEligibleFiles,
     getFilesRecursively,
+    getPackageManager,
+    getBundler,
     getFrontendDirectories,
     findCommonBase,
     patternToFile,

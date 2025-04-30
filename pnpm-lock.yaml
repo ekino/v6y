@@ -957,6 +957,9 @@ importers:
       morgan:
         specifier: '=1.10.0'
         version: 1.10.0
+      package-manager-detector:
+        specifier: ^1.2.0
+        version: 1.2.0
       passport:
         specifier: '=0.7.0'
         version: 0.7.0
@@ -8149,6 +8152,9 @@ packages:
 
   package-manager-detector@0.1.2:
     resolution: {integrity: sha512-iePyefLTOm2gEzbaZKSW+eBMjg+UYsQvUKxmvGXAQ987K16efBg10MxIjZs08iyX+DY2/owKY9DIdu193kX33w==}
+
+  package-manager-detector@1.2.0:
+    resolution: {integrity: sha512-PutJepsOtsqVfUsxCzgTTpyXmiAgvKptIgY4th5eq5UXXFhj5PxfQ9hnGkypMeovpAvVshFRItoFHYO18TCOqA==}
 
   pandemonium@1.5.0:
     resolution: {integrity: sha512-9PU9fy93rJhZHLMjX+4M1RwZPEYl6g7DdWKGmGNhkgBZR5+tOBVExNZc00kzdEGMxbaAvWdQy9MqGAScGwYlcA==}
@@ -18665,6 +18671,8 @@ snapshots:
   package-json-from-dist@1.0.1: {}
 
   package-manager-detector@0.1.2: {}
+
+  package-manager-detector@1.2.0: {}
 
   pandemonium@1.5.0: {}
 
