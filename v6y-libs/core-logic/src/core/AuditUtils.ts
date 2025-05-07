@@ -453,12 +453,12 @@ const isFrontend = (module: string): boolean => {
  */
 const getFrontendDirectories = (directory: string, frontendModules: string[]): string[] => {
     try {
+        const exceptions = ['node_modules', 'dist', 'build', 'out', 'target', '.next', 'outDir'];
         const files = fs.readdirSync(directory);
-        //AppLogger.info(`[AuditUtils - getFrontendDirectories] files: ${files?.length}`);
         frontendModules = frontendModules || [];
         files.forEach(function (module) {
-            if (module === 'node_modules') {
-                return; // Skip node_modules
+            if (exceptions.includes(module)) {
+                return;
             }
             const modulePath = path.join(directory, module);
             if (fs.statSync(modulePath).isDirectory()) {
@@ -474,7 +474,6 @@ const getFrontendDirectories = (directory: string, frontendModules: string[]): s
                 }
             }
         });
-        //AppLogger.info(`[AuditUtils - getFrontendDirectories] frontendFiles: ${frontendModules}`);
 
         return frontendModules;
     } catch (error) {

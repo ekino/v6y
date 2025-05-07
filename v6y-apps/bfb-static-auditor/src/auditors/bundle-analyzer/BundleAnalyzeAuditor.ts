@@ -25,9 +25,6 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: AuditCom
         }
 
         const auditReports = await formatBundleAnalyzeReports({ workspaceFolder, applicationId });
-        AppLogger.info(
-            `[BundleAnalyzeAuditor - startAuditorAnalysis] auditReports:  ${auditReports}`,
-        );
 
         await AuditProvider.insertAuditList(auditReports);
         AppLogger.info(
