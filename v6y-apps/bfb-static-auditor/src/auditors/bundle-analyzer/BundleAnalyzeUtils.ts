@@ -1,4 +1,11 @@
-import { AppLogger, AuditType, AuditUtils, auditStatus, scoreStatus } from '@v6y/core-logic';
+import {
+    AppLogger,
+    AuditType,
+    AuditUtils,
+    ModuleType,
+    auditStatus,
+    scoreStatus,
+} from '@v6y/core-logic';
 import { execSync } from 'child_process';
 import fs from 'fs/promises';
 import path from 'path';
@@ -12,7 +19,7 @@ const { getFrontendDirectories, getPackageManager, getBundler } = AuditUtils;
  * @param applicationId
  * @param workspaceFolder
  */
-const formatBundleAnalyzeReports = async ({
+const startBundleAnalyzeReports = async ({
     applicationId,
     workspaceFolder,
 }: AuditCommonsType): Promise<AuditType[]> => {
@@ -36,7 +43,6 @@ const formatBundleAnalyzeReports = async ({
                 `[BundleAnalyzeUtils] ${frontendModules.length} frontend modules found.`,
             );
         }
-
         const packageManager = await getPackageManager(workspaceFolder);
         if (!packageManager) {
             AppLogger.warn('[BundleAnalyzeUtils] No package manager found.');
@@ -44,53 +50,75 @@ const formatBundleAnalyzeReports = async ({
         }
         AppLogger.info(`[BundleAnalyzeUtils] packageManager: ${packageManager}`);
 
-        await installDependencies(packageManager, workspaceFolder);
-
         const bundleReports: AuditType[] = [];
         for (const modulePath of frontendModules) {
-            const analyseResult = await analyzeModule(modulePath, packageManager);
-
-            const module = {
-                appId: applicationId,
-                path: path.relative(workspaceFolder, modulePath),
-                name: path.basename(modulePath),
-            };
-            if (!analyseResult) {
-                AppLogger.warn(
-                    `[BundleAnalyzeUtils] L'analyse du module ${module.name} n'a pas abouti.`,
-                );
-            } else if (analyseResult?.status === 'error') {
-                bundleReports.push({
-                    appId: applicationId,
-                    type: 'bundle-analyze',
-                    category: 'bundle-max-size',
-                    auditStatus: auditStatus.failure,
-                    score: null,
-                    scoreStatus: null,
-                    scoreUnit: 'bytes',
-                    module: module,
-                    extraInfos: analyseResult?.extraInfos,
-                });
-            } else {
-                bundleReports.push({
-                    appId: applicationId,
-                    type: 'bundle-analyze',
-                    category: 'bundle-max-size',
-                    auditStatus: auditStatus.success,
-                    score: analyseResult?.report?.gzipSize,
-                    scoreStatus: analyseResult?.report
-                        ? getScoreStatus(analyseResult?.report?.gzipSize)
-                        : null,
-                    scoreUnit: 'bytes',
-                    module: module,
-                    extraInfos: analyseResult?.extraInfos,
-                });
+            await installDependencies(packageManager, modulePath);
+            const analyzeResult = await analyzeModule(modulePath, packageManager);
+            const formattedResult = formatBundleAnalyzeResult({
+                applicationId: Number(applicationId),
+                workspaceFolder,
+                modulePath,
+                analyzeResult,
+            });
+            if (formattedResult) {
+                bundleReports.push(formattedResult);
             }
         }
         return bundleReports;
     } catch (error) {
         AppLogger.error(`[BundleAnalyzeUtils] Erreur globale: ${error}`);
         return [];
+    }
+};
+
+/**
+ * Handles the result of a bundle analysis and pushes the appropriate report to the bundleReports array.
+ * Extracted for easier testing.
+ */
+const formatBundleAnalyzeResult = ({
+    applicationId,
+    workspaceFolder,
+    modulePath,
+    analyzeResult,
+}: {
+    applicationId: number;
+    workspaceFolder: string;
+    modulePath: string;
+    analyzeResult: AnalyzeResult;
+}): AuditType | null => {
+    const module: ModuleType = {
+        appId: applicationId,
+        path: path.relative(workspaceFolder, modulePath),
+    };
+    if (!analyzeResult) {
+        AppLogger.warn(`[BundleAnalyzeUtils] L'analyze du module ${module.path} n'a pas abouti.`);
+        return null;
+    } else if (analyzeResult?.status === 'error') {
+        return {
+            appId: applicationId,
+            type: 'bundle-analyze',
+            category: 'bundle-max-size',
+            auditStatus: auditStatus.failure,
+            score: null,
+            scoreStatus: null,
+            scoreUnit: 'bytes',
+            module: module,
+            extraInfos: analyzeResult?.extraInfos,
+        };
+    } else {
+        return {
+            appId: applicationId,
+            type: 'bundle-analyze',
+            category: 'bundle-max-size',
+            auditStatus: auditStatus.success,
+            score: analyzeResult?.report?.gzipSize,
+            scoreStatus: analyzeResult?.report
+                ? getScoreStatus(analyzeResult?.report?.gzipSize)
+                : null,
+            scoreUnit: 'bytes',
+            module: module,
+            extraInfos: analyzeResult?.extraInfos,
+        };
     }
 };
 
@@ -261,8 +289,13 @@ const getScoreStatus = (gzipSize: number): string => {
 };
 
 const BundleAnalyzeUtils = {
-    formatBundleAnalyzeReports,
+    startBundleAnalyzeReports,
+    analyzeModule,
+    formatBundleAnalyzeResult,
+    isBundlerAnalyzerSetup,
+    runAnalyzeTool,
+    installDependencies,
+    getScoreStatus,
 };
 
 export default BundleAnalyzeUtils;
-export { installDependencies, analyzeModule };

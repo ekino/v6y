@@ -9,7 +9,7 @@ import BundleAnalyzeUtils from './BundleAnalyzeUtils.ts';
  * @param workspaceFolder
  */
 
-const { formatBundleAnalyzeReports } = BundleAnalyzeUtils;
+const { startBundleAnalyzeReports } = BundleAnalyzeUtils;
 
 const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: AuditCommonsType) => {
     try {
@@ -24,7 +24,7 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: AuditCom
             return false;
         }
 
-        const auditReports = await formatBundleAnalyzeReports({ workspaceFolder, applicationId });
+        const auditReports = await startBundleAnalyzeReports({ workspaceFolder, applicationId });
 
         await AuditProvider.insertAuditList(auditReports);
         AppLogger.info(
