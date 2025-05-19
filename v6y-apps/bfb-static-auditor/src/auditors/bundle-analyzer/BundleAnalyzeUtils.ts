@@ -91,7 +91,7 @@ const formatBundleAnalyzeResult = ({
         path: path.relative(workspaceFolder, modulePath),
     };
     if (!analyzeResult) {
-        AppLogger.warn(`[BundleAnalyzeUtils] L'analyze du module ${module.path} n'a pas abouti.`);
+        AppLogger.warn(`[BundleAnalyzeUtils] No analyze result for module: ${modulePath}`);
         return null;
     } else if (analyzeResult?.status === 'error') {
         return {
