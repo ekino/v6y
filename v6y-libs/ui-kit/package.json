@@ -38,7 +38,7 @@
     "@refinedev/simple-rest": "=5.0.10",
     "@refinedev/ui-types": "=1.23.1",
     "@v6y/core-logic": "workspace:^",
-    "@tanstack/react-query": "=4.10.1",
+    "@tanstack/react-query": "=5.76.1",
     "@refinedev/graphql": "=7.1.1",
     "graphql": "=16.10.0",
     "graphql-request": "=7.1.2",
