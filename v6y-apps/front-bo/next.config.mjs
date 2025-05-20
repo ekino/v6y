@@ -1,6 +1,7 @@
 import BundleAnalyzer from '@next/bundle-analyzer';
 
 const withBundleAnalyzer = BundleAnalyzer({
+    analyzerMode: 'json',
     enabled: process.env.ANALYZE === 'true',
 });
 
