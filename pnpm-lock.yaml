@@ -958,7 +958,7 @@ importers:
         specifier: '=1.10.0'
         version: 1.10.0
       package-manager-detector:
-        specifier: ^1.2.0
+        specifier: '=1.2.0'
         version: 1.2.0
       passport:
         specifier: '=0.7.0'
