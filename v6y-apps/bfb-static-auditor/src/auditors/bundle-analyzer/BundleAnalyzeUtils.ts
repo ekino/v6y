@@ -66,7 +66,7 @@ const startBundleAnalyzeReports = async ({
         }
         return bundleReports;
     } catch (error) {
-        AppLogger.error(`[BundleAnalyzeUtils] Erreur globale: ${error}`);
+        AppLogger.error(`[BundleAnalyzeUtils] Error in startBundleAnalyzeReports: ${error}`);
         return [];
     }
 };
@@ -213,6 +213,8 @@ const runAnalyzeTool = async (
             AppLogger.error(`[BundleAnalyzeUtils] Build error: ${error}`);
             return null;
         }
+        // the analyze lib generate a file named client.html, even though it is a json file
+        // we may update that in the future if the library is updated
         const analyzeFilePath = path.join(module, '.next', 'analyze', 'client.html');
         const raw = await fs.readFile(analyzeFilePath, 'utf-8');
         const bundles = JSON.parse(raw);
