@@ -27,21 +27,29 @@ interface VitalityGeneralInformationQueryType {
 
 const VitalityGeneralInformationView = ({}) => {
     const { getUrlParams } = useNavigationAdapter();
-    const [_id] = getUrlParams(['_id']);
+    const [rawId] = getUrlParams(['_id']);
+    let numericId: number | undefined;
+
+    if (typeof rawId === 'string' && /^\d+$/.test(rawId)) {
+        numericId = parseInt(rawId, 10);
+    } else {
+        console.warn('Invalid or missing _id parameter:', rawId);
+    }
 
     const {
         isLoading: isAppDetailsInfosLoading,
         data: appDetailsInfos,
     }: VitalityGeneralInformationQueryType = useClientQuery({
-        queryCacheKey: ['getApplicationDetailsInfoByParams', `${_id}`],
+        queryCacheKey: ['getApplicationDetailsInfoByParams', numericId ? String(numericId) : undefined],
         queryBuilder: async () =>
             buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
                 query: GetApplicationDetailsInfosByParams,
                 variables: {
-                    _id: parseInt(_id as string, 10),
+                    _id: numericId,
                 },
             }),
+        enabled: numericId !== undefined,
     });
 
     const appInfos = appDetailsInfos?.getApplicationDetailsInfoByParams;
@@ -54,7 +62,7 @@ const VitalityGeneralInformationView = ({}) => {
     return (
         <VitalitySectionView
             isLoading={isAppDetailsInfosLoading}
-            isEmpty={!appInfos?.name?.length || !appInfos?.acronym?.length}
+            isEmpty={!appInfos}
             title={translate('vitality.appDetailsPage.infos.title')}
             description=""
             avatar={<InfoOutlined />}
