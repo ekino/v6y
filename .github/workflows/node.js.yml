@@ -83,6 +83,9 @@ jobs:
       - run: npm i -g pnpm@9.1.3
       - run: pnpm i
 
+      - name: Setup pnpm
+        run: pnpm setup
+
       - name: Install Snyk CLI
         run: pnpm add -g snyk
 
