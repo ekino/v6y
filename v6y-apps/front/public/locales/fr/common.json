@@ -83,6 +83,8 @@
       "shortTitle": "notifications"
     },
     "loginPage": {
+      "formTitle": "Connexion à votre compte",
+      "formDescription": "Si vous n'avez pas de compte, veuillez vous référer à votre organisation.",
       "formEmail": {
         "label": "Email",
         "warning": "Veuillez entrer une adresse e-mail valide"
@@ -94,8 +96,14 @@
       "formErrorIncorrectCreds": "Identifiants incorrects",
       "formErrorConnection": "Erreur de connexion",
       "formSuccess": "Connexion réussie",
-      "formRemember": "Se souvenir de moi",
       "formSubmit": "Connexion"
+    },
+    "header": {
+      "welcome":"Bonjour",
+      "menu": {
+        "dashboard":"Dashboard",
+        "apps-stats": "Statistiques"
+      }
     }
   }
 }

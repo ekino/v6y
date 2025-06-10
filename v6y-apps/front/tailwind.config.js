@@ -1,11 +1,18 @@
-const {join} = require('path');
-const uiConfig = require('@v6y/ui-kit-front/tailwind.config.js');
+const { theme, plugins } = require('@v6y/ui-kit-front/tailwind.config.js');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  ...uiConfig,
   content: [
-    join(__dirname, 'src/**/*.{js,ts,jsx,tsx}'),
-    ...uiConfig.content,
+    './src/**/*.{js,ts,jsx,tsx}',
+    '../../v6y-libs/ui-kit-front/src/**/*.{js,ts,jsx,tsx}',
   ],
-}
+  theme: {
+    ...theme,
+    extend: {
+      ...(theme && theme.extend ? theme.extend : {}),
+    },
+  },
+  plugins: [
+    ...(plugins || []),
+  ],
+};
