@@ -30,6 +30,7 @@
     "@tanstack/react-query-next-experimental": "=5.90.2",
     "@v6y/core-logic": "workspace:^",
     "@v6y/ui-kit": "workspace:^",
+    "@v6y/ui-kit-front": "workspace:^",
     "crypto-hash": "=3.1.0",
     "graphql": "=16.10.0",
     "graphql-request": "=7.1.2",
@@ -38,8 +39,10 @@
     "react": "=19.0.0",
     "react-chatbotify": "2.0.0-beta.26",
     "react-dom": "=19.0.0",
+    "react-hook-form": "=7.54.2",
     "react-virtualized-auto-sizer": "=1.0.25",
     "react-window": "=1.8.11",
+    "sonner": "^2.0.5",
     "zod": "=3.24.1"
   },
   "devDependencies": {
