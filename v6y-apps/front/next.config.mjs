@@ -16,7 +16,11 @@ const nextConfig = {
             },
         ];
     },
-    transpilePackages: [],
+    transpilePackages: [
+        '@v6y/core-logic',
+        '@v6y/ui-kit',
+        '@v6y/ui-kit-front',
+    ],
     webpack(config, { isServer }) {
         if (!isServer) {
             config.externals = [...config.externals, 'globby', 'sequelize'];
