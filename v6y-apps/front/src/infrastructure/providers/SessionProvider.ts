@@ -4,6 +4,7 @@ export interface SessionType {
     token: string;
     _id: string;
     role: string;
+    username: string;
 }
 
 /**
@@ -25,9 +26,10 @@ export const getSession = (): SessionType | null => {
  * @param token
  * @param _id
  * @param role
+ * @param username
  */
-export const setSession = (token: string, _id: string, role: string) => {
-    Cookie.set('auth', JSON.stringify({ token, _id, role }), {
+export const setSession = (token: string, _id: string, role: string, username: string) => {
+    Cookie.set('auth', JSON.stringify({ token, _id, role, username }), {
         expires: 30, // 30 days
         path: '/',
     });

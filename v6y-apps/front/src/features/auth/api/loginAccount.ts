@@ -6,6 +6,7 @@ const LoginAccount = gql`
             _id
             role
             token
+            username
         }
     }
 `;
