@@ -1,5 +1,5 @@
 import { LoaderView } from '@v6y/ui-kit';
-import '@v6y/ui-kit-front/style.css';
+import '@v6y/ui-kit-front/styles.css';
 import * as React from 'react';
 import { ReactNode, Suspense } from 'react';
 
