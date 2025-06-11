@@ -12,7 +12,7 @@ import {
 } from '../../infrastructure/providers/SessionProvider';
 import VitalityApiConfig from '../config/VitalityApiConfig';
 
-export type LoginAccountType = { token: string; _id: string; role: string };
+export type LoginAccountType = { token: string; _id: string; role: string; username: string };
 
 export type LoginAccountFormType = {
     email?: string;
@@ -87,7 +87,12 @@ const useAuthentication = (translate: (key: string) => string) => {
 
             if (data?.loginAccount?.token) {
                 setAuthenticationStatus({ token: data.loginAccount.token, error: undefined });
-                setSession(data.loginAccount.token, data.loginAccount._id, data.loginAccount.role);
+                setSession(
+                    data.loginAccount.token,
+                    data.loginAccount._id,
+                    data.loginAccount.role,
+                    data.loginAccount.username,
+                );
                 router.push('/');
             } else {
                 setAuthenticationStatus({

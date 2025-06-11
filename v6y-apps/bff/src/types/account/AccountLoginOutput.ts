@@ -6,6 +6,8 @@ const AccountLoginOutput = `
         token: String!
         """ Account role """
         role: String!
+        """ Account username"""
+        username: String
     }
 `;
 
