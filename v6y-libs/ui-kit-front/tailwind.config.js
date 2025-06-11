@@ -1,7 +1,9 @@
+const {join} = require('path');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     darkMode: ['class'],
-    content: ['./src/**/*.{ts,tsx}'],
+    content: [join(__dirname, 'src/**/*.{js,ts,jsx,tsx}')],
     prefix: '',
     theme: {
         container: {
@@ -12,10 +14,7 @@ module.exports = {
             },
         },
         fontFamily: {
-            sans: [
-                'Inter',
-                'sans-serif',
-            ],
+            sans: ['Inter', 'sans-serif'],
         },
         extend: {
             colors: {
