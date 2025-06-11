@@ -4,8 +4,8 @@
   "private": true,
   "exports": {
     ".": "./src/index.ts",
-    "./tailwind.config": "./tailwind.config.js",
-    "./style.css": "./style.css"
+    "./tailwind.config.js": "./tailwind.config.js",
+    "./style.css": "./src/style.css"
   },
 
   
