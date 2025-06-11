@@ -96,6 +96,13 @@
       "formSuccess": "Successful connection",
       "formRemember": "Remember me",
       "formSubmit": "Login"
+    },
+    "header": {
+      "welcome":"Bonjour",
+      "menu": {
+        "dashboard":"Dashboard",
+        "apps-stats": "Statistics"
+      }
     }
   }
 }
