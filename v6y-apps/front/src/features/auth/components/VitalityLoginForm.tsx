@@ -1,15 +1,24 @@
 'use client';
 
+import { useForm } from '@v6y/ui-kit';
 import {
     Button,
-    ControlledCheckbox,
-    ControlledInput,
+    Card,
+    CardContent,
+    CardHeader,
+    Checkbox,
     Form,
-    Message,
-    useForm,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+    Input,
+    TypographyP,
+    toast,
     useTranslationProvider,
-} from '@v6y/ui-kit';
-import { useEffect } from 'react';
+} from '@v6y/ui-kit-front';
+import React, { useEffect } from 'react';
 
 import {
     LoginAccountFormType,
@@ -19,15 +28,11 @@ import {
 
 const VitalityLoginForm = () => {
     const { translate } = useTranslationProvider();
-    const [messageApi, contextHolder] = Message.useMessage();
+    // plus de state local pour alert
     const { isAuthenticationLoading, authenticationStatus, onAuthentication } =
         useAuthentication(translate);
 
-    const {
-        control,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<LoginAccountFormType>({
+    const form = useForm<LoginAccountFormType>({
         defaultValues: {
             email: '',
             password: '',
@@ -37,103 +42,118 @@ const VitalityLoginForm = () => {
 
     useEffect(() => {
         if (authenticationStatus?.error) {
-            messageApi.open({
-                type: 'error',
-                content: authenticationStatus.error,
-            });
+            toast.error(authenticationStatus.error);
         } else if (authenticationStatus?.token) {
-            messageApi.open({
-                type: 'success',
-                content: translate('vitality.loginPage.formSuccess'),
-            });
+            toast.success(translate('vitality.loginPage.formSuccess'));
         }
-    }, [authenticationStatus, translate, messageApi]);
+    }, [authenticationStatus, translate]);
 
     return (
-        <Form
-            name="basic"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
-            onFinish={handleSubmit(onAuthentication)}
-            autoComplete="off"
-        >
-            {contextHolder}
+        <div className="w-full max-w-[400px] sm:max-w-[360px] md:max-w-[340px] lg:max-w-[320px] mx-auto px-4 sm:px-0">
+            <Card>
+                <CardHeader>
+                    <TypographyP muted>
+                        If you do not have an account, please refer to your organization.
+                    </TypographyP>
+                </CardHeader>
+                <CardContent>
+                    <Form {...form}>
+                        <form
+                            onSubmit={form.handleSubmit(onAuthentication)}
+                            autoComplete="off"
+                            className="space-y-4"
+                        >
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                rules={{
+                                    required: translate('vitality.loginPage.formEmail.warning'),
+                                    validate: (value: string | undefined) => {
+                                        const result = loginSchemaValidator(translate).safeParse({
+                                            email: value ?? '',
+                                            password: '',
+                                        });
+                                        return (
+                                            result?.success ||
+                                            result?.error?.format?.()?.email?._errors?.[0]
+                                        );
+                                    },
+                                }}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                            {translate('vitality.loginPage.formEmail.label')}
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input type="email" autoComplete="email" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
-            <Form.Item
-                label={translate('vitality.loginPage.formEmail.label')}
-                validateStatus={errors.email ? 'error' : ''}
-                help={errors.email?.message}
-                rules={[
-                    {
-                        required: true,
-                        message: translate('vitality.loginPage.formEmail.warning'),
-                    },
-                ]}
-            >
-                <ControlledInput
-                    name="email"
-                    ariaLabel="Email"
-                    control={control}
-                    rules={{
-                        required: translate('vitality.loginPage.formEmail.warning'),
-                        validate: (value: string) => {
-                            const result = loginSchemaValidator(translate).safeParse({
-                                email: value,
-                                password: '',
-                            });
-                            return (
-                                result?.success || result?.error?.format?.()?.email?._errors?.[0]
-                            );
-                        },
-                    }}
-                />
-            </Form.Item>
+                            <FormField
+                                control={form.control}
+                                name="password"
+                                rules={{
+                                    required: translate('vitality.loginPage.formPassword.warning'),
+                                    validate: (value: string | undefined) => {
+                                        const result = loginSchemaValidator(translate).safeParse({
+                                            email: '',
+                                            password: value ?? '',
+                                        });
+                                        return (
+                                            result?.success ||
+                                            result?.error?.format?.()?.password?._errors?.[0]
+                                        );
+                                    },
+                                }}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                            {translate('vitality.loginPage.formPassword.label')}
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="password"
+                                                autoComplete="current-password"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
-            <Form.Item
-                label={translate('vitality.loginPage.formPassword.label')}
-                validateStatus={errors.password ? 'error' : ''}
-                help={errors.password?.message}
-                rules={[
-                    {
-                        required: true,
-                        message: translate('vitality.loginPage.formPassword.warning'),
-                    },
-                ]}
-            >
-                <ControlledInput
-                    name="password"
-                    control={control}
-                    ariaLabel={translate('vitality.loginPage.formPassword.label')}
-                    type="password"
-                    rules={{
-                        required: translate('vitality.loginPage.formPassword.warning'),
-                        validate: (value: string) => {
-                            const result = loginSchemaValidator(translate).safeParse({
-                                email: '',
-                                password: value,
-                            });
-                            return (
-                                result?.success || result?.error?.format?.()?.password?._errors?.[0]
-                            );
-                        },
-                    }}
-                />
-            </Form.Item>
+                            <FormField
+                                control={form.control}
+                                name="remember"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <div className="flex items-center">
+                                            <FormControl>
+                                                <Checkbox
+                                                    checked={field.value}
+                                                    onCheckedChange={field.onChange}
+                                                    id="remember"
+                                                />
+                                            </FormControl>
+                                            <FormLabel htmlFor="remember" className="ml-2">
+                                                {translate('vitality.loginPage.formRemember')}
+                                            </FormLabel>
+                                        </div>
+                                    </FormItem>
+                                )}
+                            />
 
-            <Form.Item name="remember" wrapperCol={{ offset: 8, span: 16 }}>
-                <ControlledCheckbox
-                    name="remember"
-                    control={control}
-                    ariaLabel={translate('vitality.loginPage.formRemember')}
-                />
-            </Form.Item>
-
-            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button type="primary" htmlType="submit" loading={isAuthenticationLoading}>
-                    {translate('vitality.loginPage.formSubmit')}
-                </Button>
-            </Form.Item>
-        </Form>
+                            <Button size="lg" type="submit" disabled={isAuthenticationLoading}>
+                                {translate('vitality.loginPage.formSubmit')}
+                            </Button>
+                        </form>
+                    </Form>
+                </CardContent>
+            </Card>
+        </div>
     );
 };
 
