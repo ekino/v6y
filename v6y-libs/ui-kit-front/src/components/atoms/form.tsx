@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import * as LabelPrimitive from '@radix-ui/react-label';
 import { Slot } from '@radix-ui/react-slot';
 import * as React from 'react';
@@ -14,7 +15,8 @@ import { cn } from '../../lib/utils';
 import { Label } from './label';
 
 // Patch: cast FormProvider as a React.FC for compatibility with JSX usage in consuming apps
-const Form = FormProvider as unknown as React.FC<React.PropsWithChildren<{}>>;
+// Use Record<string, unknown> instead of empty-object type to satisfy @typescript-eslint/no-empty-object-type
+const Form = FormProvider as unknown as React.FC<React.PropsWithChildren<Record<string, unknown>>>;
 
 type FormFieldContextValue<
     TFieldValues extends FieldValues = FieldValues,

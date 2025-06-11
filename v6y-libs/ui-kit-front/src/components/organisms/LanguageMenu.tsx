@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { useTranslationProvider } from '../../translation/useTranslationProvider';
-import { Avatar, AvatarImage, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../atoms';
+import { Avatar, AvatarImage, Select, SelectContent, SelectItem, SelectTrigger } from '../atoms';
 
 const languages = [
     { code: 'en', label: 'English' },
