@@ -1,1 +1,1 @@
-export * from './LanguageMenu.tsx';
+export { LanguageMenu } from './LanguageMenu.tsx';

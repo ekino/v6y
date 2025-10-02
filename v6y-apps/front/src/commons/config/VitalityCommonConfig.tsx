@@ -4,12 +4,8 @@ import {
     ApiOutlined,
     AppstoreAddOutlined,
     DashboardOutlined,
-    LogoutOutlined,
-    NotificationOutlined,
     PieChartOutlined,
-    QuestionOutlined,
     SplitCellsOutlined,
-    TextView,
     ThemeTokenType,
 } from '@v6y/ui-kit';
 import Link from 'next/link';

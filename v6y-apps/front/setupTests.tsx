@@ -11,8 +11,9 @@ vi.mock('next/dynamic', async () => {
             const DynamicComponent = dynamicModule.default(loader, { ssr: false });
 
             // Force preload if available
-            if (DynamicComponent.preload) {
-                DynamicComponent.preload();
+            const maybePreload = (DynamicComponent as any).preload;
+            if (typeof maybePreload === 'function') {
+                maybePreload();
             }
 
             return DynamicComponent;
