@@ -31,7 +31,7 @@ importers:
   v6y-apps/bfb-devops-auditor:
     dependencies:
       '@sequelize/core':
-        specifier: 7.0.0-alpha.43
+        specifier: '=7.0.0-alpha.43'
         version: 7.0.0-alpha.43
       '@v6y/core-logic':
         specifier: workspace:^
@@ -143,7 +143,7 @@ importers:
   v6y-apps/bfb-dynamic-auditor:
     dependencies:
       '@sequelize/core':
-        specifier: 7.0.0-alpha.43
+        specifier: '=7.0.0-alpha.43'
         version: 7.0.0-alpha.43
       '@v6y/core-logic':
         specifier: workspace:^
@@ -252,7 +252,7 @@ importers:
   v6y-apps/bfb-main-analyzer:
     dependencies:
       '@sequelize/core':
-        specifier: 7.0.0-alpha.43
+        specifier: '=7.0.0-alpha.43'
         version: 7.0.0-alpha.43
       '@types/body-parser':
         specifier: '=1.19.5'
@@ -346,7 +346,7 @@ importers:
   v6y-apps/bfb-static-auditor:
     dependencies:
       '@sequelize/core':
-        specifier: 7.0.0-alpha.43
+        specifier: '=7.0.0-alpha.43'
         version: 7.0.0-alpha.43
       '@types/fs-extra':
         specifier: '=11.0.4'
@@ -515,7 +515,7 @@ importers:
         specifier: '=4.11.3'
         version: 4.11.3(graphql@16.10.0)
       '@sequelize/core':
-        specifier: 7.0.0-alpha.43
+        specifier: '=7.0.0-alpha.43'
         version: 7.0.0-alpha.43
       '@types/body-parser':
         specifier: '=1.19.5'
@@ -654,7 +654,7 @@ importers:
         specifier: '=19.0.0'
         version: 19.0.0
       react-chatbotify:
-        specifier: 2.0.0-beta.26
+        specifier: '=2.0.0-beta.26'
         version: 2.0.0-beta.26(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react-dom:
         specifier: '=19.0.0'
@@ -896,7 +896,7 @@ importers:
         specifier: '=9.18.0'
         version: 9.18.0(jiti@1.21.7)
       eslint-config-next:
-        specifier: 15.1.4
+        specifier: '=15.1.4'
         version: 15.1.4(eslint@9.18.0(jiti@1.21.7))(typescript@5.7.3)
       eslint-config-prettier:
         specifier: '=10.0.1'
@@ -906,7 +906,7 @@ importers:
         version: 1.5.0
       jsdom:
         specifier: '=27.0.1'
-        version: 27.0.1
+        version: 27.0.1(postcss@8.5.1)
       prettier:
         specifier: '=3.4.2'
         version: 3.4.2
@@ -926,7 +926,7 @@ importers:
   v6y-libs/core-logic:
     dependencies:
       '@sequelize/core':
-        specifier: 7.0.0-alpha.43
+        specifier: '=7.0.0-alpha.43'
         version: 7.0.0-alpha.43
       '@types/adm-zip':
         specifier: '=0.5.7'
@@ -1272,6 +1272,9 @@ importers:
       '@hookform/resolvers':
         specifier: '=5.0.1'
         version: 5.0.1(react-hook-form@7.54.2(react@19.0.0))
+      '@radix-ui/react-accordion':
+        specifier: '=1.2.12'
+        version: 1.2.12(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@radix-ui/react-avatar':
         specifier: '=1.1.10'
         version: 1.1.10(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -1317,6 +1320,9 @@ importers:
       lucide-react:
         specifier: '=0.511.0'
         version: 0.511.0(react@19.0.0)
+      next:
+        specifier: '=15.4.7'
+        version: 15.4.7(@babel/core@7.28.4)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       next-i18next:
         specifier: '=15.4.1'
         version: 15.4.1(i18next@24.2.1(typescript@5.7.3))(next@15.4.7(@babel/core@7.28.4)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-i18next@15.4.0(i18next@24.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
@@ -3314,6 +3320,22 @@ packages:
   '@radix-ui/primitive@1.1.2':
     resolution: {integrity: sha512-XnbHrrprsNqZKQhStrSwgRUQzoCI1glLzdw79xiZPoofhGICeZRSQ3dIxAKH1gb3OHfNf4d6f+vAv3kil2eggA==}
 
+  '@radix-ui/primitive@1.1.3':
+    resolution: {integrity: sha512-JTF99U/6XIjCBo0wqkU5sK10glYe27MRRsfwoiq5zzOEZLHU3A3KCMa5X/azekYRCJ0HlwI0crAXS/5dEHTzDg==}
+
+  '@radix-ui/react-accordion@1.2.12':
+    resolution: {integrity: sha512-T4nygeh9YE9dLRPhAHSeOZi7HBXo+0kYIPJXayZfvWOWA0+n3dESrZbjfDPUABkUNym6Hd+f2IR113To8D2GPA==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+
   '@radix-ui/react-arrow@1.1.7':
     resolution: {integrity: sha512-F+M1tLhO+mlQaOWspE8Wstg+z6PwxwRd8oQ8IXceWz92kfAmalTRf0EjrouQeo7QssEPfCn05B4Ihs1K9WQ/7w==}
     peerDependencies:
@@ -3342,6 +3364,19 @@ packages:
 
   '@radix-ui/react-checkbox@1.3.2':
     resolution: {integrity: sha512-yd+dI56KZqawxKZrJ31eENUwqc1QSqg4OZ15rybGjF2ZNwMO+wCyHzAVLRp9qoYJf7kYy0YpZ2b0JCzJ42HZpA==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+
+  '@radix-ui/react-collapsible@1.1.12':
+    resolution: {integrity: sha512-Uu+mSh4agx2ib1uIGPP4/CKNULyajb3p92LsVXmH2EHVMTfZWpll88XJ0j4W0z3f8NK1eYl1+Mf/szHPmcHzyA==}
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -3505,6 +3540,19 @@ packages:
 
   '@radix-ui/react-presence@1.1.4':
     resolution: {integrity: sha512-ueDqRbdc4/bkaQT3GIpLQssRlFgWaL/U2z/S31qRwwLWoxHLgry3SIfCwhxeQNbirEUXFa+lq3RL3oBYXtcmIA==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+
+  '@radix-ui/react-presence@1.1.5':
+    resolution: {integrity: sha512-/jfEwNDdQVBCNvjkGit4h6pMOzq8bHkopq458dPt2lMjx+eBQUohZNG9A7DtO/O5ukSbxuaNGXMjHicgwy6rQQ==}
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -13565,6 +13613,25 @@ snapshots:
 
   '@radix-ui/primitive@1.1.2': {}
 
+  '@radix-ui/primitive@1.1.3': {}
+
+  '@radix-ui/react-accordion@1.2.12(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+    dependencies:
+      '@radix-ui/primitive': 1.1.3
+      '@radix-ui/react-collapsible': 1.1.12(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@radix-ui/react-collection': 1.1.7(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@radix-ui/react-compose-refs': 1.1.2(@types/react@19.0.7)(react@19.0.0)
+      '@radix-ui/react-context': 1.1.2(@types/react@19.0.7)(react@19.0.0)
+      '@radix-ui/react-direction': 1.1.1(@types/react@19.0.7)(react@19.0.0)
+      '@radix-ui/react-id': 1.1.1(@types/react@19.0.7)(react@19.0.0)
+      '@radix-ui/react-primitive': 2.1.3(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@radix-ui/react-use-controllable-state': 1.2.2(@types/react@19.0.7)(react@19.0.0)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+    optionalDependencies:
+      '@types/react': 19.0.7
+      '@types/react-dom': 19.0.3(@types/react@19.0.7)
+
   '@radix-ui/react-arrow@1.1.7(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@radix-ui/react-primitive': 2.1.3(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -13597,6 +13664,22 @@ snapshots:
       '@radix-ui/react-use-controllable-state': 1.2.2(@types/react@19.0.7)(react@19.0.0)
       '@radix-ui/react-use-previous': 1.1.1(@types/react@19.0.7)(react@19.0.0)
       '@radix-ui/react-use-size': 1.1.1(@types/react@19.0.7)(react@19.0.0)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+    optionalDependencies:
+      '@types/react': 19.0.7
+      '@types/react-dom': 19.0.3(@types/react@19.0.7)
+
+  '@radix-ui/react-collapsible@1.1.12(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+    dependencies:
+      '@radix-ui/primitive': 1.1.3
+      '@radix-ui/react-compose-refs': 1.1.2(@types/react@19.0.7)(react@19.0.0)
+      '@radix-ui/react-context': 1.1.2(@types/react@19.0.7)(react@19.0.0)
+      '@radix-ui/react-id': 1.1.1(@types/react@19.0.7)(react@19.0.0)
+      '@radix-ui/react-presence': 1.1.5(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@radix-ui/react-primitive': 2.1.3(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@radix-ui/react-use-controllable-state': 1.2.2(@types/react@19.0.7)(react@19.0.0)
+      '@radix-ui/react-use-layout-effect': 1.1.1(@types/react@19.0.7)(react@19.0.0)
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
     optionalDependencies:
@@ -13740,6 +13823,16 @@ snapshots:
       '@types/react-dom': 19.0.3(@types/react@19.0.7)
 
   '@radix-ui/react-presence@1.1.4(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+    dependencies:
+      '@radix-ui/react-compose-refs': 1.1.2(@types/react@19.0.7)(react@19.0.0)
+      '@radix-ui/react-use-layout-effect': 1.1.1(@types/react@19.0.7)(react@19.0.0)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+    optionalDependencies:
+      '@types/react': 19.0.7
+      '@types/react-dom': 19.0.3(@types/react@19.0.7)
+
+  '@radix-ui/react-presence@1.1.5(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@radix-ui/react-compose-refs': 1.1.2(@types/react@19.0.7)(react@19.0.0)
       '@radix-ui/react-use-layout-effect': 1.1.1(@types/react@19.0.7)(react@19.0.0)
@@ -14408,13 +14501,13 @@ snapshots:
       ansis: 3.16.0
       bnf-parser: 3.1.6
       dayjs: 1.11.13
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.3
       dottie: 2.0.6
       fast-glob: 3.3.3
       inflection: 3.0.2
       lodash: 4.17.21
       retry-as-promised: 7.1.1
-      semver: 7.7.1
+      semver: 7.7.3
       sequelize-pool: 8.0.0
       toposort-class: 1.0.1
       type-fest: 4.35.0
@@ -16254,14 +16347,6 @@ snapshots:
 
   cssesc@3.0.0: {}
 
-  cssstyle@5.3.1:
-    dependencies:
-      '@asamuzakjp/css-color': 4.0.5
-      '@csstools/css-syntax-patches-for-csstree': 1.0.14(postcss@8.5.1)
-      css-tree: 3.1.0
-    transitivePeerDependencies:
-      - postcss
-
   cssstyle@5.3.1(postcss@8.5.1):
     dependencies:
       '@asamuzakjp/css-color': 4.0.5
@@ -16902,7 +16987,7 @@ snapshots:
     dependencies:
       debug: 3.2.7
       is-core-module: 2.16.1
-      resolve: 1.22.10
+      resolve: 1.22.11
     transitivePeerDependencies:
       - supports-color
 
@@ -18219,7 +18304,7 @@ snapshots:
 
   is-bun-module@1.3.0:
     dependencies:
-      semver: 7.7.2
+      semver: 7.7.3
 
   is-callable@1.2.7: {}
 
@@ -18508,7 +18593,7 @@ snapshots:
   jsdom@27.0.1:
     dependencies:
       '@asamuzakjp/dom-selector': 6.7.3
-      cssstyle: 5.3.1
+      cssstyle: 5.3.1(postcss@8.5.1)
       data-urls: 6.0.0
       decimal.js: 10.6.0
       html-encoding-sniffer: 4.0.0
@@ -18532,6 +18617,7 @@ snapshots:
       - postcss
       - supports-color
       - utf-8-validate
+    optional: true
 
   jsdom@27.0.1(postcss@8.5.1):
     dependencies:
@@ -19371,7 +19457,7 @@ snapshots:
     dependencies:
       '@next/env': 15.4.7
       '@swc/helpers': 0.5.15
-      caniuse-lite: 1.0.30001747
+      caniuse-lite: 1.0.30001754
       postcss: 8.4.31
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
@@ -20862,7 +20948,6 @@ snapshots:
       is-core-module: 2.16.1
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
-    optional: true
 
   resolve@2.0.0-next.5:
     dependencies:
@@ -21264,7 +21349,7 @@ snapshots:
     dependencies:
       '@img/colour': 1.0.0
       detect-libc: 2.1.1
-      semver: 7.7.2
+      semver: 7.7.3
     optionalDependencies:
       '@img/sharp-darwin-arm64': 0.34.4
       '@img/sharp-darwin-x64': 0.34.4

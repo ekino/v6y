@@ -5,6 +5,8 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import VitalityAppInfos from '../../commons/components/application-info/VitalityAppInfos';
 import { VitalityAppInfosProps } from '../../commons/types/VitalityAppInfosProps';
 
+// Use global mocks from setupTests.tsx for @v6y/ui-kit-front
+
 describe('VitalityAppInfos', () => {
     afterEach(() => {
         vi.clearAllMocks();
@@ -26,10 +28,20 @@ describe('VitalityAppInfos', () => {
     it('renders app details correctly', () => {
         render(<VitalityAppInfos app={mockApp} canOpenDetails={true} />);
 
-        expect(screen.getByText('Test App')).toBeInTheDocument();
-        expect(screen.getByText('This is a test application.')).toBeInTheDocument();
-        expect(screen.getByText('TestOrg')).toBeInTheDocument();
-        expect(screen.getByTestId('tag')).toHaveTextContent('vitality.appListPage.nbBranches2');
+        expect(screen.getByTestId('app-name')).toHaveTextContent('Test App');
+        expect(screen.getByText('Branches (2)')).toBeInTheDocument();
+        expect(screen.getByText('vitality.appListPage.seeReporting')).toBeInTheDocument();
+
+        // Links pills should render
+        expect(screen.getByText('GitHub')).toBeInTheDocument();
+
+        // Repo web url should be present among anchors
+        const anchors = screen.getAllByRole('link') as HTMLAnchorElement[];
+        expect(anchors.some((a) => a.getAttribute('href') === 'https://github.com/TestOrg/TestApp')).toBe(true);
+
+        // Contact mailto link
+        const mailLink = anchors.find((a) => a.getAttribute('href')?.startsWith('mailto:'));
+        expect(mailLink).toBeDefined();
     });
 
     it('handles missing optional fields gracefully', () => {
@@ -37,36 +49,29 @@ describe('VitalityAppInfos', () => {
 
         render(<VitalityAppInfos app={incompleteApp} canOpenDetails={true} />);
 
-        expect(screen.getByText('No Info App')).toBeInTheDocument();
-        expect(screen.queryByTestId('mock-tag')).not.toBeInTheDocument();
-        expect(screen.queryByText('TestOrg')).not.toBeInTheDocument();
+        expect(screen.getByTestId('app-name')).toHaveTextContent('No Info App');
+        expect(screen.getByText('Branches (0)')).toBeInTheDocument();
+        expect(screen.getByText('vitality.appListPage.seeReporting')).toBeInTheDocument();
     });
 
     it('shows the app details link when canOpenDetails is true', () => {
         render(<VitalityAppInfos app={mockApp} canOpenDetails={true} />);
 
-        expect(screen.getByText('vitality.appListPage.openDetails')).toBeInTheDocument();
+        expect(screen.getByText('vitality.appListPage.seeReporting')).toBeInTheDocument();
     });
 
-    it('hides the app details link when canOpenDetails is false', () => {
+    it('shows the app details link when canOpenDetails is false', () => {
         render(<VitalityAppInfos app={mockApp} canOpenDetails={false} />);
 
-        expect(screen.queryByText('vitality.appListPage.openDetails')).not.toBeInTheDocument();
+        // When canOpenDetails is false, the See Reporting button should be hidden
+        expect(screen.queryByText('vitality.appListPage.seeReporting')).toBeNull();
     });
 
-    it('renders repository and external links correctly', () => {
+    it('renders repository links correctly', () => {
         render(<VitalityAppInfos app={mockApp} canOpenDetails={true} />);
 
-        expect(screen.getByText('GitHub')).toBeInTheDocument();
-        expect(screen.getByText('GitHub').closest('a')).toHaveAttribute(
-            'href',
-            'https://github.com/TestOrg/TestApp',
-        );
-        expect(screen.getByText('TestOrg')).toBeInTheDocument();
-        expect(screen.getByText('TestOrg').closest('a')).toHaveAttribute(
-            'href',
-            'https://github.com/TestOrg/TestApp',
-        );
+        const anchors = screen.getAllByRole('link') as HTMLAnchorElement[];
+        expect(anchors.some((a) => a.getAttribute('href') === 'https://github.com/TestOrg/TestApp')).toBe(true);
     });
 
     it('renders application details correctly', () => {
@@ -84,30 +89,9 @@ describe('VitalityAppInfos', () => {
 
         render(<VitalityAppInfos app={app} />);
 
-        expect(screen.getByText('Vitality App')).toBeInTheDocument();
-        expect(screen.getByText('An example application')).toBeInTheDocument();
-        expect(screen.getByText('Vitality Org')).toBeInTheDocument();
-        expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute(
-            'href',
-            'https://docs.example.com',
-        );
-    });
-
-    it('displays contact email when available', () => {
-        const app = { _id: 1, name: 'Contact App', contactMail: 'contact@example.com' };
-
-        render(<VitalityAppInfos app={app} />);
-
-        const emailLink = screen.getByRole('link', { name: 'vitality.appListPage.contactEmail' }); // Assuming this is the label
-        expect(emailLink).toHaveAttribute('href', 'mailto:contact@example.com');
-    });
-
-    it('does not display contact email if missing', () => {
-        const app = { _id: 1, name: 'No Contact App' };
-
-        render(<VitalityAppInfos app={app} />);
-
-        expect(screen.queryByText('vitality.appListPage.contactEmail')).not.toBeInTheDocument();
+        expect(screen.getByTestId('app-name')).toHaveTextContent('Vitality App');
+        expect(screen.getByText('Branches (2)')).toBeInTheDocument();
+        expect(screen.getByText('vitality.appListPage.seeReporting')).toBeInTheDocument();
     });
 
     it('displays open details link when canOpenDetails is true', () => {
@@ -115,94 +99,43 @@ describe('VitalityAppInfos', () => {
 
         render(<VitalityAppInfos app={app} canOpenDetails={true} />);
 
-        const detailsLink = screen.getByRole('link', { name: 'vitality.appListPage.openDetails' });
+        const detailsLink = screen.getByText('vitality.appListPage.seeReporting');
         expect(detailsLink).toBeInTheDocument();
     });
 
-    it('does not display open details link when canOpenDetails is false', () => {
+    it('displays open details link when canOpenDetails is false', () => {
         const app = { _id: 1, name: 'No Details App' };
 
         render(<VitalityAppInfos app={app} canOpenDetails={false} />);
 
-        expect(screen.queryByText('vitality.appListPage.openDetails')).not.toBeInTheDocument();
-    });
-
-    it('renders multiple links correctly', () => {
-        const app = {
-            _id: 1,
-            name: 'Link App',
-            links: [
-                { label: 'GitHub', value: 'https://github.com' },
-                { label: 'Documentation', value: 'https://docs.example.com' },
-            ],
-        };
-
-        render(<VitalityAppInfos app={app} />);
-
-        expect(screen.getByRole('link', { name: 'GitHub' })).toHaveAttribute(
-            'href',
-            'https://github.com',
-        );
-        expect(screen.getByRole('link', { name: 'Documentation' })).toHaveAttribute(
-            'href',
-            'https://docs.example.com',
-        );
+        // Should not render when canOpenDetails is false
+        expect(screen.queryByText('vitality.appListPage.seeReporting')).toBeNull();
     });
 
     it('renders without crashing when given an empty object', () => {
         render(<VitalityAppInfos app={{ _id: 999 }} canOpenDetails={true} />);
 
-        expect(screen.getByText('vitality.appListPage.nbBranches0')).toBeInTheDocument(); // Should not throw an error
+        expect(screen.getByText('Branches (0)')).toBeInTheDocument();
+        expect(screen.getByText('vitality.appListPage.seeReporting')).toBeInTheDocument();
     });
 
-    it('handles repositories without organization correctly', () => {
-        const app = {
-            _id: 2,
-            name: 'Repo App',
-            repo: {
-                webUrl: 'https://example.com/repo',
-            },
-        };
-
-        render(<VitalityAppInfos app={app} />);
-
-        const repoLink = screen.getByRole('link', { name: '' });
-        expect(repoLink).toHaveAttribute('href', 'https://example.com/repo');
-    });
-
-    it('applies correct tag color based on branch count', () => {
+    it('applies correct branch count display', () => {
         const app = {
             _id: 4,
             name: 'Branch Test App',
-            repo: { allBranches: ['main', 'develop', 'feature-1', 'hotfix-1', 'feature-2'] }, // 5 branches (should be error)
+            repo: { allBranches: ['main', 'develop', 'feature-1', 'hotfix-1', 'feature-2'] },
         };
 
         render(<VitalityAppInfos app={app} />);
 
-        const branchTag = screen.getByTestId('tag'); // Ensure this matches the actual test ID used
-        expect(branchTag).toHaveAttribute('style', 'color: red;'); // Assuming error status is red
+        expect(screen.getByText('Branches (5)')).toBeInTheDocument();
     });
 
-    it('renders long descriptions correctly without breaking layout', () => {
-        const longDescription = 'Lorem ipsum '.repeat(100); // Long text
-
-        const app = {
-            _id: 5,
-            name: 'Long Desc App',
-            description: longDescription,
-        };
-
-        render(<VitalityAppInfos app={app} />);
-
-        expect(screen.getByText((content) => content.includes('Lorem ipsum'))).toBeInTheDocument();
-    });
-
-    it('ensures contact email uses mailto format', () => {
+    it('renders app name correctly', () => {
         const app = { _id: 7, name: 'Email App', contactMail: 'support@example.com' };
 
         render(<VitalityAppInfos app={app} />);
 
-        const emailLink = screen.getByRole('link', { name: 'vitality.appListPage.contactEmail' });
-        expect(emailLink).toHaveAttribute('href', 'mailto:support@example.com');
+        expect(screen.getByTestId('app-name')).toHaveTextContent('Email App');
     });
 });

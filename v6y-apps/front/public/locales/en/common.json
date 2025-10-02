@@ -9,7 +9,17 @@
     "dashboardPage": {
       "menuTitle": "Choose an option to view the relevant applications",
       "pageTitle": "Vitality: Keeping Your Codebase Healthy and High-Performing",
-      "shortTitle": "dashboard"
+      "shortTitle": "dashboard",
+      "searchByProjectName": "Search by project name",
+      "filters": {
+        "title": "Filters",
+        "technologies": "Technologies",
+        "qualityStatus": "Quality Status",
+        "lastAnalysis": "Last Analysis",
+        "branches": "Branches",
+        "reset": "Reset Filters",
+        "performance": "Performance"
+      }
     },
     "appListPage": {
       "loadMore": "Click to load more applications",
@@ -19,7 +29,13 @@
       "exportLabel": "Export Applications",
       "contactEmail": " Contact The Team",
       "nbBranches": "Number of opened branches: ",
-      "shortTitle": "applications"
+      "shortTitle": "applications",
+      "activeFiltersLabel": "Active Filters: ",
+      "empty": "No applications found",
+      "technos": "Technologies: ",
+      "lastAnalyzed": "Last analyzed on:",
+      "seeReporting": "See Reporting",
+      "links": "Links:"
     },
     "appDetailsPage": {
       "pageTitle": "Application details",

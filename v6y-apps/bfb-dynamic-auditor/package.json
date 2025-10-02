@@ -50,7 +50,7 @@
     "vitest": "=3.0.5"
   },
   "dependencies": {
-    "@sequelize/core": "7.0.0-alpha.43",
+    "@sequelize/core": "=7.0.0-alpha.43",
     "@v6y/core-logic": "workspace:^",
     "axios": "=1.12.2",
     "axios-retry": "=4.5.0",
