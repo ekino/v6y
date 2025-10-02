@@ -1,56 +1,49 @@
 'use client';
 
-import { Col, Form, Input, Row, TextView, useNavigationAdapter } from '@v6y/ui-kit';
+import {
+  MagnifyingGlassIcon,
+  useTranslationProvider,
+} from '@v6y/ui-kit-front';
 import * as React from 'react';
 
-import VitalityNavigationPaths from '../config/VitalityNavigationPaths';
 import { VitalitySearchBarProps } from '../types/VitalitySearchBarProps';
+import { Input, Button } from '@v6y/ui-kit-front';
+import { useVitalitySearchBar } from '../hooks/useVitalitySearchBar';
 
-const { Search } = Input;
+const VitalitySearchBar = ({
+  helper,
+  label,
+  placeholder,
+}: VitalitySearchBarProps) => {
+  const { inputProps, handleOnSearchChanged } = useVitalitySearchBar();
+  const { translate } = useTranslationProvider();
+  const { value } = inputProps;
 
-const VitalitySearchBar = ({ helper, label, status, placeholder }: VitalitySearchBarProps) => {
-    const { router, pathname, getUrlParams, createUrlQueryParam, removeUrlQueryParam } =
-        useNavigationAdapter();
-    const [searchText] = getUrlParams(['searchText']);
+  return (
+    <div>
+      <h3>{translate('vitality.dashboardPage.searchByProjectName')} :</h3>
 
-    const handleOnSearchChanged = (value: string) => {
-        if (pathname === VitalityNavigationPaths.DASHBOARD) {
-            const queryParams = createUrlQueryParam('searchText', value);
-            router.push(`/search?${queryParams}`);
-            return;
-        }
+      <div className="flex items-center space-y-2">
+        <div className="flex flex-1 items-center gap-x-2 h-10">
+          <Input
+            {...inputProps}
+            placeholder={placeholder ?? translate('search.placeholder')}
+            aria-label={label}
+            className="border-gray-400"
+          />
 
-        if (value?.length) {
-            const queryParams = createUrlQueryParam('searchText', value);
-            router.replace(`${pathname}?${queryParams}`);
-        } else {
-            const queryParams = removeUrlQueryParam('searchText');
-            router.replace(`${pathname}?${queryParams}`);
-        }
-    };
+          <Button
+            className="border shadow-none border-gray-400 w-10 hover:bg-black hover:text-white"
+            onClick={() => handleOnSearchChanged(value)}
+          >
+            <MagnifyingGlassIcon className="scale-150" />
+          </Button>
+        </div>
+      </div>
 
-    return (
-        <Row justify="center" align="middle" gutter={[12, 6]}>
-            <Col span={22}>
-                <Form layout="vertical">
-                    <Form.Item
-                        name="vitality_search"
-                        label={<TextView content={label} />}
-                        help={<TextView content={helper || ''} />}
-                        initialValue={searchText}
-                    >
-                        <Search
-                            enterButton
-                            allowClear
-                            status={status}
-                            placeholder={placeholder}
-                            onSearch={handleOnSearchChanged}
-                        />
-                    </Form.Item>
-                </Form>
-            </Col>
-        </Row>
-    );
+      {helper && <p className="text-xs text-gray-500 mt-2">{helper}</p>}
+    </div>
+  );
 };
 
 export default VitalitySearchBar;
