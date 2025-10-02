@@ -1,15 +1,13 @@
 import { DependencyType } from '@v6y/core-logic/src/types';
 import {
     DynamicLoader,
-    ProductOutlined,
     useNavigationAdapter,
     useTranslationProvider,
 } from '@v6y/ui-kit';
+import { Card, CardContent, CardHeader, CardTitle } from '@v6y/ui-kit-front';
 import * as React from 'react';
 
-import VitalitySectionView from '../../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
-import { exportAppDependenciesToCSV } from '../../../../commons/utils/VitalityDataExportUtils';
 import {
     buildClientQuery,
     useClientQuery,
@@ -20,8 +18,9 @@ const VitalityDependenciesBranchGrouper = DynamicLoader(
     () => import('./VitalityDependenciesBranchGrouper'),
 );
 
-const VitalityDependenciesView = ({}) => {
+const VitalityDependenciesView = () => {
     const { getUrlParams } = useNavigationAdapter();
+    const { translate } = useTranslationProvider();
     const [_id] = getUrlParams(['_id']);
 
     const {
@@ -31,7 +30,7 @@ const VitalityDependenciesView = ({}) => {
         queryCacheKey: ['getApplicationDetailsDependenciesByParams', `${_id}`],
         queryBuilder: async () =>
             buildClientQuery({
-                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
+                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
                 query: GetApplicationDetailsDependenciesByParams,
                 variables: {
                     _id: parseInt(_id as string, 10),
@@ -53,23 +52,38 @@ const VitalityDependenciesView = ({}) => {
             status: dependency.status,
         }));
 
-    const onExportClicked = () => {
-        exportAppDependenciesToCSV(dependencies as DependencyType[]);
-    };
+    if (isAppDetailsDependenciesLoading) {
+        return (
+            <Card>
+                <CardContent className="flex items-center justify-center p-8">
+                    <div className="text-gray-500">Loading dependencies...</div>
+                </CardContent>
+            </Card>
+        );
+    }
 
-    const { translate } = useTranslationProvider();
+    if (!dependencies?.length) {
+        return (
+            <Card>
+                <CardContent className="flex items-center justify-center p-8">
+                    <div className="text-gray-500">No dependencies available</div>
+                </CardContent>
+            </Card>
+        );
+    }
 
     return (
-        <VitalitySectionView
-            isLoading={isAppDetailsDependenciesLoading}
-            isEmpty={!dependencies?.length}
-            title={translate('vitality.appDetailsPage.dependencies.title')}
-            avatar={<ProductOutlined />}
-            exportButtonLabel={translate('vitality.appDetailsPage.dependencies.exportLabel')}
-            onExportClicked={onExportClicked}
-        >
-            <VitalityDependenciesBranchGrouper dependencies={dependencies || []} />
-        </VitalitySectionView>
+        <Card className="w-full">
+            <CardHeader>
+                <CardTitle className="flex items-center gap-3 text-xl font-semibold text-gray-900">
+                    📦
+                    {translate('vitality.appDetailsPage.dependencies.title') || 'Dependencies'}
+                </CardTitle>
+            </CardHeader>
+            <CardContent>
+                <VitalityDependenciesBranchGrouper dependencies={dependencies || []} />
+            </CardContent>
+        </Card>
     );
 };
 

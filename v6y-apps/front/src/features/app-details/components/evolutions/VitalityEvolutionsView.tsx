@@ -1,15 +1,13 @@
 import { EvolutionType } from '@v6y/core-logic/src/types';
 import {
-    BulbOutlined,
     DynamicLoader,
     useNavigationAdapter,
     useTranslationProvider,
 } from '@v6y/ui-kit';
+import { Card, CardContent, CardHeader, CardTitle } from '@v6y/ui-kit-front';
 import * as React from 'react';
 
-import VitalitySectionView from '../../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
-import { exportAppEvolutionsToCSV } from '../../../../commons/utils/VitalityDataExportUtils';
 import {
     buildClientQuery,
     useClientQuery,
@@ -20,8 +18,9 @@ const VitalityEvolutionBranchGrouper = DynamicLoader(
     () => import('./VitalityEvolutionBranchGrouper'),
 );
 
-const VitalityEvolutionsView = ({}) => {
+const VitalityEvolutionsView = () => {
     const { getUrlParams } = useNavigationAdapter();
+    const { translate } = useTranslationProvider();
     const [_id] = getUrlParams(['_id']);
 
     const {
@@ -31,7 +30,7 @@ const VitalityEvolutionsView = ({}) => {
         queryCacheKey: ['getApplicationDetailsEvolutionsByParams', `${_id}`],
         queryBuilder: async () =>
             buildClientQuery({
-                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
+                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
                 query: GetApplicationDetailsEvolutionsByParams,
                 variables: {
                     _id: parseInt(_id as string, 10),
@@ -53,25 +52,38 @@ const VitalityEvolutionsView = ({}) => {
             ...evolution?.evolutionHelp,
         }));
 
-    const onExportClicked = () => {
-        exportAppEvolutionsToCSV(evolutions || []);
-    };
+    if (isAppDetailsEvolutionsLoading) {
+        return (
+            <Card>
+                <CardContent className="flex items-center justify-center p-8">
+                    <div className="text-gray-500">Loading evolutions...</div>
+                </CardContent>
+            </Card>
+        );
+    }
 
-    const { translate } = useTranslationProvider();
+    if (!evolutions?.length) {
+        return (
+            <Card>
+                <CardContent className="flex items-center justify-center p-8">
+                    <div className="text-gray-500">No evolutions available</div>
+                </CardContent>
+            </Card>
+        );
+    }
 
     return (
-        <VitalitySectionView
-            isLoading={isAppDetailsEvolutionsLoading}
-            isEmpty={!evolutions?.length}
-            title={translate('vitality.appDetailsPage.evolutions.title')}
-            avatar={<BulbOutlined />}
-            exportButtonLabel={translate('vitality.appDetailsPage.evolutions.exportLabel')}
-            onExportClicked={onExportClicked}
-        >
-            {(evolutions?.length || 0) > 0 && (
+        <Card className="w-full">
+            <CardHeader>
+                <CardTitle className="flex items-center gap-3 text-xl font-semibold text-gray-900">
+                    💡
+                    {translate('vitality.appDetailsPage.evolutions.title') || 'Evolutions'}
+                </CardTitle>
+            </CardHeader>
+            <CardContent>
                 <VitalityEvolutionBranchGrouper evolutions={evolutions || []} />
-            )}
-        </VitalitySectionView>
+            </CardContent>
+        </Card>
     );
 };
 
