@@ -33,6 +33,12 @@ app.use(
     }),
 );
 
+// *********************************************** Health Check Endpoints ***********************************************
+
+app.get(healthCheckPath as string, (req, res) => {
+    res.status(200).send('V6y Sever is UP !');
+});
+
 // *********************************************** Graphql Config & Endpoints ***********************************************
 
 app.use(configureAuthMiddleware());
@@ -57,12 +63,6 @@ await server.start();
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 app.use(...buildUserMiddleware(server, apiPath as string));
-
-// *********************************************** Health Check Endpoints ***********************************************
-
-app.get(healthCheckPath as string, (req, res) => {
-    res.status(200).send('V6y Sever is UP !');
-});
 
 // *********************************************** DataBase Config & Launch ***********************************************
 
