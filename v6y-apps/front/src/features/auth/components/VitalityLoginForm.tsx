@@ -57,10 +57,20 @@ const VitalityLoginForm = () => {
             {translate('vitality.loginPage.formDescription')}
           </CardDescription>
         </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit((values) => onAuthentication(values))}
+              className="space-y-4"
+            >
+              <FormField
+                control={form.control}
+                name="email"
                 rules={{
                   required: translate('vitality.loginPage.formEmail.warning'),
                   validate: (value: string | undefined) => {
                     const result = loginSchemaValidator(translate).safeParse({
+                      email: value ?? '',
                       password: '',
                     });
                     return (

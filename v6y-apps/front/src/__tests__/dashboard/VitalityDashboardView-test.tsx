@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { describe, expect, it, vi } from 'vitest';
 
 import VitalityDashboardView from '../../features/dashboard/components/VitalityDashboardView';
@@ -31,15 +32,31 @@ vi.mock('../../features/dashboard/components/VitalityDashboardMenu', () => ({
 }));
 
 describe('VitalityDashboardView', () => {
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                retry: false,
+            },
+        },
+    });
+
+    const renderWithQueryClient = (component: React.ReactElement) => {
+        return render(
+            <QueryClientProvider client={queryClient}>
+                {component}
+            </QueryClientProvider>
+        );
+    };
+
     it('renders the search bar', () => {
-        render(<VitalityDashboardView />);
-        expect(screen.getByText('vitality.searchPage.inputLabel')).toBeInTheDocument();
+        renderWithQueryClient(<VitalityDashboardView />);
+        expect(screen.getByText('vitality.dashboardPage.searchByProjectName :')).toBeInTheDocument();
         expect(screen.getByText('vitality.searchPage.inputHelper')).toBeInTheDocument();
         expect(screen.getByTestId('mock-search-input')).toBeInTheDocument();
     });
 
     it('renders the dashboard menu with items', () => {
-        render(<VitalityDashboardView />);
+        renderWithQueryClient(<VitalityDashboardView />);
         expect(screen.getByTestId('mock-dashboard-menu')).toBeInTheDocument();
         expect(screen.getAllByTestId('mock-menu-item')).toHaveLength(5);
         expect(screen.getAllByTestId('mock-menu-item')[0]).toHaveTextContent('React');
