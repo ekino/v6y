@@ -1,121 +1,155 @@
 'use client';
 
+import React, { useEffect, useRef, useState } from 'react';
 import { ApplicationType } from '@v6y/core-logic/src/types';
 import {
-    Col,
-    DynamicLoader,
-    EmptyView,
-    LoadMoreList,
-    Row,
-    useNavigationAdapter,
-    useTranslationProvider,
-} from '@v6y/ui-kit';
-import * as React from 'react';
-import { useEffect, useState } from 'react';
+  useNavigationAdapter,
+  useTranslationProvider,
+  Spinner,
+} from '@v6y/ui-kit-front';
 
 import VitalityAppInfos from '../../../commons/components/application-info/VitalityAppInfos';
+import VitalityAppListHeader from './VitalityAppListHeader';
+import VitalityAppListPagination from './VitalityAppListPagination';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import { formatApplicationDataSource } from '../../../commons/config/VitalityCommonConfig';
 import { exportAppListDataToCSV } from '../../../commons/utils/VitalityDataExportUtils';
 import {
-    buildClientQuery,
-    useInfiniteClientQuery,
+  buildClientQuery,
+  useInfiniteClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationListByPageAndParams from '../api/getApplicationListByPageAndParams';
 
-const VitalityAppListHeader = DynamicLoader(() => import('./VitalityAppListHeader'));
-
-let currentAppListPage = 0;
+const initialPage = 0;
 
 interface VitalityAppListQueryType {
-    isLoading: boolean;
-    data?: { pages: Array<{ getApplicationListByPageAndParams: ApplicationType }> };
-    fetchNextPage: () => void;
-    status: string;
-    isFetchingNextPage: boolean;
-    isFetching: boolean;
-    pageParam?: number;
+  isLoading: boolean;
+  data?: {
+    pages?: unknown[];
+  };
+  fetchNextPage?: () => void;
+  status?: string;
+  isFetchingNextPage?: boolean;
+  isFetching?: boolean;
 }
 
-const VitalityAppList = ({ source }: { source?: string }) => {
-    const [appList, setAppList] = useState<ApplicationType[]>();
+interface ApplicationListPage {
+  totalCount: number;
+  getApplicationListByPageAndParams: ApplicationType[];
+}
 
-    const { getUrlParams } = useNavigationAdapter();
-    const [keywords, searchText] = getUrlParams(['keywords', 'searchText']);
+const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
+  const [appList, setAppList] = useState<ApplicationType[] | undefined>(
+    undefined
+  );
+  const currentAppListPage = useRef<number>(initialPage);
 
-    const {
-        data: dataAppList,
-        fetchNextPage: fetchAppListNextPage,
-        status: appListFetchStatus,
-        isFetchingNextPage: isAppListFetchingNextPage,
-        isFetching: isAppListFetching,
-    }: VitalityAppListQueryType = useInfiniteClientQuery({
-        queryCacheKey: [
-            'getApplicationListByPageAndParams',
-            keywords?.length ? keywords : 'empty_keywords',
-            searchText?.length ? searchText : 'empty_search_text',
-            `${currentAppListPage}`,
-        ],
-        queryBuilder: async () =>
-            buildClientQuery({
-                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
-                query: GetApplicationListByPageAndParams,
-                variables: {
-                    offset: 0,
-                    limit: VitalityApiConfig.VITALITY_BFF_PAGE_SIZE,
-                    keywords,
-                    searchText,
-                },
-            }),
-        getNextPageParam: () => currentAppListPage,
-    });
+  const { getUrlParams } = useNavigationAdapter();
+  const [keywords, searchText] = getUrlParams(['keywords', 'searchText']);
 
-    useEffect(() => {
-        setAppList(formatApplicationDataSource(dataAppList?.pages || []));
-    }, [dataAppList?.pages]);
+  const {
+    data: dataAppList,
+    fetchNextPage: fetchAppListNextPage,
+    status: appListFetchStatus,
+    isFetchingNextPage: isAppListFetchingNextPage,
+    isFetching: isAppListFetching,
+  }: VitalityAppListQueryType = useInfiniteClientQuery({
+    queryCacheKey: [
+      'getApplicationListByPageAndParams',
+      keywords?.length ? keywords : 'empty_keywords',
+      searchText?.length ? searchText : 'empty_search_text',
+      `${currentAppListPage.current}`,
+    ],
+    queryBuilder: async () =>
+      buildClientQuery({
+        queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL ?? '',
+        query: GetApplicationListByPageAndParams,
+        variables: {
+          offset:
+            currentAppListPage.current *
+            VitalityApiConfig.VITALITY_BFF_PAGE_SIZE,
+          limit: VitalityApiConfig.VITALITY_BFF_PAGE_SIZE,
+          keywords,
+          searchText,
+        },
+      }),
+    getNextPageParam: () => currentAppListPage.current,
+  });
 
-    useEffect(() => {
-        currentAppListPage = 0;
-        fetchAppListNextPage?.();
-    }, [keywords, searchText, fetchAppListNextPage]);
+  const totalCount =
+    (dataAppList?.pages?.[0] as ApplicationListPage)?.totalCount || 0;
+  const totalPages = Math.ceil(
+    totalCount / VitalityApiConfig.VITALITY_BFF_PAGE_SIZE
+  );
 
-    const isAppListLoading =
-        appListFetchStatus === 'loading' || isAppListFetching || isAppListFetchingNextPage || false;
-
-    const onExportApplicationsClicked = () => {
-        exportAppListDataToCSV(appList || []);
-    };
-
-    const onLoadMore = () => {
-        currentAppListPage = appList?.length ? appList?.length : 0;
-        fetchAppListNextPage();
-    };
-
-    const { translate } = useTranslationProvider();
-
-    return (
-        <Row justify="center" align="middle" gutter={[0, 24]}>
-            <Col span={24}>
-                <VitalityAppListHeader onExportApplicationsClicked={onExportApplicationsClicked} />
-            </Col>
-            {appList?.length === 0 ? (
-                <EmptyView />
-            ) : (
-                <Col span={20}>
-                    <LoadMoreList
-                        isDataSourceLoading={isAppListLoading}
-                        loadMoreLabel={translate('vitality.appListPage.loadMore')}
-                        dataSource={appList || []}
-                        renderItem={(item: unknown) => {
-                            const app = item as ApplicationType;
-                            return <VitalityAppInfos key={app._id} app={app} source={source} />;
-                        }}
-                        onLoadMore={onLoadMore}
-                    />
-                </Col>
-            )}
-        </Row>
+  useEffect(() => {
+    setAppList(
+      formatApplicationDataSource(
+        (dataAppList?.pages as {
+          getApplicationListByPageAndParams: ApplicationType;
+        }[]) || []
+      )
     );
+  }, [dataAppList?.pages]);
+
+  useEffect(() => {
+    currentAppListPage.current = 0;
+    fetchAppListNextPage?.();
+  }, [keywords, searchText, fetchAppListNextPage]);
+
+  const isAppListLoading =
+    appListFetchStatus === 'loading' ||
+    isAppListFetching ||
+    isAppListFetchingNextPage ||
+    false;
+
+  const onExportApplicationsClicked = () => {
+    exportAppListDataToCSV(appList || []);
+  };
+
+  const onPageChange = (page: number) => {
+    currentAppListPage.current = page - 1;
+    setAppList(undefined);
+    fetchAppListNextPage?.();
+  };
+
+  const { translate } = useTranslationProvider();
+
+  return (
+    <div className="w-full flex flex-col items-center gap-6">
+      <VitalityAppListHeader
+        onExportApplicationsClicked={onExportApplicationsClicked}
+      />
+
+      {isAppListLoading && !appList ? (
+        <div className="py-20">
+          <Spinner />
+        </div>
+      ) : Array.isArray(appList) && appList.length === 0 ? (
+        <div className="w-full max-w-4xl px-4 py-20 text-center text-zinc-500">
+          {translate('vitality.appListPage.empty')}
+        </div>
+      ) : (
+        <div className="w-full">
+          {appList && (
+            <ul className="gap-4">
+              {appList.map((app) => (
+                <VitalityAppInfos key={app._id} app={app} source={source} />
+              ))}
+            </ul>
+          )}
+
+          {appList && (
+            <VitalityAppListPagination
+              currentPage={currentAppListPage.current + 1}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+            />
+          )}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default VitalityAppList;

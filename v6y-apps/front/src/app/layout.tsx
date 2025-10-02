@@ -6,7 +6,6 @@ import { Inter } from 'next/font/google';
 import VitalityPageLayout from '../commons/components/layout/VitalityPageLayout';
 import { AppProvider } from '../infrastructure/providers/AppProvider';
 import '../infrastructure/translation/i18nHelper';
-import '../style.css';
 
 const inter = Inter({
     subsets: ['latin'],

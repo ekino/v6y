@@ -39,7 +39,7 @@
     "typescript-eslint": "=8.20.0"
   },
   "dependencies": {
-    "@sequelize/core": "7.0.0-alpha.43",
+    "@sequelize/core": "=7.0.0-alpha.43",
     "@types/body-parser": "=1.19.5",
     "@types/express": "=5.0.0",
     "@v6y/core-logic": "workspace:^",
