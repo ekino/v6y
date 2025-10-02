@@ -21,10 +21,19 @@ vi.mock('next/dynamic', async () => {
     };
 });
 
-const formErrors: Record<string, { message: string }> = {}; // Global error state for the mock
+vi.mock('next/navigation', () => {
+    return {
+        redirect: vi.fn(),
+        usePathname: () => '/',
+        useRouter: () => ({ push: vi.fn(), replace: vi.fn(), back: vi.fn(), forward: vi.fn(), refresh: vi.fn() }),
+        useSearchParams: () => ({ get: (key: string) => null }),
+    };
+});
+
+const formErrors: Record<string, { message: string }> = {};
 
 beforeEach(() => {
-    Object.keys(formErrors).forEach((key) => delete formErrors[key]); // Clear all errors before each test
+    Object.keys(formErrors).forEach((key) => delete formErrors[key]);
 });
 
 afterEach(() => {
@@ -65,7 +74,7 @@ vi.mock('@v6y/ui-kit', () => {
                     return formErrors;
                 },
             },
-            clearErrors: (name) => {
+            clearErrors: (name: string) => {
                 delete formErrors[name];
             },
         })),
@@ -165,7 +174,7 @@ vi.mock('@v6y/ui-kit', () => {
                     <div data-testid="mock-card">
                         <div data-testid="mock-card-title">{title}</div>
                         <div data-testid="mock-card-content">{children}</div>
-                        {actions?.length > 0 && (
+                        {Array.isArray(actions) && actions.length > 0 && (
                             <div data-testid="mock-card-actions">
                                 {actions.map((action, index) => {
                                     return (
@@ -473,3 +482,81 @@ vi.mock('@v6y/ui-kit', () => {
         )),
     };
 });
+
+vi.mock('@v6y/ui-kit-front', () => {
+    return {
+        Badge: ({ children, className }: any) => <span data-testid="mock-badge" className={className}>{children}</span>,
+        Button: ({ children, className, onClick, ...props }: any) => (
+            <button data-testid="mock-button" className={className} onClick={onClick} {...props}>
+                {children}
+            </button>
+        ),
+        CommitIcon: (props: any) => <svg data-testid="mock-commit-icon" {...props} />,
+        GlobeIcon: (props: any) => <svg data-testid="mock-globe-icon" {...props} />,
+        StarIcon: (props: any) => <svg data-testid="mock-star-icon" {...props} />,
+        useNavigationAdapter: () => ({
+            createUrlQueryParam: (name: string, value: string) => `${name}=${value}`,
+            removeUrlQueryParam: () => {},
+            getUrlParams: () => ['1'],
+            pathname: '/dashboard',
+            router: { push: () => {}, replace: () => {}, back: () => {}, forward: () => {}, refresh: () => {} },
+        }),
+        useTranslationProvider: () => ({
+            translate: (key: string) => key,
+        }),
+        Input: (props: any) => <input data-testid="mock-search-input" {...props} />, 
+        LoaderView: () => <div data-testid="mock-loader">Loading...</div>,
+        EmptyView: () => <div data-testid="empty-view">No Data</div>,
+        Card: ({ title, children }: any) => (
+            <div data-testid="mock-card">
+                <div data-testid="mock-card-title">{title}</div>
+                <div data-testid="mock-card-content">{children}</div>
+            </div>
+        ),
+        Links: ({ links }: { links: Array<{ label: string; value: string }> }) => (
+            <ul>
+                {links.map((l, i) => (
+                    <li key={i}><a href={l.value}>{l.label}</a></li>
+                ))}
+            </ul>
+        ),
+        // Pagination primitives used by VitalityAppListPagination
+        Pagination: ({ children }: { children: React.ReactNode }) => (
+            <nav data-testid="mock-pagination">{children}</nav>
+        ),
+        PaginationContent: ({ children }: { children: React.ReactNode }) => (
+            <div data-testid="mock-pagination-content">{children}</div>
+        ),
+        PaginationItem: ({ children }: { children: React.ReactNode }) => (
+            <span data-testid="mock-pagination-item">{children}</span>
+        ),
+        PaginationLink: ({ children, onClick, href, isActive, className }: any) => (
+            <a href={href} className={className} aria-current={isActive ? 'page' : undefined} onClick={onClick}>
+                {children}
+            </a>
+        ),
+        PaginationPrevious: (props: any) => <button data-testid="mock-pagination-prev" {...props} />,
+        PaginationNext: (props: any) => <button data-testid="mock-pagination-next" {...props} />,
+        PaginationEllipsis: () => <span data-testid="mock-pagination-ellipsis">...</span>,
+    };
+});
+
+vi.mock('./src/commons/components/VitalitySearchBar', () => ({
+    default: ({ placeholder, helper, label }: any) => (
+        <div>
+            <h3>vitality.dashboardPage.searchByProjectName :</h3>
+            <div className="flex items-center space-y-2">
+                <div className="flex flex-1 items-center gap-x-2 h-10">
+                    <input
+                        placeholder={placeholder}
+                        aria-label={label}
+                        data-testid="mock-search-input"
+                        className="flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm border-gray-400"
+                    />
+                    <button>search</button>
+                </div>
+            </div>
+            <p className="text-xs text-gray-500 mt-2">{helper}</p>
+        </div>
+    ),
+}));
