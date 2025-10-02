@@ -8,11 +8,12 @@ import {
     type FieldPath,
     type FieldValues,
     FormProvider,
-    useFormContext,
+    // useFormContext removed (now imported in useFormField)
 } from 'react-hook-form';
 
 import { cn } from '../../lib/utils';
-import { Label } from './label';
+import { Label } from '../atoms';
+import { useFormField } from './useFormField';
 
 // Patch: cast FormProvider as a React.FC for compatibility with JSX usage in consuming apps
 // Use Record<string, unknown> instead of empty-object type to satisfy @typescript-eslint/no-empty-object-type
@@ -40,28 +41,7 @@ const FormField = <
     );
 };
 
-const useFormField = () => {
-    const fieldContext = React.useContext(FormFieldContext);
-    const itemContext = React.useContext(FormItemContext);
-    const { getFieldState, formState } = useFormContext();
-
-    const fieldState = getFieldState(fieldContext.name, formState);
-
-    if (!fieldContext) {
-        throw new Error('useFormField should be used within <FormField>');
-    }
-
-    const { id } = itemContext;
-
-    return {
-        id,
-        name: fieldContext.name,
-        formItemId: `${id}-form-item`,
-        formDescriptionId: `${id}-form-item-description`,
-        formMessageId: `${id}-form-item-message`,
-        ...fieldState,
-    };
-};
+// useFormField is now imported from './useFormField'
 
 type FormItemContextValue = {
     id: string;
@@ -148,4 +128,4 @@ const FormMessage = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<
 );
 FormMessage.displayName = 'FormMessage';
 
-export { useFormField, Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormField };
+export { Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormField };

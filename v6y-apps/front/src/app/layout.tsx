@@ -2,7 +2,6 @@ import { LoaderView } from '@v6y/ui-kit';
 import '@v6y/ui-kit-front/styles.css';
 import * as React from 'react';
 import { ReactNode, Suspense } from 'react';
-
 import VitalityPageLayout from '../commons/components/layout/VitalityPageLayout';
 import { AppProvider } from '../infrastructure/providers/AppProvider';
 import '../infrastructure/translation/i18nHelper';

@@ -6,10 +6,11 @@ export * from './translation/TranslationType.ts';
 
 // Components
 export * from './components/atoms';
+export * from './components/molecules';
 export * from './components/organisms';
 
-// Icons
-export * from './components/Icons';
+// Hooks
+export * from './hooks';
 
 // Utils
 export { cn } from './lib/utils';
