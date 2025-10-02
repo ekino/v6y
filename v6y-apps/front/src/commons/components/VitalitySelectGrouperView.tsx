@@ -28,7 +28,7 @@ const VitalitySelectGrouperView = ({
         selectGroupForm?.setFieldsValue({
             [name]: hasAllGroup ? 'All' : null,
         });
-    }, [groupedDataSource]);
+    }, [groupedDataSource, hasAllGroup, name, selectGroupForm]);
 
     if (!dataSource?.length || !criteria?.length) {
         return <EmptyView />;

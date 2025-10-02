@@ -16,7 +16,6 @@ import { buildPageTitle } from '../../config/VitalityCommonConfig';
 import ProtectedRoute from '../ProtectedRoute';
 import VitalityBot from '../chatbot/VitalityBot';
 import VitalityBreadcrumb from './VitalityBreadcrumb';
-import VitalityPageFooter from './VitalityPageFooter';
 import VitalityPageHeader from './VitalityPageHeader';
 
 const VitalityPageLayout = ({ children }: { children: ReactNode }) => {
@@ -37,7 +36,6 @@ const VitalityPageLayout = ({ children }: { children: ReactNode }) => {
                 </Row>
             </ProtectedRoute>
 
-            <VitalityPageFooter />
             <VitalityBot />
             <FloatButton.BackTop />
             <Toaster position="top-center" richColors />

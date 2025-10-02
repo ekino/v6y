@@ -49,11 +49,11 @@ const VitalityLoginForm = () => {
     }, [authenticationStatus, translate]);
 
     return (
-        <div className="w-full max-w-[400px] sm:max-w-[360px] md:max-w-[340px] lg:max-w-[320px] mx-auto px-4 sm:px-0">
-            <Card>
+        <div className="h-[80vh] flex items-center justify-center">
+            <Card className="space-y-4 border-gray-200">
                 <CardHeader>
                     <TypographyP muted>
-                        If you do not have an account, please refer to your organization.
+                        {translate('vitality.loginPage.formTitle')}
                     </TypographyP>
                 </CardHeader>
                 <CardContent>
@@ -85,7 +85,7 @@ const VitalityLoginForm = () => {
                                             {translate('vitality.loginPage.formEmail.label')}
                                         </FormLabel>
                                         <FormControl>
-                                            <Input type="email" autoComplete="email" {...field} />
+                                            <Input className="border-gray-200" type="email" autoComplete="email" {...field}  />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -115,6 +115,7 @@ const VitalityLoginForm = () => {
                                         </FormLabel>
                                         <FormControl>
                                             <Input
+                                                className="border-gray-200"
                                                 type="password"
                                                 autoComplete="current-password"
                                                 {...field}
@@ -133,6 +134,7 @@ const VitalityLoginForm = () => {
                                         <div className="flex items-center">
                                             <FormControl>
                                                 <Checkbox
+                                                    className="rounded-none border-gray-200"
                                                     checked={field.value}
                                                     onCheckedChange={field.onChange}
                                                     id="remember"

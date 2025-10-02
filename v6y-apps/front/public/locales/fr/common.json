@@ -83,6 +83,7 @@
       "shortTitle": "notifications"
     },
     "loginPage": {
+      "formTitle": "Si vous n'avez pas de compte, veuillez vous référer à votre organisation.",
       "formEmail": {
         "label": "Email",
         "warning": "Veuillez entrer une adresse e-mail valide"
