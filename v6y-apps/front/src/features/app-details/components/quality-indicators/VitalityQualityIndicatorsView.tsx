@@ -1,15 +1,13 @@
 import { KeywordType } from '@v6y/core-logic/src/types';
 import {
-    CompassOutlined,
     DynamicLoader,
     useNavigationAdapter,
     useTranslationProvider,
 } from '@v6y/ui-kit';
+import { Card, CardContent, CardHeader, CardTitle } from '@v6y/ui-kit-front';
 import * as React from 'react';
 
-import VitalitySectionView from '../../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
-import { exportAppQualityIndicatorsToCSV } from '../../../../commons/utils/VitalityDataExportUtils';
 import {
     buildClientQuery,
     useClientQuery,
@@ -22,6 +20,7 @@ const VitalityQualityIndicatorBranchGrouper = DynamicLoader(
 
 const VitalityQualityIndicatorsView = () => {
     const { getUrlParams } = useNavigationAdapter();
+    const { translate } = useTranslationProvider();
     const [_id] = getUrlParams(['_id']);
 
     const {
@@ -31,7 +30,7 @@ const VitalityQualityIndicatorsView = () => {
         queryCacheKey: ['getApplicationQualityIndicatorsByParams', `${_id}`],
         queryBuilder: async () =>
             buildClientQuery({
-                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
+                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
                 query: GetApplicationDetailsQualityIndicatorsByParams,
                 variables: {
                     _id: parseInt(_id as string, 10),
@@ -47,23 +46,38 @@ const VitalityQualityIndicatorsView = () => {
                 ...indicator?.module,
             })) || [];
 
-    const onExportClicked = () => {
-        exportAppQualityIndicatorsToCSV(dataSource);
-    };
+    if (isQualityIndicatorsLoading) {
+        return (
+            <Card>
+                <CardContent className="flex items-center justify-center p-8">
+                    <div className="text-gray-500">Loading quality indicators...</div>
+                </CardContent>
+            </Card>
+        );
+    }
 
-    const { translate } = useTranslationProvider();
+    if (!dataSource?.length) {
+        return (
+            <Card>
+                <CardContent className="flex items-center justify-center p-8">
+                    <div className="text-gray-500">No quality indicators available</div>
+                </CardContent>
+            </Card>
+        );
+    }
 
     return (
-        <VitalitySectionView
-            isLoading={isQualityIndicatorsLoading}
-            isEmpty={!dataSource?.length}
-            title={translate('vitality.appDetailsPage.qualityStatus.title')}
-            avatar={<CompassOutlined />}
-            exportButtonLabel={translate('vitality.appDetailsPage.qualityStatus.exportLabel')}
-            onExportClicked={onExportClicked}
-        >
-            <VitalityQualityIndicatorBranchGrouper indicators={dataSource} />
-        </VitalitySectionView>
+        <Card className="w-full">
+            <CardHeader>
+                <CardTitle className="flex items-center gap-3 text-xl font-semibold text-gray-900">
+                    🧭
+                    {translate('vitality.appDetailsPage.qualityStatus.title') || 'Quality Indicators'}
+                </CardTitle>
+            </CardHeader>
+            <CardContent>
+                <VitalityQualityIndicatorBranchGrouper indicators={dataSource} />
+            </CardContent>
+        </Card>
     );
 };
 
