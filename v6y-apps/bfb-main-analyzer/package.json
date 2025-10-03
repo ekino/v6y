@@ -43,7 +43,7 @@
     "@types/body-parser": "=1.19.5",
     "@types/express": "=5.0.0",
     "@v6y/core-logic": "workspace:^",
-    "axios": "=1.12.0",
+    "axios": "=1.12.2",
     "axios-retry": "=4.5.0",
     "body-parser": "=1.20.3",
     "compare-versions": "=6.1.1",

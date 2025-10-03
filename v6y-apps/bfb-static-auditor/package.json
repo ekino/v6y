@@ -61,7 +61,7 @@
     "@types/fs-extra": "=11.0.4",
     "@typhonjs/babel-parser": "=0.2.0",
     "@v6y/core-logic": "workspace:^",
-    "axios": "=1.12.0",
+    "axios": "=1.12.2",
     "axios-retry": "=4.5.0",
     "body-parser": "=1.20.3",
     "cookie-parser": "=1.4.7",
