@@ -36,3 +36,5 @@ export {
   TypographySmall,
   TypographyMuted,
 } from './Typography.tsx';
+export { Searchbar } from './Searchbar.tsx';
+export { Filters } from './Filters';

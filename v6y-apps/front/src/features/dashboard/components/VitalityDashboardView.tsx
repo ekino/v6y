@@ -1,26 +1,25 @@
-'use client';
+"use client";
 
-import { useThemeConfigProvider, useTranslationProvider } from '@v6y/ui-kit';
-import * as React from 'react';
-
+import React from 'react';
 import VitalitySearchBar from '../../../commons/components/VitalitySearchBar';
 import { buildDashboardMenuItems } from '../../../commons/config/VitalityCommonConfig';
 import VitalityDashboardMenu from './VitalityDashboardMenu';
+import { useTranslationProvider } from '@v6y/ui-kit';
 
 const VitalityDashboardView = () => {
-    const { currentConfig } = useThemeConfigProvider();
-    const { translate } = useTranslationProvider();
+  const items = buildDashboardMenuItems({});
+  const { translate } = useTranslationProvider();
 
-    return (
-        <>
-            <VitalitySearchBar
-                placeholder={translate('vitality.dashboardPage.pageTitle')}
-                helper={translate('vitality.searchPage.inputHelper')}
-                label={translate('vitality.searchPage.inputLabel')}
-            />
-            <VitalityDashboardMenu options={buildDashboardMenuItems(currentConfig?.token)} />
-        </>
-    );
+  return (
+    <div>
+      <VitalitySearchBar
+        placeholder={translate('vitality.searchPage.inputPlaceholder')}
+        helper={translate('vitality.searchPage.inputHelper')}
+        label={translate('vitality.searchPage.inputLabel')}
+      />
+      <VitalityDashboardMenu options={items} />
+    </div>
+  );
 };
 
 export default VitalityDashboardView;

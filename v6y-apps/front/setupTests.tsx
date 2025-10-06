@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { cleanup } from '@testing-library/react';
-import { List, useTranslationProvider } from '@v6y/ui-kit';
 import dynamic from 'next/dynamic';
 import { afterEach, beforeEach, vi } from 'vitest';
 
@@ -18,6 +17,30 @@ vi.mock('next/dynamic', async () => {
 
             return DynamicComponent;
         },
+    };
+});
+
+// Provide a global mock for next/navigation used by client components in tests.
+// This prevents "invariant expected app router to be mounted" errors when
+// components call useRouter/useSearchParams/usePathname/redirect during unit tests.
+vi.mock('next/navigation', () => {
+    const URLSearchParams = globalThis.URLSearchParams;
+    return {
+        useSearchParams: () => new URLSearchParams(''),
+        usePathname: () => '/',
+        useRouter: () => ({ push: vi.fn(), replace: vi.fn(), prefetch: vi.fn() }),
+        redirect: (p: string) => {},
+    };
+});
+
+// Provide lightweight mocks for @v6y/ui-kit-front primitives used across tests
+vi.mock('@v6y/ui-kit-front', async () => {
+    const React = await vi.importActual('react');
+    return {
+        // Provide Input as a component (VitalitySearchBar uses <Input ... />)
+        Input: (props: any) => (React as any).createElement('input', { 'data-testid': 'mock-search-input', ...props }),
+        // Provide Button as a plain component
+        Button: (props: any) => (React as any).createElement('button', { 'data-testid': 'mock-search-button', ...props }, props.children),
     };
 });
 
@@ -436,7 +459,13 @@ vi.mock('@v6y/ui-kit', () => {
 
             return (
                 <div data-testid="mock-paginated-list">
-                    <List dataSource={dataSource} renderItem={renderItem} />
+                    <ul className="divide-y divide-border rounded-md border">
+                        {dataSource.map((item, index) => (
+                            <li key={index} className="p-4">
+                                {renderItem(item)}
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             );
         },
@@ -453,7 +482,11 @@ vi.mock('@v6y/ui-kit', () => {
 
             return (
                 <div data-testid="mock-loadmore-list">
-                    <List dataSource={dataSource} renderItem={renderItem} />
+                    <ul className="divide-y divide-border rounded-md border">
+                        {dataSource.map((item, index) => (
+                            <li key={index}>{renderItem(item)}</li>
+                        ))}
+                    </ul>
                 </div>
             );
         },

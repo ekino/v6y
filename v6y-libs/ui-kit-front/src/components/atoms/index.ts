@@ -1,3 +1,4 @@
+export { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from './accordion.tsx';
 export { Alert, AlertTitle, AlertDescription } from './alert.tsx';
 export { Avatar, AvatarFallback, AvatarImage } from './avatar.tsx';
 export { Button } from './button.tsx';

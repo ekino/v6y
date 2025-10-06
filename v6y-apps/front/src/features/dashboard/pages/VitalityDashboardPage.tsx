@@ -1,5 +1,7 @@
-import VitalityDashboardView from '../components/VitalityDashboardView';
-
+import VitalityDashboardSidebar from '../components/VitalityDashboardSidebar';
+    
 export default function VitalityDashboardPage() {
-    return <VitalityDashboardView />;
+    return <div>
+        <VitalityDashboardSidebar />
+    </div>
 }
