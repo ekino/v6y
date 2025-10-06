@@ -1,3 +1,5 @@
+'use client';
+
 import {
     Button,
     ExitIcon,
@@ -38,33 +40,37 @@ const VitalityPageHeader = () => {
                     />
                 </Link>
                 
-                    {isLoggedIn && (
-                        <VitalityPageHeaderMenu />
-                    )}
-            </div>
-            <div className="flex items-center gap-2 text-center">
-                <Button className="border-gray-200" size="icon" variant="outline">
-                    <QuestionMarkCircledIcon />
-                </Button>
-
-                <LanguageMenu />
-
                 {isLoggedIn && (
-                    <>
-                        <Button size="icon" variant="outline">
+                    <VitalityPageHeaderMenu />
+                )}
+            </div>
+            <div className="flex items-center gap-x-8 text-center">
+                <div className="flex gap-x-2">
+                    <Button className="border-gray-200" size="icon" variant="outline">
+                        <QuestionMarkCircledIcon />
+                    </Button>
+
+                    {isLoggedIn && (
+                        <Button className="border-gray-200" size="icon" variant="outline">
                             <MagnifyingGlassIcon />
                         </Button>
-                        <LanguageMenu />
+                    )}
+
+                    <LanguageMenu />
+                </div>
+        
+
+                {isLoggedIn && (
+                    <div className="flex items-center gap-x-2">
                         <TypographySmall>
                             {translate('vitality.header.welcome')} {userName}
                         </TypographySmall>
-
                         <Link href={VitalityNavigationPaths.LOGIN} onClick={onLogout}>
                             <Button size="icon" variant="outline">
                                 <ExitIcon />
                             </Button>
                         </Link>
-                    </>
+                    </div>
                 )}
             </div>
         </header>

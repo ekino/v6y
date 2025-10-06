@@ -1,11 +1,13 @@
 'use client';
 
-import { useNavigationAdapter } from '@v6y/ui-kit';
 import { useEffect } from 'react';
 
 import { useLogin } from '../hooks/useAuth';
+import { useNavigationAdapter } from '@v6y/ui-kit-front';
 
-function ProtectedRoute({ children }) {
+import { ReactNode } from 'react';
+
+function ProtectedRoute({ children }: { children: ReactNode }) {
     const { isLoggedIn, isLoginLoading } = useLogin();
     const { pathname, router } = useNavigationAdapter();
 

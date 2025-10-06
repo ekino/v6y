@@ -1,55 +1,59 @@
-'use client';
+"use client";
 
-import { Col, Form, Input, Row, TextView, useNavigationAdapter } from '@v6y/ui-kit';
-import * as React from 'react';
+import { Input, Button } from "@v6y/ui-kit-front";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
+
+// You may need to adjust the import path for VitalityNavigationPaths and VitalitySearchBarProps if still needed
 import VitalityNavigationPaths from '../config/VitalityNavigationPaths';
 import { VitalitySearchBarProps } from '../types/VitalitySearchBarProps';
 
-const { Search } = Input;
 
-const VitalitySearchBar = ({ helper, label, status, placeholder }: VitalitySearchBarProps) => {
-    const { router, pathname, getUrlParams, createUrlQueryParam, removeUrlQueryParam } =
-        useNavigationAdapter();
-    const [searchText] = getUrlParams(['searchText']);
 
-    const handleOnSearchChanged = (value: string) => {
-        if (pathname === VitalityNavigationPaths.DASHBOARD) {
-            const queryParams = createUrlQueryParam('searchText', value);
-            router.push(`/search?${queryParams}`);
-            return;
-        }
+import React, { useState, FormEvent } from "react";
 
-        if (value?.length) {
-            const queryParams = createUrlQueryParam('searchText', value);
-            router.replace(`${pathname}?${queryParams}`);
+const VitalitySearchBar = ({ helper, label, placeholder }: VitalitySearchBarProps) => {
+    const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const [searchText, setSearchText] = useState(searchParams.get("searchText") || "");
+
+    const handleSearch = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const value = searchText.trim();
+        const params = new URLSearchParams(Array.from(searchParams.entries()));
+        if (value.length) {
+            params.set("searchText", value);
         } else {
-            const queryParams = removeUrlQueryParam('searchText');
-            router.replace(`${pathname}?${queryParams}`);
+            params.delete("searchText");
+        }
+        if (pathname === VitalityNavigationPaths.DASHBOARD) {
+            router.push(`/search?${params.toString()}`);
+        } else {
+            router.replace(`${pathname}?${params.toString()}`);
         }
     };
 
     return (
-        <Row justify="center" align="middle" gutter={[12, 6]}>
-            <Col span={22}>
-                <Form layout="vertical">
-                    <Form.Item
-                        name="vitality_search"
-                        label={<TextView content={label} />}
-                        help={<TextView content={helper || ''} />}
-                        initialValue={searchText}
-                    >
-                        <Search
-                            enterButton
-                            allowClear
-                            status={status}
-                            placeholder={placeholder}
-                            onSearch={handleOnSearchChanged}
-                        />
-                    </Form.Item>
-                </Form>
-            </Col>
-        </Row>
+        <form onSubmit={handleSearch} className="flex flex-col items-center w-full max-w-xl mx-auto space-y-2">
+            <label htmlFor="vitality_search" className="font-medium">
+                {label}
+            </label>
+            {helper && <span className="text-sm text-gray-500">{helper}</span>}
+            <div className="flex w-full space-x-2">
+                <Input
+                    id="vitality_search"
+                    name="vitality_search"
+                    placeholder={placeholder}
+                    value={searchText}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setSearchText(event.target.value)}
+                    className="flex-1"
+                />
+                <Button type="submit" variant="default">
+                    Search
+                </Button>
+            </div>
+        </form>
     );
 };
 

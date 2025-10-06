@@ -1,9 +1,7 @@
-import { LoaderView } from '@v6y/ui-kit';
-import '@v6y/ui-kit-front/styles.css';
 import * as React from 'react';
+import { Spinner } from '@v6y/ui-kit-front';
 import { ReactNode, Suspense } from 'react';
 import VitalityPageLayout from '../commons/components/layout/VitalityPageLayout';
-import { AppProvider } from '../infrastructure/providers/AppProvider';
 import '../infrastructure/translation/i18nHelper';
 
 export const metadata = {
@@ -21,11 +19,15 @@ export default function RootLayout({
         <html lang="en">
             <body>
                 <main>
-                    <AppProvider>
-                        <Suspense fallback={<LoaderView />}>
+                        <Suspense
+                            fallback={
+                                <div className="flex items-center justify-center h-64">
+                                    <Spinner size={40} />
+                                </div>
+                            }
+                        >
                             <VitalityPageLayout>{children}</VitalityPageLayout>
                         </Suspense>
-                    </AppProvider>
                 </main>
             </body>
         </html>

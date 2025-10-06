@@ -192,17 +192,6 @@ export const buildBreadCrumbItems = ({
     );
 };
 
-export const buildPageTitle = (pathname: string, translate: (key: string) => string) => {
-    return (
-        {
-            [VitalityNavigationPaths.DASHBOARD]: translate('vitality.dashboardPage.pageTitle'),
-            [VitalityNavigationPaths.APP_LIST]: translate('vitality.appListPage.pageTitle'),
-            [VitalityNavigationPaths.APP_DETAILS]: translate('vitality.appDetailsPage.pageTitle'),
-            [VitalityNavigationPaths.APPS_STATS]: translate('vitality.appStatsPage.pageTitle'),
-        }[pathname] || []
-    );
-};
-
 export const formatApplicationDataSource = (
     pagedData: Array<{ getApplicationListByPageAndParams: ApplicationType }>,
 ): Array<ApplicationType> => {
