@@ -17,10 +17,7 @@ import {
 import VitalityApiConfig from '../../config/VitalityApiConfig';
 import GetIndicatorListByParams from './getIndicatorListByParams';
 
-interface VitalitySelectableIndicatorsQueryType {
-    isLoading: boolean;
-    data?: { getApplicationDetailsKeywordsByParams: KeywordType[] };
-}
+// (removed unused VitalitySelectableIndicatorsQueryType)
 
 const VitalitySelectableIndicators = () => {
     const [selectedIndicators, setSelectedIndicators] = useState<string[]>();
@@ -33,7 +30,7 @@ const VitalitySelectableIndicators = () => {
     const {
         isLoading: isIndicatorsLoading,
         data: dataIndicators,
-    }: VitalitySelectableIndicatorsQueryType = useClientQuery({
+    } = useClientQuery<{ getApplicationDetailsKeywordsByParams: KeywordType[] }>({
         queryCacheKey: ['getIndicatorListByParams'],
         queryBuilder: async () =>
             buildClientQuery({

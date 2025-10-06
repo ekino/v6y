@@ -9,6 +9,27 @@ vi.mock('../api', () => ({
     gqlClientRequest: vi.fn().mockResolvedValue({ data: { id: '123' } }),
 }));
 
+vi.mock('@refinedev/antd', async () => {
+    const refineModule = await vi.importActual<typeof import('@refinedev/antd')>('@refinedev/antd');
+
+    return {
+        ...refineModule,
+        useForm: vi.fn(() => ({
+            form: {
+                getFieldsValue: vi.fn(() => ({})),
+                setFieldsValue: vi.fn(),
+            },
+            formProps: {
+                onFinish: vi.fn(),
+            },
+            saveButtonProps: {
+                loading: false,
+                onClick: vi.fn(),
+            },
+        })),
+    };
+});
+
 describe('AdminCreateWrapper', () => {
     it('should renderWithQueryClientProvider the component with formItems', async () => {
         await act(async () => {

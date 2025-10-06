@@ -20,11 +20,6 @@ const VitalityDependenciesBranchGrouper = DynamicLoader(
     () => import('./VitalityDependenciesBranchGrouper'),
 );
 
-interface VitalityDependenciesQueryType {
-    isLoading: boolean;
-    data?: { getApplicationDetailsDependenciesByParams: DependencyType[] };
-}
-
 const VitalityDependenciesView = ({}) => {
     const { getUrlParams } = useNavigationAdapter();
     const [_id] = getUrlParams(['_id']);
@@ -32,7 +27,7 @@ const VitalityDependenciesView = ({}) => {
     const {
         isLoading: isAppDetailsDependenciesLoading,
         data: appDetailsDependencies,
-    }: VitalityDependenciesQueryType = useClientQuery({
+    } = useClientQuery<{ getApplicationDetailsDependenciesByParams: DependencyType[] }>({
         queryCacheKey: ['getApplicationDetailsDependenciesByParams', `${_id}`],
         queryBuilder: async () =>
             buildClientQuery({

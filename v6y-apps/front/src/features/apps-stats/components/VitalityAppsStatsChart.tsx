@@ -17,18 +17,12 @@ import {
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationStatsByParams from '../api/getApplicationStatsByParams';
 
-interface VitalityAppsStatsQueryType {
-    isLoading: boolean;
-    data?: { getApplicationStatsByParams: KeywordStatsType[] };
-    refetch?: () => void;
-}
-
 const VitalityAppsStatsChart = () => {
     const { translate } = useTranslationProvider();
     const { getUrlParams } = useNavigationAdapter();
     const [keywords] = getUrlParams(['keywords']);
 
-    const { isLoading, data, refetch }: VitalityAppsStatsQueryType = useClientQuery({
+    const { isLoading, data, refetch } = useClientQuery({
         queryCacheKey: [
             'getApplicationStatsByParams',
             keywords?.length ? keywords : 'empty_keywords',
@@ -45,15 +39,16 @@ const VitalityAppsStatsChart = () => {
 
     useEffect(() => {
         refetch?.();
-    }, [keywords]);
+    }, [keywords, refetch]);
 
     if (isLoading) {
         return <LoaderView />;
     }
 
-    const dataSource = data?.getApplicationStatsByParams;
+    const typed = data as { getApplicationStatsByParams?: KeywordStatsType[] } | undefined;
+    const dataSource = typed?.getApplicationStatsByParams;
 
-    const chartDataSource = (!keywords?.length ? [] : dataSource)?.map((item) => ({
+    const chartDataSource = (!keywords?.length ? [] : dataSource)?.map((item: KeywordStatsType) => ({
         label: item.keyword?.label,
         total: item.total,
     }));

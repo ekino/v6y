@@ -1,7 +1,8 @@
-import { QueryClient, QueryClientProvider, isServer } from '@tanstack/react-query';
+"use client";
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { ReactQueryStreamedHydration } from '@tanstack/react-query-next-experimental';
-import { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 
 interface QueryProviderProps {
     children: ReactNode;
@@ -17,27 +18,13 @@ function makeQueryClient() {
     });
 }
 
-let browserQueryClient: QueryClient | undefined = undefined;
-
-function getQueryClient() {
-    if (isServer) {
-        // Server: always make a new query client
-        return makeQueryClient();
-    } else {
-        // Browser: make a new query client if we don't already have one
-        // This is very important, so we don't re-make a new client if React
-        // suspends during the initial render. This may not be needed if we
-        // have a suspense boundary BELOW the creation of the query client
-        if (!browserQueryClient) browserQueryClient = makeQueryClient();
-        return browserQueryClient;
-    }
-}
-
 const QueryProvider = ({ children }: QueryProviderProps) => {
-    const queryClient = getQueryClient();
+    // Create the QueryClient on the client only
+    const [queryClient] = useState(() => makeQueryClient());
+
     return (
         <QueryClientProvider client={queryClient}>
-            <ReactQueryStreamedHydration>{children}</ReactQueryStreamedHydration>
+            {children}
             <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
     );

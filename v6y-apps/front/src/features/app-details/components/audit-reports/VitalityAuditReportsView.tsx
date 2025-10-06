@@ -32,7 +32,7 @@ const VitalityAuditReportsView = ({}) => {
     const {
         isLoading: isAppDetailsAuditReportsLoading,
         data: appDetailsAuditReports,
-    }: VitalityAuditReportsQueryType = useClientQuery({
+    }: VitalityAuditReportsQueryType = useClientQuery<{ getApplicationDetailsAuditReportsByParams: AuditType[] }>({
         queryCacheKey: ['getApplicationDetailsAuditReportsByParams', `${_id}`],
         queryBuilder: async () =>
             buildClientQuery({

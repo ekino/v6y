@@ -17,12 +17,6 @@ import {
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationTotalByParams from '../api/getApplicationTotalByParams';
 
-interface VitalityAppListQueryType {
-    isLoading: boolean;
-    data?: { getApplicationTotalByParams: number };
-    refetch: () => void;
-}
-
 const VitalityAppListHeader = ({
     onExportApplicationsClicked,
 }: {
@@ -33,7 +27,7 @@ const VitalityAppListHeader = ({
     const { getUrlParams } = useNavigationAdapter();
     const [keywords, searchText] = getUrlParams(['keywords', 'searchText']);
 
-    const { data: dataAppsTotal, refetch: refetchAppsTotal }: VitalityAppListQueryType =
+    const { data: dataAppsTotal, refetch: refetchAppsTotal } =
         useClientQuery({
             queryCacheKey: [
                 'getApplicationTotalByParams',
@@ -53,11 +47,12 @@ const VitalityAppListHeader = ({
 
     useEffect(() => {
         refetchAppsTotal?.();
-    }, [keywords, searchText]);
+    }, [keywords, searchText, refetchAppsTotal]);
 
     useEffect(() => {
-        setAppsTotal(dataAppsTotal?.getApplicationTotalByParams || 0);
-    }, [dataAppsTotal?.getApplicationTotalByParams]);
+        const typed = dataAppsTotal as { getApplicationTotalByParams?: number } | undefined;
+        setAppsTotal(typed?.getApplicationTotalByParams || 0);
+    }, [dataAppsTotal]);
 
     const { translate } = useTranslationProvider();
     return (

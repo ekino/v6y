@@ -10,6 +10,37 @@ vi.mock('../api', () => ({
     gqlClientRequest: vi.fn(),
 }));
 
+vi.mock('@refinedev/antd', async () => {
+    const refineModule = await vi.importActual<typeof import('@refinedev/antd')>('@refinedev/antd');
+
+    return {
+        ...refineModule,
+        useForm: vi.fn(() => ({
+            form: {
+                getFieldsValue: vi.fn(() => ({})),
+                setFieldsValue: vi.fn(),
+            },
+            formProps: {
+                onFinish: vi.fn(),
+            },
+            saveButtonProps: {
+                loading: false,
+                onClick: vi.fn(),
+            },
+            query: {
+                data: undefined,
+                isLoading: true,
+            },
+        })),
+        useSelect: vi.fn(() => ({
+            query: {
+                data: undefined,
+                isLoading: true,
+            },
+        })),
+    };
+});
+
 describe('AdminSelectWrapper', () => {
     it('should show loading state when fetching', async () => {
         (gqlClientRequest as Mock).mockReturnValue({
@@ -27,8 +58,8 @@ describe('AdminSelectWrapper', () => {
                         query: 'GET_ADMIN',
                         queryParams: {},
                     }}
-                    mutationOptions={null}
-                    createOptions={null}
+                    mutationOptions={undefined}
+                    createOptions={undefined}
                     selectOptions={{
                         resource: 'selectOptions',
                         query: 'GET_OPTIONS',
@@ -43,6 +74,47 @@ describe('AdminSelectWrapper', () => {
     });
 
     it('should display fetched select options', async () => {
+        // Update the mocks to return loaded state with options for this test
+        const { useSelect, useForm } = await import('@refinedev/antd');
+        
+        vi.mocked(useForm).mockReturnValueOnce({
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            form: {
+                getFieldsValue: vi.fn(() => ({})),
+                setFieldsValue: vi.fn(),
+            },
+            formProps: {
+                onFinish: vi.fn(),
+            },
+            saveButtonProps: {
+                loading: false,
+                onClick: vi.fn(),
+            },
+            query: {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                data: {
+                    admin: { id: '1', name: 'Test Admin' },
+                },
+                isLoading: false,
+            },
+        });
+
+        vi.mocked(useSelect).mockReturnValueOnce({
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            query: {
+                data: {
+                    selectOptions: [
+                        { id: '1', label: 'Option 1' },
+                        { id: '2', label: 'Option 2' },
+                    ],
+                },
+                isLoading: false,
+            },
+        });
+
         (gqlClientRequest as Mock).mockReturnValue({
             isLoading: false,
             selectOptions: [
@@ -63,8 +135,8 @@ describe('AdminSelectWrapper', () => {
                         queryResource: 'admin',
                         queryFormAdapter: (data) => data,
                     }}
-                    mutationOptions={null}
-                    createOptions={null}
+                    mutationOptions={undefined}
+                    createOptions={undefined}
                     selectOptions={{
                         resource: 'selectOptions',
                         query: 'GET_OPTIONS',

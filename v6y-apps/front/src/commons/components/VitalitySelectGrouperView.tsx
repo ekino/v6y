@@ -25,10 +25,12 @@ const VitalitySelectGrouperView = ({
         });
 
     useEffect(() => {
-        selectGroupForm?.setFieldsValue({
+        if (!selectGroupForm) return;
+
+        selectGroupForm.setFieldsValue({
             [name]: hasAllGroup ? 'All' : null,
         });
-    }, [groupedDataSource]);
+    }, [groupedDataSource, selectGroupForm, name, hasAllGroup]);
 
     if (!dataSource?.length || !criteria?.length) {
         return <EmptyView />;
