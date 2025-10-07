@@ -5,15 +5,11 @@ import { App as AntdApp, theme as AntdTheme, ConfigProvider } from 'antd';
 import * as React from 'react';
 import { useEffect, useLayoutEffect, useState } from 'react';
 
-import { ThemeContextConfigType, ThemeContextType, ThemeProps } from '../types/ThemeProps.ts';
+import { ThemeContextConfigType, ThemeProps } from '../types/ThemeProps.ts';
 import { ThemeModes, loadTheme } from './ThemeLoader.ts';
+import { ThemeConfigProvider } from './ThemeContext.tsx';
 
 const { darkAlgorithm, defaultAlgorithm } = AntdTheme;
-
-/**
- * Theme Config Provider
- */
-export const ThemeConfigProvider = React.createContext<ThemeContextType>({} as ThemeContextType);
 
 /**
  * Theme Provider Content View

@@ -13,13 +13,8 @@ import {
 import GetFaqListByPageAndParams from '../api/getFaqListByPageAndParams';
 import VitalityFaqList from './VitalityFaqList';
 
-interface VitalityFaqQueryType {
-    isLoading: boolean;
-    data?: { getFaqListByPageAndParams: FaqType[] };
-}
-
 const VitalityFaqView = () => {
-    const { isLoading, data }: VitalityFaqQueryType = useClientQuery({
+    const { isLoading, data } = useClientQuery<{ getFaqListByPageAndParams: FaqType[] }>({
         queryCacheKey: ['getFaqListByPageAndParams'],
         queryBuilder: async () =>
             buildClientQuery({

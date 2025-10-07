@@ -10,6 +10,24 @@ vi.mock('../api', () => ({
     gqlClientRequest: vi.fn().mockResolvedValue({ data: { id: '123' } }),
 }));
 
+vi.mock('@refinedev/antd', async () => {
+    const refineModule = await vi.importActual<typeof import('@refinedev/antd')>('@refinedev/antd');
+
+    return {
+        ...refineModule,
+        useForm: vi.fn(() => ({
+            form: {
+                getFieldsValue: vi.fn(() => ({})),
+                setFieldsValue: vi.fn(),
+                validateFields: vi.fn().mockResolvedValue({}),
+            },
+            formProps: {},
+            saveButtonProps: {},
+            query: { data: undefined, isLoading: false },
+        })),
+    };
+});
+
 describe('AdminEditWrapper', () => {
     it('should render the form items', async () => {
         await act(async () => {

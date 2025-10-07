@@ -20,11 +20,6 @@ const VitalityAppInfos = DynamicLoader(
     () => import('../../../../commons/components/application-info/VitalityAppInfos'),
 );
 
-interface VitalityGeneralInformationQueryType {
-    isLoading: boolean;
-    data?: { getApplicationDetailsInfoByParams: ApplicationType };
-}
-
 const VitalityGeneralInformationView = ({}) => {
     const { getUrlParams } = useNavigationAdapter();
     const [_id] = getUrlParams(['_id']);
@@ -32,7 +27,7 @@ const VitalityGeneralInformationView = ({}) => {
     const {
         isLoading: isAppDetailsInfosLoading,
         data: appDetailsInfos,
-    }: VitalityGeneralInformationQueryType = useClientQuery({
+    } = useClientQuery<{ getApplicationDetailsInfoByParams: ApplicationType }>({
         queryCacheKey: ['getApplicationDetailsInfoByParams', `${_id}`],
         queryBuilder: async () =>
             buildClientQuery({

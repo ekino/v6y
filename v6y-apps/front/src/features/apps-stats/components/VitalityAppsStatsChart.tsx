@@ -17,31 +17,27 @@ import {
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationStatsByParams from '../api/getApplicationStatsByParams';
 
-interface VitalityAppsStatsQueryType {
-    isLoading: boolean;
-    data?: { getApplicationStatsByParams: KeywordStatsType[] };
-    refetch?: () => void;
-}
-
 const VitalityAppsStatsChart = () => {
     const { translate } = useTranslationProvider();
     const { getUrlParams } = useNavigationAdapter();
     const [keywords] = getUrlParams(['keywords']);
 
-    const { isLoading, data, refetch }: VitalityAppsStatsQueryType = useClientQuery({
-        queryCacheKey: [
-            'getApplicationStatsByParams',
-            keywords?.length ? keywords : 'empty_keywords',
-        ],
-        queryBuilder: async () =>
-            buildClientQuery({
-                query: GetApplicationStatsByParams,
-                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
-                variables: {
-                    keywords,
-                },
-            }),
-    });
+    const { isLoading, data, refetch } = useClientQuery<{ getApplicationStatsByParams: KeywordStatsType[] }>(
+        {
+            queryCacheKey: [
+                'getApplicationStatsByParams',
+                keywords?.length ? keywords : 'empty_keywords',
+            ],
+            queryBuilder: async () =>
+                buildClientQuery({
+                    query: GetApplicationStatsByParams,
+                    queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
+                    variables: {
+                        keywords,
+                    },
+                }),
+        },
+    );
 
     useEffect(() => {
         refetch?.();

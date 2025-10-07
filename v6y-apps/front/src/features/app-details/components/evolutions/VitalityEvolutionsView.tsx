@@ -20,11 +20,6 @@ const VitalityEvolutionBranchGrouper = DynamicLoader(
     () => import('./VitalityEvolutionBranchGrouper'),
 );
 
-interface VitalityEvolutionsQueryType {
-    isLoading: boolean;
-    data?: { getApplicationDetailsEvolutionsByParams: EvolutionType[] };
-}
-
 const VitalityEvolutionsView = ({}) => {
     const { getUrlParams } = useNavigationAdapter();
     const [_id] = getUrlParams(['_id']);
@@ -32,7 +27,7 @@ const VitalityEvolutionsView = ({}) => {
     const {
         isLoading: isAppDetailsEvolutionsLoading,
         data: appDetailsEvolutions,
-    }: VitalityEvolutionsQueryType = useClientQuery({
+    } = useClientQuery<{ getApplicationDetailsEvolutionsByParams: EvolutionType[] }>({
         queryCacheKey: ['getApplicationDetailsEvolutionsByParams', `${_id}`],
         queryBuilder: async () =>
             buildClientQuery({
