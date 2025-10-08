@@ -1,0 +1,16 @@
+services:
+  v6y-postgres:
+    image: postgres:18
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${PSQL_DB_USER}
+      - POSTGRES_PASSWORD=${PSQL_DB_PASSWORD}
+      - POSTGRES_DB=${PSQL_DB_NAME}
+    ports:
+      - "${PSQL_DB_PORT}:5432"
+    volumes:
+      - ./v6y-database/psql:/docker-entrypoint-initdb.d:ro     
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${PSQL_DB_USER} -d ${PSQL_DB_NAME}" ]
+      interval: 10s
+      timeout: 5s

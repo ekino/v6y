@@ -1,3 +1,32 @@
+# Ignore node modules everywhere
+**/node_modules
+
+# Ignore Next.js build artifacts
+**/.next
+
+# Ignore Vite build/dist folders
+**/dist
+**/build
+
+# Ignore coverage and test artifacts
+**/coverage
+
+# Ignore local env and credentials
+.env
+env-*.local
+env-template
+
+# Git and editor metadata
+.git
+.gitignore
+.DS_Store
+
+# Docker and CI
+docker-compose.override.yml
+.dockerignore
+
+# OS generated files
+Thumbs.db
 # Logs
 *.log
 npm-debug.log*
