@@ -1,10 +1,18 @@
 import { LoaderView } from '@v6y/ui-kit';
+import '@v6y/ui-kit-front/styles.css';
 import * as React from 'react';
 import { ReactNode, Suspense } from 'react';
+import { Inter } from 'next/font/google';
 
 import VitalityPageLayout from '../commons/components/layout/VitalityPageLayout';
 import { AppProvider } from '../infrastructure/providers/AppProvider';
 import '../infrastructure/translation/i18nHelper';
+
+const inter = Inter({
+    subsets: ['latin'],
+    weight: ['400', '500', '600', '700'],
+    display: 'swap',
+});
 
 export const metadata = {
     title: 'Vitality',
@@ -18,7 +26,7 @@ export default function RootLayout({
     children: ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" className={inter.className}>
             <body>
                 <main>
                     <AppProvider>

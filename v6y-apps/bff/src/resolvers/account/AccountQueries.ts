@@ -111,6 +111,7 @@ const loginAccount = async (_: unknown, params: { input: AccountLoginType }) => 
             _id: accountDetails._id,
             token,
             role: accountDetails.role,
+            username: accountDetails.username,
         };
     } catch (error) {
         AppLogger.info(`[AccountMutations - loginAccount] error : ${error}`);
