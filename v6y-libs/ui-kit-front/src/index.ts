@@ -1,6 +1,3 @@
-// Styles
-import './styles.css';
-
 export * from './translation/useTranslationProvider.ts';
 export * from './translation/TranslationType.ts';
 
