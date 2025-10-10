@@ -1,44 +1,21 @@
 'use client';
 
-import {
-    Col,
-    FloatButton,
-    Row,
-    TitleView,
-    useNavigationAdapter,
-    useTranslationProvider,
-} from '@v6y/ui-kit';
 import { Toaster } from '@v6y/ui-kit-front';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
-import { buildPageTitle } from '../../config/VitalityCommonConfig';
-import ProtectedRoute from '../ProtectedRoute';
 import VitalityBreadcrumb from './VitalityBreadcrumb';
 import VitalityPageHeader from './VitalityPageHeader';
 
 const VitalityPageLayout = ({ children }: { children: ReactNode }) => {
-    const { pathname } = useNavigationAdapter();
-    const { translate } = useTranslationProvider();
-    const pageTitle = buildPageTitle(pathname, translate);
-
-    return (
-        <>
-            <VitalityPageHeader />
-            <ProtectedRoute>
-                <Row justify="center" align="middle" gutter={[12, 12]}>
-                    <Col span={23}>
-                        <VitalityBreadcrumb />
-                    </Col>
-                    <Col span={20}>{pageTitle && <TitleView title={pageTitle as string} />}</Col>
-                    <Col span={18}>{children}</Col>
-                </Row>
-            </ProtectedRoute>
-
-            <FloatButton.BackTop />
-            <Toaster position="top-center" richColors />
-        </>
-    );
+  return (
+    <div className="px-16">
+      <VitalityPageHeader />
+      <VitalityBreadcrumb />
+      {children}
+      <Toaster position="top-center" richColors />
+    </div>
+  );
 };
 
 export default VitalityPageLayout;

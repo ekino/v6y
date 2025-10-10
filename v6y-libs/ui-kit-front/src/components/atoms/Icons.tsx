@@ -1,3 +1,1 @@
-import { ExitIcon, MagnifyingGlassIcon, QuestionMarkCircledIcon } from '@radix-ui/react-icons';
-
-export { QuestionMarkCircledIcon, MagnifyingGlassIcon, ExitIcon };
+export { ExitIcon, GlobeIcon, CommitIcon, MagnifyingGlassIcon, QuestionMarkCircledIcon, StarIcon, StarFilledIcon } from '@radix-ui/react-icons';

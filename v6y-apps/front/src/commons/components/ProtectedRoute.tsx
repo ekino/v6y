@@ -5,7 +5,9 @@ import { useEffect } from 'react';
 
 import { useLogin } from '../hooks/useAuth';
 
-function ProtectedRoute({ children }) {
+import { ReactNode } from 'react';
+
+function ProtectedRoute({ children }: { children: ReactNode }) {
     const { isLoggedIn, isLoginLoading } = useLogin();
     const { pathname, router } = useNavigationAdapter();
 

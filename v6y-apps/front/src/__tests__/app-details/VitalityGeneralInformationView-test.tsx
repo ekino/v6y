@@ -55,12 +55,9 @@ describe('VitalityGeneralInformationView', () => {
         render(<VitalityGeneralInformationView />);
 
         await waitFor(() => {
-            expect(screen.getByText('Vitality App')).toBeInTheDocument();
-            expect(screen.getByText('A powerful application for testing.')).toBeInTheDocument();
-            expect(screen.getByText('vitality.appListPage.nbBranches2')).toBeInTheDocument();
-            expect(screen.getByText('Vitality Org')).toBeInTheDocument();
-            expect(screen.getByText('Website')).toBeInTheDocument();
-            expect(screen.getByText('Documentation')).toBeInTheDocument();
+            expect(screen.getByTestId('app-name')).toHaveTextContent('Vitality App');
+            expect(screen.getByText('vitality.appListPage.lastAnalyzed 01/01/2024')).toBeInTheDocument();
+            expect(screen.getByText('Branches (2)')).toBeInTheDocument();
         });
     });
 
@@ -106,12 +103,10 @@ describe('VitalityGeneralInformationView', () => {
         render(<VitalityGeneralInformationView />);
 
         await waitFor(() => {
-            expect(screen.getByText('Minimal App')).toBeInTheDocument();
+            expect(screen.getByTestId('app-name')).toHaveTextContent('Minimal App');
         });
 
-        expect(screen.queryByText('A powerful application for testing.')).not.toBeInTheDocument();
-        expect(screen.queryByText('Website')).not.toBeInTheDocument();
-        expect(screen.queryByText('Vitality Org')).not.toBeInTheDocument();
+        expect(screen.queryByText('Branches (0)')).toBeInTheDocument();
     });
 
     it('does not render application with missing required fields', async () => {
@@ -156,9 +151,8 @@ describe('VitalityGeneralInformationView', () => {
         render(<VitalityGeneralInformationView />);
 
         await waitFor(() => {
-            expect(screen.getByText('Vitality Repo Test')).toBeInTheDocument();
-            expect(screen.getByText('Vitality Org')).toBeInTheDocument();
-            expect(screen.getByText('Docs')).toBeInTheDocument();
+            expect(screen.getByTestId('app-name')).toHaveTextContent('Vitality Repo Test');
+            expect(screen.getByText('Branches (2)')).toBeInTheDocument();
         });
     });
 
@@ -183,7 +177,7 @@ describe('VitalityGeneralInformationView', () => {
         render(<VitalityGeneralInformationView />);
 
         await waitFor(() => {
-            expect(screen.getByText('Vitality No Repo')).toBeInTheDocument();
+            expect(screen.getByTestId('app-name')).toHaveTextContent('Vitality No Repo');
         });
 
         expect(screen.queryByText('Vitality Org')).not.toBeInTheDocument();

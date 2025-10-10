@@ -21,10 +21,19 @@ vi.mock('next/dynamic', async () => {
     };
 });
 
-const formErrors: Record<string, { message: string }> = {}; // Global error state for the mock
+vi.mock('next/navigation', () => {
+    return {
+        redirect: vi.fn(),
+        usePathname: () => '/',
+        useRouter: () => ({ push: vi.fn(), replace: vi.fn(), back: vi.fn(), forward: vi.fn(), refresh: vi.fn() }),
+        useSearchParams: () => ({ get: (key: string) => null }),
+    };
+});
+
+const formErrors: Record<string, { message: string }> = {};
 
 beforeEach(() => {
-    Object.keys(formErrors).forEach((key) => delete formErrors[key]); // Clear all errors before each test
+    Object.keys(formErrors).forEach((key) => delete formErrors[key]);
 });
 
 afterEach(() => {
@@ -473,3 +482,52 @@ vi.mock('@v6y/ui-kit', () => {
         )),
     };
 });
+
+vi.mock('@v6y/ui-kit-front', async () => {
+    const actual = await vi.importActual('@v6y/ui-kit-front');
+    return {
+        ...actual,
+        useNavigationAdapter: vi.fn(() => ({
+            createUrlQueryParam: vi.fn((name: string, value: string) => `${name}=${value}`),
+            removeUrlQueryParam: vi.fn(),
+            getUrlParams: vi.fn(() => ['1']),
+            pathname: '/dashboard',
+            router: {
+                push: vi.fn(),
+                replace: vi.fn(),
+                back: vi.fn(),
+                forward: vi.fn(),
+                refresh: vi.fn(),
+            },
+        })),
+        useTranslationProvider: vi.fn(() => ({
+            translate: (key: string) => key,
+        })),
+        Input: vi.fn((props) => <input data-testid="mock-search-input" {...props} />),
+        Button: vi.fn(({ children, onClick, ...others }) => (
+            <button {...others} onClick={onClick}>
+                {children}
+            </button>
+        )),
+    };
+});
+
+vi.mock('./src/commons/components/VitalitySearchBar', () => ({
+    default: ({ placeholder, helper, label }: any) => (
+        <div>
+            <h3>vitality.dashboardPage.searchByProjectName :</h3>
+            <div className="flex items-center space-y-2">
+                <div className="flex flex-1 items-center gap-x-2 h-10">
+                    <input
+                        placeholder={placeholder}
+                        aria-label={label}
+                        data-testid="mock-search-input"
+                        className="flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm border-gray-400"
+                    />
+                    <button>search</button>
+                </div>
+            </div>
+            <p className="text-xs text-gray-500 mt-2">{helper}</p>
+        </div>
+    ),
+}));

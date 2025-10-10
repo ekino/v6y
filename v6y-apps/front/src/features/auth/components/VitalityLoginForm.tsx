@@ -60,9 +60,8 @@ const VitalityLoginForm = () => {
         <CardContent>
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit(onAuthentication)}
-              autoComplete="off"
-              className="space-y-6"
+              onSubmit={form.handleSubmit((values) => onAuthentication(values))}
+              className="space-y-4"
             >
               <FormField
                 control={form.control}
