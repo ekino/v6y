@@ -1,32 +1,21 @@
 'use client';
 
-import { LanguageMenu, Menu, Space } from '@v6y/ui-kit';
-import * as React from 'react';
-import { useState } from 'react';
-
-import { buildVitalityHeaderMenuItems } from '../../config/VitalityCommonConfig';
-import { useLogin, useLogout } from '../../hooks/useAuth';
+import { VITALITY_HEADER_MENU_ITEMS } from '../../config/VitalityCommonConfig';
+import { useTranslationProvider } from '@v6y/ui-kit-front';
+import Link from 'next/link';
 
 const VitalityPageHeaderMenu = () => {
-    const { isLoggedIn } = useLogin();
-    const { onLogout } = useLogout();
-    const [currentSelectedMenu, setCurrentSelectedMenu] = useState('mail');
+  const { translate } = useTranslationProvider();
 
-    const onMenuClicked = (event: { key: string }) => {
-        setCurrentSelectedMenu(event.key);
-    };
-
-    return (
-        <Space size="middle" align="center">
-            <LanguageMenu />
-            <Menu
-                mode="horizontal"
-                items={buildVitalityHeaderMenuItems(isLoggedIn, onLogout)}
-                onClick={onMenuClicked}
-                selectedKeys={[currentSelectedMenu]}
-            />
-        </Space>
-    );
+  return (
+    <nav className="space-x-8">
+      {VITALITY_HEADER_MENU_ITEMS.map((item) => (
+        <Link key={item.key} className="text-black no-underline hover:text-black" href={item.link}>
+          {translate(item.translateLabel)}
+        </Link>
+      ))}
+    </nav>
+  );
 };
 
 export default VitalityPageHeaderMenu;

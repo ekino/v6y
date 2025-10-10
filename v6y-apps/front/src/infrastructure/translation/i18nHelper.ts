@@ -19,18 +19,22 @@ const DETECTION_OPTIONS = {
     caches: ['localStorage', 'cookie'],
 };
 
-i18next
-    .use(initReactI18next)
-    .use(LanguageDetector)
-    .use(
-        resourcesToBackend(
-            (language: string, namespace: string) =>
-                import(`../../../public/locales/${language}/${namespace}.json`),
-        ),
-    )
-    .init({
-        supportedLngs: ['en', 'fr'],
-        fallbackLng: 'en',
-        detection: DETECTION_OPTIONS,
-        defaultNS: 'common',
-    });
+if (!i18next.isInitialized) {
+    i18next
+        .use(initReactI18next)
+        .use(LanguageDetector)
+        .use(
+            resourcesToBackend(
+                (language: string, namespace: string) =>
+                    import(`../../../public/locales/${language}/${namespace}.json`)
+            )
+        )
+        .init({
+            supportedLngs: ['en', 'fr'],
+            fallbackLng: 'en',
+            detection: DETECTION_OPTIONS,
+            defaultNS: 'common',
+        });
+}
+
+export default i18next;

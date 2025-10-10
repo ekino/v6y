@@ -17,7 +17,6 @@ export type LoginAccountType = { token: string; _id: string; role: string; usern
 export type LoginAccountFormType = {
     email?: string;
     password?: string;
-    remember?: boolean;
 };
 
 export type AuthenticationStatusType = {
