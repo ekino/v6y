@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { AuditType, auditStatus, scoreStatus } from '@v6y/core-logic';
 import { describe, expect, it } from 'vitest';
 

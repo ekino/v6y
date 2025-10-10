@@ -10,6 +10,32 @@ vi.mock('../api', () => ({
     gqlClientRequest: vi.fn(),
 }));
 
+vi.mock('@refinedev/antd', async () => {
+    const refineModule = await vi.importActual<typeof import('@refinedev/antd')>('@refinedev/antd');
+
+    return {
+        ...refineModule,
+        useForm: vi.fn(() => ({
+            form: {
+                getFieldsValue: vi.fn(() => ({})),
+                setFieldsValue: vi.fn(),
+            },
+            formProps: {},
+            saveButtonProps: {},
+            query: {
+                data: undefined,
+                isLoading: true,
+            },
+        })),
+        useSelect: vi.fn(() => ({
+            query: {
+                data: undefined,
+                isLoading: true,
+            },
+        })),
+    };
+});
+
 describe('AdminSelectWrapper', () => {
     it('should show loading state when fetching', async () => {
         (gqlClientRequest as Mock).mockReturnValue({
@@ -27,8 +53,8 @@ describe('AdminSelectWrapper', () => {
                         query: 'GET_ADMIN',
                         queryParams: {},
                     }}
-                    mutationOptions={null}
-                    createOptions={null}
+                    mutationOptions={undefined}
+                    createOptions={undefined}
                     selectOptions={{
                         resource: 'selectOptions',
                         query: 'GET_OPTIONS',
@@ -52,6 +78,33 @@ describe('AdminSelectWrapper', () => {
             data: [],
         });
 
+        // Override the default mocked hooks to return loaded states with data
+        const refine = await import('@refinedev/antd');
+        vi.mocked(refine.useForm).mockReturnValueOnce({
+            form: {
+                getFieldsValue: vi.fn(() => ({})),
+                setFieldsValue: vi.fn(),
+            },
+            formProps: {},
+            saveButtonProps: { onClick: () => {} },
+            query: {
+                data: {},
+                isLoading: false,
+            },
+        } as unknown as ReturnType<typeof refine.useForm>);
+
+        vi.mocked(refine.useSelect).mockReturnValueOnce({
+            query: {
+                data: {
+                    selectOptions: [
+                        { id: '1', label: 'Option 1' },
+                        { id: '2', label: 'Option 2' },
+                    ],
+                },
+                isLoading: false,
+            },
+        } as unknown as ReturnType<typeof refine.useSelect>);
+
         await act(async () => {
             renderWithQueryClientProvider(
                 <AdminSelectWrapper
@@ -63,8 +116,8 @@ describe('AdminSelectWrapper', () => {
                         queryResource: 'admin',
                         queryFormAdapter: (data) => data,
                     }}
-                    mutationOptions={null}
-                    createOptions={null}
+                    mutationOptions={undefined}
+                    createOptions={undefined}
                     selectOptions={{
                         resource: 'selectOptions',
                         query: 'GET_OPTIONS',

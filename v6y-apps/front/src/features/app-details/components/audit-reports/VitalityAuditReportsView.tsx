@@ -20,11 +20,6 @@ const VitalityAuditReportsTypeGrouper = DynamicLoader(
     () => import('./VitalityAuditReportsTypeGrouper'),
 );
 
-interface VitalityAuditReportsQueryType {
-    isLoading: boolean;
-    data?: { getApplicationDetailsAuditReportsByParams: AuditType[] };
-}
-
 const VitalityAuditReportsView = ({}) => {
     const { getUrlParams } = useNavigationAdapter();
     const [_id] = getUrlParams(['_id']);
@@ -32,7 +27,7 @@ const VitalityAuditReportsView = ({}) => {
     const {
         isLoading: isAppDetailsAuditReportsLoading,
         data: appDetailsAuditReports,
-    }: VitalityAuditReportsQueryType = useClientQuery({
+    } = useClientQuery<{ getApplicationDetailsAuditReportsByParams: AuditType[] }>({
         queryCacheKey: ['getApplicationDetailsAuditReportsByParams', `${_id}`],
         queryBuilder: async () =>
             buildClientQuery({

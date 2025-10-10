@@ -20,11 +20,6 @@ const VitalityQualityIndicatorBranchGrouper = DynamicLoader(
     () => import('./VitalityQualityIndicatorBranchGrouper'),
 );
 
-interface VitalityQualityIndicatorsQueryType {
-    isLoading: boolean;
-    data?: { getApplicationDetailsKeywordsByParams: KeywordType[] };
-}
-
 const VitalityQualityIndicatorsView = () => {
     const { getUrlParams } = useNavigationAdapter();
     const [_id] = getUrlParams(['_id']);
@@ -32,7 +27,7 @@ const VitalityQualityIndicatorsView = () => {
     const {
         isLoading: isQualityIndicatorsLoading,
         data: dataQualityIndicators,
-    }: VitalityQualityIndicatorsQueryType = useClientQuery({
+    } = useClientQuery<{ getApplicationDetailsKeywordsByParams: KeywordType[] }>({
         queryCacheKey: ['getApplicationQualityIndicatorsByParams', `${_id}`],
         queryBuilder: async () =>
             buildClientQuery({

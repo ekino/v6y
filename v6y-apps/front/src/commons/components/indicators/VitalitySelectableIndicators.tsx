@@ -33,7 +33,7 @@ const VitalitySelectableIndicators = () => {
     const {
         isLoading: isIndicatorsLoading,
         data: dataIndicators,
-    }: VitalitySelectableIndicatorsQueryType = useClientQuery({
+    } = useClientQuery<VitalitySelectableIndicatorsQueryType['data']>({
         queryCacheKey: ['getIndicatorListByParams'],
         queryBuilder: async () =>
             buildClientQuery({
