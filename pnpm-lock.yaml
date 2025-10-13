@@ -122,8 +122,8 @@ importers:
         specifier: '=5.2.1'
         version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@10.0.1(eslint@9.18.0(jiti@1.21.7)))(eslint@9.18.0(jiti@1.21.7))(prettier@3.4.2)
       globals:
-        specifier: '=15.14.0'
-        version: 15.14.0
+        specifier: '=16.4.0'
+        version: 16.4.0
       nodemon:
         specifier: '=3.1.9'
         version: 3.1.9
@@ -225,8 +225,8 @@ importers:
         specifier: '=5.2.1'
         version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@10.0.1(eslint@9.18.0(jiti@1.21.7)))(eslint@9.18.0(jiti@1.21.7))(prettier@3.4.2)
       globals:
-        specifier: '=15.14.0'
-        version: 15.14.0
+        specifier: '=16.4.0'
+        version: 16.4.0
       lighthouse:
         specifier: '=12.3.0'
         version: 12.3.0
@@ -328,8 +328,8 @@ importers:
         specifier: '=5.2.1'
         version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@10.0.1(eslint@9.18.0(jiti@1.21.7)))(eslint@9.18.0(jiti@1.21.7))(prettier@3.4.2)
       globals:
-        specifier: '=15.14.0'
-        version: 15.14.0
+        specifier: '=16.4.0'
+        version: 16.4.0
       nodemon:
         specifier: '=3.1.9'
         version: 3.1.9
@@ -388,8 +388,8 @@ importers:
         specifier: '=11.2.0'
         version: 11.2.0
       globals:
-        specifier: '=15.14.0'
-        version: 15.14.0
+        specifier: '=16.4.0'
+        version: 16.4.0
       globby:
         specifier: '=14.0.2'
         version: 14.0.2
@@ -585,8 +585,8 @@ importers:
         specifier: '=5.2.1'
         version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@10.0.1(eslint@9.18.0(jiti@1.21.7)))(eslint@9.18.0(jiti@1.21.7))(prettier@3.4.2)
       globals:
-        specifier: '=15.14.0'
-        version: 15.14.0
+        specifier: '=16.4.0'
+        version: 16.4.0
       nodemon:
         specifier: '=3.1.9'
         version: 3.1.9
@@ -968,8 +968,8 @@ importers:
         specifier: '=11.2.0'
         version: 11.2.0
       globals:
-        specifier: '=15.14.0'
-        version: 15.14.0
+        specifier: '=16.4.0'
+        version: 16.4.0
       globby:
         specifier: '=14.0.2'
         version: 14.0.2
@@ -1147,8 +1147,8 @@ importers:
         specifier: '=0.11.3'
         version: 0.11.3(eslint@9.21.0(jiti@1.21.7))(typescript@5.7.3)
       globals:
-        specifier: '=15.15.0'
-        version: 15.15.0
+        specifier: '=16.4.0'
+        version: 16.4.0
       playwright:
         specifier: '=1.50.1'
         version: 1.50.1
@@ -1328,8 +1328,8 @@ importers:
         specifier: '=0.4.18'
         version: 0.4.18(eslint@9.18.0(jiti@1.21.7))
       globals:
-        specifier: '=15.14.0'
-        version: 15.14.0
+        specifier: '=16.4.0'
+        version: 16.4.0
       prettier:
         specifier: '=3.4.2'
         version: 3.4.2
@@ -1470,8 +1470,8 @@ importers:
         specifier: '=0.4.18'
         version: 0.4.18(eslint@9.18.0(jiti@1.21.7))
       globals:
-        specifier: '=15.14.0'
-        version: 15.14.0
+        specifier: '=16.4.0'
+        version: 16.4.0
       postcss:
         specifier: '=8.5.1'
         version: 8.5.1
@@ -6167,8 +6167,8 @@ packages:
   copy-to-clipboard@3.3.3:
     resolution: {integrity: sha512-2KV8NhB5JqC3ky0r9PMCAZKbUHSwtEo4CwCs0KXgruG43gX5PMqDEBbVU4OUzw2MuAWUfsuFmWvEKG5QRfSnJA==}
 
-  core-js-compat@3.45.1:
-    resolution: {integrity: sha512-tqTt5T4PzsMIZ430XGviK4vzYSoeNJ6CXODi6c/voxOT6IZqBht5/EKaSNnYiEjjRYxjVz7DQIsOsY0XNi8PIA==}
+  core-js-compat@3.46.0:
+    resolution: {integrity: sha512-p9hObIIEENxSV8xIu+V68JjSeARg6UVMG5mR+JEUguG3sI6MsiS1njz2jHmyJDvA+8jX/sytkBHup6kxhM9law==}
 
   core-js@2.6.12:
     resolution: {integrity: sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==}
@@ -7374,12 +7374,8 @@ packages:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
     engines: {node: '>=18'}
 
-  globals@15.14.0:
-    resolution: {integrity: sha512-OkToC372DtlQeje9/zHIo5CT8lRP/FUgEOKBEhU4e0abL7J7CD24fD9ohiLN5hagG/kWCYj4K5oaxxtj2Z0Dig==}
-    engines: {node: '>=18'}
-
-  globals@15.15.0:
-    resolution: {integrity: sha512-7ACyT3wmyp3I61S4fG682L0VA2RGD9otkqGJIwNUMF1SWUombIIk+af1unuDYgMm082aHYwD+mzJvv9Iu8dsgg==}
+  globals@16.4.0:
+    resolution: {integrity: sha512-ob/2LcVVaVGCYN+r14cnwnoDPUufjiYgSqRhiFD0Q1iI4Odora5RE8Iv1D24hAz5oMophRGkGz+yuvQmmUMnMw==}
     engines: {node: '>=18'}
 
   globalthis@1.0.4:
@@ -13079,7 +13075,7 @@ snapshots:
       babel-plugin-polyfill-corejs2: 0.4.14(@babel/core@7.26.9)
       babel-plugin-polyfill-corejs3: 0.11.1(@babel/core@7.26.9)
       babel-plugin-polyfill-regenerator: 0.6.5(@babel/core@7.26.9)
-      core-js-compat: 3.45.1
+      core-js-compat: 3.46.0
       semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
@@ -16716,7 +16712,7 @@ snapshots:
     dependencies:
       '@babel/core': 7.26.9
       '@babel/helper-define-polyfill-provider': 0.6.5(@babel/core@7.26.9)
-      core-js-compat: 3.45.1
+      core-js-compat: 3.46.0
     transitivePeerDependencies:
       - supports-color
     optional: true
@@ -17232,7 +17228,7 @@ snapshots:
     dependencies:
       toggle-selection: 1.0.6
 
-  core-js-compat@3.45.1:
+  core-js-compat@3.46.0:
     dependencies:
       browserslist: 4.26.3
     optional: true
@@ -18817,9 +18813,7 @@ snapshots:
 
   globals@14.0.0: {}
 
-  globals@15.14.0: {}
-
-  globals@15.15.0: {}
+  globals@16.4.0: {}
 
   globalthis@1.0.4:
     dependencies:
