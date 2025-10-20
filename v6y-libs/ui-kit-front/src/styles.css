@@ -167,12 +167,12 @@
 
 @layer base {
     * {
-        @apply border-border outline-ring/50;
+        @apply border-[hsl(var(--border))] outline-[hsl(var(--ring))]/50;
         font-family: 'Inter', 'sans-serif';
         color: inherit;
     }
     body {
-        @apply bg-background text-foreground;
+        @apply bg-[oklch(var(--background))] text-[oklch(var(--foreground))];  /* Changed from bg-background text-foreground */
     }
     a {
         text-decoration: none;

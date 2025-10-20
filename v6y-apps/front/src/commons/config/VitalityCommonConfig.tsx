@@ -4,12 +4,8 @@ import {
     ApiOutlined,
     AppstoreAddOutlined,
     DashboardOutlined,
-    LogoutOutlined,
-    NotificationOutlined,
     PieChartOutlined,
-    QuestionOutlined,
     SplitCellsOutlined,
-    TextView,
     ThemeTokenType,
 } from '@v6y/ui-kit';
 import Link from 'next/link';
@@ -232,36 +228,15 @@ export const formatApplicationDataSource = (
     return newDataSource;
 };
 
-const VITALITY_HEADER_MENU_ITEMS = [
+export const VITALITY_HEADER_MENU_ITEMS = [
     {
-        key: 'notification',
-        icon: <NotificationOutlined />,
-        label: (
-            <Link href={VitalityNavigationPaths.NOTIFICATIONS}>
-                <TextView content="Notifications" />
-            </Link>
-        ),
+        key: 'dashboard',
+        link: VitalityNavigationPaths.DASHBOARD,
+        translateLabel: 'vitality.header.menu.dashboard'
     },
     {
-        key: 'FAQ',
-        icon: <QuestionOutlined />,
-        label: (
-            <Link href={VitalityNavigationPaths.FAQ}>
-                <TextView content="FAQ" />
-            </Link>
-        ),
-    },
-];
-
-export const buildVitalityHeaderMenuItems = (isLogged: boolean, onLogout: () => void) => [
-    ...VITALITY_HEADER_MENU_ITEMS,
-    isLogged && {
-        key: 'logout',
-        icon: <LogoutOutlined />,
-        label: (
-            <Link href={VitalityNavigationPaths.LOGIN} onClick={onLogout}>
-                <TextView content="Logout" />
-            </Link>
-        ),
+        key: 'statistics',
+        link: VitalityNavigationPaths.APPS_STATS,
+        translateLabel: 'vitality.header.menu.apps-stats'
     },
 ];
