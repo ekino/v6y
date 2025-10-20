@@ -1,14 +1,31 @@
-version: '3'
-
 services:
+  v6y-postgres:
+    image: postgres:18
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${PSQL_DB_USER}
+      - POSTGRES_PASSWORD=${PSQL_DB_PASSWORD}
+      - POSTGRES_DB=${PSQL_DB_NAME}
+    ports:
+      - "${PSQL_DB_PORT}:5432"
+    volumes:
+      - ./v6y-database/psql:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${PSQL_DB_USER} -d ${PSQL_DB_NAME}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   v6y-bff:
-    extends:
-      file: docker-compose.base.yml
-      service: v6y-service-base
+    build:
+      context: .
+      dockerfile: v6y-config/Dockerfile
+      args:
+        SERVICE_PATH: v6y-apps/bff
     command: pnpm run start:bff
     ports:
       - "4001:4001"
-    image: ghcr.io/<registry-owner>/v6y-bff:latest
+    image: ghcr.io/${REGISTRY_OWNER}/v6y-bff:latest
     environment:
       - PSQL_DB_HOST=${PSQL_DB_HOST}
       - PSQL_DB_NAME=${PSQL_DB_NAME}
@@ -27,13 +44,15 @@ services:
       retries: 3
 
   v6y-bfb-main-analyzer:
-    extends:
-      file: docker-compose.base.yml
-      service: v6y-service-base
+    build:
+      context: .
+      dockerfile: v6y-config/Dockerfile
+      args:
+        SERVICE_PATH: v6y-apps/bfb-main-analyzer
     command: pnpm run start:bfb:main
     ports:
       - "4002:4002"
-    image: ghcr.io/<registry-owner>/v6y-bfb-main-analyzer:latest
+    image: ghcr.io/${REGISTRY_OWNER}/v6y-bfb-main-analyzer:latest
     environment:
       - PSQL_DB_HOST=${PSQL_DB_HOST}
       - PSQL_DB_NAME=${PSQL_DB_NAME}
@@ -54,13 +73,15 @@ services:
       retries: 3
 
   v6y-bfb-static-code-auditor:
-    extends:
-      file: docker-compose.base.yml
-      service: v6y-service-base
+    build:
+      context: .
+      dockerfile: v6y-config/Dockerfile
+      args:
+        SERVICE_PATH: v6y-apps/bfb-static-auditor
     command: pnpm run start:bfb:static
     ports:
       - "4003:4003"
-    image: ghcr.io/<registry-owner>/v6y-bfb-static-code-auditor:latest
+    image: ghcr.io/${REGISTRY_OWNER}/v6y-bfb-static-code-auditor:latest
     environment:
       - PSQL_DB_HOST=${PSQL_DB_HOST}
       - PSQL_DB_NAME=${PSQL_DB_NAME}
@@ -79,13 +100,15 @@ services:
       retries: 3
 
   v6y-bfb-url-dynamic-auditor:
-    extends:
-      file: docker-compose.base.yml
-      service: v6y-service-base
+    build:
+      context: .
+      dockerfile: v6y-config/Dockerfile
+      args:
+        SERVICE_PATH: v6y-apps/bfb-dynamic-auditor
     command: pnpm run start:bfb:dynamic
     ports:
       - "4004:4004"
-    image: ghcr.io/<registry-owner>/v6y-bfb-url-dynamic-auditor:latest
+    image: ghcr.io/${REGISTRY_OWNER}/v6y-bfb-url-dynamic-auditor:latest
     environment:
       - PSQL_DB_HOST=${PSQL_DB_HOST}
       - PSQL_DB_NAME=${PSQL_DB_NAME}
@@ -104,13 +127,15 @@ services:
       retries: 3
 
   v6y-bfb-devops-auditor:
-    extends:
-      file: docker-compose.base.yml
-      service: v6y-service-base
+    build:
+      context: .
+      dockerfile: v6y-config/Dockerfile
+      args:
+        SERVICE_PATH: v6y-apps/bfb-devops-auditor
     command: pnpm run start:bfb:devops
     ports:
       - "4005:4005"
-    image: ghcr.io/<registry-owner>/v6y-bfb-devops-auditor:latest
+    image: ghcr.io/${REGISTRY_OWNER}/v6y-bfb-devops-auditor:latest
     environment:
       - PSQL_DB_HOST=${PSQL_DB_HOST}
       - PSQL_DB_NAME=${PSQL_DB_NAME}
@@ -129,13 +154,15 @@ services:
       retries: 3
 
   v6y-frontend:
-    extends:
-      file: docker-compose.base.yml
-      service: v6y-service-base
+    build:
+      context: .
+      dockerfile: v6y-config/Dockerfile
+      args:
+        SERVICE_PATH: v6y-apps/front
     command: pnpm run start:frontend
     ports:
-      - "4006:4006"
-    image: ghcr.io/<registry-owner>/v6y-frontend:latest
+      - "4007:4007"
+    image: ghcr.io/${REGISTRY_OWNER}/v6y-frontend:latest
     environment:
       - NEXT_PUBLIC_V6Y_BFF_PATH=${NEXT_PUBLIC_V6Y_BFF_PATH}
     healthcheck:
@@ -145,13 +172,15 @@ services:
       retries: 3
 
   v6y-frontend-bo:
-    extends:
-      file: docker-compose.base.yml
-      service: v6y-service-base
+    build:
+      context: .
+      dockerfile: v6y-config/Dockerfile
+      args:
+        SERVICE_PATH: v6y-apps/front-bo
     command: pnpm run start:frontend:bo
     ports:
       - "4008:4008"
-    image: ghcr.io/<registry-owner>/v6y-frontend-bo:latest
+    image: ghcr.io/${REGISTRY_OWNER}/v6y-frontend-bo:latest
     environment:
       - NEXT_PUBLIC_V6Y_BFF_PATH=${NEXT_PUBLIC_V6Y_BFF_PATH}
       - NEXTAUTH_URL=${NEXTAUTH_URL}
