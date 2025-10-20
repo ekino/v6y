@@ -99,7 +99,7 @@
       "formSubmit": "Login"
     },
     "header": {
-      "welcome":"Bonjour",
+      "welcome":"Hello",
       "menu": {
         "dashboard":"Dashboard",
         "apps-stats": "Statistics"
