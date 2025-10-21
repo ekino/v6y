@@ -37,7 +37,7 @@ const VitalityAppListHeader = ({
             ],
             queryBuilder: async () =>
                 buildClientQuery({
-                    queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
+                    queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
                     query: GetApplicationTotalByParams,
                     variables: {
                         keywords,
@@ -48,7 +48,7 @@ const VitalityAppListHeader = ({
 
     useEffect(() => {
         refetchAppsTotal?.();
-    }, [keywords, searchText]);
+    }, [keywords, searchText, refetchAppsTotal]);
 
     useEffect(() => {
         setAppsTotal(dataAppsTotal?.getApplicationTotalByParams || 0);

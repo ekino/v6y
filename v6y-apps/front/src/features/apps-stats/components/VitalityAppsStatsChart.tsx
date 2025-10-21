@@ -31,7 +31,7 @@ const VitalityAppsStatsChart = () => {
             queryBuilder: async () =>
                 buildClientQuery({
                     query: GetApplicationStatsByParams,
-                    queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
+                    queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
                     variables: {
                         keywords,
                     },
@@ -41,7 +41,7 @@ const VitalityAppsStatsChart = () => {
 
     useEffect(() => {
         refetch?.();
-    }, [keywords]);
+    }, [keywords, refetch]);
 
     if (isLoading) {
         return <LoaderView />;
