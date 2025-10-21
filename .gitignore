@@ -138,7 +138,6 @@ dist
 **/jest-cache/**
 **/jest-stare/**
 **/v6y-logs/**
-.vscode/
 **/coverage**
 **/.DS_Store
 **/duplications-report
