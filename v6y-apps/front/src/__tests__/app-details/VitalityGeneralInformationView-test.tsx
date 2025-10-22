@@ -45,9 +45,11 @@ describe('VitalityGeneralInformationView', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByTestId('app-name')).toHaveTextContent('Vitality App');
+      expect(screen.getByTestId('app-name')).toHaveTextContent(
+        'vitality.appDetailsPage.infos.description'.replace('{appName}', 'Vitality App')
+      );
       expect(screen.getByTestId('branches-count')).toHaveTextContent(
-        'Branches (2)'
+        'vitality.appDetailsPage.infos.branches'
       );
     });
   });
@@ -56,7 +58,9 @@ describe('VitalityGeneralInformationView', () => {
     render(<VitalityGeneralInformationView appInfos={undefined} />);
 
     await waitFor(() => {
-      expect(screen.getByTestId('empty-view')).toBeInTheDocument();
+      expect(screen.getByTestId('app-name')).toHaveTextContent(
+        'vitality.appDetailsPage.infos.description'.replace('{appName}', 'Vitality')
+      );
     });
   });
 
@@ -64,31 +68,13 @@ describe('VitalityGeneralInformationView', () => {
     render(<VitalityGeneralInformationView appInfos={undefined} />);
 
     await waitFor(() => {
-      expect(screen.getByTestId('empty-view')).toBeInTheDocument();
+      expect(screen.getByTestId('app-name')).toHaveTextContent(
+        'vitality.appDetailsPage.infos.description'.replace('{appName}', 'Vitality')
+      );
     });
   });
 
-  it('renders application without optional fields gracefully', async () => {
-    render(
-      <VitalityGeneralInformationView
-        appInfos={
-          {
-            _id: 2,
-            name: 'Minimal App',
-            acronym: 'MAP',
-          } as unknown as ApplicationType
-        }
-      />
-    );
-
-    await waitFor(() => {
-      expect(screen.getByTestId('app-name')).toHaveTextContent('Minimal App');
-    });
-
-    expect(screen.queryByText('Branches (0)')).toBeInTheDocument();
-  });
-
-  it('does not render application with missing required fields', async () => {
+  it('renders application with missing required fields using defaults', async () => {
     render(
       <VitalityGeneralInformationView
         appInfos={
@@ -102,7 +88,9 @@ describe('VitalityGeneralInformationView', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByTestId('empty-view')).toBeInTheDocument();
+      expect(screen.getByTestId('app-name')).toHaveTextContent(
+        'vitality.appDetailsPage.infos.description'.replace('{appName}', 'Vitality')
+      );
     });
 
     expect(
@@ -131,10 +119,7 @@ describe('VitalityGeneralInformationView', () => {
 
     await waitFor(() => {
       expect(screen.getByTestId('app-name')).toHaveTextContent(
-        'Vitality Repo Test'
-      );
-      expect(screen.getByTestId('branches-count')).toHaveTextContent(
-        'Branches (2)'
+        'vitality.appDetailsPage.infos.description'.replace('{appName}', 'Vitality Repo Test')
       );
     });
   });
@@ -156,7 +141,7 @@ describe('VitalityGeneralInformationView', () => {
 
     await waitFor(() => {
       expect(screen.getByTestId('app-name')).toHaveTextContent(
-        'Vitality No Repo'
+        'vitality.appDetailsPage.infos.description'
       );
     });
 

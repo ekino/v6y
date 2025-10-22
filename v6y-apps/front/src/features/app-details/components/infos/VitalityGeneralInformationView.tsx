@@ -1,6 +1,6 @@
 import { ApplicationType } from '@v6y/core-logic/src/types';
-import { InfoOutlined, useTranslationProvider, LoaderView, EmptyView } from '@v6y/ui-kit';
-import { Card, CardContent } from '@v6y/ui-kit-front';
+import { useTranslationProvider, LoaderView } from '@v6y/ui-kit';
+import { Card, CardContent, CardHeader, CardTitle } from '@v6y/ui-kit-front';
 import * as React from 'react';
 
 interface VitalityGeneralInformationViewProps {
@@ -15,78 +15,69 @@ const VitalityGeneralInformationView = ({ appInfos, isLoading = false }: Vitalit
         return <LoaderView />;
     }
 
-    if (!appInfos || !appInfos.name || !appInfos.acronym) {
-        return (
-            <Card>
-                <CardContent className="flex items-center justify-center p-8">
-                    <EmptyView />
-                </CardContent>
-            </Card>
-        );
-    }
-
     return (
-        <div className="space-y-6">
-            <div className="flex items-center gap-3 mb-6">
-                <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <InfoOutlined className="text-blue-600 text-lg" />
-                </div>
-                <h2 className="text-2xl font-semibold text-gray-900">
+        <Card className="border-slate-200 shadow-md">
+            <CardHeader>
+                <CardTitle className="text-2xl text-gray-900">
                     {translate('vitality.appDetailsPage.infos.title') || 'General Informations'}
-                </h2>
-            </div>
-
-            {/* Description and Links */}
-            <div className="space-y-4">
+                </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
                 <p data-testid="app-name" className="text-gray-700 leading-relaxed text-base">
-                    {appInfos.name} (v6y) is a web-based application developed by Ekino, designed to maintain and optimize the health and performance of codebases
-                    and applications. While it is primarily used for Ekino projects, it can also be generalized for use by the wider development community.
+                    {translate('vitality.appDetailsPage.infos.description').replace('{appName}', appInfos?.name || 'Vitality')}
                 </p>
                 
                 <div className="space-y-3">
                     <div className="text-sm">
-                        <span className="font-semibold text-gray-900">Application production url :</span>{' '}
+                        <span className="font-semibold text-gray-900">{translate('vitality.appDetailsPage.infos.productionUrl')}</span>{' '}
                         <a href="https://vitality.com" className="text-blue-600 hover:underline font-medium" target="_blank" rel="noopener noreferrer">
                             https://vitality.com
                         </a>
                     </div>
                     <div className="text-sm">
-                        <span className="font-semibold text-gray-900">Repository :</span>{' '}
+                        <span className="font-semibold text-gray-900">{translate('vitality.appDetailsPage.infos.repository')}</span>{' '}
                         <a
-                            href={appInfos.repo?.gitUrl || 'https://github.com/ekino/v6y'}
+                            href={appInfos?.repo?.gitUrl || 'https://github.com/ekino/v6y'}
                             className="text-blue-600 hover:underline font-medium"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            {appInfos.repo?.gitUrl || 'https://github.com/ekino/v6y'}
+                            {appInfos?.repo?.gitUrl || 'https://github.com/ekino/v6y'}
                         </a>
                         <div className="text-sm" data-testid="branches-count">
-                            {`Branches (${appInfos.repo?.allBranches?.length ?? 0})`}
+                            {translate('vitality.appDetailsPage.infos.branches').replace('{count}', (appInfos?.repo?.allBranches?.length ?? 0).toString())}
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {/* Quality Metrics Grid */}
-            <div className="bg-gray-50 rounded-xl p-6 mt-8">
-                <div className="grid grid-cols-5 gap-6">
+                <div className="border border-gray-300 rounded-md p-2 flex flex-wrap gap-6 items-start justify-between">
                     {[
-                        { label: 'Performance', value: '90%', color: 'text-green-600', bgColor: 'bg-green-50', borderColor: 'border-green-200' },
-                        { label: 'Accessibility', value: '60%', color: 'text-orange-600', bgColor: 'bg-orange-50', borderColor: 'border-orange-200' },
-                        { label: 'Security', value: '45%', color: 'text-red-600', bgColor: 'bg-red-50', borderColor: 'border-red-200' },
-                        { label: 'Maintainability', value: '85%', color: 'text-green-600', bgColor: 'bg-green-50', borderColor: 'border-green-200' },
-                        { label: 'DevOps', value: '90%', color: 'text-green-600', bgColor: 'bg-green-50', borderColor: 'border-green-200' },
-                    ].map((metric, idx) => (
-                        <div key={idx} className={`text-center p-4 rounded-lg border ${metric.bgColor} ${metric.borderColor}`}>
-                            <div className={`text-3xl font-bold mb-2 ${metric.color}`}>
-                                {metric.value}
+                        { label: translate('vitality.appDetailsPage.infos.indicators.performance'), value: '90%', grade: 'A', bgColor: 'bg-green-400', textColor: 'text-green-100' },
+                        { label: translate('vitality.appDetailsPage.infos.indicators.accessibility'), value: '60%', grade: 'B', bgColor: 'bg-orange-400', textColor: 'text-orange-100' },
+                        { label: translate('vitality.appDetailsPage.infos.indicators.security'), value: '45%', grade: 'C', bgColor: 'bg-red-500', textColor: 'text-red-100' },
+                        { label: translate('vitality.appDetailsPage.infos.indicators.maintainability'), value: '85%', grade: 'A', bgColor: 'bg-green-400', textColor: 'text-green-100' },
+                        { label: translate('vitality.appDetailsPage.infos.indicators.devops'), value: '90%', grade: 'A', bgColor: 'bg-green-400', textColor: 'text-green-100' },
+                    ].map((indicator) => (
+                        <div key={indicator.label} className="flex flex-col items-center justify-center overflow-hidden flex-shrink-0">
+                            {/* Value row: percentage + badge inline (horizontal flex, gap-8px, height 28px) */}
+                            <div className="flex items-center justify-center gap-2 h-7 px-1.5">
+                                <p className="text-xl font-normal leading-7 text-black">
+                                    {indicator.value}
+                                </p>
+                                <div className={`${indicator.bgColor} ${indicator.textColor} flex items-center justify-center h-5 px-2.5 py-2 rounded-md flex-shrink-0`}>
+                                    <p className="text-sm font-medium leading-6">
+                                        {indicator.grade}
+                                    </p>
+                                </div>
                             </div>
-                            <div className="text-sm font-medium text-gray-700">{metric.label}</div>
+                            <p className="text-sm font-medium text-black leading-5">
+                                {indicator.label}
+                            </p>
                         </div>
                     ))}
                 </div>
-            </div>
-        </div>
+            </CardContent>
+        </Card>
     );
 };
 

@@ -906,7 +906,7 @@ importers:
         version: 1.5.0
       jsdom:
         specifier: '=27.0.1'
-        version: 27.0.1
+        version: 27.0.1(postcss@8.5.1)
       prettier:
         specifier: '=3.4.2'
         version: 3.4.2
@@ -1294,7 +1294,7 @@ importers:
         specifier: '=2.2.5'
         version: 2.2.5(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@radix-ui/react-slot':
-        specifier: ^1.1.2
+        specifier: '=1.1.2'
         version: 1.1.2(@types/react@19.0.7)(react@19.0.0)
       '@types/i18next':
         specifier: '=13.0.0'
@@ -16347,14 +16347,6 @@ snapshots:
 
   cssesc@3.0.0: {}
 
-  cssstyle@5.3.1:
-    dependencies:
-      '@asamuzakjp/css-color': 4.0.5
-      '@csstools/css-syntax-patches-for-csstree': 1.0.14(postcss@8.5.1)
-      css-tree: 3.1.0
-    transitivePeerDependencies:
-      - postcss
-
   cssstyle@5.3.1(postcss@8.5.1):
     dependencies:
       '@asamuzakjp/css-color': 4.0.5
@@ -18601,7 +18593,7 @@ snapshots:
   jsdom@27.0.1:
     dependencies:
       '@asamuzakjp/dom-selector': 6.7.3
-      cssstyle: 5.3.1
+      cssstyle: 5.3.1(postcss@8.5.1)
       data-urls: 6.0.0
       decimal.js: 10.6.0
       html-encoding-sniffer: 4.0.0
@@ -18625,6 +18617,7 @@ snapshots:
       - postcss
       - supports-color
       - utf-8-validate
+    optional: true
 
   jsdom@27.0.1(postcss@8.5.1):
     dependencies:
@@ -19580,7 +19573,7 @@ snapshots:
       npm-install-checks: 6.3.0
       npm-normalize-package-bin: 3.0.1
       npm-package-arg: 11.0.3
-      semver: 7.7.3
+      semver: 7.7.2
 
   npm-run-path@4.0.1:
     dependencies:

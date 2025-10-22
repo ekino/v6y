@@ -4,7 +4,7 @@ import {
     useNavigationAdapter,
     useTranslationProvider,
 } from '@v6y/ui-kit';
-import { Card, CardContent, CardHeader, CardTitle } from '@v6y/ui-kit-front';
+import { Card, CardContent } from '@v6y/ui-kit-front';
 import * as React from 'react';
 
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
@@ -54,9 +54,9 @@ const VitalityDependenciesView = () => {
 
     if (isAppDetailsDependenciesLoading) {
         return (
-            <Card>
-                <CardContent className="flex items-center justify-center p-8">
-                    <div className="text-gray-500">Loading dependencies...</div>
+            <Card className="border-slate-200 shadow-sm">
+                <CardContent className="flex items-center justify-center p-12">
+                    <div className="text-sm font-medium text-slate-500">{translate('vitality.appDetailsPage.loadingStates.dependencies')}</div>
                 </CardContent>
             </Card>
         );
@@ -64,23 +64,19 @@ const VitalityDependenciesView = () => {
 
     if (!dependencies?.length) {
         return (
-            <Card>
-                <CardContent className="flex items-center justify-center p-8">
-                    <div className="text-gray-500">No dependencies available</div>
+            <Card className="border-slate-200 shadow-sm">
+                <CardContent className="flex flex-col items-center justify-center p-12 gap-2">
+                    <div className="text-4xl mb-2">📦</div>
+                    <div className="text-base font-semibold text-slate-900">{translate('vitality.appDetailsPage.emptyStates.dependencies.title')}</div>
+                    <div className="text-sm text-slate-500">{translate('vitality.appDetailsPage.emptyStates.dependencies.description')}</div>
                 </CardContent>
             </Card>
         );
     }
 
     return (
-        <Card className="w-full">
-            <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-xl font-semibold text-gray-900">
-                    📦
-                    {translate('vitality.appDetailsPage.dependencies.title') || 'Dependencies'}
-                </CardTitle>
-            </CardHeader>
-            <CardContent>
+        <Card className="border-slate-200 shadow-sm">
+            <CardContent className="p-4">
                 <VitalityDependenciesBranchGrouper dependencies={dependencies || []} />
             </CardContent>
         </Card>
