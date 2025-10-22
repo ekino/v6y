@@ -40,48 +40,68 @@
     "appDetailsPage": {
       "pageTitle": "Application details",
       "shortTitle": "application details",
-      "qualityStatus": {
-        "title": "Quality Indicators",
-        "exportLabel": "Export Quality Indicators",
-        "selectLabel": "Select a branch",
-        "selectHelper": "Select a branch to filter quality indicators",
-        "selectPlaceholder": "All"
+      "tabs": {
+        "overview": "Overview",
+        "performance": "Performance",
+        "accessibility": "Accessibility",
+        "security": "Security",
+        "maintainability": "Maintainability",
+        "devops": "DevOps"
+      },
+      "branches": {
+        "main": "main",
+        "develop": "develop",
+        "release": "release"
+      },
+      "exportButton": "Export Reporting",
+      "loadingStates": {
+        "auditReports": "Loading audit reports...",
+        "qualityIndicators": "Loading quality indicators...",
+        "dependencies": "Loading dependencies...",
+        "evolutions": "Loading evolutions..."
+      },
+      "emptyStates": {
+        "auditReports": {
+          "title": "No audit reports available",
+          "description": "There are no audit reports to display for this application"
+        },
+        "qualityIndicators": {
+          "title": "No quality indicators available",
+          "description": "There are no quality indicators to display for this application"
+        },
+        "dependencies": {
+          "title": "No dependencies available",
+          "description": "There are no dependencies to display for this application"
+        },
+        "evolutions": {
+          "title": "No evolutions available",
+          "description": "There are no evolutions to display for this application"
+        }
       },
       "infos": {
         "title": "General Information",
-        "exportLabel": "Export General Information"
+        "exportLabel": "Export General Information",
+        "description": "{appName} (v6y) is a web-based application developed by Ekino, designed to maintain and optimize the health and performance of codebases and applications. While it is primarily used for Ekino projects, it can also be generalized for use by the wider development community.",
+        "productionUrl": "Application production url :",
+        "repository": "Repository :",
+        "branches": "Branches ({count})",
+        "indicators": {
+          "performance": "Performance",
+          "accessibility": "Accessibility",
+          "security": "Security",
+          "maintainability": "Maintainability",
+          "devops": "DevOps"
+        }
       },
-      "evolutions": {
-        "title": "Recommendations and Evolutions",
-        "exportLabel": "Export Evolutions",
-        "selectLabel": "Select a branch",
-        "selectHelper": "Select a branch to filter evolutions",
-        "selectPlaceholder": "All"
-      },
-      "dependencies": {
-        "title": "Dependencies analysis",
-        "exportLabel": "Export Dependencies",
-        "selectLabel": "Select a branch",
-        "selectHelper": "Select a branch to filter dependencies",
-        "selectPlaceholder": "All"
-      },
-      "audit": {
-        "reportsTitle": "Audit reports",
-        "exportLabel": "Export Audit Reports",
-        "statusFailure": "Audit failed",
-        "selectLabel": "Select a branch",
-        "selectHelper": "Select a branch to filter metrics",
-        "selectPlaceholder": "All",
-        "moduleHelpTitle": "More details about modules",
-        "detectOnBranch": "Affected branch",
-        "detectOnPath": "Affected file/module",
-        "indicatorScore": "Indicator score",
-        "openApp": "Open application",
-        "helpTitle": "More details about metrics and issues",
-        "helpCategory": "Category",
-        "helpTitleLabel": "Title",
-        "helpDescription": "Description",
-        "helpExplanation": "Explanation"
+      "summaryCard": {
+        "lastAnalyze": "Last analyze {date}",
+        "branchesLabel": "Branches ({count}) :",
+        "status": {
+          "success": "success",
+          "warning": "warning",
+          "error": "error"
+        },
+        "technosLabel": "Technos :"
       }
     },
     "appStatsPage": {

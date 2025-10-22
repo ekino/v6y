@@ -1,11 +1,15 @@
 'use client';
 
 import { ApplicationType } from '@v6y/core-logic/src/types';
+import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
 import {
-  DynamicLoader,
-  useNavigationAdapter,
-} from '@v6y/ui-kit';
-import { Button, ShuffleIcon, GlobeIcon, ReloadIcon, PlayIcon, Input } from '@v6y/ui-kit-front';
+  Button,
+  ShuffleIcon,
+  GlobeIcon,
+  ReloadIcon,
+  PlayIcon,
+  Input,
+} from '@v6y/ui-kit-front';
 import * as React from 'react';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
@@ -16,7 +20,13 @@ import {
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationDetailsInfosByParams from '../api/getApplicationDetailsInfosByParams';
 import VitalitySummaryCard from '../components/summary-card/VitalitySummaryCard';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@v6y/ui-kit-front";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@v6y/ui-kit-front';
 
 const VitalityGeneralInformationView = DynamicLoader(
   () => import('./infos/VitalityGeneralInformationView')
@@ -40,8 +50,11 @@ const VitalityEvolutionsView = DynamicLoader(
 
 const VitalityAppDetailsView = () => {
   const { getUrlParams } = useNavigationAdapter();
+  const { translate } = useTranslationProvider();
   const [_id] = getUrlParams(['_id']);
   const [activeTab, setActiveTab] = React.useState('overview');
+  const [selectedBranch, setSelectedBranch] = React.useState('main');
+  const [selectedDate, setSelectedDate] = React.useState('2025-01-01');
 
   const { isLoading: isAppDetailsInfosLoading, data: appDetailsInfos } =
     useClientQuery<{ getApplicationDetailsInfoByParams: ApplicationType }>({
@@ -59,12 +72,12 @@ const VitalityAppDetailsView = () => {
   const appInfos = appDetailsInfos?.getApplicationDetailsInfoByParams;
 
   const tabs = [
-    { id: 'overview', label: 'Overview' },
-    { id: 'performance', label: 'Performance' },
-    { id: 'accessibility', label: 'Accessibility' },
-    { id: 'security', label: 'Security' },
-    { id: 'maintainability', label: 'Maintainability' },
-    { id: 'devops', label: 'DevOps' },
+    { id: 'overview', label: translate('vitality.appDetailsPage.tabs.overview') },
+    { id: 'performance', label: translate('vitality.appDetailsPage.tabs.performance') },
+    { id: 'accessibility', label: translate('vitality.appDetailsPage.tabs.accessibility') },
+    { id: 'security', label: translate('vitality.appDetailsPage.tabs.security') },
+    { id: 'maintainability', label: translate('vitality.appDetailsPage.tabs.maintainability') },
+    { id: 'devops', label: translate('vitality.appDetailsPage.tabs.devops') },
   ];
 
   const onExportClicked = () => {
@@ -76,19 +89,61 @@ const VitalityAppDetailsView = () => {
   const renderTabContent = () => {
     switch (activeTab) {
       case 'overview':
-        return <VitalityGeneralInformationView appInfos={appInfos} />;
+        return (
+          <VitalityGeneralInformationView
+            appInfos={appInfos}
+            branch={selectedBranch}
+            date={selectedDate}
+          />
+        );
       case 'performance':
-        return <VitalityAuditReportsView />;
+        return (
+          <VitalityAuditReportsView
+            appInfos={appInfos}
+            branch={selectedBranch}
+            date={selectedDate}
+          />
+        );
       case 'accessibility':
-        return <VitalityQualityIndicatorsView />;
+        return (
+          <VitalityQualityIndicatorsView
+            appInfos={appInfos}
+            branch={selectedBranch}
+            date={selectedDate}
+          />
+        );
       case 'security':
-        return <VitalityDependenciesView />;
+        return (
+          <VitalityDependenciesView
+            appInfos={appInfos}
+            branch={selectedBranch}
+            date={selectedDate}
+          />
+        );
       case 'maintainability':
-        return <VitalityEvolutionsView />;
+        return (
+          <VitalityEvolutionsView
+            appInfos={appInfos}
+            branch={selectedBranch}
+            date={selectedDate}
+          />
+        );
       case 'devops':
-        return <VitalityAuditReportsView />;
+        return (
+          <VitalityAuditReportsView
+            appInfos={appInfos}
+            branch={selectedBranch}
+            date={selectedDate}
+          />
+        );
       default:
-        return <VitalityGeneralInformationView appInfos={appInfos} />;
+        return (
+          <VitalityGeneralInformationView
+            appInfos={appInfos}
+            branch={selectedBranch}
+            date={selectedDate}
+          />
+        );
     }
   };
 
@@ -108,80 +163,99 @@ const VitalityAppDetailsView = () => {
         <div className="col-span-3">
           {isAppDetailsInfosLoading ? (
             <div className="bg-gray-100 animate-pulse h-80 rounded-xl"></div>
-          ) : (
+          ) : appInfos ? (
             <VitalitySummaryCard appInfos={appInfos} />
-          )}
+          ) : null}
         </div>
 
         <div className="col-span-9">
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
-            <div className="p-4 border-b border-gray-200">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                    <Select defaultValue="main">
-                    <SelectTrigger className="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-40">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="main">
-                      <span className="flex items-center gap-2">
-                        <ShuffleIcon /> main
-                      </span>
-                      </SelectItem>
-                    </SelectContent>
-                    </Select>
-                  <Input type="date" className="w-fit" value="2025-01-01" />
-                </div>
+          <div className="flex items-center justify-between mb-2.5">
+            <div className="flex items-center gap-2">
+              <Select
+                value={selectedBranch}
+                onValueChange={(v) => setSelectedBranch(v)}
+              >
+                <SelectTrigger className="h-8 border-slate-300 rounded-md px-4 py-2 text-sm bg-white">
+                  <span className="flex items-center gap-1">
+                    <ShuffleIcon className="w-4 h-4" />
+                    <SelectValue />
+                  </span>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="main">{translate('vitality.appDetailsPage.branches.main')}</SelectItem>
+                  <SelectItem value="develop">{translate('vitality.appDetailsPage.branches.develop')}</SelectItem>
+                  <SelectItem value="release">{translate('vitality.appDetailsPage.branches.release')}</SelectItem>
+                </SelectContent>
+              </Select>
 
-                <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm" className="p-2 h-9 w-9 border-gray-300 hover:bg-gray-50">
-                    <ReloadIcon />
-                  </Button>
-                  <Button variant="outline" size="sm" className="p-2 h-9 w-9 border-gray-300 hover:bg-gray-50">
-                    <GlobeIcon />
-                  </Button>
-                  <Button variant="outline" size="sm" className="p-2 h-9 w-9 border-gray-300 hover:bg-gray-50">
-                    <PlayIcon />
-                  </Button>
-                </div>
-              </div>
+              <Input
+                type="date"
+                className="h-9 border-slate-300 rounded-md text-sm"
+                value={selectedDate}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setSelectedDate(e.target.value)
+                }
+              />
             </div>
 
-            <div className="border-b border-gray-200">
-              <div className="flex items-center justify-between px-6">
-                <nav className="flex">
-                  {tabs.map((tab) => (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id)}
-                      className={`py-4 px-6 border-b-2 font-medium text-sm transition-colors ${
-                        activeTab === tab.id
-                          ? 'border-blue-500 text-blue-600'
-                          : 'border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300'
-                      }`}
-                    >
-                      {tab.label}
-                    </button>
-                  ))}
-                </nav>
-
-                <Button
-                  onClick={onExportClicked}
-                  className="bg-slate-900 hover:bg-slate-800 text-white px-6 py-2 rounded-lg text-sm font-medium shadow-sm"
-                >
-                  Export Reporting
-                </Button>
-              </div>
-            </div>
-
-            <div className="p-6">
-              {isAppDetailsInfosLoading ? (
-                <div className="bg-gray-100 animate-pulse h-96 rounded-lg"></div>
-              ) : (
-                renderTabContent()
-              )}
+            <div className="flex items-center gap-1.5">
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 w-9 p-2 border-slate-300 rounded-md"
+              >
+                <ReloadIcon className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 w-9 p-2 border-slate-300 rounded-md"
+              >
+                <GlobeIcon className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 w-9 p-2 border-slate-300 rounded-md"
+              >
+                <PlayIcon className="w-4 h-4" />
+              </Button>
             </div>
           </div>
+
+          <div className="flex items-center justify-between mb-2">
+            <div
+              className="bg-slate-100 p-1.5 rounded-md inline-flex"
+              role="tablist"
+              aria-label="Details tabs"
+            >
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  role="tab"
+                  aria-selected={activeTab === tab.id}
+                  className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
+                    activeTab === tab.id
+                      ? 'bg-white text-slate-900 shadow-sm'
+                      : 'text-slate-700 hover:text-slate-900'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
+            <Button
+              onClick={onExportClicked}
+              className="h-8 bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-md text-sm font-medium"
+            >
+              {translate('vitality.appDetailsPage.exportButton')}
+            </Button>
+          </div>
+
+          {/* Tab content */}
+          {renderTabContent()}
         </div>
       </div>
     </div>
