@@ -43,7 +43,7 @@ afterEach(() => {
 vi.mock('@v6y/ui-kit', () => {
     return {
         useTranslationProvider: vi.fn(() => ({
-            translate: (key: string) => key
+            translate: (key: string) => (key === 'vitality.appListPage.contactEmail' ? 'Contact us' : key),
         })),
         useNavigationAdapter: vi.fn(() => {
             return {
@@ -176,7 +176,7 @@ vi.mock('@v6y/ui-kit', () => {
                         <div data-testid="mock-card-content">{children}</div>
                         {Array.isArray(actions) && actions.length > 0 && (
                             <div data-testid="mock-card-actions">
-                                {actions.map((action, index) => {
+                                {(actions || []).map((action, index) => {
                                     return (
                                         <div key={index} data-testid="mock-card-action">
                                             {action}
