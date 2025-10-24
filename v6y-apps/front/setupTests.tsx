@@ -44,7 +44,7 @@ afterEach(() => {
 vi.mock('@v6y/ui-kit', () => {
     return {
         useTranslationProvider: vi.fn(() => ({
-            translate: (key: string) => key
+            translate: (key: string) => (key === 'vitality.appListPage.contactEmail' ? 'Contact us' : key),
         })),
         useNavigationAdapter: vi.fn(() => {
             return {
