@@ -1,4 +1,4 @@
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './accordion.tsx';
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './Accordion.tsx';
 export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './Card.tsx';
 export { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from './Form.tsx';
 export {

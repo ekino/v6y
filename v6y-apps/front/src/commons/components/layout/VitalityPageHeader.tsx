@@ -40,9 +40,11 @@ const VitalityPageHeader = () => {
         {isLoggedIn && <VitalityPageHeaderMenu />}
       </div>
       <div className="flex items-center gap-2 text-center">
-        <Button className="border-gray-200" size="icon" variant="outline">
-          <QuestionMarkCircledIcon />
-        </Button>
+        <Link className="text-black" href="/faq">
+          <Button className="border-gray-200" size="icon" variant="outline">
+            <QuestionMarkCircledIcon />
+          </Button>
+        </Link>
 
         {isLoggedIn && (
           <Button size="icon" variant="outline">

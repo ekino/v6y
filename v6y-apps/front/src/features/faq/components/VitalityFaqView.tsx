@@ -1,10 +1,9 @@
 'use client';
 
 import { FaqType } from '@v6y/core-logic/src/types';
-import { QuestionOutlined, useTranslationProvider } from '@v6y/ui-kit';
 import * as React from 'react';
 
-import VitalitySectionView from '../../../commons/components/VitalitySectionView';
+import { useTranslationProvider } from '@v6y/ui-kit-front';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import {
     buildClientQuery,
@@ -12,9 +11,11 @@ import {
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import GetFaqListByPageAndParams from '../api/getFaqListByPageAndParams';
 import VitalityFaqList from './VitalityFaqList';
+import Link from 'next/link';
 
 const VitalityFaqView = () => {
-    const { isLoading, data } = useClientQuery<{ getFaqListByPageAndParams: FaqType[] }>({
+    const { translate } = useTranslationProvider();
+    const { data } = useClientQuery<{ getFaqListByPageAndParams: FaqType[] }>({
         queryCacheKey: ['getFaqListByPageAndParams'],
         queryBuilder: async () =>
             buildClientQuery({
@@ -26,18 +27,13 @@ const VitalityFaqView = () => {
 
     const dataSource = data?.getFaqListByPageAndParams;
 
-    const { translate } = useTranslationProvider();
-
     return (
-        <VitalitySectionView
-            isLoading={isLoading}
-            isEmpty={!dataSource?.length}
-            title={translate('vitality.faqPage.pageTitle')}
-            description=""
-            avatar={<QuestionOutlined />}
-        >
+        <div className="space-y-8 mt-4">
             <VitalityFaqList dataSource={dataSource} />
-        </VitalitySectionView>
+            <div className="w-full flex justify-end">
+                <Link className="text-black" href='/contact'>{ translate('vitality.appListPage.contactEmail') }</Link>
+            </div>
+        </div>
     );
 };
 
