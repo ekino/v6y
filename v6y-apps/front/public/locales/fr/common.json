@@ -40,48 +40,68 @@
     "appDetailsPage": {
       "pageTitle": "Détail de l'application",
       "shortTitle": "détail de l'application",
-      "qualityStatus": {
-        "title": "Indicateurs de qualité",
-        "exportLabel": "Exporter les indicateurs de qualité",
-        "selectLabel": "Sélectionner une branche",
-        "selectHelper": "Sélectionnez une branche pour filtrer les indicateurs de qualité",
-        "selectPlaceholder": "Tous"
+      "tabs": {
+        "overview": "Aperçu",
+        "performance": "Performance",
+        "accessibility": "Accessibilité",
+        "security": "Sécurité",
+        "maintainability": "Maintenabilité",
+        "devops": "DevOps"
+      },
+      "branches": {
+        "main": "main",
+        "develop": "develop",
+        "release": "release"
+      },
+      "exportButton": "Exporter le reporting",
+      "loadingStates": {
+        "auditReports": "Chargement des rapports d'audit...",
+        "qualityIndicators": "Chargement des indicateurs de qualité...",
+        "dependencies": "Chargement des dépendances...",
+        "evolutions": "Chargement des évolutions..."
+      },
+      "emptyStates": {
+        "auditReports": {
+          "title": "Aucun rapport d'audit disponible",
+          "description": "Il n'y a aucun rapport d'audit à afficher pour cette application"
+        },
+        "qualityIndicators": {
+          "title": "Aucun indicateur de qualité disponible",
+          "description": "Il n'y a aucun indicateur de qualité à afficher pour cette application"
+        },
+        "dependencies": {
+          "title": "Aucune dépendance disponible",
+          "description": "Il n'y a aucune dépendance à afficher pour cette application"
+        },
+        "evolutions": {
+          "title": "Aucune évolution disponible",
+          "description": "Il n'y a aucune évolution à afficher pour cette application"
+        }
       },
       "infos": {
         "title": "Informations générales",
-        "exportLabel": "Exporter les informations de l'application"
+        "exportLabel": "Exporter les informations de l'application",
+        "description": "{appName} (v6y) est une application web développée par Ekino, conçue pour maintenir et optimiser la santé et les performances des bases de code et des applications. Bien qu'elle soit principalement utilisée pour les projets Ekino, elle peut également être généralisée pour une utilisation par la communauté de développement plus large.",
+        "productionUrl": "URL de production de l'application :",
+        "repository": "Dépôt :",
+        "branches": "Branches ({count})",
+        "indicators": {
+          "performance": "Performance",
+          "accessibility": "Accessibilité",
+          "security": "Sécurité",
+          "maintainability": "Maintenabilité",
+          "devops": "DevOps"
+        }
       },
-      "evolutions": {
-        "title": "Recommandations et évolutions",
-        "exportLabel": "Exporter les évolutions",
-        "selectLabel": "Sélectionner une branche",
-        "selectHelper": "Sélectionnez une branche pour filtrer les évolutions",
-        "selectPlaceholder": "Tous"
-      },
-      "dependencies": {
-        "title": "Analyse des dépendances",
-        "exportLabel": "Exporter les dépendances",
-        "selectLabel": "Sélectionner une branche",
-        "selectHelper": "Sélectionnez une branche pour filtrer les dépendances",
-        "selectPlaceholder": "Tous"
-      },
-      "audit": {
-        "reportsTitle": "Rapports d'audit",
-        "exportLabel": "Exporter les rapports d'audit",
-        "statusFailure": "Audit échoué",
-        "selectLabel": "Sélectionner une branche",
-        "selectHelper": "Sélectionnez une branche pour filtrer les métriques",
-        "selectPlaceholder": "Tous",
-        "moduleHelpTitle": "Plus de détails sur les modules",
-        "detectOnBranch": "Branche affectée",
-        "detectOnPath": "Fichier/module affecté",
-        "indicatorScore": "Score de l'indicateur",
-        "openApp": "Ouvrir l'application",
-        "helpTitle": "Plus de détails sur les métriques et problèmes",
-        "helpCategory": "Catégorie",
-        "helpTitleLabel": "Titre",
-        "helpDescription": "Description",
-        "helpExplanation": "Explication"
+      "summaryCard": {
+        "lastAnalyze": "Dernière analyse {date}",
+        "branchesLabel": "Branches ({count}) :",
+        "status": {
+          "success": "succès",
+          "warning": "avertissement",
+          "error": "erreur"
+        },
+        "technosLabel": "Technologies :"
       }
     },
     "appStatsPage": {
