@@ -36,3 +36,4 @@ export {
   TypographySmall,
   TypographyMuted,
 } from './Typography.tsx';
+export { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from './Accordion.tsx';
