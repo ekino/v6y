@@ -34,7 +34,7 @@ afterEach(() => {
 vi.mock('@v6y/ui-kit', () => {
     return {
         useTranslationProvider: vi.fn(() => ({
-            translate: (key: string) => key
+            translate: (key: string) => (key === 'vitality.appListPage.contactEmail' ? 'Contact us' : key),
         })),
         useNavigationAdapter: vi.fn(() => {
             return {
@@ -65,8 +65,8 @@ vi.mock('@v6y/ui-kit', () => {
                     return formErrors;
                 },
             },
-            clearErrors: (name) => {
-                delete formErrors[name];
+            clearErrors: (name?: string) => {
+                if (name) delete formErrors[name];
             },
         })),
         Form: Object.assign(
@@ -165,9 +165,9 @@ vi.mock('@v6y/ui-kit', () => {
                     <div data-testid="mock-card">
                         <div data-testid="mock-card-title">{title}</div>
                         <div data-testid="mock-card-content">{children}</div>
-                        {actions?.length > 0 && (
+                        {actions && actions.length > 0 && (
                             <div data-testid="mock-card-actions">
-                                {actions.map((action, index) => {
+                                {(actions || []).map((action, index) => {
                                     return (
                                         <div key={index} data-testid="mock-card-action">
                                             {action}
@@ -473,3 +473,26 @@ vi.mock('@v6y/ui-kit', () => {
         )),
     };
 });
+
+// Mock @v6y/ui-kit-front
+vi.mock('@v6y/ui-kit-front', async () => {
+    const actual = await vi.importActual('@v6y/ui-kit-front');
+    return {
+        ...actual,
+        useTranslationProvider: vi.fn(() => ({
+            translate: (key: string) => {
+                const translations: Record<string, string> = {
+                    'vitality.appListPage.contactEmail': 'Contact us',
+                };
+                return translations[key] || key;
+            },
+        })),
+    };
+});
+
+const mockUseClientQuery = vi.fn();
+
+vi.mock('./src/infrastructure/adapters/api/useQueryAdapter', () => ({
+    useClientQuery: mockUseClientQuery,
+    buildClientQuery: vi.fn(),
+}));

@@ -75,7 +75,11 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true }: VitalityAppInf
                         </Col>
                         <Col>
                             {app.contactMail?.length && (
-                                <Link key="team-mail-contact" href={`mailto:${app.contactMail}`}>
+                                <Link
+                                    key="team-mail-contact"
+                                    href={`mailto:${app.contactMail}`}
+                                    aria-label={'vitality.appListPage.contactEmail'}
+                                >
                                     <TextView
                                         content={translate('vitality.appListPage.contactEmail')}
                                     />
@@ -84,7 +88,11 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true }: VitalityAppInf
                         </Col>
                         <Col>
                             {canOpenDetails && (
-                                <Link key="app-details-link" href={appDetailsLink}>
+                                <Link
+                                    key="app-details-link"
+                                    href={appDetailsLink}
+                                    aria-label={'vitality.appListPage.openDetails'}
+                                >
                                     <TextView
                                         content={translate('vitality.appListPage.openDetails')}
                                         underline
