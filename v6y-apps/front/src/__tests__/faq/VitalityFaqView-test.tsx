@@ -21,7 +21,7 @@ describe('VitalityFaqView', () => {
         render(<VitalityFaqView />);
 
         // Contact link should still be rendered
-        expect(screen.getByRole('link', { name: /Contact us/i })).toBeInTheDocument();
+        expect(screen.getByRole('link', { name: 'vitality.appListPage.contactEmail' })).toBeInTheDocument();
     });
 
     it('renders contact link when there are no FAQs', async () => {
@@ -30,7 +30,7 @@ describe('VitalityFaqView', () => {
         render(<VitalityFaqView />);
 
         await waitFor(() => {
-            expect(screen.getByRole('link', { name: /Contact us/i })).toBeInTheDocument();
+            expect(screen.getByRole('link', { name: 'vitality.appListPage.contactEmail' })).toBeInTheDocument();
             // No accordion items should be present
             const accordionTitles = screen.queryAllByRole('button');
             expect(accordionTitles.length).toBe(0);
