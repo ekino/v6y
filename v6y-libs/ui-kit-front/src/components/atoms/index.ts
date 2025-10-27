@@ -8,3 +8,4 @@ export { Label } from './label.tsx';
 export { Spinner } from './spinner.tsx';
 export { Toaster } from './sonner.tsx';
 export { toast } from './sonnerHelpers.ts';
+export { Textarea } from './textarea.tsx';

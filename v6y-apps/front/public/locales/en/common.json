@@ -104,6 +104,33 @@
         "dashboard":"Dashboard",
         "apps-stats": "Statistics"
       }
+    },
+    "contactPage": {
+      "title": "Having issue with the platform?",
+      "subtitle": "Feel free to contact us.",
+      "emailSupport": {
+        "title": "Email Support",
+        "description": "We typically respond within 24 hours"
+      },
+      "quickResponse": {
+        "title": "Quick Response",
+        "description": "Our team is here to help you succeed"
+      },
+      "form": {
+        "email": {
+          "label": "Email",
+          "placeholder": "your.email@example.com"
+        },
+        "message": {
+          "label": "Message",
+          "placeholder": "Describe your issue or question in detail...",
+          "helper": "Please provide as much detail as possible to help us assist you better."
+        },
+        "submit": {
+          "sending": "Sending...",
+          "default": "Send Message"
+        }
+      }
     }
   }
 }
