@@ -140,6 +140,33 @@
         "dashboard":"Dashboard",
         "apps-stats": "Statistiques"
       }
+    },
+    "contactPage": {
+      "title": "Vous avez un problème avec la plateforme ?",
+      "subtitle": "N'hésitez pas à nous contacter.",
+      "emailSupport": {
+        "title": "Support par email",
+        "description": "Nous répondons généralement sous 24 heures"
+      },
+      "quickResponse": {
+        "title": "Réponse rapide",
+        "description": "Notre équipe est là pour vous aider à réussir"
+      },
+      "form": {
+        "email": {
+          "label": "Email",
+          "placeholder": "votre.email@exemple.com"
+        },
+        "message": {
+          "label": "Message",
+          "placeholder": "Décrivez votre problème ou question en détail...",
+          "helper": "Veuillez fournir autant de détails que possible pour nous aider à mieux vous assister."
+        },
+        "submit": {
+          "sending": "Envoi en cours...",
+          "default": "Envoyer le message"
+        }
+      }
     }
   }
 }

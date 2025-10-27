@@ -9,4 +9,6 @@ export {
     StarFilledIcon,
     ReloadIcon,
     PlayIcon,
+    EnvelopeClosedIcon,
+    ChatBubbleIcon
 } from '@radix-ui/react-icons';
