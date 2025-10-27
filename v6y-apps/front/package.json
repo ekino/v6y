@@ -45,7 +45,7 @@
     "react-chatbotify": "2.0.0-beta.26",
     "react-dom": "=19.0.0",
     "react-hook-form": "=7.54.2",
-    "react-i18next": "=15.4.0",
+    "react-i18next": "=16.2.1",
     "react-virtualized-auto-sizer": "=1.0.25",
     "react-window": "=1.8.11",
     "sonner": "=2.0.5",
