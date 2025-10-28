@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Install pnpm
-RUN npm i -g pnpm@9.1.3
+RUN npm install -g pnpm@10.20.0
 
 # Install app dependencies
 RUN pnpm install
