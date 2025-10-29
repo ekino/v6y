@@ -3,9 +3,11 @@
 import { useNavigationAdapter } from '@v6y/ui-kit';
 import { useEffect } from 'react';
 
+import { PropsWithChildren } from 'react';
+
 import { useLogin } from '../hooks/useAuth';
 
-function ProtectedRoute({ children }) {
+function ProtectedRoute({ children }: PropsWithChildren) {
     const { isLoggedIn, isLoginLoading } = useLogin();
     const { pathname, router } = useNavigationAdapter();
 
