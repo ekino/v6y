@@ -29,7 +29,7 @@
     "@urql/core": "=5.1.0",
     "@v6y/core-logic": "workspace:^",
     "@v6y/ui-kit": "workspace:^",
-    "cross-env": "=7.0.3",
+    "cross-env": "=10.1.0",
     "graphql": "=16.10.0",
     "graphql-request": "=7.1.2",
     "graphql-ws": "=6.0.4",
