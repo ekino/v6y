@@ -34,18 +34,18 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "husky": "=9.1.7",
-    "jscpd": "=4.0.5",
-    "nx": "=20.8.2",
-    "typescript-coverage-report": "=1.1.1"
+    "husky": "9.1.7",
+    "jscpd": "4.0.5",
+    "nx": "20.8.2",
+    "typescript-coverage-report": "1.1.1"
   },
   "pnpm": {
     "overrides": {
-      "form-data": "=4.0.4",
-      "axios": "=1.12.0",
-      "lodash": "=4.17.21",
-      "sha.js": "=2.4.12",
-      "tar-fs": "=3.0.9"
+      "form-data": "4.0.4",
+      "axios": "1.12.0",
+      "lodash": "4.17.21",
+      "sha.js": "2.4.12",
+      "tar-fs": "3.0.9"
     }
   }
 }
