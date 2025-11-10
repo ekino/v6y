@@ -32,7 +32,7 @@
     "@refinedev/cli": "=2.16.42",
     "@refinedev/core": "=4.57.5",
     "@refinedev/devtools": "=1.2.12",
-    "@refinedev/inferencer": "=5.0.3",
+    "@refinedev/inferencer": "=6.0.2",
     "@refinedev/kbar": "=2.0.0",
     "@refinedev/nextjs-router": "=6.2.1",
     "@refinedev/simple-rest": "=5.0.10",
