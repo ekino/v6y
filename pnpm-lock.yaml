@@ -58,8 +58,8 @@ importers:
         specifier: '=4.1.0'
         version: 4.1.0
       express:
-        specifier: '=4.21.2'
-        version: 4.21.2
+        specifier: '=5.1.0'
+        version: 5.1.0
       express-status-monitor:
         specifier: '=1.3.4'
         version: 1.3.4
@@ -87,13 +87,13 @@ importers:
         version: 1.19.5
       '@types/cookie-parser':
         specifier: '=1.4.8'
-        version: 1.4.8(@types/express@5.0.0)
+        version: 1.4.8(@types/express@5.0.5)
       '@types/cors':
         specifier: '=2.8.17'
         version: 2.8.17
       '@types/express':
-        specifier: '=5.0.0'
-        version: 5.0.0
+        specifier: '=5.0.5'
+        version: 5.0.5
       '@types/express-status-monitor':
         specifier: '=1.3.3'
         version: 1.3.3
@@ -170,8 +170,8 @@ importers:
         specifier: '=4.1.0'
         version: 4.1.0
       express:
-        specifier: '=4.21.2'
-        version: 4.21.2
+        specifier: '=5.1.0'
+        version: 5.1.0
       express-status-monitor:
         specifier: '=1.3.4'
         version: 1.3.4
@@ -193,13 +193,13 @@ importers:
         version: 1.19.5
       '@types/cookie-parser':
         specifier: '=1.4.8'
-        version: 1.4.8(@types/express@5.0.0)
+        version: 1.4.8(@types/express@5.0.5)
       '@types/cors':
         specifier: '=2.8.17'
         version: 2.8.17
       '@types/express':
-        specifier: '=5.0.0'
-        version: 5.0.0
+        specifier: '=5.0.5'
+        version: 5.0.5
       '@types/express-status-monitor':
         specifier: '=1.3.3'
         version: 1.3.3
@@ -258,8 +258,8 @@ importers:
         specifier: '=1.19.5'
         version: 1.19.5
       '@types/express':
-        specifier: '=5.0.0'
-        version: 5.0.0
+        specifier: '=5.0.5'
+        version: 5.0.5
       '@v6y/core-logic':
         specifier: workspace:^
         version: link:../../v6y-libs/core-logic
@@ -282,8 +282,8 @@ importers:
         specifier: '=2.8.5'
         version: 2.8.5
       express:
-        specifier: '=4.21.2'
-        version: 4.21.2
+        specifier: '=5.1.0'
+        version: 5.1.0
       express-status-monitor:
         specifier: '=1.3.4'
         version: 1.3.4
@@ -305,7 +305,7 @@ importers:
         version: 6.0.0(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)
       '@types/cookie-parser':
         specifier: '=1.4.8'
-        version: 1.4.8(@types/express@5.0.0)
+        version: 1.4.8(@types/express@5.0.5)
       '@types/cors':
         specifier: '=2.8.17'
         version: 2.8.17
@@ -379,8 +379,8 @@ importers:
         specifier: '=4.1.0'
         version: 4.1.0
       express:
-        specifier: '=4.21.2'
-        version: 4.21.2
+        specifier: '=5.1.0'
+        version: 5.1.0
       express-status-monitor:
         specifier: '=1.3.4'
         version: 1.3.4
@@ -447,13 +447,13 @@ importers:
         version: 1.19.5
       '@types/cookie-parser':
         specifier: '=1.4.8'
-        version: 1.4.8(@types/express@5.0.0)
+        version: 1.4.8(@types/express@5.0.5)
       '@types/cors':
         specifier: '=2.8.17'
         version: 2.8.17
       '@types/express':
-        specifier: '=5.0.0'
-        version: 5.0.0
+        specifier: '=5.0.5'
+        version: 5.0.5
       '@types/express-status-monitor':
         specifier: '=1.3.3'
         version: 1.3.3
@@ -521,8 +521,8 @@ importers:
         specifier: '=1.19.5'
         version: 1.19.5
       '@types/express':
-        specifier: '=5.0.0'
-        version: 5.0.0
+        specifier: '=5.0.5'
+        version: 5.0.5
       '@v6y/core-logic':
         specifier: workspace:^
         version: link:../../v6y-libs/core-logic
@@ -542,8 +542,8 @@ importers:
         specifier: '=2.8.5'
         version: 2.8.5
       express:
-        specifier: '=4.21.2'
-        version: 4.21.2
+        specifier: '=5.1.0'
+        version: 5.1.0
       express-status-monitor:
         specifier: '=1.3.4'
         version: 1.3.4
@@ -4490,6 +4490,9 @@ packages:
 
   '@types/express@5.0.0':
     resolution: {integrity: sha512-DvZriSMehGHL1ZNLzi6MidnsDhUZM/x2pRdDIKdwbUNqqwHxMlRdkxtn6/EPKyqKpHqTl/4nRZsRNLpZxZRpPQ==}
+
+  '@types/express@5.0.5':
+    resolution: {integrity: sha512-LuIQOcb6UmnF7C1PCFmEU1u2hmiHL43fgFQX67sN3H4Z+0Yk0Neo++mFsBjhOAuLzvlQeqAAkeDOZrJs9rzumQ==}
 
   '@types/file-saver@2.0.7':
     resolution: {integrity: sha512-dNKVfHd/jk0SkR/exKGj2ggkB45MAkzvWCaqLUUgkyjITkGNzH8H+yUwr+BLJUBjZOe9w8X3wgmXhZDRg1ED6A==}
@@ -14684,9 +14687,9 @@ snapshots:
     dependencies:
       '@types/node': 24.10.0
 
-  '@types/cookie-parser@1.4.8(@types/express@5.0.0)':
+  '@types/cookie-parser@1.4.8(@types/express@5.0.5)':
     dependencies:
-      '@types/express': 5.0.0
+      '@types/express': 5.0.5
 
   '@types/cookie@0.6.0': {}
 
@@ -14731,7 +14734,7 @@ snapshots:
 
   '@types/express-status-monitor@1.3.3':
     dependencies:
-      '@types/express': 5.0.0
+      '@types/express': 5.0.5
       '@types/socket.io': 2.1.13
     transitivePeerDependencies:
       - supports-color
@@ -14748,6 +14751,12 @@ snapshots:
       '@types/body-parser': 1.19.5
       '@types/express-serve-static-core': 5.0.6
       '@types/qs': 6.9.18
+      '@types/serve-static': 1.15.7
+
+  '@types/express@5.0.5':
+    dependencies:
+      '@types/body-parser': 1.19.5
+      '@types/express-serve-static-core': 5.0.6
       '@types/serve-static': 1.15.7
 
   '@types/file-saver@2.0.7': {}
