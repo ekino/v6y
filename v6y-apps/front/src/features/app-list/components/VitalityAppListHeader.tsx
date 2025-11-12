@@ -1,13 +1,4 @@
-import {
-    Button,
-    Col,
-    ExportOutlined,
-    Row,
-    TitleView,
-    useNavigationAdapter,
-    useTranslationProvider,
-} from '@v6y/ui-kit';
-import * as React from 'react';
+import { Button, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit-front';
 import { useEffect, useState } from 'react';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
@@ -16,14 +7,14 @@ import {
     useClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationTotalByParams from '../api/getApplicationTotalByParams';
+import { ExportOutlined } from '@v6y/ui-kit';
 
 const VitalityAppListHeader = ({
     onExportApplicationsClicked,
 }: {
     onExportApplicationsClicked: () => void;
 }) => {
-    const [appsTotal, setAppsTotal] = useState(0);
-
+    const [appsTotal, setAppsTotal] = useState<number>(0);
     const { getUrlParams } = useNavigationAdapter();
     const [keywords, searchText] = getUrlParams(['keywords', 'searchText']);
 
@@ -37,7 +28,7 @@ const VitalityAppListHeader = ({
             ],
             queryBuilder: async () =>
                 buildClientQuery({
-                    queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
+                    queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL ?? '',
                     query: GetApplicationTotalByParams,
                     variables: {
                         keywords,
@@ -55,23 +46,15 @@ const VitalityAppListHeader = ({
     }, [dataAppsTotal?.getApplicationTotalByParams]);
 
     const { translate } = useTranslationProvider();
+
     return (
-        <Row justify="space-between" align="middle" gutter={[16, 16]}>
-            <Col xs={24} sm={24} md={24} lg={10} xl={10}>
-                {appsTotal > 0 && (
-                    <TitleView
-                        title={`${translate('vitality.appListPage.totalLabel')} ${appsTotal}`}
-                        level={3}
-                    />
-                )}
-            </Col>
-            <Col xs={24} sm={24} md={24} lg={10} xl={10}>
-                <Button icon={<ExportOutlined />} onClick={onExportApplicationsClicked}>
+        <div className="w-full flex items-center justify-between gap-4">
+                <Button onClick={onExportApplicationsClicked}>
+                    <ExportOutlined />
                     {translate('vitality.appListPage.exportLabel')}
                 </Button>
-            </Col>
-            <Col span={24} />
-        </Row>
+                <p>{appsTotal} results</p>
+        </div>
     );
 };
 

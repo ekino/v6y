@@ -57,7 +57,7 @@
     "vitest": "=3.0.5"
   },
   "dependencies": {
-    "@sequelize/core": "7.0.0-alpha.43",
+    "@sequelize/core": "=7.0.0-alpha.43",
     "@types/fs-extra": "=11.0.4",
     "@typhonjs/babel-parser": "=0.2.0",
     "@v6y/core-logic": "workspace:^",

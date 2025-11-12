@@ -10,6 +10,8 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './src'),
+            // During tests, make sure imports to next/navigation can be resolved
+            'next/navigation': path.resolve(__dirname, './test-mocks/next-navigation.ts'),
         },
     },
     test: {
