@@ -1113,8 +1113,8 @@ importers:
         specifier: '=7.1.1'
         version: 7.1.1(@refinedev/core@4.57.5(@tanstack/react-query@5.90.2(react@19.0.0))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@urql/core@5.1.0(graphql@16.10.0))(graphql-ws@6.0.4(graphql@16.10.0)(ws@8.18.3))
       '@refinedev/inferencer':
-        specifier: '=5.0.3'
-        version: 5.0.3(@ant-design/icons@6.1.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@refinedev/antd@5.45.1(@refinedev/core@4.57.5(@tanstack/react-query@5.90.2(react@19.0.0))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(antd@5.23.1(date-fns@4.1.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(dayjs@1.11.13)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@refinedev/core@4.57.5(@tanstack/react-query@5.90.2(react@19.0.0))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(antd@5.23.1(date-fns@4.1.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(dayjs@1.11.13)(react-dom@19.0.0(react@19.0.0))(react-hook-form@7.54.2(react@19.0.0))(react@19.0.0)
+        specifier: '=6.0.2'
+        version: 6.0.2(@ant-design/icons@6.1.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@refinedev/antd@5.45.1(@refinedev/core@4.57.5(@tanstack/react-query@5.90.2(react@19.0.0))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(antd@5.23.1(date-fns@4.1.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(dayjs@1.11.13)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@refinedev/core@4.57.5(@tanstack/react-query@5.90.2(react@19.0.0))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(antd@5.23.1(date-fns@4.1.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(dayjs@1.11.13)(react-dom@19.0.0(react@19.0.0))(react-hook-form@7.54.2(react@19.0.0))(react@19.0.0)
       '@refinedev/kbar':
         specifier: '=2.0.0'
         version: 2.0.0(@refinedev/core@4.57.5(@tanstack/react-query@5.90.2(react@19.0.0))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -1424,10 +1424,6 @@ packages:
 
   '@aliemir/dom-to-fiber-utils@0.4.1':
     resolution: {integrity: sha512-mWjCp9Uu3B1Rbtdnk23Coak831zgy+/1oS+FCTVhCAozGPUURE8IfVFQsCblZMWuT5j+QSc6JNDQ+l2JcZclzA==}
-
-  '@aliemir/react-live@4.0.0':
-    resolution: {integrity: sha512-XRdJnFhxNSqPsno46olHpexa39XKyqrKAS3reFW/7VfclFB8PMCKj5Ocq+m6yxneDoaLtde4b42EtPJEvFV4Gw==}
-    engines: {node: '>= 0.12.0', npm: '>= 2.0.0'}
 
   '@alloc/quick-lru@5.2.0':
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
@@ -3794,8 +3790,9 @@ packages:
       '@urql/core': ^5.0.6
       graphql-ws: ^5.9.1
 
-  '@refinedev/inferencer@5.0.3':
-    resolution: {integrity: sha512-azd5cQiuADX9vlOpUcrQQieLdnXaduu6XJRhb8tHXawaC16yjjgtbgAGIfWqpLznR0IJmx5PwpXXS01QQlk95A==}
+  '@refinedev/inferencer@6.0.2':
+    resolution: {integrity: sha512-/BgZ1FKrykYNtDa+EaKVQyXhhf7LGTZk6oJjc7+Ta3G9nb+7BeVuNFxEnf+qH25lU9koZ7pJ9bvvO67iy2fVyg==}
+    engines: {node: '>=20'}
     peerDependencies:
       '@ant-design/icons': ^5.5.1
       '@chakra-ui/react': ^2.5.1
@@ -3808,21 +3805,21 @@ packages:
       '@mui/lab': ^6.0.0-beta.14
       '@mui/material': ^6.1.7
       '@mui/x-data-grid': ^7.23.5
-      '@refinedev/antd': ^5.0.0
-      '@refinedev/chakra-ui': ^2.0.0
-      '@refinedev/core': ^4.54.0
-      '@refinedev/mantine': ^2.0.0
-      '@refinedev/mui': ^6.0.0
-      '@refinedev/react-hook-form': ^4.0.0
-      '@refinedev/react-table': ^5.0.0
+      '@refinedev/antd': ^6.0.0
+      '@refinedev/chakra-ui': ^3.0.0
+      '@refinedev/core': ^5.0.0
+      '@refinedev/mantine': ^3.0.0
+      '@refinedev/mui': ^7.0.0
+      '@refinedev/react-hook-form': ^5.0.0
+      '@refinedev/react-table': ^6.0.0
       '@tanstack/react-table': ^8.2.6
-      '@types/react': ^17.0.0 || ^18.0.0
-      '@types/react-dom': ^17.0.0 || ^18.0.0
+      '@types/react': ^18.0.0 || ^19.0.0
+      '@types/react-dom': ^18.0.0 || ^19.0.0
       antd: ^5.0.3
       dayjs: ^1.10.7
-      react: ^17.0.0 || ^18.0.0
-      react-dom: ^17.0.0 || ^18.0.0
-      react-hook-form: ^7.43.5
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+      react-hook-form: ^7.57.0
     peerDependenciesMeta:
       '@chakra-ui/react':
         optional: true
@@ -4285,13 +4282,13 @@ packages:
   '@swc/types@0.1.19':
     resolution: {integrity: sha512-WkAZaAfj44kh/UFdAQcrMP1I0nwRqpt27u+08LMBYMqmQfwwMofYoMh/48NGkMMRfC4ynpfwRbJuu8ErfNloeA==}
 
-  '@tabler/icons-react@3.30.0':
-    resolution: {integrity: sha512-9KZ9D1UNAyjlLkkYp2HBPHdf6lAJ2aelDqh8YYAnnmLF3xwprWKxxW8+zw5jlI0IwdfN4XFFuzqePkaw+DpIOg==}
+  '@tabler/icons-react@3.35.0':
+    resolution: {integrity: sha512-XG7t2DYf3DyHT5jxFNp5xyLVbL4hMJYJhiSdHADzAjLRYfL7AnjlRfiHDHeXxkb2N103rEIvTsBRazxXtAUz2g==}
     peerDependencies:
       react: '>= 16'
 
-  '@tabler/icons@3.30.0':
-    resolution: {integrity: sha512-c8OKLM48l00u9TFbh2qhSODMONIzML8ajtCyq95rW8vzkWcBrKRPM61tdkThz2j4kd5u17srPGIjqdeRUZdfdw==}
+  '@tabler/icons@3.35.0':
+    resolution: {integrity: sha512-yYXe+gJ56xlZFiXwV9zVoe3FWCGuZ/D7/G4ZIlDtGxSx5CGQK110wrnT29gUj52kEZoxqF7oURTk97GQxELOFQ==}
 
   '@tanstack/query-core@4.10.1':
     resolution: {integrity: sha512-UZRYzjgQSfYhQ+cJX0CspAbzutf8p93gR1xFjQuH3OYcb/7t3WnHkdb/qC9mbqrfWXN/JAbBTJlTU/XQHc5HbA==}
@@ -7030,6 +7027,10 @@ packages:
 
   graphql@16.10.0:
     resolution: {integrity: sha512-AjqGKbDGUFRKIRCP9tCKiIGHyriz2oHEbPIbEtcSLSs4YjReZOIPQQWek4+6hjw62H9QShXHyaGivGiYVLeYFQ==}
+    engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
+
+  graphql@16.12.0:
+    resolution: {integrity: sha512-DKKrynuQRne0PNpEbzuEdHlYOMksHSUI8Zc9Unei5gTsMNA2/vMpoMz/yKba50pejK56qj98qM0SjYxAKi13gQ==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
 
   gray-matter@4.0.3:
@@ -10829,11 +10830,6 @@ packages:
       '@types/react':
         optional: true
 
-  use-editable@2.3.3:
-    resolution: {integrity: sha512-7wVD2JbfAFJ3DK0vITvXBdpd9JAz5BcKAAolsnLBuBn6UDDwBGuCIAGvR3yA2BNKm578vAMVHFCWaOcA+BhhiA==}
-    peerDependencies:
-      react: '>= 16.8.0'
-
   use-sidecar@1.1.3:
     resolution: {integrity: sha512-Fedw0aZvkhynoPYlA5WXrMCAMm+nSWdZt6lzJQ7Ok8S6Q+VsHmHpRWndVRJ8Be0ZbkfPc5LRYH+5XrzXcEeLRQ==}
     engines: {node: '>=10'}
@@ -11330,14 +11326,6 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       react-reconciler: 0.29.2(react@18.3.1)
-
-  '@aliemir/react-live@4.0.0(react@19.0.0)':
-    dependencies:
-      prism-react-renderer: 1.3.5(react@19.0.0)
-      sucrase: 3.35.0
-      use-editable: 2.3.3(react@19.0.0)
-    transitivePeerDependencies:
-      - react
 
   '@alloc/quick-lru@5.2.0': {}
 
@@ -14162,12 +14150,11 @@ snapshots:
       lodash: 4.17.21
       pluralize: 8.0.0
 
-  '@refinedev/inferencer@5.0.3(@ant-design/icons@6.1.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@refinedev/antd@5.45.1(@refinedev/core@4.57.5(@tanstack/react-query@5.90.2(react@19.0.0))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(antd@5.23.1(date-fns@4.1.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(dayjs@1.11.13)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@refinedev/core@4.57.5(@tanstack/react-query@5.90.2(react@19.0.0))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(antd@5.23.1(date-fns@4.1.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(dayjs@1.11.13)(react-dom@19.0.0(react@19.0.0))(react-hook-form@7.54.2(react@19.0.0))(react@19.0.0)':
+  '@refinedev/inferencer@6.0.2(@ant-design/icons@6.1.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@refinedev/antd@5.45.1(@refinedev/core@4.57.5(@tanstack/react-query@5.90.2(react@19.0.0))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(antd@5.23.1(date-fns@4.1.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(dayjs@1.11.13)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@refinedev/core@4.57.5(@tanstack/react-query@5.90.2(react@19.0.0))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(antd@5.23.1(date-fns@4.1.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(dayjs@1.11.13)(react-dom@19.0.0(react@19.0.0))(react-hook-form@7.54.2(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@aliemir/react-live': 4.0.0(react@19.0.0)
       '@ant-design/icons': 6.1.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@refinedev/core': 4.57.5(@tanstack/react-query@5.90.2(react@19.0.0))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      '@tabler/icons-react': 3.30.0(react@19.0.0)
+      '@tabler/icons-react': 3.35.0(react@19.0.0)
       '@types/react': 19.0.7
       '@types/react-dom': 19.0.3(@types/react@19.0.7)
       graphql: 15.10.1
@@ -14555,12 +14542,12 @@ snapshots:
     dependencies:
       '@swc/counter': 0.1.3
 
-  '@tabler/icons-react@3.30.0(react@19.0.0)':
+  '@tabler/icons-react@3.35.0(react@19.0.0)':
     dependencies:
-      '@tabler/icons': 3.30.0
+      '@tabler/icons': 3.35.0
       react: 19.0.0
 
-  '@tabler/icons@3.30.0': {}
+  '@tabler/icons@3.35.0': {}
 
   '@tanstack/query-core@4.10.1': {}
 
@@ -17897,6 +17884,8 @@ snapshots:
 
   graphql@16.10.0: {}
 
+  graphql@16.12.0: {}
+
   gray-matter@4.0.3:
     dependencies:
       js-yaml: 3.14.1
@@ -19341,7 +19330,7 @@ snapshots:
       '@open-draft/until': 2.1.0
       '@types/cookie': 0.6.0
       '@types/statuses': 2.0.5
-      graphql: 16.10.0
+      graphql: 16.12.0
       headers-polyfill: 4.0.3
       is-node-process: 1.2.0
       outvariant: 1.4.3
@@ -19367,7 +19356,7 @@ snapshots:
       '@open-draft/until': 2.1.0
       '@types/cookie': 0.6.0
       '@types/statuses': 2.0.5
-      graphql: 16.10.0
+      graphql: 16.12.0
       headers-polyfill: 4.0.3
       is-node-process: 1.2.0
       outvariant: 1.4.3
@@ -22423,10 +22412,6 @@ snapshots:
       tslib: 2.8.1
     optionalDependencies:
       '@types/react': 19.0.7
-
-  use-editable@2.3.3(react@19.0.0):
-    dependencies:
-      react: 19.0.0
 
   use-sidecar@1.1.3(@types/react@19.0.7)(react@19.0.0):
     dependencies:
