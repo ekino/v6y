@@ -10,6 +10,9 @@
 3. [Usage](#usage)
 4. [Contributing](#contributing)
 5. [License](#license)
+6. [Security Scanning](#security-scanning)
+   - [Configuration](#configuration)
+   - [Local Testing](#local-testing)
 
 ## Introduction
 **Vitality (v6y)** helps developers ensure high-quality code and robust applications by providing continuous health checks, detailed reports, and actionable insights. Although it was developed for Ekino projects, it is versatile and can be used by any development team.
@@ -36,3 +39,48 @@ We welcome contributions to **Vitality (v6y)**. To contribute, please read our g
 
 ## License
 **Vitality (v6y)** is licensed under the MIT License. See the `LICENSE` file for more details.
+
+## Security Scanning
+This project uses Snyk for security scanning to identify and remediate vulnerabilities in its dependencies and code. Snyk scans are configured to run automatically on every push and pull request to the repository via GitHub Actions.
+
+To interpret the Snyk scan results, developers should check the GitHub Actions logs for the "Run Snyk scan" step. Any alerts or vulnerabilities detected by Snyk will be reported in these logs. It is important to review these alerts and address any critical or high-severity vulnerabilities promptly.
+
+### Configuration
+The Snyk integration relies on a GitHub secret named `SNYK_TOKEN` to authenticate with the Snyk API. You need to create this secret in your repository settings.
+
+To add the `SNYK_TOKEN` secret:
+1. Go to your repository on GitHub.
+2. Click on "Settings" > "Secrets and variables" > "Actions".
+3. Click on "New repository secret".
+4. Enter `SNYK_TOKEN` as the name of the secret.
+5. Paste your Snyk API token as the value of the secret. You can find your API token on your Snyk account page.
+6. Click "Add secret".
+
+For more detailed instructions on creating encrypted secrets, refer to the [GitHub documentation](https://docs.github.com/en/actions/security-guides/encrypted-secrets).
+
+### Local Testing
+You can also run Snyk scans locally to test for vulnerabilities before pushing your code.
+
+1.  **Install Snyk CLI**: If you haven't already (e.g., through project setup or if you're not using the GitHub Action primarily), install the Snyk CLI globally:
+    ```bash
+    pnpm add -g snyk
+    ```
+2.  **Authenticate**: Log in to your Snyk account. This will open a browser window for authentication.
+    ```bash
+    snyk auth
+    ```
+3.  **Navigate to Project Root**: Open your terminal and go to the root directory of this project.
+    ```bash
+    cd path/to/your/project
+    ```
+4.  **Run Scan**: To scan all projects within this monorepo:
+    ```bash
+    snyk test --all-projects
+    ```
+5.  **(Optional) Target Specific Projects**: To scan a specific package or project within the monorepo, navigate to its subdirectory and run `snyk test`:
+    ```bash
+    cd packages/your-specific-package
+    snyk test
+    ```
+
+For more advanced commands, options, and information on how to interpret the results in detail, please refer to the [official Snyk CLI documentation](https://docs.snyk.io/snyk-cli).
