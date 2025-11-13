@@ -1,6 +1,23 @@
 version: '3'
 
 services:
+  v6y-database:
+    image: postgres:18
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${PSQL_DB_USER}
+      - POSTGRES_PASSWORD=${PSQL_DB_PASSWORD}
+      - POSTGRES_DB=${PSQL_DB_NAME}
+    ports:
+      - "${PSQL_DB_PORT}:5432"
+    volumes:
+      - ./v6y-database/v6y_database:/docker-entrypoint-initdb.d/v6y_database:ro
+      - ./v6y-database/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${PSQL_DB_USER} -d ${PSQL_DB_NAME}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   v6y-bff:
     extends:
       file: docker-compose.base.yml

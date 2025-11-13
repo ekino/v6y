@@ -133,7 +133,7 @@ dist
 .nx/cache
 .nx/workspace-data
 
-**/v6y-database/**
+**/v6y-database/psql
 **/code-analysis-workspace/**
 **/jest-cache/**
 **/jest-stare/**
