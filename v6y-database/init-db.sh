@@ -11,19 +11,18 @@ if [ ! -f /var/lib/postgresql/data/.initialized ]; then
   pg_restore -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v /docker-entrypoint-initdb.d/v6y_database || true
   
   echo "Creating default superadmin user..."
-  psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" <<-EOSQL
-    INSERT INTO accounts (username, email, password, role, created_at, updated_at, applications)
-    VALUES (
-      'superadmin', 
-      'superadmin@example.com', 
-      '\$2a\$10\$fSDUAlp4s8gJNc7HtZdMdeevQHAyRgCy6knbL1QQz3pHstXSbWm0W', 
-      'SUPERADMIN', 
-      NOW(), 
-      NOW(), 
-      ARRAY[]::integer[]
-    )
-    ON CONFLICT (username) DO NOTHING;
-EOSQL
+
+  SA_USERNAME=${SUPERADMIN_USERNAME}
+  SA_EMAIL=${SUPERADMIN_EMAIL}
+  SA_PASSWORD=${SUPERADMIN_PASSWORD}
+
+  _quote_sql() {
+    printf '%s' "$1" | sed "s/'/''/g"
+  }
+
+  sql="INSERT INTO accounts (username, email, password, role, created_at, updated_at, applications) VALUES ('$(_quote_sql "$SA_USERNAME")', '$(_quote_sql "$SA_EMAIL")', '$(_quote_sql "$SA_PASSWORD")', 'SUPERADMIN', NOW(), NOW(), ARRAY[]::integer[]) ON CONFLICT (username) DO NOTHING;"
+
+  psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "$sql"
   
   touch /var/lib/postgresql/data/.initialized
   echo "Database restore completed!"
