@@ -5,7 +5,24 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import VitalityAppInfos from '../../commons/components/application-info/VitalityAppInfos';
 import { VitalityAppInfosProps } from '../../commons/types/VitalityAppInfosProps';
 
-// Use global mocks from setupTests.tsx for @v6y/ui-kit-front
+vi.mock('@v6y/ui-kit-front', async () => {
+    const actual = await vi.importActual('@v6y/ui-kit-front');
+    return {
+        ...actual,
+        useNavigationAdapter: vi.fn(() => ({
+            createUrlQueryParam: vi.fn((name: string, value: string) => `${name}=${value}`),
+            removeUrlQueryParam: vi.fn(),
+            router: {
+                push: vi.fn(),
+                replace: vi.fn(),
+                back: vi.fn(),
+                forward: vi.fn(),
+                refresh: vi.fn(),
+            },
+        })),
+        useTranslationProvider: vi.fn(() => ({ translate: (k: string) => k })),
+    };
+});
 
 describe('VitalityAppInfos', () => {
     afterEach(() => {

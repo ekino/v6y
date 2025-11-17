@@ -1,1 +1,12 @@
-export { ExitIcon, GlobeIcon, CommitIcon, MagnifyingGlassIcon, QuestionMarkCircledIcon, StarIcon, StarFilledIcon } from '@radix-ui/react-icons';
+export { 
+    ExitIcon, 
+    GlobeIcon, 
+    CommitIcon, 
+    MagnifyingGlassIcon, 
+    QuestionMarkCircledIcon, 
+    ShuffleIcon,
+    StarIcon, 
+    StarFilledIcon,
+    ReloadIcon,
+    PlayIcon,
+} from '@radix-ui/react-icons';

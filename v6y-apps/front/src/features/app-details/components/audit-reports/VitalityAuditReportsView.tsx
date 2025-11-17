@@ -1,15 +1,13 @@
 import { AuditType } from '@v6y/core-logic/src/types';
 import {
     DynamicLoader,
-    FormOutlined,
     useNavigationAdapter,
     useTranslationProvider,
 } from '@v6y/ui-kit';
+import { Card, CardContent } from '@v6y/ui-kit-front';
 import * as React from 'react';
 
-import VitalitySectionView from '../../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
-import { exportAppAuditReportsToCSV } from '../../../../commons/utils/VitalityDataExportUtils';
 import {
     buildClientQuery,
     useClientQuery,
@@ -20,8 +18,9 @@ const VitalityAuditReportsTypeGrouper = DynamicLoader(
     () => import('./VitalityAuditReportsTypeGrouper'),
 );
 
-const VitalityAuditReportsView = ({}) => {
+const VitalityAuditReportsView = () => {
     const { getUrlParams } = useNavigationAdapter();
+    const { translate } = useTranslationProvider();
     const [_id] = getUrlParams(['_id']);
 
     const {
@@ -31,7 +30,7 @@ const VitalityAuditReportsView = ({}) => {
         queryCacheKey: ['getApplicationDetailsAuditReportsByParams', `${_id}`],
         queryBuilder: async () =>
             buildClientQuery({
-                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
+                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
                 query: GetApplicationDetailsAuditReportsByParams,
                 variables: {
                     _id: parseInt(_id as string, 10),
@@ -49,23 +48,34 @@ const VitalityAuditReportsView = ({}) => {
             ...auditReport?.module,
         }));
 
-    const onExportClicked = () => {
-        exportAppAuditReportsToCSV(auditReports || []);
-    };
+    if (isAppDetailsAuditReportsLoading) {
+        return (
+            <Card className="border-slate-200 shadow-sm">
+                <CardContent className="flex items-center justify-center p-12">
+                    <div className="text-sm font-medium text-slate-500">{translate('vitality.appDetailsPage.loadingStates.auditReports')}</div>
+                </CardContent>
+            </Card>
+        );
+    }
 
-    const { translate } = useTranslationProvider();
+    if (!auditReports?.length) {
+        return (
+            <Card className="border-slate-200 shadow-sm">
+                <CardContent className="flex flex-col items-center justify-center p-12 gap-2">
+                    <div className="text-4xl mb-2">📋</div>
+                    <div className="text-base font-semibold text-slate-900">{translate('vitality.appDetailsPage.emptyStates.auditReports.title')}</div>
+                    <div className="text-sm text-slate-500">{translate('vitality.appDetailsPage.emptyStates.auditReports.description')}</div>
+                </CardContent>
+            </Card>
+        );
+    }
 
     return (
-        <VitalitySectionView
-            isLoading={isAppDetailsAuditReportsLoading}
-            isEmpty={!auditReports?.length}
-            title={translate('vitality.appDetailsPage.audit.reportsTitle')}
-            avatar={<FormOutlined />}
-            exportButtonLabel={translate('vitality.appDetailsPage.audit.exportLabel')}
-            onExportClicked={onExportClicked}
-        >
-            {auditReports && <VitalityAuditReportsTypeGrouper auditReports={auditReports} />}
-        </VitalitySectionView>
+        <Card className="border-slate-200 shadow-sm">
+            <CardContent className="p-4">
+                <VitalityAuditReportsTypeGrouper auditReports={auditReports} />
+            </CardContent>
+        </Card>
     );
 };
 
