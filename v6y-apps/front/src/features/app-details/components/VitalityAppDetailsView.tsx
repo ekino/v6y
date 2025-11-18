@@ -182,9 +182,11 @@ const VitalityAppDetailsView = () => {
                   </span>
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="main">{translate('vitality.appDetailsPage.branches.main')}</SelectItem>
-                  <SelectItem value="develop">{translate('vitality.appDetailsPage.branches.develop')}</SelectItem>
-                  <SelectItem value="release">{translate('vitality.appDetailsPage.branches.release')}</SelectItem>
+                  {appInfos?.repo?.allBranches?.map((branch) => (
+                    <SelectItem key={branch} value={branch} className="text-sm">
+                      {branch}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
 
@@ -254,7 +256,6 @@ const VitalityAppDetailsView = () => {
             </Button>
           </div>
 
-          {/* Tab content */}
           {renderTabContent()}
         </div>
       </div>

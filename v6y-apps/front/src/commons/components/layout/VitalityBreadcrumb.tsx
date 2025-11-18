@@ -33,14 +33,16 @@ const VitalityBreadcrumb = () => {
                 {items.map((item, idx) => {
                     const isLast = idx === items.length - 1;
                     return (
-                        <BreadcrumbItem key={idx}>
-                            {!isLast ? (
-                                <BreadcrumbLink className="text-black" asChild>{item.title}</BreadcrumbLink>
-                            ) : (
-                                <BreadcrumbPage>{item.title}</BreadcrumbPage>
-                            )}
+                        <React.Fragment key={idx}>
+                            <BreadcrumbItem>
+                                {!isLast ? (
+                                    <BreadcrumbLink className="text-black" asChild>{item.title}</BreadcrumbLink>
+                                ) : (
+                                    <BreadcrumbPage>{item.title}</BreadcrumbPage>
+                                )}
+                            </BreadcrumbItem>
                             {!isLast && <BreadcrumbSeparator />}
-                        </BreadcrumbItem>
+                        </React.Fragment>
                     );
                 })}
             </BreadcrumbList>
