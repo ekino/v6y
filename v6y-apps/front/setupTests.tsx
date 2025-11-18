@@ -3,6 +3,7 @@ import { cleanup } from '@testing-library/react';
 import { List, useTranslationProvider } from '@v6y/ui-kit';
 import dynamic from 'next/dynamic';
 import { afterEach, beforeEach, vi } from 'vitest';
+import '@v6y/ui-kit-front';
 
 vi.mock('next/dynamic', async () => {
     const dynamicModule = await vi.importActual<typeof import('next/dynamic')>('next/dynamic');
@@ -176,7 +177,7 @@ vi.mock('@v6y/ui-kit', () => {
                         <div data-testid="mock-card-content">{children}</div>
                         {actions?.length > 0 && (
                             <div data-testid="mock-card-actions">
-                                {actions.map((action, index) => {
+                                {(actions || []).map((action, index) => {
                                     return (
                                         <div key={index} data-testid="mock-card-action">
                                             {action}
