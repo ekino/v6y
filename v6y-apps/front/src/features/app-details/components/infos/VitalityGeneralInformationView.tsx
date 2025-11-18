@@ -30,8 +30,8 @@ const VitalityGeneralInformationView = ({ appInfos, isLoading = false }: Vitalit
                 <div className="space-y-3">
                     <div className="text-sm">
                         <span className="font-semibold text-gray-900">{translate('vitality.appDetailsPage.infos.productionUrl')}</span>{' '}
-                        <a href="https://vitality.com" className="text-blue-600 hover:underline font-medium" target="_blank" rel="noopener noreferrer">
-                            https://vitality.com
+                        <a href={appInfos?.links?.[0]?.value} className="text-blue-600 hover:underline font-medium" target="_blank" rel="noopener noreferrer">
+                            {appInfos?.links?.[0]?.value}
                         </a>
                     </div>
                     <div className="text-sm">
@@ -59,7 +59,6 @@ const VitalityGeneralInformationView = ({ appInfos, isLoading = false }: Vitalit
                         { label: translate('vitality.appDetailsPage.infos.indicators.devops'), value: '90%', grade: 'A', bgColor: 'bg-green-400', textColor: 'text-green-100' },
                     ].map((indicator) => (
                         <div key={indicator.label} className="flex flex-col items-center justify-center overflow-hidden flex-shrink-0">
-                            {/* Value row: percentage + badge inline (horizontal flex, gap-8px, height 28px) */}
                             <div className="flex items-center justify-center gap-2 h-7 px-1.5">
                                 <p className="text-xl font-normal leading-7 text-black">
                                     {indicator.value}

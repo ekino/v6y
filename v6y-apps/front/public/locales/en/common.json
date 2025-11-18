@@ -95,7 +95,7 @@
       },
       "summaryCard": {
         "lastAnalyze": "Last analyze {date}",
-        "branchesLabel": "Branches ({count}) :",
+        "branchesLabel": "Git branches: {count}",
         "status": {
           "success": "success",
           "warning": "warning",
