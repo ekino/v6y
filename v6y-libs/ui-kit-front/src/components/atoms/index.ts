@@ -18,3 +18,4 @@ export {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from './breadcrumb.tsx';
+export { Textarea } from './textarea.tsx';
