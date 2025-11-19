@@ -10,8 +10,6 @@ const VitalitySummaryCard = ({ appInfos }: VitalitySummaryCardProps) => {
     const { translate } = useTranslationProvider();
     const totalBranches = appInfos.repo?.allBranches?.length || 0;
 
-    console.log(appInfos)
-
     return (
         <div className="bg-white rounded-lg shadow-lg border border-slate-200  p-6 space-y-4">
             <div className="flex items-center gap-3">

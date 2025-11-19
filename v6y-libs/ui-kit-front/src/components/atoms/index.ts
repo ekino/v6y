@@ -19,3 +19,4 @@ export {
     BreadcrumbSeparator,
 } from './breadcrumb.tsx';
 export { Textarea } from './textarea.tsx';
+export { Skeleton } from './skeleton.tsx';

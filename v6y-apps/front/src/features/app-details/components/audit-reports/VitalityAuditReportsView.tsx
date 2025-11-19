@@ -38,16 +38,6 @@ const VitalityAuditReportsView = () => {
             }),
     });
 
-    const auditReports = appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams
-        ?.filter(
-            (auditReport) =>
-                auditReport?.auditHelp?.category?.length && auditReport?.auditHelp?.title?.length,
-        )
-        ?.map((auditReport) => ({
-            ...auditReport,
-            ...auditReport?.module,
-        }));
-
     if (isAppDetailsAuditReportsLoading) {
         return (
             <Card className="border-slate-200 shadow-sm">
@@ -58,7 +48,7 @@ const VitalityAuditReportsView = () => {
         );
     }
 
-    if (!auditReports?.length) {
+    if (!appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams?.length) {
         return (
             <Card className="border-slate-200 shadow-sm">
                 <CardContent className="flex flex-col items-center justify-center p-12 gap-2">
@@ -73,7 +63,7 @@ const VitalityAuditReportsView = () => {
     return (
         <Card className="border-slate-200 shadow-sm">
             <CardContent className="p-4">
-                <VitalityAuditReportsTypeGrouper auditReports={auditReports} />
+                <VitalityAuditReportsTypeGrouper auditReports={appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams || []} />
             </CardContent>
         </Card>
     );
