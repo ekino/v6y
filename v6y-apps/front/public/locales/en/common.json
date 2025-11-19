@@ -87,11 +87,14 @@
         "branches": "Branches ({count})",
         "indicators": {
           "performance": "Performance",
+          "complexity": "Complexity",
+          "compliance": "Compliance",
           "accessibility": "Accessibility",
           "security": "Security",
           "maintainability": "Maintainability",
           "devops": "DevOps"
-        }
+        },
+        "noIndicators": "No quality indicators available for this application."
       },
       "summaryCard": {
         "lastAnalyze": "Last analyze {date}",

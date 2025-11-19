@@ -1,47 +1,86 @@
 import '@testing-library/jest-dom/vitest';
 import { render, screen, waitFor } from '@testing-library/react';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi, Mock, beforeEach } from 'vitest';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import * as React from 'react';
 
 import VitalityGeneralInformationView from '../../features/app-details/components/infos/VitalityGeneralInformationView';
 import { ApplicationType } from '@v6y/core-logic/src/types';
+import { useClientQuery } from '../../infrastructure/adapters/api/useQueryAdapter';
 
 vi.mock('../../commons/utils/VitalityDataExportUtils', () => ({
   exportAppDetailsDataToCSV: vi.fn(),
 }));
 
+vi.mock('../../infrastructure/adapters/api/useQueryAdapter', () => ({
+  useClientQuery: vi.fn(),
+  buildClientQuery: vi.fn(),
+}));
+
+const TestWrapper = ({ children }: { children: React.ReactNode }) => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
+  return (
+    <QueryClientProvider client={queryClient}>
+      {children}
+    </QueryClientProvider>
+  );
+};
+
 describe('VitalityGeneralInformationView', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    // Default mock for useClientQuery
+    (useClientQuery as Mock).mockReturnValue({
+      isLoading: false,
+      data: { getApplicationDetailsAuditReportsByParams: [] },
+      error: null,
+    });
+  });
+
   afterEach(() => {
     vi.clearAllMocks();
   });
 
   it('shows loading state while fetching data', async () => {
-    render(<VitalityGeneralInformationView isLoading />);
+    render(
+      <TestWrapper>
+        <VitalityGeneralInformationView isLoading />
+      </TestWrapper>
+    );
 
     expect(screen.getByTestId('mock-loader')).toBeInTheDocument();
   });
 
   it('renders application details correctly when data is available', async () => {
     render(
-      <VitalityGeneralInformationView
-        appInfos={
-          {
-            _id: 1,
-            name: 'Vitality App',
-            acronym: 'VAP',
-            description: 'A powerful application for testing.',
-            contactMail: 'contact@vitality.com',
-            repo: {
-              organization: 'Vitality Org',
-              webUrl: 'https://github.com/vitality-org',
-              allBranches: ['main', 'develop'],
-            },
-            links: [
-              { label: 'Website', value: 'https://vitality.com' },
-              { label: 'Documentation', value: 'https://docs.vitality.com' },
-            ],
-          } as unknown as ApplicationType
-        }
-      />
+      <TestWrapper>
+        <VitalityGeneralInformationView
+          appInfos={
+            {
+              _id: 1,
+              name: 'Vitality App',
+              acronym: 'VAP',
+              description: 'A powerful application for testing.',
+              contactMail: 'contact@vitality.com',
+              repo: {
+                organization: 'Vitality Org',
+                webUrl: 'https://github.com/vitality-org',
+                allBranches: ['main', 'develop'],
+              },
+              links: [
+                { label: 'Website', value: 'https://vitality.com' },
+                { label: 'Documentation', value: 'https://docs.vitality.com' },
+              ],
+            } as unknown as ApplicationType
+          }
+        />
+      </TestWrapper>
     );
 
     await waitFor(() => {
@@ -55,7 +94,11 @@ describe('VitalityGeneralInformationView', () => {
   });
 
   it('handles missing application data gracefully', async () => {
-    render(<VitalityGeneralInformationView appInfos={undefined} />);
+    render(
+      <TestWrapper>
+        <VitalityGeneralInformationView appInfos={undefined} />
+      </TestWrapper>
+    );
 
     await waitFor(() => {
       expect(screen.getByTestId('app-name')).toHaveTextContent(
@@ -65,7 +108,11 @@ describe('VitalityGeneralInformationView', () => {
   });
 
   it('handles API errors gracefully', async () => {
-    render(<VitalityGeneralInformationView appInfos={undefined} />);
+    render(
+      <TestWrapper>
+        <VitalityGeneralInformationView appInfos={undefined} />
+      </TestWrapper>
+    );
 
     await waitFor(() => {
       expect(screen.getByTestId('app-name')).toHaveTextContent(
@@ -76,15 +123,17 @@ describe('VitalityGeneralInformationView', () => {
 
   it('renders application with missing required fields using defaults', async () => {
     render(
-      <VitalityGeneralInformationView
-        appInfos={
-          {
-            _id: 3,
-            acronym: '',
-            description: 'This should not be displayed',
-          } as unknown as ApplicationType
-        }
-      />
+      <TestWrapper>
+        <VitalityGeneralInformationView
+          appInfos={
+            {
+              _id: 3,
+              acronym: '',
+              description: 'This should not be displayed',
+            } as unknown as ApplicationType
+          }
+        />
+      </TestWrapper>
     );
 
     await waitFor(() => {
@@ -100,21 +149,23 @@ describe('VitalityGeneralInformationView', () => {
 
   it('renders repository and links correctly when present', async () => {
     render(
-      <VitalityGeneralInformationView
-        appInfos={
-          {
-            _id: 4,
-            name: 'Vitality Repo Test',
-            acronym: 'VRT',
-            repo: {
-              organization: 'Vitality Org',
-              webUrl: 'https://github.com/vitality-org',
-              allBranches: ['main', 'feature-x'],
-            },
-            links: [{ label: 'Docs', value: 'https://docs.vitality.com' }],
-          } as unknown as ApplicationType
-        }
-      />
+      <TestWrapper>
+        <VitalityGeneralInformationView
+          appInfos={
+            {
+              _id: 4,
+              name: 'Vitality Repo Test',
+              acronym: 'VRT',
+              repo: {
+                organization: 'Vitality Org',
+                webUrl: 'https://github.com/vitality-org',
+                allBranches: ['main', 'feature-x'],
+              },
+              links: [{ label: 'Docs', value: 'https://docs.vitality.com' }],
+            } as unknown as ApplicationType
+          }
+        />
+      </TestWrapper>
     );
 
     await waitFor(() => {
@@ -126,17 +177,19 @@ describe('VitalityGeneralInformationView', () => {
 
   it('does not render empty repository fields', async () => {
     render(
-      <VitalityGeneralInformationView
-        appInfos={
-          {
-            _id: 5,
-            name: 'Vitality No Repo',
-            acronym: 'VNR',
-            repo: { organization: '', webUrl: '', allBranches: [] },
-            links: [],
-          } as unknown as ApplicationType
-        }
-      />
+      <TestWrapper>
+        <VitalityGeneralInformationView
+          appInfos={
+            {
+              _id: 5,
+              name: 'Vitality No Repo',
+              acronym: 'VNR',
+              repo: { organization: '', webUrl: '', allBranches: [] },
+              links: [],
+            } as unknown as ApplicationType
+          }
+        />
+      </TestWrapper>
     );
 
     await waitFor(() => {
