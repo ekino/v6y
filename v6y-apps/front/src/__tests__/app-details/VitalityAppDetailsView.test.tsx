@@ -142,7 +142,6 @@ describe('VitalityAppDetailsView', () => {
     expect(screen.getByText('vitality.appDetailsPage.tabs.accessibility')).toBeInTheDocument();
     expect(screen.getByText('vitality.appDetailsPage.tabs.security')).toBeInTheDocument();
     expect(screen.getByText('vitality.appDetailsPage.tabs.maintainability')).toBeInTheDocument();
-    expect(screen.getByText('vitality.appDetailsPage.tabs.devops')).toBeInTheDocument();
 
     expect(screen.getByText('vitality.appDetailsPage.exportButton')).toBeInTheDocument();
   });
@@ -182,11 +181,6 @@ describe('VitalityAppDetailsView', () => {
     fireEvent.click(screen.getByText('vitality.appDetailsPage.tabs.maintainability'));
     await waitFor(() => {
       expect(screen.getByTestId('evolutions-view')).toBeInTheDocument();
-    });
-
-    fireEvent.click(screen.getByText('vitality.appDetailsPage.tabs.devops'));
-    await waitFor(() => {
-      expect(screen.getByTestId('audit-reports-view')).toBeInTheDocument();
     });
   });
 

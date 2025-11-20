@@ -91,8 +91,7 @@
           "compliance": "Conformité",
           "accessibility": "Accessibilité",
           "security": "Sécurité",
-          "maintainability": "Maintenabilité",
-          "devops": "DevOps"
+          "maintainability": "Maintenabilité"
         },
         "noIndicators": "Aucun indicateur de qualité disponible pour cette application."
       },

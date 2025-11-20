@@ -77,7 +77,6 @@ const VitalityAppDetailsView = () => {
     { id: 'accessibility', label: translate('vitality.appDetailsPage.tabs.accessibility') },
     { id: 'security', label: translate('vitality.appDetailsPage.tabs.security') },
     { id: 'maintainability', label: translate('vitality.appDetailsPage.tabs.maintainability') },
-    { id: 'devops', label: translate('vitality.appDetailsPage.tabs.devops') },
   ];
 
   const onExportClicked = () => {
@@ -123,14 +122,6 @@ const VitalityAppDetailsView = () => {
       case 'maintainability':
         return (
           <VitalityEvolutionsView
-            appInfos={appInfos}
-            branch={selectedBranch}
-            date={selectedDate}
-          />
-        );
-      case 'devops':
-        return (
-          <VitalityAuditReportsView
             appInfos={appInfos}
             branch={selectedBranch}
             date={selectedDate}

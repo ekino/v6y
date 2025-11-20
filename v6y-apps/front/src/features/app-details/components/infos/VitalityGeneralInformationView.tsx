@@ -49,7 +49,7 @@ const VitalityGeneralInformationView = ({
   };
 
   const [_id] = getUrlParams(['_id']);
-  const { isLoading: isAppAuditReportsLoading, data: appAuditReports, error } =
+  const { isLoading: isAppAuditReportsLoading, data: appAuditReports } =
     useClientQuery<{
       getApplicationDetailsAuditReportsByParams: AuditType[];
     }>({
@@ -63,11 +63,6 @@ const VitalityGeneralInformationView = ({
           },
         }),
     });
-
-  // Add logging for debugging
-  console.log('Parsed _id:', parseInt(_id as string, 10));
-  console.log('Query error:', error);
-  console.log('App audit reports data:', appAuditReports);
 
   const indicators = (appAuditReports?.getApplicationDetailsAuditReportsByParams || []).map(report => ({
     label: translate(`vitality.appDetailsPage.infos.indicators.${report.type}`),
