@@ -41,13 +41,11 @@ const VitalityDependenciesView = () => {
     const dependencies = appDetailsDependencies?.getApplicationDetailsDependenciesByParams
         ?.filter(
             (dependency) =>
-                dependency?.module?.branch?.length &&
-                dependency?.statusHelp?.category?.length &&
-                dependency?.statusHelp?.title?.length,
+                dependency?.statusHelp?.category &&
+                dependency?.statusHelp?.title,
         )
         ?.map((dependency) => ({
             ...dependency,
-            ...dependency?.module,
             ...dependency?.statusHelp,
             status: dependency.status,
         }));
