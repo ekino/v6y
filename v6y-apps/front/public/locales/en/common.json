@@ -104,6 +104,11 @@
           "error": "error"
         },
         "technosLabel": "Technos :"
+      },
+      "evolutions": {
+        "branchTitle": "Branch",
+        "repository": "Repository",
+        "path": "Path"
       }
     },
     "appStatsPage": {
