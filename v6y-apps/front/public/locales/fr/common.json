@@ -104,6 +104,11 @@
           "error": "erreur"
         },
         "technosLabel": "Technologies :"
+      },
+      "evolutions": {
+        "branchTitle": "Branche",
+        "path": "Chemin",
+        "repository": "Dépôt"
       }
     },
     "appStatsPage": {

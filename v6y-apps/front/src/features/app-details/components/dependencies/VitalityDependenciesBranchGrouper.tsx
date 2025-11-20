@@ -67,7 +67,6 @@ const VitalityDependenciesBranchGrouper = ({
                         </CardHeader>
                         <CardContent className="pt-0">
                             <div className="space-y-3 text-xs">
-                                {/* Version Info */}
                                 <div className="space-y-1">
                                     <div className="flex justify-between items-center">
                                         <span className="font-medium text-slate-600">Current:</span>
@@ -81,7 +80,6 @@ const VitalityDependenciesBranchGrouper = ({
                                     )}
                                 </div>
 
-                                {/* Type and Category */}
                                 <div className="flex flex-wrap gap-2">
                                     {dependency.type && (
                                         <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
@@ -95,7 +93,6 @@ const VitalityDependenciesBranchGrouper = ({
                                     )}
                                 </div>
 
-                                {/* Branch Info */}
                                 {dependency.module?.branch && (
                                     <div className="flex items-center gap-2">
                                         <span className="font-medium text-slate-600">Branch:</span>
@@ -105,7 +102,6 @@ const VitalityDependenciesBranchGrouper = ({
                                     </div>
                                 )}
 
-                                {/* Status Help */}
                                 {dependency.statusHelp?.title && (
                                     <div className="border-t pt-2">
                                         <div className="font-medium text-slate-700 mb-1">
@@ -119,8 +115,7 @@ const VitalityDependenciesBranchGrouper = ({
                                     </div>
                                 )}
 
-                                {/* Links */}
-                                {dependency.statusHelp?.links?.length > 0 && (
+                                {dependency.statusHelp?.links && dependency.statusHelp.links.length > 0 && (
                                     <div className="space-y-1">
                                         {dependency.statusHelp.links.map((link, linkIndex) => (
                                             <a
