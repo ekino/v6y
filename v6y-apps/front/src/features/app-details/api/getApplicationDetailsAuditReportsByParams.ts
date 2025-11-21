@@ -12,13 +12,6 @@ const GetApplicationDetailsAuditReportsByParams = gql`
             score
             scoreUnit
             extraInfos
-            auditHelp {
-                _id
-                category
-                title
-                description
-                explanation
-            }
             module {
                 branch
                 path

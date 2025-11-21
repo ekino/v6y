@@ -87,21 +87,28 @@
         "branches": "Branches ({count})",
         "indicators": {
           "performance": "Performance",
+          "complexity": "Complexité",
+          "compliance": "Conformité",
           "accessibility": "Accessibilité",
           "security": "Sécurité",
-          "maintainability": "Maintenabilité",
-          "devops": "DevOps"
-        }
+          "maintainability": "Maintenabilité"
+        },
+        "noIndicators": "Aucun indicateur de qualité disponible pour cette application."
       },
       "summaryCard": {
         "lastAnalyze": "Dernière analyse {date}",
-        "branchesLabel": "Branches ({count}) :",
+        "branchesLabel": "Branches Git : {count}",
         "status": {
           "success": "succès",
           "warning": "avertissement",
           "error": "erreur"
         },
         "technosLabel": "Technologies :"
+      },
+      "evolutions": {
+        "branchTitle": "Branche",
+        "path": "Chemin",
+        "repository": "Dépôt"
       }
     },
     "appStatsPage": {

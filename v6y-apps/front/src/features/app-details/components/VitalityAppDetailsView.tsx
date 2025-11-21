@@ -77,7 +77,6 @@ const VitalityAppDetailsView = () => {
     { id: 'accessibility', label: translate('vitality.appDetailsPage.tabs.accessibility') },
     { id: 'security', label: translate('vitality.appDetailsPage.tabs.security') },
     { id: 'maintainability', label: translate('vitality.appDetailsPage.tabs.maintainability') },
-    { id: 'devops', label: translate('vitality.appDetailsPage.tabs.devops') },
   ];
 
   const onExportClicked = () => {
@@ -123,14 +122,6 @@ const VitalityAppDetailsView = () => {
       case 'maintainability':
         return (
           <VitalityEvolutionsView
-            appInfos={appInfos}
-            branch={selectedBranch}
-            date={selectedDate}
-          />
-        );
-      case 'devops':
-        return (
-          <VitalityAuditReportsView
             appInfos={appInfos}
             branch={selectedBranch}
             date={selectedDate}
@@ -182,9 +173,11 @@ const VitalityAppDetailsView = () => {
                   </span>
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="main">{translate('vitality.appDetailsPage.branches.main')}</SelectItem>
-                  <SelectItem value="develop">{translate('vitality.appDetailsPage.branches.develop')}</SelectItem>
-                  <SelectItem value="release">{translate('vitality.appDetailsPage.branches.release')}</SelectItem>
+                  {appInfos?.repo?.allBranches?.map((branch) => (
+                    <SelectItem key={branch} value={branch} className="text-sm">
+                      {branch}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
 
@@ -254,7 +247,6 @@ const VitalityAppDetailsView = () => {
             </Button>
           </div>
 
-          {/* Tab content */}
           {renderTabContent()}
         </div>
       </div>

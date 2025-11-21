@@ -41,10 +41,10 @@ const VitalityEvolutionsView = () => {
     const evolutions = appDetailsEvolutions?.getApplicationDetailsEvolutionsByParams
         ?.filter(
             (evolution) =>
-                evolution?.module?.branch?.length &&
-                evolution?.evolutionHelp?.category?.length &&
-                evolution?.evolutionHelp?.title?.length &&
-                evolution?.evolutionHelp?.status?.length,
+                evolution?.module?.branch &&
+                evolution?.evolutionHelp?.category &&
+                evolution?.evolutionHelp?.title &&
+                evolution?.evolutionHelp?.status,
         )
         ?.map((evolution) => ({
             ...evolution,

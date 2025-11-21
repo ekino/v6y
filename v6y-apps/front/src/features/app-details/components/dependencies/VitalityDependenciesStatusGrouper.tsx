@@ -1,36 +1,79 @@
 import { DependencyType } from '@v6y/core-logic/src/types';
-import { DynamicLoader } from '@v6y/ui-kit';
+import { Card, CardContent, CardHeader, CardTitle } from '@v6y/ui-kit-front';
+import { useTranslationProvider } from '@v6y/ui-kit';
 import * as React from 'react';
-
-import VitalityTabGrouperView from '../../../../commons/components/VitalityTabGrouperView';
-import { VitalityModuleType } from '../../../../commons/types/VitalityModulesProps';
-
-const VitalityModuleList = DynamicLoader(
-    () => import('../../../../commons/components/modules/VitalityModuleList'),
-);
 
 const VitalityDependenciesStatusGrouper = ({
     dependencies,
 }: {
     dependencies: DependencyType[];
 }) => {
+    const { translate } = useTranslationProvider();
+
+    if (!dependencies?.length) {
+        return (
+            <div className="text-center text-slate-500 py-8">
+                {translate('vitality.appDetailsPage.emptyStates.dependencies.description')}
+            </div>
+        );
+    }
+
+    const getStatusColor = (status: string | undefined) => {
+        switch (status) {
+            case 'error':
+                return 'bg-red-500';
+            case 'warning':
+                return 'bg-yellow-500';
+            case 'success':
+                return 'bg-green-500';
+            case 'info':
+                return 'bg-blue-500';
+            default:
+                return 'bg-slate-500';
+        }
+    };
+
     return (
-        <VitalityTabGrouperView
-            name="dependencies_grouper_tab"
-            ariaLabelledby="dependencies_grouper_tab_content"
-            align="center"
-            criteria="status"
-            hasAllGroup
-            dataSource={dependencies}
-            onRenderChildren={(status, data) => (
-                <div
-                    id="dependencies_grouper_tab_content"
-                    data-testid="dependencies_grouper_tab_content"
-                >
-                    <VitalityModuleList modules={data as VitalityModuleType[]} />
-                </div>
-            )}
-        />
+        <div className="space-y-4">
+            {dependencies.map((dependency, index) => (
+                <Card key={`${dependency.name}-${index}`} className="hover:shadow-md transition-shadow">
+                    <CardHeader className="pb-3">
+                        <div className="flex items-start justify-between">
+                            <CardTitle className="text-sm font-medium text-slate-900">
+                                {dependency.name}
+                            </CardTitle>
+                            <span className={`px-2 py-1 rounded text-white text-xs ${
+                                getStatusColor(dependency.status)
+                            }`}>
+                                {dependency.status || 'Unknown'}
+                            </span>
+                        </div>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                        <div className="space-y-2 text-xs text-slate-600">
+                            <div className="flex justify-between">
+                                <span>Version: {dependency.version || 'Unknown'}</span>
+                                {dependency.recommendedVersion && (
+                                    <span>Recommended: {dependency.recommendedVersion}</span>
+                                )}
+                            </div>
+                            {dependency.statusHelp?.title && (
+                                <div className="border-t pt-2">
+                                    <div className="font-medium text-slate-700">
+                                        {dependency.statusHelp.title}
+                                    </div>
+                                    {dependency.statusHelp.description && (
+                                        <div className="text-slate-600 mt-1">
+                                            {dependency.statusHelp.description}
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    </CardContent>
+                </Card>
+            ))}
+        </div>
     );
 };
 

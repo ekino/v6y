@@ -87,21 +87,28 @@
         "branches": "Branches ({count})",
         "indicators": {
           "performance": "Performance",
+          "complexity": "Complexity",
+          "compliance": "Compliance",
           "accessibility": "Accessibility",
           "security": "Security",
-          "maintainability": "Maintainability",
-          "devops": "DevOps"
-        }
+          "maintainability": "Maintainability"
+        },
+        "noIndicators": "No quality indicators available for this application."
       },
       "summaryCard": {
         "lastAnalyze": "Last analyze {date}",
-        "branchesLabel": "Branches ({count}) :",
+        "branchesLabel": "Git branches: {count}",
         "status": {
           "success": "success",
           "warning": "warning",
           "error": "error"
         },
         "technosLabel": "Technos :"
+      },
+      "evolutions": {
+        "branchTitle": "Branch",
+        "repository": "Repository",
+        "path": "Path"
       }
     },
     "appStatsPage": {
