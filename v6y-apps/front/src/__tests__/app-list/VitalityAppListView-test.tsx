@@ -38,7 +38,9 @@ describe('VitalityAppListView', () => {
 
     it('renders search bar, selectable indicators, and app list', async () => {
         render(<VitalityAppListView />);
-        expect(screen.getByText('vitality.dashboardPage.searchByProjectName :')).toBeInTheDocument();
+        expect(
+            screen.getByText('vitality.dashboardPage.searchByProjectName :'),
+        ).toBeInTheDocument();
         expect(screen.getByText('vitality.searchPage.inputHelper')).toBeInTheDocument();
         expect(screen.getByTestId('mock-search-input')).toBeInTheDocument();
     });

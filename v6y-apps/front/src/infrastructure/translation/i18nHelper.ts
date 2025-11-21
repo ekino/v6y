@@ -26,8 +26,8 @@ if (!i18next.isInitialized) {
         .use(
             resourcesToBackend(
                 (language: string, namespace: string) =>
-                    import(`../../../public/locales/${language}/${namespace}.json`)
-            )
+                    import(`../../../public/locales/${language}/${namespace}.json`),
+            ),
         )
         .init({
             supportedLngs: ['en', 'fr'],

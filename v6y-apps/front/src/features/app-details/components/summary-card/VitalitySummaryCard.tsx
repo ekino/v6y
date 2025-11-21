@@ -10,7 +10,7 @@ const VitalitySummaryCard = ({ appInfos }: VitalitySummaryCardProps) => {
     const { translate } = useTranslationProvider();
     const totalBranches = appInfos.repo?.allBranches?.length || 0;
     const successBranches = 6;
-    const warningBranches = 1;  
+    const warningBranches = 1;
     const errorBranches = 1;
 
     return (
@@ -19,24 +19,33 @@ const VitalitySummaryCard = ({ appInfos }: VitalitySummaryCardProps) => {
                 <StarIcon className="w-6 h-6" />
                 <h2 className="text-xl font-bold text-gray-900">{appInfos.name || 'Vitality'}</h2>
             </div>
-            
+
             <div className="text-sm text-gray-600">
-                {translate('vitality.appDetailsPage.summaryCard.lastAnalyze').replace('{date}', '01/05/2025')}
+                {translate('vitality.appDetailsPage.summaryCard.lastAnalyze').replace(
+                    '{date}',
+                    '01/05/2025',
+                )}
             </div>
 
             <div>
                 <div className="text-sm font-medium text-gray-900 mb-2">
-                    {translate('vitality.appDetailsPage.summaryCard.branchesLabel').replace('{count}', totalBranches.toString())}
+                    {translate('vitality.appDetailsPage.summaryCard.branchesLabel').replace(
+                        '{count}',
+                        totalBranches.toString(),
+                    )}
                 </div>
                 <div className="flex flex-wrap gap-2">
                     <Badge variant="success" className="text-xs">
-                        {successBranches} {translate('vitality.appDetailsPage.summaryCard.status.success')}
+                        {successBranches}{' '}
+                        {translate('vitality.appDetailsPage.summaryCard.status.success')}
                     </Badge>
                     <Badge variant="warning" className="text-xs">
-                        {warningBranches} {translate('vitality.appDetailsPage.summaryCard.status.warning')}
+                        {warningBranches}{' '}
+                        {translate('vitality.appDetailsPage.summaryCard.status.warning')}
                     </Badge>
                     <Badge variant="error" className="text-xs">
-                        {errorBranches} {translate('vitality.appDetailsPage.summaryCard.status.error')}
+                        {errorBranches}{' '}
+                        {translate('vitality.appDetailsPage.summaryCard.status.error')}
                     </Badge>
                 </div>
             </div>

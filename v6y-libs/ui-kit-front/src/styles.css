@@ -172,7 +172,7 @@
         color: inherit;
     }
     body {
-        @apply bg-[oklch(var(--background))] text-[oklch(var(--foreground))];  /* Changed from bg-background text-foreground */
+        @apply bg-[oklch(var(--background))] text-[oklch(var(--foreground))]; /* Changed from bg-background text-foreground */
     }
     a {
         text-decoration: none;

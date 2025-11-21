@@ -43,6 +43,7 @@
     "globals": "=16.4.0",
     "lighthouse": "=12.3.0",
     "nodemon": "=3.1.9",
+    "prettier": "=3.4.2",
     "puppeteer-core": "=24.0.0",
     "ts-node": "=10.9.2",
     "typescript": "=5.7.3",

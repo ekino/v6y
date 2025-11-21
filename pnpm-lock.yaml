@@ -127,6 +127,9 @@ importers:
       nodemon:
         specifier: '=3.1.9'
         version: 3.1.9
+      prettier:
+        specifier: '=3.4.2'
+        version: 3.4.2
       ts-node:
         specifier: '=10.9.2'
         version: 10.9.2(@swc/core@1.11.4(@swc/helpers@0.5.15))(@types/node@24.10.0)(typescript@5.7.3)
@@ -233,6 +236,9 @@ importers:
       nodemon:
         specifier: '=3.1.9'
         version: 3.1.9
+      prettier:
+        specifier: '=3.4.2'
+        version: 3.4.2
       puppeteer-core:
         specifier: '=24.0.0'
         version: 24.0.0
@@ -333,6 +339,9 @@ importers:
       nodemon:
         specifier: '=3.1.9'
         version: 3.1.9
+      prettier:
+        specifier: '=3.4.2'
+        version: 3.4.2
       ts-node:
         specifier: '=10.9.2'
         version: 10.9.2(@swc/core@1.11.4(@swc/helpers@0.5.15))(@types/node@24.10.0)(typescript@5.7.3)
@@ -496,6 +505,9 @@ importers:
       posix-getopt:
         specifier: '=1.2.1'
         version: 1.2.1
+      prettier:
+        specifier: '=3.4.2'
+        version: 3.4.2
       ts-node:
         specifier: '=10.9.2'
         version: 10.9.2(@swc/core@1.11.4(@swc/helpers@0.5.15))(@types/node@24.10.0)(typescript@5.7.3)
@@ -590,6 +602,9 @@ importers:
       nodemon:
         specifier: '=3.1.9'
         version: 3.1.9
+      prettier:
+        specifier: '=3.4.2'
+        version: 3.4.2
       ts-node:
         specifier: '=10.9.2'
         version: 10.9.2(@swc/core@1.11.4(@swc/helpers@0.5.15))(@types/node@24.10.0)(typescript@5.7.3)
@@ -906,7 +921,7 @@ importers:
         version: 1.5.0
       jsdom:
         specifier: '=27.0.1'
-        version: 27.0.1(postcss@8.5.1)
+        version: 27.0.1
       prettier:
         specifier: '=3.4.2'
         version: 3.4.2
@@ -1073,6 +1088,9 @@ importers:
       eslint-plugin-prettier:
         specifier: '=5.2.1'
         version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@10.0.1(eslint@9.18.0(jiti@1.21.7)))(eslint@9.18.0(jiti@1.21.7))(prettier@3.4.2)
+      prettier:
+        specifier: '=3.4.2'
+        version: 3.4.2
       sequelize-mock:
         specifier: '=0.10.2'
         version: 0.10.2
@@ -10462,8 +10480,8 @@ packages:
   third-party-web@0.26.5:
     resolution: {integrity: sha512-tDuKQJUTfjvi9Fcrs1s6YAQAB9mzhTSbBZMfNgtWNmJlHuoFeXO6dzBFdGeCWRvYL50jQGK0jPsBZYxqZQJ2SA==}
 
-  third-party-web@0.27.0:
-    resolution: {integrity: sha512-h0JYX+dO2Zr3abCQpS6/uFjujaOjA1DyDzGQ41+oFn9VW/ARiq9g5ln7qEP9+BTzDpOMyIfsfj4OvfgXAsMUSA==}
+  third-party-web@0.28.0:
+    resolution: {integrity: sha512-4P798O67JmIKRJfJ1HSOkIsZrx2+FuaN2jTQX+imHXFPbGp17KSMDabYxrRT011B3gBzaoHFhUkBlEkNZN8vuQ==}
 
   throttle-debounce@5.0.2:
     resolution: {integrity: sha512-B71/4oyj61iNH0KeCamLuE2rmKuTO5byTOSVwECM5FA7TiAiAW+UqTKZ9ERueC4qvgSttUhdmq1mXC3kJqGX7A==}
@@ -13549,7 +13567,7 @@ snapshots:
 
   '@paulirish/trace_engine@0.0.39':
     dependencies:
-      third-party-web: 0.27.0
+      third-party-web: 0.28.0
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
@@ -16349,6 +16367,14 @@ snapshots:
 
   cssesc@3.0.0: {}
 
+  cssstyle@5.3.1:
+    dependencies:
+      '@asamuzakjp/css-color': 4.0.5
+      '@csstools/css-syntax-patches-for-csstree': 1.0.14(postcss@8.5.1)
+      css-tree: 3.1.0
+    transitivePeerDependencies:
+      - postcss
+
   cssstyle@5.3.1(postcss@8.5.1):
     dependencies:
       '@asamuzakjp/css-color': 4.0.5
@@ -18593,7 +18619,7 @@ snapshots:
   jsdom@27.0.1:
     dependencies:
       '@asamuzakjp/dom-selector': 6.7.3
-      cssstyle: 5.3.1(postcss@8.5.1)
+      cssstyle: 5.3.1
       data-urls: 6.0.0
       decimal.js: 10.6.0
       html-encoding-sniffer: 4.0.0
@@ -18617,7 +18643,6 @@ snapshots:
       - postcss
       - supports-color
       - utf-8-validate
-    optional: true
 
   jsdom@27.0.1(postcss@8.5.1):
     dependencies:
@@ -21951,7 +21976,7 @@ snapshots:
 
   third-party-web@0.26.5: {}
 
-  third-party-web@0.27.0: {}
+  third-party-web@0.28.0: {}
 
   throttle-debounce@5.0.2: {}
 
