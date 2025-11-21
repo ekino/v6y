@@ -22,22 +22,22 @@ const VitalityAppsStatsChart = () => {
     const { getUrlParams } = useNavigationAdapter();
     const [keywords] = getUrlParams(['keywords']);
 
-    const { isLoading, data, refetch } = useClientQuery<{ getApplicationStatsByParams: KeywordStatsType[] }>(
-        {
-            queryCacheKey: [
-                'getApplicationStatsByParams',
-                keywords?.length ? keywords : 'empty_keywords',
-            ],
-            queryBuilder: async () =>
-                buildClientQuery({
-                    query: GetApplicationStatsByParams,
-                    queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
-                    variables: {
-                        keywords,
-                    },
-                }),
-        },
-    );
+    const { isLoading, data, refetch } = useClientQuery<{
+        getApplicationStatsByParams: KeywordStatsType[];
+    }>({
+        queryCacheKey: [
+            'getApplicationStatsByParams',
+            keywords?.length ? keywords : 'empty_keywords',
+        ],
+        queryBuilder: async () =>
+            buildClientQuery({
+                query: GetApplicationStatsByParams,
+                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
+                variables: {
+                    keywords,
+                },
+            }),
+    });
 
     useEffect(() => {
         refetch?.();

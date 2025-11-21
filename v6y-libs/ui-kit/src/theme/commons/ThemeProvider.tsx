@@ -6,8 +6,8 @@ import * as React from 'react';
 import { useEffect, useLayoutEffect, useState } from 'react';
 
 import { ThemeContextConfigType, ThemeProps } from '../types/ThemeProps.ts';
-import { ThemeModes, loadTheme } from './ThemeLoader.ts';
 import { ThemeConfigProvider } from './ThemeContext.tsx';
+import { ThemeModes, loadTheme } from './ThemeLoader.ts';
 
 const { darkAlgorithm, defaultAlgorithm } = AntdTheme;
 
