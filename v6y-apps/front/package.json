@@ -31,7 +31,7 @@
     "@v6y/core-logic": "workspace:^",
     "@v6y/ui-kit": "workspace:^",
     "@v6y/ui-kit-front": "workspace:^",
-    "crypto-hash": "=3.1.0",
+    "crypto-hash": "=4.0.0",
     "google": "link:next/font/google",
     "graphql": "=16.10.0",
     "graphql-request": "=7.1.2",
