@@ -65,7 +65,7 @@
     "file-saver": "=2.0.5",
     "fs-extra": "=11.2.0",
     "globals": "=16.4.0",
-    "globby": "=14.0.2",
+    "globby": "=16.0.0",
     "json-2-csv": "=5.5.7",
     "jsonwebtoken": "=9.0.2",
     "lodash": "=4.17.21",
