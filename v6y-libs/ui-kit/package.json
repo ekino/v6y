@@ -31,7 +31,7 @@
     "@refinedev/antd": "=5.45.1",
     "@refinedev/cli": "=2.16.42",
     "@refinedev/core": "=4.57.5",
-    "@refinedev/devtools": "=1.2.12",
+    "@refinedev/devtools": "=2.0.3",
     "@refinedev/inferencer": "=6.0.2",
     "@refinedev/kbar": "=2.0.0",
     "@refinedev/nextjs-router": "=6.2.1",
@@ -60,7 +60,7 @@
   "devDependencies": {
     "@eslint/js": "=9.18.0",
     "@next/bundle-analyzer": "=15.1.4",
-    "@refinedev/devtools": "=1.2.12",
+    "@refinedev/devtools": "=2.0.3",
     "@testing-library/dom": "=10.4.0",
     "@testing-library/jest-dom": "=6.6.3",
     "@testing-library/react": "=16.1.0",
