@@ -74,7 +74,7 @@
     "@vitest/ui": "=3.0.5",
     "autoprefixer": "=10.4.20",
     "eslint": "=9.18.0",
-    "eslint-config-next": "=15.1.4",
+    "eslint-config-next": "=16.0.6",
     "eslint-config-prettier": "=10.0.1",
     "jsdom": "=27.0.1",
     "postcss": "=8.5.1",
