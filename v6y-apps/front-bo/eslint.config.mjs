@@ -1,17 +1,16 @@
-import { FlatCompat } from '@eslint/eslintrc';
-
-const compat = new FlatCompat({
-    // import.meta.dirname is available after Node.js v20.11.0
-    baseDirectory: import.meta.dirname,
-});
+import nextVitals from 'eslint-config-next/core-web-vitals';
+import nextTs from 'eslint-config-next/typescript';
 
 const eslintConfig = [
-    ...compat.config({
-        extends: ['next/core-web-vitals', 'next/typescript'],
+    ...nextVitals,
+    ...nextTs,
+    {
         rules: {
             '@typescript-eslint/no-require-imports': 'off',
+            'react-hooks/set-state-in-effect': 'off',
+            'react-hooks/refs': 'off',
         },
-    }),
+    },
     // Special rules for test files
     {
         files: ['**/__tests__/**/*-test.ts', '**/__tests__/**/*-test.js', '**/*.test.{js,ts,tsx}'],
