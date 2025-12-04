@@ -10,7 +10,6 @@ const GetApplicationDetailsDependenciesByParams = gql`
             recommendedVersion
             status
             statusHelp {
-                _id
                 category
                 title
                 description
@@ -19,14 +18,6 @@ const GetApplicationDetailsDependenciesByParams = gql`
                     value
                     description
                 }
-            }
-            module {
-                appId
-                branch
-                path
-                url
-                status
-                version
             }
         }
     }
