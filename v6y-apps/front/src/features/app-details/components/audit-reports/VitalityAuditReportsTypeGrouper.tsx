@@ -1,21 +1,9 @@
 import { AuditType } from '@v6y/core-logic/src/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@v6y/ui-kit-front';
+import { getScoreStatusColor } from '../../../../commons/utils/StatusUtils';
 import * as React from 'react';
 
 const VitalityAuditReportsTypeGrouper = ({ auditReports }: { auditReports: AuditType[] }) => {
-    const getScoreStatusColor = (scoreStatus: string) => {
-        switch (scoreStatus) {
-            case 'good':
-                return 'text-green-600 bg-green-50 border-green-200';
-            case 'warning':
-                return 'text-yellow-600 bg-yellow-50 border-yellow-200';
-            case 'error':
-                return 'text-red-600 bg-red-50 border-red-200';
-            default:
-                return 'text-gray-600 bg-gray-50 border-gray-200';
-        }
-    };
-
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {auditReports.map((report) => (

@@ -14,6 +14,8 @@ import {
 } from '../../../../infrastructure/adapters/api/useQueryAdapter';
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
 import GetApplicationDetailsAuditReportsByParams from '../../api/getApplicationDetailsAuditReportsByParams';
+import { getIndicatorColors } from '../../../../commons/utils/StatusUtils';
+import { getGradeFromScore } from '../../../../commons/utils/ScoreUtils';
 
 interface VitalityGeneralInformationViewProps {
   appInfos?: ApplicationType;
@@ -26,27 +28,6 @@ const VitalityGeneralInformationView = ({
 }: VitalityGeneralInformationViewProps) => {
   const { translate } = useTranslationProvider();
   const { getUrlParams } = useNavigationAdapter();
-
-  const getIndicatorColors = (grade: string) => {
-    switch (grade) {
-      case 'A':
-        return { bgColor: 'bg-green-400', textColor: 'text-green-100' };
-      case 'B':
-        return { bgColor: 'bg-orange-400', textColor: 'text-orange-100' };
-      case 'C':
-        return { bgColor: 'bg-red-500', textColor: 'text-red-100' };
-      default:
-        return { bgColor: 'bg-gray-400', textColor: 'text-gray-100' };
-    }
-  };
-
-  const getGradeFromScore = (score?: number | null) => {
-    const s = score ?? 0;
-    if (s >= 90) return 'A';
-    if (s >= 70) return 'B';
-    if (s >= 50) return 'C';
-    return 'D';
-  };
 
   const [_id] = getUrlParams(['_id']);
   const { isLoading: isAppAuditReportsLoading, data: appAuditReports } =
