@@ -11,9 +11,9 @@ const getScoreStatusColor = (scoreStatus: string): string => {
 };
 
 const indicatorColors: Record<string, { bgColor: string; textColor: string }> = {
-    'A': { bgColor: 'bg-green-400', textColor: 'text-green-100' },
-    'B': { bgColor: 'bg-orange-400', textColor: 'text-orange-100' },
-    'C': { bgColor: 'bg-red-500', textColor: 'text-red-100' },
+    A: { bgColor: 'bg-green-400', textColor: 'text-green-100' },
+    B: { bgColor: 'bg-orange-400', textColor: 'text-orange-100' },
+    C: { bgColor: 'bg-red-500', textColor: 'text-red-100' },
 };
 
 const getIndicatorColors = (grade: string) => {
@@ -21,10 +21,10 @@ const getIndicatorColors = (grade: string) => {
 };
 
 const statusLabels: Record<string, string> = {
-    'error': 'Critical',
-    'warning': 'Warning',
-    'success': 'Up to date',
-    'info': 'Info',
+    error: 'Critical',
+    warning: 'Warning',
+    success: 'Up to date',
+    info: 'Info',
 };
 
 const getStatusLabel = (status: string | undefined) => {

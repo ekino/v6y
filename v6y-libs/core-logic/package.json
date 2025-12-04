@@ -20,14 +20,12 @@
     "migrate-undo-db": "npx --yes sequelize-cli db:migrate:undo",
     "lint": "eslint --config ./eslint.config.mjs --cache-location ./.eslintcache \"./**/*.ts\" --cache",
     "lint:fix": "eslint --config ./eslint.config.mjs --cache-location ./.eslintcache \"./**/*.ts\" --cache --fix",
-    "format": "prettier --write ./src",
     "test": "vitest --coverage --watch false",
     "test:watch": "vitest",
     "test:ui": "vitest --ui"
   },
   "devDependencies": {
     "@eslint/js": "=9.18.0",
-    "@trivago/prettier-plugin-sort-imports": "=6.0.0",
     "@types/bcrypt": "=6.0.0",
     "@types/jsonwebtoken": "=9.0.7",
     "@types/passport": "=1.0.17",

@@ -18,12 +18,10 @@
     "start:dev": "nodemon --exec node --env-file=./.env --loader ts-node/esm src/index.ts -- --dev",
     "start": "nodemon --exec node --env-file=./.env --loader ts-node/esm src/index.ts -- --dev",
     "lint": "eslint --config ./eslint.config.mjs --cache-location ./.eslintcache \"./**/*.ts\" --cache",
-    "lint:fix": "eslint --config ./eslint.config.mjs --cache-location ./.eslintcache \"./**/*.ts\" --cache --fix",
-    "format": "prettier --write ./src"
+    "lint:fix": "eslint --config ./eslint.config.mjs --cache-location ./.eslintcache \"./**/*.ts\" --cache --fix"
   },
   "devDependencies": {
     "@eslint/js": "=9.18.0",
-    "@trivago/prettier-plugin-sort-imports": "=6.0.0",
     "@types/cookie-parser": "=1.4.8",
     "@types/cors": "=2.8.17",
     "@types/express-status-monitor": "=1.3.3",

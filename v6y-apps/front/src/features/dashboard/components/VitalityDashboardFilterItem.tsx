@@ -1,5 +1,13 @@
+import {
+    Avatar,
+    AvatarFallback,
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@v6y/ui-kit-front';
 import Link from 'next/link';
-import { Avatar, AvatarFallback, Card, CardHeader, CardContent, CardTitle, CardDescription } from '@v6y/ui-kit-front';
 
 interface VitalityDashboardFilterItemProps {
     option: {
@@ -21,9 +29,7 @@ const VitalityDashboardFilterItem: React.FC<VitalityDashboardFilterItemProps> = 
             <Card className="cursor-pointer p-3 border-slate-200">
                 <CardHeader className="flex flex-row items-center space-y-0 pb-1">
                     <Avatar className="h-10 w-10">
-                        <AvatarFallback className="text-lg">
-                            {option.avatar}
-                        </AvatarFallback>
+                        <AvatarFallback className="text-lg">{option.avatar}</AvatarFallback>
                     </Avatar>
                     <div className="ml-3 flex-1">
                         <CardTitle className="text-base leading-tight">{option.title}</CardTitle>

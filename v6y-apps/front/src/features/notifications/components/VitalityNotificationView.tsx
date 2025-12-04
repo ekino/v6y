@@ -14,7 +14,9 @@ import GetNotificationListByPageAndParams from '../api/getNotificationListByPage
 import VitalityNotificationList from './VitalityNotificationList';
 
 const VitalityNotificationView = () => {
-    const { isLoading, data } = useClientQuery<{ getNotificationListByPageAndParams: NotificationType[] }>({
+    const { isLoading, data } = useClientQuery<{
+        getNotificationListByPageAndParams: NotificationType[];
+    }>({
         queryCacheKey: ['getNotificationListByPageAndParams'],
         queryBuilder: async () =>
             buildClientQuery({

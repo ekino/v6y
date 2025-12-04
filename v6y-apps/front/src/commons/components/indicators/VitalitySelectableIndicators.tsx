@@ -30,10 +30,9 @@ const VitalitySelectableIndicators = () => {
         useNavigationAdapter();
     const [keywordsUrlParams] = getUrlParams(['keywords']);
 
-    const {
-        isLoading: isIndicatorsLoading,
-        data: dataIndicators,
-    } = useClientQuery<VitalitySelectableIndicatorsQueryType['data']>({
+    const { isLoading: isIndicatorsLoading, data: dataIndicators } = useClientQuery<
+        VitalitySelectableIndicatorsQueryType['data']
+    >({
         queryCacheKey: ['getIndicatorListByParams'],
         queryBuilder: async () =>
             buildClientQuery({

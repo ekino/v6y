@@ -1,0 +1,44 @@
+name: Format Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  format-check:
+    name: Format Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check code formatting
+        run: pnpm run format:check
+
+      - name: Check if files are properly formatted
+        run: |
+          if ! git diff --quiet; then
+            echo "❌ Code is not properly formatted. Please run 'pnpm run format' and commit the changes."
+            echo "Files that need formatting:"
+            git diff --name-only
+            exit 1
+          else
+            echo "✅ All files are properly formatted!"
+          fi
