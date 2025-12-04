@@ -31,6 +31,23 @@ To use **Vitality (v6y)**, follow these steps:
 
 4. Use the dashboard to view real-time data and detailed reports on the health of your codebases and applications.
 
+## Development
+
+### Code Formatting
+This project uses Prettier for consistent code formatting across all packages. 
+
+**Available commands:**
+- `pnpm run format` - Format all source files
+- `pnpm run format:check` - Check if files are properly formatted
+
+**Configuration:**
+- Global Prettier configuration is located at `prettier.config.mjs`
+- All individual package Prettier configs have been removed in favor of the global config
+- Formatting is enforced via GitHub Actions on pull requests
+
+**GitHub Action:**
+The `format-check.yml` workflow automatically verifies that all code is properly formatted on every push and pull request. If formatting issues are found, the CI will fail with details about which files need formatting.
+
 ## Contributing
 We welcome contributions to **Vitality (v6y)**. To contribute, please read our guidelines outlined in the project [Wiki](https://github.com/ekino/v6y/wiki).
 

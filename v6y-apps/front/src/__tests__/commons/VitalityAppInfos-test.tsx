@@ -54,7 +54,9 @@ describe('VitalityAppInfos', () => {
 
         // Repo web url should be present among anchors
         const anchors = screen.getAllByRole('link') as HTMLAnchorElement[];
-        expect(anchors.some((a) => a.getAttribute('href') === 'https://github.com/TestOrg/TestApp')).toBe(true);
+        expect(
+            anchors.some((a) => a.getAttribute('href') === 'https://github.com/TestOrg/TestApp'),
+        ).toBe(true);
 
         // Contact mailto link
         const mailLink = anchors.find((a) => a.getAttribute('href')?.startsWith('mailto:'));
@@ -88,7 +90,9 @@ describe('VitalityAppInfos', () => {
         render(<VitalityAppInfos app={mockApp} canOpenDetails={true} />);
 
         const anchors = screen.getAllByRole('link') as HTMLAnchorElement[];
-        expect(anchors.some((a) => a.getAttribute('href') === 'https://github.com/TestOrg/TestApp')).toBe(true);
+        expect(
+            anchors.some((a) => a.getAttribute('href') === 'https://github.com/TestOrg/TestApp'),
+        ).toBe(true);
     });
 
     it('renders application details correctly', () => {

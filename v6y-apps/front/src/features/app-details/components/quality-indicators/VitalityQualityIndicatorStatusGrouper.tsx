@@ -1,6 +1,6 @@
 import { KeywordType } from '@v6y/core-logic/src/types';
-import { Card, CardContent, CardHeader, CardTitle } from '@v6y/ui-kit-front';
 import { useTranslationProvider } from '@v6y/ui-kit';
+import { Card, CardContent, CardHeader, CardTitle } from '@v6y/ui-kit-front';
 
 const VitalityQualityIndicatorStatusGrouper = ({ indicators }: { indicators: KeywordType[] }) => {
     const { translate } = useTranslationProvider();
@@ -16,7 +16,10 @@ const VitalityQualityIndicatorStatusGrouper = ({ indicators }: { indicators: Key
     return (
         <div className="space-y-4">
             {indicators.map((indicator, index) => (
-                <Card key={`${indicator.label}-${index}`} className="hover:shadow-md transition-shadow">
+                <Card
+                    key={`${indicator.label}-${index}`}
+                    className="hover:shadow-md transition-shadow"
+                >
                     <CardHeader className="pb-3">
                         <CardTitle className="text-sm font-medium text-slate-900">
                             {indicator.label}
@@ -35,12 +38,17 @@ const VitalityQualityIndicatorStatusGrouper = ({ indicators }: { indicators: Key
                             {indicator.module?.status && (
                                 <div className="flex items-center gap-2">
                                     <span className="font-medium">Status:</span>
-                                    <span className={`px-2 py-1 rounded text-white text-xs ${
-                                        indicator.module.status === 'error' ? 'bg-red-500' :
-                                        indicator.module.status === 'warning' ? 'bg-yellow-500' :
-                                        indicator.module.status === 'success' ? 'bg-green-500' :
-                                        'bg-slate-500'
-                                    }`}>
+                                    <span
+                                        className={`px-2 py-1 rounded text-white text-xs ${
+                                            indicator.module.status === 'error'
+                                                ? 'bg-red-500'
+                                                : indicator.module.status === 'warning'
+                                                  ? 'bg-yellow-500'
+                                                  : indicator.module.status === 'success'
+                                                    ? 'bg-green-500'
+                                                    : 'bg-slate-500'
+                                        }`}
+                                    >
                                         {indicator.module.status}
                                     </span>
                                 </div>

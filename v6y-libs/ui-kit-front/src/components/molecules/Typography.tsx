@@ -8,7 +8,10 @@ type TypographyProps = {
 
 function TypographyH1({ children, ...props }: TypographyProps) {
     return (
-        <h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance" {...props}>
+        <h1
+            className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance"
+            {...props}
+        >
             {children}
         </h1>
     );
@@ -16,7 +19,10 @@ function TypographyH1({ children, ...props }: TypographyProps) {
 
 function TypographyH2({ children, ...props }: TypographyProps) {
     return (
-        <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0" {...props}>
+        <h2
+            className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0"
+            {...props}
+        >
             {children}
         </h2>
     );
@@ -38,10 +44,19 @@ function TypographyH4({ children, ...props }: TypographyProps) {
     );
 }
 
-function TypographyP({ children, muted, className, ...props }: TypographyProps & { muted?: boolean }) {
+function TypographyP({
+    children,
+    muted,
+    className,
+    ...props
+}: TypographyProps & { muted?: boolean }) {
     return (
         <p
-            className={cn('leading-7 font-normal [&:not(:first-child)]:mt-6', muted && 'text-slate-500', className)}
+            className={cn(
+                'leading-7 font-normal [&:not(:first-child)]:mt-6',
+                muted && 'text-slate-500',
+                className,
+            )}
             {...props}
         >
             {children}
@@ -59,7 +74,10 @@ function TypographyBlockquote({ children, ...props }: TypographyProps) {
 
 function TypographyInlineCode({ children, ...props }: TypographyProps) {
     return (
-        <code className="bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold" {...props}>
+        <code
+            className="bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold"
+            {...props}
+        >
             {children}
         </code>
     );

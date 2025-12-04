@@ -1,3 +1,4 @@
+import { ExportOutlined } from '@v6y/ui-kit';
 import { Button, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit-front';
 import { useEffect, useState } from 'react';
 
@@ -7,7 +8,6 @@ import {
     useClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationTotalByParams from '../api/getApplicationTotalByParams';
-import { ExportOutlined } from '@v6y/ui-kit';
 
 const VitalityAppListHeader = ({
     onExportApplicationsClicked,
@@ -21,21 +21,21 @@ const VitalityAppListHeader = ({
     const { data: dataAppsTotal, refetch: refetchAppsTotal } = useClientQuery<{
         getApplicationTotalByParams: number;
     }>({
-            queryCacheKey: [
-                'getApplicationTotalByParams',
-                keywords?.length ? keywords : 'empty_keywords',
-                searchText?.length ? searchText : 'empty_search_text',
-            ],
-            queryBuilder: async () =>
-                buildClientQuery({
-                    queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL ?? '',
-                    query: GetApplicationTotalByParams,
-                    variables: {
-                        keywords,
-                        searchText,
-                    },
-                }),
-        });
+        queryCacheKey: [
+            'getApplicationTotalByParams',
+            keywords?.length ? keywords : 'empty_keywords',
+            searchText?.length ? searchText : 'empty_search_text',
+        ],
+        queryBuilder: async () =>
+            buildClientQuery({
+                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL ?? '',
+                query: GetApplicationTotalByParams,
+                variables: {
+                    keywords,
+                    searchText,
+                },
+            }),
+    });
 
     useEffect(() => {
         refetchAppsTotal?.();
@@ -49,11 +49,11 @@ const VitalityAppListHeader = ({
 
     return (
         <div className="w-full flex items-center justify-between gap-4">
-                <Button onClick={onExportApplicationsClicked}>
-                    <ExportOutlined />
-                    {translate('vitality.appListPage.exportLabel')}
-                </Button>
-                <p>{appsTotal} results</p>
+            <Button onClick={onExportApplicationsClicked}>
+                <ExportOutlined />
+                {translate('vitality.appListPage.exportLabel')}
+            </Button>
+            <p>{appsTotal} results</p>
         </div>
     );
 };

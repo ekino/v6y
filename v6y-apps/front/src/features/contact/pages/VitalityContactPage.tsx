@@ -1,7 +1,7 @@
-import VitalityContactPageView from "../components/VitalityContactPageView"
+import VitalityContactPageView from '../components/VitalityContactPageView';
 
 const VitalityContactPage = () => {
-  return <VitalityContactPageView />;
+    return <VitalityContactPageView />;
 };
 
 export default VitalityContactPage;

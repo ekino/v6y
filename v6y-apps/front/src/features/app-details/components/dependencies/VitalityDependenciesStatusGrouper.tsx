@@ -1,6 +1,7 @@
 import { DependencyType } from '@v6y/core-logic/src/types';
-import { Card, CardContent, CardHeader, CardTitle } from '@v6y/ui-kit-front';
 import { useTranslationProvider } from '@v6y/ui-kit';
+import { Card, CardContent, CardHeader, CardTitle } from '@v6y/ui-kit-front';
+
 import { getScoreStatusColor } from '../../../../commons/utils/ColorsByStatusUtils';
 
 const VitalityDependenciesStatusGrouper = ({
@@ -21,15 +22,20 @@ const VitalityDependenciesStatusGrouper = ({
     return (
         <div className="space-y-4">
             {dependencies.map((dependency, index) => (
-                <Card key={`${dependency.name}-${index}`} className="hover:shadow-md transition-shadow">
+                <Card
+                    key={`${dependency.name}-${index}`}
+                    className="hover:shadow-md transition-shadow"
+                >
                     <CardHeader className="pb-3">
                         <div className="flex items-start justify-between">
                             <CardTitle className="text-sm font-medium text-slate-900">
                                 {dependency.name}
                             </CardTitle>
-                            <span className={`px-2 py-1 rounded text-white text-xs ${
-                                getScoreStatusColor(dependency.status || '')
-                            }`}>
+                            <span
+                                className={`px-2 py-1 rounded text-white text-xs ${getScoreStatusColor(
+                                    dependency.status || '',
+                                )}`}
+                            >
                                 {dependency.status || 'Unknown'}
                             </span>
                         </div>
