@@ -65,7 +65,7 @@ app.get(healthCheckPath, (req, res) => {
 // *********************************************** Handle Endpoints ***********************************************
 
 // default response (unknown routes)
-app.get('*', (request, response) => {
+app.get('/{*any}', (request, response) => {
     AppLogger.debug(`[*] KO:  la route demandé ${request.url} n'existe pas`);
     response.status(404).send({
         success: false,

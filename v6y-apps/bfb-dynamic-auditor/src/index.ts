@@ -70,7 +70,7 @@ app.use(dynamicAuditorApiPath || '', DynamicAuditorRouter);
 // *********************************************** Default Route (404) ***********************************************
 
 // Default Route: Handles requests to unknown routes and returns a 404 Not Found response.
-app.get('*', (request, response) => {
+app.get('/{*any}', (request, response) => {
     AppLogger.debug(`[*] KO: Requested route ${request.url} does not exist`);
     response.status(404).json({
         success: false,
