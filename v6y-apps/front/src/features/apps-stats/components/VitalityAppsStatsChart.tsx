@@ -87,11 +87,20 @@ const VitalityAppsStatsChart = () => {
         return pieChartIndicators.includes(indicator) ? 'pie' : 'bar';
     };
 
+    // Hard-code the color palette from style.css for Recharts compatibility
+    const chartColors = [
+        '#b0d0d3ff',
+        '#c08497ff',
+        '#f7af9dff',
+        '#f7e3afff',
+        '#f3eec3ff',
+    ];
+
     const renderChart = (indicatorData: KeywordStatsType[], indicatorTitle: string) => {
         const dataSourceDisplay = indicatorData.map((item, index) => ({
             label: item.keyword?.label,
             total: item.total,
-            fill: `hsl(${(index * 137.5) % 360}, 70%, 50%)`,
+            fill: chartColors[index % chartColors.length],
         }));
 
         const hasData = dataSourceDisplay && dataSourceDisplay.length > 0;
@@ -106,9 +115,9 @@ const VitalityAppsStatsChart = () => {
 
         return (
             <div key={indicatorTitle} className="mb-2">
-                <Card className="border-slate-200 shadow-sm h-full">
-                    <CardHeader className="pb-4">
-                        <CardTitle className="text-lg font-semibold text-slate-800">
+                <Card className="border-slate-200 shadow-sm h-full bg-card">
+                    <CardHeader className="pb-3 px-4 pt-4">
+                        <CardTitle className="text-base font-semibold text-slate-800">
                             {translate(`vitality.appStatsPage.indicators.${indicatorTitle.toLowerCase()}`) || indicatorTitle}
                         </CardTitle>
                         {hasData && (
