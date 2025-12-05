@@ -172,7 +172,7 @@ const VitalitySelectableIndicators = () => {
     }
 
     return (
-        <Card className="border-gray-200 p-2">
+        <Card className="border-gray-200 p-4">
             <div className="flex items-center justify-between">
                 <p>{translate('vitality.appStatsPage.indicatorsTitle')}</p>
                 {indicatorsList.map((option: CheckboxOptionType) => (
