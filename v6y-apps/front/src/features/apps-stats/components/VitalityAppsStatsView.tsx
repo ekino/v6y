@@ -5,20 +5,18 @@ import * as React from 'react';
 import { Suspense } from 'react';
 
 import VitalitySelectableIndicators from '../../../commons/components/indicators/VitalitySelectableIndicators';
-import VitalityAppList from '../../app-list/components/VitalityAppList';
 import VitalityAppsStatsChart from './VitalityAppsStatsChart';
 
 const VitalityAppsStatsView = () => {
     return (
-        <>
+        <div className="space-y-4 mt-4">
             <Suspense fallback={<LoaderView />}>
                 <VitalitySelectableIndicators />
             </Suspense>
             <Suspense fallback={<LoaderView />}>
                 <VitalityAppsStatsChart />
-                <VitalityAppList source="stats" />
             </Suspense>
-        </>
+        </div>
     );
 };
 
