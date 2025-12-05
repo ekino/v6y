@@ -46,3 +46,4 @@ export {
     PaginationNext,
     PaginationPrevious,
 } from './pagination.tsx';
+export { ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, type ChartConfig } from './Chart.tsx';

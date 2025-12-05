@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom brand color palette */
+:root {
+  --vitality-light-blue: #b0d0d3ff;
+  --vitality-old-rose: #c08497ff;
+  --vitality-powder-blush: #f7af9dff;
+  --vitality-light-apricot: #f7e3afff;
+  --vitality-lemon-chiffon: #f3eec3ff;
+}

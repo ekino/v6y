@@ -113,9 +113,21 @@
     },
     "appStatsPage": {
       "pageTitle": "Health statistics",
-      "graphTitle": "Health statistics",
       "shortTitle": "health statistics",
-      "graphEmptyMessage": "You should select a filter to display statistics!"
+      "graphTitle": "Health statistics",
+      "graphEmptyMessage": "You should select a filter to display statistics!",
+      "graphSubtitle": "Distribution across {{count}} categories",
+      "indicatorsTitle": "Quality Indicators",
+      "indicators": {
+          "performance": "Performance",
+          "complexity": "Complexity",
+          "compliance": "Compliance",
+          "accessibility": "Accessibility",
+          "security": "Security",
+          "maintainability": "Maintainability"
+        },
+      "selectIndicatorsMessage": "Select indicators above to view application statistics",
+      "totalLabel": "Total"
     },
     "faqPage": {
       "pageTitle": "Frequent Questions",

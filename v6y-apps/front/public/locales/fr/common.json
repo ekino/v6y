@@ -115,7 +115,19 @@
       "pageTitle": "Statistiques de santé",
       "graphTitle": "Statistiques de santé",
       "shortTitle": "statistiques de santé",
-      "graphEmptyMessage": "Vous devez sélectionner un filtre pour afficher les statistiques !"
+      "graphEmptyMessage": "Vous devez sélectionner un filtre pour afficher les statistiques !",
+      "graphSubtitle": "Distribution sur {{count}} catégories",
+      "indicatorsTitle": "Indicateurs de qualité",
+      "indicators": {
+        "performance": "Performance",
+        "complexity": "Complexité",
+        "compliance": "Conformité",
+        "accessibility": "Accessibilité",
+        "security": "Sécurité",
+        "maintainability": "Maintenabilité"
+      },
+      "selectIndicatorsMessage": "Sélectionnez des indicateurs ci-dessus pour afficher les statistiques d'application",
+      "totalLabel": "Total"
     },
     "faqPage": {
       "pageTitle": "Questions fréquentes",
