@@ -42,7 +42,7 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
   const [appList, setAppList] = useState<ApplicationType[] | undefined>(
     undefined
   );
-  const currentAppListPage = useRef<number>(initialPage);
+  const [currentPage, setCurrentPage] = useState<number>(initialPage);
 
   const { getUrlParams } = useNavigationAdapter();
   const [keywords, searchText] = getUrlParams(['keywords', 'searchText']);
@@ -58,42 +58,39 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
       'getApplicationListByPageAndParams',
       keywords?.length ? keywords : 'empty_keywords',
       searchText?.length ? searchText : 'empty_search_text',
-      `${currentAppListPage.current}`,
     ],
     queryBuilder: async () =>
       buildClientQuery({
         queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL ?? '',
         query: GetApplicationListByPageAndParams,
         variables: {
-          offset:
-            currentAppListPage.current *
-            VitalityApiConfig.VITALITY_BFF_PAGE_SIZE,
+          offset: 0,
           limit: VitalityApiConfig.VITALITY_BFF_PAGE_SIZE,
           keywords,
           searchText,
         },
       }),
-    getNextPageParam: () => currentAppListPage.current,
+    getNextPageParam: () => null,
   });
 
   const totalCount =
     (dataAppList?.pages?.[0] as ApplicationListPage)?.totalCount || 0;
+  const pageSize = VitalityApiConfig.VITALITY_BFF_PAGE_SIZE || 10;
   const totalPages = Math.ceil(
-    totalCount / VitalityApiConfig.VITALITY_BFF_PAGE_SIZE
+    (appList?.length || totalCount) / pageSize
   );
 
   useEffect(() => {
-    setAppList(
-      formatApplicationDataSource(
-        (dataAppList?.pages as {
-          getApplicationListByPageAndParams: ApplicationType;
-        }[]) || []
-      )
+    const formattedList = formatApplicationDataSource(
+      (dataAppList?.pages as {
+        getApplicationListByPageAndParams: ApplicationType;
+      }[]) || []
     );
+    setAppList(formattedList);
   }, [dataAppList?.pages]);
 
   useEffect(() => {
-    currentAppListPage.current = 0;
+    setCurrentPage(0);
     fetchAppListNextPage?.();
   }, [keywords, searchText, fetchAppListNextPage]);
 
@@ -103,20 +100,24 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
     isAppListFetchingNextPage ||
     false;
 
+  // Paginate the displayed apps based on current page
+  const startIndex = (currentPage) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const paginatedAppList = appList?.slice(startIndex, endIndex);
+
   const onExportApplicationsClicked = () => {
     exportAppListDataToCSV(appList || []);
   };
 
   const onPageChange = (page: number) => {
-    currentAppListPage.current = page - 1;
-    setAppList(undefined);
-    fetchAppListNextPage?.();
+    setCurrentPage(page - 1);
+    window.scrollTo(0, 0);
   };
 
   const { translate } = useTranslationProvider();
 
   return (
-    <div className="w-full flex flex-col items-center gap-6">
+    <div className="w-full flex flex-col items-center gap-6 mb-4">
       <VitalityAppListHeader
         onExportApplicationsClicked={onExportApplicationsClicked}
       />
@@ -131,9 +132,9 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
         </div>
       ) : (
         <div className="w-full">
-          {appList && (
-            <ul className="gap-4">
-              {appList.map((app) => (
+          {paginatedAppList && (
+            <ul className="space-y-4">
+              {paginatedAppList.map((app) => (
                 <VitalityAppInfos key={app._id} app={app} source={source} />
               ))}
             </ul>
@@ -141,7 +142,7 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
 
           {appList && (
             <VitalityAppListPagination
-              currentPage={currentAppListPage.current + 1}
+              currentPage={currentPage + 1}
               totalPages={totalPages}
               onPageChange={onPageChange}
             />

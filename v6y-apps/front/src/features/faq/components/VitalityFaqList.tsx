@@ -13,8 +13,6 @@ const VitalityFaqList = ({ dataSource }: { dataSource?: FaqType[] }) => {
     return null;
   }
 
-  console.log()
-
   return (
     <div className="w-full">
       <Accordion
