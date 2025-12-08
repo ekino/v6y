@@ -133,7 +133,9 @@ describe('VitalityAppListView', () => {
         render(<VitalityAppList />);
 
         await waitFor(() => {
-            expect(screen.getByText('Vitality App')).toBeInTheDocument();
+            const appNames = screen.getAllByTestId('app-name');
+            expect(appNames.length).toBeGreaterThan(0);
+            expect(appNames[0]).toHaveTextContent('Vitality App');
         });
     });
 
@@ -161,7 +163,9 @@ describe('VitalityAppListView', () => {
         render(<VitalityAppList />);
 
         await waitFor(() => {
-            expect(screen.getByText('Filtered App')).toBeInTheDocument();
+            const appNames = screen.getAllByTestId('app-name');
+            expect(appNames.length).toBeGreaterThan(0);
+            expect(appNames[0]).toHaveTextContent('Filtered App');
         });
     });
 
