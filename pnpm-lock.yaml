@@ -107,8 +107,8 @@ importers:
         specifier: '=4.0.14'
         version: 4.0.14(vitest@3.0.5)
       chai:
-        specifier: '=5.1.2'
-        version: 5.1.2
+        specifier: '=6.2.1'
+        version: 6.2.1
       es6-plato:
         specifier: '=1.2.3'
         version: 1.2.3
@@ -210,8 +210,8 @@ importers:
         specifier: '=4.0.14'
         version: 4.0.14(vitest@3.0.5)
       chai:
-        specifier: '=5.1.2'
-        version: 5.1.2
+        specifier: '=6.2.1'
+        version: 6.2.1
       es6-plato:
         specifier: '=1.2.3'
         version: 1.2.3
@@ -316,8 +316,8 @@ importers:
         specifier: '=3.0.11'
         version: 3.0.11
       chai:
-        specifier: '=5.1.2'
-        version: 5.1.2
+        specifier: '=6.2.1'
+        version: 6.2.1
       eslint:
         specifier: '=9.18.0'
         version: 9.18.0(jiti@1.21.7)
@@ -473,8 +473,8 @@ importers:
         specifier: '=4.0.14'
         version: 4.0.14(vitest@3.0.5)
       chai:
-        specifier: '=5.1.2'
-        version: 5.1.2
+        specifier: '=6.2.1'
+        version: 6.2.1
       es6-plato:
         specifier: '=1.2.3'
         version: 1.2.3
@@ -573,8 +573,8 @@ importers:
         specifier: '=1.3.3'
         version: 1.3.3
       chai:
-        specifier: '=5.1.2'
-        version: 5.1.2
+        specifier: '=6.2.1'
+        version: 6.2.1
       eslint:
         specifier: '=9.18.0'
         version: 9.18.0(jiti@1.21.7)
@@ -1065,8 +1065,8 @@ importers:
         specifier: '=4.0.14'
         version: 4.0.14(vitest@3.0.5)
       chai:
-        specifier: '=5.1.2'
-        version: 5.1.2
+        specifier: '=6.2.1'
+        version: 6.2.1
       eslint-config-prettier:
         specifier: '=10.0.1'
         version: 10.0.1(eslint@9.18.0(jiti@1.21.7))
@@ -5498,8 +5498,8 @@ packages:
     resolution: {integrity: sha512-OPz5aBThlyLFgxyhdwf/s2+8ab3OvT7AdTNvKHBwpXomIYeXqpUUuT8LrdtxZSsWJ4R4CU1un4XGh5Ez3nlTpw==}
     hasBin: true
 
-  baseline-browser-mapping@2.9.0:
-    resolution: {integrity: sha512-Mh++g+2LPfzZToywfE1BUzvZbfOY52Nil0rn9H1CPC5DJ7fX+Vir7nToBeoiSbB1zTNeGYbELEvJESujgGrzXw==}
+  baseline-browser-mapping@2.9.4:
+    resolution: {integrity: sha512-ZCQ9GEWl73BVm8bu5Fts8nt7MHdbt5vY9bP6WGnUh+r3l8M7CgfyTlwsgCbMC66BNxPr6Xoce3j66Ms5YUQTNA==}
     hasBin: true
 
   basic-auth@2.0.1:
@@ -5656,9 +5656,9 @@ packages:
     resolution: {integrity: sha512-aGtmf24DW6MLHHG5gCx4zaI3uBq3KRtxeVs0DjFH6Z0rDNbsvTxFASFvdj79pxjxZ8/5u3PIiN3IwEIQkiiuPw==}
     engines: {node: '>=12'}
 
-  chai@5.2.0:
-    resolution: {integrity: sha512-mCuXncKXk5iCLhfhwTc0izo0gtEmpz5CtG2y8GiOINBlMVS6v8TMRc5TaLWKS6692m9+dVVfzgeVxR5UxWHTYw==}
-    engines: {node: '>=12'}
+  chai@6.2.1:
+    resolution: {integrity: sha512-p4Z49OGG5W/WBCPSS/dH3jQ73kD6tiMmUM+bckNK6Jr5JHMG3k9bg/BvKR8lKmtVBKmOiuVaV2ws8s9oSbwysg==}
+    engines: {node: '>=18'}
 
   chalk@2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
@@ -6333,8 +6333,8 @@ packages:
   electron-to-chromium@1.5.262:
     resolution: {integrity: sha512-NlAsMteRHek05jRUxUR0a5jpjYq9ykk6+kO0yRaMi5moe7u0fVIOeQ3Y30A8dIiWFBNUoQGi1ljb1i5VtS9WQQ==}
 
-  electron-to-chromium@1.5.263:
-    resolution: {integrity: sha512-DrqJ11Knd+lo+dv+lltvfMDLU27g14LMdH2b0O3Pio4uk0x+z7OR+JrmyacTPN2M8w3BrZ7/RTwG3R9B7irPlg==}
+  electron-to-chromium@1.5.266:
+    resolution: {integrity: sha512-kgWEglXvkEfMH7rxP5OSZZwnaDWT7J9EoZCujhnpLbfi0bbNtRkgdX2E3gt0Uer11c61qCYktB3hwkAS325sJg==}
 
   emoji-regex@7.0.3:
     resolution: {integrity: sha512-CwBLREIQ7LvYFB0WyRvwhq5N5qPhc6PMjD6bYggFlI5YyDgl+0vxq5VHbMOFqLg7hfWzmu8T5Z1QofhmTIhItA==}
@@ -8145,9 +8145,6 @@ packages:
 
   loupe@3.1.3:
     resolution: {integrity: sha512-kkIp7XSkP78ZxJEsSxW3712C6teJVoeHHwgo9zJ380de7IYyJ2ISlxojcH2pC5OFLewESmnRi/+XCDIEEVyoug==}
-
-  loupe@3.2.1:
-    resolution: {integrity: sha512-CdzqowRJCeLU72bHvWqwRBBlLcMEtIvGrlvef74kMnV2AolS9Y8xUv1I0U/MNAWMhBlKIoyuEgoJ0t/bbwHbLQ==}
 
   lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
@@ -11041,8 +11038,8 @@ packages:
     peerDependencies:
       browserslist: '>= 4.21.0'
 
-  update-browserslist-db@1.2.0:
-    resolution: {integrity: sha512-Dn+NlSF/7+0lVSEZ57SYQg6/E44arLzsVOGgrElBn/BlG1B8WKdbLppOocFrXwRNTkNlgdGNaBgH1o0lggDPiw==}
+  update-browserslist-db@1.2.2:
+    resolution: {integrity: sha512-E85pfNzMQ9jpKkA7+TJAi4TJN+tBCuWh5rUcS/sv6cFi+1q9LYDwDI5dpUL0u/73EElyQ8d3TEaeW4sPedBqYA==}
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
@@ -15560,7 +15557,7 @@ snapshots:
     dependencies:
       '@vitest/spy': 3.0.5
       '@vitest/utils': 3.0.5
-      chai: 5.2.0
+      chai: 5.1.2
       tinyrainbow: 2.0.0
 
   '@vitest/mocker@3.0.5(msw@2.7.3(@types/node@24.10.0)(typescript@5.7.3))(vite@5.4.14(@types/node@24.10.0))':
@@ -16210,7 +16207,7 @@ snapshots:
 
   baseline-browser-mapping@2.8.32: {}
 
-  baseline-browser-mapping@2.9.0:
+  baseline-browser-mapping@2.9.4:
     optional: true
 
   basic-auth@2.0.1:
@@ -16331,11 +16328,11 @@ snapshots:
 
   browserslist@4.28.1:
     dependencies:
-      baseline-browser-mapping: 2.9.0
+      baseline-browser-mapping: 2.9.4
       caniuse-lite: 1.0.30001759
-      electron-to-chromium: 1.5.263
+      electron-to-chromium: 1.5.266
       node-releases: 2.0.27
-      update-browserslist-db: 1.2.0(browserslist@4.28.1)
+      update-browserslist-db: 1.2.2(browserslist@4.28.1)
     optional: true
 
   bson@6.10.3: {}
@@ -16412,13 +16409,7 @@ snapshots:
       loupe: 3.1.3
       pathval: 2.0.0
 
-  chai@5.2.0:
-    dependencies:
-      assertion-error: 2.0.1
-      check-error: 2.1.1
-      deep-eql: 5.0.2
-      loupe: 3.2.1
-      pathval: 2.0.0
+  chai@6.2.1: {}
 
   chalk@2.4.2:
     dependencies:
@@ -17044,7 +17035,7 @@ snapshots:
 
   electron-to-chromium@1.5.262: {}
 
-  electron-to-chromium@1.5.263:
+  electron-to-chromium@1.5.266:
     optional: true
 
   emoji-regex@7.0.3: {}
@@ -19461,8 +19452,6 @@ snapshots:
       js-tokens: 4.0.0
 
   loupe@3.1.3: {}
-
-  loupe@3.2.1: {}
 
   lru-cache@10.4.3: {}
 
@@ -22981,7 +22970,7 @@ snapshots:
       escalade: 3.2.0
       picocolors: 1.1.1
 
-  update-browserslist-db@1.2.0(browserslist@4.28.1):
+  update-browserslist-db@1.2.2(browserslist@4.28.1):
     dependencies:
       browserslist: 4.28.1
       escalade: 3.2.0
