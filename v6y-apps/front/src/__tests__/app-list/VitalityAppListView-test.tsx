@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom/vitest';
-import { render, screen, waitFor } from '@testing-library/react';
-import { Mock, afterEach, describe, expect, it, vi } from 'vitest';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { Mock, afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import VitalityAppList from '../../features/app-list/components/VitalityAppList';
 import VitalityAppListHeader from '../../features/app-list/components/VitalityAppListHeader';
@@ -9,6 +9,32 @@ import {
     useClientQuery,
     useInfiniteClientQuery,
 } from '../../infrastructure/adapters/api/useQueryAdapter';
+
+// Mock the navigation adapter
+const mockRouter = {
+    replace: vi.fn(),
+};
+
+const mockGetUrlParams = vi.fn(() => [undefined]);
+const mockCreateUrlQueryParam = vi.fn(() => 'keywords=react');
+const mockRemoveUrlQueryParam = vi.fn(() => '');
+
+vi.mock('@v6y/ui-kit-front', async () => {
+    const actual = await vi.importActual('@v6y/ui-kit-front');
+    return {
+        ...actual,
+        useNavigationAdapter: () => ({
+            getUrlParams: mockGetUrlParams,
+            createUrlQueryParam: mockCreateUrlQueryParam,
+            removeUrlQueryParam: mockRemoveUrlQueryParam,
+            router: mockRouter,
+            pathname: '/apps',
+        }),
+        useTranslationProvider: () => ({
+            translate: (key: string) => key,
+        }),
+    };
+});
 
 vi.mock('../../infrastructure/adapters/api/useQueryAdapter', () => {
     return {
@@ -32,17 +58,68 @@ vi.mock('../../commons/utils/VitalityDataExportUtils', () => ({
 }));
 
 describe('VitalityAppListView', () => {
+    beforeEach(() => {
+        mockGetUrlParams.mockReturnValue([undefined]);
+        mockRouter.replace.mockClear();
+        mockCreateUrlQueryParam.mockClear();
+        mockRemoveUrlQueryParam.mockClear();
+    });
+
     afterEach(() => {
         vi.clearAllMocks();
     });
 
-    it('renders search bar, selectable indicators, and app list', async () => {
+    it('renders technology filters and app list', async () => {
         render(<VitalityAppListView />);
-        expect(
-            screen.getByText('vitality.dashboardPage.searchByProjectName :'),
-        ).toBeInTheDocument();
-        expect(screen.getByText('vitality.searchPage.inputHelper')).toBeInTheDocument();
-        expect(screen.getByTestId('mock-search-input')).toBeInTheDocument();
+        
+        // Check for technology filter section
+        expect(screen.getByText('vitality.dashboardPage.filters.technologies')).toBeInTheDocument();
+        expect(screen.getByText('Select technologies to filter applications and discover matching projects')).toBeInTheDocument();
+        
+        // Check for technology checkboxes
+        expect(screen.getByLabelText('React')).toBeInTheDocument();
+        expect(screen.getByLabelText('TypeScript')).toBeInTheDocument();
+        expect(screen.getByLabelText('Node.js')).toBeInTheDocument();
+        expect(screen.getByLabelText('Python')).toBeInTheDocument();
+    });
+
+    it('shows active filters when keywords are selected', async () => {
+        // Mock URL params with selected keywords
+        mockGetUrlParams.mockReturnValue(['react,typescript']);
+        
+        render(<VitalityAppListView />);
+        
+        await waitFor(() => {
+            expect(screen.getByText('vitality.appListPage.activeFiltersLabel')).toBeInTheDocument();
+            expect(screen.getByText('2 selected')).toBeInTheDocument();
+            expect(screen.getByText('react ×')).toBeInTheDocument();
+            expect(screen.getByText('typescript ×')).toBeInTheDocument();
+        });
+    });
+
+    it('handles keyword toggle correctly', async () => {
+        render(<VitalityAppListView />);
+        
+        const reactCheckbox = screen.getByLabelText('React');
+        fireEvent.click(reactCheckbox);
+        
+        expect(mockCreateUrlQueryParam).toHaveBeenCalledWith('keywords', 'react');
+        expect(mockRouter.replace).toHaveBeenCalledWith('/apps?keywords=react', { scroll: false });
+    });
+
+    it('removes keywords from URL when unchecked', async () => {
+        // Start with selected keywords
+        mockGetUrlParams.mockReturnValue(['react,typescript']);
+        
+        render(<VitalityAppListView />);
+        
+        await waitFor(() => {
+            const reactBadge = screen.getByText('react ×');
+            fireEvent.click(reactBadge);
+            
+            expect(mockCreateUrlQueryParam).toHaveBeenCalledWith('keywords', 'typescript');
+            expect(mockRouter.replace).toHaveBeenCalled();
+        });
     });
 
     it('renders applications when data is available', async () => {
