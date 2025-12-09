@@ -107,8 +107,8 @@ importers:
         specifier: '=4.0.14'
         version: 4.0.14(vitest@3.0.5)
       chai:
-        specifier: '=5.1.2'
-        version: 5.1.2
+        specifier: '=6.2.1'
+        version: 6.2.1
       es6-plato:
         specifier: '=1.2.3'
         version: 1.2.3
@@ -210,8 +210,8 @@ importers:
         specifier: '=4.0.14'
         version: 4.0.14(vitest@3.0.5)
       chai:
-        specifier: '=5.1.2'
-        version: 5.1.2
+        specifier: '=6.2.1'
+        version: 6.2.1
       es6-plato:
         specifier: '=1.2.3'
         version: 1.2.3
@@ -316,8 +316,8 @@ importers:
         specifier: '=3.0.11'
         version: 3.0.11
       chai:
-        specifier: '=5.1.2'
-        version: 5.1.2
+        specifier: '=6.2.1'
+        version: 6.2.1
       eslint:
         specifier: '=9.18.0'
         version: 9.18.0(jiti@1.21.7)
@@ -473,8 +473,8 @@ importers:
         specifier: '=4.0.14'
         version: 4.0.14(vitest@3.0.5)
       chai:
-        specifier: '=5.1.2'
-        version: 5.1.2
+        specifier: '=6.2.1'
+        version: 6.2.1
       es6-plato:
         specifier: '=1.2.3'
         version: 1.2.3
@@ -573,8 +573,8 @@ importers:
         specifier: '=1.3.3'
         version: 1.3.3
       chai:
-        specifier: '=5.1.2'
-        version: 5.1.2
+        specifier: '=6.2.1'
+        version: 6.2.1
       eslint:
         specifier: '=9.18.0'
         version: 9.18.0(jiti@1.21.7)
@@ -1065,8 +1065,8 @@ importers:
         specifier: '=4.0.14'
         version: 4.0.14(vitest@3.0.5)
       chai:
-        specifier: '=5.1.2'
-        version: 5.1.2
+        specifier: '=6.2.1'
+        version: 6.2.1
       eslint-config-prettier:
         specifier: '=10.0.1'
         version: 10.0.1(eslint@9.18.0(jiti@1.21.7))
@@ -5661,9 +5661,9 @@ packages:
     resolution: {integrity: sha512-aGtmf24DW6MLHHG5gCx4zaI3uBq3KRtxeVs0DjFH6Z0rDNbsvTxFASFvdj79pxjxZ8/5u3PIiN3IwEIQkiiuPw==}
     engines: {node: '>=12'}
 
-  chai@5.2.0:
-    resolution: {integrity: sha512-mCuXncKXk5iCLhfhwTc0izo0gtEmpz5CtG2y8GiOINBlMVS6v8TMRc5TaLWKS6692m9+dVVfzgeVxR5UxWHTYw==}
-    engines: {node: '>=12'}
+  chai@6.2.1:
+    resolution: {integrity: sha512-p4Z49OGG5W/WBCPSS/dH3jQ73kD6tiMmUM+bckNK6Jr5JHMG3k9bg/BvKR8lKmtVBKmOiuVaV2ws8s9oSbwysg==}
+    engines: {node: '>=18'}
 
   chalk@2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
@@ -8150,9 +8150,6 @@ packages:
 
   loupe@3.1.3:
     resolution: {integrity: sha512-kkIp7XSkP78ZxJEsSxW3712C6teJVoeHHwgo9zJ380de7IYyJ2ISlxojcH2pC5OFLewESmnRi/+XCDIEEVyoug==}
-
-  loupe@3.2.1:
-    resolution: {integrity: sha512-CdzqowRJCeLU72bHvWqwRBBlLcMEtIvGrlvef74kMnV2AolS9Y8xUv1I0U/MNAWMhBlKIoyuEgoJ0t/bbwHbLQ==}
 
   lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
@@ -15565,7 +15562,7 @@ snapshots:
     dependencies:
       '@vitest/spy': 3.0.5
       '@vitest/utils': 3.0.5
-      chai: 5.2.0
+      chai: 5.1.2
       tinyrainbow: 2.0.0
 
   '@vitest/mocker@3.0.5(msw@2.7.3(@types/node@24.10.0)(typescript@5.7.3))(vite@5.4.14(@types/node@24.10.0))':
@@ -16419,13 +16416,7 @@ snapshots:
       loupe: 3.1.3
       pathval: 2.0.0
 
-  chai@5.2.0:
-    dependencies:
-      assertion-error: 2.0.1
-      check-error: 2.1.1
-      deep-eql: 5.0.2
-      loupe: 3.2.1
-      pathval: 2.0.0
+  chai@6.2.1: {}
 
   chalk@2.4.2:
     dependencies:
@@ -19468,8 +19459,6 @@ snapshots:
       js-tokens: 4.0.0
 
   loupe@3.1.3: {}
-
-  loupe@3.2.1: {}
 
   lru-cache@10.4.3: {}
 
