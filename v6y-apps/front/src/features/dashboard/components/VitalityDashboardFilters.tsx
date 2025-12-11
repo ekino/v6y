@@ -4,6 +4,7 @@ import {
   AccordionTrigger,
   AccordionContent,
   useTranslationProvider,
+  MixerHorizontalIcon,
 } from '@v6y/ui-kit-front';
 import { buildDashboardMenuItems, DashboardItemType } from '../../../commons/config/VitalityCommonConfig';
 import { useThemeConfigProvider } from '@v6y/ui-kit';
@@ -17,7 +18,8 @@ const VitalityDashboardFilters = () => {
 
   return (
     <div className="w-full">
-      <p className="text-lg mb-4">
+      <p className="text-lg font-bold mb-4">
+        <MixerHorizontalIcon className="inline-block mr-2 mb-1" />
         {translate('vitality.dashboardPage.filters.title')}
       </p>
       <Accordion
@@ -26,7 +28,7 @@ const VitalityDashboardFilters = () => {
         defaultValue="filters"
         className="w-full"
       >
-        <AccordionItem value="filters">
+        <AccordionItem value="filters" className="border-none">
           <AccordionTrigger className="py-4 text-md">
             {translate('vitality.dashboardPage.filters.technologies')}
           </AccordionTrigger>

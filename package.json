@@ -18,6 +18,7 @@
     "start:bfb:dynamic": "nx run @v6y/bfb-url-dynamic-auditor:start",
     "start:bfb:devops": "nx run @v6y/bfb-devops-auditor:start",
     "start:all": "nx run-many --target=start --all --parallel --maxParallel=7",
+    "start:dev:all": "nx run-many --target=start:dev --all --parallel --maxParallel=7",
     "stop:all": "nx run-many --target=stop --all",
     "build:tsc": "nx run-many --target=build:tsc --all",
     "build": "nx run-many --target=build --all",
