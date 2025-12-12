@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { cleanup } from '@testing-library/react';
 import { List } from '@v6y/ui-kit';
+import '@v6y/ui-kit-front';
 import dynamic from 'next/dynamic';
 import { afterEach, beforeEach, vi } from 'vitest';
-import '@v6y/ui-kit-front';
 
 vi.mock('next/dynamic', async () => {
     const dynamicModule = await vi.importActual<typeof import('next/dynamic')>('next/dynamic');
@@ -26,7 +26,13 @@ vi.mock('next/navigation', () => {
     return {
         redirect: vi.fn(),
         usePathname: () => '/',
-        useRouter: () => ({ push: vi.fn(), replace: vi.fn(), back: vi.fn(), forward: vi.fn(), refresh: vi.fn() }),
+        useRouter: () => ({
+            push: vi.fn(),
+            replace: vi.fn(),
+            back: vi.fn(),
+            forward: vi.fn(),
+            refresh: vi.fn(),
+        }),
         useSearchParams: () => ({ get: (key: string) => null }),
     };
 });
