@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { z } from 'zod';
 
 import { useNavigationAdapter } from '@v6y/ui-kit';
@@ -34,25 +34,42 @@ const loginSchemaValidator = (translate: (key: string) => string) => {
     });
 };
 
-const useLogin = () => {
-    const auth: SessionType | null = getSession();
+// Auth state change event
+const AUTH_CHANGE_EVENT = 'auth-state-changed';
 
-    if (auth) {
-        return {
-            isLoggedIn: true,
-            isLoginLoading: false,
-        };
+const emitAuthChange = () => {
+    if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event(AUTH_CHANGE_EVENT));
     }
+};
+
+const useLogin = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoginLoading, setIsLoginLoading] = useState(true);
+
+    useEffect(() => {
+        const checkAuth = () => {
+            const auth: SessionType | null = getSession();
+            setIsLoggedIn(!!auth);
+            setIsLoginLoading(false);
+        };
+
+        checkAuth();
+
+        window.addEventListener(AUTH_CHANGE_EVENT, checkAuth);
+        return () => window.removeEventListener(AUTH_CHANGE_EVENT, checkAuth);
+    }, []);
 
     return {
-        isLoggedIn: false,
-        isLoginLoading: false,
+        isLoggedIn,
+        isLoginLoading,
     };
 };
 
 const useLogout = () => {
     const onLogout = () => {
         removeSession();
+        emitAuthChange();
     };
 
     return { onLogout };
@@ -93,6 +110,7 @@ const useAuthentication = (translate: (key: string) => string) => {
                     data.loginAccount.role,
                     data.loginAccount.username,
                 );
+                emitAuthChange();
                 router.push('/');
             } else {
                 setAuthenticationStatus({
