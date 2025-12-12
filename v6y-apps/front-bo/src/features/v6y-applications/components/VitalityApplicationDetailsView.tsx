@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import { ApplicationType } from '@v6y/core-logic/src/types';
 import { Matcher } from '@v6y/core-logic/src/utils';
 import {
@@ -7,7 +9,6 @@ import {
     useAdminNavigationParamsParser,
     useTranslationProvider,
 } from '@v6y/ui-kit';
-import * as React from 'react';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';
 import { formatApplicationDetails } from '../../../commons/config/VitalityDetailsConfig';

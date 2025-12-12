@@ -1,9 +1,10 @@
-import { AppLogger, CorsOptions, ServerUtils } from '@v6y/core-logic';
 import BodyParser from 'body-parser';
 import CookieParser from 'cookie-parser';
 import Cors from 'cors';
 import Express from 'express';
 import ExpressStatusMonitor from 'express-status-monitor';
+
+import { AppLogger, CorsOptions, ServerUtils } from '@v6y/core-logic';
 
 import ServerConfig from './config/ServerConfig.ts';
 import DataUpdateScheduler from './workers/DataUpdateScheduler.ts';

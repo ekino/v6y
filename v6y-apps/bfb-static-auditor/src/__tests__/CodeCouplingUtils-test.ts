@@ -1,6 +1,7 @@
-import { auditStatus, scoreStatus } from '@v6y/core-logic';
 import Madge from 'madge';
 import { describe, expect, it, vi } from 'vitest';
+
+import { auditStatus, scoreStatus } from '@v6y/core-logic';
 
 import CodeCouplingUtils from '../auditors/code-coupling/CodeCouplingUtils.ts';
 import { AuditCommonsType } from '../auditors/types/AuditCommonsType.ts';

@@ -1,7 +1,8 @@
 'use client';
 
-import { AdminProvider } from '@v6y/ui-kit';
 import * as React from 'react';
+
+import { AdminProvider } from '@v6y/ui-kit';
 
 import VitalityPageLayout from '../../commons/components/layout/VitalityPageLayout';
 import { VitalityRoutes } from '../../commons/config/VitalityNavigationConfig';

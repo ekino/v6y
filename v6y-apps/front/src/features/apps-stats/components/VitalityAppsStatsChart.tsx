@@ -1,3 +1,6 @@
+import * as React from 'react';
+import { useEffect } from 'react';
+
 import { KeywordStatsType } from '@v6y/core-logic/src/types';
 import {
     Charts,
@@ -7,8 +10,6 @@ import {
     useNavigationAdapter,
     useTranslationProvider,
 } from '@v6y/ui-kit';
-import * as React from 'react';
-import { useEffect } from 'react';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import {
@@ -22,22 +23,22 @@ const VitalityAppsStatsChart = () => {
     const { getUrlParams } = useNavigationAdapter();
     const [keywords] = getUrlParams(['keywords']);
 
-    const { isLoading, data, refetch } = useClientQuery<{ getApplicationStatsByParams: KeywordStatsType[] }>(
-        {
-            queryCacheKey: [
-                'getApplicationStatsByParams',
-                keywords?.length ? keywords : 'empty_keywords',
-            ],
-            queryBuilder: async () =>
-                buildClientQuery({
-                    query: GetApplicationStatsByParams,
-                    queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
-                    variables: {
-                        keywords,
-                    },
-                }),
-        },
-    );
+    const { isLoading, data, refetch } = useClientQuery<{
+        getApplicationStatsByParams: KeywordStatsType[];
+    }>({
+        queryCacheKey: [
+            'getApplicationStatsByParams',
+            keywords?.length ? keywords : 'empty_keywords',
+        ],
+        queryBuilder: async () =>
+            buildClientQuery({
+                query: GetApplicationStatsByParams,
+                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL,
+                variables: {
+                    keywords,
+                },
+            }),
+    });
 
     useEffect(() => {
         refetch?.();

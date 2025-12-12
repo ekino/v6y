@@ -1,5 +1,6 @@
-import { scoreStatus } from '@v6y/core-logic';
 import { describe, expect, it } from 'vitest';
+
+import { scoreStatus } from '@v6y/core-logic';
 
 import CodeComplexityConfig from '../auditors/code-complexity/CodeComplexityConfig.ts';
 import {

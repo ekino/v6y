@@ -1,7 +1,8 @@
-import { AuditType } from '@v6y/core-logic/src/types';
-import { Card, Checkbox, Col, DynamicLoader, Row } from '@v6y/ui-kit';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+
+import { AuditType } from '@v6y/core-logic/src/types';
+import { Card, Checkbox, Col, DynamicLoader, Row } from '@v6y/ui-kit';
 
 import useDataGrouper from '../../../../../../commons/hooks/useDataGrouper';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';

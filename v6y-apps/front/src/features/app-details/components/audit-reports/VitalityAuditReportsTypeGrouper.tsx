@@ -1,19 +1,26 @@
+import * as React from 'react';
+
 import { AuditType } from '@v6y/core-logic/src/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@v6y/ui-kit-front';
+
 import { getScoreStatusColor } from '../../../../commons/utils/StatusUtils';
-import * as React from 'react';
 
 const VitalityAuditReportsTypeGrouper = ({ auditReports }: { auditReports: AuditType[] }) => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {auditReports.map((report) => (
-                <Card key={report._id} className="border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                <Card
+                    key={report._id}
+                    className="border-slate-200 shadow-sm hover:shadow-md transition-shadow"
+                >
                     <CardHeader className="pb-3">
                         <div className="flex justify-between items-start">
                             <CardTitle className="text-lg font-semibold text-gray-900 capitalize">
                                 {report.type}
                             </CardTitle>
-                            <span className={`px-2 py-1 text-xs font-medium rounded border ${getScoreStatusColor(report.scoreStatus || '')}`}>
+                            <span
+                                className={`px-2 py-1 text-xs font-medium rounded border ${getScoreStatusColor(report.scoreStatus || '')}`}
+                            >
                                 {report.scoreStatus}
                             </span>
                         </div>
@@ -27,7 +34,9 @@ const VitalityAuditReportsTypeGrouper = ({ auditReports }: { auditReports: Audit
                                 {report.score}
                                 {report.scoreUnit === 'score' ? '%' : ` ${report.scoreUnit}`}
                             </span>
-                            <span className="text-sm text-gray-500 capitalize">{report.auditStatus}</span>
+                            <span className="text-sm text-gray-500 capitalize">
+                                {report.auditStatus}
+                            </span>
                         </div>
                         <p className="text-sm text-gray-700">{report.extraInfos}</p>
                     </CardContent>

@@ -1,5 +1,6 @@
-import { ListGridType } from '@v6y/ui-kit';
 import { CSSProperties, ReactNode } from 'react';
+
+import { ListGridType } from '@v6y/ui-kit';
 
 export interface VitalityListProps {
     dataSource: unknown[];

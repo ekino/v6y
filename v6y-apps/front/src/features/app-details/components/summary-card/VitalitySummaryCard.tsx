@@ -1,6 +1,7 @@
+import * as React from 'react';
+
 import { ApplicationType } from '@v6y/core-logic/src/types';
 import { StarIcon, useTranslationProvider } from '@v6y/ui-kit-front';
-import * as React from 'react';
 
 interface VitalitySummaryCardProps {
     appInfos: ApplicationType;
@@ -16,14 +17,22 @@ const VitalitySummaryCard = ({ appInfos }: VitalitySummaryCardProps) => {
                 <StarIcon className="w-6 h-6" />
                 <h2 className="text-xl font-bold text-gray-900">{appInfos.name || 'Vitality'}</h2>
             </div>
-            
+
             <div className="text-sm text-gray-600">
-                {translate('vitality.appDetailsPage.summaryCard.lastAnalyze').replace('{date}', '01/05/2025')}
+                {translate('vitality.appDetailsPage.summaryCard.lastAnalyze').replace(
+                    '{date}',
+                    '01/05/2025',
+                )}
             </div>
 
-           {totalBranches > 0 && <div className="text-sm font-medium text-gray-900 mb-2">
-                {translate('vitality.appDetailsPage.summaryCard.branchesLabel').replace('{count}', totalBranches.toString())}
-            </div>}
+            {totalBranches > 0 && (
+                <div className="text-sm font-medium text-gray-900 mb-2">
+                    {translate('vitality.appDetailsPage.summaryCard.branchesLabel').replace(
+                        '{count}',
+                        totalBranches.toString(),
+                    )}
+                </div>
+            )}
         </div>
     );
 };

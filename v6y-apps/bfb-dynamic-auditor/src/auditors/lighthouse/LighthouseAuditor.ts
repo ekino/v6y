@@ -1,6 +1,7 @@
-import { AppLogger, ApplicationProvider, AuditProvider, LinkType } from '@v6y/core-logic';
 import lighthouse from 'lighthouse';
 import puppeteer from 'puppeteer-core';
+
+import { AppLogger, ApplicationProvider, AuditProvider, LinkType } from '@v6y/core-logic';
 
 import { LighthouseAuditConfigType } from '../types/LighthouseAuditType.ts';
 import LighthouseConfig from './LighthouseConfig.ts';

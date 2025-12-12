@@ -1,4 +1,3 @@
-import { AppLogger, ApplicationProvider, AuditProvider } from '@v6y/core-logic';
 import Graph from 'graphology';
 import louvain from 'graphology-communities-louvain';
 import {
@@ -8,6 +7,8 @@ import {
 } from 'graphology-metrics/centrality/degree.js';
 import { density } from 'graphology-metrics/graph/density.js';
 import Madge from 'madge';
+
+import { AppLogger, ApplicationProvider, AuditProvider } from '@v6y/core-logic';
 
 import { CodeModularityAuditType } from '../types/CodeModularityAuditType.ts';
 import CodeModularityUtils from './CodeModularityUtils.ts';

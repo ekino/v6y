@@ -1,8 +1,9 @@
 'use client';
 
-import { LoaderView } from '@v6y/ui-kit';
 import * as React from 'react';
 import { Suspense } from 'react';
+
+import { LoaderView } from '@v6y/ui-kit';
 
 import VitalitySelectableIndicators from '../../../commons/components/indicators/VitalitySelectableIndicators';
 import VitalityAppList from '../../app-list/components/VitalityAppList';

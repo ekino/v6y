@@ -1,6 +1,7 @@
-import { ApplicationType } from '@v6y/core-logic';
 import Graph from 'graphology';
 import { MadgeModuleDependencyGraph } from 'madge';
+
+import { ApplicationType } from '@v6y/core-logic';
 
 export interface ProjectTree {
     [node: string]: string[];

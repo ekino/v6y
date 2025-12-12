@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AuditUtils, DeprecatedDependencyProvider, SemverUtils } from '@v6y/core-logic';
 import { describe, expect, it, vi } from 'vitest';
+
+import { AuditUtils, DeprecatedDependencyProvider, SemverUtils } from '@v6y/core-logic';
 
 import DependenciesUtils from '../auditors/dependencies-auditor/DependenciesUtils.ts';
 import { AuditCommonsType } from '../auditors/types/AuditCommonsType.ts';

@@ -1,7 +1,8 @@
 'use client';
 
-import { AdminAuthenticationWrapper, TitleView, useTranslationProvider } from '@v6y/ui-kit';
 import * as React from 'react';
+
+import { AdminAuthenticationWrapper, TitleView, useTranslationProvider } from '@v6y/ui-kit';
 
 export const VitalityAuthForgotPasswordView = () => {
     const { translate } = useTranslationProvider();

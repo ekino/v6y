@@ -1,9 +1,9 @@
 'use client';
 
-import { useNavigationAdapter } from '@v6y/ui-kit';
 import { useEffect } from 'react';
-
 import { PropsWithChildren } from 'react';
+
+import { useNavigationAdapter } from '@v6y/ui-kit';
 
 import { useLogin } from '../hooks/useAuth';
 

@@ -1,5 +1,6 @@
-import { AppLogger, auditStatus, scoreStatus } from '@v6y/core-logic';
 import { describe, expect, it, vi } from 'vitest';
+
+import { AppLogger, auditStatus, scoreStatus } from '@v6y/core-logic';
 
 import CodeModularityUtils from '../auditors/code-modularity/CodeModularityUtils.ts';
 import { CodeModularityAuditType, ProjectTree } from '../auditors/types/CodeModularityAuditType.ts';

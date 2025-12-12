@@ -1,5 +1,6 @@
-import { AppLogger, DataBaseManager, EvolutionProvider, PerformancesUtils } from '@v6y/core-logic';
 import { parentPort, workerData } from 'worker_threads';
+
+import { AppLogger, DataBaseManager, EvolutionProvider, PerformancesUtils } from '@v6y/core-logic';
 
 import EvolutionManager from '../managers/EvolutionManager.ts';
 

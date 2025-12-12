@@ -1,6 +1,7 @@
-import { useNavigationAdapter } from '@v6y/ui-kit';
 import { useState } from 'react';
 import { z } from 'zod';
+
+import { useNavigationAdapter } from '@v6y/ui-kit';
 
 import LoginAccount from '../../features/auth/api/loginAccount';
 import { buildClientQuery } from '../../infrastructure/adapters/api/useQueryAdapter';

@@ -20,16 +20,23 @@ describe('VitalityFaqView', () => {
 
         render(<VitalityFaqView />);
 
-        expect(screen.getByRole('link', { name: 'vitality.appListPage.contactEmail' })).toBeInTheDocument();
+        expect(
+            screen.getByRole('link', { name: 'vitality.appListPage.contactEmail' }),
+        ).toBeInTheDocument();
     });
 
     it('renders contact link when there are no FAQs', async () => {
-        (useClientQuery as Mock).mockReturnValue({ isLoading: false, data: { getFaqListByPageAndParams: [] } });
+        (useClientQuery as Mock).mockReturnValue({
+            isLoading: false,
+            data: { getFaqListByPageAndParams: [] },
+        });
 
         render(<VitalityFaqView />);
 
         await waitFor(() => {
-            expect(screen.getByRole('link', { name: 'vitality.appListPage.contactEmail' })).toBeInTheDocument();
+            expect(
+                screen.getByRole('link', { name: 'vitality.appListPage.contactEmail' }),
+            ).toBeInTheDocument();
             const accordionTitles = screen.queryAllByRole('button');
             expect(accordionTitles.length).toBe(0);
         });
@@ -41,7 +48,11 @@ describe('VitalityFaqView', () => {
             data: {
                 getFaqListByPageAndParams: [
                     { title: 'How to use Vitality?', description: 'Step-by-step guide', links: [] },
-                    { title: 'How to reset my password?', description: 'Go to settings', links: [] },
+                    {
+                        title: 'How to reset my password?',
+                        description: 'Go to settings',
+                        links: [],
+                    },
                 ],
             },
         });

@@ -1,6 +1,7 @@
-import { LinkType } from '@v6y/core-logic';
 import Link from 'next/link';
 import * as React from 'react';
+
+import { LinkType } from '@v6y/core-logic';
 
 import { Col, Row } from '../../atoms';
 import { LinksType } from '../../types';

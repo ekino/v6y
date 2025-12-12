@@ -1,9 +1,10 @@
-import { AppLogger, CorsOptions, ServerUtils } from '@v6y/core-logic';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
 import expressStatusMonitor from 'express-status-monitor';
+
+import { AppLogger, CorsOptions, ServerUtils } from '@v6y/core-logic';
 
 import ServerConfig from './commons/ServerConfig.ts';
 import DynamicAuditorRouter from './routes/DynamicAuditorRouter.ts';

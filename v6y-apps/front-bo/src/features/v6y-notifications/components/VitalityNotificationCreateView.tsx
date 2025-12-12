@@ -1,5 +1,6 @@
-import { AdminCreateWrapper, TitleView, useTranslationProvider } from '@v6y/ui-kit';
 import * as React from 'react';
+
+import { AdminCreateWrapper, TitleView, useTranslationProvider } from '@v6y/ui-kit';
 
 import {
     notificationCreateEditItems,

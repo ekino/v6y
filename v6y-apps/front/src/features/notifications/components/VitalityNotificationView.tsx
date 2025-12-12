@@ -1,8 +1,9 @@
 'use client';
 
+import * as React from 'react';
+
 import { NotificationType } from '@v6y/core-logic/src/types';
 import { NotificationOutlined, useTranslationProvider } from '@v6y/ui-kit';
-import * as React from 'react';
 
 import VitalitySectionView from '../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
@@ -14,7 +15,9 @@ import GetNotificationListByPageAndParams from '../api/getNotificationListByPage
 import VitalityNotificationList from './VitalityNotificationList';
 
 const VitalityNotificationView = () => {
-    const { isLoading, data } = useClientQuery<{ getNotificationListByPageAndParams: NotificationType[] }>({
+    const { isLoading, data } = useClientQuery<{
+        getNotificationListByPageAndParams: NotificationType[];
+    }>({
         queryCacheKey: ['getNotificationListByPageAndParams'],
         queryBuilder: async () =>
             buildClientQuery({

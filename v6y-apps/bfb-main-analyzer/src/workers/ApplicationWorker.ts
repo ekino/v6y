@@ -1,5 +1,6 @@
-import { AppLogger, AuditProvider, DataBaseManager, DependencyProvider } from '@v6y/core-logic';
 import { parentPort } from 'worker_threads';
+
+import { AppLogger, AuditProvider, DataBaseManager, DependencyProvider } from '@v6y/core-logic';
 
 import ApplicationManager from '../managers/ApplicationManager.ts';
 

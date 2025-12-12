@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import { AuditType } from '@v6y/core-logic/src/types';
 import {
     Button,
@@ -11,7 +13,6 @@ import {
     useThemeConfigProvider,
     useTranslationProvider,
 } from '@v6y/ui-kit';
-import * as React from 'react';
 
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';
 

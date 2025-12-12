@@ -1,8 +1,9 @@
 'use client';
 
-import { AdminLayout, TitleView } from '@v6y/ui-kit';
 import * as React from 'react';
 import { ReactNode } from 'react';
+
+import { AdminLayout, TitleView } from '@v6y/ui-kit';
 
 import VitalityPageFooter from './VitalityPageFooter';
 import { VitalityPageHeader } from './VitalityPageHeader';

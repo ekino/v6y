@@ -1,14 +1,14 @@
-export { 
-    ExitIcon, 
-    GlobeIcon, 
-    CommitIcon, 
-    MagnifyingGlassIcon, 
-    QuestionMarkCircledIcon, 
+export {
+    ExitIcon,
+    GlobeIcon,
+    CommitIcon,
+    MagnifyingGlassIcon,
+    QuestionMarkCircledIcon,
     ShuffleIcon,
-    StarIcon, 
+    StarIcon,
     StarFilledIcon,
     ReloadIcon,
     PlayIcon,
     EnvelopeClosedIcon,
-    ChatBubbleIcon
+    ChatBubbleIcon,
 } from '@radix-ui/react-icons';

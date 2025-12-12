@@ -23,7 +23,8 @@
     "build": "nx run-many --target=build --all",
     "lint": "nx run-many --target=lint --all",
     "lint:fix": "nx run-many --target=lint:fix --all --verbose",
-    "format": "nx run-many --target=format --all",
+    "format": "prettier --write \"v6y-apps/*/src/**/*.{ts,tsx,js,jsx}\" \"v6y-libs/*/src/**/*.{ts,tsx,js,jsx}\"",
+    "format:check": "prettier --check \"v6y-apps/*/src/**/*.{ts,tsx,js,jsx}\" \"v6y-libs/*/src/**/*.{ts,tsx,js,jsx}\"",
     "verify:code:duplication": "jscpd --config .jscpd.json",
     "ts-coverage": "typescript-coverage-report",
     "test": "nx run-many --target=test --all",
@@ -36,8 +37,19 @@
   "devDependencies": {
     "husky": "=9.1.7",
     "jscpd": "=4.0.5",
+    "lint-staged": "=15.2.10",
     "nx": "22.0.2",
+    "prettier": "=3.4.2",
+    "@trivago/prettier-plugin-sort-imports": "=6.0.0",
     "typescript-coverage-report": "=1.1.1"
+  },
+  "lint-staged": {
+    "v6y-apps/*/src/**/*.{ts,tsx,js,jsx}": [
+      "prettier --write"
+    ],
+    "v6y-libs/*/src/**/*.{ts,tsx,js,jsx}": [
+      "prettier --write"
+    ]
   },
   "pnpm": {
     "overrides": {

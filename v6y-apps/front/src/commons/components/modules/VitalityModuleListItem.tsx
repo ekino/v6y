@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import { auditStatus } from '@v6y/core-logic/src/config/AuditHelpConfig';
 import {
     Avatar,
@@ -15,7 +17,6 @@ import {
     useThemeConfigProvider,
     useTranslationProvider,
 } from '@v6y/ui-kit';
-import * as React from 'react';
 
 import { VitalityModuleType } from '../../types/VitalityModulesProps';
 

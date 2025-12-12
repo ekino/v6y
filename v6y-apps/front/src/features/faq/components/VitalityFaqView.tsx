@@ -1,9 +1,11 @@
 'use client';
 
-import { FaqType } from '@v6y/core-logic/src/types';
+import Link from 'next/link';
 import * as React from 'react';
 
+import { FaqType } from '@v6y/core-logic/src/types';
 import { useTranslationProvider } from '@v6y/ui-kit-front';
+
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import {
     buildClientQuery,
@@ -11,7 +13,6 @@ import {
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import GetFaqListByPageAndParams from '../api/getFaqListByPageAndParams';
 import VitalityFaqList from './VitalityFaqList';
-import Link from 'next/link';
 
 const VitalityFaqView = () => {
     const { translate } = useTranslationProvider();
@@ -31,7 +32,9 @@ const VitalityFaqView = () => {
         <div className="space-y-8 mt-4">
             <VitalityFaqList dataSource={dataSource} />
             <div className="w-full flex justify-end">
-                <Link className="text-black" href='/contact'>{ translate('vitality.appListPage.contactEmail') }</Link>
+                <Link className="text-black" href="/contact">
+                    {translate('vitality.appListPage.contactEmail')}
+                </Link>
             </div>
         </div>
     );

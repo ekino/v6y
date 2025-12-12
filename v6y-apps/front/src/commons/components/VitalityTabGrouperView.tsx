@@ -1,5 +1,6 @@
-import { Col, EmptyView, Row, Tabs } from '@v6y/ui-kit';
 import * as React from 'react';
+
+import { Col, EmptyView, Row, Tabs } from '@v6y/ui-kit';
 
 import useDataGrouper from '../hooks/useDataGrouper';
 import { VitalityDataGrouperProps } from '../types/VitalityDataGrouperProps';

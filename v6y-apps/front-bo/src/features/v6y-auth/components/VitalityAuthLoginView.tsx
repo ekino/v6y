@@ -1,5 +1,7 @@
 'use client';
 
+import * as React from 'react';
+
 import {
     AdminAuthenticationWrapper,
     Checkbox,
@@ -7,7 +9,6 @@ import {
     TitleView,
     useTranslationProvider,
 } from '@v6y/ui-kit';
-import * as React from 'react';
 
 export const VitalityAuthLoginView = () => {
     const { translate } = useTranslationProvider();

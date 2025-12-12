@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import { DependencyStatusHelpType } from '@v6y/core-logic/src/types';
 import {
     AdminShowWrapper,
@@ -5,7 +7,6 @@ import {
     useAdminNavigationParamsParser,
     useTranslationProvider,
 } from '@v6y/ui-kit';
-import * as React from 'react';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';
 import { formatDependencyStatusHelpDetails } from '../../../commons/config/VitalityDetailsConfig';

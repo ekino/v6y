@@ -1,7 +1,7 @@
 'use client';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render, RenderResult } from '@testing-library/react';
+import { RenderResult, render } from '@testing-library/react';
 import { ReactNode } from 'react';
 
 export const renderWithQueryClientProvider = (children: ReactNode): RenderResult => {
@@ -21,8 +21,8 @@ export const renderWithQueryClientProvider = (children: ReactNode): RenderResult
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (typeof (browserQueryClient as any).defaultMutationOptions !== 'function') {
         // provide a no-op function that returns an empty options object
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (browserQueryClient as any).defaultMutationOptions = (() => ({})) as any;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (browserQueryClient as any).defaultMutationOptions = (() => ({})) as any;
     }
     return render(
         <QueryClientProvider client={browserQueryClient}>{children}</QueryClientProvider>,

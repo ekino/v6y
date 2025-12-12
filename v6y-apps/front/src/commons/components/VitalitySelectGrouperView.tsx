@@ -1,6 +1,7 @@
-import { Col, EmptyView, Form, Row, Select, TextView } from '@v6y/ui-kit';
 import * as React from 'react';
 import { useEffect } from 'react';
+
+import { Col, EmptyView, Form, Row, Select, TextView } from '@v6y/ui-kit';
 
 import useDataGrouper from '../hooks/useDataGrouper';
 import { VitalityDataGrouperProps } from '../types/VitalityDataGrouperProps';

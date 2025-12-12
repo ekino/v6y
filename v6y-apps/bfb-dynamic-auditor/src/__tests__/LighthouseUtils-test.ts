@@ -1,5 +1,6 @@
-import { AuditType, auditStatus, scoreStatus } from '@v6y/core-logic';
 import { describe, expect, it } from 'vitest';
+
+import { AuditType, auditStatus, scoreStatus } from '@v6y/core-logic';
 
 import LighthouseUtils from '../auditors/lighthouse/LighthouseUtils.ts';
 import {
