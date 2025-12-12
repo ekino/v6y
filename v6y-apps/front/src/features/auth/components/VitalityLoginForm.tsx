@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { useForm } from '@v6y/ui-kit';
 import {
@@ -32,6 +32,8 @@ const VitalityLoginForm = () => {
     const { isAuthenticationLoading, authenticationStatus, onAuthentication } =
         useAuthentication(translate);
 
+    const toastShownRef = useRef<string | null>(null);
+
     const form = useForm<LoginAccountFormType>({
         defaultValues: {
             email: '',
@@ -40,9 +42,14 @@ const VitalityLoginForm = () => {
     });
 
     useEffect(() => {
-        if (authenticationStatus?.error) {
+        if (authenticationStatus?.error && toastShownRef.current !== authenticationStatus.error) {
+            toastShownRef.current = authenticationStatus.error;
             toast.error(authenticationStatus.error);
-        } else if (authenticationStatus?.token) {
+        } else if (
+            authenticationStatus?.token &&
+            toastShownRef.current !== authenticationStatus.token
+        ) {
+            toastShownRef.current = authenticationStatus.token;
             toast.success(translate('vitality.loginPage.formSuccess'));
         }
     }, [authenticationStatus, translate]);
