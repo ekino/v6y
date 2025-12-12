@@ -1,5 +1,6 @@
-import { AuditUtils, auditStatus, scoreStatus } from '@v6y/core-logic';
 import { Mock, describe, expect, it, vi } from 'vitest';
+
+import { AuditUtils, auditStatus, scoreStatus } from '@v6y/core-logic';
 
 import CodeSecurityUtils from '../auditors/code-security/CodeSecurityUtils.ts';
 import { AuditCommonsType } from '../auditors/types/AuditCommonsType.ts';

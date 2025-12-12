@@ -1,6 +1,8 @@
 /* eslint-disable */
-import { AuditUtils, auditStatus } from '@v6y/core-logic';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+import { AuditUtils, auditStatus } from '@v6y/core-logic';
+
 import BundleAnalyzeUtils from '../auditors/bundle-analyzer/BundleAnalyzeUtils.ts';
 
 vi.mock('@v6y/core-logic', async () => {
@@ -15,7 +17,6 @@ vi.mock('@v6y/core-logic', async () => {
         },
     };
 });
-
 
 describe('BundleAnalyzeUtils', () => {
     const mockApplicationId = 1;
@@ -65,20 +66,23 @@ describe('BundleAnalyzeUtils', () => {
     });
 
     it('should return an error formated report if analyzeResult is errored', () => {
-       const mockBundleAnalyse = {
+        const mockBundleAnalyse = {
             applicationId: mockApplicationId,
             workspaceFolder: mockWorkspaceFolder,
             modulePath: '/fake/workspace/module1',
             analyzeResult: {
                 status: 'error' as 'error' | 'success',
                 extraInfos: 'No bundler detected in the module.',
-            }
-        }
-        
+            },
+        };
+
         const result = BundleAnalyzeUtils.formatBundleAnalyzeResult(mockBundleAnalyse);
-        expect(result).toMatchObject({ auditStatus: auditStatus.failure, extraInfos: 'No bundler detected in the module.' });
+        expect(result).toMatchObject({
+            auditStatus: auditStatus.failure,
+            extraInfos: 'No bundler detected in the module.',
+        });
     });
- 
+
     it('should return a success formated report if analyzeResult is success', () => {
         const mockBundleReport = {
             applicationId: mockApplicationId,
@@ -86,23 +90,23 @@ describe('BundleAnalyzeUtils', () => {
             modulePath: mockModulePath,
             analyzeResult: {
                 status: 'success' as 'error' | 'success',
-                report:{
+                report: {
                     gzipSize: 12345,
-                }
-            }
-        }
+                },
+            },
+        };
         const result = BundleAnalyzeUtils.formatBundleAnalyzeResult(mockBundleReport);
         expect(result).toMatchObject({ auditStatus: auditStatus.success, score: 12345 });
         expect(result?.score).toEqual(12345);
     });
 
     it('should return null if analyzeResult is null', () => {
-            const result = BundleAnalyzeUtils.formatBundleAnalyzeResult({
-                applicationId: mockApplicationId,
-                workspaceFolder: mockWorkspaceFolder,
-                modulePath: mockModulePath,
-                analyzeResult: null,
-            });
-            expect(result).toBeNull();
+        const result = BundleAnalyzeUtils.formatBundleAnalyzeResult({
+            applicationId: mockApplicationId,
+            workspaceFolder: mockWorkspaceFolder,
+            modulePath: mockModulePath,
+            analyzeResult: null,
         });
+        expect(result).toBeNull();
+    });
 });

@@ -1,5 +1,6 @@
-import { AdminListWrapper, useTranslationProvider } from '@v6y/ui-kit';
 import { DocumentNode } from 'graphql/index';
+
+import { AdminListWrapper, useTranslationProvider } from '@v6y/ui-kit';
 
 import VitalityTable from '../../../commons/components/VitalityTable';
 import DeleteAccount from '../apis/deleteAccount';

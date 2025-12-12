@@ -1,5 +1,6 @@
-import { AppLogger, auditStatus, scoreStatus } from '@v6y/core-logic';
 import { describe, expect, it, vi } from 'vitest';
+
+import { AppLogger, auditStatus, scoreStatus } from '@v6y/core-logic';
 
 import CodeDuplicationUtils from '../auditors/code-duplication/CodeDuplicationUtils.ts';
 import { CodeDuplicationAuditType } from '../auditors/types/CodeDuplicationAuditType.ts';

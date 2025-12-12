@@ -1,7 +1,8 @@
+import { describe, expect, it } from 'vitest';
+
 import { auditStatus, scoreStatus } from '@v6y/core-logic';
 import { DateUtils } from '@v6y/core-logic';
 import { devOpsCategories, devOpsType } from '@v6y/core-logic/src/config/DevOpsConfig.ts';
-import { describe, expect, it } from 'vitest';
 
 import DoraMetricsUtils from '../auditors/dora-metrics/DoraMetricsUtils.ts';
 import mockDeployments from '../auditors/dora-metrics/mockDeploymentsData.json' with { type: 'json' };

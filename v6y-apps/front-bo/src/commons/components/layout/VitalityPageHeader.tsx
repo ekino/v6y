@@ -1,7 +1,8 @@
 'use client';
 
-import { Avatar, LanguageMenu, Layout, Space, TextView, useAdminGetIdentity } from '@v6y/ui-kit';
 import * as React from 'react';
+
+import { Avatar, LanguageMenu, Layout, Space, TextView, useAdminGetIdentity } from '@v6y/ui-kit';
 
 interface UserType {
     data: {

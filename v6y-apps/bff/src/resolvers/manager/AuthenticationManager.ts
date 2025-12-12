@@ -1,9 +1,10 @@
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
-import { validateCredentials } from '@v6y/core-logic';
 import BodyParser from 'body-parser';
 import Cors from 'cors';
 import { RequestHandler } from 'express';
+
+import { validateCredentials } from '@v6y/core-logic';
 
 export function buildUserMiddleware(
     server: ApolloServer,

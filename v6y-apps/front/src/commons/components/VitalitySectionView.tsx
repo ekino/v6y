@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import {
     Avatar,
     Button,
@@ -11,7 +13,6 @@ import {
     Space,
     TitleView,
 } from '@v6y/ui-kit';
-import * as React from 'react';
 
 import { VitalitySectionViewProps } from '../types/VitalitySectionViewProps';
 

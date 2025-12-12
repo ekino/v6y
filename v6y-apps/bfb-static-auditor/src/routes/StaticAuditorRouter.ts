@@ -1,5 +1,6 @@
-import { AppLogger } from '@v6y/core-logic';
 import express from 'express';
+
+import { AppLogger } from '@v6y/core-logic';
 
 import StaticAuditorManager from '../auditors/StaticAuditorManager.ts';
 

@@ -1,5 +1,6 @@
-import { AdminListWrapper, useTranslationProvider } from '@v6y/ui-kit';
 import type { DocumentNode } from 'graphql/index';
+
+import { AdminListWrapper, useTranslationProvider } from '@v6y/ui-kit';
 
 import VitalityTable from '../../../commons/components/VitalityTable';
 import DeleteNotification from '../apis/deleteNotification';

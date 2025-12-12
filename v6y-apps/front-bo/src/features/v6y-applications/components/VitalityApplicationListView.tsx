@@ -1,6 +1,7 @@
+import type { DocumentNode } from 'graphql/index';
+
 import { ApplicationType } from '@v6y/core-logic/src/types';
 import { AdminListWrapper, useTranslationProvider } from '@v6y/ui-kit';
-import type { DocumentNode } from 'graphql/index';
 
 import GetApplicationListByPageAndParams from '../../../commons/apis/getApplicationListByPageAndParams';
 import VitalityTable from '../../../commons/components/VitalityTable';

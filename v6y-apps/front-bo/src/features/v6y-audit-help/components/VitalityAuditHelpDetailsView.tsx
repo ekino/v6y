@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import { AuditHelpType } from '@v6y/core-logic/src/types';
 import {
     AdminHttpError,
@@ -6,7 +8,6 @@ import {
     useAdminNavigationParamsParser,
     useTranslationProvider,
 } from '@v6y/ui-kit';
-import * as React from 'react';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';
 import { formatAuditHelpDetails } from '../../../commons/config/VitalityDetailsConfig';

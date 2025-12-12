@@ -1,5 +1,6 @@
-import { AppLogger, DataBaseManager, PerformancesUtils } from '@v6y/core-logic';
 import { parentPort, workerData } from 'worker_threads';
+
+import { AppLogger, DataBaseManager, PerformancesUtils } from '@v6y/core-logic';
 
 import DoraMetricsAuditor from '../auditors/dora-metrics/DoraMetricsAuditor.ts';
 

@@ -1,5 +1,7 @@
 import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
+
 import {
     AccountType,
     ApplicationType,
@@ -11,7 +13,6 @@ import {
     LinkType,
     NotificationType,
 } from '@v6y/core-logic/src/types';
-import { describe, expect, it, vi } from 'vitest';
 
 import {
     formatAccountDetails,

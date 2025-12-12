@@ -1,14 +1,15 @@
+import * as React from 'react';
+
 import {
-    useNavigationAdapter,
-    useTranslationProvider,
     Breadcrumb,
-    BreadcrumbList,
     BreadcrumbItem,
     BreadcrumbLink,
+    BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
+    useNavigationAdapter,
+    useTranslationProvider,
 } from '@v6y/ui-kit-front';
-import * as React from 'react';
 
 import { buildBreadCrumbItems } from '../../config/VitalityCommonConfig';
 
@@ -36,7 +37,9 @@ const VitalityBreadcrumb = () => {
                         <React.Fragment key={idx}>
                             <BreadcrumbItem>
                                 {!isLast ? (
-                                    <BreadcrumbLink className="text-black" asChild>{item.title}</BreadcrumbLink>
+                                    <BreadcrumbLink className="text-black" asChild>
+                                        {item.title}
+                                    </BreadcrumbLink>
                                 ) : (
                                     <BreadcrumbPage>{item.title}</BreadcrumbPage>
                                 )}

@@ -1,5 +1,6 @@
-import { AppLogger, ApplicationProvider, AuditProvider, AuditUtils } from '@v6y/core-logic';
 import { execSync } from 'child_process';
+
+import { AppLogger, ApplicationProvider, AuditProvider, AuditUtils } from '@v6y/core-logic';
 
 import { AuditCommonsType } from '../types/AuditCommonsType.ts';
 import CodeDuplicationUtils from './CodeDuplicationUtils.ts';

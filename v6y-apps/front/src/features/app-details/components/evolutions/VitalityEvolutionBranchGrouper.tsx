@@ -1,19 +1,23 @@
+import * as React from 'react';
+
 import { EvolutionType } from '@v6y/core-logic/src/types';
 import { useTranslationProvider } from '@v6y/ui-kit';
 import { Card, CardContent, CardHeader, CardTitle } from '@v6y/ui-kit-front';
-import * as React from 'react';
 
 const VitalityEvolutionBranchGrouper = ({ evolutions }: { evolutions: EvolutionType[] }) => {
     const { translate } = useTranslationProvider();
 
-    const evolutionsByBranch = evolutions.reduce((acc, evolution) => {
-        const branch = evolution.module?.branch || 'Unknown';
-        if (!acc[branch]) {
-            acc[branch] = [];
-        }
-        acc[branch].push(evolution);
-        return acc;
-    }, {} as Record<string, EvolutionType[]>);
+    const evolutionsByBranch = evolutions.reduce(
+        (acc, evolution) => {
+            const branch = evolution.module?.branch || 'Unknown';
+            if (!acc[branch]) {
+                acc[branch] = [];
+            }
+            acc[branch].push(evolution);
+            return acc;
+        },
+        {} as Record<string, EvolutionType[]>,
+    );
 
     return (
         <div className="space-y-6">
@@ -42,7 +46,10 @@ const VitalityEvolutionBranchGrouper = ({ evolutions }: { evolutions: EvolutionT
                                         {evolution.module?.path && (
                                             <div className="flex items-center gap-2">
                                                 <span className="text-sm font-medium text-slate-500">
-                                                    {translate('vitality.appDetailsPage.evolutions.path')}:
+                                                    {translate(
+                                                        'vitality.appDetailsPage.evolutions.path',
+                                                    )}
+                                                    :
                                                 </span>
                                                 <code className="text-sm text-slate-700 bg-slate-100 px-2 py-1 rounded">
                                                     {evolution.module.path}
@@ -52,11 +59,14 @@ const VitalityEvolutionBranchGrouper = ({ evolutions }: { evolutions: EvolutionT
                                         {evolution.module?.url && (
                                             <div className="flex items-center gap-2">
                                                 <span className="text-sm font-medium text-slate-500">
-                                                    {translate('vitality.appDetailsPage.evolutions.repository')}:
+                                                    {translate(
+                                                        'vitality.appDetailsPage.evolutions.repository',
+                                                    )}
+                                                    :
                                                 </span>
-                                                <a 
-                                                    href={evolution.module.url} 
-                                                    target="_blank" 
+                                                <a
+                                                    href={evolution.module.url}
+                                                    target="_blank"
                                                     rel="noopener noreferrer"
                                                     className="text-sm text-blue-600 hover:text-blue-800 hover:underline"
                                                 >

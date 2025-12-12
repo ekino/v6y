@@ -1,8 +1,9 @@
 import { ApolloServer } from '@apollo/server';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
-import { AppLogger, DataBaseManager, ServerUtils, configureAuthMiddleware } from '@v6y/core-logic';
 import Express from 'express';
 import ExpressStatusMonitor from 'express-status-monitor';
+
+import { AppLogger, DataBaseManager, ServerUtils, configureAuthMiddleware } from '@v6y/core-logic';
 
 import ServerConfig from './config/ServerConfig.ts';
 import VitalityResolvers from './resolvers/VitalityResolvers.ts';

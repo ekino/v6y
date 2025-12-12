@@ -1,3 +1,6 @@
+import * as React from 'react';
+import { useEffect, useState } from 'react';
+
 import { AuditType } from '@v6y/core-logic/src/types';
 import {
     DynamicLoader,
@@ -7,8 +10,6 @@ import {
     TitleView,
     useTranslationProvider,
 } from '@v6y/ui-kit';
-import * as React from 'react';
-import { useEffect, useState } from 'react';
 
 import useDataGrouper from '../../../../../../commons/hooks/useDataGrouper';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';

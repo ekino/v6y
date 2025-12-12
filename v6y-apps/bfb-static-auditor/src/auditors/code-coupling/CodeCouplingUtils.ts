@@ -1,5 +1,6 @@
-import { AppLogger, AuditType, auditStatus, scoreStatus } from '@v6y/core-logic';
 import Madge from 'madge';
+
+import { AppLogger, AuditType, auditStatus, scoreStatus } from '@v6y/core-logic';
 
 import { AuditCommonsType } from '../types/AuditCommonsType.ts';
 

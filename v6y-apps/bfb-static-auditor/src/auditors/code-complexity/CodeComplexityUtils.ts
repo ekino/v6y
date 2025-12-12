@@ -1,8 +1,9 @@
-import { AppLogger, AuditType, AuditUtils, ComplexityAnalysisOptionsType } from '@v6y/core-logic';
 import lodash from 'lodash';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import TyphonEscomplex from 'typhonjs-escomplex';
+
+import { AppLogger, AuditType, AuditUtils, ComplexityAnalysisOptionsType } from '@v6y/core-logic';
 
 import { AuditCommonsType } from '../types/AuditCommonsType.ts';
 import {

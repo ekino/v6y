@@ -1,9 +1,6 @@
 import PrettierImportConfig from '@trivago/prettier-plugin-sort-imports';
 
-/**
- * @see https://prettier.io/docs/en/configuration.html
- * @type {import("prettier").Config}
- */
+/** @type {import("prettier").Config} */
 const config = {
     trailingComma: 'all',
     tabWidth: 4,
@@ -11,7 +8,13 @@ const config = {
     singleQuote: true,
     printWidth: 100,
     plugins: [PrettierImportConfig],
-    importOrder: ['^@ui/(.*)$', '^@server/(.*)$', '^[./]'],
+    importOrder: [
+        '^@v6y/(.*)$',      // Packages internes du monorepo
+        '^@ui/(.*)$',
+        '^@core/(.*)$',
+        '^@server/(.*)$',
+        '^[./]',            // Imports relatifs
+    ],
     importOrderSeparation: true,
     importOrderSortSpecifiers: true,
 };

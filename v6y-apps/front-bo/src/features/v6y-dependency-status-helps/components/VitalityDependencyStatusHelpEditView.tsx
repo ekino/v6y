@@ -1,10 +1,11 @@
+import * as React from 'react';
+
 import {
     AdminEditWrapper,
     TitleView,
     useAdminNavigationParamsParser,
     useTranslationProvider,
 } from '@v6y/ui-kit';
-import * as React from 'react';
 
 import {
     dependencyStatusHelpCreateEditItems,

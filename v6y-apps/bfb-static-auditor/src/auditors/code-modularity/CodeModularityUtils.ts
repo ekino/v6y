@@ -1,5 +1,6 @@
-import { AppLogger, AuditType, auditStatus, scoreStatus } from '@v6y/core-logic';
 import xml2js from 'xml2js';
+
+import { AppLogger, AuditType, auditStatus, scoreStatus } from '@v6y/core-logic';
 
 import {
     CodeModularityAuditType,

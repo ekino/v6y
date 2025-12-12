@@ -1,5 +1,6 @@
-import { AppLogger, DataBaseManager, KeywordProvider, PerformancesUtils } from '@v6y/core-logic';
 import { parentPort, workerData } from 'worker_threads';
+
+import { AppLogger, DataBaseManager, KeywordProvider, PerformancesUtils } from '@v6y/core-logic';
 
 import KeywordManager from '../managers/KeywordManager.ts';
 

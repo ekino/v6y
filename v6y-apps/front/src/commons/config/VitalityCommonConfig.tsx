@@ -1,3 +1,7 @@
+import Link from 'next/link';
+import * as React from 'react';
+import { ReactNode } from 'react';
+
 import { ApplicationType } from '@v6y/core-logic/src/types';
 import { Matcher } from '@v6y/core-logic/src/utils';
 import {
@@ -8,9 +12,6 @@ import {
     SplitCellsOutlined,
     ThemeTokenType,
 } from '@v6y/ui-kit';
-import Link from 'next/link';
-import * as React from 'react';
-import { ReactNode } from 'react';
 
 import VitalityNavigationPaths from './VitalityNavigationPaths';
 
@@ -232,11 +233,11 @@ export const VITALITY_HEADER_MENU_ITEMS = [
     {
         key: 'dashboard',
         link: VitalityNavigationPaths.DASHBOARD,
-        translateLabel: 'vitality.header.menu.dashboard'
+        translateLabel: 'vitality.header.menu.dashboard',
     },
     {
         key: 'statistics',
         link: VitalityNavigationPaths.APPS_STATS,
-        translateLabel: 'vitality.header.menu.apps-stats'
+        translateLabel: 'vitality.header.menu.apps-stats',
     },
 ];

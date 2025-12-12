@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 import {
     AccountType,
     ApplicationType,
@@ -10,7 +12,6 @@ import {
     NotificationType,
 } from '@v6y/core-logic/src/types';
 import { Links, TranslateType } from '@v6y/ui-kit';
-import { ReactNode } from 'react';
 
 export const formatAccountDetails = (
     translate: TranslateType,

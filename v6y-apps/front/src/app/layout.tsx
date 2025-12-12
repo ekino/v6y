@@ -1,7 +1,8 @@
+import { Inter } from 'next/font/google';
+import { ReactNode, Suspense } from 'react';
+
 import { LoaderView } from '@v6y/ui-kit';
 import '@v6y/ui-kit-front/styles.css';
-import { ReactNode, Suspense } from 'react';
-import { Inter } from 'next/font/google';
 
 import VitalityPageLayout from '../commons/components/layout/VitalityPageLayout';
 import { AppProvider } from '../infrastructure/providers/AppProvider';

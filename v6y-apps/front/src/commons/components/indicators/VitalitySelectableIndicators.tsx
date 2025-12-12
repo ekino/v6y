@@ -1,3 +1,6 @@
+import * as React from 'react';
+import { useEffect, useState } from 'react';
+
 import { KeywordType } from '@v6y/core-logic/src/types';
 import {
     Card,
@@ -7,8 +10,6 @@ import {
     LoaderView,
     useNavigationAdapter,
 } from '@v6y/ui-kit';
-import * as React from 'react';
-import { useEffect, useState } from 'react';
 
 import {
     buildClientQuery,
@@ -30,10 +31,9 @@ const VitalitySelectableIndicators = () => {
         useNavigationAdapter();
     const [keywordsUrlParams] = getUrlParams(['keywords']);
 
-    const {
-        isLoading: isIndicatorsLoading,
-        data: dataIndicators,
-    } = useClientQuery<VitalitySelectableIndicatorsQueryType['data']>({
+    const { isLoading: isIndicatorsLoading, data: dataIndicators } = useClientQuery<
+        VitalitySelectableIndicatorsQueryType['data']
+    >({
         queryCacheKey: ['getIndicatorListByParams'],
         queryBuilder: async () =>
             buildClientQuery({
