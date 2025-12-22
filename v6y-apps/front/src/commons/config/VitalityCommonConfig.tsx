@@ -228,16 +228,3 @@ export const formatApplicationDataSource = (
 
     return newDataSource;
 };
-
-export const VITALITY_HEADER_MENU_ITEMS = [
-    {
-        key: 'dashboard',
-        link: VitalityNavigationPaths.DASHBOARD,
-        translateLabel: 'vitality.header.menu.dashboard',
-    },
-    {
-        key: 'statistics',
-        link: VitalityNavigationPaths.APPS_STATS,
-        translateLabel: 'vitality.header.menu.apps-stats',
-    },
-];
