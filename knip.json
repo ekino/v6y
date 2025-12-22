@@ -4,31 +4,40 @@
     "interface": true,
     "type": true
   },
-  "tags": [
-    "-lintignore"
+  "ignoreDependencies": [
+    "@babel/plugin-transform-private-methods",
+    "@babel/preset-react",
+    "@babel/preset-typescript",
+    "@eslint/eslintrc",
+    "@eslint/js",
+    "@testing-library/jest-dom",
+    "@testing-library/react",
+    "@testing-library/user-event",
+    "@trivago/prettier-plugin-sort-imports",
+    "@types/eslint__js",
+    "@typescript-eslint/eslint-plugin",
+    "@typescript-eslint/parser",
+    "autoprefixer",
+    "chai",
+    "eslint-plugin-prettier",
+    "jsdom",
+    "postcss",
+    "shadcn"
   ],
+  "ignore": [
+    "**/*.config.*",
+    "**/vitest.setup.*",
+    "**/setupTests.*",
+    "**/test-mocks/**"
+  ],
+  "tags": ["-lintignore"],
   "workspaces": {
-    ".": {
-      "entry": ["nx.json"],
-      "project": ["nx.json", "package.json"]
+    ".": {},
+    "v6y-apps/bfb-*": {
+      "entry": ["src/index.ts", "src/workers/**/*.ts", "src/**/*Auditor.ts", "src/**/*Manager.ts"]
     },
-    "v6y-apps/*": {
-      "entry": ["src/index.ts", "src/main.ts", "src/app/**/*"],
-      "project": ["**/*.{ts,tsx,js,jsx}"]
-    },
-    "v6y-apps/front": {
-      "next": {
-        "entry": ["next.config.mjs"]
-      }
-    },
-    "v6y-apps/front-bo": {
-      "next": {
-        "entry": ["next.config.mjs"]
-      }
-    },
-    "v6y-libs/*": {
-      "entry": ["src/index.ts"],
-      "project": ["**/*.{ts,tsx,js,jsx}"]
-    }
+    "v6y-apps/bff": {},
+    "v6y-apps/front*": {},
+    "v6y-libs/*": {}
   }
 }
