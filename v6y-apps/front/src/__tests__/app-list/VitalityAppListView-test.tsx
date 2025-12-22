@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/vitest';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Mock, afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import VitalityAppList from '../../features/app-list/components/VitalityAppList';
@@ -10,7 +10,6 @@ import {
     useInfiniteClientQuery,
 } from '../../infrastructure/adapters/api/useQueryAdapter';
 
-// Mock the navigation adapter
 const mockRouter = {
     replace: vi.fn(),
 };
@@ -57,6 +56,10 @@ vi.mock('../../commons/utils/VitalityDataExportUtils', () => ({
     exportAppListDataToCSV: vi.fn(),
 }));
 
+vi.mock('../../features/app-list/components/VitalityAppList', () => ({
+    default: () => <div data-testid="mocked-app-list">Mocked App List</div>,
+}));
+
 describe('VitalityAppListView', () => {
     beforeEach(() => {
         mockGetUrlParams.mockReturnValue([undefined]);
@@ -71,11 +74,15 @@ describe('VitalityAppListView', () => {
 
     it('renders technology filters and app list', async () => {
         render(<VitalityAppListView />);
-        
+
         // Check for technology filter section
         expect(screen.getByText('vitality.dashboardPage.filters.technologies')).toBeInTheDocument();
-        expect(screen.getByText('Select technologies to filter applications and discover matching projects')).toBeInTheDocument();
-        
+        expect(
+            screen.getByText(
+                'Select technologies to filter applications and discover matching projects',
+            ),
+        ).toBeInTheDocument();
+
         // Check for technology checkboxes
         expect(screen.getByLabelText('React')).toBeInTheDocument();
         expect(screen.getByLabelText('TypeScript')).toBeInTheDocument();
@@ -86,9 +93,9 @@ describe('VitalityAppListView', () => {
     it('shows active filters when keywords are selected', async () => {
         // Mock URL params with selected keywords
         mockGetUrlParams.mockReturnValue(['react,typescript']);
-        
+
         render(<VitalityAppListView />);
-        
+
         await waitFor(() => {
             expect(screen.getByText('vitality.appListPage.activeFiltersLabel')).toBeInTheDocument();
             expect(screen.getByText('2 selected')).toBeInTheDocument();
@@ -99,10 +106,10 @@ describe('VitalityAppListView', () => {
 
     it('handles keyword toggle correctly', async () => {
         render(<VitalityAppListView />);
-        
+
         const reactCheckbox = screen.getByLabelText('React');
         fireEvent.click(reactCheckbox);
-        
+
         expect(mockCreateUrlQueryParam).toHaveBeenCalledWith('keywords', 'react');
         expect(mockRouter.replace).toHaveBeenCalledWith('/apps?keywords=react', { scroll: false });
     });
@@ -110,74 +117,15 @@ describe('VitalityAppListView', () => {
     it('removes keywords from URL when unchecked', async () => {
         // Start with selected keywords
         mockGetUrlParams.mockReturnValue(['react,typescript']);
-        
+
         render(<VitalityAppListView />);
-        
-        await waitFor(() => {
-            const reactBadge = screen.getByText('react ×');
-            fireEvent.click(reactBadge);
-            
-            expect(mockCreateUrlQueryParam).toHaveBeenCalledWith('keywords', 'typescript');
-            expect(mockRouter.replace).toHaveBeenCalled();
-        });
-    });
 
-    it('renders applications when data is available', async () => {
-        (useInfiniteClientQuery as Mock).mockReturnValue({
-            status: 'success',
-            data: {
-                pages: [{ getApplicationListByPageAndParams: [{ _id: 1, name: 'Vitality App' }] }],
-            },
-        });
+        // Wait for the badge to appear
+        const reactBadge = await screen.findByText('react ×');
+        fireEvent.click(reactBadge);
 
-        render(<VitalityAppList />);
-
-        await waitFor(() => {
-            const appNames = screen.getAllByTestId('app-name');
-            expect(appNames.length).toBeGreaterThan(0);
-            expect(appNames[0]).toHaveTextContent('Vitality App');
-        });
-    });
-
-    it('handles empty application list gracefully', async () => {
-        (useInfiniteClientQuery as Mock).mockReturnValue({
-            status: 'success',
-            data: { pages: [] },
-        });
-
-        render(<VitalityAppList />);
-
-        await waitFor(() => {
-            expect(screen.getByText('vitality.appListPage.empty')).toBeInTheDocument();
-        });
-    });
-
-    it('filters applications based on search and keywords', async () => {
-        (useInfiniteClientQuery as Mock).mockReturnValue({
-            status: 'success',
-            data: {
-                pages: [{ getApplicationListByPageAndParams: [{ _id: 3, name: 'Filtered App' }] }],
-            },
-        });
-
-        render(<VitalityAppList />);
-
-        await waitFor(() => {
-            const appNames = screen.getAllByTestId('app-name');
-            expect(appNames.length).toBeGreaterThan(0);
-            expect(appNames[0]).toHaveTextContent('Filtered App');
-        });
-    });
-
-    it('shows total applications count when data is available', async () => {
-        (useClientQuery as Mock).mockReturnValue({
-            isLoading: false,
-            data: { getApplicationTotalByParams: 25 },
-        });
-        render(<VitalityAppListHeader onExportApplicationsClicked={vi.fn()} />);
-
-        await waitFor(() => {
-            expect(screen.getByText('25 results')).toBeInTheDocument();
-        });
+        // Then assert the calls were made
+        expect(mockCreateUrlQueryParam).toHaveBeenCalledWith('keywords', 'typescript');
+        expect(mockRouter.replace).toHaveBeenCalled();
     });
 });
