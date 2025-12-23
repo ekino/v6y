@@ -170,6 +170,10 @@
           "default": "Send Message"
         }
       }
+    },
+    "metadata": {
+      "title": "Vitality | Monitor and Optimize Your Codebase Health",
+      "description": "Vitality (v6y) is a web-based application developed by Ekino, designed to maintain and optimize the health and performance of codebases and applications."
     }
   }
 }
