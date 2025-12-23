@@ -7,6 +7,7 @@ import '@v6y/ui-kit-front/styles.css';
 import VitalityPageLayout from '../commons/components/layout/VitalityPageLayout';
 import { AppProvider } from '../infrastructure/providers/AppProvider';
 import '../infrastructure/translation/i18nHelper';
+import { getServerTranslation } from '../infrastructure/translation/serverTranslation';
 
 const inter = Inter({
     subsets: ['latin'],
@@ -14,11 +15,18 @@ const inter = Inter({
     display: 'swap',
 });
 
-export const metadata = {
-    title: 'Vitality',
-    description:
-        'Vitality (v6y) is a web-based application developed by Ekino, designed to maintain and optimize the health and performance of codebases and applications.',
-};
+export async function generateMetadata() {
+    const title = await getServerTranslation('vitality.metadata.title');
+    const description = await getServerTranslation('vitality.metadata.description');
+
+    return {
+        icons: {
+            icon: '/favicon.svg',
+        },
+        title,
+        description,
+    };
+}
 
 export default function RootLayout({
     children,

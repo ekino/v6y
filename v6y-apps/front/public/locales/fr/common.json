@@ -170,6 +170,10 @@
           "default": "Envoyer le message"
         }
       }
+    },
+    "metadata": {
+      "title": "Vitality | Surveiller et Optimiser la Santé de Votre Base de Code",
+      "description": "Vitality (v6y) est une application web développée par Ekino, conçue pour maintenir et optimiser la santé et les performances des bases de code et des applications."
     }
   }
 }
