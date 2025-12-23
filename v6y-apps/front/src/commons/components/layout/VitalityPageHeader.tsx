@@ -37,8 +37,6 @@ const VitalityPageHeader = () => {
                         alt="Vitality Logo"
                     />
                 </Link>
-
-                {isLoggedIn && <VitalityPageHeaderMenu />}
             </div>
             <div className="flex items-center gap-2 text-center">
                 <Link className="text-black" href="/faq">

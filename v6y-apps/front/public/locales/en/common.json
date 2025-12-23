@@ -142,11 +142,7 @@
       "formSubmit": "Login"
     },
     "header": {
-      "welcome":"Hello",
-      "menu": {
-        "dashboard":"Dashboard",
-        "apps-stats": "Statistics"
-      }
+      "welcome":"Hello"
     },
     "contactPage": {
       "title": "Having issue with the platform?",
