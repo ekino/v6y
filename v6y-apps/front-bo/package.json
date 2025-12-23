@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@refinedev/cli": "=2.16.42",
-    "@urql/core": "=5.1.0",
+    "@urql/core": "=6.0.1",
     "@v6y/core-logic": "workspace:^",
     "@v6y/ui-kit": "workspace:^",
     "cross-env": "=10.1.0",
