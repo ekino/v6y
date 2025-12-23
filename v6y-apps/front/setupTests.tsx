@@ -538,3 +538,24 @@ vi.mock('./src/commons/components/VitalitySearchBar', () => ({
         </div>
     ),
 }));
+
+vi.mock('./src/infrastructure/adapters/api/useQueryAdapter', () => {
+    return {
+        useClientQuery: vi.fn(() => ({
+            isLoading: false,
+            data: { getApplicationTotalByParams: 0 },
+            refetch: vi.fn(),
+        })),
+        useInfiniteClientQuery: vi.fn(() => ({
+            status: 'success',
+            data: { pages: [] }, //  Always return a valid object
+            fetchNextPage: vi.fn(),
+            isFetching: false,
+            isFetchingNextPage: false,
+        })),
+    };
+});
+
+vi.mock('./src/commons/utils/VitalityDataExportUtils', () => ({
+    exportAppListDataToCSV: vi.fn(),
+}));

@@ -11,4 +11,5 @@ export {
     PlayIcon,
     EnvelopeClosedIcon,
     ChatBubbleIcon,
+    MixerHorizontalIcon
 } from '@radix-ui/react-icons';
