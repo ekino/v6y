@@ -81,7 +81,7 @@ export const buildDashboardMenuItems = (themeToken: ThemeTokenType | undefined) 
         },
     ] as DashboardItemType[];
 
-export const AUDIT_REPORT_TYPES = {
+const AUDIT_REPORT_TYPES = {
     lighthouse: 'Lighthouse',
     codeModularity: 'Code-Modularity',
     codeComplexity: 'Code-Complexity',
@@ -193,7 +193,7 @@ export const buildBreadCrumbItems = ({
     );
 };
 
-export const buildPageTitle = (pathname: string, translate: (key: string) => string) => {
+const buildPageTitle = (pathname: string, translate: (key: string) => string) => {
     return (
         {
             [VitalityNavigationPaths.DASHBOARD]: translate('vitality.dashboardPage.pageTitle'),

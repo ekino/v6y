@@ -33,15 +33,20 @@
     "nx:analyze:graph": "nx graph",
     "nx:analyze:graph:affected": "nx graph --affected",
     "nx:clear:cache": "nx reset",
-    "prepare": "husky"
+    "prepare": "husky",
+    "knip": "knip",
+    "knip:ci": "knip --no-progress"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "=6.0.0",
+    "@types/node": "=24.10.0",
     "husky": "=9.1.7",
     "jscpd": "=4.0.5",
+    "knip": "=5.76.3",
     "lint-staged": "=15.2.10",
     "nx": "22.0.2",
     "prettier": "=3.4.2",
-    "@trivago/prettier-plugin-sort-imports": "=6.0.0",
+    "typescript": "=5.7.3",
     "typescript-coverage-report": "=1.1.1"
   },
   "lint-staged": {
