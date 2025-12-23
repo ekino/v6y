@@ -1,43 +1,21 @@
 {
-  "$schema": "https://unpkg.com/knip@5/schema.json",
-  "ignoreExportsUsedInFile": {
-    "interface": true,
-    "type": true
-  },
-  "ignoreDependencies": [
-    "@babel/plugin-transform-private-methods",
-    "@babel/preset-react",
-    "@babel/preset-typescript",
-    "@eslint/eslintrc",
-    "@eslint/js",
-    "@testing-library/jest-dom",
-    "@testing-library/react",
-    "@testing-library/user-event",
-    "@trivago/prettier-plugin-sort-imports",
-    "@types/eslint__js",
-    "@typescript-eslint/eslint-plugin",
-    "@typescript-eslint/parser",
-    "autoprefixer",
-    "chai",
-    "eslint-plugin-prettier",
-    "jsdom",
-    "postcss",
-    "shadcn"
-  ],
-  "ignore": [
-    "**/*.config.*",
-    "**/vitest.setup.*",
-    "**/setupTests.*",
-    "**/test-mocks/**"
-  ],
-  "tags": ["-lintignore"],
-  "workspaces": {
-    ".": {},
-    "v6y-apps/bfb-*": {
-      "entry": ["src/index.ts", "src/workers/**/*.ts", "src/**/*Auditor.ts", "src/**/*Manager.ts"]
+    "$schema": "https://unpkg.com/knip@5/schema.json",
+    "ignoreExportsUsedInFile": {
+        "interface": true,
+        "type": true
     },
-    "v6y-apps/bff": {},
-    "v6y-apps/front*": {},
-    "v6y-libs/*": {}
-  }
+    "ignoreDependencies": [],
+    "ignore": ["**/*.config.*", "**/vitest.setup.*", "**/setupTests.*", "**/test-mocks/**"],
+    "tags": ["-lintignore"],
+    "workspaces": {
+        "v6y-apps/front*": {
+            "entry": ["src/app/**/*.{ts,tsx}", "next.config.mjs"],
+            "project": ["**/*.{ts,tsx}"]
+        },
+        "v6y-apps/*": {
+            "entry": ["src/index.ts"],
+            "project": ["src/**/*.{ts,js}"]
+        },
+        "v6y-libs/*": {}
+    }
 }

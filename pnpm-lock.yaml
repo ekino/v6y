@@ -19,7 +19,7 @@ importers:
         specifier: '=6.0.0'
         version: 6.0.0(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)
       '@types/node':
-        specifier: ^24.10.0
+        specifier: '=24.10.0'
         version: 24.10.0
       husky:
         specifier: '=9.1.7'
@@ -28,7 +28,7 @@ importers:
         specifier: '=4.0.5'
         version: 4.0.5
       knip:
-        specifier: ^5.76.3
+        specifier: '=5.76.3'
         version: 5.76.3(@types/node@24.10.0)(typescript@5.7.3)
       lint-staged:
         specifier: '=15.2.10'
@@ -40,7 +40,7 @@ importers:
         specifier: '=3.4.2'
         version: 3.4.2
       typescript:
-        specifier: ^5.7.3
+        specifier: '=5.7.3'
         version: 5.7.3
       typescript-coverage-report:
         specifier: '=1.1.1'
@@ -1340,10 +1340,10 @@ importers:
         version: 0.511.0(react@19.0.0)
       next:
         specifier: '=15.4.9'
-        version: 15.4.9(@babel/core@7.26.9)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        version: 15.4.9(@babel/core@7.28.5)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       next-i18next:
         specifier: '=15.4.1'
-        version: 15.4.1(i18next@24.2.1(typescript@5.7.3))(next@15.4.9(@babel/core@7.26.9)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-i18next@15.4.0(i18next@24.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
+        version: 15.4.1(i18next@24.2.1(typescript@5.7.3))(next@15.4.9(@babel/core@7.28.5)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-i18next@15.4.0(i18next@24.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
       next-themes:
         specifier: '=0.4.6'
         version: 0.4.6(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -15911,7 +15911,7 @@ snapshots:
       std-env: 3.8.0
       test-exclude: 7.0.1
       tinyrainbow: 2.0.0
-      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@24.10.1)(@vitest/ui@4.0.14)(jsdom@27.0.1)(msw@2.7.3(@types/node@24.10.1)(typescript@5.7.3))
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@24.10.0)(@vitest/ui@4.0.14)(jsdom@27.0.1)(msw@2.7.3(@types/node@24.10.0)(typescript@5.7.3))
     transitivePeerDependencies:
       - supports-color
 
@@ -15976,7 +15976,7 @@ snapshots:
       sirv: 3.0.2
       tinyglobby: 0.2.15
       tinyrainbow: 3.0.3
-      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@24.10.1)(@vitest/ui@4.0.14)(jsdom@27.0.1)(msw@2.7.3(@types/node@24.10.1)(typescript@5.7.3))
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@24.10.0)(@vitest/ui@4.0.14)(jsdom@27.0.1)(msw@2.7.3(@types/node@24.10.0)(typescript@5.7.3))
 
   '@vitest/utils@3.0.5':
     dependencies:
@@ -20417,17 +20417,6 @@ snapshots:
 
   netmask@2.0.2: {}
 
-  next-i18next@15.4.1(i18next@24.2.1(typescript@5.7.3))(next@15.4.9(@babel/core@7.26.9)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-i18next@15.4.0(i18next@24.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0):
-    dependencies:
-      '@babel/runtime': 7.26.9
-      core-js: 3.40.0
-      hoist-non-react-statics: 3.3.2
-      i18next: 24.2.1(typescript@5.7.3)
-      i18next-fs-backend: 2.6.0
-      next: 15.4.9(@babel/core@7.26.9)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      react: 19.0.0
-      react-i18next: 15.4.0(i18next@24.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-
   next-i18next@15.4.1(i18next@24.2.1(typescript@5.7.3))(next@15.4.9(@babel/core@7.28.5)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-i18next@15.4.0(i18next@24.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0):
     dependencies:
       '@babel/runtime': 7.26.9
@@ -20443,29 +20432,6 @@ snapshots:
     dependencies:
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
-
-  next@15.4.9(@babel/core@7.26.9)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
-    dependencies:
-      '@next/env': 15.4.9
-      '@swc/helpers': 0.5.15
-      caniuse-lite: 1.0.30001760
-      postcss: 8.4.31
-      react: 19.0.0
-      react-dom: 19.0.0(react@19.0.0)
-      styled-jsx: 5.1.6(@babel/core@7.26.9)(react@19.0.0)
-    optionalDependencies:
-      '@next/swc-darwin-arm64': 15.4.8
-      '@next/swc-darwin-x64': 15.4.8
-      '@next/swc-linux-arm64-gnu': 15.4.8
-      '@next/swc-linux-arm64-musl': 15.4.8
-      '@next/swc-linux-x64-gnu': 15.4.8
-      '@next/swc-linux-x64-musl': 15.4.8
-      '@next/swc-win32-arm64-msvc': 15.4.8
-      '@next/swc-win32-x64-msvc': 15.4.8
-      sharp: 0.34.5
-    transitivePeerDependencies:
-      - '@babel/core'
-      - babel-plugin-macros
 
   next@15.4.9(@babel/core@7.28.5)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
@@ -22865,13 +22831,6 @@ snapshots:
   style-to-object@0.3.0:
     dependencies:
       inline-style-parser: 0.1.1
-
-  styled-jsx@5.1.6(@babel/core@7.26.9)(react@19.0.0):
-    dependencies:
-      client-only: 0.0.1
-      react: 19.0.0
-    optionalDependencies:
-      '@babel/core': 7.26.9
 
   styled-jsx@5.1.6(@babel/core@7.28.5)(react@19.0.0):
     dependencies:
