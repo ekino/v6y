@@ -12,7 +12,7 @@
       "shortTitle": "tableau de bord",
       "searchByProjectName": "Rechercher par nom de projet",
       "filters": {
-        "title": "Filtres :",
+        "title": "Filtres",
         "technologies": "Technologies",
         "qualityStatus": "Statut de qualité",
         "lastAnalysis": "Dernière analyse",
