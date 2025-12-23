@@ -36,5 +36,3 @@ if (!i18next.isInitialized) {
             defaultNS: 'common',
         });
 }
-
-export default i18next;
