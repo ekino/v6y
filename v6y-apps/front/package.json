@@ -14,7 +14,7 @@
     "build:tsc": "tsc --project ./tsconfig.json",
     "check:tsc": "tsc --noEmit --project ./tsconfig.json",
     "build": "next build",
-    "start:dev": "next dev -p 4006",
+    "start:dev": "next dev -p 4007",
     "start": "pnpm run build && next start -p 4007",
     "analyze": "ANALYZE=true pnpm build",
     "lint": "next lint",

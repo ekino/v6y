@@ -4,9 +4,10 @@ import Cors from 'cors';
 import Express from 'express';
 import ExpressStatusMonitor from 'express-status-monitor';
 
-import { AppLogger, CorsOptions, ServerUtils } from '@v6y/core-logic';
+import { AppLogger, CorsOptions, DataBaseManager, ServerUtils } from '@v6y/core-logic';
 
 import ServerConfig from './config/ServerConfig.ts';
+import ApplicationManager from './managers/ApplicationManager.ts';
 import DataUpdateScheduler from './workers/DataUpdateScheduler.ts';
 
 const { createServer } = ServerUtils;
@@ -63,6 +64,53 @@ app.get(healthCheckPath, (req, res) => {
     res.status(200).send('V6y Sever is UP !');
 });
 
+// *********************************************** Audit Trigger Endpoint ***********************************************
+
+app.post('/analyze', async (req, res) => {
+    try {
+        const { applicationId, branch } = req.body;
+
+        if (!applicationId) {
+            return res.status(400).json({
+                success: false,
+                message: 'applicationId is required',
+            });
+        }
+
+        AppLogger.info(
+            `[MainAnalyzer - /analyze] Received audit request for applicationId: ${applicationId}, branch: ${branch}`,
+        );
+
+        // Trigger the build process for the application
+        const result = await ApplicationManager.buildApplicationDetailsByParams({
+            applicationId,
+            branch: branch ? { name: branch } : undefined,
+        });
+
+        AppLogger.info(`[MainAnalyzer - /analyze] Build result: ${result}`);
+
+        if (result) {
+            return res.status(200).json({
+                success: true,
+                message: 'Audit triggered successfully',
+                applicationId,
+                branch,
+            });
+        } else {
+            return res.status(500).json({
+                success: false,
+                message: 'Failed to trigger audit',
+            });
+        }
+    } catch (error) {
+        AppLogger.error(`[MainAnalyzer - /analyze] Error:`, error);
+        return res.status(500).json({
+            success: false,
+            message: `Error triggering audit: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        });
+    }
+});
+
 // *********************************************** Handle Endpoints ***********************************************
 
 // default response (unknown routes)
@@ -75,6 +123,15 @@ app.get('/{*any}', (request, response) => {
 });
 
 // *********************************************** Server Config & Launch ***********************************************
+
+// *********************************************** Database Connection ***********************************************
+try {
+    await DataBaseManager.connect();
+    AppLogger.info('Database connected successfully');
+} catch (error) {
+    AppLogger.error('Failed to connect to database:', error);
+    process.exit(1);
+}
 
 await new Promise((resolve) =>
     httpServer.listen(

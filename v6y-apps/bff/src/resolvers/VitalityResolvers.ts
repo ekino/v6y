@@ -1,6 +1,7 @@
 import AccountResolvers from './account/AccountResolvers.ts';
 import ApplicationResolvers from './application/ApplicationResolvers.ts';
 import AuditHelpResolvers from './audit/AuditHelpResolvers.ts';
+import AuditOperationsResolvers from './audit/AuditOperationsResolvers.ts';
 import DeprecatedDependencyResolvers from './dependency/deprecated-status/DeprecatedDependencyResolvers.ts';
 import DependencyStatusHelpResolvers from './dependency/status-help/DependencyStatusHelpResolvers.ts';
 import EvolutionHelpResolvers from './evolutions/EvolutionHelpResolvers.ts';
@@ -15,6 +16,7 @@ const VitalityResolvers = {
         ...NotificationsResolvers.Query,
         ...EvolutionHelpResolvers.Query,
         ...AuditHelpResolvers.Query,
+        ...AuditOperationsResolvers.Query,
         ...DependencyStatusHelpResolvers.Query,
         ...DeprecatedDependencyResolvers.Query,
     },
@@ -25,6 +27,7 @@ const VitalityResolvers = {
         ...NotificationsResolvers.Mutation,
         ...EvolutionHelpResolvers.Mutation,
         ...AuditHelpResolvers.Mutation,
+        ...AuditOperationsResolvers.Mutation,
         ...DependencyStatusHelpResolvers.Mutation,
         ...DeprecatedDependencyResolvers.Mutation,
     },

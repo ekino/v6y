@@ -20,18 +20,29 @@ const VitalityAuditReportsView = () => {
     const { translate } = useTranslationProvider();
     const [_id] = getUrlParams(['_id']);
 
-    const { isLoading: isAppDetailsAuditReportsLoading, data: appDetailsAuditReports } =
-        useClientQuery<{ getApplicationDetailsAuditReportsByParams: AuditType[] }>({
-            queryCacheKey: ['getApplicationDetailsAuditReportsByParams', `${_id}`],
-            queryBuilder: async () =>
-                buildClientQuery({
-                    queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
-                    query: GetApplicationDetailsAuditReportsByParams,
-                    variables: {
-                        _id: parseInt(_id as string, 10),
-                    },
-                }),
-        });
+    const {
+        isLoading: isAppDetailsAuditReportsLoading,
+        data: appDetailsAuditReports,
+        refetch,
+    } = useClientQuery<{ getApplicationDetailsAuditReportsByParams: AuditType[] }>({
+        queryCacheKey: ['getApplicationDetailsAuditReportsByParams', `${_id}`],
+        queryBuilder: async () =>
+            buildClientQuery({
+                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
+                query: GetApplicationDetailsAuditReportsByParams,
+                variables: {
+                    _id: parseInt(_id as string, 10),
+                },
+            }),
+    });
+
+    React.useEffect(() => {
+        console.log('[VitalityAuditReportsView] Audit reports data:', appDetailsAuditReports);
+        console.log(
+            '[VitalityAuditReportsView] Reports count:',
+            appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams?.length,
+        );
+    }, [appDetailsAuditReports]);
 
     if (isAppDetailsAuditReportsLoading) {
         return (
@@ -56,6 +67,15 @@ const VitalityAuditReportsView = () => {
                     <div className="text-sm text-slate-500">
                         {translate('vitality.appDetailsPage.emptyStates.auditReports.description')}
                     </div>
+                    <button
+                        onClick={() => {
+                            console.log('[VitalityAuditReportsView] Manually refetching...');
+                            refetch();
+                        }}
+                        className="mt-4 px-4 py-2 bg-slate-900 text-white rounded-md text-sm hover:bg-slate-800"
+                    >
+                        Refresh Results
+                    </button>
                 </CardContent>
             </Card>
         );

@@ -1,6 +1,8 @@
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
 import * as React from 'react';
+import { toast } from 'sonner';
 
 import { ApplicationType } from '@v6y/core-logic/src/types';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
@@ -11,9 +13,11 @@ import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import { exportAppDetailsDataToCSV } from '../../../commons/utils/VitalityDataExportUtils';
 import {
     buildClientQuery,
+    useClientMutation,
     useClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationDetailsInfosByParams from '../api/getApplicationDetailsInfosByParams';
+import TriggerApplicationAuditMutation from '../api/triggerApplicationAudit';
 import VitalitySummaryCard from '../components/summary-card/VitalitySummaryCard';
 
 const VitalityGeneralInformationView = DynamicLoader(
@@ -37,10 +41,32 @@ const VitalityEvolutionsView = DynamicLoader(() => import('./evolutions/Vitality
 const VitalityAppDetailsView = () => {
     const { getUrlParams } = useNavigationAdapter();
     const { translate } = useTranslationProvider();
+    const queryClient = useQueryClient();
     const [_id] = getUrlParams(['_id']);
     const [activeTab, setActiveTab] = React.useState('overview');
     const [selectedBranch, setSelectedBranch] = React.useState('main');
     const [selectedDate, setSelectedDate] = React.useState('2025-01-01');
+    const [lastAuditTime, setLastAuditTime] = React.useState<number | null>(null);
+    const [cooldownRemaining, setCooldownRemaining] = React.useState(0);
+
+    // Cooldown period: 30 seconds
+    const AUDIT_COOLDOWN = 30000;
+
+    React.useEffect(() => {
+        if (lastAuditTime) {
+            const interval = setInterval(() => {
+                const elapsed = Date.now() - lastAuditTime;
+                const remaining = Math.max(0, Math.ceil((AUDIT_COOLDOWN - elapsed) / 1000));
+                setCooldownRemaining(remaining);
+
+                if (remaining === 0) {
+                    clearInterval(interval);
+                }
+            }, 1000);
+
+            return () => clearInterval(interval);
+        }
+    }, [lastAuditTime]);
 
     const { isLoading: isAppDetailsInfosLoading, data: appDetailsInfos } = useClientQuery<{
         getApplicationDetailsInfoByParams: ApplicationType;
@@ -57,6 +83,65 @@ const VitalityAppDetailsView = () => {
     });
 
     const appInfos = appDetailsInfos?.getApplicationDetailsInfoByParams;
+
+    const { mutate: triggerAudit, isLoading: isTriggeringAudit } = useClientMutation<{
+        triggerApplicationAudit: { success: boolean; message: string; data: unknown };
+    }>({
+        mutationKey: ['triggerApplicationAudit'],
+        mutationBuilder: async () =>
+            buildClientQuery({
+                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
+                query: TriggerApplicationAuditMutation,
+                variables: {
+                    applicationId: parseInt(_id as string, 10),
+                    branch: selectedBranch,
+                },
+            }),
+        onSuccess: (data) => {
+            console.log('[Audit Trigger] Success response:', data);
+            if (data?.triggerApplicationAudit?.success) {
+                setLastAuditTime(Date.now());
+
+                toast.success(
+                    data.triggerApplicationAudit.message || 'Audit started successfully!',
+                    {
+                        description:
+                            'Processing may take 30-60 seconds. Results will appear in the Performance tab.',
+                        duration: 5000,
+                    },
+                );
+
+                // Switch to performance tab to show where results will appear
+                setActiveTab('performance');
+
+                // Invalidate and refetch audit results after a delay to allow auditors to process
+                setTimeout(() => {
+                    queryClient.invalidateQueries({
+                        queryKey: ['getApplicationDetailsAuditReportsByParams'],
+                    });
+                }, 5000);
+
+                // Set up polling to refresh results periodically
+                const pollInterval = setInterval(() => {
+                    queryClient.invalidateQueries({
+                        queryKey: ['getApplicationDetailsAuditReportsByParams'],
+                    });
+                }, 15000); // Poll every 15 seconds
+
+                // Stop polling after 3 minutes
+                setTimeout(() => {
+                    clearInterval(pollInterval);
+                }, 180000);
+            } else {
+                console.error('[Audit Trigger] Failed:', data?.triggerApplicationAudit?.message);
+                toast.error(data?.triggerApplicationAudit?.message || 'Failed to trigger audit');
+            }
+        },
+        onError: (error) => {
+            console.error('[Audit Trigger] Error:', error);
+            toast.error(`Failed to trigger audit: ${error.message || 'Please try again.'}`);
+        },
+    });
 
     const tabs = [
         { id: 'overview', label: translate('vitality.appDetailsPage.tabs.overview') },
@@ -183,6 +268,8 @@ const VitalityAppDetailsView = () => {
                                 variant="outline"
                                 size="sm"
                                 className="h-8 w-9 p-2 border-slate-300 rounded-md"
+                                onClick={() => window.location.reload()}
+                                title="Refresh page"
                             >
                                 <ReloadIcon className="w-4 h-4" />
                             </Button>
@@ -190,15 +277,67 @@ const VitalityAppDetailsView = () => {
                                 variant="outline"
                                 size="sm"
                                 className="h-8 w-9 p-2 border-slate-300 rounded-md"
+                                onClick={() =>
+                                    appInfos?.repo?.url && window.open(appInfos.repo.url, '_blank')
+                                }
+                                title="View repository"
+                                disabled={!appInfos?.repo?.url}
                             >
                                 <GlobeIcon className="w-4 h-4" />
                             </Button>
                             <Button
                                 variant="outline"
                                 size="sm"
-                                className="h-8 w-9 p-2 border-slate-300 rounded-md"
+                                className={`h-8 px-3 border-slate-300 rounded-md flex items-center gap-2 transition-all ${
+                                    isTriggeringAudit || cooldownRemaining > 0
+                                        ? 'opacity-70 cursor-wait'
+                                        : ''
+                                }`}
+                                onClick={() => triggerAudit()}
+                                disabled={isTriggeringAudit || !appInfos || cooldownRemaining > 0}
+                                title={
+                                    cooldownRemaining > 0
+                                        ? `Please wait ${cooldownRemaining}s before running another audit`
+                                        : isTriggeringAudit
+                                          ? 'Audit in progress...'
+                                          : 'Run audit analysis'
+                                }
                             >
-                                <PlayIcon className="w-4 h-4" />
+                                {isTriggeringAudit ? (
+                                    <>
+                                        <svg
+                                            className="animate-spin h-4 w-4"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <circle
+                                                className="opacity-25"
+                                                cx="12"
+                                                cy="12"
+                                                r="10"
+                                                stroke="currentColor"
+                                                strokeWidth="4"
+                                            ></circle>
+                                            <path
+                                                className="opacity-75"
+                                                fill="currentColor"
+                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                            ></path>
+                                        </svg>
+                                        <span>Running...</span>
+                                    </>
+                                ) : cooldownRemaining > 0 ? (
+                                    <>
+                                        <PlayIcon className="w-4 h-4" />
+                                        <span>Wait {cooldownRemaining}s</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <PlayIcon className="w-4 h-4" />
+                                        <span>Run Audit</span>
+                                    </>
+                                )}
                             </Button>
                         </div>
                     </div>

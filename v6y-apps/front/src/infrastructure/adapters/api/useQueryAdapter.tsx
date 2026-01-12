@@ -1,9 +1,10 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import { request } from 'graphql-request';
 
 import { SessionType, getSession } from '../../providers/SessionProvider';
 import {
     BuildClientQueryParams,
+    UseClientMutationParams,
     UseClientQueryParams,
     UseInfiniteClientQueryParams,
 } from './QueryAdapterType';
@@ -40,4 +41,23 @@ export const useInfiniteClientQuery = <TData = unknown,>({
         queryFn: queryBuilder,
         getNextPageParam: getNextPageParam ? getNextPageParam : () => {},
     });
+};
+
+export const useClientMutation = <TData = unknown,>({
+    mutationKey,
+    mutationBuilder,
+    onSuccess,
+    onError,
+}: UseClientMutationParams<TData>) => {
+    const mutation = useMutation<TData, Error>({
+        mutationKey,
+        mutationFn: mutationBuilder,
+        onSuccess,
+        onError,
+    });
+
+    return {
+        ...mutation,
+        isLoading: mutation.isPending, // For backward compatibility
+    };
 };

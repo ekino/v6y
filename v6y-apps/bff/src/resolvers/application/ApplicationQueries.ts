@@ -75,6 +75,17 @@ const getApplicationDetailsAuditReportsByParams = async (
             `[ApplicationQueries - getApplicationDetailsAuditReports] auditsReports : ${auditsReports?.length}`,
         );
 
+        if (auditsReports && auditsReports.length > 0) {
+            AppLogger.info(
+                `[ApplicationQueries - getApplicationDetailsAuditReports] First audit:`,
+                JSON.stringify(auditsReports[0]),
+            );
+        } else {
+            AppLogger.warn(
+                `[ApplicationQueries - getApplicationDetailsAuditReports] No audit reports found for appId: ${_id}`,
+            );
+        }
+
         return auditsReports;
     } catch (error) {
         AppLogger.info(`[ApplicationQueries - getApplicationDetailsAuditReports] error : ${error}`);

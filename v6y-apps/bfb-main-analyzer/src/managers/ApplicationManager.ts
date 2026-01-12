@@ -75,13 +75,31 @@ const buildApplicationFrontendByBranch = async ({
     );
 
     try {
-        await fetch(staticAuditorApiPath as string, {
+        AppLogger.info(
+            `[ApplicationManager - buildApplicationFrontendByBranch] Calling static auditor for applicationId: ${applicationId}`,
+        );
+
+        const response = await fetch(staticAuditorApiPath as string, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ applicationId, workspaceFolder }),
         });
-    } catch (error) {
+
+        const result = await response.text();
         AppLogger.info(
+            `[ApplicationManager - buildApplicationFrontendByBranch] Static auditor response status: ${response.status}`,
+        );
+        AppLogger.info(
+            `[ApplicationManager - buildApplicationFrontendByBranch] Static auditor response: ${result}`,
+        );
+
+        if (!response.ok) {
+            AppLogger.error(
+                `[ApplicationManager - buildApplicationFrontendByBranch] Static auditor failed with status ${response.status}`,
+            );
+        }
+    } catch (error) {
+        AppLogger.error(
             `[ApplicationManager - buildApplicationFrontendByBranch - staticAuditor] error:  ${error}`,
         );
     }
@@ -362,8 +380,83 @@ const buildApplicationList = async () => {
     }
 };
 
+/**
+ * Builds application details by specific params (for triggered audits).
+ * @param applicationId - The ID of the application to audit
+ * @param branch - Optional specific branch to audit
+ */
+const buildApplicationDetailsByParams = async ({
+    applicationId,
+    branch,
+}: {
+    applicationId: number;
+    branch?: { name: string };
+}) => {
+    try {
+        AppLogger.info(
+            `[ApplicationManager - buildApplicationDetailsByParams] applicationId: ${applicationId}, branch: ${branch?.name}`,
+        );
+
+        // Get application details
+        const application = await ApplicationProvider.getApplicationDetailsInfoByParams({
+            _id: applicationId,
+        });
+
+        AppLogger.info(
+            `[ApplicationManager - buildApplicationDetailsByParams] application found: ${application?._id}`,
+        );
+
+        if (!application) {
+            AppLogger.error(
+                `[ApplicationManager - buildApplicationDetailsByParams] Application not found: ${applicationId}`,
+            );
+            return false;
+        }
+
+        // If specific branch is provided, audit only that branch
+        if (branch?.name) {
+            AppLogger.info(
+                `[ApplicationManager - buildApplicationDetailsByParams] Auditing specific branch: ${branch.name}`,
+            );
+
+            // Run static analysis for the specific branch
+            const staticResult = await buildStaticReports({
+                application,
+                branches: [branch],
+            });
+
+            AppLogger.info(
+                `[ApplicationManager - buildApplicationDetailsByParams] Static analysis result: ${staticResult}`,
+            );
+
+            // Run dynamic analysis
+            const dynamicResult = await buildDynamicReports({
+                application,
+            });
+
+            AppLogger.info(
+                `[ApplicationManager - buildApplicationDetailsByParams] Dynamic analysis result: ${dynamicResult}`,
+            );
+
+            return true;
+        }
+
+        // Otherwise, run full audit
+        AppLogger.info(`[ApplicationManager - buildApplicationDetailsByParams] Running full audit`);
+        const result = await buildApplicationReports(application);
+        AppLogger.info(
+            `[ApplicationManager - buildApplicationDetailsByParams] Full audit result: ${result}`,
+        );
+        return result;
+    } catch (error) {
+        AppLogger.error(`[ApplicationManager - buildApplicationDetailsByParams] error: ${error}`);
+        return false;
+    }
+};
+
 const ApplicationManager = {
     buildApplicationList,
+    buildApplicationDetailsByParams,
 };
 
 export default ApplicationManager;
