@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import { DynamicLoader } from '@v6y/ui-kit';
 import {
     Badge,
@@ -13,7 +15,6 @@ import {
     useNavigationAdapter,
     useTranslationProvider,
 } from '@v6y/ui-kit-front';
-import { useEffect, useState } from 'react';
 
 const VitalityAppList = DynamicLoader(() => import('./VitalityAppList'));
 
@@ -91,8 +92,8 @@ const VitalityAppListView = () => {
                 <CardContent>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
                         {AVAILABLE_TECHNOLOGIES.map(({ slug, name }) => (
-                            <div 
-                                key={slug} 
+                            <div
+                                key={slug}
                                 className="flex items-center space-x-2 hover:bg-gray-50 p-2 rounded transition-colors"
                             >
                                 <Checkbox
@@ -118,7 +119,8 @@ const VitalityAppListView = () => {
                 <div className="space-y-3">
                     <div className="flex items-center gap-2">
                         <TypographyH3 className="text-md">
-                            {translate('vitality.appListPage.activeFiltersLabel') || 'Active Filters'}
+                            {translate('vitality.appListPage.activeFiltersLabel') ||
+                                'Active Filters'}
                         </TypographyH3>
                         <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
                             {selectedKeywords.length} selected

@@ -23,13 +23,6 @@ export type LighthouseDeviceConfigType = {
     };
 };
 
-export interface LighthouseAuditConfigType {
-    applicationId?: number;
-    link?: string;
-    browserPath?: string;
-    lightHouseConfig?: LighthouseDeviceConfigType;
-}
-
 export interface LighthouseAuditCategoryType {
     id?: string;
     score?: number;
