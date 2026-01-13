@@ -28,7 +28,7 @@ services:
     command: pnpm run start:bff
     ports:
       - "4001:4001"
-    image: ghcr.io/<registry-owner>/v6y-bff:latest
+    image: ghcr.io/${REGISTRY_OWNER}/v6y-bff:latest
     environment:
       - PSQL_DB_HOST=${PSQL_DB_HOST}
       - PSQL_DB_NAME=${PSQL_DB_NAME}
@@ -53,7 +53,7 @@ services:
     command: pnpm run start:bfb:main
     ports:
       - "4002:4002"
-    image: ghcr.io/<registry-owner>/v6y-bfb-main-analyzer:latest
+    image: ghcr.io/${REGISTRY_OWNER}/v6y-bfb-main-analyzer:latest
     environment:
       - PSQL_DB_HOST=${PSQL_DB_HOST}
       - PSQL_DB_NAME=${PSQL_DB_NAME}
@@ -80,7 +80,7 @@ services:
     command: pnpm run start:bfb:static
     ports:
       - "4003:4003"
-    image: ghcr.io/<registry-owner>/v6y-bfb-static-code-auditor:latest
+    image: ghcr.io/${REGISTRY_OWNER}/v6y-bfb-static-code-auditor:latest
     environment:
       - PSQL_DB_HOST=${PSQL_DB_HOST}
       - PSQL_DB_NAME=${PSQL_DB_NAME}
@@ -105,7 +105,7 @@ services:
     command: pnpm run start:bfb:dynamic
     ports:
       - "4004:4004"
-    image: ghcr.io/<registry-owner>/v6y-bfb-url-dynamic-auditor:latest
+    image: ghcr.io/${REGISTRY_OWNER}/v6y-bfb-url-dynamic-auditor:latest
     environment:
       - PSQL_DB_HOST=${PSQL_DB_HOST}
       - PSQL_DB_NAME=${PSQL_DB_NAME}
@@ -130,7 +130,7 @@ services:
     command: pnpm run start:bfb:devops
     ports:
       - "4005:4005"
-    image: ghcr.io/<registry-owner>/v6y-bfb-devops-auditor:latest
+    image: ghcr.io/${REGISTRY_OWNER}/v6y-bfb-devops-auditor:latest
     environment:
       - PSQL_DB_HOST=${PSQL_DB_HOST}
       - PSQL_DB_NAME=${PSQL_DB_NAME}
@@ -155,7 +155,7 @@ services:
     command: pnpm run start:frontend
     ports:
       - "4006:4006"
-    image: ghcr.io/<registry-owner>/v6y-frontend:latest
+    image: ghcr.io/${REGISTRY_OWNER}/v6y-frontend:latest
     environment:
       - NEXT_PUBLIC_V6Y_BFF_PATH=${NEXT_PUBLIC_V6Y_BFF_PATH}
     healthcheck:
@@ -171,7 +171,7 @@ services:
     command: pnpm run start:frontend:bo
     ports:
       - "4008:4008"
-    image: ghcr.io/<registry-owner>/v6y-frontend-bo:latest
+    image: ghcr.io/${REGISTRY_OWNER}/v6y-frontend-bo:latest
     environment:
       - NEXT_PUBLIC_V6Y_BFF_PATH=${NEXT_PUBLIC_V6Y_BFF_PATH}
       - NEXTAUTH_URL=${NEXTAUTH_URL}
