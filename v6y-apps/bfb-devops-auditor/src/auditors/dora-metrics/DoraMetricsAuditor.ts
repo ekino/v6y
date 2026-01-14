@@ -40,15 +40,23 @@ const startAuditorAnalysis = async ({ applicationId }: DoraMetricsAuditConfigTyp
         AppLogger.info(
             `[DoraMetricsAuditor - startAuditorAnalysis] application _id:  ${application?._id}`,
         );
+        AppLogger.info(
+            `[DoraMetricsAuditor - startAuditorAnalysis] application.repo:  ${JSON.stringify(application?.repo)}`,
+        );
+        AppLogger.info(
+            `[DoraMetricsAuditor - startAuditorAnalysis] organization:  ${application.repo?.organization}`,
+        );
+        AppLogger.info(
+            `[DoraMetricsAuditor - startAuditorAnalysis] gitUrl:  ${application.repo?.gitUrl}`,
+        );
 
-        const repositoryDetails = await RepositoryApi.getRepositoryDetails({
-            organization: application.repo?.organization,
-            gitRepositoryName: application.repo?.gitUrl?.split('/').pop()?.replace('.git', ''),
-            type: 'gitlab',
-        });
+        const gitUrlParts = application.repo?.gitUrl?.replace('.git', '').split('/');
+        const projectPath = gitUrlParts?.slice(-2).join('/');
 
-        if (!repositoryDetails?.id) {
-            AppLogger.error(`[DoraMetricsAuditor - startAuditorAnalysis] repository id is missing`);
+        AppLogger.info(`[DoraMetricsAuditor - startAuditorAnalysis] projectPath:  ${projectPath}`);
+
+        if (!projectPath) {
+            AppLogger.error(`[DoraMetricsAuditor - startAuditorAnalysis] project path is missing`);
             return false;
         }
 
@@ -62,7 +70,7 @@ const startAuditorAnalysis = async ({ applicationId }: DoraMetricsAuditConfigTyp
             dateStart.setDate(dateStart.getDate() - range);
             const reports = await startDoraMetricsAnalysis({
                 application,
-                repositoryDetails,
+                projectPath,
                 dateStart,
                 dateEnd,
             });
@@ -88,28 +96,23 @@ const startAuditorAnalysis = async ({ applicationId }: DoraMetricsAuditConfigTyp
 /**
  * Starts the Dora Metrics analysis.
  * @param application
- * @param repositoryDetails
- * @param dateStartStr
- * @param dateEndStr
+ * @param projectPath
+ * @param dateStart
+ * @param dateEnd
  */
 const startDoraMetricsAnalysis = async ({
     application,
-    repositoryDetails,
+    projectPath,
     dateStart,
     dateEnd,
 }: startDoraMetricsAnalysisParamsType) => {
-    if (!repositoryDetails?.id) {
-        AppLogger.error(`[DoraMetricsAuditor - startAuditorAnalysis] repository id is missing`);
-        return [];
-    }
-
     AppLogger.info(
         `[DoraMetricsAuditor - startAuditorAnalysis] Starting Analysis for date range : ${dateStart} - ${dateEnd}`,
     );
 
     const mergeRequests = await RepositoryApi.getRepositoryMergeRequests({
         organization: application.repo?.organization,
-        repositoryId: repositoryDetails?.id,
+        projectPath,
         dateStart,
         dateEnd,
     });
@@ -120,7 +123,7 @@ const startDoraMetricsAnalysis = async ({
 
     const deployments = await RepositoryApi.getRepositoryDeployments({
         organization: application.repo?.organization,
-        repositoryId: repositoryDetails?.id,
+        projectPath,
         dateStart: dateStart,
         dateEnd: dateEnd,
     });

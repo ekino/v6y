@@ -27,6 +27,8 @@ const VitalityDoraReportItem = ({ report, onOpenHelpClicked }: VitalityDoraRepor
     const qualityMetricStatusIcons = currentConfig?.statusIcons || {};
     const { translate } = useTranslationProvider();
 
+    console.log('test');
+
     return (
         <Card
             key={`${report.type}-${report.category}`}
@@ -50,22 +52,32 @@ const VitalityDoraReportItem = ({ report, onOpenHelpClicked }: VitalityDoraRepor
                             />
                         </Col>
                         <Col span={22}>
-                            <Statistic
-                                value={report.score || 0}
-                                suffix={report.scoreUnit || ''}
-                                valueStyle={{
-                                    color: qualityMetricStatus[
-                                        (report.scoreStatus as keyof typeof qualityMetricStatus) ||
-                                            'default'
-                                    ],
-                                }}
-                                prefix={
-                                    qualityMetricStatusIcons[
-                                        (report.scoreStatus as keyof typeof qualityMetricStatusIcons) ||
-                                            'default'
-                                    ]
-                                }
-                            />
+                            {report.score === null || report.score === undefined ? (
+                                <div className="flex items-center justify-center">
+                                    <span className="px-3 py-1.5 bg-slate-100 text-slate-600 rounded-md text-sm font-medium">
+                                        {translate(
+                                            'vitality.appDetailsPage.audit.scoreNotRetrieved',
+                                        )}
+                                    </span>
+                                </div>
+                            ) : (
+                                <Statistic
+                                    value={report.score}
+                                    suffix={report.scoreUnit || ''}
+                                    valueStyle={{
+                                        color: qualityMetricStatus[
+                                            (report.scoreStatus as keyof typeof qualityMetricStatus) ||
+                                                'default'
+                                        ],
+                                    }}
+                                    prefix={
+                                        qualityMetricStatusIcons[
+                                            (report.scoreStatus as keyof typeof qualityMetricStatusIcons) ||
+                                                'default'
+                                        ]
+                                    }
+                                />
+                            )}
                         </Col>
                     </Row>
                 }

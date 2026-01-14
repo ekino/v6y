@@ -36,14 +36,6 @@ const VitalityAuditReportsView = () => {
             }),
     });
 
-    React.useEffect(() => {
-        console.log('[VitalityAuditReportsView] Audit reports data:', appDetailsAuditReports);
-        console.log(
-            '[VitalityAuditReportsView] Reports count:',
-            appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams?.length,
-        );
-    }, [appDetailsAuditReports]);
-
     if (isAppDetailsAuditReportsLoading) {
         return (
             <Card className="border-slate-200 shadow-sm">

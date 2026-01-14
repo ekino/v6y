@@ -93,7 +93,15 @@ const getRepositoryDetails = async ({
     type,
 }: GetFileContentOptions): Promise<RepositoryType | null> => {
     try {
+        AppLogger.info(
+            `[RepositoryApi - getRepositoryDetails] organization: ${organization}, gitRepositoryName: ${gitRepositoryName}, type: ${type}`,
+        );
+
         const queryOptions = buildQueryOptions({ organization, type });
+
+        AppLogger.info(
+            `[RepositoryApi - getRepositoryDetails] queryOptions.urls.repositoryDetailsUrl: ${queryOptions.urls.repositoryDetailsUrl(gitRepositoryName || '')}`,
+        );
 
         const repositoryResponse = await fetch(
             queryOptions.urls.repositoryDetailsUrl(gitRepositoryName || ''),
@@ -105,8 +113,18 @@ const getRepositoryDetails = async ({
 
         const repositoryJsonResponse = await repositoryResponse.json();
 
+        AppLogger.info(
+            `[RepositoryApi - getRepositoryDetails] Response status: ${repositoryResponse.status}, isArray: ${Array.isArray(repositoryJsonResponse)}, length: ${repositoryJsonResponse?.length}`,
+        );
+
         if (!repositoryJsonResponse || !Array.isArray(repositoryJsonResponse)) {
             return null;
+        }
+
+        if (repositoryJsonResponse.length > 0) {
+            AppLogger.info(
+                `[RepositoryApi - getRepositoryDetails] Found repository with id: ${repositoryJsonResponse[0]?.id}`,
+            );
         }
 
         return repositoryJsonResponse[0];
@@ -202,6 +220,7 @@ const getRepositoryBranches = async ({
  */
 const getRepositoryMergeRequests = async ({
     organization,
+    projectPath,
     repositoryId,
     dateStart,
     dateEnd,
@@ -209,8 +228,9 @@ const getRepositoryMergeRequests = async ({
 }: getRepositoryMergeRequestsOptions): Promise<MergeRequestType[]> => {
     try {
         const queryOptions = buildQueryOptions({ organization, type });
+        const projectIdentifier = projectPath ? encodeURIComponent(projectPath) : repositoryId;
         let mergeRequestsUrl = (queryOptions as GitlabConfigType).urls.repositoryMergeRequestsUrl(
-            repositoryId,
+            projectIdentifier!,
         );
 
         if (dateStart && dateEnd) {
@@ -250,6 +270,7 @@ const getRepositoryMergeRequests = async ({
  */
 const getRepositoryDeployments = async ({
     organization,
+    projectPath,
     repositoryId,
     dateStart,
     dateEnd,
@@ -257,8 +278,9 @@ const getRepositoryDeployments = async ({
 }: getRepositoryDeploymentsOptions): Promise<DeployementType[]> => {
     try {
         const queryOptions = buildQueryOptions({ organization, type });
+        const projectIdentifier = projectPath ? encodeURIComponent(projectPath) : repositoryId;
         let deploymentsUrl =
-            (queryOptions as GitlabConfigType).urls.repositoryDeploymentsUrl(repositoryId) +
+            (queryOptions as GitlabConfigType).urls.repositoryDeploymentsUrl(projectIdentifier!) +
             '?status=success';
 
         if (dateStart && dateEnd) {

@@ -60,6 +60,19 @@
         "dependencies": "Loading dependencies...",
         "evolutions": "Loading evolutions..."
       },
+      "audit": {
+        "scoreNotRetrieved": "Score could not be retrieved",
+        "runAudit": "Run Audit",
+        "running": "Running...",
+        "waitSeconds": "Wait {seconds}s",
+        "pleasewait": "Please wait {seconds}s before running another audit",
+        "inProgress": "Audit in progress...",
+        "runAnalysis": "Run audit analysis",
+        "status": "Status",
+        "dateStart": "Start Date",
+        "dateEnd": "End Date",
+        "viewSource": "View Source"
+      },
       "emptyStates": {
         "auditReports": {
           "title": "No audit reports available",
