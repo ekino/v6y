@@ -1,5 +1,5 @@
 import { ApplicationType, DeployementType, MergeRequestType } from '@v6y/core-logic';
-import { MonitoringEventType, RepositoryType } from '@v6y/core-logic';
+import { MonitoringEventType } from '@v6y/core-logic';
 
 export interface DoraMetricsAuditConfigType {
     applicationId?: number;
@@ -7,7 +7,7 @@ export interface DoraMetricsAuditConfigType {
 
 export interface startDoraMetricsAnalysisParamsType {
     application: ApplicationType;
-    repositoryDetails: RepositoryType;
+    projectPath: string;
     dateStart: Date;
     dateEnd: Date;
 }

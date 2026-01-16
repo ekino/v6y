@@ -83,6 +83,15 @@ vi.mock('../../infrastructure/adapters/api/useQueryAdapter', () => {
                 },
             },
         })),
+        useClientMutation: vi.fn(() => ({
+            mutate: vi.fn(),
+            isLoading: false,
+            isPending: false,
+            isSuccess: false,
+            isError: false,
+            data: undefined,
+            error: null,
+        })),
         buildClientQuery: vi.fn(),
     };
 });

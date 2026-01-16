@@ -60,6 +60,19 @@
         "dependencies": "Chargement des dépendances...",
         "evolutions": "Chargement des évolutions..."
       },
+      "audit": {
+        "scoreNotRetrieved": "Le score n'a pas pu être récupéré",
+        "runAudit": "Lancer l'audit",
+        "running": "En cours...",
+        "waitSeconds": "Attendre {seconds}s",
+        "pleasewait": "Veuillez attendre {seconds}s avant de lancer un autre audit",
+        "inProgress": "Audit en cours...",
+        "runAnalysis": "Lancer l'analyse d'audit",
+        "status": "Statut",
+        "dateStart": "Date de début",
+        "dateEnd": "Date de fin",
+        "viewSource": "Voir la source"
+      },
       "emptyStates": {
         "auditReports": {
           "title": "Aucun rapport d'audit disponible",

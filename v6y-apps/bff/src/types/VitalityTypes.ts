@@ -17,6 +17,7 @@ import ApplicationDeleteOutput from './application/ApplicationDeleteOutput.ts';
 import ApplicationMutationsType from './application/ApplicationMutationsType.ts';
 import ApplicationQueriesType from './application/ApplicationQueriesType.ts';
 import ApplicationType from './application/ApplicationType.ts';
+import AuditOperationsType from './audit/AuditOperationsType.ts';
 import AuditReportType from './audit/AuditReportType.ts';
 import AuditHelpCreateOrEditInput from './audit/help/AuditHelpCreateOrEditInput.ts';
 import AuditHelpDeleteInput from './audit/help/AuditHelpDeleteInput.ts';
@@ -91,6 +92,9 @@ const VitalityTypes = gql(`
     ${AuditReportType}
     ${FaqType}
     ${NotificationType}
+
+    # audit operations schemas
+    ${AuditOperationsType}
 
     # the schemas allows the following queries
     ${ApplicationQueriesType}

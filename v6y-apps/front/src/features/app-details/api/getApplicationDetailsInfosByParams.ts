@@ -12,6 +12,7 @@ const GetApplicationDetailsInfosByParams = gql`
                 name
                 webUrl
                 gitUrl
+                organization
                 allBranches
             }
             links {
