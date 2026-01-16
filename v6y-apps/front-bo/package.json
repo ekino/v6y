@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@refinedev/cli": "=2.16.42",
+    "@tanstack/react-query": "=4.36.1",
     "@urql/core": "=6.0.1",
     "@v6y/core-logic": "workspace:^",
     "@v6y/ui-kit": "workspace:^",
