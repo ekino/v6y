@@ -1155,8 +1155,8 @@ importers:
         specifier: workspace:^
         version: link:../core-logic
       ag-charts-react:
-        specifier: '=11.0.3'
-        version: 11.0.3(ag-charts-community@11.0.3)(react@19.0.0)
+        specifier: '=13.0.0'
+        version: 13.0.0(react@19.0.0)
       antd:
         specifier: '=5.23.1'
         version: 5.23.1(date-fns@4.1.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -5263,20 +5263,22 @@ packages:
   after@0.8.2:
     resolution: {integrity: sha512-QbJ0NTQ/I9DI3uSJA4cbexiwQeRAfjPScqIbSjUDd9TOrcg6pTkdgziesOqxBMBzit8vFCTwrP27t13vFOORRA==}
 
-  ag-charts-community@11.0.3:
-    resolution: {integrity: sha512-S3+gGxJSCSqMyyM8x2US1XBpS++UXLqcMu/Ne/PPXK0uyY7Ca4c6cjEj+ne+p0MTzSdgL0NaeGKxnzEyRpma1A==}
+  ag-charts-community@13.0.0:
+    resolution: {integrity: sha512-zIBokGrkvpySdksjCFVC/gOrtQSFeJ8j8n1WT7XV4UW1qvEeBIlme6Ng0srWS0HaACwNg9hn9WDEhnBDldbRTg==}
 
-  ag-charts-locale@11.0.3:
-    resolution: {integrity: sha512-DaHGu22bOrS+2WngwlAGwru7gQECMm9rkulGS0CxveNMwXkw42of6R81zcHZYWYRNuxqg00XKuWfa7nzakoO/w==}
+  ag-charts-core@13.0.0:
+    resolution: {integrity: sha512-OFN6aDhKDKzez8sSN1NEO/j/rNa0C5G/9EH5FkNFdVh4T96Ul19xpyZupZZl4kTvENN+ayGwRU6Ui8zau71Rog==}
 
-  ag-charts-react@11.0.3:
-    resolution: {integrity: sha512-QGXQoaPiGhPAmby1ISQ78Dy1qz0/xNqpYpkHY3qayQH72HBTAAHkBklLPKbwfr1Yu8quYkDzCd04MOjeOCsjyg==}
+  ag-charts-locale@13.0.0:
+    resolution: {integrity: sha512-QUJsinNJIQgtaOiz+DvnCPynux3UwYrk9TIdXl0x3dH9OjSWPrF38cshDD7CZ8qJVR4YJloRyJ1aWGYOUBipUQ==}
+
+  ag-charts-react@13.0.0:
+    resolution: {integrity: sha512-oQ8ds+AYnTPmOTfVe+8cOxSaomjXA9gwiM9Pq1DuOG8F/I/2QH89+KzNVuoxOktfKNxiUaJwsQKRDFNN/VlkbQ==}
     peerDependencies:
-      ag-charts-community: 11.0.3
       react: ^18.0.0 || ^19.0.0
 
-  ag-charts-types@11.0.3:
-    resolution: {integrity: sha512-q7O2viQXPyO014QVH7KjFCUmQ/NvMBx9ReZtramQ44u+/aAa0ttLi/coK+V0Hse4/MG1eB/2XhgymdooQ0Kalg==}
+  ag-charts-types@13.0.0:
+    resolution: {integrity: sha512-mqOmKS0q4s2tt/C+CBG2Z+HWrSKYvRUCAlQzcKXKfARE3v/KdnBuxfjafa2c8ivElTTywdVdOe0q52Cow2Oggw==}
 
   agent-base@7.1.3:
     resolution: {integrity: sha512-jRR5wdylq8CkOe6hei19GGZnxM6rBGwFl3Bg0YItGDimvjGtAvdZk4Pu6Cl4u4Igsws4a1fd1Vq3ezrhn4KmFw==}
@@ -16214,19 +16216,24 @@ snapshots:
 
   after@0.8.2: {}
 
-  ag-charts-community@11.0.3:
+  ag-charts-community@13.0.0:
     dependencies:
-      ag-charts-locale: 11.0.3
-      ag-charts-types: 11.0.3
+      ag-charts-core: 13.0.0
+      ag-charts-locale: 13.0.0
+      ag-charts-types: 13.0.0
 
-  ag-charts-locale@11.0.3: {}
-
-  ag-charts-react@11.0.3(ag-charts-community@11.0.3)(react@19.0.0):
+  ag-charts-core@13.0.0:
     dependencies:
-      ag-charts-community: 11.0.3
+      ag-charts-types: 13.0.0
+
+  ag-charts-locale@13.0.0: {}
+
+  ag-charts-react@13.0.0(react@19.0.0):
+    dependencies:
+      ag-charts-community: 13.0.0
       react: 19.0.0
 
-  ag-charts-types@11.0.3: {}
+  ag-charts-types@13.0.0: {}
 
   agent-base@7.1.3: {}
 
