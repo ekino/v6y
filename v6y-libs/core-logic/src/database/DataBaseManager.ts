@@ -1,4 +1,4 @@
-import { OperatorsAliases, Sequelize } from 'sequelize';
+import { Sequelize } from 'sequelize';
 
 import AppLogger from '../core/AppLogger.ts';
 import AuditHelpProvider from './AuditHelpProvider.ts';
@@ -35,11 +35,8 @@ const postgresDataBaseConnector = (dbOptions: DbOptions) => {
     return new Sequelize(dbOptions?.dbName, dbOptions?.dbUser, dbOptions?.dbPassword, {
         host: dbOptions?.dbHost,
         port: parseInt(dbOptions?.dbPort),
-        operatorsAliases: false as unknown as OperatorsAliases,
         dialect: 'postgres',
-        dialectOptions: {
-            // Your pg options here
-        },
+        logging: false,
         define: {
             underscored: true,
         },

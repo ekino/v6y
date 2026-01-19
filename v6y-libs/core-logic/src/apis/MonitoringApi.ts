@@ -75,6 +75,21 @@ const getMonitoringEvents = async ({ application, dateStart, dateEnd }: GetEvent
         AppLogger.info(
             `[EventApi - getEvents] Fetching events for application: ${application._id}`,
         );
+
+        AppLogger.info(
+            `[EventApi - getEvents] Application configuration exists: ${!!application.configuration}`,
+        );
+        AppLogger.info(
+            `[EventApi - getEvents] DataDog config exists: ${!!application.configuration?.dataDog}`,
+        );
+
+        if (application.configuration?.dataDog) {
+            const { dataDog } = application.configuration;
+            AppLogger.info(
+                `[EventApi - getEvents] DataDog config - url: ${!!dataDog.url}, monitorId: ${!!dataDog.monitorId}, apiKey: ${!!dataDog.apiKey}, appKey: ${!!dataDog.appKey}`,
+            );
+        }
+
         if (!application || !application.configuration?.dataDog) {
             AppLogger.error(
                 `[EventApi - getEvents] Application or DataDog configuration is missing`,

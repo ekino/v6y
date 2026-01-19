@@ -40,16 +40,23 @@ const calculateDeploymentFrequency = ({
     dateEnd,
 }: DeploymentFrequencyParamsType): DoraMetricType => {
     AppLogger.info(`[DoraMetricsUtils - calculateDeploymentFrequency] start`);
+    AppLogger.info(
+        `[DoraMetricsUtils - calculateDeploymentFrequency] deployments input type: ${typeof deployments}, isArray: ${Array.isArray(deployments)}, length: ${deployments?.length}`,
+    );
 
-    if (!deployments || deployments.length === 0) {
-        AppLogger.info(`[DoraMetricsUtils - calculateDeploymentFrequency] deployments is empty`);
+    const deploymentsArray = Array.isArray(deployments) ? deployments : [];
+
+    if (deploymentsArray.length === 0) {
+        AppLogger.info(
+            `[DoraMetricsUtils - calculateDeploymentFrequency] deployments is empty - this could indicate no deployments in the time period or API access issues`,
+        );
         return { auditStatus: auditStatus.failure, valueStatus: null, value: null };
     }
 
-    const deploymentTimes = deployments
-        .filter((d) => d.status === 'success')
-        .map((d) => formatStringToDate(d.deployable.finished_at))
-        .filter((date) => date >= dateStart && date <= dateEnd)
+    const deploymentTimes = deploymentsArray
+        .filter((d) => d && d.status === 'success')
+        .map((d) => formatStringToDate(d.deployable?.finished_at))
+        .filter((date) => date && date >= dateStart && date <= dateEnd)
         .sort((a, b) => a.getTime() - b.getTime());
 
     if (deploymentTimes.length === 0) {
@@ -96,28 +103,44 @@ const calculateLeadReviewTime = ({
     dateEnd,
 }: LeadReviewTimeParamsType): DoraMetricType => {
     AppLogger.info(`[DoraMetricsUtils - calculateLeadReviewTime] start`);
+    AppLogger.info(
+        `[DoraMetricsUtils - calculateLeadReviewTime] mergeRequests input type: ${typeof mergeRequests}, isArray: ${Array.isArray(mergeRequests)}, length: ${mergeRequests?.length}`,
+    );
 
-    if (!mergeRequests || mergeRequests.length === 0) {
-        AppLogger.info(`[DoraMetricsUtils - calculateLeadReviewTime] mergeRequests is empty`);
+    // Ensure mergeRequests is an array
+    const mergeRequestsArray = Array.isArray(mergeRequests) ? mergeRequests : [];
+
+    if (mergeRequestsArray.length === 0) {
+        AppLogger.info(
+            `[DoraMetricsUtils - calculateLeadReviewTime] mergeRequests is empty - this could indicate no merge requests in the time period or API access issues`,
+        );
         return { auditStatus: auditStatus.failure, valueStatus: null, value: null };
     }
 
-    const leadTimes = mergeRequests
+    const leadTimes = mergeRequestsArray
         // Filter MRs that have been merged
-        .filter((mr) => mr.merged_at)
+        .filter((mr) => mr && mr.merged_at)
         // Filter MRs within the date range based on merge date
         .filter((mr) => {
             const mergeDate = formatStringToDate(mr.merged_at);
-            return mergeDate >= dateStart && mergeDate <= dateEnd;
+            return mergeDate && mergeDate >= dateStart && mergeDate <= dateEnd;
         })
         // Calculate lead review time for each MR (time between creation and merge)
         .map((mr) => {
             const createTime = formatStringToDate(mr.created_at);
             const mergeTime = formatStringToDate(mr.merged_at);
+            if (!createTime || !mergeTime) return null;
             return (mergeTime.getTime() - createTime.getTime()) / MSTOHOURS;
         })
-        // Filter out negative or zero lead times
-        .filter((leadTime) => leadTime > 0);
+        // Filter out null values and negative or zero lead times
+        .filter((leadTime) => leadTime !== null && leadTime > 0);
+
+    if (leadTimes.length === 0) {
+        AppLogger.info(
+            `[DoraMetricsUtils - calculateLeadReviewTime] no valid merge requests found in date range`,
+        );
+        return { auditStatus: auditStatus.failure, valueStatus: null, value: null };
+    }
 
     const leadTimeForChanges = leadTimes.reduce((a, b) => a + b, 0) / leadTimes.length || 0;
 
@@ -159,33 +182,52 @@ const calculateLeadTimeForChanges = ({
     dateStart,
     dateEnd,
 }: LeadTimeForChangesParamsType): DoraMetricType => {
-    // calculate the average time between the creation of the deployment and the finish, then add it to the leadReviewTime
+    AppLogger.info(
+        `[DoraMetricsUtils - calculateLeadTimeForChanges] start with leadReviewTime: ${leadReviewTime}`,
+    );
 
-    if (!deployments || deployments.length === 0 || !leadReviewTime || leadReviewTime === 0) {
+    // Ensure deployments is an array
+    const deploymentsArray = Array.isArray(deployments) ? deployments : [];
+
+    if (deploymentsArray.length === 0 || !leadReviewTime || leadReviewTime === 0) {
         AppLogger.info(
-            `[DoraMetricsUtils - calculateLeadTimeForChanges] deployments or leadReviewTime is empty`,
+            `[DoraMetricsUtils - calculateLeadTimeForChanges] deployments is empty or leadReviewTime is invalid`,
         );
         return { auditStatus: auditStatus.failure, valueStatus: null, value: null };
     }
 
-    const deploymentLeadTimes = deployments
+    const deploymentLeadTimes = deploymentsArray
         .filter(
             (d) =>
+                d &&
                 d.status === 'success' &&
+                d.deployable?.finished_at &&
+                d.deployable?.created_at &&
                 formatStringToDate(d.deployable.finished_at) >= dateStart &&
                 formatStringToDate(d.deployable.finished_at) <= dateEnd,
         )
         .map((d) => {
             const createTime = formatStringToDate(d.deployable.created_at);
             const finishTime = formatStringToDate(d.deployable.finished_at);
+            if (!createTime || !finishTime) return null;
             return (finishTime.getTime() - createTime.getTime()) / MSTOHOURS;
         })
-        .filter((leadTime) => leadTime > 0);
+        .filter((leadTime) => leadTime !== null && leadTime > 0);
 
     const averageDeploymentLeadTime =
-        deploymentLeadTimes.reduce((a, b) => a + b, 0) / deploymentLeadTimes.length || 0;
+        deploymentLeadTimes.length > 0
+            ? deploymentLeadTimes.reduce((a, b) => a + b, 0) / deploymentLeadTimes.length
+            : 0;
 
     const leadTimeForChanges = leadReviewTime + averageDeploymentLeadTime;
+
+    AppLogger.info(
+        `[DoraMetricsUtils - calculateLeadTimeForChanges] final lead time: ${leadTimeForChanges}`,
+    );
+
+    if (leadTimeForChanges <= 0) {
+        return { auditStatus: auditStatus.failure, valueStatus: null, value: null };
+    }
 
     const status = Matcher()
         .on(
@@ -235,6 +277,13 @@ const calculateDownTimePeriods = ({
     dateStart,
     dateEnd,
 }: calculateDownTimePeriodsParams): ServerDowntimePeriodType[] => {
+    AppLogger.info(
+        `[DoraMetricsUtils - calculateDownTimePeriods] monitoringEvents input type: ${typeof monitoringEvents}, isArray: ${Array.isArray(monitoringEvents)}, length: ${monitoringEvents?.length}`,
+    );
+
+    // Ensure monitoringEvents is an array
+    const eventsArray = Array.isArray(monitoringEvents) ? monitoringEvents : [];
+
     const dateStartTimeStamp = formatDateToTimestamp(dateStart, 'ms');
     const dateEndTimeStamp = formatDateToTimestamp(dateEnd, 'ms');
 
@@ -247,7 +296,7 @@ const calculateDownTimePeriods = ({
     );
 
     AppLogger.info(
-        `[DoraMetricsUtils - calculateDownTimePeriods] monitoringEvents count: ${monitoringEvents.length}`,
+        `[DoraMetricsUtils - calculateDownTimePeriods] monitoringEvents count: ${eventsArray.length}`,
     );
 
     const downtimePeriods: ServerDowntimePeriodType[] = [];
@@ -257,7 +306,11 @@ const calculateDownTimePeriods = ({
         start_id: string;
     } | null = null;
 
-    for (const event of monitoringEvents) {
+    for (const event of eventsArray) {
+        if (!event || !event.timestamp || !event.id) {
+            continue; // Skip invalid events
+        }
+
         const eventTime = event.timestamp;
 
         if (event.status === 'error') {
@@ -404,6 +457,48 @@ const analyseDoraMetrics = ({
 }: DoraMetricsAuditParamsType): AuditType[] => {
     try {
         AppLogger.info(`[DoraMetricsUtils - analyseDoraMetrics] start`);
+
+        // Comprehensive data availability diagnostics
+        AppLogger.info(
+            `[DoraMetricsUtils - analyseDoraMetrics] === DATA AVAILABILITY DIAGNOSTICS ===`,
+        );
+        AppLogger.info(
+            `[DoraMetricsUtils - analyseDoraMetrics] deployments: type=${typeof deployments}, isArray=${Array.isArray(deployments)}, length=${deployments?.length || 'undefined'}`,
+        );
+        AppLogger.info(
+            `[DoraMetricsUtils - analyseDoraMetrics] mergeRequests: type=${typeof mergeRequests}, isArray=${Array.isArray(mergeRequests)}, length=${mergeRequests?.length || 'undefined'}`,
+        );
+        AppLogger.info(
+            `[DoraMetricsUtils - analyseDoraMetrics] monitoringEvents: type=${typeof monitoringEvents}, isArray=${Array.isArray(monitoringEvents)}, length=${monitoringEvents?.length || 'undefined'}`,
+        );
+        AppLogger.info(
+            `[DoraMetricsUtils - analyseDoraMetrics] application: id=${application?._id}, name=${application?.name}`,
+        );
+        AppLogger.info(
+            `[DoraMetricsUtils - analyseDoraMetrics] dateRange: ${dateStart} to ${dateEnd}`,
+        );
+        AppLogger.info(`[DoraMetricsUtils - analyseDoraMetrics] === EXPECTED METRICS ===`);
+        AppLogger.info(
+            `[DoraMetricsUtils - analyseDoraMetrics] DEPLOYMENT_FREQUENCY: requires deployments array`,
+        );
+        AppLogger.info(
+            `[DoraMetricsUtils - analyseDoraMetrics] LEAD_REVIEW_TIME: requires mergeRequests array`,
+        );
+        AppLogger.info(
+            `[DoraMetricsUtils - analyseDoraMetrics] LEAD_TIME_FOR_CHANGES: requires mergeRequests array`,
+        );
+        AppLogger.info(
+            `[DoraMetricsUtils - analyseDoraMetrics] CHANGE_FAILURE_RATE: requires deployments array`,
+        );
+        AppLogger.info(
+            `[DoraMetricsUtils - analyseDoraMetrics] MEAN_TIME_TO_RESTORE_SERVICE: requires monitoringEvents array`,
+        );
+        AppLogger.info(
+            `[DoraMetricsUtils - analyseDoraMetrics] UP_TIME_AVERAGE: requires monitoringEvents array`,
+        );
+        AppLogger.info(
+            `[DoraMetricsUtils - analyseDoraMetrics] ================================================`,
+        );
 
         const deploymentFrequency = calculateDeploymentFrequency({
             deployments,

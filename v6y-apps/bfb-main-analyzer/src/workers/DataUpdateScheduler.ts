@@ -27,12 +27,11 @@ const startUpdateWorkers = () => {
  * Database updates are performed by default at startup, then every midnight.
  */
 const start = () => {
-    // Check every second to make sure the main thread is still responsive
     setInterval(() => {
         AppLogger.info(
             '******************** Checking that the main thread is not blocked **************************',
         );
-    }, 1000);
+    }, 30000);
 
     // Initial update
     AppLogger.info('******************** Starting initial update **************************');

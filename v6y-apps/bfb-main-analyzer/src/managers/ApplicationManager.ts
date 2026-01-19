@@ -277,49 +277,150 @@ const buildDynamicReports = async ({ application }: BuildApplicationParams) => {
 };
 
 /**
+ * Validates application has required fields for analysis.
+ * @param application
+ */
+const validateApplicationForAnalysis = (application: ApplicationType): boolean => {
+    if (
+        !application?.name?.length ||
+        !application?.acronym?.length ||
+        !application?.contactMail?.length ||
+        !application?.description?.length ||
+        !application?.repo?.organization?.length ||
+        !application?.repo?.gitUrl?.length
+    ) {
+        AppLogger.error(
+            `[ApplicationManager - buildApplicationReports] Application ${application?._id} missing required fields`,
+        );
+        AppLogger.error(
+            `[ApplicationManager - buildApplicationReports] Fields: name=${!!application?.name?.length}, acronym=${!!application?.acronym?.length}, contactMail=${!!application?.contactMail?.length}, description=${!!application?.description?.length}, organization=${!!application?.repo?.organization?.length}, gitUrl=${!!application?.repo?.gitUrl?.length}`,
+        );
+        return false;
+    }
+    return true;
+};
+
+/**
+ * Extracts repository name from git URL.
+ * @param gitUrl
+ */
+const extractRepositoryName = (gitUrl: string): string | null => {
+    const gitRepositoryName = gitUrl?.split('/')?.pop()?.replace('.git', '');
+    if (!gitRepositoryName) {
+        AppLogger.error(
+            `[ApplicationManager - buildApplicationReports] Could not extract repository name from gitUrl: ${gitUrl}`,
+        );
+    }
+    return gitRepositoryName;
+};
+
+/**
+ * Handles repository access failure by running only dynamic analysis.
+ * @param application
+ */
+const handleRepositoryAccessFailure = async (application: ApplicationType): Promise<boolean> => {
+    AppLogger.info(
+        `[ApplicationManager - buildApplicationDetailsByParams] Starting dynamic analysis for application: ${application?._id} (repository not accessible)`,
+    );
+
+    const dynamicResult = await buildDynamicReports({
+        application,
+    });
+
+    if (!dynamicResult) {
+        AppLogger.error(
+            `[ApplicationManager - buildApplicationReports] Dynamic analysis failed for application: ${application?._id}`,
+        );
+    } else {
+        AppLogger.info(
+            `[ApplicationManager - buildApplicationReports] Dynamic analysis completed successfully for application: ${application?._id}`,
+        );
+    }
+
+    return dynamicResult;
+};
+
+/**
  * Builds the application reports.
  * @param application
  */
 const buildApplicationReports = async (application: ApplicationType) => {
     try {
-        if (
-            !application?.name?.length ||
-            !application?.acronym?.length ||
-            !application?.contactMail?.length ||
-            !application?.description?.length ||
-            !application?.repo?.organization?.length ||
-            !application?.repo?.gitUrl?.length
-        ) {
+        AppLogger.info(
+            `[ApplicationManager - buildApplicationReports] Starting audit for application: ${application?._id} (${application?.name})`,
+        );
+
+        if (!validateApplicationForAnalysis(application)) {
             return false;
         }
 
         const { organization, gitUrl } = application.repo;
-        const gitRepositoryName = gitUrl?.split('/')?.pop()?.replace('.git', '');
+        const gitRepositoryName = extractRepositoryName(gitUrl);
+
+        if (!gitRepositoryName) {
+            return false;
+        }
+
+        AppLogger.info(
+            `[ApplicationManager - buildApplicationReports] Fetching repository details for: ${organization}/${gitRepositoryName}`,
+        );
 
         const repositoryDetails = await getRepositoryDetails({
             organization,
             gitRepositoryName,
         });
 
-        if (
-            !repositoryDetails?.id ||
-            repositoryDetails?.archived ||
-            repositoryDetails?.empty_repo
-        ) {
+        if (!repositoryDetails?.id) {
+            AppLogger.warn(
+                `[ApplicationManager - buildApplicationReports] Repository not accessible: ${organization}/${gitRepositoryName}. This might be due to access permissions or network issues. Skipping static analysis but allowing dynamic analysis.`,
+            );
+            return await handleRepositoryAccessFailure(application);
+        }
+
+        if (repositoryDetails?.archived) {
+            AppLogger.warn(
+                `[ApplicationManager - buildApplicationReports] Repository is archived: ${organization}/${gitRepositoryName}`,
+            );
+            return false;
+        }
+
+        if (repositoryDetails?.empty_repo) {
+            AppLogger.warn(
+                `[ApplicationManager - buildApplicationReports] Repository is empty: ${organization}/${gitRepositoryName}`,
+            );
             return false;
         }
 
         const { _links: repositoryLinks } = repositoryDetails;
+
+        if (!repositoryLinks?.repo_branches) {
+            AppLogger.error(
+                `[ApplicationManager - buildApplicationReports] No branches URL found for repository: ${organization}/${gitRepositoryName}`,
+            );
+            return false;
+        }
+
+        AppLogger.info(
+            `[ApplicationManager - buildApplicationReports] Fetching repository branches from: ${repositoryLinks.repo_branches}`,
+        );
 
         const repositoryBranches = await getRepositoryBranches({
             repoBranchesUrl: repositoryLinks?.repo_branches,
         });
 
         if (!repositoryBranches?.length) {
+            AppLogger.error(
+                `[ApplicationManager - buildApplicationReports] No branches found for repository: ${organization}/${gitRepositoryName}`,
+            );
             return false;
         }
 
-        await ApplicationProvider.editApplication({
+        AppLogger.info(
+            `[ApplicationManager - buildApplicationReports] Found ${repositoryBranches.length} branches: ${repositoryBranches.map((b) => b?.name).join(', ')}`,
+        );
+
+        // Update application with branch information
+        const updateResult = await ApplicationProvider.editApplication({
             ...application,
             repo: {
                 ...application?.repo,
@@ -327,26 +428,85 @@ const buildApplicationReports = async (application: ApplicationType) => {
             },
         });
 
-        AppLogger.info('[ApplicationManager - buildApplicationDetails] start of static analysis');
+        if (!updateResult) {
+            AppLogger.error(
+                `[ApplicationManager - buildApplicationReports] Failed to update application ${application?._id} with branch information`,
+            );
+            return false;
+        }
 
-        await buildStaticReports({
+        AppLogger.info(
+            `[ApplicationManager - buildApplicationReports] Starting static analysis for application: ${application?._id}`,
+        );
+
+        const staticResult = await buildStaticReports({
             application,
             branches: repositoryBranches,
         });
 
-        AppLogger.info('[ApplicationManager - buildApplicationDetails] end of static analysis');
+        if (!staticResult) {
+            AppLogger.error(
+                `[ApplicationManager - buildApplicationReports] Static analysis failed for application: ${application?._id}`,
+            );
+            // Continue with dynamic analysis even if static fails
+        }
 
-        AppLogger.info('[ApplicationManager - buildApplicationDetails] start of dynamic analysis');
+        AppLogger.info(
+            `[ApplicationManager - buildApplicationReports] Starting dynamic analysis for application: ${application?._id}`,
+        );
 
-        await buildDynamicReports({
+        const dynamicResult = await buildDynamicReports({
             application,
         });
 
-        AppLogger.info('[ApplicationManager - buildApplicationDetails] end of dynamic analysis');
+        if (!dynamicResult) {
+            AppLogger.error(
+                `[ApplicationManager - buildApplicationReports] Dynamic analysis failed for application: ${application?._id}`,
+            );
+        }
 
-        return true;
+        AppLogger.info(
+            `[ApplicationManager - buildApplicationReports] Completed analysis for application: ${application?._id} - Static: ${staticResult}, Dynamic: ${dynamicResult}`,
+        );
+
+        // Return true if at least one analysis succeeded
+        return staticResult || dynamicResult;
     } catch (error) {
-        AppLogger.info('[ApplicationManager - buildApplicationDetails] error: ', error);
+        AppLogger.error(
+            `[ApplicationManager - buildApplicationReports] error for application ${application?._id}:`,
+            error,
+        );
+        return false;
+    }
+};
+
+/**
+ * Processes a single application and returns the result.
+ * @param application
+ */
+const processApplication = async (application: ApplicationType): Promise<boolean> => {
+    AppLogger.info(
+        `[ApplicationManager - buildApplicationList] Processing application ${application?._id}: ${application?.name}`,
+    );
+
+    try {
+        const result = await buildApplicationReports(application);
+        if (result) {
+            AppLogger.info(
+                `[ApplicationManager - buildApplicationList] ✅ Successfully processed application ${application?._id}`,
+            );
+            return true;
+        } else {
+            AppLogger.error(
+                `[ApplicationManager - buildApplicationList] ❌ Failed to process application ${application?._id}`,
+            );
+            return false;
+        }
+    } catch (appError) {
+        AppLogger.error(
+            `[ApplicationManager - buildApplicationList] ❌ Error processing application ${application?._id}:`,
+            appError,
+        );
         return false;
     }
 };
@@ -356,26 +516,46 @@ const buildApplicationReports = async (application: ApplicationType) => {
  */
 const buildApplicationList = async () => {
     try {
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationList] Starting to fetch applications...',
+        );
+
         const applications = await ApplicationProvider.getApplicationListByPageAndParams(
             {},
             { role: 'ADMIN' },
         );
+
         AppLogger.info(
-            '[ApplicationManager -  buildApplicationList] applications: ',
-            applications?.length,
+            `[ApplicationManager - buildApplicationList] Found ${applications?.length} applications to process`,
         );
 
         if (!applications?.length) {
+            AppLogger.warn(
+                '[ApplicationManager - buildApplicationList] No applications found to process',
+            );
             return false;
         }
 
+        let successCount = 0;
+        let failureCount = 0;
+
         for (const application of applications) {
-            await buildApplicationReports(application);
+            const success = await processApplication(application);
+            if (success) {
+                successCount++;
+            } else {
+                failureCount++;
+            }
         }
 
-        return true;
+        AppLogger.info(
+            `[ApplicationManager - buildApplicationList] Completed processing: ${successCount} successful, ${failureCount} failed out of ${applications.length} applications`,
+        );
+
+        // Return true if at least one application was processed successfully
+        return successCount > 0;
     } catch (error) {
-        AppLogger.info('[ApplicationManager - buildApplicationList] error: ', error);
+        AppLogger.error('[ApplicationManager - buildApplicationList] error: ', error);
         return false;
     }
 };
@@ -415,43 +595,63 @@ const buildApplicationDetailsByParams = async ({
 
         // If specific branch is provided, audit only that branch
         if (branch?.name) {
-            AppLogger.info(
-                `[ApplicationManager - buildApplicationDetailsByParams] Auditing specific branch: ${branch.name}`,
-            );
-
-            // Run static analysis for the specific branch
-            const staticResult = await buildStaticReports({
-                application,
-                branches: [branch],
-            });
-
-            AppLogger.info(
-                `[ApplicationManager - buildApplicationDetailsByParams] Static analysis result: ${staticResult}`,
-            );
-
-            // Run dynamic analysis
-            const dynamicResult = await buildDynamicReports({
-                application,
-            });
-
-            AppLogger.info(
-                `[ApplicationManager - buildApplicationDetailsByParams] Dynamic analysis result: ${dynamicResult}`,
-            );
-
-            return true;
+            return await auditSpecificBranch(application, branch);
         }
 
         // Otherwise, run full audit
-        AppLogger.info(`[ApplicationManager - buildApplicationDetailsByParams] Running full audit`);
-        const result = await buildApplicationReports(application);
-        AppLogger.info(
-            `[ApplicationManager - buildApplicationDetailsByParams] Full audit result: ${result}`,
-        );
-        return result;
+        return await auditFullApplication(application);
     } catch (error) {
         AppLogger.error(`[ApplicationManager - buildApplicationDetailsByParams] error: ${error}`);
         return false;
     }
+};
+
+/**
+ * Audits a specific branch of an application.
+ * @param application
+ * @param branch
+ */
+const auditSpecificBranch = async (
+    application: ApplicationType,
+    branch: { name: string },
+): Promise<boolean> => {
+    AppLogger.info(
+        `[ApplicationManager - buildApplicationDetailsByParams] Auditing specific branch: ${branch.name}`,
+    );
+
+    // Run static analysis for the specific branch
+    const staticResult = await buildStaticReports({
+        application,
+        branches: [branch],
+    });
+
+    AppLogger.info(
+        `[ApplicationManager - buildApplicationDetailsByParams] Static analysis result: ${staticResult}`,
+    );
+
+    // Run dynamic analysis
+    const dynamicResult = await buildDynamicReports({
+        application,
+    });
+
+    AppLogger.info(
+        `[ApplicationManager - buildApplicationDetailsByParams] Dynamic analysis result: ${dynamicResult}`,
+    );
+
+    return true;
+};
+
+/**
+ * Runs full audit for an application.
+ * @param application
+ */
+const auditFullApplication = async (application: ApplicationType): Promise<boolean> => {
+    AppLogger.info(`[ApplicationManager - buildApplicationDetailsByParams] Running full audit`);
+    const result = await buildApplicationReports(application);
+    AppLogger.info(
+        `[ApplicationManager - buildApplicationDetailsByParams] Full audit result: ${result}`,
+    );
+    return result;
 };
 
 const ApplicationManager = {

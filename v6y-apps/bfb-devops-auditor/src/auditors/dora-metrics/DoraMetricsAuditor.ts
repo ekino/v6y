@@ -110,33 +110,36 @@ const startDoraMetricsAnalysis = async ({
         `[DoraMetricsAuditor - startAuditorAnalysis] Starting Analysis for date range : ${dateStart} - ${dateEnd}`,
     );
 
-    const mergeRequests = await RepositoryApi.getRepositoryMergeRequests({
+    const mergeRequestsData = await RepositoryApi.getRepositoryMergeRequests({
         organization: application.repo?.organization,
         projectPath,
         dateStart,
         dateEnd,
     });
+    const mergeRequests = Array.isArray(mergeRequestsData) ? mergeRequestsData : [];
 
     AppLogger.info(
         `[DoraMetricsAuditor - startAuditorAnalysis] mergeRequests:  ${mergeRequests?.length}`,
     );
 
-    const deployments = await RepositoryApi.getRepositoryDeployments({
+    const deploymentsData = await RepositoryApi.getRepositoryDeployments({
         organization: application.repo?.organization,
         projectPath,
         dateStart: dateStart,
         dateEnd: dateEnd,
     });
+    const deployments = Array.isArray(deploymentsData) ? deploymentsData : [];
 
     AppLogger.info(
         `[DoraMetricsAuditor - startAuditorAnalysis] deployments:  ${deployments?.length}`,
     );
 
-    const monitoringEvents = await MonitoringApi.getMonitoringEvents({
+    const monitoringEventsData = await MonitoringApi.getMonitoringEvents({
         application,
         dateStart,
         dateEnd,
     });
+    const monitoringEvents = Array.isArray(monitoringEventsData) ? monitoringEventsData : [];
 
     AppLogger.info(
         `[DoraMetricsAuditor - startAuditorAnalysis] events:  ${monitoringEvents?.length}`,

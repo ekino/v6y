@@ -48,6 +48,12 @@ const GithubConfig = (organization: string | null): GithubConfigType => {
  */
 const GitlabConfig = (organization: string | null): GitlabConfigType => {
     const baseURL = organization ? `https://gitlab.${organization}.com` : 'https://gitlab.com';
+    const token = process.env.GITLAB_PRIVATE_TOKEN || '';
+
+    AppLogger.info(
+        `[RepositoryApi - GitlabConfig] baseURL: ${baseURL}, tokenExists: ${!!token}, tokenLength: ${token.length}`,
+    );
+
     return {
         baseURL,
         api: 'api/v4',
@@ -64,7 +70,7 @@ const GitlabConfig = (organization: string | null): GitlabConfigType => {
         },
 
         headers: {
-            'PRIVATE-TOKEN': process.env.GITLAB_PRIVATE_TOKEN || '',
+            'PRIVATE-TOKEN': token,
             'Content-Type': 'application/json',
         },
     };
@@ -249,7 +255,23 @@ const getRepositoryMergeRequests = async ({
             headers: queryOptions.headers,
         });
 
-        return await mergeRequestsResponse.json();
+        AppLogger.info(
+            `[RepositoryApi - getRepositoryMergeRequests] Response status: ${mergeRequestsResponse.status}`,
+        );
+
+        if (!mergeRequestsResponse.ok) {
+            AppLogger.error(
+                `[RepositoryApi - getRepositoryMergeRequests] API error: ${mergeRequestsResponse.status} - ${mergeRequestsResponse.statusText}`,
+            );
+            return [];
+        }
+
+        const mergeRequestsData = await mergeRequestsResponse.json();
+        AppLogger.info(
+            `[RepositoryApi - getRepositoryMergeRequests] Raw response length: ${Array.isArray(mergeRequestsData) ? mergeRequestsData.length : 'not an array'}`,
+        );
+
+        return mergeRequestsData;
     } catch (error) {
         AppLogger.info(
             `[RepositoryApi - getRepositoryMergeRequests] error: ${
@@ -299,7 +321,23 @@ const getRepositoryDeployments = async ({
             headers: queryOptions.headers,
         });
 
-        return await deploymentsResponse.json();
+        AppLogger.info(
+            `[RepositoryApi - getRepositoryDeployments] Response status: ${deploymentsResponse.status}`,
+        );
+
+        if (!deploymentsResponse.ok) {
+            AppLogger.error(
+                `[RepositoryApi - getRepositoryDeployments] API error: ${deploymentsResponse.status} - ${deploymentsResponse.statusText}`,
+            );
+            return [];
+        }
+
+        const deploymentsData = await deploymentsResponse.json();
+        AppLogger.info(
+            `[RepositoryApi - getRepositoryDeployments] Raw response length: ${Array.isArray(deploymentsData) ? deploymentsData.length : 'not an array'}`,
+        );
+
+        return deploymentsData;
     } catch (error) {
         AppLogger.info(
             `[RepositoryApi - getRepositoryDeployments] error: ${
