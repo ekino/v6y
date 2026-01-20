@@ -1,0 +1,43 @@
+meta {
+  name: GraphQL - Create Application
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{bff_protocol}}://{{bff_host}}:{{bff_port}}{{bff_api_path}}graphql
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer {{auth_token}}
+}
+
+auth:bearer {
+  token: {{auth_token}}
+}
+
+body:json {
+  {
+    "query": "mutation CreateApplication($applicationInput: ApplicationCreateOrEditInput!) { createOrEditApplication(applicationInput: $applicationInput) { _id name acronym contactMail description } }",
+    "variables": {
+      "applicationInput": {
+        "name": "Sample Application",
+        "acronym": "SAMPLE",
+        "description": "A test application created via Bruno",
+        "contactMail": "admin@example.com",
+        "gitWebUrl": "https://github.com/example/repo",
+        "gitUrl": "https://github.com/example/repo.git",
+        "productionLink": "https://sample-app.com",
+        "gitOrganization": "example"
+      }
+    }
+  }
+}
+
+docs {
+  GraphQL mutation to create a new application.
+  Requires authentication token in the Authorization header.
+}

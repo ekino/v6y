@@ -1,0 +1,51 @@
+meta {
+  name: Start DevOps Audit
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{devops_auditor_protocol}}://{{devops_auditor_host}}:{{devops_auditor_port}}{{devops_auditor_api_path}}auditor/start-devops-auditor.json
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "applicationId": "{{sample_application_id}}"
+  }
+}
+
+docs {
+  DEVOPS METRICS ANALYSIS ENDPOINT
+  
+  Starts a DevOps audit for a specific application (DORA metrics analysis).
+  
+  Parameters:  
+  - applicationId: ID of the application to audit (required)
+  
+  DORA METRICS ANALYSIS:
+  • Deployment Frequency (how often deploys happen)
+  • Lead Time for Changes (commit to production time)
+  • Change Failure Rate (% of deployments causing issues)
+  • Time to Recovery (incident resolution time)
+  
+  DATA SOURCES:
+  • Git Repository Analysis (commits, branches, PRs)
+  • CI/CD Pipeline Data (GitLab/GitHub Actions)
+  • Deployment History (success/failure rates)
+  • Incident/Issue Tracking Integration
+  • DataDog/Monitoring Events
+  
+  TYPICAL WORKFLOW:
+  1. Main Analyzer calls this after dynamic analysis
+  2. DevOps Auditor fetches repository and deployment data
+  3. Calculates DORA metrics over time periods
+  4. Results stored in database, accessible via BFF GraphQL
+  
+  Usually triggered automatically by Main Analyzer, not called directly.
+}

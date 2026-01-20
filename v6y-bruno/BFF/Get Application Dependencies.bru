@@ -1,0 +1,39 @@
+meta {
+  name: GraphQL - Get Application Dependencies
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{bff_protocol}}://{{bff_host}}:{{bff_port}}{{bff_api_path}}graphql
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer {{auth_token}}
+}
+
+auth:bearer {
+  token: {{auth_token}}
+}
+
+body:json {
+  {
+    "query": "query GetApplicationDependencies($id: Int!) { getApplicationDetailsDependenciesByParams(_id: $id) { _id type name version recommendedVersion status module { appId url path branch status version } statusHelp { _id title description category links { label value description } } } }",
+    "variables": {
+      "id": {{sample_application_id}}
+    }
+  }
+}
+
+docs {
+  Fetches dependency analysis results for a specific application including:
+  - Package names and current versions
+  - Recommended/latest versions available  
+  - Dependency status (up-to-date, outdated, deprecated)
+  - Module information (which files use these dependencies)
+  
+  This helps identify security vulnerabilities and maintenance needs.
+}

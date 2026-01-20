@@ -1,0 +1,51 @@
+meta {
+  name: Start Dynamic Audit
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{dynamic_auditor_protocol}}://{{dynamic_auditor_host}}:{{dynamic_auditor_port}}{{dynamic_auditor_api_path}}auditor/start-dynamic-auditor.json
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "applicationId": "{{sample_application_id}}"
+  }
+}
+
+docs {
+  DYNAMIC RUNTIME ANALYSIS ENDPOINT
+  
+  Starts a dynamic audit for a specific application (runtime analysis).
+  
+  Parameters:
+  - applicationId: ID of the application to audit (required)
+  
+  ANALYSIS INCLUDES:
+  • Performance Metrics (Lighthouse scores)
+  • Accessibility Testing (WCAG compliance)  
+  • SEO Analysis (meta tags, structure)
+  • Core Web Vitals (LCP, FID, CLS)
+  • Browser Compatibility
+  • Runtime Security Scanning
+  
+  TECHNICAL PROCESS:
+  • Spins up Chrome/Headless browser
+  • Navigates to application URLs
+  • Runs Lighthouse performance audits
+  • Captures runtime metrics and screenshots
+  
+  TYPICAL WORKFLOW:
+  1. Main Analyzer calls this after static analysis
+  2. Dynamic Auditor launches browser automation
+  3. Results stored in database, accessible via BFF GraphQL
+  
+  Usually triggered automatically by Main Analyzer, not called directly.
+}

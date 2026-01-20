@@ -1,0 +1,39 @@
+meta {
+  name: GraphQL - Get Application Audit Reports
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{bff_protocol}}://{{bff_host}}:{{bff_port}}{{bff_api_path}}graphql
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer {{auth_token}}
+}
+
+auth:bearer {
+  token: {{auth_token}}
+}
+
+body:json {
+  {
+    "query": "query GetApplicationAuditReports($id: Int!) { getApplicationDetailsAuditReportsByParams(_id: $id) { _id type category subCategory auditStatus scoreStatus score scoreUnit extraInfos module { appId url path branch status version } auditHelp { _id title description category explanation } } }",
+    "variables": {
+      "id": {{sample_application_id}}
+    }
+  }
+}
+
+docs {
+  Fetches all audit reports for a specific application including:
+  - Static code analysis results (security, quality, complexity)
+  - Dynamic analysis results (performance, accessibility, SEO)
+  - DevOps metrics (DORA metrics, deployment frequency)
+  - Dependency audit results (outdated, deprecated dependencies)
+  
+  Required: application ID from the "Get Applications" query
+}

@@ -1,0 +1,52 @@
+meta {
+  name: Trigger Full Analysis
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{main_analyzer_protocol}}://{{main_analyzer_host}}:{{main_analyzer_port}}/analyze
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "applicationId": "{{sample_application_id}}",
+    "branch": "main"
+  }
+}
+
+docs {
+  PRIMARY ANALYSIS ENDPOINT
+  
+  Triggers a comprehensive analysis of an application across all branches or a specific branch.
+  
+  Parameters:
+  - applicationId: ID of the application to analyze (required) 
+  - branch: Name of the specific branch to analyze (optional, analyzes all branches if not provided)
+  
+  This endpoint orchestrates the entire analysis workflow:
+  
+  ANALYSIS PIPELINE:
+  1. Downloads and prepares source code from Git repository
+  2. Calls Static Auditor → Security vulnerabilities, code quality, dependencies 
+  3. Calls Dynamic Auditor → Performance metrics, accessibility, SEO scores
+  4. Calls DevOps Auditor → DORA metrics, deployment frequency, lead times
+  5. Consolidates all audit results into database
+  6. Generates evolution recommendations
+  
+  WORKFLOW:
+  1. Use this endpoint to start analysis
+  2. Wait for completion (check logs or monitoring dashboard)
+  3. Use BFF GraphQL queries to fetch results:
+     - applicationDetailsAuditReportsByParams (audit results)
+     - applicationDetailsDependenciesByParams (dependency analysis)
+     - applicationDetailsEvolutionsByParams (recommendations)
+  
+  Note: This is a long-running process that may take several minutes depending on repository size.
+}

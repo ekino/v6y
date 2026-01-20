@@ -1,0 +1,67 @@
+meta {
+  name: Login Account
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{bff_protocol}}://{{bff_host}}:{{bff_port}}{{bff_api_path}}graphql
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "operationName": "LoginAccount",
+    "query": "query LoginAccount($input: AccountLoginInput!) { loginAccount(input: $input) { _id role token username } }",
+    "variables": {
+      "input": {
+        "email": "{{test_user_email}}",
+        "password": "{{test_user_password}}"
+      }
+    }
+  }
+}
+
+script:post-response {
+  // Extract token from login response and set as environment variable
+  if (res.body && res.body.data && res.body.data.loginAccount && res.body.data.loginAccount.token) {
+    const token = res.body.data.loginAccount.token;
+    bru.setEnvVar("auth_token", token);
+    console.log("✓ Token automatically set in auth_token environment variable");
+    console.log("✓ Token:", token.substring(0, 20) + "...");
+  } else {
+    console.log("✗ No token found in response");
+  }
+}
+
+docs {
+  AUTHENTICATION LOGIN ENDPOINT
+  
+  Authenticates a user and returns a JWT token for API access.
+  
+  Required Parameters:
+  - email: User email address (string)
+  - password: User password (string)
+  
+  Response:
+  - _id: User ID
+  - role: User role (USER, ADMIN, SUPERADMIN)  
+  - token: JWT token for authorization
+  - username: Display name
+  
+  AUTOMATIC TOKEN SETUP:
+  The post-response script automatically extracts the token from the response
+  and sets it in the auth_token environment variable.
+  
+  USAGE:
+  1. Run this Login Account request
+  2. Token is automatically saved to auth_token variable
+  3. All other authenticated requests will now work seamlessly
+  
+  No manual token copying needed - everything is automated!
+}
