@@ -42,7 +42,7 @@ const VitalityAppsStatsChart = () => {
 
     useEffect(() => {
         refetch?.();
-    }, [keywords]);
+    }, [keywords, refetch]);
 
     if (isLoading) {
         return <LoaderView />;

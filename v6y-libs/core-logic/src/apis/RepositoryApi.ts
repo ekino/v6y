@@ -311,12 +311,15 @@ const prepareGitBranchZipConfig = ({
             `[RepositoryApi - prepareGitZipConfig] normalizedBranchName:  ${normalizedBranchName}`,
         );
 
-        const zipFileName = `${normalizedBranchName || branchName}.zip`;
-        AppLogger.info(`[RepositoryApi - prepareGitZipConfig] zipFileName:  ${zipFileName}`);
-
         const { repo } = application;
 
-        const zipSourceUrl = `${repo?.webUrl}/-/archive/refs/heads/${branchName}/${zipFileName}`;
+        const projectName = repo?.webUrl?.split('/').pop();
+        AppLogger.info(`[RepositoryApi - prepareGitZipConfig] projectName:  ${projectName}`);
+
+        const zipFileName = `${projectName}-${normalizedBranchName}.zip`;
+        AppLogger.info(`[RepositoryApi - prepareGitZipConfig] zipFileName:  ${zipFileName}`);
+
+        const zipSourceUrl = `${repo?.webUrl}/-/archive/${branchName}/${zipFileName}`;
         AppLogger.info(`[RepositoryApi - prepareGitZipConfig] zipSourceUrl:  ${zipSourceUrl}`);
 
         const zipDestinationDir = `${zipBaseDir}/${application?.acronym}`;
@@ -324,7 +327,7 @@ const prepareGitBranchZipConfig = ({
             `[RepositoryApi - prepareGitZipConfig] zipDestinationDir:  ${zipDestinationDir}`,
         );
 
-        const zipBaseFileName = `${zipBaseDir}/${application?.acronym}/${normalizedBranchName}`;
+        const zipBaseFileName = `${zipBaseDir}/${application?.acronym}/${projectName}-${normalizedBranchName}`;
         AppLogger.info(
             `[RepositoryApi - prepareGitZipConfig] zipDestinationDir:  ${zipBaseFileName}`,
         );
@@ -339,7 +342,7 @@ const prepareGitBranchZipConfig = ({
             },
         };
     } catch (error) {
-        AppLogger.info(
+        AppLogger.error(
             `[RepositoryApi - prepareGitZipConfig] error:  ${
                 error instanceof Error ? error.message : error
             }`,

@@ -14,7 +14,6 @@ import {
 import { getSession } from '../../../infrastructure/providers/SessionProvider';
 import VitalityNavigationPaths from '../../config/VitalityNavigationPaths';
 import { useLogin, useLogout } from '../../hooks/useAuth';
-import VitalityPageHeaderMenu from './VitalityPageHeaderMenu';
 
 const VitalityPageHeader = () => {
     const { translate } = useTranslationProvider();
