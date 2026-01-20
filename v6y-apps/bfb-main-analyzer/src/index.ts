@@ -70,7 +70,7 @@ app.get('/{*any}', (request, response) => {
     AppLogger.debug(`[*] KO:  la route demandé ${request.url} n'existe pas`);
     response.status(404).send({
         success: false,
-        message: "La route demandé 'existe pas",
+        message: "La route demandé n'existe pas",
     });
 });
 
