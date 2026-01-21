@@ -58,7 +58,8 @@
         "auditReports": "Chargement des rapports d'audit...",
         "qualityIndicators": "Chargement des indicateurs de qualité...",
         "dependencies": "Chargement des dépendances...",
-        "evolutions": "Chargement des évolutions..."
+        "evolutions": "Chargement des évolutions...",
+        "security": "Chargement des informations de sécurité..."
       },
       "emptyStates": {
         "auditReports": {
@@ -76,6 +77,10 @@
         "evolutions": {
           "title": "Aucune évolution disponible",
           "description": "Il n'y a aucune évolution à afficher pour cette application"
+        },
+        "codeSecurity": {
+          "title": "Aucun problème de sécurité du code trouvé",
+          "description": "Votre code est conforme à tous les anti-patterns de sécurité"
         }
       },
       "infos": {
@@ -109,6 +114,12 @@
         "branchTitle": "Branche",
         "path": "Chemin",
         "repository": "Dépôt"
+      },
+      "codeSecurity": {
+        "title": "Sécurité du code"
+      },
+      "dependenciesVulnerabilities": {
+        "title": "Vulnérabilités des dépendances"
       }
     },
     "appStatsPage": {

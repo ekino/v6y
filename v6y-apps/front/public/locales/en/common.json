@@ -58,7 +58,8 @@
         "auditReports": "Loading audit reports...",
         "qualityIndicators": "Loading quality indicators...",
         "dependencies": "Loading dependencies...",
-        "evolutions": "Loading evolutions..."
+        "evolutions": "Loading evolutions...",
+        "security": "Loading security information..."
       },
       "emptyStates": {
         "auditReports": {
@@ -76,6 +77,10 @@
         "evolutions": {
           "title": "No evolutions available",
           "description": "There are no evolutions to display for this application"
+        },
+        "codeSecurity": {
+          "title": "No code security issues found",
+          "description": "Your code is compliant with all security anti-patterns"
         }
       },
       "infos": {
@@ -109,6 +114,12 @@
         "branchTitle": "Branch",
         "repository": "Repository",
         "path": "Path"
+      },
+      "codeSecurity": {
+        "title": "Code Security"
+      },
+      "dependenciesVulnerabilities": {
+        "title": "Dependencies Vulnerabilities"
       }
     },
     "appStatsPage": {
