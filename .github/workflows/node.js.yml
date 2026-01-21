@@ -83,6 +83,12 @@ jobs:
       - run: npm install -g pnpm@10.20.0
       - run: pnpm install
 
+      - name: Setup pnpm
+        run: pnpm setup
+
+      - name: Install Snyk CLI
+        run: pnpm add -g snyk
+
       - run: pnpm build
         env:
           ENV: ${{ env.ENV }}
@@ -106,6 +112,11 @@ jobs:
           V6Y_BFF_API_PORT: ${{ env.V6Y_BFF_API_PORT }}
           NEXT_PUBLIC_V6Y_BFF_PATH: ${{ env.NEXT_PUBLIC_V6Y_BFF_PATH }}
           NEXTAUTH_URL: ${{ env.NEXTAUTH_URL }}
+
+      - name: Run Snyk scan
+        run: snyk test --all-projects --sarif-file-output=snyk.sarif
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - run: pnpm lint
 
