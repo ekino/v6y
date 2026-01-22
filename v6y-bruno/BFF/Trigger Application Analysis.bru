@@ -1,0 +1,43 @@
+meta {
+  name: GraphQL - Trigger Application Analysis
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{bff_protocol}}://{{bff_host}}:{{bff_port}}{{bff_api_path}}graphql
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer {{auth_token}}
+}
+
+auth:bearer {
+  token: {{auth_token}}
+}
+
+body:json {
+  {
+    "query": "mutation TriggerApplicationAnalysis($input: ApplicationAnalysisInput!) { triggerApplicationAnalysis(input: $input) { success message applicationId branch } }",
+    "variables": {
+      "input": {
+        "applicationId": "{{sample_application_id}}",
+        "branch": "main",
+        "analysisTypes": ["static", "dynamic", "devops"]
+      }
+    }
+  }
+}
+
+docs {
+  Triggers a comprehensive analysis of an application via GraphQL.
+  This mutation should orchestrate:
+  1. Static code analysis (security, quality, dependencies)  
+  2. Dynamic analysis (performance, accessibility, SEO)
+  3. DevOps metrics analysis (DORA metrics)
+  
+  Note: If this mutation doesn't exist, use the Main Analyzer REST endpoint instead.
+}

@@ -1,0 +1,19 @@
+meta {
+  name: Health Check
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{bff_protocol}}://{{bff_host}}:{{bff_port}}{{bff_api_path}}health-checks
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  Health check endpoint to verify if the BFF service is running properly.
+}

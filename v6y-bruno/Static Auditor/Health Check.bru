@@ -1,0 +1,17 @@
+meta {
+  name: Health Check
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{static_auditor_protocol}}://{{static_auditor_host}}:{{static_auditor_port}}{{static_auditor_api_path}}health-checks
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  Health check endpoint to verify if the Static Auditor service is running properly.
+}

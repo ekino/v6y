@@ -1,0 +1,28 @@
+meta {
+  name: Get Analysis Status
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{main_analyzer_protocol}}://{{main_analyzer_host}}:{{main_analyzer_port}}/analysis/status/{{sample_application_id}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  Check the status of an ongoing or completed analysis for an application.
+  
+  Returns information about:
+  - Analysis progress and current stage
+  - Completion status of each auditor (static, dynamic, devops)
+  - Any errors that occurred during analysis
+  - Estimated completion time
+  
+  Use this endpoint to poll for analysis completion after triggering analysis.
+  
+  Note: This endpoint might not exist - check the actual Main Analyzer implementation.
+  If not available, check the monitoring dashboard or BFF queries for results.
+}

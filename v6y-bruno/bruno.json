@@ -1,0 +1,10 @@
+{
+  "version": "1",
+  "name": "V6Y API Collection",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ],
+  "docs": "# V6Y API Testing Collection\n\n## Authentication Workflow\n\n**IMPORTANT**: All BFF GraphQL requests require authentication!\n\n### Step 1: Login\n1. Run `BFF > Login Account` request first\n2. Copy the `token` from the response\n3. Set the `auth_token` environment variable with this token\n\n### Step 2: Use Authenticated Endpoints\nOnce logged in, you can run:\n- BFF GraphQL queries (applications, audit reports, etc.)\n- Analysis triggers via Main Analyzer\n- Individual auditor services\n\n## Testing Workflow\n\n### Complete Analysis Flow:\n1. **Login**: `BFF > Login Account`\n2. **Get Applications**: `BFF > Get Applications` \n3. **Trigger Analysis**: `Main Analyzer > Trigger Full Analysis`\n4. **Check Results**: `BFF > Get Application Audit Reports`\n\n### Individual Service Testing:\n- **Static Analysis**: `Static Auditor > Start Static Code Audit`\n- **Dynamic Analysis**: `Dynamic Auditor > Start Dynamic Audit`  \n- **DevOps Analysis**: `DevOps Auditor > Start DevOps Audit`\n\n## Environment Variables\n- Update `auth_token` after login\n- Modify service ports if different from defaults\n- Adjust `sample_application_id` for testing specific apps"
+}

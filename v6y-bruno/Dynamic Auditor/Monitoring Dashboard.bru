@@ -1,0 +1,18 @@
+meta {
+  name: Monitoring Dashboard
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{dynamic_auditor_protocol}}://{{dynamic_auditor_host}}:{{dynamic_auditor_port}}{{dynamic_auditor_api_path}}monitoring
+}
+
+headers {
+  Content-Type: text/html
+}
+
+docs {
+  Access the Express status monitoring dashboard for the Dynamic Auditor service.
+  Returns an HTML page with server metrics and health information.
+}

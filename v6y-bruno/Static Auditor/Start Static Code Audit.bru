@@ -1,0 +1,47 @@
+meta {
+  name: Start Static Code Audit
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{static_auditor_protocol}}://{{static_auditor_host}}:{{static_auditor_port}}{{static_auditor_api_path}}auditor/start-static-auditor.json
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "applicationId": "{{sample_application_id}}",
+    "workspaceFolder": "/Users/path/to/your/workspace"
+  }
+}
+
+docs {
+  STATIC CODE ANALYSIS ENDPOINT
+  
+  Starts a comprehensive static code audit for a specific application.
+  
+  Parameters:
+  - applicationId: ID of the application to audit (required)
+  - workspaceFolder: Path to the workspace folder containing the code to analyze (optional)
+  
+  ANALYSIS INCLUDES:
+  • Security Vulnerabilities (SAST scanning)
+  • Code Quality Metrics (complexity, maintainability)
+  • Dependency Analysis (outdated, deprecated packages)
+  • License Compliance
+  • Code Coverage Analysis
+  • Technical Debt Assessment
+  
+  TYPICAL WORKFLOW:
+  1. Main Analyzer calls this endpoint after preparing source code
+  2. Static Auditor analyzes code files, package.json, etc.
+  3. Results are stored in database and accessible via BFF GraphQL
+  
+  Usually triggered automatically by Main Analyzer, not called directly.
+}

@@ -1,0 +1,17 @@
+meta {
+  name: Health Check
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{dynamic_auditor_protocol}}://{{dynamic_auditor_host}}:{{dynamic_auditor_port}}{{dynamic_auditor_api_path}}health-checks
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  Health check endpoint to verify if the Dynamic Auditor service is running properly.
+}

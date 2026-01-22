@@ -1,0 +1,18 @@
+meta {
+  name: Monitoring Dashboard
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{bff_protocol}}://{{bff_host}}:{{bff_port}}{{bff_api_path}}monitoring
+}
+
+headers {
+  Content-Type: text/html
+}
+
+docs {
+  Access the Express status monitoring dashboard for the BFF service.
+  Returns an HTML page with server metrics and health information.
+}

@@ -1,0 +1,17 @@
+meta {
+  name: Health Check
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{main_analyzer_protocol}}://{{main_analyzer_host}}:{{main_analyzer_port}}{{main_analyzer_api_path}}health-checks
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  Health check endpoint to verify if the Main Analyzer service is running properly.
+}

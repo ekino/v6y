@@ -1,0 +1,33 @@
+meta {
+  name: GraphQL - Get Applications
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{bff_protocol}}://{{bff_host}}:{{bff_port}}{{bff_api_path}}graphql
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer {{auth_token}}
+}
+
+auth:bearer {
+  token: {{auth_token}}
+}
+
+body:json {
+  {
+    "query": "query GetApplications { getApplicationListByPageAndParams { _id name acronym contactMail description repo { webUrl gitUrl name organization allBranches } configuration { dataDog { apiKey appKey url monitorId } } links { label value description } } }"
+  }
+}
+
+docs {
+  GraphQL query to fetch all applications from the BFF service.
+  Requires authentication token in the Authorization header.
+  
+  This is the starting point to get application IDs needed for other analysis requests.
+}

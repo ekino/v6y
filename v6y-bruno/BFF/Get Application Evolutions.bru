@@ -1,0 +1,40 @@
+meta {
+  name: GraphQL - Get Application Evolutions
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{bff_protocol}}://{{bff_host}}:{{bff_port}}{{bff_api_path}}graphql
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer {{auth_token}}
+}
+
+auth:bearer {
+  token: {{auth_token}}
+}
+
+body:json {
+  {
+    "query": "query GetApplicationEvolutions($id: Int!) { getApplicationDetailsEvolutionsByParams(_id: $id) { _id appId category module { appId url path branch status version } evolutionHelp { _id title description category status links { label value description } } } }",
+    "variables": {
+      "id": {{sample_application_id}}
+    }
+  }
+}
+
+docs {
+  Fetches evolution suggestions for a specific application based on audit results.
+  Shows recommendations for:
+  - Dependency updates (outdated/deprecated packages)
+  - Code quality improvements 
+  - Performance optimizations
+  - Security vulnerabilities fixes
+  
+  Required: application ID from the "Get Applications" query
+}
