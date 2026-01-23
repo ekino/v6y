@@ -28,9 +28,7 @@ const VitalityQualityIndicatorsView = DynamicLoader(
     () => import('./quality-indicators/VitalityQualityIndicatorsView'),
 );
 
-const VitalityDependenciesView = DynamicLoader(
-    () => import('./dependencies/VitalityDependenciesView'),
-);
+const VitalitySecurityView = DynamicLoader(() => import('./security/VitalitySecurityView'));
 
 const VitalityEvolutionsView = DynamicLoader(() => import('./evolutions/VitalityEvolutionsView'));
 
@@ -99,13 +97,7 @@ const VitalityAppDetailsView = () => {
                     />
                 );
             case 'security':
-                return (
-                    <VitalityDependenciesView
-                        appInfos={appInfos}
-                        branch={selectedBranch}
-                        date={selectedDate}
-                    />
-                );
+                return <VitalitySecurityView />;
             case 'maintainability':
                 return (
                     <VitalityEvolutionsView

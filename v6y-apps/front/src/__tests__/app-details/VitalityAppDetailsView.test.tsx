@@ -37,8 +37,12 @@ vi.mock(
     }),
 );
 
-vi.mock('../../features/app-details/components/dependencies/VitalityDependenciesView', () => ({
-    default: () => <div data-testid="dependencies-view">Dependencies View</div>,
+vi.mock('../../features/app-details/components/security/VitalitySecurityView', () => ({
+    default: () => <div data-testid="security-view">Security View</div>,
+}));
+
+vi.mock('../../features/app-details/components/security/VitalityCodeSecurityView', () => ({
+    default: () => <div data-testid="code-security-view">Code Security View</div>,
 }));
 
 vi.mock('../../features/app-details/components/evolutions/VitalityEvolutionsView', () => ({
@@ -168,7 +172,7 @@ describe('VitalityAppDetailsView', () => {
 
         fireEvent.click(screen.getByText('vitality.appDetailsPage.tabs.security'));
         await waitFor(() => {
-            expect(screen.getByTestId('dependencies-view')).toBeInTheDocument();
+            expect(screen.getByTestId('security-view')).toBeInTheDocument();
         });
 
         fireEvent.click(screen.getByText('vitality.appDetailsPage.tabs.maintainability'));
