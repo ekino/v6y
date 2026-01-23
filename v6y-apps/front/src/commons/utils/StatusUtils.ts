@@ -1,9 +1,17 @@
+const successColor = 'text-green-600 bg-green-50 border-green-200';
+const warningColor = 'text-yellow-600 bg-yellow-50 border-yellow-200';
+const errorColor = 'text-red-600 bg-red-50 border-red-200';
+const infoColor = 'text-blue-600 bg-blue-50 border-blue-200';
+
 const scoreStatusColors: Record<string, string> = {
-    success: 'text-green-600 bg-green-50 border-green-200',
-    good: 'text-green-600 bg-green-50 border-green-200',
-    warning: 'text-yellow-600 bg-yellow-50 border-yellow-200',
-    error: 'text-red-600 bg-red-50 border-red-200',
-    info: 'text-blue-600 bg-blue-50 border-blue-200',
+    success: successColor,
+    good: successColor,
+    warning: warningColor,
+    error: errorColor,
+    failure: errorColor,
+    failed: errorColor,
+    fail: errorColor,
+    info: infoColor,
 };
 
 const getScoreStatusColor = (scoreStatus: string): string => {

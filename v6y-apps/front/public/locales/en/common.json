@@ -54,6 +54,8 @@
         "release": "release"
       },
       "exportButton": "Export Reporting",
+      "runAuditButton": "Run Audit",
+      "runAuditButtonLoading": "Running...",
       "loadingStates": {
         "auditReports": "Loading audit reports...",
         "qualityIndicators": "Loading quality indicators...",
@@ -109,6 +111,21 @@
         "branchTitle": "Branch",
         "repository": "Repository",
         "path": "Path"
+      },
+      "auditReports": {
+        "categories": {
+          "static": "Static Analysis",
+          "dynamic": "Dynamic Analysis",
+          "devops": "DevOps Metrics"
+        },
+        "doraMetrics": {
+          "DEPLOYMENT_FREQUENCY": "Deployment Frequency",
+          "LEAD_REVIEW_TIME": "Lead Review Time",
+          "LEAD_TIME_FOR_CHANGES": "Lead Time for Changes",
+          "CHANGE_FAILURE_RATE": "Change Failure Rate",
+          "MEAN_TIME_TO_RESTORE_SERVICE": "Mean Time to Restore Service",
+          "UP_TIME_AVERAGE": "Uptime Average"
+        }
       }
     },
     "appStatsPage": {

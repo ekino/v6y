@@ -15,14 +15,22 @@ const VitalityAuditReportsTypeGrouper = DynamicLoader(
     () => import('./VitalityAuditReportsTypeGrouper'),
 );
 
-const VitalityAuditReportsView = () => {
+interface VitalityAuditReportsViewProps {
+    auditTrigger?: number;
+}
+
+const VitalityAuditReportsView = ({ auditTrigger = 0 }: VitalityAuditReportsViewProps) => {
     const { getUrlParams } = useNavigationAdapter();
     const { translate } = useTranslationProvider();
     const [_id] = getUrlParams(['_id']);
 
     const { isLoading: isAppDetailsAuditReportsLoading, data: appDetailsAuditReports } =
         useClientQuery<{ getApplicationDetailsAuditReportsByParams: AuditType[] }>({
-            queryCacheKey: ['getApplicationDetailsAuditReportsByParams', `${_id}`],
+            queryCacheKey: [
+                'getApplicationDetailsAuditReportsByParams',
+                `${_id}`,
+                `${auditTrigger}`,
+            ],
             queryBuilder: async () =>
                 buildClientQuery({
                     queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
@@ -62,14 +70,12 @@ const VitalityAuditReportsView = () => {
     }
 
     return (
-        <Card className="border-slate-200 shadow-sm">
-            <CardContent className="p-4">
-                <VitalityAuditReportsTypeGrouper
-                    auditReports={
-                        appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams || []
-                    }
-                />
-            </CardContent>
+        <Card className="space-y-6 border-slate-200 shadow-sm">
+            <VitalityAuditReportsTypeGrouper
+                auditReports={
+                    appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams || []
+                }
+            />
         </Card>
     );
 };
