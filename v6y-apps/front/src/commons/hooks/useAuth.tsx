@@ -122,7 +122,7 @@ const useAuthentication = (translate: (key: string) => string) => {
             if (exception instanceof z.ZodError) {
                 setAuthenticationStatus({
                     token: undefined,
-                    error: exception?.errors?.[0]?.message,
+                    error: exception?.issues?.[0]?.message,
                 });
             } else {
                 setAuthenticationStatus({
