@@ -1,6 +1,9 @@
 import react from '@vitejs/plugin-react-swc';
 import * as path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { configDefaults, defineConfig } from 'vitest/config';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**
  * https://vitest.dev/config/#configuration
