@@ -1,4 +1,3 @@
-import react from '@vitejs/plugin-react';
 import * as path from 'node:path';
 import { configDefaults, defineConfig } from 'vitest/config';
 
@@ -6,7 +5,9 @@ import { configDefaults, defineConfig } from 'vitest/config';
  * https://vitest.dev/config/#configuration
  */
 export default defineConfig({
-    plugins: [react()],
+    esbuild: {
+        jsx: 'automatic',
+    },
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './src'),

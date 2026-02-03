@@ -1,4 +1,4 @@
-import react from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react-swc';
 import * as path from 'node:path';
 import { configDefaults, defineConfig } from 'vitest/config';
 
@@ -10,8 +10,6 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './src'),
-            // During tests, make sure imports to next/navigation can be resolved
-            'next/navigation': path.resolve(__dirname, './test-mocks/next-navigation.ts'),
         },
     },
     test: {
@@ -29,18 +27,7 @@ export default defineConfig({
         coverage: {
             provider: 'v8',
             include: ['src/**'],
-            exclude: [
-                ...configDefaults.coverage.exclude,
-                '**/types/**',
-                '**/app/**',
-                '**/api/**',
-                '**/chatbot/**',
-                '**/ProtectedRoute.tsx',
-                '**/test-utils/**',
-                '**/apps-stats/**',
-                '**/pages/**',
-                '**/infrastructure/providers/**',
-            ],
+            exclude: [...configDefaults.coverage.exclude, '**/types/**', '**/app/**', '**/api/**'],
         },
     },
 });

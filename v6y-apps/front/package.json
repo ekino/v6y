@@ -31,6 +31,7 @@
     "@v6y/core-logic": "workspace:^",
     "@v6y/ui-kit": "workspace:^",
     "@v6y/ui-kit-front": "workspace:^",
+    "@vitejs/plugin-react-swc": "=3.7.2",
     "crypto-hash": "=4.0.0",
     "google": "link:next/font/google",
     "graphql": "=16.10.0",
