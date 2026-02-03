@@ -252,11 +252,11 @@ describe('VitalityAppDetailsView', () => {
     it('renders with correct grid layout', async () => {
         renderComponent();
 
-        const mainContainer = document.querySelector('.grid.grid-cols-12');
+        const mainContainer = document.querySelector('.grid.grid-cols-1');
         expect(mainContainer).toBeInTheDocument();
 
-        const summaryColumn = document.querySelector('.col-span-3');
-        const contentColumn = document.querySelector('.col-span-9');
+        const summaryColumn = document.querySelector('.lg\\:col-span-3');
+        const contentColumn = document.querySelector('.lg\\:col-span-9');
 
         expect(summaryColumn).toBeInTheDocument();
         expect(contentColumn).toBeInTheDocument();
