@@ -37,7 +37,7 @@
     "@vitest/ui": "=4.0.14",
     "chai": "=6.2.1",
     "es6-plato": "=1.2.3",
-    "eslint": "=9.18.0",
+    "eslint": "=9.26.0",
     "eslint-config-prettier": "=10.0.1",
     "eslint-plugin-prettier": "=5.2.1",
     "globals": "=16.4.0",
