@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 
 import { AuditType } from '@v6y/core-logic/src/types';
 import { Badge } from '@v6y/ui-kit-front';
@@ -27,6 +28,21 @@ const VitalityAuditReportsSection = ({
     reports,
     description,
 }: VitalityAuditReportsSectionProps) => {
+    const [copiedId, setCopiedId] = useState<string | null>(null);
+
+    const copyToClipboard = (text: string, reportId: string) => {
+        navigator.clipboard.writeText(text);
+        setCopiedId(reportId);
+        setTimeout(() => setCopiedId(null), 2000);
+    };
+
+    const getLocationText = (report: AuditType) => {
+        const parts = [];
+        if (report.module?.branch) parts.push(report.module.branch);
+        if (report.module?.path) parts.push(report.module.path);
+        return parts.join(' - ');
+    };
+
     if (!reports?.length) {
         return (
             <div className="mb-8">
@@ -99,21 +115,46 @@ const VitalityAuditReportsSection = ({
                                                 {report.subCategory || '-'}
                                             </td>
                                             <td className="px-6 py-3 text-sm text-gray-600">
-                                                <div className="max-w-xs truncate">
-                                                    {report.module?.branch && (
-                                                        <div className="text-xs">
-                                                            {report.module.branch}
-                                                        </div>
-                                                    )}
-                                                    {report.module?.path && (
-                                                        <div className="text-xs text-gray-500 truncate">
-                                                            {report.module.path}
-                                                        </div>
-                                                    )}
-                                                    {!report.module?.branch &&
-                                                        !report.module?.path && (
-                                                            <span className="text-gray-400">-</span>
+                                                <div className="flex items-center gap-2">
+                                                    <div className="max-w-[80px] truncate text-xs">
+                                                        {report.module?.branch && (
+                                                            <div>{report.module.branch}</div>
                                                         )}
+                                                        {report.module?.path && (
+                                                            <div className="text-gray-500 truncate">
+                                                                {report.module.path}
+                                                            </div>
+                                                        )}
+                                                        {!report.module?.branch &&
+                                                            !report.module?.path && (
+                                                                <span className="text-gray-400">
+                                                                    -
+                                                                </span>
+                                                            )}
+                                                    </div>
+                                                    {(report.module?.branch ||
+                                                        report.module?.path) && (
+                                                        <button
+                                                            onClick={() =>
+                                                                copyToClipboard(
+                                                                    getLocationText(report),
+                                                                    report._id,
+                                                                )
+                                                            }
+                                                            className="p-1 hover:bg-gray-200 rounded transition-colors flex-shrink-0"
+                                                            title="Copy location"
+                                                        >
+                                                            {copiedId === report._id ? (
+                                                                <span className="text-xs text-green-600">
+                                                                    ✓
+                                                                </span>
+                                                            ) : (
+                                                                <span className="text-xs text-gray-500">
+                                                                    📋
+                                                                </span>
+                                                            )}
+                                                        </button>
+                                                    )}
                                                 </div>
                                             </td>
                                             <td className="px-6 py-3 text-sm text-center">

@@ -1,3 +1,5 @@
+import fs from 'fs-extra';
+
 import {
     AppLogger,
     ApplicationProvider,
@@ -46,19 +48,24 @@ const checkForStaticAudits = async (applicationId: number | undefined): Promise<
  */
 const waitForStaticAuditCompletion = async (
     applicationId: number | undefined,
-    maxWaitTime: number = 60000,
+    maxWaitTime: number = 120000, // Increased to 120 seconds
 ) => {
-    const pollInterval = 500; // Check every 500ms
+    const pollInterval = 1000; // Check every 1 second
     const startTime = Date.now();
+    let attempts = 0;
 
     while (Date.now() - startTime < maxWaitTime) {
         try {
             if (await checkForStaticAudits(applicationId)) {
+                AppLogger.info(
+                    `[ApplicationManager - waitForStaticAuditCompletion] Static audits found after ${Date.now() - startTime}ms`,
+                );
                 return true;
             }
+            attempts++;
         } catch (error) {
             AppLogger.debug(
-                '[ApplicationManager - waitForStaticAuditCompletion] Polling...',
+                `[ApplicationManager - waitForStaticAuditCompletion] Polling attempt ${attempts}...`,
                 error,
             );
         }
@@ -66,8 +73,8 @@ const waitForStaticAuditCompletion = async (
         await new Promise((resolve) => setTimeout(resolve, pollInterval));
     }
 
-    AppLogger.info(
-        '[ApplicationManager - waitForStaticAuditCompletion] Timeout waiting for static audits',
+    AppLogger.warn(
+        `[ApplicationManager - waitForStaticAuditCompletion] Timeout waiting for static audits after ${attempts} attempts`,
     );
     return false;
 };
@@ -95,16 +102,16 @@ const buildApplicationBackendByBranch = async ({
 }: BuildApplicationParams) => {
     try {
         AppLogger.info(
-            '[ApplicationManager - buildApplicationFrontendByBranch] applicationId: ',
+            '[ApplicationManager - buildApplicationBackendByBranch] applicationId: ',
             applicationId,
         );
         AppLogger.info(
-            '[ApplicationManager - buildApplicationFrontendByBranch] workspaceFolder: ',
+            '[ApplicationManager - buildApplicationBackendByBranch] workspaceFolder: ',
             workspaceFolder,
         );
         return true;
     } catch (error) {
-        AppLogger.info(`[ApplicationManager - buildApplicationBackendByBranch] error:  ${error}`);
+        AppLogger.error(`[ApplicationManager - buildApplicationBackendByBranch] error:  ${error}`);
         return false;
     }
 };
@@ -119,14 +126,13 @@ const buildApplicationFrontendByBranch = async ({
     workspaceFolder,
 }: BuildApplicationParams) => {
     AppLogger.info(
-        '[ApplicationManager - buildApplicationFrontendByBranch] applicationId: ',
+        '[ApplicationManager - buildApplicationFrontendByBranch] Starting static auditor for applicationId: ',
         applicationId,
     );
     AppLogger.info(
         '[ApplicationManager - buildApplicationFrontendByBranch] workspaceFolder: ',
         workspaceFolder,
     );
-
     AppLogger.info(
         '[ApplicationManager - buildApplicationFrontendByBranch] staticAuditorApiPath: ',
         staticAuditorApiPath,
@@ -139,16 +145,31 @@ const buildApplicationFrontendByBranch = async ({
             body: JSON.stringify({ applicationId, workspaceFolder }),
         });
 
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
-    } catch (error) {
         AppLogger.info(
-            `[ApplicationManager - buildApplicationFrontendByBranch - staticAuditor] error:  ${error}`,
+            '[ApplicationManager - buildApplicationFrontendByBranch] Static auditor response status: ',
+            response.status,
         );
-    }
 
-    return true;
+        if (!response.ok) {
+            const errorText = await response.text();
+            AppLogger.error(
+                `[ApplicationManager - buildApplicationFrontendByBranch] Static auditor HTTP ${response.status}: ${errorText}`,
+            );
+            return false;
+        }
+
+        const responseData = await response.json();
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationFrontendByBranch] Static auditor response: ',
+            responseData,
+        );
+        return true;
+    } catch (error) {
+        AppLogger.error(
+            `[ApplicationManager - buildApplicationFrontendByBranch] Static auditor request failed: ${String(error)}`,
+        );
+        return false;
+    }
 };
 
 /**
@@ -192,6 +213,23 @@ const buildApplicationDetailsByBranch = async ({ application, branch }: BuildApp
             return false;
         }
 
+        // Clean up any existing zip files before downloading
+        try {
+            const zipPath = `${zipDestinationDir}/${zipFileName}`;
+            if (fs.existsSync(zipPath)) {
+                fs.removeSync(zipPath);
+            }
+            const tempZipPath = `${zipPath}-temp`;
+            if (fs.existsSync(tempZipPath)) {
+                fs.removeSync(tempZipPath);
+            }
+        } catch (error) {
+            AppLogger.warn(
+                '[ApplicationManager - buildApplicationDetailsByBranch] Failed to clean zip files: ',
+                error,
+            );
+        }
+
         const zipDownloadStatus = await ZipUtils.downloadZip({
             zipSourceUrl,
             zipDestinationDir,
@@ -205,6 +243,28 @@ const buildApplicationDetailsByBranch = async ({ application, branch }: BuildApp
 
         if (!zipDownloadStatus) {
             return false;
+        }
+
+        // Clean up any existing workspace folder before unzipping to avoid "dest already exists" errors
+        const workspacePath = `${ZIP_BASE_DIR}/${zipBaseFileName}`;
+
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationDetailsByBranch] Cleaning up existing workspace at: ',
+            workspacePath,
+        );
+
+        try {
+            if (fs.existsSync(workspacePath)) {
+                fs.removeSync(workspacePath);
+                AppLogger.info(
+                    '[ApplicationManager - buildApplicationDetailsByBranch] Workspace cleaned up successfully',
+                );
+            }
+        } catch (error) {
+            AppLogger.warn(
+                '[ApplicationManager - buildApplicationDetailsByBranch] Failed to clean workspace: ',
+                error,
+            );
         }
 
         const workspaceFolder = await ZipUtils.unZipFile({
@@ -231,13 +291,33 @@ const buildApplicationDetailsByBranch = async ({ application, branch }: BuildApp
             workspaceFolder,
         });
 
+        // Wait for static auditor to complete processing before deleting workspace
+        // The auditor runs asynchronously in a worker thread and needs the files to exist
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationDetailsByBranch] Waiting for static auditor to process files...',
+        );
+        const staticAuditSuccess = await waitForStaticAuditCompletion(application?._id, 180000); // Wait up to 3 minutes for auditor to complete
+
+        if (!staticAuditSuccess) {
+            AppLogger.warn(
+                '[ApplicationManager - buildApplicationDetailsByBranch] Static auditor did not complete in time, proceeding with cleanup...',
+            );
+        } else {
+            AppLogger.info(
+                '[ApplicationManager - buildApplicationDetailsByBranch] Static auditor processing complete.',
+            );
+        }
+
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationDetailsByBranch] Deleting workspace...',
+        );
         ZipUtils.deleteZip({
             zipDirFullPath: zipDestinationDir,
         });
 
         return true;
     } catch (error) {
-        AppLogger.info(`[ApplicationManager - buildApplicationDetailsByBranch] error:  ${error}`);
+        AppLogger.error(`[ApplicationManager - buildApplicationDetailsByBranch] error: ${error}`);
         return false;
     }
 };
@@ -267,7 +347,7 @@ const buildStaticReports = async ({ application, branches }: BuildApplicationPar
 
         return true;
     } catch (error) {
-        AppLogger.info(`[ApplicationManager - buildStaticReports] error:  ${String(error)}`);
+        AppLogger.error(`[ApplicationManager - buildStaticReports] error:  ${String(error)}`);
         return false;
     }
 };
@@ -393,9 +473,6 @@ const buildApplicationReports = async (application: ApplicationType) => {
 
         AppLogger.info('[ApplicationManager - buildApplicationDetails] end of static analysis');
 
-        // Wait for static auditor to complete by checking database for audit records
-        await waitForStaticAuditCompletion(application?._id);
-
         AppLogger.info('[ApplicationManager - buildApplicationDetails] start of dynamic analysis');
 
         await buildDynamicReports({
@@ -406,7 +483,7 @@ const buildApplicationReports = async (application: ApplicationType) => {
 
         return true;
     } catch (error) {
-        AppLogger.info('[ApplicationManager - buildApplicationDetails] error: ', error);
+        AppLogger.error('[ApplicationManager - buildApplicationDetails] error: ', error);
         return false;
     }
 };
