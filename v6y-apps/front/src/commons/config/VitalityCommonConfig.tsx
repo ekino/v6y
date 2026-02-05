@@ -146,7 +146,11 @@ export const buildBreadCrumbItems = ({
                     title: <Link href="">{translate('vitality.appDetailsPage.shortTitle')}</Link>,
                 },
             ],
-            [VitalityNavigationPaths.DASHBOARD]: [],
+            [VitalityNavigationPaths.DASHBOARD]: [
+                {
+                    title: <Link href="">{translate('vitality.dashboardPage.shortTitle')}</Link>,
+                },
+            ],
             [VitalityNavigationPaths.APP_LIST]: [
                 {
                     title: dashboardLink,

@@ -1,23 +1,17 @@
-import Image from 'next/image';
-import Link from 'next/link';
+'use client';
 
-import {
-    Button,
-    ExitIcon,
-    LanguageMenu,
-    MagnifyingGlassIcon,
-    QuestionMarkCircledIcon,
-    TypographySmall,
-    useTranslationProvider,
-} from '@v6y/ui-kit-front';
+import { useState } from 'react';
+
+import { Button } from '@v6y/ui-kit-front';
 
 import { getSession } from '../../../infrastructure/providers/SessionProvider';
-import VitalityNavigationPaths from '../../config/VitalityNavigationPaths';
 import { useLogin, useLogout } from '../../hooks/useAuth';
+import DesktopMenuItems from './DesktopMenuItems';
+import HeaderLogo from './HeaderLogo';
+import MobileMenu from './MobileMenu';
 
 const VitalityPageHeader = () => {
-    const { translate } = useTranslationProvider();
-
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const { isLoggedIn } = useLogin();
     const { onLogout } = useLogout();
 
@@ -25,48 +19,49 @@ const VitalityPageHeader = () => {
     const userName = session?.username;
 
     return (
-        <header className="py-4 flex items-center justify-between">
-            <div className="flex items-center gap-8">
-                <Link href={VitalityNavigationPaths.DASHBOARD}>
-                    <Image
-                        width={150}
-                        height={40}
-                        loading="lazy"
-                        src="/vitality_logo.svg"
-                        alt="Vitality Logo"
-                    />
-                </Link>
-            </div>
-            <div className="flex items-center gap-2 text-center">
-                <Link className="text-black" href="/faq">
-                    <Button className="border-gray-200" size="icon" variant="outline">
-                        <QuestionMarkCircledIcon />
-                    </Button>
-                </Link>
+        <>
+            <header className="py-2 md:py-4 md:px-0 flex items-center justify-between bg-white">
+                <div className="flex items-center gap-4 md:gap-8 flex-shrink-0">
+                    <HeaderLogo />
+                </div>
 
-                {isLoggedIn && (
-                    <Button size="icon" variant="outline">
-                        <MagnifyingGlassIcon />
-                    </Button>
-                )}
+                <DesktopMenuItems isLoggedIn={isLoggedIn} userName={userName} onLogout={onLogout} />
 
-                <LanguageMenu />
+                <Button
+                    size="icon"
+                    variant="outline"
+                    className="md:hidden border-gray-200 h-9 w-9 flex-shrink-0"
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    aria-label="Toggle menu"
+                >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        {isMobileMenuOpen ? (
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M6 18L18 6M6 6l12 12"
+                            />
+                        ) : (
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M4 6h16M4 12h16M4 18h16"
+                            />
+                        )}
+                    </svg>
+                </Button>
+            </header>
 
-                {isLoggedIn && (
-                    <>
-                        <TypographySmall>
-                            {translate('vitality.header.welcome')} {userName}
-                        </TypographySmall>
-
-                        <Link href={VitalityNavigationPaths.LOGIN} onClick={onLogout}>
-                            <Button size="icon" variant="outline">
-                                <ExitIcon />
-                            </Button>
-                        </Link>
-                    </>
-                )}
-            </div>
-        </header>
+            <MobileMenu
+                isOpen={isMobileMenuOpen}
+                onClose={() => setIsMobileMenuOpen(false)}
+                isLoggedIn={isLoggedIn}
+                userName={userName}
+                onLogout={onLogout}
+            />
+        </>
     );
 };
 
