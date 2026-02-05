@@ -2,6 +2,7 @@ import {
     AppLogger,
     ApplicationProvider,
     ApplicationType,
+    AuditProvider,
     RepositoryApi,
     ZipUtils,
 } from '@v6y/core-logic';
@@ -13,6 +14,63 @@ const { getRepositoryDetails, getRepositoryBranches, prepareGitBranchZipConfig }
 const { currentConfig } = ServerConfig;
 const { staticAuditorApiPath, dynamicAuditorApiPath, devopsAuditorApiPath } = currentConfig || {};
 const ZIP_BASE_DIR = '../code-analysis-workspace';
+
+/**
+ * Checks if static audits exist for the application.
+ * @param applicationId
+ * @returns true if static audits found, false otherwise
+ */
+const checkForStaticAudits = async (applicationId: number | undefined): Promise<boolean> => {
+    const audits = await AuditProvider.getAuditListByPageAndParams({ appId: applicationId });
+
+    if (!audits?.length) {
+        return false;
+    }
+
+    const staticAudits = audits.filter((audit) => audit.type === 'Code-Complexity');
+    if (staticAudits.length > 0) {
+        AppLogger.info(
+            '[ApplicationManager - checkForStaticAudits] Static audits found:',
+            staticAudits.length,
+        );
+        return true;
+    }
+
+    return false;
+};
+
+/**
+ * Waits for static auditor to complete by polling for audit records.
+ * @param applicationId
+ * @param maxWaitTime Maximum time to wait in milliseconds
+ */
+const waitForStaticAuditCompletion = async (
+    applicationId: number | undefined,
+    maxWaitTime: number = 60000,
+) => {
+    const pollInterval = 500; // Check every 500ms
+    const startTime = Date.now();
+
+    while (Date.now() - startTime < maxWaitTime) {
+        try {
+            if (await checkForStaticAudits(applicationId)) {
+                return true;
+            }
+        } catch (error) {
+            AppLogger.debug(
+                '[ApplicationManager - waitForStaticAuditCompletion] Polling...',
+                error,
+            );
+        }
+
+        await new Promise((resolve) => setTimeout(resolve, pollInterval));
+    }
+
+    AppLogger.info(
+        '[ApplicationManager - waitForStaticAuditCompletion] Timeout waiting for static audits',
+    );
+    return false;
+};
 
 interface BuildApplicationBranchParams {
     name: string;
@@ -75,31 +133,19 @@ const buildApplicationFrontendByBranch = async ({
     );
 
     try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30-second timeout
-
         const response = await fetch(staticAuditorApiPath as string, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ applicationId, workspaceFolder }),
-            signal: controller.signal,
         });
-
-        clearTimeout(timeoutId);
 
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
     } catch (error) {
-        if (error instanceof Error && error.name === 'AbortError') {
-            AppLogger.info(
-                `[ApplicationManager - buildApplicationFrontendByBranch - staticAuditor] timeout after 30s`,
-            );
-        } else {
-            AppLogger.info(
-                `[ApplicationManager - buildApplicationFrontendByBranch - staticAuditor] error:  ${error}`,
-            );
-        }
+        AppLogger.info(
+            `[ApplicationManager - buildApplicationFrontendByBranch - staticAuditor] error:  ${error}`,
+        );
     }
 
     return true;
@@ -212,7 +258,7 @@ const buildStaticReports = async ({ application, branches }: BuildApplicationPar
 
         // Use the main branch or the first branch for static analysis
         const mainBranch = branches.find((branch) => branch.name === 'main') || branches[0];
-        AppLogger.info('[ApplicationManager - buildStaticReports] using branch: ', mainBranch);
+        AppLogger.info('[ApplicationManager - buildStaticReports] using branch: ', mainBranch.name);
 
         await buildApplicationDetailsByBranch({
             application,
@@ -243,33 +289,21 @@ const buildDynamicReports = async ({ application }: BuildApplicationParams) => {
     );
 
     try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30-second timeout
-
         const response = await fetch(devopsAuditorApiPath as string, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 applicationId: application?._id,
             }),
-            signal: controller.signal,
         });
-
-        clearTimeout(timeoutId);
 
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
     } catch (error) {
-        if (error instanceof Error && error.name === 'AbortError') {
-            AppLogger.info(
-                `[ApplicationManager - buildDynamicReports - devOpsAuditor] timeout after 30s`,
-            );
-        } else {
-            AppLogger.info(
-                `[ApplicationManager - buildDynamicReports - devOpsAuditor] error:  ${String(error)}`,
-            );
-        }
+        AppLogger.info(
+            `[ApplicationManager - buildDynamicReports - devOpsAuditor] error:  ${String(error)}`,
+        );
     }
 
     AppLogger.info(
@@ -278,9 +312,6 @@ const buildDynamicReports = async ({ application }: BuildApplicationParams) => {
     );
 
     try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30-second timeout
-
         const response = await fetch(dynamicAuditorApiPath as string, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -288,24 +319,15 @@ const buildDynamicReports = async ({ application }: BuildApplicationParams) => {
                 applicationId: application?._id,
                 workspaceFolder: null,
             }),
-            signal: controller.signal,
         });
-
-        clearTimeout(timeoutId);
 
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
     } catch (error) {
-        if (error instanceof Error && error.name === 'AbortError') {
-            AppLogger.info(
-                `[ApplicationManager - buildDynamicReports - dynamicAuditor] timeout after 30s`,
-            );
-        } else {
-            AppLogger.info(
-                `[ApplicationManager - buildDynamicReports - dynamicAuditor] error:  ${String(error)}`,
-            );
-        }
+        AppLogger.info(
+            `[ApplicationManager - buildDynamicReports - dynamicAuditor] error:  ${String(error)}`,
+        );
     }
 
     return true;
@@ -370,6 +392,9 @@ const buildApplicationReports = async (application: ApplicationType) => {
         });
 
         AppLogger.info('[ApplicationManager - buildApplicationDetails] end of static analysis');
+
+        // Wait for static auditor to complete by checking database for audit records
+        await waitForStaticAuditCompletion(application?._id);
 
         AppLogger.info('[ApplicationManager - buildApplicationDetails] start of dynamic analysis');
 

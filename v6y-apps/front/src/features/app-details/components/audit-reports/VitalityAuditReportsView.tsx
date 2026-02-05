@@ -41,6 +41,21 @@ const VitalityAuditReportsView = ({ auditTrigger = 0 }: VitalityAuditReportsView
                 }),
         });
 
+    // Filter to show static audit reports (exclude lighthouse)
+    const staticAuditReports =
+        appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams?.filter(
+            (report) => report.type !== 'Lighthouse',
+        ) || [];
+
+    // Filter to show dynamic audit reports (lighthouse only)
+    const dynamicAuditReports =
+        appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams?.filter(
+            (report) => report.type === 'Lighthouse',
+        ) || [];
+
+    // Combine all reports for the grouper
+    const allAuditReports = [...staticAuditReports, ...dynamicAuditReports];
+
     if (isAppDetailsAuditReportsLoading) {
         return (
             <Card className="border-slate-200 shadow-sm">
@@ -53,7 +68,7 @@ const VitalityAuditReportsView = ({ auditTrigger = 0 }: VitalityAuditReportsView
         );
     }
 
-    if (!appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams?.length) {
+    if (!allAuditReports.length) {
         return (
             <Card className="border-slate-200 shadow-sm">
                 <CardContent className="flex flex-col items-center justify-center p-12 gap-2">
@@ -71,11 +86,7 @@ const VitalityAuditReportsView = ({ auditTrigger = 0 }: VitalityAuditReportsView
 
     return (
         <Card className="space-y-6 border-slate-200 shadow-sm">
-            <VitalityAuditReportsTypeGrouper
-                auditReports={
-                    appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams || []
-                }
-            />
+            <VitalityAuditReportsTypeGrouper auditReports={allAuditReports} />
         </Card>
     );
 };
