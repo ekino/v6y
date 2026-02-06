@@ -99,35 +99,31 @@ const VitalityAppDetailsView = () => {
                 );
             case 'performance':
                 return (
-                    <VitalityAuditReportsView
-                        appInfos={appInfos}
-                        branch={selectedBranch}
-                        date={selectedDate}
-                        auditTrigger={auditTrigger}
-                    />
+                    <VitalityAuditReportsView auditTrigger={auditTrigger} category="performance" />
                 );
             case 'accessibility':
                 return (
-                    <VitalityQualityIndicatorsView
-                        appInfos={appInfos}
-                        branch={selectedBranch}
-                        date={selectedDate}
+                    <VitalityAuditReportsView
+                        auditTrigger={auditTrigger}
+                        category="accessibility"
                     />
                 );
             case 'security':
                 return (
-                    <VitalityDependenciesView
-                        appInfos={appInfos}
-                        branch={selectedBranch}
-                        date={selectedDate}
-                    />
+                    <div className="space-y-6">
+                        <VitalityAuditReportsView auditTrigger={auditTrigger} category="security" />
+                        <VitalityDependenciesView
+                            appInfos={appInfos}
+                            branch={selectedBranch}
+                            date={selectedDate}
+                        />
+                    </div>
                 );
             case 'maintainability':
                 return (
-                    <VitalityEvolutionsView
-                        appInfos={appInfos}
-                        branch={selectedBranch}
-                        date={selectedDate}
+                    <VitalityAuditReportsView
+                        auditTrigger={auditTrigger}
+                        category="maintainability"
                     />
                 );
             default:

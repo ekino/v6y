@@ -1,34 +1,57 @@
 import * as React from 'react';
 
 import { AuditType } from '@v6y/core-logic/src/types';
-import { useTranslationProvider } from '@v6y/ui-kit';
 
-import { categorizeAuditReports } from './VitalityAuditReportsFormatter';
 import VitalityAuditReportsSection from './VitalityAuditReportsSection';
 
-const VitalityAuditReportsTypeGrouper = ({ auditReports }: { auditReports: AuditType[] }) => {
-    const { translate } = useTranslationProvider();
+interface VitalityAuditReportsTypeGrouperProps {
+    auditReports: AuditType[];
+    category?: string;
+}
 
-    const categorized = categorizeAuditReports(auditReports);
+const VitalityAuditReportsTypeGrouper = ({
+    auditReports,
+    category = 'general',
+}: VitalityAuditReportsTypeGrouperProps) => {
+    const getTitleAndDescription = (cat: string) => {
+        switch (cat) {
+            case 'performance':
+                return {
+                    title: 'Performance Metrics',
+                    description: 'Web performance, loading times, Core Web Vitals',
+                };
+            case 'accessibility':
+                return {
+                    title: 'Accessibility & Quality',
+                    description:
+                        'WCAG compliance, screen reader compatibility, accessibility standards',
+                };
+            case 'security':
+                return {
+                    title: 'Security Analysis',
+                    description: 'Security vulnerabilities, insecure patterns, code smells',
+                };
+            case 'maintainability':
+                return {
+                    title: 'Code Quality & Maintainability',
+                    description: 'Code complexity, coupling, metrics and quality assessments',
+                };
+            default:
+                return {
+                    title: 'Audit Reports',
+                    description: 'Analysis results',
+                };
+        }
+    };
+
+    const { title, description } = getTitleAndDescription(category);
 
     return (
-        <div className="space-y-8">
-            <VitalityAuditReportsSection
-                title={translate('vitality.appDetailsPage.auditReports.categories.devops')}
-                reports={categorized.devops}
-                description="DORA metrics, deployment frequency, lead time measurements"
-            />
-            <VitalityAuditReportsSection
-                title={translate('vitality.appDetailsPage.auditReports.categories.static')}
-                reports={categorized.static}
-                description="Code quality, security vulnerabilities, maintainability metrics"
-            />
-            <VitalityAuditReportsSection
-                title={translate('vitality.appDetailsPage.auditReports.categories.dynamic')}
-                reports={categorized.dynamic}
-                description="Performance tests, accessibility audits, runtime analysis"
-            />
-        </div>
+        <VitalityAuditReportsSection
+            title={title}
+            reports={auditReports}
+            description={description}
+        />
     );
 };
 

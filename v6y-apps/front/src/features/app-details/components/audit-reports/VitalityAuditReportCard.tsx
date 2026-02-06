@@ -92,7 +92,11 @@ const VitalityAuditReportCard = ({ report }: VitalityAuditReportCardProps) => {
                 </div>
                 {report.extraInfos && (
                     <div className="bg-white/60 backdrop-blur-sm rounded-lg p-2 border border-white/40">
-                        <p className="text-xs text-gray-700 leading-relaxed">{report.extraInfos}</p>
+                        <p className="text-xs text-gray-700 leading-relaxed">
+                            {report.extraInfos.length > 100
+                                ? `${report.extraInfos.substring(0, 100)}...`
+                                : report.extraInfos}
+                        </p>
                     </div>
                 )}
             </CardContent>

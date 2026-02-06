@@ -97,9 +97,9 @@ const buildApplicationList = async () => {
             return false;
         }
 
-        // For testing, audit only the first application
-        const firstApplication = applications[0];
-        await buildApplicationReports(firstApplication);
+        for (const application of applications) {
+            await buildApplicationReports(application);
+        }
 
         return true;
     } catch (error) {
