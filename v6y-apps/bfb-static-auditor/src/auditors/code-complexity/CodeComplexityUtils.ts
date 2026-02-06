@@ -364,6 +364,124 @@ const inspectDirectory = ({
 };
 
 /**
+ * Aggregates code complexity reports from multiple files into summary reports.
+ */
+const aggregateCodeComplexityReports = ({
+    auditableFiles,
+    application,
+    analyzedBranch,
+    summary,
+}: {
+    auditableFiles: ModuleFileType[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    application: any; // TODO: Use proper ApplicationType
+    analyzedBranch: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    summary: any; // TODO: Use proper OverviewReportType
+}): AuditType[] => {
+    const auditReports: AuditType[] = [];
+
+    // Collect aggregated data
+    let totalMaintainability = 0;
+    let totalCyclomatic = 0;
+    let totalPhysicalSLOC = 0;
+    let totalLogicalSLOC = 0;
+    const halsteadAggregate = { ...defaultAggregate.halstead };
+    let fileCount = 0;
+
+    for (const auditableFile of auditableFiles) {
+        const { file, fileMaintainability, fileComplexity, fileSLOC } = auditableFile || {};
+
+        if (!file?.length || !fileComplexity) {
+            continue;
+        }
+
+        totalMaintainability += fileMaintainability || 0;
+        totalCyclomatic += fileComplexity.cyclomatic || 0;
+        totalPhysicalSLOC += fileSLOC?.physical || 0;
+        totalLogicalSLOC += fileSLOC?.logical || 0;
+
+        // Aggregate Halstead metrics
+        if (fileComplexity.halstead) {
+            halsteadAggregate.operands.total += fileComplexity.halstead.operands?.total || 0;
+            halsteadAggregate.operands.distinct += fileComplexity.halstead.operands?.distinct || 0;
+            halsteadAggregate.operators.total += fileComplexity.halstead.operators?.total || 0;
+            halsteadAggregate.operators.distinct +=
+                fileComplexity.halstead.operators?.distinct || 0;
+            halsteadAggregate.length += fileComplexity.halstead.length || 0;
+            halsteadAggregate.vocabulary += fileComplexity.halstead.vocabulary || 0;
+            halsteadAggregate.difficulty += fileComplexity.halstead.difficulty || 0;
+            halsteadAggregate.volume += fileComplexity.halstead.volume || 0;
+            halsteadAggregate.effort += fileComplexity.halstead.effort || 0;
+            halsteadAggregate.bugs += fileComplexity.halstead.bugs || 0;
+            halsteadAggregate.time += fileComplexity.halstead.time || 0;
+        }
+
+        fileCount++;
+    }
+
+    if (fileCount > 0) {
+        const avgMaintainability = totalMaintainability / fileCount;
+        const avgCyclomatic = totalCyclomatic / fileCount;
+
+        // Create aggregated audits
+        auditReports.push(
+            formatMaintainabilityIndexReport({
+                fileMaintainability: avgMaintainability,
+                application,
+                analyzedFile: '',
+                analyzedBranch,
+                cyclomaticMetric: avgCyclomatic,
+                fileSLOC: { physical: totalPhysicalSLOC, logical: totalLogicalSLOC },
+                halsteadMetrics: halsteadAggregate,
+                summary,
+            }),
+        );
+
+        auditReports.push(
+            ...formatFileSLOCIndicators({
+                cyclomaticMetric: avgCyclomatic,
+                fileMaintainability: avgMaintainability,
+                halsteadMetrics: halsteadAggregate,
+                summary,
+                fileSLOC: { physical: totalPhysicalSLOC, logical: totalLogicalSLOC },
+                application,
+                analyzedFile: '',
+                analyzedBranch,
+            }),
+        );
+
+        auditReports.push(
+            formatCyclomaticComplexityReport({
+                fileMaintainability: avgMaintainability,
+                fileSLOC: { physical: totalPhysicalSLOC, logical: totalLogicalSLOC },
+                halsteadMetrics: halsteadAggregate,
+                summary,
+                cyclomaticMetric: avgCyclomatic,
+                application,
+                analyzedFile: '',
+                analyzedBranch,
+            }),
+        );
+
+        auditReports.push(
+            ...formatHalsteadReports({
+                cyclomaticMetric: avgCyclomatic,
+                fileMaintainability: avgMaintainability,
+                fileSLOC: { physical: totalPhysicalSLOC, logical: totalLogicalSLOC },
+                summary,
+                halsteadMetrics: halsteadAggregate,
+                application,
+                analyzedFile: '',
+                analyzedBranch,
+            }),
+        );
+    }
+
+    return auditReports;
+};
+
+/**
  * Formats the code complexity reports.
  * @param workspaceFolder
  * @param application
@@ -441,73 +559,18 @@ const formatCodeComplexityReports = ({
             }),
         );
 
-        for (const auditableFile of auditableFiles) {
-            const { file, fileMaintainability, fileComplexity, fileSLOC } = auditableFile || {};
-
-            AppLogger.info(`[CodeComplexityUtils - formatCodeComplexityReports] file:  ${file}`);
-
-            if (!file?.length || !fileComplexity) {
-                continue;
-            }
-
-            const { cyclomatic, halstead } = fileComplexity;
-
-            auditReports.push(
-                formatMaintainabilityIndexReport({
-                    fileMaintainability,
-                    application,
-                    analyzedFile: file,
-                    analyzedBranch: analyzedBranch || '',
-                    cyclomaticMetric: 0,
-                    fileSLOC: { physical: 0, logical: 0 },
-                    halsteadMetrics: {},
-                    summary: defaultSummary,
-                }),
-            );
-
-            auditReports.push(
-                ...formatFileSLOCIndicators({
-                    cyclomaticMetric: 0,
-                    fileMaintainability: 0,
-                    halsteadMetrics: {},
-                    summary: defaultSummary,
-                    fileSLOC,
-                    application,
-                    analyzedFile: file,
-                    analyzedBranch: analyzedBranch || '',
-                }),
-            );
-
-            auditReports.push(
-                formatCyclomaticComplexityReport({
-                    fileMaintainability: 0,
-                    fileSLOC: { physical: 0, logical: 0 },
-                    halsteadMetrics: {},
-                    summary: defaultSummary,
-                    cyclomaticMetric: cyclomatic,
-                    application,
-                    analyzedFile: file,
-                    analyzedBranch: analyzedBranch || '',
-                }),
-            );
-
-            auditReports.push(
-                ...formatHalsteadReports({
-                    cyclomaticMetric: 0,
-                    fileMaintainability: 0,
-                    fileSLOC: { physical: 0, logical: 0 },
-                    summary: defaultSummary,
-                    halsteadMetrics: halstead,
-                    application,
-                    analyzedFile: file,
-                    analyzedBranch: analyzedBranch || '',
-                }),
-            );
-        }
+        // Use aggregated reports
+        const aggregatedReports = aggregateCodeComplexityReports({
+            auditableFiles,
+            application,
+            analyzedBranch: analyzedBranch || '',
+            summary: summary || defaultSummary,
+        });
+        auditReports.push(...aggregatedReports);
 
         return auditReports;
     } catch (error) {
-        AppLogger.info(`[CodeComplexityUtils - buildModuleComplexityReport] error:  ${error}`);
+        AppLogger.info(`[CodeComplexityUtils - formatCodeComplexityReports] error:  ${error}`);
         return null;
     }
 };

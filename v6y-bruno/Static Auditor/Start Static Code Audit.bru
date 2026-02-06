@@ -16,18 +16,17 @@ headers {
 
 body:json {
   {
-    "applicationId": "{{sample_application_id}}",
-    "workspaceFolder": "/Users/path/to/your/workspace"
+    "applicationId": "{{sample_application_id}}"
   }
 }
 
 docs {
   STATIC CODE ANALYSIS ENDPOINT
   
-  Starts a comprehensive static code audit for a specific application.
+  Starts a comprehensive static code audit for a specific application by cloning its repository from the database.
   
   Parameters:
-  - applicationId: ID of the application to audit (required)
+  - applicationId: ID of the application to audit (required) - The application must exist in the database with a valid git repository URL
   - workspaceFolder: Path to the workspace folder containing the code to analyze (optional)
   
   ANALYSIS INCLUDES:

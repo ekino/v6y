@@ -3,6 +3,7 @@ import axios from 'axios';
 import fs from 'fs-extra';
 import path from 'path';
 import * as stream from 'stream';
+import { fileURLToPath } from 'url';
 import { promisify } from 'util';
 
 import { DownloadZipOptions, ZipFileOptions } from '../types/ZipType.ts';
@@ -10,7 +11,7 @@ import AppLogger from './AppLogger.ts';
 
 const finished = promisify(stream.finished);
 
-const __dirname = path.resolve();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**
  * Recursively cleans up a workspace directory by deleting any empty subdirectories.
@@ -62,7 +63,7 @@ const downloadZip = async ({
             return false;
         }
 
-        const zipOutDir = path.join(__dirname, zipDestinationDir);
+        const zipOutDir = zipDestinationDir;
         AppLogger.info(`[ZipUtils - downloadZip] zipOutDir:  ${zipOutDir}`);
 
         if (!fs.existsSync(zipOutDir)) {
@@ -120,7 +121,7 @@ const unZipFile = async ({
         }
 
         // Construct the full path to the source directory
-        const zipOriginalSourceDirPath = path.join(__dirname, zipOriginalSourceDir);
+        const zipOriginalSourceDirPath = zipOriginalSourceDir;
         AppLogger.info(
             `[ZipUtils - unZipFile] zipOriginalSourceDirPath:  ${zipOriginalSourceDirPath}`,
         );
@@ -146,7 +147,7 @@ const unZipFile = async ({
         AppLogger.info('[ZipUtils - unZipFile] start unzipping file');
 
         // Construct the full path to the destination directory
-        const zipNewSourceDirPath = path.join(__dirname, zipNewSourceDir);
+        const zipNewSourceDirPath = path.resolve(zipOriginalSourceDirPath, zipNewSourceDir);
         AppLogger.info(`[ZipUtils - unZipFile] zipNewSourceDirPath:  ${zipNewSourceDirPath}`);
 
         // Create the destination directory if it doesn't exist
@@ -162,12 +163,15 @@ const unZipFile = async ({
             zipDirFullPath: zipOriginalFileNamePath,
         });
 
-        // Rename the extracted folder (handling potential single-folder extraction)
-        const mvSource = path.join(zipNewSourceDirPath, fs.readdirSync(zipNewSourceDirPath)?.[0]);
-        const mvDestination = `${zipNewSourceDirPath}-temp`;
-
-        await fs.move(mvSource, mvDestination, { overwrite: false });
-        await fs.promises.rename(mvDestination, mvDestination?.replace('-temp', ''));
+        // Handle potential single-folder extraction
+        const items = fs.readdirSync(zipNewSourceDirPath);
+        let finalPath = zipNewSourceDirPath;
+        if (
+            items.length === 1 &&
+            fs.statSync(path.join(zipNewSourceDirPath, items[0])).isDirectory()
+        ) {
+            finalPath = path.join(zipNewSourceDirPath, items[0]);
+        }
 
         // Clean up any empty folders in the original source directory
         await cleanZipWorkspace(zipOriginalSourceDirPath);
@@ -175,7 +179,7 @@ const unZipFile = async ({
         AppLogger.info('[ZipUtils - unZipFile] 🎉 end unzipping file');
 
         // Return the path to the extracted directory
-        return zipNewSourceDirPath;
+        return finalPath;
     } catch (error) {
         // Log any errors that occur during the unzipping process
         AppLogger.info(`🚫 [ZipUtils - unZipFile] error: ${zipOriginalFileName} / ${error}`);
