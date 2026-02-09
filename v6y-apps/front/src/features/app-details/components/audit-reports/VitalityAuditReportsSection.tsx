@@ -218,9 +218,15 @@ const VitalityAuditReportsSection = ({
                                             <th className="text-left px-6 py-3 text-xs font-semibold text-gray-700">
                                                 Subcategory
                                             </th>
-                                            <th className="text-left px-6 py-3 text-xs font-semibold text-gray-700">
-                                                Location
-                                            </th>
+                                            {group === 'Security Smells' ? (
+                                                <th className="text-center px-6 py-3 text-xs font-semibold text-gray-700">
+                                                    Files Affected
+                                                </th>
+                                            ) : (
+                                                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-700">
+                                                    Location
+                                                </th>
+                                            )}
                                             <th className="text-center px-6 py-3 text-xs font-semibold text-gray-700">
                                                 Score
                                             </th>
@@ -230,92 +236,156 @@ const VitalityAuditReportsSection = ({
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {groupReports.map((report, index) => (
-                                            <tr
-                                                key={report._id}
-                                                className={
-                                                    index % 2 === 0 ? 'bg-white' : 'bg-slate-50'
-                                                }
-                                            >
-                                                <td className="px-6 py-3 text-sm font-medium text-gray-900">
-                                                    {report.category || 'Uncategorized'}
-                                                </td>
-                                                <td className="px-6 py-3 text-sm font-medium text-gray-900">
-                                                    {report.subCategory || '-'}
-                                                </td>
-                                                <td className="px-6 py-3 text-sm text-gray-600">
-                                                    <div className="flex items-center gap-2">
-                                                        <div className="max-w-[80px] truncate text-xs">
-                                                            {report.module?.branch && (
-                                                                <div>{report.module.branch}</div>
-                                                            )}
-                                                            {report.module?.path && (
-                                                                <div className="text-gray-500 truncate">
-                                                                    {report.module.path}
-                                                                </div>
-                                                            )}
-                                                            {!report.module?.branch &&
-                                                                !report.module?.path && (
-                                                                    <span className="text-gray-400">
-                                                                        -
-                                                                    </span>
-                                                                )}
-                                                        </div>
-                                                        {(report.module?.branch ||
-                                                            report.module?.path) && (
-                                                            <button
-                                                                onClick={() =>
-                                                                    copyToClipboard(
-                                                                        getLocationText(report),
-                                                                        String(report._id),
-                                                                    )
-                                                                }
-                                                                className="p-1 hover:bg-gray-200 rounded transition-colors flex-shrink-0"
-                                                                title="Copy location"
-                                                            >
-                                                                {copiedId === String(report._id) ? (
-                                                                    <span className="text-xs text-green-600">
-                                                                        ✓
-                                                                    </span>
-                                                                ) : (
-                                                                    <span className="text-xs text-gray-500">
-                                                                        📋
-                                                                    </span>
-                                                                )}
-                                                            </button>
-                                                        )}
-                                                    </div>
-                                                </td>
-                                                <td className="px-6 py-3 text-sm text-center">
-                                                    {report.score !== undefined &&
-                                                    report.score !== null ? (
-                                                        <div>
-                                                            <div className="font-semibold text-gray-900">
-                                                                {typeof report.score === 'number'
-                                                                    ? report.score.toFixed(1)
-                                                                    : report.score}
-                                                            </div>
-                                                            {report.scoreUnit && (
-                                                                <div className="text-xs text-gray-500">
-                                                                    {report.scoreUnit}
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    ) : (
-                                                        <span className="text-gray-400">-</span>
-                                                    )}
-                                                </td>
-                                                <td className="px-6 py-3 text-sm text-center">
-                                                    <Badge
-                                                        className={getStatusColor(
-                                                            report.scoreStatus || '',
-                                                        )}
-                                                    >
-                                                        {report.scoreStatus || report.auditStatus}
-                                                    </Badge>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                        {group === 'Security Smells'
+                                            ? // Aggregate security smells by category
+                                              Object.entries(
+                                                  groupReports.reduce(
+                                                      (acc, report) => {
+                                                          const cat =
+                                                              report.category || 'Uncategorized';
+                                                          if (!acc[cat]) {
+                                                              acc[cat] = [];
+                                                          }
+                                                          acc[cat].push(report);
+                                                          return acc;
+                                                      },
+                                                      {} as Record<string, AuditType[]>,
+                                                  ),
+                                              ).map(([category, catReports], index) => (
+                                                  <tr
+                                                      key={category}
+                                                      className={
+                                                          index % 2 === 0
+                                                              ? 'bg-white'
+                                                              : 'bg-slate-50'
+                                                      }
+                                                  >
+                                                      <td className="px-6 py-3 text-sm font-medium text-gray-900">
+                                                          {category}
+                                                      </td>
+                                                      <td className="px-6 py-3 text-sm font-medium text-gray-900">
+                                                          {catReports[0]?.subCategory || '-'}
+                                                      </td>
+                                                      <td className="px-6 py-3 text-sm text-center">
+                                                          <Badge className="bg-blue-100 text-blue-800">
+                                                              {catReports.length} file
+                                                              {catReports.length !== 1 ? 's' : ''}
+                                                          </Badge>
+                                                      </td>
+                                                      <td className="px-6 py-3 text-sm text-center">
+                                                          <span className="text-gray-400">-</span>
+                                                      </td>
+                                                      <td className="px-6 py-3 text-sm text-center">
+                                                          <Badge
+                                                              className={getStatusColor(
+                                                                  catReports[0]?.scoreStatus || '',
+                                                              )}
+                                                          >
+                                                              {catReports[0]?.scoreStatus ||
+                                                                  catReports[0]?.auditStatus ||
+                                                                  'error'}
+                                                          </Badge>
+                                                      </td>
+                                                  </tr>
+                                              ))
+                                            : // Original table for other groups
+                                              groupReports.map((report, index) => (
+                                                  <tr
+                                                      key={report._id}
+                                                      className={
+                                                          index % 2 === 0
+                                                              ? 'bg-white'
+                                                              : 'bg-slate-50'
+                                                      }
+                                                  >
+                                                      <td className="px-6 py-3 text-sm font-medium text-gray-900">
+                                                          {report.category || 'Uncategorized'}
+                                                      </td>
+                                                      <td className="px-6 py-3 text-sm font-medium text-gray-900">
+                                                          {report.subCategory || '-'}
+                                                      </td>
+                                                      <td className="px-6 py-3 text-sm text-gray-600">
+                                                          <div className="flex items-center gap-2">
+                                                              <div className="max-w-[80px] truncate text-xs">
+                                                                  {report.module?.branch && (
+                                                                      <div>
+                                                                          {report.module.branch}
+                                                                      </div>
+                                                                  )}
+                                                                  {report.module?.path && (
+                                                                      <div className="text-gray-500 truncate">
+                                                                          {report.module.path}
+                                                                      </div>
+                                                                  )}
+                                                                  {!report.module?.branch &&
+                                                                      !report.module?.path && (
+                                                                          <span className="text-gray-400">
+                                                                              -
+                                                                          </span>
+                                                                      )}
+                                                              </div>
+                                                              {(report.module?.branch ||
+                                                                  report.module?.path) && (
+                                                                  <button
+                                                                      onClick={() =>
+                                                                          copyToClipboard(
+                                                                              getLocationText(
+                                                                                  report,
+                                                                              ),
+                                                                              String(report._id),
+                                                                          )
+                                                                      }
+                                                                      className="p-1 hover:bg-gray-200 rounded transition-colors flex-shrink-0"
+                                                                      title="Copy location"
+                                                                  >
+                                                                      {copiedId ===
+                                                                      String(report._id) ? (
+                                                                          <span className="text-xs text-green-600">
+                                                                              ✓
+                                                                          </span>
+                                                                      ) : (
+                                                                          <span className="text-xs text-gray-500">
+                                                                              📋
+                                                                          </span>
+                                                                      )}
+                                                                  </button>
+                                                              )}
+                                                          </div>
+                                                      </td>
+                                                      <td className="px-6 py-3 text-sm text-center">
+                                                          {report.score !== undefined &&
+                                                          report.score !== null ? (
+                                                              <div>
+                                                                  <div className="font-semibold text-gray-900">
+                                                                      {typeof report.score ===
+                                                                      'number'
+                                                                          ? report.score.toFixed(1)
+                                                                          : report.score}
+                                                                  </div>
+                                                                  {report.scoreUnit && (
+                                                                      <div className="text-xs text-gray-500">
+                                                                          {report.scoreUnit}
+                                                                      </div>
+                                                                  )}
+                                                              </div>
+                                                          ) : (
+                                                              <span className="text-gray-400">
+                                                                  -
+                                                              </span>
+                                                          )}
+                                                      </td>
+                                                      <td className="px-6 py-3 text-sm text-center">
+                                                          <Badge
+                                                              className={getStatusColor(
+                                                                  report.scoreStatus || '',
+                                                              )}
+                                                          >
+                                                              {report.scoreStatus ||
+                                                                  report.auditStatus}
+                                                          </Badge>
+                                                      </td>
+                                                  </tr>
+                                              ))}
                                     </tbody>
                                 </table>
                             </div>
