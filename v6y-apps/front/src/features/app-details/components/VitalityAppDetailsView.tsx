@@ -24,15 +24,9 @@ const VitalityAuditReportsView = DynamicLoader(
     () => import('./audit-reports/VitalityAuditReportsView'),
 );
 
-const VitalityQualityIndicatorsView = DynamicLoader(
-    () => import('./quality-indicators/VitalityQualityIndicatorsView'),
-);
-
 const VitalityDependenciesView = DynamicLoader(
     () => import('./dependencies/VitalityDependenciesView'),
 );
-
-const VitalityEvolutionsView = DynamicLoader(() => import('./evolutions/VitalityEvolutionsView'));
 
 const VitalityAppDetailsView = () => {
     const { getUrlParams } = useNavigationAdapter();
