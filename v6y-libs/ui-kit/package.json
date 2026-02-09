@@ -36,7 +36,7 @@
     "@refinedev/kbar": "=2.0.0",
     "@refinedev/nextjs-router": "=7.0.4",
     "@refinedev/simple-rest": "=5.0.10",
-    "@refinedev/ui-types": "=1.23.1",
+    "@refinedev/ui-types": "=2.0.1",
     "@v6y/core-logic": "workspace:^",
     "@tanstack/react-query": "=4.36.1",
     "@refinedev/graphql": "=7.1.1",
