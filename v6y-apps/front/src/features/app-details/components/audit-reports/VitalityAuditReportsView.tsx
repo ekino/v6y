@@ -75,45 +75,39 @@ const VitalityAuditReportsView = ({
     );
 
     // Filter static audit reports based on category
-    let filteredStaticAuditReports = staticAuditReports;
-    if (category === 'performance') {
-        // Include all static reports except Code-Complexity, Code-Coupling, Code-Security, Dependencies, Duplication, maintainability-related, accessibility-related, and security smells
-        filteredStaticAuditReports = staticAuditReports.filter(
-            (report) =>
-                report.type !== 'Code-Complexity' &&
-                report.type !== 'Code-Coupling' &&
-                report.type !== 'Code-Security' &&
-                report.type !== 'Dependencies' &&
-                report.type !== 'Code-Duplication' &&
-                !report.category?.toLowerCase().includes('maintainability') &&
-                !report.category?.toLowerCase().includes('modularity') &&
-                !report.category?.toLowerCase().includes('duplication') &&
-                !report.category?.toLowerCase().includes('accessibility') &&
-                !report.type?.toLowerCase().includes('accessibility') &&
-                !isSecuritySmell(report),
-        );
-    } else if (category === 'maintainability') {
-        filteredStaticAuditReports = staticAuditReports.filter(
-            (report) =>
-                report.type === 'Code-Complexity' ||
-                report.type === 'Code-Coupling' ||
-                report.category?.toLowerCase().includes('maintainability') ||
-                report.category?.toLowerCase().includes('modularity') ||
-                report.category?.toLowerCase().includes('coupling') ||
-                report.category?.toLowerCase().includes('duplication'),
-        );
-    } else if (category === 'accessibility') {
-        filteredStaticAuditReports = staticAuditReports.filter(
-            (report) =>
-                (report.category?.toLowerCase().includes('accessibility') ||
-                    report.type?.toLowerCase().includes('accessibility')) &&
-                !report.category?.toLowerCase().includes('performance') &&
-                !report.category?.toLowerCase().includes('seo'),
-        );
-    } else if (category === 'security') {
-        // Show security smells based on category prefix patterns (commons-, react-, angular-) or Code-Security type
-        filteredStaticAuditReports = staticAuditReports.filter((report) => isSecuritySmell(report));
-    }
+    const staticFilters: Partial<Record<string, (report: AuditType) => boolean>> = {
+        performance: (report) =>
+            report.type !== 'Code-Complexity' &&
+            report.type !== 'Code-Coupling' &&
+            report.type !== 'Code-Security' &&
+            report.type !== 'Dependencies' &&
+            report.type !== 'Code-Duplication' &&
+            !(report.category?.toLowerCase() || '').includes('maintainability') &&
+            !(report.category?.toLowerCase() || '').includes('modularity') &&
+            !(report.category?.toLowerCase() || '').includes('duplication') &&
+            !(report.category?.toLowerCase() || '').includes('accessibility') &&
+            !(report.type?.toLowerCase() || '').includes('accessibility') &&
+            !isSecuritySmell(report),
+        maintainability: (report) =>
+            report.type === 'Code-Complexity' ||
+            report.type === 'Code-Coupling' ||
+            (report.category?.toLowerCase() || '').includes('maintainability') ||
+            (report.category?.toLowerCase() || '').includes('modularity') ||
+            (report.category?.toLowerCase() || '').includes('coupling') ||
+            (report.category?.toLowerCase() || '').includes('duplication'),
+        accessibility: (report) =>
+            ((report.category?.toLowerCase() || '').includes('accessibility') ||
+                (report.type?.toLowerCase() || '').includes('accessibility')) &&
+            !(report.category?.toLowerCase() || '').includes('performance') &&
+            !(report.category?.toLowerCase() || '').includes('seo'),
+        security: (report) => isSecuritySmell(report),
+        dora: (report) => report.type === 'DORA',
+    };
+
+    const filterFn = category ? staticFilters[category] : undefined;
+    const filteredStaticAuditReports = filterFn
+        ? staticAuditReports.filter(filterFn)
+        : staticAuditReports;
 
     // Combine filtered static reports with appropriate dynamic reports
     let allAuditReports: AuditType[] = filteredStaticAuditReports;

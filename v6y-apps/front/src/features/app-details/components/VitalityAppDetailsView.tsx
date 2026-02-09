@@ -66,6 +66,7 @@ const VitalityAppDetailsView = () => {
         { id: 'accessibility', label: translate('vitality.appDetailsPage.tabs.accessibility') },
         { id: 'security', label: translate('vitality.appDetailsPage.tabs.security') },
         { id: 'maintainability', label: translate('vitality.appDetailsPage.tabs.maintainability') },
+        { id: 'devops', label: translate('vitality.appDetailsPage.tabs.devops') },
     ];
 
     const onExportClicked = () => {
@@ -126,6 +127,8 @@ const VitalityAppDetailsView = () => {
                         category="maintainability"
                     />
                 );
+            case 'devops':
+                return <VitalityAuditReportsView auditTrigger={auditTrigger} category="dora" />;
             default:
                 return (
                     <VitalityGeneralInformationView
