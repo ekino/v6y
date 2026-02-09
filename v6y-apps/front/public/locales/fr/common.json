@@ -140,6 +140,28 @@
           "MEAN_TIME_TO_RESTORE_SERVICE": "Temps moyen de restauration du service",
           "UP_TIME_AVERAGE": "Temps de disponibilité moyen"
         }
+      },
+      "dependencies": {
+        "title": "Dépendances",
+        "description": "Dépendances avec des problèmes de sécurité ou de compatibilité",
+        "table": {
+          "header": "Problèmes de Sécurité et Compatibilité",
+          "columns": {
+            "name": "Nom",
+            "currentVersion": "Version Actuelle",
+            "recommendedVersion": "Version Recommandée",
+            "location": "Emplacement",
+            "status": "Statut"
+          },
+          "itemsCount": {
+            "one": "{count} dépendance avec des problèmes",
+            "other": "{count} dépendances avec des problèmes"
+          }
+        },
+        "success": {
+          "title": "Toutes les Dépendances sont à Jour",
+          "description": "Aucune dépendance obsolète avec des problèmes de sécurité ou de compatibilité n'a été trouvée"
+        }
       }
     },
     "appStatsPage": {

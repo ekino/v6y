@@ -24,8 +24,8 @@ const VitalityAuditReportsView = DynamicLoader(
     () => import('./audit-reports/VitalityAuditReportsView'),
 );
 
-const VitalityDependenciesView = DynamicLoader(
-    () => import('./dependencies/VitalityDependenciesView'),
+const VitalitySecuritySection = DynamicLoader(
+    () => import('./audit-reports/VitalitySecuritySection'),
 );
 
 const VitalityAppDetailsView = () => {
@@ -104,16 +104,7 @@ const VitalityAppDetailsView = () => {
                     />
                 );
             case 'security':
-                return (
-                    <div className="space-y-6">
-                        <VitalityAuditReportsView auditTrigger={auditTrigger} category="security" />
-                        <VitalityDependenciesView
-                            appInfos={appInfos}
-                            branch={selectedBranch}
-                            date={selectedDate}
-                        />
-                    </div>
-                );
+                return <VitalitySecuritySection auditTrigger={auditTrigger} />;
             case 'maintainability':
                 return (
                     <VitalityAuditReportsView

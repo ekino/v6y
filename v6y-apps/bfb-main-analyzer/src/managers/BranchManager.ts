@@ -46,44 +46,6 @@ export const checkForStaticAudits = async (applicationId: number | undefined): P
 };
 
 /**
- * Waits for static auditor to complete by polling for audit records.
- * @param applicationId
- * @param maxWaitTime Maximum time to wait in milliseconds
- */
-export const waitForStaticAuditCompletion = async (
-    applicationId: number | undefined,
-    maxWaitTime: number = 120000, // Increased to 120 seconds
-) => {
-    const pollInterval = 1000; // Check every 1 second
-    const startTime = Date.now();
-    let attempts = 0;
-
-    while (Date.now() - startTime < maxWaitTime) {
-        try {
-            if (await checkForStaticAudits(applicationId)) {
-                AppLogger.info(
-                    `[ApplicationManager - waitForStaticAuditCompletion] Static audits found after ${Date.now() - startTime}ms`,
-                );
-                return true;
-            }
-            attempts++;
-        } catch (error) {
-            AppLogger.debug(
-                `[ApplicationManager - waitForStaticAuditCompletion] Polling attempt ${attempts}...`,
-                error,
-            );
-        }
-
-        await new Promise((resolve) => setTimeout(resolve, pollInterval));
-    }
-
-    AppLogger.warn(
-        `[ApplicationManager - waitForStaticAuditCompletion] Timeout waiting for static audits after ${attempts} attempts`,
-    );
-    return false;
-};
-
-/**
  * Builds the application backend by branch.
  * @param applicationId
  * @param workspaceFolder
@@ -291,33 +253,6 @@ const triggerStaticAuditors = async (applicationId: number, workspaceFolder: str
 };
 
 /**
- * Waits for static audit completion and cleans up.
- */
-const waitForAuditAndCleanup = async (applicationId: number, zipDestinationDir: string) => {
-    // Wait for static auditor to complete processing before deleting workspace
-    // The auditor runs asynchronously in a worker thread and needs the files to exist
-    AppLogger.info(
-        '[ApplicationManager - buildApplicationDetailsByBranch] Waiting for static auditor to process files...',
-    );
-    const staticAuditSuccess = await waitForStaticAuditCompletion(applicationId, 180000); // Wait up to 3 minutes for auditor to complete
-
-    if (!staticAuditSuccess) {
-        AppLogger.warn(
-            '[ApplicationManager - buildApplicationDetailsByBranch] Static auditor did not complete in time, proceeding with cleanup...',
-        );
-    } else {
-        AppLogger.info(
-            '[ApplicationManager - buildApplicationDetailsByBranch] Static auditor processing complete.',
-        );
-    }
-
-    AppLogger.info('[ApplicationManager - buildApplicationDetailsByBranch] Deleting workspace...');
-    ZipUtils.deleteZip({
-        zipDirFullPath: zipDestinationDir,
-    });
-};
-
-/**
  * Builds the application details by branch.
  * @param application
  * @param branch
@@ -366,8 +301,6 @@ export const buildApplicationDetailsByBranch = async ({
         }
 
         await triggerStaticAuditors(application._id, workspaceFolder!);
-
-        await waitForAuditAndCleanup(application._id, config.zipDestinationDir);
 
         return true;
     } catch (error) {

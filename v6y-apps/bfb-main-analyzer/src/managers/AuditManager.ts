@@ -2,7 +2,7 @@ import { AppLogger } from '@v6y/core-logic';
 
 import ServerConfig from '../config/ServerConfig.ts';
 import { buildApplicationDetailsByBranch } from './BranchManager.ts';
-import { BuildApplicationBranchParams, BuildApplicationParams } from './Types.js';
+import { BuildApplicationParams } from './Types.js';
 
 const { currentConfig } = ServerConfig;
 
@@ -22,16 +22,14 @@ export const buildStaticReports = async ({ application, branches }: BuildApplica
             return false;
         }
 
-        // Use the main branch or the first branch for static analysis
-        const mainBranch =
-            branches.find((branch: BuildApplicationBranchParams) => branch.name === 'main') ||
-            branches[0];
-        AppLogger.info('[ApplicationManager - buildStaticReports] using branch: ', mainBranch.name);
+        for (const branch of branches) {
+            AppLogger.info('[ApplicationManager - buildStaticReports] branch: ', branch);
 
-        await buildApplicationDetailsByBranch({
-            application,
-            branch: mainBranch,
-        });
+            await buildApplicationDetailsByBranch({
+                application,
+                branch,
+            });
+        }
 
         return true;
     } catch (error) {

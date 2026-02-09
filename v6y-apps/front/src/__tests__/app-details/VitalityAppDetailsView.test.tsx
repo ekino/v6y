@@ -30,6 +30,15 @@ vi.mock('../../features/app-details/components/audit-reports/VitalityAuditReport
     default: () => <div data-testid="audit-reports-view">Audit Reports View</div>,
 }));
 
+vi.mock('../../features/app-details/components/audit-reports/VitalitySecuritySection', () => ({
+    default: () => (
+        <div>
+            <div data-testid="audit-reports-view">Security Audit Reports</div>
+            <div data-testid="dependencies-view">Security Dependencies</div>
+        </div>
+    ),
+}));
+
 vi.mock(
     '../../features/app-details/components/quality-indicators/VitalityQualityIndicatorsView',
     () => ({
