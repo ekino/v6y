@@ -116,7 +116,21 @@
         "categories": {
           "static": "Analyse Statique",
           "dynamic": "Analyse Dynamique",
-          "devops": "Métriques DevOps"
+          "devops": "Métriques DevOps",
+          "performance": "Métriques de Performance",
+          "accessibility": "Accessibilité et Qualité",
+          "security": "Analyse de Sécurité",
+          "maintainability": "Qualité et Maintenabilité du Code",
+          "dora": "Métriques DevOps (DORA)",
+          "general": "Rapports d'Audit"
+        },
+        "descriptions": {
+          "performance": "Performance web, temps de chargement, Core Web Vitals",
+          "accessibility": "Conformité WCAG, compatibilité lecteur d'écran, normes d'accessibilité",
+          "security": "Vulnérabilités de sécurité, patterns non sécurisés, mauvaises odeurs de code",
+          "maintainability": "Complexité du code, couplage, métriques et évaluations de qualité",
+          "dora": "Fréquence de déploiement, délai de livraison, taux d'échec des changements, temps moyen de restauration",
+          "general": "Résultats d'analyse"
         },
         "doraMetrics": {
           "DEPLOYMENT_FREQUENCY": "Fréquence de déploiement",

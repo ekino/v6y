@@ -4,8 +4,6 @@ import { useState } from 'react';
 import { AuditType } from '@v6y/core-logic/src/types';
 import { Badge } from '@v6y/ui-kit-front';
 
-import VitalityAuditReportCard from './VitalityAuditReportCard';
-
 interface VitalityAuditReportsSectionProps {
     title: string;
     reports: AuditType[];
@@ -43,7 +41,17 @@ const getCategoryGroup = (category: string): string => {
     )
         return 'Performance Metrics';
     if (cat.includes('seo') || cat.includes('search')) return 'SEO & Search';
-    if (cat.includes('dora') || cat === 'devops') return 'DevOps (DORA)';
+    if (
+        cat.includes('dora') ||
+        cat === 'devops' ||
+        category === 'DEPLOYMENT_FREQUENCY' ||
+        category === 'LEAD_REVIEW_TIME' ||
+        category === 'LEAD_TIME_FOR_CHANGES' ||
+        category === 'CHANGE_FAILURE_RATE' ||
+        category === 'MEAN_TIME_TO_RESTORE_SERVICE' ||
+        category === 'UP_TIME_AVERAGE'
+    )
+        return 'DevOps (DORA)';
     if (cat.includes('bundle') || cat.includes('size')) return 'Bundle Analysis';
     if (cat.startsWith('commons-') || cat.startsWith('react-') || cat.startsWith('angular-'))
         return 'Security Smells';
@@ -62,7 +70,9 @@ const isDenseMetric = (reports: AuditType[]): boolean => {
             cat.startsWith('angular-') ||
             cat.includes('accessibility') ||
             cat.includes('security') ||
-            cat.includes('seo')
+            cat.includes('seo') ||
+            r.type === 'DORA' ||
+            cat.includes('dora')
         );
     });
     if (excludeFromDense) return false;
@@ -107,78 +117,8 @@ const VitalityAuditReportsSection = ({
         );
     }
 
-    // Check if these are DevOps/DORA metrics or Bundle metrics
-    const isDevOpsOrBundle = reports.some((r) => {
-        const cat = r.category?.toLowerCase() || '';
-        return (
-            r.type?.toLowerCase().includes('dora') ||
-            r.type === 'DevOps' ||
-            r.type === 'DORA' ||
-            cat.includes('dora') ||
-            cat.includes('bundle')
-        );
-    });
-
-    if (isDevOpsOrBundle) {
-        return (
-            <div className="mb-8">
-                <div className="mb-6">
-                    <h3 className="text-xl font-bold text-gray-900">{title}</h3>
-                    <p className="text-sm text-gray-600">{description}</p>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {reports.map((report) => (
-                        <VitalityAuditReportCard key={report._id} report={report} />
-                    ))}
-                </div>
-            </div>
-        );
-    }
-
-    // For coupling metrics, collapse pairs (efferent + afferent for same file)
-    const processedReports = reports.reduce((acc, report) => {
-        const cat = report.category?.toLowerCase() || '';
-        const typ = report.type?.toLowerCase() || '';
-        if (cat.includes('coupling') || typ.includes('coupling')) {
-            return acc; // Will handle coupling separately
-        }
-        // Also skip DevOps and Bundle reports since they're displayed as cards
-        if (
-            cat.includes('dora') ||
-            typ.includes('dora') ||
-            cat.includes('bundle') ||
-            cat.includes('devops')
-        ) {
-            return acc;
-        }
-        acc.push(report);
-        return acc;
-    }, [] as AuditType[]);
-
-    // Group coupling metrics by file path
-    const couplingReports = reports.filter((r) => r.category?.toLowerCase().includes('coupling'));
-    const couplingByPath = couplingReports.reduce(
-        (acc, report) => {
-            const path = report.module?.path || report.module?.branch || 'unknown';
-            if (!acc[path]) {
-                acc[path] = [];
-            }
-            acc[path].push(report);
-            return acc;
-        },
-        {} as Record<string, AuditType[]>,
-    );
-
-    // Create collapsed coupling entries
-    const finalReports = [...processedReports];
-    Object.entries(couplingByPath).forEach(([, metrics]) => {
-        if (metrics.length > 0) {
-            finalReports.push(metrics[0]); // Only add first, don't duplicate
-        }
-    });
-
     // Group reports by category group
-    const groupedByGroup = finalReports.reduce(
+    const groupedByGroup = reports.reduce(
         (acc, report) => {
             const group = getCategoryGroup(report.category || '');
             if (!acc[group]) {
@@ -190,6 +130,8 @@ const VitalityAuditReportsSection = ({
         {} as Record<string, AuditType[]>,
     );
 
+    console.log('Grouped Reports:', groupedByGroup);
+
     return (
         <div className="mb-8">
             <div className="mb-6">
@@ -200,6 +142,8 @@ const VitalityAuditReportsSection = ({
             <div className="grid grid-cols-1 gap-6">
                 {Object.entries(groupedByGroup).map(([group, groupReports]) => {
                     const denseMetric = isDenseMetric(groupReports);
+
+                    console.log(denseMetric);
 
                     if (denseMetric) {
                         // Group by status for dense metrics

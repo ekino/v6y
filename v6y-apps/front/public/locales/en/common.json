@@ -116,7 +116,21 @@
         "categories": {
           "static": "Static Analysis",
           "dynamic": "Dynamic Analysis",
-          "devops": "DevOps Metrics"
+          "devops": "DevOps Metrics",
+          "performance": "Performance Metrics",
+          "accessibility": "Accessibility & Quality",
+          "security": "Security Analysis",
+          "maintainability": "Code Quality & Maintainability",
+          "dora": "DevOps Metrics (DORA)",
+          "general": "Audit Reports"
+        },
+        "descriptions": {
+          "performance": "Web performance, loading times, Core Web Vitals",
+          "accessibility": "WCAG compliance, screen reader compatibility, accessibility standards",
+          "security": "Security vulnerabilities, insecure patterns, code smells",
+          "maintainability": "Code complexity, coupling, metrics and quality assessments",
+          "dora": "Deployment frequency, lead time, change failure rate, mean time to restore",
+          "general": "Analysis results"
         },
         "doraMetrics": {
           "DEPLOYMENT_FREQUENCY": "Deployment Frequency",

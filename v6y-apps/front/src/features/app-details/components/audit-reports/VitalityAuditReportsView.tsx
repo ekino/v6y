@@ -82,6 +82,7 @@ const VitalityAuditReportsView = ({
             report.type !== 'Code-Security' &&
             report.type !== 'Dependencies' &&
             report.type !== 'Code-Duplication' &&
+            report.type !== 'DORA' &&
             !(report.category?.toLowerCase() || '').includes('maintainability') &&
             !(report.category?.toLowerCase() || '').includes('modularity') &&
             !(report.category?.toLowerCase() || '').includes('duplication') &&
