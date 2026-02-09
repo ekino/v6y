@@ -38,22 +38,15 @@ const VitalityPageHeader = () => {
                 </Link>
             </div>
             <div className="flex items-center gap-2 text-center">
-                <Link className="text-black" href="/faq">
-                    <Button className="border-gray-200" size="icon" variant="outline">
-                        <QuestionMarkCircledIcon />
-                    </Button>
-                </Link>
-
-                {isLoggedIn && (
-                    <Button size="icon" variant="outline">
-                        <MagnifyingGlassIcon />
-                    </Button>
-                )}
-
                 <LanguageMenu />
 
                 {isLoggedIn && (
                     <>
+                        <Link className="text-black" href="/faq">
+                            <Button className="border-gray-200" size="icon" variant="outline">
+                                <QuestionMarkCircledIcon />
+                            </Button>
+                        </Link>
                         <TypographySmall>
                             {translate('vitality.header.welcome')} {userName}
                         </TypographySmall>

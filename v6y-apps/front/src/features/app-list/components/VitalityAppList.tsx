@@ -117,7 +117,7 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
             ) : (
                 <div className="w-full">
                     {appList && (
-                        <ul className="gap-4">
+                        <ul className="space-y-4">
                             {appList.map((app) => (
                                 <VitalityAppInfos key={app._id} app={app} source={source} />
                             ))}

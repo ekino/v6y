@@ -29,7 +29,7 @@ const VitalityFaqView = () => {
     const dataSource = data?.getFaqListByPageAndParams;
 
     return (
-        <div className="space-y-8 mt-4">
+        <div className="flex flex-col justify-center items-center mt-4 gap-4">
             <VitalityFaqList dataSource={dataSource} />
             <div className="w-full flex justify-end">
                 <Link className="text-black" href="/contact">
