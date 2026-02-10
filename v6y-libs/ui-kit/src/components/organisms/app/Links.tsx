@@ -3,8 +3,8 @@ import * as React from 'react';
 
 import { LinkType } from '@v6y/core-logic';
 
-import { Col, Row } from '../../atoms';
-import { LinksType } from '../../types';
+import { Col, Row } from '../../atoms/app/Grid';
+import { LinksType } from '../../types/LinksType';
 import TextView from './TextView.tsx';
 
 const Links = ({ links, align }: LinksType) => {

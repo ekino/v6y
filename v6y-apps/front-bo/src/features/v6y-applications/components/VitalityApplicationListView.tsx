@@ -1,6 +1,6 @@
 import type { DocumentNode } from 'graphql/index';
 
-import { ApplicationType } from '@v6y/core-logic/src/types';
+import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
 import { AdminListWrapper, useTranslationProvider } from '@v6y/ui-kit';
 
 import GetApplicationListByPageAndParams from '../../../commons/apis/getApplicationListByPageAndParams';

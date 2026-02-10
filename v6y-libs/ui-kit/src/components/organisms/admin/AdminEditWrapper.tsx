@@ -4,9 +4,10 @@ import { useForm } from '@refinedev/antd';
 import { BaseRecord, GetOneResponse, UseFormProps, UseUpdateProps } from '@refinedev/core';
 import { useEffect } from 'react';
 
-import { gqlClientRequest } from '../../../api';
-import { EditLayout, Form } from '../../atoms';
-import { FormWrapperType } from '../../types';
+import { gqlClientRequest } from '../../../api/GraphQLClient';
+import EditLayout from '../../atoms/admin/EditLayout';
+import Form from '../../atoms/app/Form';
+import { FormWrapperType } from '../../types/FormType';
 
 const AdminEditWrapper = ({ title, queryOptions, mutationOptions, formItems }: FormWrapperType) => {
     const { form, formProps, saveButtonProps, query } = useForm<UseFormProps>({

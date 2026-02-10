@@ -4,7 +4,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import * as React from 'react';
 import { Mock, afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { ApplicationType } from '@v6y/core-logic/src/types';
+import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
 
 import VitalityGeneralInformationView from '../../features/app-details/components/infos/VitalityGeneralInformationView';
 import { useClientQuery } from '../../infrastructure/adapters/api/useQueryAdapter';

@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/vitest';
 import { act, screen, waitFor } from '@testing-library/react';
 import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { AdminShowWrapper } from '../components/organisms';
+import AdminShowWrapper from '../components/organisms/admin/AdminShowWrapper';
 import { renderWithQueryClientProvider } from '../test-utils/TestUtils';
 
 vi.mock('../api', () => ({

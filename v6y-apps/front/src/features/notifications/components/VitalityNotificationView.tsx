@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { NotificationType } from '@v6y/core-logic/src/types';
+import { NotificationType } from '@v6y/core-logic/src/types/NotificationType';
 import { NotificationOutlined, useTranslationProvider } from '@v6y/ui-kit';
 
 import VitalitySectionView from '../../../commons/components/VitalitySectionView';

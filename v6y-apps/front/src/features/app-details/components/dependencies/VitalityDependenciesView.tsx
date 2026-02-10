@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { DependencyType } from '@v6y/core-logic/src/types';
+import { DependencyType } from '@v6y/core-logic/src/types/DependencyType';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
 import { Card, CardContent } from '@v6y/ui-kit-front';
 

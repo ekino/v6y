@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import * as React from 'react';
 
-import { FaqType } from '@v6y/core-logic/src/types';
+import { FaqType } from '@v6y/core-logic/src/types/FaqType';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@v6y/ui-kit-front';
 
 const VitalityFaqList = ({ dataSource }: { dataSource?: FaqType[] }) => {

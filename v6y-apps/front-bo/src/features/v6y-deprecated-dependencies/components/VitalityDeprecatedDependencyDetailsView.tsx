@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { DeprecatedDependencyType } from '@v6y/core-logic/src/types';
+import { DeprecatedDependencyType } from '@v6y/core-logic/src/types/DeprecatedDependencyType';
 import {
     AdminShowWrapper,
     TitleView,

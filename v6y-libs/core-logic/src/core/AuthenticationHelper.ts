@@ -3,7 +3,7 @@ import passport from 'passport';
 import { ExtractJwt, Strategy as JwtStrategy, VerifiedCallback } from 'passport-jwt';
 
 import AccountProvider from '../database/AccountProvider.ts';
-import { AccountType } from '../types/index.ts';
+import { AccountType } from '../types/AccountType.ts';
 import AppLogger from './AppLogger.ts';
 
 /**

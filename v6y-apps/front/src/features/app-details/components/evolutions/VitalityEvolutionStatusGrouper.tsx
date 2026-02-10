@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { EvolutionType } from '@v6y/core-logic/src/types';
+import { EvolutionType } from '@v6y/core-logic/src/types/EvolutionType';
 import { DynamicLoader } from '@v6y/ui-kit';
 
 import VitalityTabGrouperView from '../../../../commons/components/VitalityTabGrouperView';

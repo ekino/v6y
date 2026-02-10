@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { ApplicationType } from '@v6y/core-logic/src/types';
+import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
 import { Button, GlobeIcon, Input, PlayIcon, ReloadIcon, ShuffleIcon } from '@v6y/ui-kit-front';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@v6y/ui-kit-front';

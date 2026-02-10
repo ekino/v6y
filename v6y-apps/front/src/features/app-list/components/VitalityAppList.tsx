@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-import { ApplicationType } from '@v6y/core-logic/src/types';
+import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
 import { Spinner, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit-front';
 
 import VitalityAppInfos from '../../../commons/components/application-info/VitalityAppInfos';

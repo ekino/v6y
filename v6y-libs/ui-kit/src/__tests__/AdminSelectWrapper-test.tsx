@@ -2,8 +2,8 @@ import '@testing-library/jest-dom/vitest';
 import { act, screen, waitFor } from '@testing-library/react';
 import { Mock, describe, expect, it, vi } from 'vitest';
 
-import { gqlClientRequest } from '../api';
-import { AdminSelectWrapper } from '../components/organisms';
+import { gqlClientRequest } from '../api/GraphQLClient';
+import AdminSelectWrapper from '../components/organisms/admin/AdminSelectWrapper';
 import { renderWithQueryClientProvider } from '../test-utils/TestUtils';
 
 vi.mock('../api', () => ({

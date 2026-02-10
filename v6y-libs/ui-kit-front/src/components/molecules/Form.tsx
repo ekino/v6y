@@ -13,7 +13,7 @@ import {
 } from 'react-hook-form';
 
 import { cn } from '../../lib/utils';
-import { Label } from '../atoms';
+import { Label } from '../atoms/label';
 
 const Form = FormProvider as unknown as React.FC<React.PropsWithChildren<object>>;
 

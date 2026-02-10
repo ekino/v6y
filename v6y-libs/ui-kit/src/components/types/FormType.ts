@@ -1,7 +1,7 @@
 import { Variables } from 'graphql-request';
 import { ReactNode } from 'react';
 
-import { AdminHttpError } from '../../api';
+import { AdminHttpError } from '../../api/types/AdminHttpError';
 
 export interface FormQueryOptionsType {
     resource?: string;

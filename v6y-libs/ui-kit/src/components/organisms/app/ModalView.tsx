@@ -1,7 +1,9 @@
 import * as React from 'react';
 
-import { Button, Divider, Modal } from '../../atoms';
-import { ModalType } from '../../types';
+import Button from '../../atoms/app/Button';
+import Divider from '../../atoms/app/Divider';
+import Modal from '../../atoms/app/Modal';
+import { ModalType } from '../../types/ModalType';
 
 const ModalView = ({ title, isOpen, onCloseModal, children }: ModalType) => {
     return (

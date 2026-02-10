@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { List } from '../../atoms';
-import { PaginatedListType } from '../../types';
+import { List } from '../../atoms/app/List';
+import { PaginatedListType } from '../../types/PaginatedListType';
 import TextView from './TextView.tsx';
 
 const PaginatedList = ({

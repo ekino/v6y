@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import { ApplicationType } from '@v6y/core-logic/src/types';
+import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
 import { AdminSelectWrapper, EmptyView, TitleView, useTranslationProvider } from '@v6y/ui-kit';
 
 import GetApplicationListByPageAndParams from '../../../commons/apis/getApplicationListByPageAndParams';

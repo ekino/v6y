@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { AccountType } from '@v6y/core-logic/src/types';
+import { AccountType } from '@v6y/core-logic/src/types/AccountType';
 import { Matcher } from '@v6y/core-logic/src/utils';
 import {
     AdminHttpError,

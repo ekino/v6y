@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ApplicationType } from '@v6y/core-logic/src/types';
+import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
 import { StarIcon, useTranslationProvider } from '@v6y/ui-kit-front';
 
 interface VitalitySummaryCardProps {

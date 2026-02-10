@@ -1,4 +1,5 @@
-import { ApplicationType, AuditType } from '@v6y/core-logic/src/types';
+import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
+import { AuditType } from '@v6y/core-logic/src/types/AuditType';
 import { LoaderView, useTranslationProvider } from '@v6y/ui-kit';
 import {
     Card,

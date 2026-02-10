@@ -4,9 +4,10 @@ import { useForm, useSelect } from '@refinedev/antd';
 import { BaseRecord, GetOneResponse, HttpError } from '@refinedev/core';
 import { ReactNode, useEffect } from 'react';
 
-import { gqlClientRequest } from '../../../api';
-import { EditLayout, Form } from '../../atoms';
-import { FormWrapperType, SelectOptionsType } from '../../types';
+import { gqlClientRequest } from '../../../api/GraphQLClient';
+import EditLayout from '../../atoms/admin/EditLayout';
+import Form from '../../atoms/app/Form';
+import { FormWrapperType, SelectOptionsType } from '../../types/FormType';
 
 const AdminSelectWrapper = <T extends BaseRecord>({
     title,

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import { AuditType } from '@v6y/core-logic/src/types';
+import { AuditType } from '@v6y/core-logic/src/types/AuditType';
 import { Card, Checkbox, Col, DynamicLoader, Row } from '@v6y/ui-kit';
 
 import useDataGrouper from '../../../../../../commons/hooks/useDataGrouper';

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import * as React from 'react';
 
-import { FaqType } from '@v6y/core-logic/src/types';
+import { FaqType } from '@v6y/core-logic/src/types/FaqType';
 import { useTranslationProvider } from '@v6y/ui-kit-front';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';

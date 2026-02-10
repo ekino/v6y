@@ -3,7 +3,7 @@ import { act, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
-import { AdminEditWrapper } from '../components/organisms';
+import AdminEditWrapper from '../components/organisms/admin/AdminEditWrapper';
 import { renderWithQueryClientProvider } from '../test-utils/TestUtils';
 
 vi.mock('../api', () => ({

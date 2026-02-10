@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import { AuditType } from '@v6y/core-logic/src/types';
+import { AuditType } from '@v6y/core-logic/src/types/AuditType';
 import {
     DynamicLoader,
     List,

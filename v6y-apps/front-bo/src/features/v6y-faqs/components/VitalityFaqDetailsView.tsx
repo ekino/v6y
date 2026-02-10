@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { FaqType } from '@v6y/core-logic/src/types';
+import { FaqType } from '@v6y/core-logic/src/types/FaqType';
 import {
     AdminShowWrapper,
     TitleView,

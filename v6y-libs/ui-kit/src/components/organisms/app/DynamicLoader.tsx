@@ -1,7 +1,7 @@
 import dynamic, { DynamicOptions } from 'next/dynamic';
 import * as React from 'react';
 
-import { DynamicLoaderType } from '../../types';
+import { DynamicLoaderType } from '../../types/DynamicLoaderType';
 import LoaderView from './LoaderView.tsx';
 
 const ControlledLoading = () => <LoaderView />;

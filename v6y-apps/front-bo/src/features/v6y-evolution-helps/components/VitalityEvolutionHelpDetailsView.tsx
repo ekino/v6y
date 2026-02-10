@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { EvolutionHelpType } from '@v6y/core-logic/src/types';
+import { EvolutionHelpType } from '@v6y/core-logic/src/types/EvolutionHelpType';
 import {
     AdminShowWrapper,
     TitleView,

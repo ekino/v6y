@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { Title } from '../../atoms';
-import { TitleType } from '../../types';
+import { Title } from '../../atoms/app/Typography';
+import { TitleType } from '../../types/TitleType';
 import TextView from './TextView.tsx';
 
 const TitleView = ({ title, subTitle, level = 2, style, underline }: TitleType) => {

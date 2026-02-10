@@ -2,9 +2,10 @@ import { useTable } from '@refinedev/antd';
 import { BaseRecord, HttpError } from '@refinedev/core';
 import { ReactNode } from 'react';
 
-import { gqlClientRequest } from '../../../api';
-import { ListLayout, RefreshButton } from '../../atoms';
-import { AdminTableType } from '../../types';
+import { gqlClientRequest } from '../../../api/GraphQLClient';
+import ListLayout from '../../atoms/admin/ListLayout';
+import RefreshButton from '../../atoms/admin/RefreshButton';
+import { AdminTableType } from '../../types/AdminTableType';
 import LoaderView from '../app/LoaderView.tsx';
 import TitleView from '../app/TitleView.tsx';
 

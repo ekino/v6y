@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { DependencyStatusHelpType } from '@v6y/core-logic/src/types';
+import { DependencyStatusHelpType } from '@v6y/core-logic/src/types/DependencyStatusHelpType';
 import {
     AdminShowWrapper,
     TitleView,

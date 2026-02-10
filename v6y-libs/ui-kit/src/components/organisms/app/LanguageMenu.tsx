@@ -1,7 +1,11 @@
 import * as React from 'react';
 
 import { useTranslationProvider } from '../../../translation/useTranslationProvider';
-import { Avatar, Button, DownOutlined, Dropdown, Space } from '../../atoms';
+import { DownOutlined } from '../../atoms/Icons';
+import Avatar from '../../atoms/app/Avatar';
+import Button from '../../atoms/app/Button';
+import Dropdown from '../../atoms/app/Dropdown';
+import Space from '../../atoms/app/Space';
 import TextView from './TextView.tsx';
 
 const LanguageMenu = () => {

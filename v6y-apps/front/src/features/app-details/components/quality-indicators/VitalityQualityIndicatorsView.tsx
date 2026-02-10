@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { KeywordType } from '@v6y/core-logic/src/types';
+import { KeywordType } from '@v6y/core-logic/src/types/KeywordType';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
 import { Card, CardContent } from '@v6y/ui-kit-front';
 

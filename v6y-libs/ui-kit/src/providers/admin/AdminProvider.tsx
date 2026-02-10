@@ -13,7 +13,8 @@ import routerProvider from '@refinedev/nextjs-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import * as React from 'react';
 
-import { ThemeModes, ThemeProvider, ThemeTypes } from '../../theme';
+import { ThemeModes, ThemeTypes } from '../../theme/commons/ThemeLoader';
+import { ThemeProvider } from '../../theme/commons/ThemeProvider';
 import { useTranslationProvider } from '../../translation/useTranslationProvider';
 import { AdminDevtoolsProvider } from './AdminDevtoolsProvider';
 

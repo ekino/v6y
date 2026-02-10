@@ -4,7 +4,7 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
-import { AdminListWrapper } from '../components/organisms';
+import AdminListWrapper from '../components/organisms/admin/AdminListWrapper';
 import { renderWithQueryClientProvider } from '../test-utils/TestUtils';
 
 vi.mock('../api', () => ({

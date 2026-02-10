@@ -1,5 +1,8 @@
-import { Button, Flex, List, SyncOutlined } from '../../atoms';
-import { PaginatedListType } from '../../types';
+import { SyncOutlined } from '../../atoms/Icons';
+import Button from '../../atoms/app/Button';
+import Flex from '../../atoms/app/Flex';
+import { List } from '../../atoms/app/List';
+import { PaginatedListType } from '../../types/PaginatedListType';
 
 const LoadMoreList = ({
     isDataSourceLoading,

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { useTranslationProvider } from '../../translation/useTranslationProvider';
-import { Select, SelectContent, SelectItem, SelectTrigger } from '../molecules';
+import { Select, SelectContent, SelectItem, SelectTrigger } from '../molecules/Select';
 
 const languages = [
     { code: 'fr', label: 'Français', flagCode: 'fr' },

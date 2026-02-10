@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Empty } from '../../atoms';
+import Empty from '../../atoms/app/Empty';
 import TextView from './TextView.tsx';
 
 const EmptyView = ({ message }: { message?: string }) => (

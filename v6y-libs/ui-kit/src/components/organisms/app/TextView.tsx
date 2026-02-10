@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { Text } from '../../atoms';
-import { TextType } from '../../types';
+import { Text } from '../../atoms/app/Typography';
+import { TextType } from '../../types/TextType';
 
 const TextView = ({ content, style, strong, underline }: TextType) => {
     return (

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { Paragraph as AtomParagraph } from '../../atoms';
-import { ParagraphType } from '../../types';
+import { Paragraph as AtomParagraph } from '../../atoms/app/Typography';
+import { ParagraphType } from '../../types/ParagraphType';
 
 const Paragraph = ({ content, style, strong, underline }: ParagraphType) => {
     return (

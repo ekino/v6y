@@ -2,9 +2,10 @@
 
 import { BaseRecord, GetOneResponse, useShow } from '@refinedev/core';
 
-import { gqlClientRequest } from '../../../api';
-import { RefreshButton, ShowLayout } from '../../atoms';
-import { FormShowOptions } from '../../types';
+import { gqlClientRequest } from '../../../api/GraphQLClient';
+import RefreshButton from '../../atoms/admin/RefreshButton';
+import ShowLayout from '../../atoms/admin/ShowLayout';
+import { FormShowOptions } from '../../types/FormType';
 
 const AdminShowWrapper = ({ title, renderShowView, queryOptions }: FormShowOptions) => {
     const { query } = useShow({

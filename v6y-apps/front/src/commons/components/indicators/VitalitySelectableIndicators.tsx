@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import { KeywordType } from '@v6y/core-logic/src/types';
+import { KeywordType } from '@v6y/core-logic/src/types/KeywordType';
 import {
     Card,
     Checkbox,

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { AuditType } from '@v6y/core-logic/src/types';
+import { AuditType } from '@v6y/core-logic/src/types/AuditType';
 import {
     Button,
     Card,

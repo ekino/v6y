@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 
-import { KeywordStatsType } from '@v6y/core-logic/src/types';
+import { KeywordStatsType } from '@v6y/core-logic/src/types/KeywordType';
 import {
     Charts,
     Col,

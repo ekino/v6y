@@ -2,7 +2,7 @@ import Link from 'next/link';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
-import { ApplicationType } from '@v6y/core-logic/src/types';
+import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
 import { Matcher } from '@v6y/core-logic/src/utils';
 import {
     ApiOutlined,

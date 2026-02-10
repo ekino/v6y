@@ -2,8 +2,8 @@
 
 import { Controller } from 'react-hook-form';
 
-import { Input } from '../../atoms';
-import { ControlledInputType } from '../../types';
+import Input from '../../atoms/app/Input';
+import { ControlledInputType } from '../../types/InputType';
 
 const ControlledInput = ({
     name,

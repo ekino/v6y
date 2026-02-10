@@ -2,8 +2,8 @@
 
 import { useContext } from 'react';
 
-import { ThemeContextType } from '../theme';
 import { ThemeConfigProvider } from '../theme/commons/ThemeContext';
+import { ThemeContextType } from '../theme/types/ThemeProps';
 
 export const useThemeConfigProvider = () => {
     const { currentConfig } = useContext<ThemeContextType>(ThemeConfigProvider);

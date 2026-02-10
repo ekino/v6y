@@ -1,4 +1,5 @@
-import { Col, Row, Spin } from '../../atoms';
+import { Col, Row } from '../../atoms/app/Grid';
+import Spin from '../../atoms/app/Spin';
 
 const LoaderView = () => (
     <Row justify="center" align="middle" gutter={[16, 16]}>

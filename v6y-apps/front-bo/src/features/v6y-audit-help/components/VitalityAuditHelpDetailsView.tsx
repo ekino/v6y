@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { AuditHelpType } from '@v6y/core-logic/src/types';
+import { AuditHelpType } from '@v6y/core-logic/src/types/AuditHelpType';
 import {
     AdminHttpError,
     AdminShowWrapper,

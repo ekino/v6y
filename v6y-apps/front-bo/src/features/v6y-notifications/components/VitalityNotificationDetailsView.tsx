@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { NotificationType } from '@v6y/core-logic/src/types';
+import { NotificationType } from '@v6y/core-logic/src/types/NotificationType';
 import {
     AdminShowWrapper,
     TitleView,

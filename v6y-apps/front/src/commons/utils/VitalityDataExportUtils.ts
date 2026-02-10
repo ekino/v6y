@@ -1,10 +1,8 @@
-import {
-    ApplicationType,
-    AuditType,
-    DependencyType,
-    EvolutionType,
-    KeywordType,
-} from '@v6y/core-logic/src/types';
+import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
+import { AuditType } from '@v6y/core-logic/src/types/AuditType';
+import { DependencyType } from '@v6y/core-logic/src/types/DependencyType';
+import { EvolutionType } from '@v6y/core-logic/src/types/EvolutionType';
+import { KeywordType } from '@v6y/core-logic/src/types/KeywordType';
 import { CsvUtils } from '@v6y/core-logic/src/utils';
 
 const { exportDataToCSV } = CsvUtils;

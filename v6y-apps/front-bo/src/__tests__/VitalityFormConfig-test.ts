@@ -1,7 +1,8 @@
 import '@testing-library/jest-dom/vitest';
 import { describe, expect, it, vi } from 'vitest';
 
-import { ApplicationType, LinkType } from '@v6y/core-logic/src/types';
+import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
+import { LinkType } from '@v6y/core-logic/src/types/LinkType';
 
 import {
     applicationCreateEditItems,

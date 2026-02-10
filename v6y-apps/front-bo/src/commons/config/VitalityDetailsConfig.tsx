@@ -1,16 +1,14 @@
 import { ReactNode } from 'react';
 
-import {
-    AccountType,
-    ApplicationType,
-    AuditHelpType,
-    DependencyStatusHelpType,
-    DeprecatedDependencyType,
-    EvolutionHelpType,
-    FaqType,
-    LinkType,
-    NotificationType,
-} from '@v6y/core-logic/src/types';
+import { AccountType } from '@v6y/core-logic/src/types/AccountType';
+import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
+import { AuditHelpType } from '@v6y/core-logic/src/types/AuditHelpType';
+import { DependencyStatusHelpType } from '@v6y/core-logic/src/types/DependencyStatusHelpType';
+import { DeprecatedDependencyType } from '@v6y/core-logic/src/types/DeprecatedDependencyType';
+import { EvolutionHelpType } from '@v6y/core-logic/src/types/EvolutionHelpType';
+import { FaqType } from '@v6y/core-logic/src/types/FaqType';
+import { LinkType } from '@v6y/core-logic/src/types/LinkType';
+import { NotificationType } from '@v6y/core-logic/src/types/NotificationType';
 import { Links, TranslateType } from '@v6y/ui-kit';
 
 export const formatAccountDetails = (

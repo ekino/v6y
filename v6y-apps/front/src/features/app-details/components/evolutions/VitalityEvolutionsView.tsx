@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { EvolutionType } from '@v6y/core-logic/src/types';
+import { EvolutionType } from '@v6y/core-logic/src/types/EvolutionType';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
 import { Card, CardContent } from '@v6y/ui-kit-front';
 

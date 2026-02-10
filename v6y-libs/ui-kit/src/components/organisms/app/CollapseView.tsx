@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { Collapse } from '../../atoms';
-import { CollapseType } from '../../types';
+import Collapse from '../../atoms/app/Collapse';
+import { CollapseType } from '../../types/CollapseType';
 import EmptyView from './EmptyView.tsx';
 
 const CollapseView = ({ bordered, accordion, dataSource }: CollapseType) => {
