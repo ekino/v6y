@@ -1,48 +1,80 @@
 import * as React from 'react';
 
 import { AuditType } from '@v6y/core-logic/src/types';
-import { Card, CardContent, CardHeader, CardTitle } from '@v6y/ui-kit-front';
+import { useTranslationProvider } from '@v6y/ui-kit-front';
 
-import { getScoreStatusColor } from '../../../../commons/utils/StatusUtils';
+import VitalityAuditReportsSection from './VitalityAuditReportsSection';
 
-const VitalityAuditReportsTypeGrouper = ({ auditReports }: { auditReports: AuditType[] }) => {
+interface VitalityAuditReportsTypeGrouperProps {
+    auditReports: AuditType[];
+    category?: string;
+}
+
+const VitalityAuditReportsTypeGrouper = ({
+    auditReports,
+    category = 'general',
+}: VitalityAuditReportsTypeGrouperProps) => {
+    const { translate } = useTranslationProvider();
+
+    const getTitleAndDescription = (cat: string) => {
+        switch (cat) {
+            case 'performance':
+                return {
+                    title: translate('vitality.appDetailsPage.auditReports.categories.performance'),
+                    description: translate(
+                        'vitality.appDetailsPage.auditReports.descriptions.performance',
+                    ),
+                };
+            case 'accessibility':
+                return {
+                    title: translate(
+                        'vitality.appDetailsPage.auditReports.categories.accessibility',
+                    ),
+                    description: translate(
+                        'vitality.appDetailsPage.auditReports.descriptions.accessibility',
+                    ),
+                };
+            case 'security':
+                return {
+                    title: translate('vitality.appDetailsPage.auditReports.categories.security'),
+                    description: translate(
+                        'vitality.appDetailsPage.auditReports.descriptions.security',
+                    ),
+                };
+            case 'maintainability':
+                return {
+                    title: translate(
+                        'vitality.appDetailsPage.auditReports.categories.maintainability',
+                    ),
+                    description: translate(
+                        'vitality.appDetailsPage.auditReports.descriptions.maintainability',
+                    ),
+                };
+            case 'dora':
+                return {
+                    title: translate('vitality.appDetailsPage.auditReports.categories.dora'),
+                    description: translate(
+                        'vitality.appDetailsPage.auditReports.descriptions.dora',
+                    ),
+                };
+            default:
+                return {
+                    title: translate('vitality.appDetailsPage.auditReports.categories.general'),
+                    description: translate(
+                        'vitality.appDetailsPage.auditReports.descriptions.general',
+                    ),
+                };
+        }
+    };
+
+    const { title, description } = getTitleAndDescription(category);
+
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {auditReports.map((report) => (
-                <Card
-                    key={report._id}
-                    className="border-slate-200 shadow-sm hover:shadow-md transition-shadow"
-                >
-                    <CardHeader className="pb-3">
-                        <div className="flex justify-between items-start">
-                            <CardTitle className="text-lg font-semibold text-gray-900 capitalize">
-                                {report.type}
-                            </CardTitle>
-                            <span
-                                className={`px-2 py-1 text-xs font-medium rounded border ${getScoreStatusColor(report.scoreStatus || '')}`}
-                            >
-                                {report.scoreStatus}
-                            </span>
-                        </div>
-                        <p className="text-sm text-gray-600 mt-1">
-                            {report.category} - {report.subCategory}
-                        </p>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="flex justify-between items-center mb-3">
-                            <span className="text-2xl font-bold text-gray-900">
-                                {report.score}
-                                {report.scoreUnit === 'score' ? '%' : ` ${report.scoreUnit}`}
-                            </span>
-                            <span className="text-sm text-gray-500 capitalize">
-                                {report.auditStatus}
-                            </span>
-                        </div>
-                        <p className="text-sm text-gray-700">{report.extraInfos}</p>
-                    </CardContent>
-                </Card>
-            ))}
-        </div>
+        <VitalityAuditReportsSection
+            title={title}
+            reports={auditReports}
+            description={description}
+        />
     );
 };
 

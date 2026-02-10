@@ -24,15 +24,9 @@ const VitalityAuditReportsView = DynamicLoader(
     () => import('./audit-reports/VitalityAuditReportsView'),
 );
 
-const VitalityQualityIndicatorsView = DynamicLoader(
-    () => import('./quality-indicators/VitalityQualityIndicatorsView'),
+const VitalitySecuritySection = DynamicLoader(
+    () => import('./audit-reports/VitalitySecuritySection'),
 );
-
-const VitalityDependenciesView = DynamicLoader(
-    () => import('./dependencies/VitalityDependenciesView'),
-);
-
-const VitalityEvolutionsView = DynamicLoader(() => import('./evolutions/VitalityEvolutionsView'));
 
 const VitalityAppDetailsView = () => {
     const { getUrlParams } = useNavigationAdapter();
@@ -41,6 +35,8 @@ const VitalityAppDetailsView = () => {
     const [activeTab, setActiveTab] = React.useState('overview');
     const [selectedBranch, setSelectedBranch] = React.useState('main');
     const [selectedDate, setSelectedDate] = React.useState('2025-01-01');
+    const [isRunningAudit, setIsRunningAudit] = React.useState(false);
+    const [auditTrigger, setAuditTrigger] = React.useState(0);
 
     const { isLoading: isAppDetailsInfosLoading, data: appDetailsInfos } = useClientQuery<{
         getApplicationDetailsInfoByParams: ApplicationType;
@@ -64,11 +60,25 @@ const VitalityAppDetailsView = () => {
         { id: 'accessibility', label: translate('vitality.appDetailsPage.tabs.accessibility') },
         { id: 'security', label: translate('vitality.appDetailsPage.tabs.security') },
         { id: 'maintainability', label: translate('vitality.appDetailsPage.tabs.maintainability') },
+        { id: 'devops', label: translate('vitality.appDetailsPage.tabs.devops') },
     ];
 
     const onExportClicked = () => {
         if (appInfos) {
             exportAppDetailsDataToCSV(appInfos);
+        }
+    };
+
+    const onRunAuditClicked = async () => {
+        setIsRunningAudit(true);
+        try {
+            setAuditTrigger((prev) => prev + 1);
+        } catch (error) {
+            console.error('Error running audit:', error);
+        } finally {
+            setTimeout(() => {
+                setIsRunningAudit(false);
+            }, 2000);
         }
     };
 
@@ -84,42 +94,33 @@ const VitalityAppDetailsView = () => {
                 );
             case 'performance':
                 return (
-                    <VitalityAuditReportsView
-                        appInfos={appInfos}
-                        branch={selectedBranch}
-                        date={selectedDate}
-                    />
+                    <VitalityAuditReportsView auditTrigger={auditTrigger} category="performance" />
                 );
             case 'accessibility':
                 return (
-                    <VitalityQualityIndicatorsView
-                        appInfos={appInfos}
-                        branch={selectedBranch}
-                        date={selectedDate}
+                    <VitalityAuditReportsView
+                        auditTrigger={auditTrigger}
+                        category="accessibility"
                     />
                 );
             case 'security':
-                return (
-                    <VitalityDependenciesView
-                        appInfos={appInfos}
-                        branch={selectedBranch}
-                        date={selectedDate}
-                    />
-                );
+                return <VitalitySecuritySection auditTrigger={auditTrigger} />;
             case 'maintainability':
                 return (
-                    <VitalityEvolutionsView
-                        appInfos={appInfos}
-                        branch={selectedBranch}
-                        date={selectedDate}
+                    <VitalityAuditReportsView
+                        auditTrigger={auditTrigger}
+                        category="maintainability"
                     />
                 );
+            case 'devops':
+                return <VitalityAuditReportsView auditTrigger={auditTrigger} category="dora" />;
             default:
                 return (
                     <VitalityGeneralInformationView
                         appInfos={appInfos}
                         branch={selectedBranch}
                         date={selectedDate}
+                        auditTrigger={auditTrigger}
                     />
                 );
         }
@@ -194,11 +195,29 @@ const VitalityAppDetailsView = () => {
                                 <GlobeIcon className="w-4 h-4" />
                             </Button>
                             <Button
+                                onClick={onRunAuditClicked}
+                                disabled={isRunningAudit}
                                 variant="outline"
                                 size="sm"
-                                className="h-8 w-9 p-2 border-slate-300 rounded-md"
+                                className="h-8 px-3 border-slate-300 rounded-md flex items-center gap-1.5"
                             >
-                                <PlayIcon className="w-4 h-4" />
+                                {isRunningAudit ? (
+                                    <>
+                                        <ReloadIcon className="w-4 h-4 animate-spin" />
+                                        <span className="text-sm">
+                                            {translate(
+                                                'vitality.appDetailsPage.runAuditButtonLoading',
+                                            )}
+                                        </span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <PlayIcon className="w-4 h-4" />
+                                        <span className="text-sm">
+                                            {translate('vitality.appDetailsPage.runAuditButton')}
+                                        </span>
+                                    </>
+                                )}
                             </Button>
                         </div>
                     </div>

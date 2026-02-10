@@ -54,6 +54,8 @@
         "release": "release"
       },
       "exportButton": "Exporter le reporting",
+      "runAuditButton": "Lancer l'audit",
+      "runAuditButtonLoading": "En cours...",
       "loadingStates": {
         "auditReports": "Chargement des rapports d'audit...",
         "qualityIndicators": "Chargement des indicateurs de qualité...",
@@ -109,6 +111,57 @@
         "branchTitle": "Branche",
         "path": "Chemin",
         "repository": "Dépôt"
+      },
+      "auditReports": {
+        "categories": {
+          "static": "Analyse Statique",
+          "dynamic": "Analyse Dynamique",
+          "devops": "Métriques DevOps",
+          "performance": "Métriques de Performance",
+          "accessibility": "Accessibilité et Qualité",
+          "security": "Analyse de Sécurité",
+          "maintainability": "Qualité et Maintenabilité du Code",
+          "dora": "Métriques DevOps (DORA)",
+          "general": "Rapports d'Audit"
+        },
+        "descriptions": {
+          "performance": "Performance web, temps de chargement, Core Web Vitals",
+          "accessibility": "Conformité WCAG, compatibilité lecteur d'écran, normes d'accessibilité",
+          "security": "Vulnérabilités de sécurité, patterns non sécurisés, mauvaises odeurs de code",
+          "maintainability": "Complexité du code, couplage, métriques et évaluations de qualité",
+          "dora": "Fréquence de déploiement, délai de livraison, taux d'échec des changements, temps moyen de restauration",
+          "general": "Résultats d'analyse"
+        },
+        "doraMetrics": {
+          "DEPLOYMENT_FREQUENCY": "Fréquence de déploiement",
+          "LEAD_REVIEW_TIME": "Temps de révision",
+          "LEAD_TIME_FOR_CHANGES": "Délai de livraison des changements",
+          "CHANGE_FAILURE_RATE": "Taux d'échec des changements",
+          "MEAN_TIME_TO_RESTORE_SERVICE": "Temps moyen de restauration du service",
+          "UP_TIME_AVERAGE": "Temps de disponibilité moyen"
+        }
+      },
+      "dependencies": {
+        "title": "Dépendances",
+        "description": "Dépendances avec des problèmes de sécurité ou de compatibilité",
+        "table": {
+          "header": "Problèmes de Sécurité et Compatibilité",
+          "columns": {
+            "name": "Nom",
+            "currentVersion": "Version Actuelle",
+            "recommendedVersion": "Version Recommandée",
+            "location": "Emplacement",
+            "status": "Statut"
+          },
+          "itemsCount": {
+            "one": "{count} dépendance avec des problèmes",
+            "other": "{count} dépendances avec des problèmes"
+          }
+        },
+        "success": {
+          "title": "Toutes les Dépendances sont à Jour",
+          "description": "Aucune dépendance obsolète avec des problèmes de sécurité ou de compatibilité n'a été trouvée"
+        }
       }
     },
     "appStatsPage": {

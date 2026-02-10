@@ -54,6 +54,8 @@
         "release": "release"
       },
       "exportButton": "Export Reporting",
+      "runAuditButton": "Run Audit",
+      "runAuditButtonLoading": "Running...",
       "loadingStates": {
         "auditReports": "Loading audit reports...",
         "qualityIndicators": "Loading quality indicators...",
@@ -109,6 +111,57 @@
         "branchTitle": "Branch",
         "repository": "Repository",
         "path": "Path"
+      },
+      "auditReports": {
+        "categories": {
+          "static": "Static Analysis",
+          "dynamic": "Dynamic Analysis",
+          "devops": "DevOps Metrics",
+          "performance": "Performance Metrics",
+          "accessibility": "Accessibility & Quality",
+          "security": "Security Analysis",
+          "maintainability": "Code Quality & Maintainability",
+          "dora": "DevOps Metrics (DORA)",
+          "general": "Audit Reports"
+        },
+        "descriptions": {
+          "performance": "Web performance, loading times, Core Web Vitals",
+          "accessibility": "WCAG compliance, screen reader compatibility, accessibility standards",
+          "security": "Security vulnerabilities, insecure patterns, code smells",
+          "maintainability": "Code complexity, coupling, metrics and quality assessments",
+          "dora": "Deployment frequency, lead time, change failure rate, mean time to restore",
+          "general": "Analysis results"
+        },
+        "doraMetrics": {
+          "DEPLOYMENT_FREQUENCY": "Deployment Frequency",
+          "LEAD_REVIEW_TIME": "Lead Review Time",
+          "LEAD_TIME_FOR_CHANGES": "Lead Time for Changes",
+          "CHANGE_FAILURE_RATE": "Change Failure Rate",
+          "MEAN_TIME_TO_RESTORE_SERVICE": "Mean Time to Restore Service",
+          "UP_TIME_AVERAGE": "Uptime Average"
+        }
+      },
+      "dependencies": {
+        "title": "Dependencies",
+        "description": "Dependencies with security or compatibility issues",
+        "table": {
+          "header": "Security & Compatibility Issues",
+          "columns": {
+            "name": "Name",
+            "currentVersion": "Current Version",
+            "recommendedVersion": "Recommended Version",
+            "location": "Location",
+            "status": "Status"
+          },
+          "itemsCount": {
+            "one": "{count} dependency with issues",
+            "other": "{count} dependencies with issues"
+          }
+        },
+        "success": {
+          "title": "All Dependencies Up to Date",
+          "description": "No outdated dependencies with security or compatibility issues have been found"
+        }
       }
     },
     "appStatsPage": {

@@ -5,6 +5,7 @@ import lodash from 'lodash';
 import { detect as pmDetect } from 'package-manager-detector/detect';
 import path from 'path';
 import unixify from 'unixify';
+import { fileURLToPath } from 'url';
 
 import {
     ComplexityAnalysisOptionsType,
@@ -13,7 +14,7 @@ import {
 } from '../types/index.ts';
 import AppLogger from './AppLogger.ts';
 
-const __dirname = path.resolve();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**
  * Checks if a file is an accepted file type.

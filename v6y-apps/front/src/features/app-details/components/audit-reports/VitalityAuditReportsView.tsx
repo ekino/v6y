@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import { AuditType } from '@v6y/core-logic/src/types';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
 import { Card, CardContent } from '@v6y/ui-kit-front';
@@ -15,14 +13,37 @@ const VitalityAuditReportsTypeGrouper = DynamicLoader(
     () => import('./VitalityAuditReportsTypeGrouper'),
 );
 
-const VitalityAuditReportsView = () => {
+interface VitalityAuditReportsViewProps {
+    auditTrigger?: number;
+    category?: string;
+}
+
+const isSecuritySmell = (report: AuditType): boolean => {
+    const categoryLower = report.category?.toLowerCase() || '';
+    // Check if category matches security smell patterns (commons-, react-, angular- prefixes)
+    return (
+        categoryLower.startsWith('commons-') ||
+        categoryLower.startsWith('react-') ||
+        categoryLower.startsWith('angular-') ||
+        report.type === 'Code-Security'
+    );
+};
+
+const VitalityAuditReportsView = ({
+    auditTrigger = 0,
+    category,
+}: VitalityAuditReportsViewProps) => {
     const { getUrlParams } = useNavigationAdapter();
     const { translate } = useTranslationProvider();
     const [_id] = getUrlParams(['_id']);
 
     const { isLoading: isAppDetailsAuditReportsLoading, data: appDetailsAuditReports } =
         useClientQuery<{ getApplicationDetailsAuditReportsByParams: AuditType[] }>({
-            queryCacheKey: ['getApplicationDetailsAuditReportsByParams', `${_id}`],
+            queryCacheKey: [
+                'getApplicationDetailsAuditReportsByParams',
+                `${_id}`,
+                `${auditTrigger}`,
+            ],
             queryBuilder: async () =>
                 buildClientQuery({
                     queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
@@ -32,6 +53,70 @@ const VitalityAuditReportsView = () => {
                     },
                 }),
         });
+
+    // Filter to show static audit reports (exclude lighthouse)
+    const staticAuditReports =
+        appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams?.filter(
+            (report) => report.type !== 'Lighthouse',
+        ) || [];
+
+    // Filter to show dynamic audit reports (lighthouse only)
+    const dynamicAuditReports =
+        appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams?.filter(
+            (report) => report.type === 'Lighthouse',
+        ) || [];
+
+    // Further filter Lighthouse reports by category
+    const performanceDynamicReports = dynamicAuditReports.filter(
+        (report) => !report.category?.toLowerCase().includes('accessibility'),
+    );
+    const accessibilityDynamicReports = dynamicAuditReports.filter((report) =>
+        report.category?.toLowerCase().includes('accessibility'),
+    );
+
+    // Filter static audit reports based on category
+    const staticFilters: Partial<Record<string, (report: AuditType) => boolean>> = {
+        performance: (report) =>
+            report.type !== 'Code-Complexity' &&
+            report.type !== 'Code-Coupling' &&
+            report.type !== 'Code-Security' &&
+            report.type !== 'Dependencies' &&
+            report.type !== 'Code-Duplication' &&
+            report.type !== 'DORA' &&
+            !(report.category?.toLowerCase() || '').includes('maintainability') &&
+            !(report.category?.toLowerCase() || '').includes('modularity') &&
+            !(report.category?.toLowerCase() || '').includes('duplication') &&
+            !(report.category?.toLowerCase() || '').includes('accessibility') &&
+            !(report.type?.toLowerCase() || '').includes('accessibility') &&
+            !isSecuritySmell(report),
+        maintainability: (report) =>
+            report.type === 'Code-Complexity' ||
+            report.type === 'Code-Coupling' ||
+            (report.category?.toLowerCase() || '').includes('maintainability') ||
+            (report.category?.toLowerCase() || '').includes('modularity') ||
+            (report.category?.toLowerCase() || '').includes('coupling') ||
+            (report.category?.toLowerCase() || '').includes('duplication'),
+        accessibility: (report) =>
+            ((report.category?.toLowerCase() || '').includes('accessibility') ||
+                (report.type?.toLowerCase() || '').includes('accessibility')) &&
+            !(report.category?.toLowerCase() || '').includes('performance') &&
+            !(report.category?.toLowerCase() || '').includes('seo'),
+        security: (report) => isSecuritySmell(report),
+        dora: (report) => report.type === 'DORA',
+    };
+
+    const filterFn = category ? staticFilters[category] : undefined;
+    const filteredStaticAuditReports = filterFn
+        ? staticAuditReports.filter(filterFn)
+        : staticAuditReports;
+
+    // Combine filtered static reports with appropriate dynamic reports
+    let allAuditReports: AuditType[] = filteredStaticAuditReports;
+    if (category === 'performance') {
+        allAuditReports = [...filteredStaticAuditReports, ...performanceDynamicReports];
+    } else if (category === 'accessibility') {
+        allAuditReports = [...filteredStaticAuditReports, ...accessibilityDynamicReports];
+    }
 
     if (isAppDetailsAuditReportsLoading) {
         return (
@@ -45,7 +130,7 @@ const VitalityAuditReportsView = () => {
         );
     }
 
-    if (!appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams?.length) {
+    if (!allAuditReports.length) {
         return (
             <Card className="border-slate-200 shadow-sm">
                 <CardContent className="flex flex-col items-center justify-center p-12 gap-2">
@@ -62,14 +147,8 @@ const VitalityAuditReportsView = () => {
     }
 
     return (
-        <Card className="border-slate-200 shadow-sm">
-            <CardContent className="p-4">
-                <VitalityAuditReportsTypeGrouper
-                    auditReports={
-                        appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams || []
-                    }
-                />
-            </CardContent>
+        <Card className="space-y-6 border-slate-200 shadow-sm">
+            <VitalityAuditReportsTypeGrouper auditReports={allAuditReports} category={category} />
         </Card>
     );
 };
