@@ -2,7 +2,12 @@ import * as React from 'react';
 
 import { KeywordType } from '@v6y/core-logic/src/types/KeywordType';
 import { useTranslationProvider } from '@v6y/ui-kit';
-import { Card, CardContent, CardHeader, CardTitle } from '@v6y/ui-kit-front';
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+} from '@v6y/ui-kit-front/components/molecules/Card';
 
 const VitalityQualityIndicatorBranchGrouper = ({ indicators }: { indicators: KeywordType[] }) => {
     const { translate } = useTranslationProvider();

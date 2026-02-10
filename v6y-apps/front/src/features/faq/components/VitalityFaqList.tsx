@@ -2,7 +2,12 @@ import Link from 'next/link';
 import * as React from 'react';
 
 import { FaqType } from '@v6y/core-logic/src/types/FaqType';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@v6y/ui-kit-front';
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from '@v6y/ui-kit-front/components/molecules/Accordion';
 
 const VitalityFaqList = ({ dataSource }: { dataSource?: FaqType[] }) => {
     if (!dataSource?.length) {

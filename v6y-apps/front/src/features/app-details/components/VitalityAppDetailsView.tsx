@@ -1,11 +1,19 @@
 'use client';
 
+import { GlobeIcon, PlayIcon, ReloadIcon, ShuffleIcon } from 'lucide-react';
 import * as React from 'react';
 
 import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
-import { Button, GlobeIcon, Input, PlayIcon, ReloadIcon, ShuffleIcon } from '@v6y/ui-kit-front';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@v6y/ui-kit-front';
+import { Button } from '@v6y/ui-kit-front/components/atoms/button';
+import { Input } from '@v6y/ui-kit-front/components/atoms/input';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@v6y/ui-kit-front/components/molecules/Select';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import { exportAppDetailsDataToCSV } from '../../../commons/utils/VitalityDataExportUtils';

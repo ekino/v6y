@@ -2,7 +2,12 @@ import * as React from 'react';
 
 import { EvolutionType } from '@v6y/core-logic/src/types/EvolutionType';
 import { useTranslationProvider } from '@v6y/ui-kit';
-import { Card, CardContent, CardHeader, CardTitle } from '@v6y/ui-kit-front';
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+} from '@v6y/ui-kit-front/components/molecules/Card';
 
 const VitalityEvolutionBranchGrouper = ({ evolutions }: { evolutions: EvolutionType[] }) => {
     const { translate } = useTranslationProvider();

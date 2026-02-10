@@ -10,7 +10,7 @@ import {
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
-} from '@v6y/ui-kit-front';
+} from '@v6y/ui-kit-front/components/molecules/pagination';
 
 interface Props {
     currentPage: number;

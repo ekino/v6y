@@ -6,7 +6,7 @@ import { gqlClientRequest } from '../api/GraphQLClient';
 import AdminSelectWrapper from '../components/organisms/admin/AdminSelectWrapper';
 import { renderWithQueryClientProvider } from '../test-utils/TestUtils';
 
-vi.mock('../api', () => ({
+vi.mock('../api/GraphQLClient', () => ({
     gqlClientRequest: vi.fn(),
 }));
 

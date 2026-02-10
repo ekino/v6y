@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import { ExportOutlined } from '@v6y/ui-kit';
-import { Button, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit-front';
+import { Button } from '@v6y/ui-kit-front/components/atoms/button';
+import { useNavigationAdapter } from '@v6y/ui-kit-front/hooks/useNavigationAdapter';
+import { useTranslationProvider } from '@v6y/ui-kit-front/translation/useTranslationProvider';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import {

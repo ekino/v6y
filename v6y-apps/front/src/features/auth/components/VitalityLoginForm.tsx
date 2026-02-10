@@ -3,23 +3,25 @@
 import React, { useEffect, useRef } from 'react';
 
 import { useForm } from '@v6y/ui-kit';
+import { Button } from '@v6y/ui-kit-front/components/atoms/button';
+import { Input } from '@v6y/ui-kit-front/components/atoms/input';
+import { toast } from '@v6y/ui-kit-front/components/atoms/sonnerHelpers';
 import {
-    Button,
     Card,
     CardContent,
     CardDescription,
     CardHeader,
     CardTitle,
+} from '@v6y/ui-kit-front/components/molecules/Card';
+import {
     Form,
     FormControl,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
-    Input,
-    toast,
-    useTranslationProvider,
-} from '@v6y/ui-kit-front';
+} from '@v6y/ui-kit-front/components/molecules/Form';
+import { useTranslationProvider } from '@v6y/ui-kit-front/translation/useTranslationProvider';
 
 import {
     LoginAccountFormType,

@@ -1,14 +1,13 @@
 import Link from 'next/link';
 
+import { Avatar, AvatarFallback } from '@v6y/ui-kit-front/components/atoms/avatar';
 import {
-    Avatar,
-    AvatarFallback,
     Card,
     CardContent,
     CardDescription,
     CardHeader,
     CardTitle,
-} from '@v6y/ui-kit-front';
+} from '@v6y/ui-kit-front/components/molecules/Card';
 
 interface VitalityDashboardFilterItemProps {
     option: {

@@ -1,8 +1,19 @@
 import '@testing-library/jest-dom/vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import * as React from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import VitalityAppListView from '../../features/app-list/components/VitalityAppListView';
+
+vi.mock('@v6y/ui-kit-front/hooks/useNavigationAdapter', () => ({
+    useNavigationAdapter: vi.fn(() => ({
+        createUrlQueryParam: mockCreateUrlQueryParam,
+        removeUrlQueryParam: mockRemoveUrlQueryParam,
+        router: mockRouter,
+        pathname: '/apps',
+        getUrlParams: mockGetUrlParams,
+    })),
+}));
 
 const mockRouter = {
     replace: vi.fn(),
@@ -11,23 +22,6 @@ const mockRouter = {
 const mockGetUrlParams = vi.fn(() => [undefined]);
 const mockCreateUrlQueryParam = vi.fn(() => 'keywords=react');
 const mockRemoveUrlQueryParam = vi.fn(() => '');
-
-vi.mock('@v6y/ui-kit-front', async () => {
-    const actual = await vi.importActual('@v6y/ui-kit-front');
-    return {
-        ...actual,
-        useNavigationAdapter: () => ({
-            getUrlParams: mockGetUrlParams,
-            createUrlQueryParam: mockCreateUrlQueryParam,
-            removeUrlQueryParam: mockRemoveUrlQueryParam,
-            router: mockRouter,
-            pathname: '/apps',
-        }),
-        useTranslationProvider: () => ({
-            translate: (key: string) => key,
-        }),
-    };
-});
 
 vi.mock('../../infrastructure/adapters/api/useQueryAdapter', () => {
     return {
@@ -48,10 +42,6 @@ vi.mock('../../infrastructure/adapters/api/useQueryAdapter', () => {
 
 vi.mock('../../commons/utils/VitalityDataExportUtils', () => ({
     exportAppListDataToCSV: vi.fn(),
-}));
-
-vi.mock('../../features/app-list/components/VitalityAppList', () => ({
-    default: () => <div data-testid="mocked-app-list">Mocked App List</div>,
 }));
 
 describe('VitalityAppListView', () => {

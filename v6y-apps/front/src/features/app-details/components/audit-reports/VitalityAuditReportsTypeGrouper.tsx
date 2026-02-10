@@ -1,7 +1,12 @@
 import * as React from 'react';
 
 import { AuditType } from '@v6y/core-logic/src/types/AuditType';
-import { Card, CardContent, CardHeader, CardTitle } from '@v6y/ui-kit-front';
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+} from '@v6y/ui-kit-front/components/molecules/Card';
 
 import { getScoreStatusColor } from '../../../../commons/utils/StatusUtils';
 

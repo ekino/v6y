@@ -1,7 +1,8 @@
+import { StarIcon } from 'lucide-react';
 import * as React from 'react';
 
 import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
-import { StarIcon, useTranslationProvider } from '@v6y/ui-kit-front';
+import { useTranslationProvider } from '@v6y/ui-kit-front/translation/useTranslationProvider';
 
 interface VitalitySummaryCardProps {
     appInfos: ApplicationType;

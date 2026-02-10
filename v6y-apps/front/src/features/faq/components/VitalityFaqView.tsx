@@ -4,7 +4,7 @@ import Link from 'next/link';
 import * as React from 'react';
 
 import { FaqType } from '@v6y/core-logic/src/types/FaqType';
-import { useTranslationProvider } from '@v6y/ui-kit-front';
+import { useTranslationProvider } from '@v6y/ui-kit-front/translation/useTranslationProvider';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import {

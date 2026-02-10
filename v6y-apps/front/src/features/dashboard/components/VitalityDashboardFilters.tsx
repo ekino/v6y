@@ -1,12 +1,13 @@
+import { MixerHorizontalIcon } from '@radix-ui/react-icons';
+
 import { useThemeConfigProvider } from '@v6y/ui-kit';
 import {
     Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
-    MixerHorizontalIcon,
-    useTranslationProvider,
-} from '@v6y/ui-kit-front';
+} from '@v6y/ui-kit-front/components/molecules/Accordion';
+import { useTranslationProvider } from '@v6y/ui-kit-front/translation/useTranslationProvider';
 
 import {
     DashboardItemType,

@@ -3,7 +3,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
-import { Spinner, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit-front';
+import { Spinner } from '@v6y/ui-kit-front/components/atoms/spinner';
+import { useNavigationAdapter } from '@v6y/ui-kit-front/hooks/useNavigationAdapter';
+import { useTranslationProvider } from '@v6y/ui-kit-front/translation/useTranslationProvider';
 
 import VitalityAppInfos from '../../../commons/components/application-info/VitalityAppInfos';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';

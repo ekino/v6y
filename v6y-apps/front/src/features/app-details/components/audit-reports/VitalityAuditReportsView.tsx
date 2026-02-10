@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { AuditType } from '@v6y/core-logic/src/types/AuditType';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
-import { Card, CardContent } from '@v6y/ui-kit-front';
+import { Card, CardContent } from '@v6y/ui-kit-front/components/molecules/Card';
 
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
 import {
