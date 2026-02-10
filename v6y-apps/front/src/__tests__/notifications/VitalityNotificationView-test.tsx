@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import VitalityNotificationView from '../../features/notifications/components/VitalityNotificationView';
@@ -82,11 +82,25 @@ describe('VitalityNotificationView', () => {
                 screen.getByText((content) => content.includes('How to use Vitality?')),
             ).toBeInTheDocument();
             expect(
-                screen.getByText((content) => content.includes('Step-by-step guide')),
-            ).toBeInTheDocument();
-            expect(
                 screen.getByText((content) => content.includes('How to reset my password?')),
             ).toBeInTheDocument();
+        });
+
+        // Expand the first collapse to check the description
+        const firstCollapseHeader = screen.getByText('How to use Vitality?');
+        fireEvent.click(firstCollapseHeader);
+
+        await waitFor(() => {
+            expect(
+                screen.getByText((content) => content.includes('Step-by-step guide')),
+            ).toBeInTheDocument();
+        });
+
+        // Expand the second collapse to check the description
+        const secondCollapseHeader = screen.getByText('How to reset my password?');
+        fireEvent.click(secondCollapseHeader);
+
+        await waitFor(() => {
             expect(
                 screen.getByText((content) => content.includes('Go to settings')),
             ).toBeInTheDocument();

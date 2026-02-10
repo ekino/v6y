@@ -3,7 +3,8 @@
 import * as React from 'react';
 import { ReactNode } from 'react';
 
-import { AdminLayout, TitleView } from '@v6y/ui-kit';
+import AdminLayout from '@v6y/ui-kit/components/organisms/admin/AdminLayout';
+import TitleView from '@v6y/ui-kit/components/organisms/app/TitleView';
 
 import VitalityPageFooter from './VitalityPageFooter';
 import { VitalityPageHeader } from './VitalityPageHeader';

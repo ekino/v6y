@@ -1,19 +1,17 @@
+import { InfoCircledIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import * as React from 'react';
 
 import { AuditType } from '@v6y/core-logic/src/types/AuditType';
-import {
-    Button,
-    Card,
-    Col,
-    InfoCircleOutlined,
-    Row,
-    Statistic,
-    TextView,
-    TitleView,
-    useThemeConfigProvider,
-    useTranslationProvider,
-} from '@v6y/ui-kit';
+import useTranslationProvider from '@v6y/ui-kit-front/translation/useTranslationProvider';
+import Button from '@v6y/ui-kit/components/atoms/app/Button.tsx';
+import Card from '@v6y/ui-kit/components/atoms/app/Card.tsx';
+import { Col } from '@v6y/ui-kit/components/atoms/app/Grid.tsx';
+import { Row } from '@v6y/ui-kit/components/atoms/app/Grid.tsx';
+import Statistic from '@v6y/ui-kit/components/atoms/app/Statistic.tsx';
+import TextView from '@v6y/ui-kit/components/organisms/app/TextView.tsx';
+import TitleView from '@v6y/ui-kit/components/organisms/app/TitleView.tsx';
+import { useThemeConfigProvider } from '@v6y/ui-kit/hooks/useThemeConfigProvider.tsx';
 
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';
 
@@ -41,7 +39,7 @@ const VitalityLighthouseReportItem = ({
                 <Button
                     key="help-button"
                     data-testid="help-button"
-                    icon={<InfoCircleOutlined />}
+                    icon={<InfoCircledIcon />}
                     type="text"
                     onClick={() => onOpenHelpClicked(report as VitalityModuleType)}
                 />,

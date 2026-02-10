@@ -25,6 +25,7 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
+    "@ant-design/icons": "=5.5.1",
     "@refinedev/cli": "=2.16.42",
     "@tanstack/react-query": "=4.36.1",
     "@urql/core": "=6.0.1",

@@ -5,22 +5,14 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import VitalityAppInfos from '../../commons/components/application-info/VitalityAppInfos';
 import { VitalityAppInfosProps } from '../../commons/types/VitalityAppInfosProps';
 
-vi.mock('@v6y/ui-kit-front/hooks/useNavigationAdapter', () => ({
-    useNavigationAdapter: vi.fn(() => ({
-        createUrlQueryParam: vi.fn((name: string, value: string) => `${name}=${value}`),
-        removeUrlQueryParam: vi.fn(),
-        router: {
-            push: vi.fn(),
-            replace: vi.fn(),
-            back: vi.fn(),
-            forward: vi.fn(),
-            refresh: vi.fn(),
-        },
-    })),
-}));
-
 vi.mock('@v6y/ui-kit-front/translation/useTranslationProvider', () => ({
-    useTranslationProvider: vi.fn(() => ({ translate: (k: string) => k })),
+    default: vi.fn(() => ({
+        translate: vi.fn((key) => key),
+        translateHelper: vi.fn((key) => key),
+        i18n: { changeLanguage: vi.fn(), language: 'en' },
+        changeLocale: vi.fn(),
+        getLocale: vi.fn(() => 'en'),
+    })),
 }));
 
 describe('VitalityAppInfos', () => {

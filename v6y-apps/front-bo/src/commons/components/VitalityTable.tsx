@@ -1,6 +1,7 @@
 import * as React from 'react';
 
-import { AdminTableOptions, Table } from '@v6y/ui-kit';
+import Table from '@v6y/ui-kit/components/atoms/app/Table';
+import { AdminTableOptions } from '@v6y/ui-kit/components/types/AdminTableType';
 
 import { buildCommonTableColumns, buildCommonTableDataSource } from '../config/VitalityTableConfig';
 

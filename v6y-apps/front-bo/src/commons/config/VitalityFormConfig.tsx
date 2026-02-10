@@ -1,7 +1,8 @@
 import { Variables } from 'graphql-request';
 
 import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
-import { SelectOptionType, TranslateType } from '@v6y/ui-kit';
+import { SelectOptionType } from '@v6y/ui-kit/components/types/SelectOptionType';
+import { TranslateType } from '@v6y/ui-kit/translation/TranslationType';
 
 import VitalityFormFieldSet from '../components/VitalityFormFieldSet';
 

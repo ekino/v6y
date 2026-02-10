@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import { TextView } from '@v6y/ui-kit';
+import TextView from '@v6y/ui-kit/components/organisms/app/TextView.tsx';
 
 import { CriteriaGroup, DataGrouperParams, DataGrouperReturn } from '../types/DataGrouperType';
 

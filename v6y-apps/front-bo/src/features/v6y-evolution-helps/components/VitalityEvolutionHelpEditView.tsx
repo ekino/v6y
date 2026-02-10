@@ -1,12 +1,10 @@
 import * as React from 'react';
 
 import { EvolutionHelpType } from '@v6y/core-logic/src/types/EvolutionHelpType';
-import {
-    AdminSelectWrapper,
-    TitleView,
-    useAdminNavigationParamsParser,
-    useTranslationProvider,
-} from '@v6y/ui-kit';
+import AdminSelectWrapper from '@v6y/ui-kit/components/organisms/admin/AdminSelectWrapper';
+import TitleView from '@v6y/ui-kit/components/organisms/app/TitleView';
+import { useAdminNavigationParamsParser } from '@v6y/ui-kit/hooks/useAdminNavigationParamsParser';
+import { useTranslationProvider } from '@v6y/ui-kit/translation/useTranslationProvider';
 
 import {
     evolutionHelpCreateEditItems,

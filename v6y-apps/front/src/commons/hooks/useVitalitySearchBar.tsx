@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { useNavigationAdapter } from '@v6y/ui-kit-front/hooks/useNavigationAdapter';
+import useNavigationAdapter from '@v6y/ui-kit-front/hooks/useNavigationAdapter';
 
 import VitalityNavigationPaths from '../config/VitalityNavigationPaths';
 

@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import { ExportOutlined } from '@v6y/ui-kit';
 import { Button } from '@v6y/ui-kit-front/components/atoms/button';
-import { useNavigationAdapter } from '@v6y/ui-kit-front/hooks/useNavigationAdapter';
-import { useTranslationProvider } from '@v6y/ui-kit-front/translation/useTranslationProvider';
+import useNavigationAdapter from '@v6y/ui-kit-front/hooks/useNavigationAdapter';
+import useTranslationProvider from '@v6y/ui-kit-front/translation/useTranslationProvider';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import {
@@ -53,7 +52,6 @@ const VitalityAppListHeader = ({
     return (
         <div className="w-full flex items-center justify-between gap-4">
             <Button onClick={onExportApplicationsClicked}>
-                <ExportOutlined />
                 {translate('vitality.appListPage.exportLabel')}
             </Button>
             <p>{appsTotal} results</p>

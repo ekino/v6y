@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 
-import { Col, EmptyView, Form, Row, Select, TextView } from '@v6y/ui-kit';
+import Form from '@v6y/ui-kit/components/atoms/app/Form.tsx';
+import { Col, Row } from '@v6y/ui-kit/components/atoms/app/Grid.tsx';
+import Select from '@v6y/ui-kit/components/atoms/app/Select.tsx';
+import EmptyView from '@v6y/ui-kit/components/organisms/app/EmptyView.tsx';
+import TextView from '@v6y/ui-kit/components/organisms/app/TextView.tsx';
 
 import useDataGrouper from '../hooks/useDataGrouper';
 import { VitalityDataGrouperProps } from '../types/VitalityDataGrouperProps';

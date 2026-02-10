@@ -1,4 +1,4 @@
-import { AdminTableOptions } from '@v6y/ui-kit/src';
+import { AdminTableOptions } from '@v6y/ui-kit/components/types/AdminTableType';
 
 import VitalityTableRowActions from '../components/VitalityTableRowActions';
 

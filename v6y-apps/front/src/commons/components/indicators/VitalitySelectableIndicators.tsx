@@ -2,14 +2,11 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 
 import { KeywordType } from '@v6y/core-logic/src/types/KeywordType';
-import {
-    Card,
-    Checkbox,
-    CheckboxOptionType,
-    EmptyView,
-    LoaderView,
-    useNavigationAdapter,
-} from '@v6y/ui-kit';
+import useNavigationAdapter from '@v6y/ui-kit-front/hooks/useNavigationAdapter';
+import Card from '@v6y/ui-kit/components/atoms/app/Card.tsx';
+import Checkbox from '@v6y/ui-kit/components/atoms/app/Checkbox.tsx';
+import EmptyView from '@v6y/ui-kit/components/organisms/app/EmptyView.tsx';
+import LoaderView from '@v6y/ui-kit/components/organisms/app/LoaderView.tsx';
 
 import {
     buildClientQuery,
@@ -18,6 +15,11 @@ import {
 import VitalityApiConfig from '../../config/VitalityApiConfig';
 import GetIndicatorListByParams from './getIndicatorListByParams';
 
+interface CheckboxOptionType {
+    label: string;
+    value: string;
+}
+
 interface VitalitySelectableIndicatorsQueryType {
     isLoading: boolean;
     data?: { getApplicationDetailsKeywordsByParams: KeywordType[] };
@@ -25,7 +27,7 @@ interface VitalitySelectableIndicatorsQueryType {
 
 const VitalitySelectableIndicators = () => {
     const [selectedIndicators, setSelectedIndicators] = useState<string[]>();
-    const [indicatorsList, setIndicatorsList] = useState<KeywordType[]>();
+    const [indicatorsList, setIndicatorsList] = useState<CheckboxOptionType[]>();
 
     const { router, pathname, getUrlParams, createUrlQueryParam, removeUrlQueryParam } =
         useNavigationAdapter();
@@ -50,10 +52,12 @@ const VitalitySelectableIndicators = () => {
             (item: KeywordType) => item.label,
         );
 
-        const data = [...new Set(dataSource || [])].map((item) => ({
-            label: item,
-            value: item,
-        }));
+        const data = [...new Set(dataSource || [])]
+            .filter((item): item is string => item !== undefined)
+            .map((item) => ({
+                label: item,
+                value: item,
+            }));
 
         setIndicatorsList(data);
     }, [dataIndicators?.getApplicationDetailsKeywordsByParams]);
@@ -85,7 +89,7 @@ const VitalitySelectableIndicators = () => {
         <Card bordered>
             <Checkbox.Group
                 value={selectedIndicators}
-                options={indicatorsList as CheckboxOptionType[]}
+                options={indicatorsList}
                 onChange={(values) => handleSelectedIndicator(values)}
             />
         </Card>

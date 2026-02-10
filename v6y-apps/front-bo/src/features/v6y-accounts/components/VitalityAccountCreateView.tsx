@@ -4,7 +4,10 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 
 import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
-import { AdminSelectWrapper, EmptyView, TitleView, useTranslationProvider } from '@v6y/ui-kit';
+import AdminSelectWrapper from '@v6y/ui-kit/components/organisms/admin/AdminSelectWrapper.tsx';
+import EmptyView from '@v6y/ui-kit/components/organisms/app/EmptyView.tsx';
+import TitleView from '@v6y/ui-kit/components/organisms/app/TitleView.tsx';
+import { useTranslationProvider } from '@v6y/ui-kit/translation/useTranslationProvider.ts';
 
 import GetApplicationListByPageAndParams from '../../../commons/apis/getApplicationListByPageAndParams';
 import {

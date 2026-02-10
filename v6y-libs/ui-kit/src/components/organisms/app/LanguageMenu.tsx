@@ -1,7 +1,7 @@
+import { DownOutlined } from '@ant-design/icons';
 import * as React from 'react';
 
 import { useTranslationProvider } from '../../../translation/useTranslationProvider';
-import { DownOutlined } from '../../atoms/Icons';
 import Avatar from '../../atoms/app/Avatar';
 import Button from '../../atoms/app/Button';
 import Dropdown from '../../atoms/app/Dropdown';

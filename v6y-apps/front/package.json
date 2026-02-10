@@ -25,6 +25,7 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
+    "@ant-design/icons": "=6.1.0",
     "@tanstack/react-query": "=5.90.2",
     "@tanstack/react-query-devtools": "=5.90.2",
     "@tanstack/react-query-next-experimental": "=5.90.2",

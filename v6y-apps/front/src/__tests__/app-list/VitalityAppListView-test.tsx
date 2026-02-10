@@ -6,7 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import VitalityAppListView from '../../features/app-list/components/VitalityAppListView';
 
 vi.mock('@v6y/ui-kit-front/hooks/useNavigationAdapter', () => ({
-    useNavigationAdapter: vi.fn(() => ({
+    default: vi.fn(() => ({
         createUrlQueryParam: mockCreateUrlQueryParam,
         removeUrlQueryParam: mockRemoveUrlQueryParam,
         router: mockRouter,
@@ -14,6 +14,19 @@ vi.mock('@v6y/ui-kit-front/hooks/useNavigationAdapter', () => ({
         getUrlParams: mockGetUrlParams,
     })),
 }));
+
+vi.mock('@v6y/ui-kit-front/translation/useTranslationProvider', async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+        default: () => ({
+            translate: (key: string) => key,
+            translateHelper: (key: string) => key,
+            i18n: { changeLanguage: vi.fn(), language: 'en' },
+            changeLocale: vi.fn(),
+            getLocale: () => 'en',
+        }),
+    };
+});
 
 const mockRouter = {
     replace: vi.fn(),

@@ -1,10 +1,10 @@
 'use client';
 
-import { GlobeIcon, PlayIcon, ReloadIcon, ShuffleIcon } from 'lucide-react';
+import { ReloadIcon } from '@radix-ui/react-icons';
+import { GlobeIcon, PlayIcon, ShuffleIcon } from 'lucide-react';
 import * as React from 'react';
 
 import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
-import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
 import { Button } from '@v6y/ui-kit-front/components/atoms/button';
 import { Input } from '@v6y/ui-kit-front/components/atoms/input';
 import {
@@ -14,6 +14,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@v6y/ui-kit-front/components/molecules/Select';
+import DynamicLoader from '@v6y/ui-kit/components/organisms/app/DynamicLoader.tsx';
+import useNavigationAdapter from '@v6y/ui-kit/hooks/useNavigationAdapter.tsx';
+import useTranslationProvider from '@v6y/ui-kit/translation/useTranslationProvider.ts';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import { exportAppDetailsDataToCSV } from '../../../commons/utils/VitalityDataExportUtils';

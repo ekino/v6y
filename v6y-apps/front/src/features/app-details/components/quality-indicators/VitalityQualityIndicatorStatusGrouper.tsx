@@ -1,11 +1,11 @@
 import { KeywordType } from '@v6y/core-logic/src/types/KeywordType';
-import { useTranslationProvider } from '@v6y/ui-kit';
 import {
     Card,
     CardContent,
     CardHeader,
     CardTitle,
 } from '@v6y/ui-kit-front/components/molecules/Card';
+import useTranslationProvider from '@v6y/ui-kit-front/translation/useTranslationProvider';
 
 const VitalityQualityIndicatorStatusGrouper = ({ indicators }: { indicators: KeywordType[] }) => {
     const { translate } = useTranslationProvider();

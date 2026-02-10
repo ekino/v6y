@@ -1,13 +1,11 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import {
-    DynamicLoader,
-    ModalView,
-    PaginatedList,
-    TitleView,
-    useTranslationProvider,
-} from '@v6y/ui-kit';
+import useTranslationProvider from '@v6y/ui-kit-front/translation/useTranslationProvider';
+import DynamicLoader from '@v6y/ui-kit/components/organisms/app/DynamicLoader.tsx';
+import ModalView from '@v6y/ui-kit/components/organisms/app/ModalView.tsx';
+import PaginatedList from '@v6y/ui-kit/components/organisms/app/PaginatedList.tsx';
+import TitleView from '@v6y/ui-kit/components/organisms/app/TitleView.tsx';
 
 import { VitalityModuleType, VitalityModulesProps } from '../../types/VitalityModulesProps';
 import VitalityModuleListItem from './VitalityModuleListItem';

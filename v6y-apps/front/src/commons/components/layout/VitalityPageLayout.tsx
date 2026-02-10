@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { ReactNode } from 'react';
 
-import { Toaster } from '@v6y/ui-kit-front';
+import { Toaster } from '@v6y/ui-kit-front/components/atoms/sonner';
 
 import VitalityBreadcrumb from './VitalityBreadcrumb';
 import VitalityPageHeader from './VitalityPageHeader';

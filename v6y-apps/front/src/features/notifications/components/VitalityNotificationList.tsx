@@ -1,5 +1,7 @@
 import { NotificationType } from '@v6y/core-logic/src/types/NotificationType';
-import { CollapseItemType, CollapseView, Links } from '@v6y/ui-kit';
+import CollapseView from '@v6y/ui-kit/components/organisms/app/CollapseView.tsx';
+import Links from '@v6y/ui-kit/components/organisms/app/Links.tsx';
+import { CollapseItemType } from '@v6y/ui-kit/components/types/CollapseType.ts';
 
 const VitalityNotificationList = ({ dataSource }: { dataSource?: NotificationType[] }) => {
     if (!dataSource?.length) {

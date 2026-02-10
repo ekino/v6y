@@ -1,15 +1,11 @@
+import { ExitIcon, MagnifyingGlassIcon, QuestionMarkCircledIcon } from '@radix-ui/react-icons';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import {
-    Button,
-    ExitIcon,
-    LanguageMenu,
-    MagnifyingGlassIcon,
-    QuestionMarkCircledIcon,
-    TypographySmall,
-    useTranslationProvider,
-} from '@v6y/ui-kit-front';
+import { Button } from '@v6y/ui-kit-front/components/atoms/button';
+import { TypographySmall } from '@v6y/ui-kit-front/components/molecules/Typography';
+import { LanguageMenu } from '@v6y/ui-kit-front/components/organisms/LanguageMenu';
+import useTranslationProvider from '@v6y/ui-kit-front/translation/useTranslationProvider';
 
 import { getSession } from '../../../infrastructure/providers/SessionProvider';
 import VitalityNavigationPaths from '../../config/VitalityNavigationPaths';

@@ -1,9 +1,11 @@
 'use client';
 
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import * as React from 'react';
 
-import { MagnifyingGlassIcon, useTranslationProvider } from '@v6y/ui-kit-front';
-import { Button, Input } from '@v6y/ui-kit-front';
+import { Button } from '@v6y/ui-kit-front/components/atoms/button';
+import { Input } from '@v6y/ui-kit-front/components/atoms/input';
+import useTranslationProvider from '@v6y/ui-kit-front/translation/useTranslationProvider';
 
 import { useVitalitySearchBar } from '../hooks/useVitalitySearchBar';
 import { VitalitySearchBarProps } from '../types/VitalitySearchBarProps';

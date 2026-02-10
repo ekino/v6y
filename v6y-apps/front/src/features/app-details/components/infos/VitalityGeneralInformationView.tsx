@@ -1,6 +1,5 @@
 import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
 import { AuditType } from '@v6y/core-logic/src/types/AuditType';
-import { LoaderView, useTranslationProvider } from '@v6y/ui-kit';
 import { Skeleton } from '@v6y/ui-kit-front/components/atoms/skeleton';
 import {
     Card,
@@ -8,7 +7,9 @@ import {
     CardHeader,
     CardTitle,
 } from '@v6y/ui-kit-front/components/molecules/Card';
-import { useNavigationAdapter } from '@v6y/ui-kit-front/hooks/useNavigationAdapter';
+import useNavigationAdapter from '@v6y/ui-kit-front/hooks/useNavigationAdapter';
+import LoaderView from '@v6y/ui-kit/components/organisms/app/LoaderView.tsx';
+import useTranslationProvider from '@v6y/ui-kit/translation/useTranslationProvider.ts';
 
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
 import { getGradeFromScore } from '../../../../commons/utils/ScoreUtils';

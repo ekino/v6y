@@ -1,13 +1,13 @@
 import { DependencyType } from '@v6y/core-logic/src/types/DependencyType';
-import { useTranslationProvider } from '@v6y/ui-kit';
 import {
     Card,
     CardContent,
     CardHeader,
     CardTitle,
 } from '@v6y/ui-kit-front/components/molecules/Card';
+import useTranslationProvider from '@v6y/ui-kit-front/translation/useTranslationProvider';
 
-import { getScoreStatusColor } from '../../../../commons/utils/ColorsByStatusUtils';
+import { getScoreStatusColor } from '../../../../commons/utils/StatusUtils';
 
 const VitalityDependenciesStatusGrouper = ({
     dependencies,

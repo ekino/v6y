@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { useTranslationProvider } from '../../translation/useTranslationProvider';
+import useTranslationProvider from '../../translation/useTranslationProvider';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '../molecules/Select';
 
 const languages = [

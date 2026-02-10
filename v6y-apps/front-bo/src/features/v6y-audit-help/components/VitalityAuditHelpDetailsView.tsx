@@ -1,13 +1,11 @@
 import * as React from 'react';
 
 import { AuditHelpType } from '@v6y/core-logic/src/types/AuditHelpType';
-import {
-    AdminHttpError,
-    AdminShowWrapper,
-    TitleView,
-    useAdminNavigationParamsParser,
-    useTranslationProvider,
-} from '@v6y/ui-kit';
+import { AdminHttpError } from '@v6y/ui-kit/api/types/AdminHttpError';
+import AdminShowWrapper from '@v6y/ui-kit/components/organisms/admin/AdminShowWrapper';
+import TitleView from '@v6y/ui-kit/components/organisms/app/TitleView';
+import { useAdminNavigationParamsParser } from '@v6y/ui-kit/hooks/useAdminNavigationParamsParser';
+import { useTranslationProvider } from '@v6y/ui-kit/translation/useTranslationProvider';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';
 import { formatAuditHelpDetails } from '../../../commons/config/VitalityDetailsConfig';

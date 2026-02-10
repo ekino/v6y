@@ -9,7 +9,8 @@ import { EvolutionHelpType } from '@v6y/core-logic/src/types/EvolutionHelpType';
 import { FaqType } from '@v6y/core-logic/src/types/FaqType';
 import { LinkType } from '@v6y/core-logic/src/types/LinkType';
 import { NotificationType } from '@v6y/core-logic/src/types/NotificationType';
-import { Links, TranslateType } from '@v6y/ui-kit';
+import Links from '@v6y/ui-kit/components/organisms/app/Links';
+import { TranslateType } from '@v6y/ui-kit/translation/TranslationType';
 
 export const formatAccountDetails = (
     translate: TranslateType,

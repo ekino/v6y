@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { ReactNode } from 'react';
 
-import { AdminHttpError, Descriptions, TextView } from '@v6y/ui-kit';
+import { AdminHttpError } from '@v6y/ui-kit/api/types/AdminHttpError';
+import Descriptions from '@v6y/ui-kit/components/atoms/app/Descriptions';
+import TextView from '@v6y/ui-kit/components/organisms/app/TextView.tsx';
 
 import VitalityMessageView from './VitalityMessageView';
 

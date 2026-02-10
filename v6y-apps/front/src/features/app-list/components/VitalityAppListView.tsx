@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 
-import { DynamicLoader } from '@v6y/ui-kit';
 import { Badge } from '@v6y/ui-kit-front/components/atoms/badge';
 import { Checkbox } from '@v6y/ui-kit-front/components/atoms/checkbox';
 import {
@@ -13,8 +12,9 @@ import {
     CardTitle,
 } from '@v6y/ui-kit-front/components/molecules/Card';
 import { TypographyH3 } from '@v6y/ui-kit-front/components/molecules/Typography';
-import { useNavigationAdapter } from '@v6y/ui-kit-front/hooks/useNavigationAdapter';
-import { useTranslationProvider } from '@v6y/ui-kit-front/translation/useTranslationProvider';
+import useNavigationAdapter from '@v6y/ui-kit-front/hooks/useNavigationAdapter';
+import useTranslationProvider from '@v6y/ui-kit-front/translation/useTranslationProvider';
+import DynamicLoader from '@v6y/ui-kit/components/organisms/app/DynamicLoader.tsx';
 
 const VitalityAppList = DynamicLoader(() => import('./VitalityAppList'));
 

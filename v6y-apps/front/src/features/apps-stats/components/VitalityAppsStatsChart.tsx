@@ -2,14 +2,12 @@ import * as React from 'react';
 import { useEffect } from 'react';
 
 import { KeywordStatsType } from '@v6y/core-logic/src/types/KeywordType';
-import {
-    Charts,
-    Col,
-    LoaderView,
-    Row,
-    useNavigationAdapter,
-    useTranslationProvider,
-} from '@v6y/ui-kit';
+import Charts from '@v6y/ui-kit/components/atoms/app/Charts.tsx';
+import { Col } from '@v6y/ui-kit/components/atoms/app/Grid.tsx';
+import { Row } from '@v6y/ui-kit/components/atoms/app/Grid.tsx';
+import LoaderView from '@v6y/ui-kit/components/organisms/app/LoaderView.tsx';
+import useNavigationAdapter from '@v6y/ui-kit/hooks/useNavigationAdapter.tsx';
+import useTranslationProvider from '@v6y/ui-kit/translation/useTranslationProvider.ts';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import {

@@ -23,6 +23,7 @@
     "./components/molecules/navigation-menu": "./src/components/molecules/navigation-menu.tsx",
     "./components/molecules/pagination": "./src/components/molecules/pagination.tsx",
     "./components/organisms/LanguageMenu": "./src/components/organisms/LanguageMenu.tsx",
+    "./components/atoms/sonner": "./src/components/atoms/sonner.tsx",
     "./hooks/useNavigationAdapter": "./src/hooks/useNavigationAdapter.ts",
     "./translation/useTranslationProvider": "./src/translation/useTranslationProvider.ts",
     "./lib/utils": "./src/lib/utils.ts",

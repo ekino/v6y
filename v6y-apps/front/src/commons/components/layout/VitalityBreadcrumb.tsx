@@ -7,9 +7,9 @@ import {
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
-    useNavigationAdapter,
-    useTranslationProvider,
-} from '@v6y/ui-kit-front';
+} from '@v6y/ui-kit-front/components/atoms/breadcrumb';
+import useNavigationAdapter from '@v6y/ui-kit-front/hooks/useNavigationAdapter';
+import useTranslationProvider from '@v6y/ui-kit-front/translation/useTranslationProvider';
 
 import { buildBreadCrumbItems } from '../../config/VitalityCommonConfig';
 

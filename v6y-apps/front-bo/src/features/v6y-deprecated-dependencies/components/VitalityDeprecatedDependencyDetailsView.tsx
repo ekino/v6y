@@ -1,12 +1,10 @@
 import * as React from 'react';
 
 import { DeprecatedDependencyType } from '@v6y/core-logic/src/types/DeprecatedDependencyType';
-import {
-    AdminShowWrapper,
-    TitleView,
-    useAdminNavigationParamsParser,
-    useTranslationProvider,
-} from '@v6y/ui-kit';
+import AdminShowWrapper from '@v6y/ui-kit/components/organisms/admin/AdminShowWrapper';
+import TitleView from '@v6y/ui-kit/components/organisms/app/TitleView';
+import { useAdminNavigationParamsParser } from '@v6y/ui-kit/hooks/useAdminNavigationParamsParser';
+import { useTranslationProvider } from '@v6y/ui-kit/translation/useTranslationProvider';
 
 import VitalityDetailsView from '../../../commons/components/VitalityDetailsView';
 import { formatDeprecatedDependencyDetails } from '../../../commons/config/VitalityDetailsConfig';

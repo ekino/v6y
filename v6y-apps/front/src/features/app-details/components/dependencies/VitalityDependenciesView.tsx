@@ -1,8 +1,10 @@
 import * as React from 'react';
 
 import { DependencyType } from '@v6y/core-logic/src/types/DependencyType';
-import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
 import { Card, CardContent } from '@v6y/ui-kit-front/components/molecules/Card';
+import DynamicLoader from '@v6y/ui-kit/components/organisms/app/DynamicLoader.tsx';
+import useNavigationAdapter from '@v6y/ui-kit/hooks/useNavigationAdapter.tsx';
+import useTranslationProvider from '@v6y/ui-kit/translation/useTranslationProvider.ts';
 
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
 import {

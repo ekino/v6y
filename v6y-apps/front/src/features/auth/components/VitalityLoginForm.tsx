@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
+import { useForm } from 'react-hook-form';
 
-import { useForm } from '@v6y/ui-kit';
 import { Button } from '@v6y/ui-kit-front/components/atoms/button';
 import { Input } from '@v6y/ui-kit-front/components/atoms/input';
 import { toast } from '@v6y/ui-kit-front/components/atoms/sonnerHelpers';
@@ -21,7 +21,7 @@ import {
     FormLabel,
     FormMessage,
 } from '@v6y/ui-kit-front/components/molecules/Form';
-import { useTranslationProvider } from '@v6y/ui-kit-front/translation/useTranslationProvider';
+import useTranslationProvider from '@v6y/ui-kit-front/translation/useTranslationProvider';
 
 import {
     LoginAccountFormType,

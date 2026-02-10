@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { AdminProvider } from '@v6y/ui-kit';
+import AdminProvider from '@v6y/ui-kit/providers/admin/AdminProvider';
 
 import VitalityPageLayout from '../../commons/components/layout/VitalityPageLayout';
 import { VitalityRoutes } from '../../commons/config/VitalityNavigationConfig';

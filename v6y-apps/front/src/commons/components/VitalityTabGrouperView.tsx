@@ -1,6 +1,6 @@
-import * as React from 'react';
-
-import { Col, EmptyView, Row, Tabs } from '@v6y/ui-kit';
+import { Col, Row } from '@v6y/ui-kit/components/atoms/app/Grid.tsx';
+import Tabs from '@v6y/ui-kit/components/atoms/app/Tabs.tsx';
+import EmptyView from '@v6y/ui-kit/components/organisms/app/EmptyView.tsx';
 
 import useDataGrouper from '../hooks/useDataGrouper';
 import { VitalityDataGrouperProps } from '../types/VitalityDataGrouperProps';

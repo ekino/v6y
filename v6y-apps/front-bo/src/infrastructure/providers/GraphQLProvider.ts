@@ -2,7 +2,11 @@ import { Client, fetchExchange } from '@urql/core';
 import { createClient } from 'graphql-ws';
 import Cookie from 'js-cookie';
 
-import { AdminAuthProviderType, createDataProvider, createLiveProvider } from '@v6y/ui-kit';
+import {
+    createDataProvider,
+    createLiveProvider,
+} from '@v6y/ui-kit/providers/admin/AdminDataProvider';
+import { AdminAuthProviderType } from '@v6y/ui-kit/providers/types/AdminAuthProviderType';
 
 const wsClient = createClient({
     url: process.env.NEXT_PUBLIC_V6Y_BFF_PATH as string,

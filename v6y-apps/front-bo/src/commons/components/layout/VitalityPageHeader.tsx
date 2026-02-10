@@ -2,7 +2,12 @@
 
 import * as React from 'react';
 
-import { Avatar, LanguageMenu, Layout, Space, TextView, useAdminGetIdentity } from '@v6y/ui-kit';
+import Avatar from '@v6y/ui-kit/components/atoms/app/Avatar';
+import Layout from '@v6y/ui-kit/components/atoms/app/Layout';
+import Space from '@v6y/ui-kit/components/atoms/app/Space';
+import LanguageMenu from '@v6y/ui-kit/components/organisms/app/LanguageMenu';
+import TextView from '@v6y/ui-kit/components/organisms/app/TextView.tsx';
+import { useAdminGetIdentity as useAdminEntity } from '@v6y/ui-kit/hooks/useAdminGetIdentity';
 
 interface UserType {
     data: {
@@ -12,7 +17,7 @@ interface UserType {
 }
 
 export const VitalityPageHeader = () => {
-    const { data: user } = useAdminGetIdentity() as UserType;
+    const { data: user } = useAdminEntity<UserType>();
 
     return (
         <Layout.Header>

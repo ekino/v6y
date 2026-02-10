@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 import { AuditType } from '@v6y/core-logic/src/types/AuditType';
-import { DynamicLoader, useTranslationProvider } from '@v6y/ui-kit';
+import useTranslationProvider from '@v6y/ui-kit-front/translation/useTranslationProvider';
+import DynamicLoader from '@v6y/ui-kit/components/organisms/app/DynamicLoader.tsx';
 
 import VitalitySelectGrouperView from '../../../../../../commons/components/VitalitySelectGrouperView';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';

@@ -2,14 +2,12 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 
 import { AuditType } from '@v6y/core-logic/src/types/AuditType';
-import {
-    DynamicLoader,
-    List,
-    ModalView,
-    PaginatedList,
-    TitleView,
-    useTranslationProvider,
-} from '@v6y/ui-kit';
+import { List } from '@v6y/ui-kit/components/atoms/app/List.tsx';
+import DynamicLoader from '@v6y/ui-kit/components/organisms/app/DynamicLoader.tsx';
+import ModalView from '@v6y/ui-kit/components/organisms/app/ModalView.tsx';
+import PaginatedList from '@v6y/ui-kit/components/organisms/app/PaginatedList.tsx';
+import TitleView from '@v6y/ui-kit/components/organisms/app/TitleView.tsx';
+import useTranslationProvider from '@v6y/ui-kit/translation/useTranslationProvider.ts';
 
 import useDataGrouper from '../../../../../../commons/hooks/useDataGrouper';
 import { VitalityModuleType } from '../../../../../../commons/types/VitalityModulesProps';

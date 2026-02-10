@@ -3,7 +3,7 @@
 import { TFunction } from 'i18next';
 import { useTranslation as useNextTranslate } from 'react-i18next';
 
-export const useTranslationProvider = () => {
+const useTranslationProvider = () => {
     const { t, i18n } = useNextTranslate();
 
     return {
@@ -16,3 +16,7 @@ export const useTranslationProvider = () => {
         getLocale: () => i18n.language,
     };
 };
+
+export default useTranslationProvider;
+
+export { useTranslationProvider };

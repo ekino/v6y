@@ -4,8 +4,8 @@ import Link from 'next/link';
 
 import { Badge } from '@v6y/ui-kit-front/components/atoms/badge';
 import { Button } from '@v6y/ui-kit-front/components/atoms/button';
-import { useNavigationAdapter } from '@v6y/ui-kit-front/hooks/useNavigationAdapter';
-import { useTranslationProvider } from '@v6y/ui-kit-front/translation/useTranslationProvider';
+import useNavigationAdapter from '@v6y/ui-kit-front/hooks/useNavigationAdapter';
+import useTranslationProvider from '@v6y/ui-kit-front/translation/useTranslationProvider';
 
 import VitalityNavigationPaths from '../../config/VitalityNavigationPaths';
 import { VitalityAppInfosProps } from '../../types/VitalityAppInfosProps';

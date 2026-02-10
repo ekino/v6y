@@ -1,4 +1,8 @@
-import { AdminTableOptions, DeleteButton, EditButton, ShowButton, Space } from '@v6y/ui-kit';
+import DeleteButton from '@v6y/ui-kit/components/atoms/admin/DeleteButton';
+import EditButton from '@v6y/ui-kit/components/atoms/admin/EditButton';
+import ShowButton from '@v6y/ui-kit/components/atoms/admin/ShowButton';
+import Space from '@v6y/ui-kit/components/atoms/app/Space';
+import { AdminTableOptions } from '@v6y/ui-kit/components/types/AdminTableType';
 
 type TableRowActionType<T> = T & {
     _id: string;

@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Suspense, lazy, useEffect, useState } from 'react';
 import { Flow, Settings } from 'react-chatbotify';
 
-import { LoaderView } from '@v6y/ui-kit';
+import LoaderView from '@v6y/ui-kit/components/organisms/app/LoaderView.tsx';
 
 import { VitalityBotFlow } from './VitalityBotFlow';
 import VitalityBotSettings from './VitalityBotSettings';

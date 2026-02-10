@@ -1,6 +1,9 @@
 import * as React from 'react';
 
-import { Form, Input, Select, SelectOptionType } from '@v6y/ui-kit';
+import Form from '@v6y/ui-kit/components/atoms/app/Form.tsx';
+import Input from '@v6y/ui-kit/components/atoms/app/Input.tsx';
+import Select from '@v6y/ui-kit/components/atoms/app/Select.tsx';
+import { SelectOptionType } from '@v6y/ui-kit/components/types/SelectOptionType.ts';
 
 interface VitalityFormFieldSetProps {
     groupTitle?: string;

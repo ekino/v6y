@@ -3,7 +3,7 @@
 import { ChatBubbleIcon, EnvelopeClosedIcon } from '@radix-ui/react-icons';
 
 import { Card } from '@v6y/ui-kit-front/components/molecules/Card';
-import { useTranslationProvider } from '@v6y/ui-kit-front/translation/useTranslationProvider';
+import useTranslationProvider from '@v6y/ui-kit-front/translation/useTranslationProvider';
 
 import { ContactForm } from './VitalityContactPageForm';
 

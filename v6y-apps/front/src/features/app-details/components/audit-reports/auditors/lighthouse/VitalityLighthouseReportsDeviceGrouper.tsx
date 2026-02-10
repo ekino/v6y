@@ -1,7 +1,5 @@
-import * as React from 'react';
-
 import { AuditType } from '@v6y/core-logic/src/types/AuditType';
-import { DynamicLoader } from '@v6y/ui-kit';
+import DynamicLoader from '@v6y/ui-kit/components/organisms/app/DynamicLoader.tsx';
 
 import VitalityTabGrouperView from '../../../../../../commons/components/VitalityTabGrouperView';
 

@@ -4,13 +4,11 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 
 import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
-import {
-    AdminSelectWrapper,
-    EmptyView,
-    TitleView,
-    useAdminNavigationParamsParser,
-    useTranslationProvider,
-} from '@v6y/ui-kit';
+import AdminSelectWrapper from '@v6y/ui-kit/components/organisms/admin/AdminSelectWrapper';
+import EmptyView from '@v6y/ui-kit/components/organisms/app/EmptyView';
+import TitleView from '@v6y/ui-kit/components/organisms/app/TitleView';
+import { useAdminNavigationParamsParser } from '@v6y/ui-kit/hooks/useAdminNavigationParamsParser';
+import { useTranslationProvider } from '@v6y/ui-kit/translation/useTranslationProvider';
 
 import GetApplicationListByPageAndParams from '../../../commons/apis/getApplicationListByPageAndParams';
 import {

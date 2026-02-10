@@ -3,7 +3,8 @@
 import * as React from 'react';
 import { Suspense } from 'react';
 
-import { AdminAuthenticatedWrapper, AdminErrorView } from '@v6y/ui-kit';
+import AdminErrorView from '@v6y/ui-kit/components/organisms/admin/AdminErrorView';
+import AdminAuthenticatedWrapper from '@v6y/ui-kit/components/pages/admin/AdminAuthenticatedWrapper';
 
 export default function NotFound() {
     return (

@@ -1,22 +1,18 @@
+import { InfoCircledIcon } from '@radix-ui/react-icons';
 import * as React from 'react';
 
 import { auditStatus } from '@v6y/core-logic/src/config/AuditHelpConfig';
-import {
-    Avatar,
-    Button,
-    Card,
-    Divider,
-    EmptyView,
-    InfoCircleOutlined,
-    ListItem,
-    ListItemMeta,
-    PushpinOutlined,
-    Space,
-    Statistic,
-    TextView,
-    useThemeConfigProvider,
-    useTranslationProvider,
-} from '@v6y/ui-kit';
+import useTranslationProvider from '@v6y/ui-kit-front/translation/useTranslationProvider';
+import Avatar from '@v6y/ui-kit/components/atoms/app/Avatar.tsx';
+import Button from '@v6y/ui-kit/components/atoms/app/Button.tsx';
+import Card from '@v6y/ui-kit/components/atoms/app/Card.tsx';
+import Divider from '@v6y/ui-kit/components/atoms/app/Divider.tsx';
+import { ListItem, ListItemMeta } from '@v6y/ui-kit/components/atoms/app/List.tsx';
+import Space from '@v6y/ui-kit/components/atoms/app/Space.tsx';
+import Statistic from '@v6y/ui-kit/components/atoms/app/Statistic.tsx';
+import EmptyView from '@v6y/ui-kit/components/organisms/app/EmptyView.tsx';
+import TextView from '@v6y/ui-kit/components/organisms/app/TextView.tsx';
+import { useThemeConfigProvider } from '@v6y/ui-kit/hooks/useThemeConfigProvider.tsx';
 
 import { VitalityModuleType } from '../../types/VitalityModulesProps';
 
@@ -47,7 +43,7 @@ const VitalityModuleListItem = ({ module, onModuleClicked }: VitalityModuleItemP
                         {(hasAuditHelp || hasDependencyStatusHelp || hasEvolutionHelp) && (
                             <Button
                                 type="text"
-                                icon={<InfoCircleOutlined />}
+                                icon={<InfoCircledIcon />}
                                 onClick={() => {
                                     onModuleClicked(module);
                                 }}
@@ -66,7 +62,7 @@ const VitalityModuleListItem = ({ module, onModuleClicked }: VitalityModuleItemP
                                         'disabled'
                                 ],
                         }}
-                        icon={<PushpinOutlined />}
+                        icon={<InfoCircledIcon />}
                     />
                 }
                 description={

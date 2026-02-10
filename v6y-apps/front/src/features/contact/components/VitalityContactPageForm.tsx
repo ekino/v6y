@@ -3,7 +3,12 @@
 import type React from 'react';
 import { useState } from 'react';
 
-import { Button, Card, Input, Label, Textarea, useTranslationProvider } from '@v6y/ui-kit-front';
+import { Button } from '@v6y/ui-kit-front/components/atoms/button';
+import { Input } from '@v6y/ui-kit-front/components/atoms/input';
+import { Label } from '@v6y/ui-kit-front/components/atoms/label';
+import { Textarea } from '@v6y/ui-kit-front/components/atoms/textarea';
+import { Card } from '@v6y/ui-kit-front/components/molecules/Card';
+import useTranslationProvider from '@v6y/ui-kit-front/translation/useTranslationProvider';
 
 export function ContactForm() {
     const { translate } = useTranslationProvider();

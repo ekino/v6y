@@ -1,6 +1,13 @@
-import { AdminMessageType, Result, SmileOutlined, useTranslationProvider } from '@v6y/ui-kit';
+import { SmileOutlined } from '@ant-design/icons';
 
-const VitalityMessageView = ({ type }: AdminMessageType) => {
+import Result from '@v6y/ui-kit/components/atoms/app/Result';
+import useTranslationProvider from '@v6y/ui-kit/translation/useTranslationProvider';
+
+type VitalityMessageViewProps = {
+    type: 'error' | 'coming-soon';
+};
+
+const VitalityMessageView = ({ type }: VitalityMessageViewProps) => {
     const { translate } = useTranslationProvider();
     return (
         <>

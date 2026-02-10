@@ -1,17 +1,17 @@
-import Link from 'next/link';
-import * as React from 'react';
-import { ReactNode } from 'react';
-
-import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
-import { Matcher } from '@v6y/core-logic/src/utils';
 import {
     ApiOutlined,
     AppstoreAddOutlined,
     DashboardOutlined,
     PieChartOutlined,
     SplitCellsOutlined,
-    ThemeTokenType,
-} from '@v6y/ui-kit';
+} from '@ant-design/icons';
+import Link from 'next/link';
+import * as React from 'react';
+import { ReactNode } from 'react';
+
+import { ApplicationType } from '@v6y/core-logic/src/types/ApplicationType';
+import { Matcher } from '@v6y/core-logic/src/utils';
+import { ThemeTokenType } from '@v6y/ui-kit/theme/types/ThemeProps.ts';
 
 import VitalityNavigationPaths from './VitalityNavigationPaths';
 

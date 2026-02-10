@@ -1,6 +1,8 @@
 import * as React from 'react';
 
-import { AdminCreateWrapper, TitleView, useTranslationProvider } from '@v6y/ui-kit';
+import AdminCreateWrapper from '@v6y/ui-kit/components/organisms/admin/AdminCreateWrapper';
+import TitleView from '@v6y/ui-kit/components/organisms/app/TitleView';
+import useTranslationProvider from '@v6y/ui-kit/translation/useTranslationProvider';
 
 import {
     applicationCreateEditItems,

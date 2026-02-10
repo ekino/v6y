@@ -1,9 +1,10 @@
 'use client';
 
+import { NotificationOutlined } from '@ant-design/icons';
 import * as React from 'react';
 
 import { NotificationType } from '@v6y/core-logic/src/types/NotificationType';
-import { NotificationOutlined, useTranslationProvider } from '@v6y/ui-kit';
+import useTranslationProvider from '@v6y/ui-kit-front/translation/useTranslationProvider';
 
 import VitalitySectionView from '../../../commons/components/VitalitySectionView';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';

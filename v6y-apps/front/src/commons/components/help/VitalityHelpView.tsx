@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 import { Matcher } from '@v6y/core-logic/src/utils';
-import { Descriptions, useTranslationProvider } from '@v6y/ui-kit';
+import useTranslationProvider from '@v6y/ui-kit-front/translation/useTranslationProvider';
+import Descriptions from '@v6y/ui-kit/components/atoms/app/Descriptions.tsx';
 
 import { VitalityModuleType } from '../../types/VitalityModulesProps';
 

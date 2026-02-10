@@ -1,6 +1,6 @@
 import { CSSProperties, ReactNode } from 'react';
 
-import { ListGridType } from '@v6y/ui-kit';
+// Remove this import - ListGridType is not exported
 
 export interface VitalityListProps {
     dataSource: unknown[];
