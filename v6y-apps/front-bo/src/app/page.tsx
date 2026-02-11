@@ -8,7 +8,7 @@ import { AdminAuthenticatedWrapper, AdminNavigationWrapper } from '@v6y/ui-kit';
 export default function IndexPage() {
     return (
         <Suspense>
-            <AdminAuthenticatedWrapper key="home-page">
+            <AdminAuthenticatedWrapper>
                 <AdminNavigationWrapper />
             </AdminAuthenticatedWrapper>
         </Suspense>
