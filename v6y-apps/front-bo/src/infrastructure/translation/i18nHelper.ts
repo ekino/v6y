@@ -9,7 +9,6 @@ import { initReactI18next } from 'react-i18next';
 // This is a known issue in @refinedev/antd that will be fixed in future versions
 if (typeof window !== 'undefined') {
     const originalWarn = console.warn;
-    const originalError = console.error;
 
     console.warn = (...args: unknown[]) => {
         if (

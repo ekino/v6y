@@ -1,20 +1,29 @@
 'use client';
 
+import Image from 'next/image';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
-import { AdminLayout, TitleView } from '@v6y/ui-kit';
-
-import VitalityPageFooter from './VitalityPageFooter';
-import { VitalityPageHeader } from './VitalityPageHeader';
+import { AdminLayout, useAdminGetIdentity } from '@v6y/ui-kit';
 
 const VitalityPageLayout = ({ children }: { children: ReactNode }) => {
+    const { data: user } = useAdminGetIdentity();
+
+    const title = React.useCallback(
+        () => (
+            <Image
+                width={150}
+                height={40}
+                loading="lazy"
+                src="/vitality_logo.svg"
+                alt="Vitality Logo"
+            />
+        ),
+        [],
+    );
+
     return (
-        <AdminLayout
-            title={() => <TitleView level={1} title="V6Y" />}
-            header={() => <VitalityPageHeader />}
-            footer={() => <VitalityPageFooter />}
-        >
+        <AdminLayout title={title} displaySider={!!user}>
             {children}
         </AdminLayout>
     );
