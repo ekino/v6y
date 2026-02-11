@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 
 import AppProvider from '../infrastructure/providers/AppProvider';
 import '../infrastructure/translation/i18nHelper';
+import './globals.css';
 
 export const metadata = {
     title: 'Vitality Back Office (V6Y BO)',
