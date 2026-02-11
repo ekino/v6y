@@ -212,19 +212,19 @@ const VitalityAuditReportsSection = ({
                                 <table className="w-full min-w-full">
                                     <thead className="bg-white border-b border-slate-200">
                                         <tr>
-                                            <th className="text-left px-6 py-3 text-xs font-semibold text-gray-700">
+                                            <th className="text-left px-4 md:px-6 py-3 text-xs font-semibold text-gray-700">
                                                 Category
                                             </th>
-                                            <th className="text-left px-6 py-3 text-xs font-semibold text-gray-700">
+                                            <th className="text-left px-4 md:px-6 py-3 text-xs font-semibold text-gray-700 hidden md:table-cell">
                                                 Subcategory
                                             </th>
-                                            <th className="text-left px-6 py-3 text-xs font-semibold text-gray-700">
+                                            <th className="text-left px-4 md:px-6 py-3 text-xs font-semibold text-gray-700">
                                                 Location
                                             </th>
-                                            <th className="text-center px-6 py-3 text-xs font-semibold text-gray-700">
+                                            <th className="text-center px-4 md:px-6 py-3 text-xs font-semibold text-gray-700">
                                                 Score
                                             </th>
-                                            <th className="text-center px-6 py-3 text-xs font-semibold text-gray-700">
+                                            <th className="text-center px-4 md:px-6 py-3 text-xs font-semibold text-gray-700">
                                                 Status
                                             </th>
                                         </tr>
@@ -237,15 +237,15 @@ const VitalityAuditReportsSection = ({
                                                     index % 2 === 0 ? 'bg-white' : 'bg-slate-50'
                                                 }
                                             >
-                                                <td className="px-6 py-3 text-sm font-medium text-gray-900">
+                                                <td className="px-4 md:px-6 py-3 text-sm font-medium text-gray-900">
                                                     {report.category || 'Uncategorized'}
                                                 </td>
-                                                <td className="px-6 py-3 text-sm font-medium text-gray-900">
+                                                <td className="px-4 md:px-6 py-3 text-sm font-medium text-gray-900 hidden md:table-cell">
                                                     {report.subCategory || '-'}
                                                 </td>
-                                                <td className="px-6 py-3 text-sm text-gray-600">
+                                                <td className="px-4 md:px-6 py-3 text-sm text-gray-600">
                                                     <div className="flex items-center gap-2">
-                                                        <div className="max-w-[80px] truncate text-xs">
+                                                        <div className="max-w-[60px] md:max-w-[80px] truncate text-xs">
                                                             {report.module?.branch && (
                                                                 <div>{report.module.branch}</div>
                                                             )}
@@ -286,7 +286,7 @@ const VitalityAuditReportsSection = ({
                                                         )}
                                                     </div>
                                                 </td>
-                                                <td className="px-6 py-3 text-sm text-center">
+                                                <td className="px-4 md:px-6 py-3 text-sm text-center">
                                                     {report.score !== undefined &&
                                                     report.score !== null ? (
                                                         <div>
@@ -305,7 +305,7 @@ const VitalityAuditReportsSection = ({
                                                         <span className="text-gray-400">-</span>
                                                     )}
                                                 </td>
-                                                <td className="px-6 py-3 text-sm text-center">
+                                                <td className="px-4 md:px-6 py-3 text-sm text-center">
                                                     <Badge
                                                         className={getStatusColor(
                                                             report.scoreStatus || '',
