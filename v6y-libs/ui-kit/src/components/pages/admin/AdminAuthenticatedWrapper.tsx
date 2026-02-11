@@ -3,10 +3,11 @@ import * as React from 'react';
 
 type AdminAuthenticatedViewProps = {
     children: React.ReactNode;
+    key: string;
 };
 
-const AdminAuthenticatedWrapper = ({ children }: AdminAuthenticatedViewProps) => (
-    <Authenticated key="authenticated" v3LegacyAuthProviderCompatible={false}>
+const AdminAuthenticatedWrapper = ({ children, key }: AdminAuthenticatedViewProps) => (
+    <Authenticated key={key} v3LegacyAuthProviderCompatible={false}>
         {children}
     </Authenticated>
 );
