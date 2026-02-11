@@ -33,7 +33,6 @@ if (typeof window !== 'undefined') {
         ) {
             return;
         }
-        originalError.apply(console, args);
     };
 }
 
