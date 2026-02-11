@@ -37,13 +37,13 @@
     "typescript-eslint": "=8.20.0"
   },
   "dependencies": {
-    "@apollo/server": "=4.11.3",
+    "@apollo/server": "=5.4.0",
     "@sequelize/core": "=7.0.0-alpha.43",
     "@types/body-parser": "=1.19.5",
     "@types/express": "=5.0.5",
     "@v6y/core-logic": "workspace:^",
     "apollo-server-plugin-response-cache": "=3.8.2",
-    "axios": "=1.12.2",
+    "axios": "=1.13.5",
     "axios-retry": "=4.5.0",
     "body-parser": "=2.2.1",
     "cors": "=2.8.5",
