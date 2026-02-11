@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Override Ant Design Row center alignment min-height for login page */
+.ant-row.ant-row-center.ant-row-middle {
+    min-height: auto !important;
+}
