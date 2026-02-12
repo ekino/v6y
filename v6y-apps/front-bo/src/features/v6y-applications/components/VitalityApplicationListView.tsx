@@ -7,7 +7,7 @@ import GetApplicationListByPageAndParams from '../../../commons/apis/getApplicat
 import VitalityTable from '../../../commons/components/VitalityTable';
 import DeleteApplication from '../apis/deleteApplication';
 
-export default function VitalityApplicationListView() {
+const VitalityApplicationListView = () => {
     const { translate } = useTranslationProvider();
 
     return (
@@ -41,4 +41,6 @@ export default function VitalityApplicationListView() {
             )}
         />
     );
-}
+};
+
+export default VitalityApplicationListView;
