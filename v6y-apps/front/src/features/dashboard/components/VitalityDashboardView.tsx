@@ -7,11 +7,12 @@ import VitalityDashboardFilters from './VitalityDashboardFilters';
 
 const VitalityDashboardView = () => {
     return (
-        <div className="grid grid-cols-3 gap-8">
-            <div className="col-span-1">
+        <div className="flex flex-col lg:grid lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 w-full">
+            <div className="w-full lg:col-span-1 order-first lg:order-none">
                 <VitalityDashboardFilters />
             </div>
-            <div className="col-span-2">
+
+            <div className="w-full lg:col-span-2">
                 <VitalityAppList source="search" />
             </div>
         </div>

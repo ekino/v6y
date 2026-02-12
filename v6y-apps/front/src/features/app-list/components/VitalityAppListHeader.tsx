@@ -49,12 +49,17 @@ const VitalityAppListHeader = ({
     const { translate } = useTranslationProvider();
 
     return (
-        <div className="w-full flex items-center justify-between gap-4">
-            <Button onClick={onExportApplicationsClicked}>
-                <ExportOutlined />
-                {translate('vitality.appListPage.exportLabel')}
+        <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-4">
+            <Button
+                onClick={onExportApplicationsClicked}
+                className="w-full md:w-auto h-9 md:h-10 text-sm md:text-base"
+            >
+                <ExportOutlined className="w-4 h-4" />
+                <span className="ml-2">{translate('vitality.appListPage.exportLabel')}</span>
             </Button>
-            <p>{appsTotal} results</p>
+            <p className="text-xs md:text-sm text-slate-600 text-center md:text-right">
+                {appsTotal} {appsTotal === 1 ? 'result' : 'results'}
+            </p>
         </div>
     );
 };
