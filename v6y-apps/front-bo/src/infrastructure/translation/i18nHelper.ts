@@ -26,7 +26,10 @@ if (typeof window !== 'undefined') {
         if (
             typeof args[0] === 'string' &&
             (args[0].includes('[antd: Menu] `children` is deprecated') ||
-                args[0].includes('children` is deprecated'))
+                args[0].includes('children` is deprecated') ||
+                args[0].includes('`key` is not a prop') ||
+                args[0].includes('[antd: Card] `headStyle` is deprecated') ||
+                args[0].includes('[antd: Card] `bodyStyle` is deprecated'))
         ) {
             return;
         }
