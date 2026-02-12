@@ -10,7 +10,7 @@ import {
     useTranslationProvider,
 } from '@v6y/ui-kit';
 
-export const VitalityAuthLoginView = () => {
+const VitalityAuthLoginView = () => {
     const { translate } = useTranslationProvider();
 
     return (
@@ -25,3 +25,5 @@ export const VitalityAuthLoginView = () => {
         />
     );
 };
+
+export default VitalityAuthLoginView;
