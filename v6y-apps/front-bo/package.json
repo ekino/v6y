@@ -72,6 +72,7 @@
     "eslint-config-prettier": "=10.0.1",
     "i18next-resources-for-ts": "=2.0.0",
     "jsdom": "=27.0.1",
+    "msw": "=2.12.10",
     "prettier": "=3.4.2",
     "rimraf": "=6.0.1",
     "typescript": "=5.7.3",

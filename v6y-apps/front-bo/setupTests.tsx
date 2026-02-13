@@ -47,6 +47,11 @@ vi.mock('@v6y/ui-kit', () => {
                 statusIcons: { error: '❌', success: '✅', warning: '⚠️', default: 'ℹ️' },
             },
         }),
+        useTranslationProvider: vi.fn(() => ({
+            translate: (key: string) => key,
+            language: 'en',
+            setLanguage: vi.fn(),
+        })),
         useForm: vi.fn(() => ({
             control: {},
             handleSubmit: vi.fn((callback) => () => {
@@ -241,6 +246,32 @@ vi.mock('@v6y/ui-kit', () => {
                     </button>
                 ))}
             </div>
+        ),
+        Table: ({
+            dataSource,
+            columns,
+        }: {
+            dataSource: any[];
+            columns: any[];
+        }) => (
+            <table data-testid="mock-table">
+                <thead>
+                    <tr>
+                        {columns?.map((col: any, idx: number) => (
+                            <th key={idx}>{col.title || col.dataIndex}</th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody>
+                    {dataSource?.map((row: any, idx: number) => (
+                        <tr key={idx}>
+                            {columns?.map((col: any, cidx: number) => (
+                                <td key={cidx}>{row[col.dataIndex]}</td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         ),
         Select: ({
             placeholder,
@@ -472,5 +503,23 @@ vi.mock('@v6y/ui-kit', () => {
         )),
         EditButton: vi.fn(({ recordItemId }) => <button data-testid={`edit-${recordItemId}`} />),
         ShowButton: vi.fn(({ recordItemId }) => <button data-testid={`show-${recordItemId}`} />),
+        AdminAuthenticationWrapper: ({ children, title, rememberMe, type }: any) => (
+            <div data-testid="mock-admin-auth-wrapper">
+                {title && <div data-testid="mock-auth-title">{title}</div>}
+                <form data-testid="mock-form">
+                    {children}
+                    {rememberMe && <div data-testid="mock-remember-me">{rememberMe}</div>}
+                </form>
+            </div>
+        ),
+        AdminListWrapper: ({ title, subTitle, children, renderContent, dataSource }: any) => (
+            <div data-testid="mock-admin-list-wrapper">
+                {title && <div data-testid="mock-list-title">{title}</div>}
+                {subTitle && <div data-testid="mock-list-subtitle">{subTitle}</div>}
+                <form data-testid="mock-form">
+                    {renderContent ? renderContent(dataSource || []) : children}
+                </form>
+            </div>
+        ),
     };
 });
