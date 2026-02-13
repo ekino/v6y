@@ -4,12 +4,10 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import VitalityAuthLoginView from '../features/v6y-auth/components/VitalityAuthLoginView';
-import { resetMockApiClient } from './api.mocks';
 import { renderWithProviders } from './render.utils';
 
 describe('Login Page - Authentication', () => {
     beforeEach(() => {
-        resetMockApiClient();
         vi.clearAllMocks();
     });
 

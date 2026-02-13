@@ -1,6 +1,7 @@
 import { vi } from 'vitest';
 
 import './setupTests';
+import './src/__tests__/msw.server'; // MSW server setup for API mocking
 
 Object.defineProperty(window, 'getComputedStyle', {
     value: () => ({
