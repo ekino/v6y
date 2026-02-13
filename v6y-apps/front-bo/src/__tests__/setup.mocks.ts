@@ -1,17 +1,5 @@
-/**
- * Enhanced test setup for API mocking
- * This file extends the base setupTests.tsx with additional GraphQL and AuthAPI mocks
- *
- * Import this in vitest.config.mjs setupFiles alongside vitest.setup.ts
- */
 import React from 'react';
 import { vi } from 'vitest';
-
-/**
- * Mock GraphQL request client
- * Used for all GraphQL API calls in the app
- */
-export const mockGraphQLRequest = vi.fn();
 
 /**
  * Mock Next.js server functions
@@ -30,23 +18,6 @@ vi.mock('next/headers', () => ({
     headers: vi.fn(() => ({
         get: vi.fn(),
     })),
-}));
-
-/**
- * Mock GraphQL client (graphql-request)
- */
-vi.mock('graphql-request', () => ({
-    GraphQLClient: vi.fn(() => ({
-        request: mockGraphQLRequest,
-        query: vi.fn((query: string, variables?: Record<string, unknown>) =>
-            mockGraphQLRequest(query, variables),
-        ),
-        mutation: vi.fn((mutation: string, variables?: Record<string, unknown>) =>
-            mockGraphQLRequest(mutation, variables),
-        ),
-    })),
-    gql: vi.fn((str: string) => str),
-    rawRequest: vi.fn(),
 }));
 
 /**
