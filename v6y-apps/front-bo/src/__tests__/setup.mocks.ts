@@ -1,9 +1,8 @@
 import React from 'react';
 import { vi } from 'vitest';
 
-/**
- * Mock Next.js server functions
- */
+export const mockPush = vi.fn();
+
 vi.mock('next/headers', () => ({
     cookies: vi.fn(async () => ({
         get: vi.fn((name: string) => {
@@ -20,9 +19,6 @@ vi.mock('next/headers', () => ({
     })),
 }));
 
-/**
- * Mock refinedev hooks
- */
 vi.mock('@refinedev/core', () => ({
     useList: vi.fn(() => ({
         data: [],
@@ -52,9 +48,6 @@ vi.mock('@refinedev/core', () => ({
     })),
 }));
 
-/**
- * Mock i18next
- */
 vi.mock('react-i18next', () => ({
     useTranslation: vi.fn(() => ({
         t: (key: string) => key,
@@ -66,23 +59,18 @@ vi.mock('react-i18next', () => ({
     I18nextProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
 
-/**
- * Mock next/navigation for testing
- */
-if (typeof window !== 'undefined') {
-    vi.mock('next/navigation', () => ({
-        useRouter: () => ({
-            push: vi.fn(),
-            replace: vi.fn(),
-            back: vi.fn(),
-            forward: vi.fn(),
-            refresh: vi.fn(),
-            prefetch: vi.fn(),
-        }),
-        usePathname: () => '/',
-        useSearchParams: () => new URLSearchParams(),
-        useParams: () => ({}),
-    }));
-}
+vi.mock('next/navigation', () => ({
+    useRouter: () => ({
+        push: mockPush,
+        replace: vi.fn(),
+        back: vi.fn(),
+        forward: vi.fn(),
+        refresh: vi.fn(),
+        prefetch: vi.fn(),
+    }),
+    usePathname: () => '/',
+    useSearchParams: () => new URLSearchParams(),
+    useParams: () => ({}),
+}));
 
 export {};
