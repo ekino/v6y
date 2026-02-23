@@ -15,10 +15,6 @@ overrides:
 importers:
 
   .:
-    dependencies:
-      globals:
-        specifier: ^16.4.0
-        version: 16.4.0
     devDependencies:
       '@trivago/prettier-plugin-sort-imports':
         specifier: '=6.0.0'
