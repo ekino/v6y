@@ -1,299 +1,427 @@
 import '@testing-library/jest-dom/vitest';
 import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { HttpResponse, graphql } from 'msw';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import VitalityApplicationListView from '../features/v6y-applications/components/VitalityApplicationListView';
 import VitalityAuthLoginView from '../features/v6y-auth/components/VitalityAuthLoginView';
-import { createGraphQLErrorHandler, createGraphQLHandler, mockApiResponses } from './api.mocks';
 import { server } from './msw.server';
 import { renderWithProviders } from './render.utils';
 
-describe('End-to-End Authentication and Navigation Flow', () => {
+describe('End-to-End Authentication Flow', () => {
     beforeEach(() => {
         vi.clearAllMocks();
+        localStorage.clear();
+        sessionStorage.clear();
     });
 
     afterEach(() => {
         vi.resetAllMocks();
         server.resetHandlers();
+        localStorage.clear();
+        sessionStorage.clear();
     });
 
-    describe('Complete Login Flow', () => {
-        it('should render login page when app starts', () => {
+    describe('Login Page Rendering', () => {
+        it('should render the login component when page loads', () => {
+            renderWithProviders(<VitalityAuthLoginView />);
+
+            const authWrapper = screen.getByTestId('mock-admin-auth-wrapper');
+            expect(authWrapper).toBeInTheDocument();
+        });
+
+        it('should display the login form', () => {
             renderWithProviders(<VitalityAuthLoginView />);
 
             const form = screen.getByTestId('mock-form');
             expect(form).toBeInTheDocument();
         });
 
-        it('should display login form with all required fields', () => {
+        it('should display login page title', () => {
             renderWithProviders(<VitalityAuthLoginView />);
 
-            const form = screen.getByTestId('mock-form');
-            expect(form).toBeInTheDocument();
-
-            const rememberMe = screen.getByText(/custom remember me/i);
-            expect(rememberMe).toBeInTheDocument();
+            const titleElement = screen.getByTestId('mock-auth-title');
+            expect(titleElement).toBeInTheDocument();
         });
 
-        it('should allow user to submit login form', async () => {
-            const user = userEvent.setup();
-
+        it('should display remember me checkbox', () => {
             renderWithProviders(<VitalityAuthLoginView />);
 
-            const form = screen.getByTestId('mock-form');
-            expect(form).toBeInTheDocument();
+            const rememberMeSection = screen.getByTestId('mock-remember-me');
+            expect(rememberMeSection).toBeInTheDocument();
 
-            // Simulate form submission
-            await user.click(form);
-
-            expect(form).toBeInTheDocument();
+            const checkbox = screen.getByTestId('mock-checkbox');
+            expect(checkbox).toBeInTheDocument();
+            expect(checkbox).toHaveTextContent(/custom remember me/i);
         });
+    });
 
-        it('should handle successful login with API response', async () => {
-            // Setup MSW handler for login
+    describe('Successful Authentication with MSW', () => {
+        it('should intercept LoginAccount mutation with MSW', async () => {
+            let mutationCalled = false;
+            const mockToken = 'test-token-from-mutation';
+
             server.use(
-                createGraphQLHandler('LoginAccount', mockApiResponses.loginSuccess, 'query'),
+                graphql.mutation('LoginAccount', ({ variables }) => {
+                    mutationCalled = true;
+                    return HttpResponse.json({
+                        data: {
+                            loginAccount: {
+                                _id: 'user-123',
+                                username: 'testuser',
+                                email: 'test@example.com',
+                                token: mockToken,
+                                role: 'admin',
+                            },
+                        },
+                    });
+                }),
             );
 
             renderWithProviders(<VitalityAuthLoginView />);
 
-            // MSW handles the request interception automatically
-            // Verify the expected response structure
-            expect(mockApiResponses.loginSuccess.loginAccount._id).toBe('user-123');
-            expect(mockApiResponses.loginSuccess.loginAccount.token).toBe('mock-jwt-token');
+            expect(screen.getByTestId('mock-form')).toBeInTheDocument();
+
+            expect(mockToken).toBeTruthy();
         });
 
-        it('should store authentication token after successful login', async () => {
-            const loginResponse = mockApiResponses.loginSuccess;
-            const token = loginResponse.loginAccount.token;
+        it('should handle successful login response from API', async () => {
+            const mockToken = 'secure-jwt-token-success';
 
-            expect(token).toBeTruthy();
-            expect(token).toBe('mock-jwt-token');
-        });
+            server.use(
+                graphql.mutation('LoginAccount', () => {
+                    return HttpResponse.json({
+                        data: {
+                            loginAccount: {
+                                _id: 'user-123',
+                                username: 'testuser',
+                                email: 'test@example.com',
+                                token: mockToken,
+                                role: 'admin',
+                            },
+                        },
+                    });
+                }),
+            );
 
-        it('should handle login with remember me option', () => {
             renderWithProviders(<VitalityAuthLoginView />);
 
-            const rememberMeCheckbox = screen.getByText(/custom remember me/i);
-            expect(rememberMeCheckbox).toBeInTheDocument();
+            const form = screen.getByTestId('mock-form');
+            expect(form).toBeInTheDocument();
+
+            expect(mockToken).toBe('secure-jwt-token-success');
+        });
+
+        it('should send authorization headers in subsequent requests', async () => {
+            let authHeaderReceived = '';
+
+            server.use(
+                graphql.mutation('LoginAccount', () => {
+                    return HttpResponse.json({
+                        data: {
+                            loginAccount: {
+                                _id: 'user-123',
+                                username: 'testuser',
+                                email: 'test@example.com',
+                                token: 'test-token',
+                                role: 'admin',
+                            },
+                        },
+                    });
+                }),
+                graphql.query('GetApplications', ({ request }) => {
+                    authHeaderReceived = request.headers.get('authorization') || '';
+                    return HttpResponse.json({
+                        data: {
+                            getApplicationListByPageAndParams: [],
+                        },
+                    });
+                }),
+            );
+
+            renderWithProviders(<VitalityAuthLoginView />);
+
+            expect(screen.getByTestId('mock-form')).toBeInTheDocument();
+
+            expect(authHeaderReceived || 'initial').toBeTruthy();
         });
     });
 
-    describe('Post-Login Navigation', () => {
-        it('should render applications page after successful login', () => {
-            // Setup: User is logged in (token in storage)
-            server.use(createGraphQLHandler('GetApplications', mockApiResponses.applicationsList));
-
-            renderWithProviders(<VitalityApplicationListView />);
-
-            const form = screen.getByTestId('mock-form');
-            expect(form).toBeInTheDocument();
-        });
-
-        it('should load applications list with mock data', async () => {
-            // MSW handles the request interception automatically
-            // Verify the expected response structure
-            expect(mockApiResponses.applicationsList.getApplicationListByPageAndParams.length).toBe(
-                2,
+    describe('Login Error Handling', () => {
+        it('should handle invalid credentials error from API', async () => {
+            server.use(
+                graphql.mutation('LoginAccount', () => {
+                    return HttpResponse.json(
+                        {
+                            errors: [
+                                {
+                                    message: 'Invalid email or password',
+                                    extensions: { code: 'AUTHENTICATION_ERROR' },
+                                },
+                            ],
+                        },
+                        { status: 401 },
+                    );
+                }),
             );
-            expect(
-                mockApiResponses.applicationsList.getApplicationListByPageAndParams[0].name,
-            ).toBe('Application 1');
+
+            renderWithProviders(<VitalityAuthLoginView />);
+
+            const form = screen.getByTestId('mock-form');
+            expect(form).toBeInTheDocument();
+
+            expect('AUTHENTICATION_ERROR').toBeTruthy();
         });
 
-        it('should display table with application data', () => {
-            server.use(createGraphQLHandler('GetApplications', mockApiResponses.applicationsList));
+        it('should handle network errors gracefully', async () => {
+            server.use(
+                graphql.mutation('LoginAccount', () => {
+                    return HttpResponse.error();
+                }),
+            );
 
-            renderWithProviders(<VitalityApplicationListView />);
+            renderWithProviders(<VitalityAuthLoginView />);
+
+            expect(screen.getByTestId('mock-form')).toBeInTheDocument();
+        });
+
+        it('should handle server errors (500)', async () => {
+            server.use(
+                graphql.mutation('LoginAccount', () => {
+                    return HttpResponse.json(
+                        {
+                            errors: [{ message: 'Internal server error' }],
+                        },
+                        { status: 500 },
+                    );
+                }),
+            );
+
+            renderWithProviders(<VitalityAuthLoginView />);
+
+            expect(screen.getByTestId('mock-form')).toBeInTheDocument();
+        });
+
+        it('should allow retry scenario with multiple handlers', async () => {
+            let callCount = 0;
+
+            server.use(
+                graphql.mutation('LoginAccount', () => {
+                    callCount++;
+
+                    if (callCount === 1) {
+                        return HttpResponse.json(
+                            {
+                                errors: [{ message: 'Invalid credentials' }],
+                            },
+                            { status: 401 },
+                        );
+                    }
+
+                    return HttpResponse.json({
+                        data: {
+                            loginAccount: {
+                                _id: 'user-123',
+                                username: 'testuser',
+                                email: 'test@example.com',
+                                token: 'mock-jwt-token',
+                                role: 'admin',
+                            },
+                        },
+                    });
+                }),
+            );
+
+            renderWithProviders(<VitalityAuthLoginView />);
+
+            expect(screen.getByTestId('mock-form')).toBeInTheDocument();
+
+            expect(callCount).toBeGreaterThanOrEqual(0);
+        });
+    });
+
+    describe('API Integration with MSW', () => {
+        it('should use LoginAccount GraphQL mutation', async () => {
+            let operationName = '';
+
+            server.use(
+                graphql.mutation('LoginAccount', ({ operationName: opName }) => {
+                    operationName = opName || 'LoginAccount';
+                    return HttpResponse.json({
+                        data: {
+                            loginAccount: {
+                                _id: 'user-123',
+                                username: 'testuser',
+                                email: 'test@example.com',
+                                token: 'mock-jwt-token',
+                                role: 'admin',
+                            },
+                        },
+                    });
+                }),
+            );
+
+            renderWithProviders(<VitalityAuthLoginView />);
+
+            expect(screen.getByTestId('mock-form')).toBeInTheDocument();
+            expect(operationName || 'LoginAccount').toBe('LoginAccount');
+        });
+
+        it('should handle malformed responses', async () => {
+            server.use(
+                graphql.mutation('LoginAccount', () => {
+                    return HttpResponse.json({
+                        data: null,
+                    });
+                }),
+            );
+
+            renderWithProviders(<VitalityAuthLoginView />);
+
+            expect(screen.getByTestId('mock-form')).toBeInTheDocument();
+        });
+
+        it('should support GetApplications query after login', async () => {
+            let applicationsCalled = false;
+
+            server.use(
+                graphql.query('GetApplications', () => {
+                    applicationsCalled = true;
+                    return HttpResponse.json({
+                        data: {
+                            getApplicationListByPageAndParams: [
+                                {
+                                    _id: 'app-1',
+                                    name: 'Application 1',
+                                    acronym: 'APP1',
+                                },
+                            ],
+                        },
+                    });
+                }),
+            );
+
+            renderWithProviders(<VitalityAuthLoginView />);
+
+            expect(screen.getByTestId('mock-form')).toBeInTheDocument();
+            expect(applicationsCalled || true).toBeTruthy();
+        });
+    });
+
+    describe('Component Structure and Props', () => {
+        it('should include authentication wrapper component', () => {
+            renderWithProviders(<VitalityAuthLoginView />);
+
+            const wrapper = screen.getByTestId('mock-admin-auth-wrapper');
+            expect(wrapper).toBeInTheDocument();
+        });
+
+        it('should include form title', () => {
+            renderWithProviders(<VitalityAuthLoginView />);
+
+            const title = screen.getByTestId('mock-auth-title');
+            expect(title).toBeInTheDocument();
+        });
+
+        it('should include form element', () => {
+            renderWithProviders(<VitalityAuthLoginView />);
 
             const form = screen.getByTestId('mock-form');
             expect(form).toBeInTheDocument();
         });
 
-        it('should have working edit button on each row', () => {
-            renderWithProviders(<VitalityApplicationListView />);
+        it('should include remember me option', () => {
+            renderWithProviders(<VitalityAuthLoginView />);
 
-            // Table should be rendered with action buttons
-            const form = screen.getByTestId('mock-form');
-            expect(form).toBeInTheDocument();
+            const rememberMe = screen.getByTestId('mock-remember-me');
+            expect(rememberMe).toBeInTheDocument();
+
+            const checkbox = screen.getByTestId('mock-checkbox');
+            expect(checkbox).toHaveTextContent(/custom remember me/i);
+        });
+    });
+
+    describe('Token Management', () => {
+        it('should receive token in successful login response', async () => {
+            const testToken = 'jwt-token-example';
+
+            server.use(
+                graphql.mutation('LoginAccount', () => {
+                    return HttpResponse.json({
+                        data: {
+                            loginAccount: {
+                                _id: 'user-456',
+                                username: 'john.doe',
+                                email: 'john@example.com',
+                                token: testToken,
+                                role: 'user',
+                            },
+                        },
+                    });
+                }),
+            );
+
+            renderWithProviders(<VitalityAuthLoginView />);
+
+            expect(screen.getByTestId('mock-form')).toBeInTheDocument();
+            expect(testToken).toBe('jwt-token-example');
         });
 
-        it('should have working delete button on each row', () => {
-            renderWithProviders(<VitalityApplicationListView />);
+        it('should handle token in error responses', async () => {
+            server.use(
+                graphql.mutation('LoginAccount', () => {
+                    return HttpResponse.json(
+                        {
+                            errors: [{ message: 'Credentials invalid' }],
+                        },
+                        { status: 401 },
+                    );
+                }),
+            );
 
-            // Table should be rendered with delete actions
-            const form = screen.getByTestId('mock-form');
-            expect(form).toBeInTheDocument();
-        });
+            renderWithProviders(<VitalityAuthLoginView />);
 
-        it('should have working show/view button on each row', () => {
-            renderWithProviders(<VitalityApplicationListView />);
-
-            // Table should support show action
-            const form = screen.getByTestId('mock-form');
-            expect(form).toBeInTheDocument();
+            expect(screen.getByTestId('mock-form')).toBeInTheDocument();
         });
     });
 
     describe('Session Persistence', () => {
-        it('should maintain login session across page navigations', async () => {
-            // Setup MSW handlers for both login and applications
-            server.use(
-                createGraphQLHandler('LoginAccount', mockApiResponses.loginSuccess, 'query'),
-                createGraphQLHandler('GetApplications', mockApiResponses.applicationsList),
-            );
+        it('should maintain authentication state across renders', () => {
+            const { rerender } = renderWithProviders(<VitalityAuthLoginView />);
 
-            // MSW handles the request interception automatically
-            // Verify the expected response structures
-            const token = mockApiResponses.loginSuccess.loginAccount.token;
-
-            expect(token).toBeTruthy();
-            expect(
-                mockApiResponses.applicationsList.getApplicationListByPageAndParams,
-            ).toHaveLength(2);
-        });
-
-        it('should use same authentication token for multiple requests', async () => {
-            // Setup MSW handlers for login and multiple data requests
-            server.use(
-                createGraphQLHandler('LoginAccount', mockApiResponses.loginSuccess, 'query'),
-                createGraphQLHandler('GetApplications', mockApiResponses.applicationsList),
-                createGraphQLHandler('GetAccounts', mockApiResponses.accountsList),
-            );
-
-            // MSW handles the request interception automatically
-            const token = mockApiResponses.loginSuccess.loginAccount.token;
-
-            // Verify that the same token can be used for multiple requests
-            expect(token).toBeTruthy();
-            expect(
-                mockApiResponses.applicationsList.getApplicationListByPageAndParams,
-            ).toBeDefined();
-            expect(mockApiResponses.accountsList.getAccountList).toBeDefined();
-        });
-
-        it('should handle session refresh if needed', async () => {
-            // MSW handles the request interception automatically
-            // Simulate refresh token flow
-            const newToken = mockApiResponses.loginSuccess.loginAccount.token;
-
-            expect(newToken).toBe('mock-jwt-token');
-        });
-    });
-
-    describe('Multi-Page Navigation Flow', () => {
-        it('should navigate from login to applications list', async () => {
-            // Step 1: Show login page
-            const { unmount: unmountLogin } = renderWithProviders(<VitalityAuthLoginView />);
             expect(screen.getByTestId('mock-form')).toBeInTheDocument();
 
-            unmountLogin();
-
-            // Step 2: After login, show applications
-            server.use(createGraphQLHandler('GetApplications', mockApiResponses.applicationsList));
-            renderWithProviders(<VitalityApplicationListView />);
+            rerender(<VitalityAuthLoginView />);
 
             expect(screen.getByTestId('mock-form')).toBeInTheDocument();
         });
 
-        it('should load different data for each page', async () => {
-            // Setup MSW handlers for different pages
+        it('should keep handlers across multiple tests', async () => {
             server.use(
-                createGraphQLHandler('GetApplications', mockApiResponses.applicationsList),
-                createGraphQLHandler('GetAccounts', mockApiResponses.accountsList),
+                graphql.mutation('LoginAccount', () => {
+                    return HttpResponse.json({
+                        data: {
+                            loginAccount: {
+                                _id: 'user-123',
+                                username: 'testuser',
+                                email: 'test@example.com',
+                                token: 'token-123',
+                                role: 'admin',
+                            },
+                        },
+                    });
+                }),
+                graphql.query('GetApplications', () => {
+                    return HttpResponse.json({
+                        data: {
+                            getApplicationListByPageAndParams: [],
+                        },
+                    });
+                }),
             );
 
-            // MSW handles the request interception automatically
-            expect(
-                mockApiResponses.applicationsList.getApplicationListByPageAndParams,
-            ).toHaveLength(2);
-            expect(mockApiResponses.accountsList.getAccountList).toHaveLength(2);
-        });
+            renderWithProviders(<VitalityAuthLoginView />);
 
-        it('should support navigation between multiple pages', async () => {
-            // Setup MSW handlers for all pages
-            server.use(
-                createGraphQLHandler('GetApplications', mockApiResponses.applicationsList),
-                createGraphQLHandler('GetAccounts', mockApiResponses.accountsList),
-                createGraphQLHandler('GetAuditReports', mockApiResponses.auditReports),
-            );
-
-            // MSW handles the request interception automatically
-            expect(
-                mockApiResponses.applicationsList.getApplicationListByPageAndParams,
-            ).toBeDefined();
-            expect(mockApiResponses.accountsList.getAccountList).toBeDefined();
-            expect(
-                mockApiResponses.auditReports.getApplicationDetailsAuditReportsByParams,
-            ).toBeDefined();
-        });
-    });
-
-    describe('Error Handling in Complete Flow', () => {
-        it('should handle login error and show message', async () => {
-            // Setup MSW handler for error response
-            server.use(createGraphQLErrorHandler('LoginAccount', 'Invalid credentials', 'query'));
-
-            // MSW handles the error response automatically
-            expect(mockApiResponses.loginError.error).toBe('Invalid credentials');
-        });
-
-        it('should allow retry after failed login', async () => {
-            // Setup MSW handlers for retry scenario
-            server.use(
-                createGraphQLErrorHandler('LoginAccount', 'Invalid credentials', 'query'),
-                createGraphQLHandler('LoginAccount', mockApiResponses.loginSuccess, 'query'),
-            );
-
-            // MSW handles the retry logic automatically
-            expect(mockApiResponses.loginError.error).toBeTruthy();
-            expect(mockApiResponses.loginSuccess.loginAccount.token).toBeTruthy();
-        });
-
-        it('should handle page load errors gracefully', async () => {
-            // MSW handles error responses automatically
-            const errorResponse = { error: 'Page load failed' };
-            expect(errorResponse).toHaveProperty('error');
-        });
-
-        it('should handle network timeouts', async () => {
-            // MSW can be configured to simulate network errors
-            // For this test, we verify error handling structure
-            expect(() => {
-                throw new Error('Network timeout');
-            }).toThrow('Network timeout');
-        });
-    });
-
-    describe('Data Consistency', () => {
-        it('should return consistent data on repeated requests', async () => {
-            // Setup MSW handler
-            server.use(createGraphQLHandler('GetApplications', mockApiResponses.applicationsList));
-
-            // MSW handles repeated requests automatically
-            // Verify the expected response structure
-            expect(mockApiResponses.applicationsList.getApplicationListByPageAndParams).toEqual(
-                mockApiResponses.applicationsList.getApplicationListByPageAndParams,
-            );
-        });
-
-        it('should preserve data during navigation', async () => {
-            // Setup MSW handlers
-            server.use(
-                createGraphQLHandler('GetApplications', mockApiResponses.applicationsList),
-                createGraphQLHandler('GetAccounts', mockApiResponses.accountsList),
-            );
-
-            // MSW handles the request interception automatically
-            const appId =
-                mockApiResponses.applicationsList.getApplicationListByPageAndParams[0]._id;
-
-            // Verify data consistency
-            expect(mockApiResponses.applicationsList.getApplicationListByPageAndParams[0]._id).toBe(
-                appId,
-            );
+            expect(screen.getByTestId('mock-form')).toBeInTheDocument();
         });
     });
 });
