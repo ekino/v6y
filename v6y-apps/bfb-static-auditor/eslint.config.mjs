@@ -4,28 +4,42 @@ import globals from 'globals';
 import tsEslint from 'typescript-eslint';
 
 export default [
-    eslint.configs.recommended,
-    ...tsEslint.configs.recommended,
     {
-        files: ['src/**/*.js', 'src/**/*.mjs', 'src/**/*.tsx', 'src/**/*.ts'],
+        name: 'eslint:recommended',
+        ...eslint.configs.recommended,
+    },
+
+    ...tsEslint.configs.recommended,
+
+    {
+        name: 'auditor:source',
+        files: ['src/**/*.{js,mjs,ts,tsx}'],
         rules: {
             'max-depth': ['error', 3],
             'max-nested-callbacks': ['error', 3],
             'max-params': ['error', 3],
-            'max-lines': ['error', 1000], // per file
-            'max-lines-per-function': ['error', 200], // per function
-            'max-statements': ['error', 50], // per function
+            'max-lines': ['error', 1000],
+            'max-lines-per-function': ['error', 200],
+            'max-statements': ['error', 50],
         },
     },
-    // Special rules for test files
+
     {
-        files: ['src/**/__tests__/**/*-test.ts', 'src/**/__tests__/**/*-test.js', 'src/**/*.test.{js,ts,tsx}'],
+        name: 'auditor:tests',
+        files: ['src/**/__tests__/**/*-test.{ts,js}', 'src/**/*.test.{ts,js,tsx}'],
         rules: {
             'max-lines-per-function': 'off',
+            'max-lines': 'off',
         },
     },
-    eslintConfigPrettier,
+
     {
+        name: 'prettier:config',
+        ...eslintConfigPrettier,
+    },
+
+    {
+        name: 'globals:setup',
         languageOptions: {
             globals: {
                 ...globals.browser,
@@ -33,7 +47,9 @@ export default [
             },
         },
     },
+
     {
-        ignores: ['**/*.test.js', '*.d.ts', '**/*.d.ts', 'dist/**'],
+        name: 'ignores',
+        ignores: ['**/*.test.js', '*.d.ts', '**/*.d.ts', 'dist/**', 'node_modules/**'],
     },
 ];

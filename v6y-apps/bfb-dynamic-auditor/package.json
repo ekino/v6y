@@ -26,7 +26,7 @@
     "test:ui": "vitest --ui"
   },
   "devDependencies": {
-    "@eslint/js": "=9.18.0",
+    "@eslint/js": "=10.0.1",
     "@trivago/prettier-plugin-sort-imports": "=6.0.0",
     "@types/body-parser": "=1.19.5",
     "@types/cookie-parser": "=1.4.8",
@@ -37,7 +37,7 @@
     "@vitest/ui": "=4.0.14",
     "chai": "=6.2.1",
     "es6-plato": "=1.2.3",
-    "eslint": "=9.18.0",
+    "eslint": "=10.0.1",
     "eslint-config-prettier": "=10.0.1",
     "eslint-plugin-prettier": "=5.2.1",
     "globals": "=16.4.0",
@@ -46,7 +46,7 @@
     "puppeteer-core": "=24.0.0",
     "ts-node": "=10.9.2",
     "typescript": "=5.7.3",
-    "typescript-eslint": "=8.20.0",
+    "typescript-eslint": "=8.56.0",
     "vitest": "=3.0.5"
   },
   "dependencies": {

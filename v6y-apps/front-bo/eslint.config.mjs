@@ -1,25 +1,57 @@
+import eslint from '@eslint/js';
 import eslintConfigPrettier from 'eslint-config-prettier';
-import nextVitals from 'eslint-config-next/core-web-vitals';
-import nextTs from 'eslint-config-next/typescript';
+import globals from 'globals';
+import tsEslint from 'typescript-eslint';
 
-const eslintConfig = [
-    ...nextVitals,
-    ...nextTs,
+export default [
     {
+        name: 'eslint:recommended',
+        ...eslint.configs.recommended,
+    },
+
+    ...tsEslint.configs.recommended,
+
+    {
+        name: 'front-bo:source',
+        files: ['src/**/*.{js,mjs,ts,tsx}'],
+        languageOptions: {
+            globals: globals.browser,
+        },
         rules: {
             '@typescript-eslint/no-require-imports': 'off',
-            'react-hooks/set-state-in-effect': 'off',
-            'react-hooks/refs': 'off',
         },
     },
-    // Special rules for test files
+
     {
-        files: ['**/__tests__/**/*-test.ts', '**/__tests__/**/*-test.js', '**/*.test.{js,ts,tsx}'],
+        name: 'front-bo:config',
+        files: ['*.config.{js,mjs,ts,tsx}'],
+        languageOptions: {
+            globals: {
+                ...globals.browser,
+                ...globals.node,
+            },
+        },
+        rules: {
+            '@typescript-eslint/no-require-imports': 'off',
+        },
+    },
+
+    {
+        name: 'front-bo:tests',
+        files: ['**/__tests__/**/*-test.{ts,tsx}', '**/__tests__/**/*-test.js', '**/*.test.{js,ts,tsx}', 'test-mocks/**', 'setupTests.tsx'],
         rules: {
             'max-lines-per-function': 'off',
+            '@typescript-eslint/no-unused-vars': 'off',
         },
     },
-    eslintConfigPrettier,
-];
 
-export default eslintConfig;
+    {
+        name: 'prettier:config',
+        ...eslintConfigPrettier,
+    },
+
+    {
+        name: 'ignores',
+        ignores: ['**/*.test.js', '*.d.ts', '**/*.d.ts', 'dist/**', 'node_modules/**', '.next/**', 'storybook-static/**', 'coverage/**'],
+    },
+];

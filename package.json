@@ -66,5 +66,8 @@
       "tar-fs": "=3.0.9",
       "vite": "=5.4.14"
     }
+  },
+  "dependencies": {
+    "globals": "^16.4.0"
   }
 }

@@ -6,10 +6,22 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
-export default tseslint.config(
-    { ignores: ['dist', 'coverage'] },
+export default [
     {
-        extends: [js.configs.recommended, ...tseslint.configs.recommended],
+        name: 'ignores',
+        ignores: ['dist', 'coverage', 'node_modules/**'],
+    },
+
+    {
+        name: 'eslint:js',
+        files: ['**/*.{ts,tsx}'],
+        ...js.configs.recommended,
+    },
+
+    ...tseslint.configs.recommended,
+
+    {
+        name: 'ui-kit:react',
         files: ['**/*.{ts,tsx}'],
         languageOptions: {
             ecmaVersion: 2020,
@@ -24,12 +36,17 @@ export default tseslint.config(
             'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
         },
     },
-    // Special rules for test files
+
     {
-        files: ['**/__tests__/**/*-test.ts', '**/__tests__/**/*-test.js', '**/*.test.{js,ts,tsx}'],
+        name: 'ui-kit:tests',
+        files: ['**/__tests__/**/*-test.{ts,tsx}', '**/__tests__/**/*-test.js', '**/*.test.{ts,tsx,js}'],
         rules: {
             'max-lines-per-function': 'off',
         },
     },
-    eslintConfigPrettier,
-);
+
+    {
+        name: 'prettier:config',
+        ...eslintConfigPrettier,
+    },
+];
