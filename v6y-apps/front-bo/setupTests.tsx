@@ -212,7 +212,6 @@ vi.mock('@v6y/ui-kit', () => {
         Button: ({
             children,
             onClick,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             icon,
             ...others
         }: {
@@ -413,7 +412,6 @@ vi.mock('@v6y/ui-kit', () => {
         TitleView: ({ title }: { title: string }) => <h3>{title}</h3>,
         LoaderView: () => <div data-testid="mock-loader">Loading...</div>,
         DynamicLoader: (importFn: () => Promise<{ default: React.ComponentType<any> }>) => {
-            // eslint-disable-next-line react/display-name
             return (props: any) => {
                 const LazyComponent = dynamic(() => importFn(), { ssr: false });
                 return <LazyComponent {...props} />;

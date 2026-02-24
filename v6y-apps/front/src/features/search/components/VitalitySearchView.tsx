@@ -5,7 +5,7 @@ import { LoaderView } from '@v6y/ui-kit';
 
 import VitalityAppList from '../../app-list/components/VitalityAppList';
 
-const VitalitySearchView = ({}) => (
+const VitalitySearchView = () => (
     <Suspense fallback={<LoaderView />}>
         <VitalityAppList source="search" />
     </Suspense>
