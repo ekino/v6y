@@ -1,7 +1,6 @@
 export const VitalityRoutes = [
     {
         name: 'v6y-accounts',
-        identifier: 'v6y-accounts',
         list: '/v6y-accounts',
         create: '/v6y-accounts/create',
         edit: '/v6y-accounts/edit/:id',
@@ -12,7 +11,6 @@ export const VitalityRoutes = [
     },
     {
         name: 'v6y-applications',
-        identifier: 'v6y-applications',
         list: '/v6y-applications',
         create: '/v6y-applications/create',
         edit: '/v6y-applications/edit/:id',
@@ -23,7 +21,6 @@ export const VitalityRoutes = [
     },
     {
         name: 'v6y-notifications',
-        identifier: 'v6y-notifications',
         list: '/v6y-notifications',
         create: '/v6y-notifications/create',
         edit: '/v6y-notifications/edit/:id',
@@ -34,7 +31,6 @@ export const VitalityRoutes = [
     },
     {
         name: 'v6y-faqs',
-        identifier: 'v6y-faqs',
         list: '/v6y-faqs',
         create: '/v6y-faqs/create',
         edit: '/v6y-faqs/edit/:id',
@@ -45,7 +41,6 @@ export const VitalityRoutes = [
     },
     {
         name: 'v6y-evolution-helps',
-        identifier: 'v6y-evolution-helps',
         list: '/v6y-evolution-helps',
         edit: '/v6y-evolution-helps/edit/:id',
         show: '/v6y-evolution-helps/show/:id',
@@ -55,7 +50,6 @@ export const VitalityRoutes = [
     },
     {
         name: 'v6y-audit-helps',
-        identifier: 'v6y-audit-helps',
         list: '/v6y-audit-helps',
         edit: '/v6y-audit-helps/edit/:id',
         show: '/v6y-audit-helps/show/:id',
@@ -65,7 +59,6 @@ export const VitalityRoutes = [
     },
     {
         name: 'v6y-dependency-status-helps',
-        identifier: 'v6y-dependency-status-helps',
         list: '/v6y-dependency-status-helps',
         edit: '/v6y-dependency-status-helps/edit/:id',
         show: '/v6y-dependency-status-helps/show/:id',
@@ -75,7 +68,6 @@ export const VitalityRoutes = [
     },
     {
         name: 'v6y-deprecated-dependencies',
-        identifier: 'v6y-deprecated-dependencies',
         list: '/v6y-deprecated-dependencies',
         create: '/v6y-deprecated-dependencies/create',
         edit: '/v6y-deprecated-dependencies/edit/:id',
