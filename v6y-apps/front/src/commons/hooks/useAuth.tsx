@@ -13,14 +13,14 @@ import {
 } from '../../infrastructure/providers/SessionProvider';
 import VitalityApiConfig from '../config/VitalityApiConfig';
 
-export type LoginAccountType = { token: string; _id: string; role: string; username: string };
+type LoginAccountType = { token: string; _id: string; role: string; username: string };
 
 export type LoginAccountFormType = {
     email?: string;
     password?: string;
 };
 
-export type AuthenticationStatusType = {
+type AuthenticationStatusType = {
     token?: string;
     error?: string;
 };
