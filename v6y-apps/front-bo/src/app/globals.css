@@ -1,0 +1,57 @@
+/* Reset user agent stylesheet defaults */
+html {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* Ant Design Layout padding - responsive */
+.ant-layout {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.ant-layout-content {
+    padding: 16px;
+    overflow-x: auto;
+}
+
+@media (min-width: 768px) {
+    .ant-layout-content {
+        padding: 24px;
+    }
+}
+
+/* Ensure tables are responsive */
+.ant-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.ant-table {
+    min-width: 100%;
+}
+
+/* Override Ant Design Row center alignment min-height for login page */
+.ant-row.ant-row-center.ant-row-middle {
+    min-height: auto !important;
+}
+
+/* Logo styling for responsive design */
+.vitality-logo {
+    width: 144px;
+    height: 32px;
+}
+
+@media (min-width: 768px) {
+    .vitality-logo {
+        width: 192px;
+        height: 64px;
+    }
+}

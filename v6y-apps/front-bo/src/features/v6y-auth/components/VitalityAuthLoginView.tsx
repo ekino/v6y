@@ -1,14 +1,9 @@
 'use client';
 
+import Image from 'next/image';
 import * as React from 'react';
 
-import {
-    AdminAuthenticationWrapper,
-    Checkbox,
-    Form,
-    TitleView,
-    useTranslationProvider,
-} from '@v6y/ui-kit';
+import { AdminAuthenticationWrapper, Checkbox, Form, useTranslationProvider } from '@v6y/ui-kit';
 
 const VitalityAuthLoginView = () => {
     const { translate } = useTranslationProvider();
@@ -16,7 +11,26 @@ const VitalityAuthLoginView = () => {
     return (
         <AdminAuthenticationWrapper
             type="login"
-            title={<TitleView title={translate('v6y-authentication.title')} />}
+            title={
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        gap: '16px',
+                    }}
+                >
+                    <Image
+                        width={150}
+                        height={40}
+                        loading="lazy"
+                        src="/vitality_logo.svg"
+                        alt="Vitality Logo"
+                        className="vitality-logo"
+                    />
+                    <p>{translate('v6y-authentication.title')}</p>
+                </div>
+            }
             rememberMe={
                 <Form.Item name="remember" valuePropName="checked" noStyle>
                     <Checkbox>Custom remember me</Checkbox>
