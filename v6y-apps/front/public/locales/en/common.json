@@ -46,6 +46,7 @@
         "accessibility": "Accessibility",
         "security": "Security",
         "maintainability": "Maintainability",
+        "greenIndex": "Green Index",
         "devops": "DevOps"
       },
       "branches": {
@@ -66,6 +67,10 @@
         "auditReports": {
           "title": "No audit reports available",
           "description": "There are no audit reports to display for this application"
+        },
+        "greenIndex": {
+          "title": "Code is Ecologically Optimized",
+          "description": "No ecological impact issues detected. Your codebase meets environmental efficiency standards."
         },
         "qualityIndicators": {
           "title": "No quality indicators available",
@@ -129,6 +134,7 @@
           "accessibility": "WCAG compliance, screen reader compatibility, accessibility standards",
           "security": "Security vulnerabilities, insecure patterns, code smells",
           "maintainability": "Code complexity, coupling, metrics and quality assessments",
+          "greenIndex": "Ecological impact analysis, energy efficiency, environmental metrics",
           "dora": "Deployment frequency, lead time, change failure rate, mean time to restore",
           "general": "Analysis results"
         },
