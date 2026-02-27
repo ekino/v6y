@@ -9,6 +9,7 @@ import {
 } from '../../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationDetailsAuditReportsByParams from '../../api/getApplicationDetailsAuditReportsByParams';
 import { matchesAuditReportBranch } from './VitalityAuditReportsBranchFilter';
+import VitalityGreenIndexSection from './VitalityGreenIndexSection';
 
 const VitalityAuditReportsTypeGrouper = DynamicLoader(
     () => import('./VitalityAuditReportsTypeGrouper'),
@@ -89,6 +90,9 @@ const VitalityAuditReportsView = ({
             report.type !== 'Dependencies' &&
             report.type !== 'Code-Duplication' &&
             report.type !== 'DORA' &&
+            report.type !== 'Ecological-Impact' &&
+            report.type !== 'Green-Hosting' &&
+            report.type !== 'Ecoindex' &&
             !(report.category?.toLowerCase() || '').includes('maintainability') &&
             !(report.category?.toLowerCase() || '').includes('modularity') &&
             !(report.category?.toLowerCase() || '').includes('duplication') &&
@@ -109,6 +113,10 @@ const VitalityAuditReportsView = ({
             !(report.category?.toLowerCase() || '').includes('seo'),
         security: (report) => isSecuritySmell(report),
         dora: (report) => report.type === 'DORA',
+        greenIndex: (report) =>
+            report.type === 'Ecological-Impact' ||
+            report.type === 'Green-Hosting' ||
+            report.type === 'Ecoindex',
     };
 
     const filterFn = category ? staticFilters[category] : undefined;
@@ -137,24 +145,51 @@ const VitalityAuditReportsView = ({
     }
 
     if (!allAuditReports.length) {
+        let emptyTitle = translate('vitality.appDetailsPage.emptyStates.auditReports.title');
+        let emptyDescription = translate(
+            'vitality.appDetailsPage.emptyStates.auditReports.description',
+        );
+        let showGreenLeaf = false;
+
+        if (category === 'greenIndex') {
+            emptyTitle = translate('vitality.appDetailsPage.emptyStates.greenIndex.title');
+            emptyDescription = translate(
+                'vitality.appDetailsPage.emptyStates.greenIndex.description',
+            );
+            showGreenLeaf = true;
+        }
+
         return (
             <Card className="border-slate-200 shadow-xs">
                 <CardContent className="flex flex-col items-center justify-center p-12 gap-2">
-                    <div className="text-4xl mb-2">📋</div>
-                    <div className="text-base font-semibold text-slate-900">
-                        {translate('vitality.appDetailsPage.emptyStates.auditReports.title')}
-                    </div>
-                    <div className="text-sm text-slate-500">
-                        {translate('vitality.appDetailsPage.emptyStates.auditReports.description')}
-                    </div>
+                    {showGreenLeaf ? (
+                        <img
+                            src="/images/green_index.png"
+                            alt="Green leaf ecological icon"
+                            width="56"
+                            height="56"
+                            className="mb-2"
+                        />
+                    ) : (
+                        <div className="text-4xl mb-2">📋</div>
+                    )}
+                    <div className="text-base font-semibold text-slate-900">{emptyTitle}</div>
+                    <div className="text-sm text-slate-500">{emptyDescription}</div>
                 </CardContent>
             </Card>
         );
     }
 
     return (
-        <Card className="space-y-6 border-slate-200 shadow-xs">
-            <VitalityAuditReportsTypeGrouper auditReports={allAuditReports} category={category} />
+        <Card className="space-y-6 border-slate-200 shadow-sm">
+            {category === 'greenIndex' ? (
+                <VitalityGreenIndexSection reports={allAuditReports} />
+            ) : (
+                <VitalityAuditReportsTypeGrouper
+                    auditReports={allAuditReports}
+                    category={category}
+                />
+            )}
         </Card>
     );
 };

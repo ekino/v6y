@@ -71,6 +71,7 @@ const VitalityAppDetailsView = () => {
         { id: 'accessibility', label: translate('vitality.appDetailsPage.tabs.accessibility') },
         { id: 'security', label: translate('vitality.appDetailsPage.tabs.security') },
         { id: 'maintainability', label: translate('vitality.appDetailsPage.tabs.maintainability') },
+        { id: 'greenIndex', label: translate('vitality.appDetailsPage.tabs.greenIndex') },
         { id: 'devops', label: translate('vitality.appDetailsPage.tabs.devops') },
     ];
 
@@ -130,6 +131,10 @@ const VitalityAppDetailsView = () => {
                         category="maintainability"
                         branch={selectedBranch}
                     />
+                );
+            case 'greenIndex':
+                return (
+                    <VitalityAuditReportsView auditTrigger={auditTrigger} category="greenIndex" />
                 );
             case 'devops':
                 return (
