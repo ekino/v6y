@@ -15,6 +15,7 @@ import {
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationListByPageAndParams from '../api/getApplicationListByPageAndParams';
 import VitalityAppListHeader from './VitalityAppListHeader';
+import VitalityAppListInfo from './VitalityAppListInfo';
 import VitalityAppListPagination from './VitalityAppListPagination';
 
 const initialPage = 0;
@@ -106,30 +107,53 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
         <div className="w-full flex flex-col items-center gap-6">
             <VitalityAppListHeader onExportApplicationsClicked={onExportApplicationsClicked} />
 
+            <VitalityAppListInfo />
+
             {isAppListLoading && !appList ? (
                 <div className="py-20">
                     <Spinner />
                 </div>
             ) : Array.isArray(appList) && appList.length === 0 ? (
-                <div className="w-full max-w-4xl px-4 py-20 text-center text-zinc-500">
+                <div className="w-full max-w-6xl px-4 py-20 text-center text-zinc-500">
                     {translate('vitality.appListPage.empty')}
                 </div>
             ) : (
                 <div className="w-full">
                     {appList && (
-                        <ul className="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                             {appList.map((app) => (
                                 <VitalityAppInfos key={app._id} app={app} source={source} />
                             ))}
-                        </ul>
+
+                            <div className="bg-white border border-slate-100 rounded-lg p-8 shadow-md flex flex-col items-center justify-center min-h-[420px] text-center">
+                                <div className="space-y-4">
+                                    <div className="text-zinc-900 font-bold text-lg">
+                                        {translate('vitality.appListPage.addProjectTitle')}
+                                    </div>
+                                    <p className="text-zinc-600 text-sm leading-relaxed">
+                                        {translate('vitality.appListPage.addProjectDescription')}
+                                    </p>
+                                    <a
+                                        href={VitalityApiConfig.VITALITY_BACK_OFFICE_URL || '#'}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-block bg-zinc-900 text-white hover:bg-zinc-800 px-6 py-2 rounded-md transition-colors text-sm font-medium"
+                                    >
+                                        {translate('vitality.appListPage.goToBackOffice')}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     )}
 
                     {appList && (
-                        <VitalityAppListPagination
-                            currentPage={currentAppListPage.current + 1}
-                            totalPages={totalPages}
-                            onPageChange={onPageChange}
-                        />
+                        <div className="mt-8">
+                            <VitalityAppListPagination
+                                currentPage={currentAppListPage.current + 1}
+                                totalPages={totalPages}
+                                onPageChange={onPageChange}
+                            />
+                        </div>
                     )}
                 </div>
             )}
