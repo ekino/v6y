@@ -3,12 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { ApplicationType } from '@v6y/core-logic/src/types';
-import {
-    InfoCircledIcon,
-    Spinner,
-    useNavigationAdapter,
-    useTranslationProvider,
-} from '@v6y/ui-kit-front';
+import { InfoCircledIcon, Spinner, useTranslationProvider } from '@v6y/ui-kit-front';
 
 import VitalityAppInfos from '../../../commons/components/application-info/VitalityAppInfos';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
@@ -43,10 +38,8 @@ interface ApplicationListPage {
 
 const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
     const [appList, setAppList] = useState<ApplicationType[] | undefined>(undefined);
+    const [searchInput, setSearchInput] = useState<string>('');
     const currentAppListPage = useRef<number>(initialPage);
-
-    const { getUrlParams } = useNavigationAdapter();
-    const [keywords, searchText] = getUrlParams(['keywords', 'searchText']);
 
     const {
         data: dataAppList,
@@ -57,8 +50,7 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
     }: VitalityAppListQueryType = useInfiniteClientQuery({
         queryCacheKey: [
             'getApplicationListByPageAndParams',
-            keywords?.length ? keywords : 'empty_keywords',
-            searchText?.length ? searchText : 'empty_search_text',
+            'all_apps',
             `${currentAppListPage.current}`,
         ],
         queryBuilder: async () =>
@@ -68,8 +60,8 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
                 variables: {
                     offset: currentAppListPage.current * VitalityApiConfig.VITALITY_BFF_PAGE_SIZE,
                     limit: VitalityApiConfig.VITALITY_BFF_PAGE_SIZE,
-                    keywords,
-                    searchText,
+                    keywords: undefined,
+                    searchText: undefined,
                 },
             }),
         getNextPageParam: () => currentAppListPage.current,
@@ -91,10 +83,14 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
     useEffect(() => {
         currentAppListPage.current = 0;
         fetchAppListNextPage?.();
-    }, [keywords, searchText, fetchAppListNextPage]);
+    }, [fetchAppListNextPage]);
 
     const isAppListLoading =
         appListFetchStatus === 'loading' || isAppListFetching || isAppListFetchingNextPage || false;
+    const filteredAppList = appList?.filter(
+        (app) =>
+            searchInput.trim() === '' || app.name.toLowerCase().includes(searchInput.toLowerCase()),
+    );
 
     const onExportApplicationsClicked = () => {
         exportAppListDataToCSV(appList || []);
@@ -110,23 +106,36 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
 
     return (
         <div className="w-full flex flex-col items-center gap-6">
+            <div className="w-full flex items-center gap-4">
+                <div className="flex-1 h-px bg-slate-300"></div>
+                <h1 className="text-base sm:text-2xl font-semibold text-slate-950 whitespace-nowrap">
+                    {translate('vitality.dashboardPage.shortTitle').toUpperCase()}
+                </h1>
+                <div className="flex-1 h-px bg-slate-300"></div>
+            </div>
+
             <VitalityAppListInfo />
 
-            <VitalityAppListHeader onExportApplicationsClicked={onExportApplicationsClicked} />
+            <VitalityAppListHeader
+                onExportApplicationsClicked={onExportApplicationsClicked}
+                searchValue={searchInput}
+                onSearchChange={setSearchInput}
+                appsCount={filteredAppList?.length || 0}
+            />
 
             {isAppListLoading && !appList ? (
                 <div className="py-20">
                     <Spinner />
                 </div>
-            ) : Array.isArray(appList) && appList.length === 0 ? (
+            ) : Array.isArray(filteredAppList) && filteredAppList.length === 0 ? (
                 <div className="w-full max-w-6xl px-4 py-20 text-center text-zinc-500">
                     {translate('vitality.appListPage.empty')}
                 </div>
             ) : (
                 <div className="w-full">
-                    {appList && (
+                    {filteredAppList && (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                            {appList.map((app) => (
+                            {filteredAppList.map((app) => (
                                 <VitalityAppInfos key={app._id} app={app} source={source} />
                             ))}
 
@@ -150,7 +159,7 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
                         </div>
                     )}
 
-                    {appList && (
+                    {filteredAppList && (
                         <div className="mt-12">
                             <VitalityAppListPagination
                                 currentPage={currentAppListPage.current + 1}
