@@ -6,7 +6,6 @@ import {
     Button,
     CommitIcon,
     GlobeIcon,
-    StarIcon,
     useNavigationAdapter,
     useTranslationProvider,
 } from '@v6y/ui-kit-front';
@@ -89,34 +88,17 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true }: VitalityAppInf
     const auditReports = auditData?.getApplicationDetailsAuditReportsByParams || [];
     const metrics = calculateMetrics(auditReports);
 
-    // Generate a consistent gradient color based on app ID
-    const generateGradient = (id: number) => {
-        const colors = [
-            'from-slate-400 to-slate-600',
-            'from-gray-400 to-gray-600',
-            'from-zinc-400 to-zinc-600',
-            'from-stone-400 to-stone-600',
-            'from-neutral-400 to-neutral-600',
-        ];
-        return colors[Math.abs(id) % colors.length];
-    };
-
     return (
-        <li className="w-full bg-white shadow-md rounded-lg border border-slate-100 min-h-[400px] flex flex-col overflow-hidden">
+        <li className="w-full bg-white shadow-md rounded-lg border border-slate-100 flex flex-col overflow-hidden">
             {/* Hero Banner */}
-            <div
-                className={`w-full h-48 bg-gradient-to-br ${generateGradient(app._id as number)} flex-shrink-0`}
-            />
+            <div className={`w-full h-16 bg-slate-300 flex-shrink-0`} />
 
             {/* Content */}
-            <div className="flex flex-col space-y-6 p-8 flex-grow">
+            <div className="flex flex-col space-y-4 p-8 flex-grow">
                 <div>
-                    <div className="flex items-center justify-between gap-x-4">
+                    <div className="flex items-center justify-between">
                         <div className="flex-1">
                             <h4 className="text-xl font-bold flex items-center gap-x-4">
-                                <span className="flex items-center" aria-hidden>
-                                    <StarIcon className="scale-125" />
-                                </span>
                                 <span data-testid="app-name">{app.name}</span>
                             </h4>
                         </div>

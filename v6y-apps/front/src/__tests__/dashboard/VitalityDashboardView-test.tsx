@@ -5,19 +5,18 @@ import { describe, expect, it, vi } from 'vitest';
 
 import VitalityDashboardView from '../../features/dashboard/components/VitalityDashboardView';
 
-// Mock child components used by VitalityDashboardView
-vi.mock('../../features/dashboard/components/VitalityDashboardFilters', () => ({
-    __esModule: true,
-    default: () => <div data-testid="mock-filters">Mock Filters</div>,
-}));
-
+// Mock VitalityAppList component
 vi.mock('../../features/app-list/components/VitalityAppList', () => ({
     __esModule: true,
-    default: () => <div data-testid="mock-app-list">Mock App List</div>,
+    default: ({ source }: { source: string }) => (
+        <div data-testid="mock-app-list" data-source={source}>
+            Mock App List
+        </div>
+    ),
 }));
 
 describe('VitalityDashboardView', () => {
-    it('renders filters and app list', () => {
+    it('renders app list with search source', () => {
         const qc = new QueryClient();
         render(
             <QueryClientProvider client={qc}>
@@ -25,7 +24,19 @@ describe('VitalityDashboardView', () => {
             </QueryClientProvider>,
         );
 
-        expect(screen.getByTestId('mock-filters')).toBeInTheDocument();
-        expect(screen.getByTestId('mock-app-list')).toBeInTheDocument();
+        const appList = screen.getByTestId('mock-app-list');
+        expect(appList).toBeInTheDocument();
+        expect(appList).toHaveAttribute('data-source', 'search');
+    });
+
+    it('does not render filters (removed from dashboard)', () => {
+        const qc = new QueryClient();
+        render(
+            <QueryClientProvider client={qc}>
+                <VitalityDashboardView />
+            </QueryClientProvider>,
+        );
+
+        expect(screen.queryByTestId('mock-filters')).not.toBeInTheDocument();
     });
 });

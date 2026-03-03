@@ -3,7 +3,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { ApplicationType } from '@v6y/core-logic/src/types';
-import { Spinner, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit-front';
+import {
+    InfoCircledIcon,
+    Spinner,
+    useNavigationAdapter,
+    useTranslationProvider,
+} from '@v6y/ui-kit-front';
 
 import VitalityAppInfos from '../../../commons/components/application-info/VitalityAppInfos';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
@@ -105,9 +110,9 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
 
     return (
         <div className="w-full flex flex-col items-center gap-6">
-            <VitalityAppListHeader onExportApplicationsClicked={onExportApplicationsClicked} />
-
             <VitalityAppListInfo />
+
+            <VitalityAppListHeader onExportApplicationsClicked={onExportApplicationsClicked} />
 
             {isAppListLoading && !appList ? (
                 <div className="py-20">
@@ -125,22 +130,15 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
                                 <VitalityAppInfos key={app._id} app={app} source={source} />
                             ))}
 
-                            <div className="bg-white border border-slate-100 rounded-lg p-8 shadow-md flex flex-col items-center justify-center min-h-[420px] text-center">
+                            <div className="bg-white border border-slate-100 rounded-lg p-8 shadow-md flex flex-col items-center justify-center text-center">
                                 <div className="space-y-4">
+                                    <InfoCircledIcon className="mx-auto w-20 h-20" />
                                     <div className="text-zinc-900 font-bold text-lg">
                                         {translate('vitality.appListPage.addProjectTitle')}
                                     </div>
                                     <p className="text-zinc-600 text-sm leading-relaxed">
                                         {translate('vitality.appListPage.addProjectDescription')}
                                     </p>
-                                    <a
-                                        href={VitalityApiConfig.VITALITY_BACK_OFFICE_URL || '#'}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-block bg-zinc-900 text-white hover:bg-zinc-800 px-6 py-2 rounded-md transition-colors text-sm font-medium"
-                                    >
-                                        {translate('vitality.appListPage.goToBackOffice')}
-                                    </a>
                                 </div>
                             </div>
                         </div>
