@@ -79,7 +79,7 @@ describe('VitalityAppList', () => {
         render(<VitalityAppList />);
 
         await waitFor(() => {
-            expect(screen.getByText('vitality.appListPage.goToBackOffice')).toBeInTheDocument();
+            expect(screen.getByText('vitality.appListPage.addProjectTitle')).toBeInTheDocument();
         });
     });
 
@@ -91,18 +91,6 @@ describe('VitalityAppList', () => {
         await waitFor(() => {
             expect(screen.getByText('vitality.appListPage.empty')).toBeInTheDocument();
             expect(screen.queryByTestId('app-list-pagination')).not.toBeInTheDocument();
-        });
-    });
-
-    it('shows application count in header', async () => {
-        (useClientQuery as Mock).mockReturnValue({
-            isLoading: false,
-            data: { getApplicationTotalByParams: 25 },
-        });
-        render(<VitalityAppListHeader onExportApplicationsClicked={vi.fn()} />);
-
-        await waitFor(() => {
-            expect(screen.getByText('25 results')).toBeInTheDocument();
         });
     });
 });

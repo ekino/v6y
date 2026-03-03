@@ -5,6 +5,7 @@ import {
     Badge,
     Button,
     CommitIcon,
+    CubeIcon,
     GlobeIcon,
     useNavigationAdapter,
     useTranslationProvider,
@@ -89,108 +90,111 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true }: VitalityAppInf
     const metrics = calculateMetrics(auditReports);
 
     return (
-        <li className="w-full bg-white shadow-md rounded-lg border border-slate-100 flex flex-col overflow-hidden">
-            {/* Hero Banner */}
-            <div className={`w-full h-16 bg-slate-300 flex-shrink-0`} />
-
-            {/* Content */}
-            <div className="flex flex-col space-y-4 p-8 flex-grow">
-                <div>
-                    <div className="flex items-center justify-between">
-                        <div className="flex-1">
-                            <h4 className="text-xl font-bold flex items-center gap-x-4">
-                                <span data-testid="app-name">{app.name}</span>
-                            </h4>
-                        </div>
-
-                        <div className="flex items-center gap-x-2">
-                            {appRepository?.gitUrl && (
-                                <Link href={appRepository.gitUrl}>
-                                    <Button
-                                        variant="outline"
-                                        className="w-10 h-10 rounded-md border border-slate-200 flex items-center justify-center"
-                                    >
-                                        <CommitIcon />
-                                    </Button>
-                                </Link>
-                            )}
-                            {appRepository?.webUrl && (
-                                <Link href={appRepository.webUrl}>
-                                    <Button
-                                        variant="outline"
-                                        className="w-10 h-10 rounded-md border border-slate-200 flex items-center justify-center"
-                                    >
-                                        <GlobeIcon />
-                                    </Button>
-                                </Link>
-                            )}
-                            {canOpenDetails && (
-                                <Link href={appDetailsLink}>
-                                    <Button className="bg-zinc-900 text-white hover:bg-zinc-800 px-4 py-2 rounded-md text-sm">
-                                        {translate('vitality.appListPage.seeReporting') ||
-                                            'See Reporting'}
-                                    </Button>
-                                </Link>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Metrics and branches beneath title */}
-                    <div className="mt-3 flex flex-wrap gap-2">
-                        <Badge
-                            variant={appOpenedBranches >= 4 ? 'warning' : 'default'}
-                            className="text-xs"
-                        >
-                            Branches ({appOpenedBranches})
-                        </Badge>
-                        {metrics.security > 0 && (
-                            <Badge className="text-xs" variant="error">
-                                <span className="font-semibold">{metrics.security}</span>
-                                <span className="ml-1">security</span>
-                            </Badge>
-                        )}
-                        {metrics.maintainability > 0 && (
-                            <Badge className="text-xs" variant="warning">
-                                <span className="font-semibold">{metrics.maintainability}</span>
-                                <span className="ml-1">maintainability</span>
-                            </Badge>
-                        )}
-                        {metrics.accessibility > 0 && (
-                            <Badge className="text-xs">
-                                <span className="font-semibold">{metrics.accessibility}</span>
-                                <span className="ml-1">accessibility</span>
-                            </Badge>
-                        )}
-                    </div>
+        <li className="w-full bg-white shadow-md hover:shadow-xl rounded-xl border border-slate-100 flex flex-col overflow-hidden transition-all duration-300 ease-out hover:border-slate-200">
+            <div className="flex flex-col md:flex-row md:items-stretch">
+                <div className="w-full h-32 md:w-24 md:h-auto bg-slate-100 flex justify-center items-center rounded-t-lg md:rounded-t-none md:rounded-l-lg border-b md:border-b-0 md:border-r border-slate-100">
+                    <CubeIcon className="w-16 h-16 text-slate-500" />
                 </div>
 
-                <div className="flex-grow" />
+                {/* Content */}
+                <div className="flex flex-col space-y-5 p-6 sm:p-8 flex-grow md:flex-1">
+                    <div>
+                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 sm:gap-3">
+                            <div className="flex-1 min-w-0">
+                                <h4 className="text-xl sm:text-2xl font-bold text-slate-950 flex items-center gap-x-3 break-words leading-tight">
+                                    <span data-testid="app-name">{app.name}</span>
+                                </h4>
+                            </div>
 
-                <div className="flex flex-wrap gap-3">
-                    {(appLinks || [])
-                        .filter((link) => typeof link.value === 'string')
-                        .map((link, id: number) => (
-                            <Link
-                                className="text-black text-xs"
-                                key={id}
-                                href={link.value as string}
-                                target="_blank"
-                                rel="noopener noreferrer"
+                            <div className="flex flex-wrap items-center gap-2">
+                                {appRepository?.gitUrl && (
+                                    <Link href={appRepository.gitUrl}>
+                                        <Button
+                                            variant="outline"
+                                            className="w-10 h-10 rounded-lg border border-slate-300 hover:border-slate-400 hover:bg-slate-100 flex items-center justify-center transition-all hover:scale-105"
+                                        >
+                                            <CommitIcon />
+                                        </Button>
+                                    </Link>
+                                )}
+                                {appRepository?.webUrl && (
+                                    <Link href={appRepository.webUrl}>
+                                        <Button
+                                            variant="outline"
+                                            className="w-10 h-10 rounded-lg border border-slate-300 hover:border-slate-400 hover:bg-slate-100 flex items-center justify-center transition-all hover:scale-105"
+                                        >
+                                            <GlobeIcon />
+                                        </Button>
+                                    </Link>
+                                )}
+                                {canOpenDetails && (
+                                    <Link href={appDetailsLink}>
+                                        <Button className="bg-slate-950 text-white hover:bg-slate-800 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all hover:shadow-md">
+                                            {translate('vitality.appListPage.seeReporting') ||
+                                                'See Reporting'}
+                                        </Button>
+                                    </Link>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Metrics and branches beneath title */}
+                        <div className="mt-5 flex flex-wrap gap-2.5">
+                            <Badge
+                                variant={appOpenedBranches >= 4 ? 'warning' : 'default'}
+                                className="text-xs"
                             >
-                                {link.label}
-                            </Link>
-                        ))}
-                </div>
+                                Branches ({appOpenedBranches})
+                            </Badge>
+                            {metrics.security > 0 && (
+                                <Badge className="text-xs" variant="error">
+                                    <span className="font-semibold">{metrics.security}</span>
+                                    <span className="ml-1">security</span>
+                                </Badge>
+                            )}
+                            {metrics.maintainability > 0 && (
+                                <Badge className="text-xs" variant="warning">
+                                    <span className="font-semibold">{metrics.maintainability}</span>
+                                    <span className="ml-1">maintainability</span>
+                                </Badge>
+                            )}
+                            {metrics.accessibility > 0 && (
+                                <Badge className="text-xs">
+                                    <span className="font-semibold">{metrics.accessibility}</span>
+                                    <span className="ml-1">accessibility</span>
+                                </Badge>
+                            )}
+                        </div>
+                    </div>
 
-                <div className="pt-4 border-t border-slate-100">
-                    {app.contactMail && (
-                        <Link
-                            href={`mailto:${app.contactMail}`}
-                            className="text-sm text-slate-700 no-underline hover:no-underline"
-                        >
-                            {translate('vitality.appListPage.contactEmail')}
-                        </Link>
-                    )}
+                    <div className="flex-grow" />
+
+                    <div className="flex flex-wrap gap-2.5">
+                        {(appLinks || [])
+                            .filter((link) => typeof link.value === 'string')
+                            .map((link, id: number) => (
+                                <Link
+                                    className="text-black hover:text-slate-700 text-xs font-medium underline transition-colors"
+                                    key={id}
+                                    href={link.value as string}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {link.label}
+                                </Link>
+                            ))}
+                    </div>
+
+                    <div className="pt-4 border-t border-slate-200">
+                        {app.contactMail && (
+                            <Link
+                                href={`mailto:${app.contactMail}`}
+                                className="text-sm text-black hover:text-slate-700 font-medium underline transition-colors"
+                            >
+                                {translate('vitality.appListPage.contactEmail')}
+                            </Link>
+                        )}
+                    </div>
                 </div>
             </div>
         </li>

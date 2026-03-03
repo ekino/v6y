@@ -93,7 +93,7 @@ describe('VitalityAppInfos', () => {
         expect(screen.queryByText('vitality.appListPage.seeReporting')).not.toBeInTheDocument();
     });
 
-    it('displays branch count correctly and shows different gradient per app ID', () => {
+    it('displays branch count correctly with icon on left side', () => {
         (useClientQuery as Mock).mockReturnValue({
             data: { getApplicationDetailsAuditReportsByParams: [] },
         });
@@ -104,9 +104,7 @@ describe('VitalityAppInfos', () => {
         const { container } = render(<VitalityAppInfos app={app5Branches} />);
 
         expect(screen.getByText('Branches (5)')).toBeInTheDocument();
-        expect(
-            container.querySelector('[class*="h-48"][class*="bg-gradient-to-br"]'),
-        ).toBeInTheDocument();
+        expect(container.querySelector('[class*="h-32"][class*="bg-slate"]')).toBeInTheDocument();
     });
 
     it('displays metric badges based on audit report types', () => {

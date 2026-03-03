@@ -13,4 +13,6 @@ export {
     ChatBubbleIcon,
     MixerHorizontalIcon,
     InfoCircledIcon,
+    TargetIcon,
+    CubeIcon,
 } from '@radix-ui/react-icons';

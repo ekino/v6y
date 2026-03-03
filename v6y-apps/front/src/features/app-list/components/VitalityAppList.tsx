@@ -130,22 +130,28 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
                                 <VitalityAppInfos key={app._id} app={app} source={source} />
                             ))}
 
-                            <div className="bg-white border border-slate-100 rounded-lg p-8 shadow-md flex flex-col items-center justify-center text-center">
-                                <div className="space-y-4">
-                                    <InfoCircledIcon className="mx-auto w-20 h-20" />
-                                    <div className="text-zinc-900 font-bold text-lg">
-                                        {translate('vitality.appListPage.addProjectTitle')}
+                            <div className="bg-gradient-to-br from-slate-50 to-white border border-slate-200 rounded-xl p-10 shadow-md hover:shadow-lg flex flex-col items-center justify-center text-center transition-all duration-300">
+                                <div className="space-y-5">
+                                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100">
+                                        <InfoCircledIcon className="w-8 h-8 text-slate-500" />
                                     </div>
-                                    <p className="text-zinc-600 text-sm leading-relaxed">
-                                        {translate('vitality.appListPage.addProjectDescription')}
-                                    </p>
+                                    <div>
+                                        <div className="text-slate-950 font-bold text-lg">
+                                            {translate('vitality.appListPage.addProjectTitle')}
+                                        </div>
+                                        <p className="text-slate-600 text-sm leading-relaxed max-w-sm mt-2">
+                                            {translate(
+                                                'vitality.appListPage.addProjectDescription',
+                                            )}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     )}
 
                     {appList && (
-                        <div className="mt-8">
+                        <div className="mt-12">
                             <VitalityAppListPagination
                                 currentPage={currentAppListPage.current + 1}
                                 totalPages={totalPages}
