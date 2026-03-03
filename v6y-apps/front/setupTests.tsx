@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { cleanup } from '@testing-library/react';
 import { List } from '@v6y/ui-kit';
-import '@v6y/ui-kit-front';
 import dynamic from 'next/dynamic';
 import { afterEach, beforeEach, vi } from 'vitest';
 

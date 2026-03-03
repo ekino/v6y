@@ -15,7 +15,7 @@ import {
 
 import VitalityNavigationPaths from './VitalityNavigationPaths';
 
-export interface BreadCrumbItemType {
+interface BreadCrumbItemType {
     currentPage: string;
     lastPage: string;
     urlParams: string;
@@ -80,16 +80,6 @@ export const buildDashboardMenuItems = (themeToken: ThemeTokenType | undefined) 
             avatarColor: themeToken?.colorInfo,
         },
     ] as DashboardItemType[];
-
-export const AUDIT_REPORT_TYPES = {
-    lighthouse: 'Lighthouse',
-    codeModularity: 'Code-Modularity',
-    codeComplexity: 'Code-Complexity',
-    codeCoupling: 'Code-Coupling',
-    codeSecurity: 'Code-Security',
-    codeDuplication: 'Code-Duplication',
-    dora: 'DORA',
-};
 
 export const buildBreadCrumbItems = ({
     currentPage,
@@ -194,17 +184,6 @@ export const buildBreadCrumbItems = ({
                 },
             ],
         }[currentPage] || []
-    );
-};
-
-export const buildPageTitle = (pathname: string, translate: (key: string) => string) => {
-    return (
-        {
-            [VitalityNavigationPaths.DASHBOARD]: translate('vitality.dashboardPage.pageTitle'),
-            [VitalityNavigationPaths.APP_LIST]: translate('vitality.appListPage.pageTitle'),
-            [VitalityNavigationPaths.APP_DETAILS]: translate('vitality.appDetailsPage.pageTitle'),
-            [VitalityNavigationPaths.APPS_STATS]: translate('vitality.appStatsPage.pageTitle'),
-        }[pathname] || []
     );
 };
 
