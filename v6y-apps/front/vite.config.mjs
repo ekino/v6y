@@ -19,7 +19,14 @@ export default defineConfig({
         globals: true,
         setupFiles: ['./vitest.setup.ts'],
         environment: 'jsdom',
-        exclude: [...configDefaults.exclude],
+        exclude: [
+            ...configDefaults.exclude,
+            // Exclude Playwright e2e tests so Vitest doesn't pick them up
+            'src/**/__tests__/**e2e*.{ts,tsx,js,jsx,mts,cts}',
+            '**/*.e2e.*',
+            'src/**/__tests__/e2e.*',
+            'src/**/__tests__/e2e.*',
+        ],
         include: [
             ...configDefaults.include,
             'src/**/__tests__/*.{test,spec}.?(c|m)[jt]s?(x)',
