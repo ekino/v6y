@@ -15,4 +15,12 @@ export {
     InfoCircledIcon,
     TargetIcon,
     CubeIcon,
+    DashboardIcon,
+    LayersIcon,
+    CheckCircledIcon,
+    CrossCircledIcon,
+    ExclamationTriangleIcon,
+    LightningBoltIcon,
+    GitHubLogoIcon,
+    ChevronRightIcon,
 } from '@radix-ui/react-icons';

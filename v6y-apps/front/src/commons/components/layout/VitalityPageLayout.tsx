@@ -10,11 +10,15 @@ import VitalityPageHeader from './VitalityPageHeader';
 
 const VitalityPageLayout = ({ children }: { children: ReactNode }) => {
     return (
-        <div className="px-4 md:px-16">
-            <VitalityPageHeader />
-            <VitalityBreadcrumb />
-            {children}
-            <Toaster position="top-center" richColors />
+        <div>
+            <div className="px-4 md:px-16 border-b border-slate-200">
+                <VitalityPageHeader />
+            </div>
+            <div className="px-4 md:px-16">
+                <VitalityBreadcrumb />
+                {children}
+                <Toaster position="top-center" richColors />
+            </div>
         </div>
     );
 };

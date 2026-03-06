@@ -61,7 +61,6 @@ describe('VitalityAppInfos', () => {
         expect(screen.getByTestId('app-name')).toHaveTextContent('Test App');
         expect(screen.getByText('Branches (2)')).toBeInTheDocument();
         expect(screen.getByText('GitHub')).toBeInTheDocument();
-        expect(screen.getByText('vitality.appListPage.seeReporting')).toBeInTheDocument();
 
         const links = screen.getAllByRole('link') as HTMLAnchorElement[];
         expect(
@@ -87,13 +86,13 @@ describe('VitalityAppInfos', () => {
 
         const app = createMockApp();
         const { rerender } = render(<VitalityAppInfos app={app} canOpenDetails={true} />);
-        expect(screen.getByText('vitality.appListPage.seeReporting')).toBeInTheDocument();
+        expect(screen.getByTestId('app-card')).toHaveAttribute('role', 'button');
 
         rerender(<VitalityAppInfos app={app} canOpenDetails={false} />);
-        expect(screen.queryByText('vitality.appListPage.seeReporting')).not.toBeInTheDocument();
+        expect(screen.getByTestId('app-card')).not.toHaveAttribute('role');
     });
 
-    it('displays branch count correctly with icon on left side', () => {
+    it('displays branch count correctly', () => {
         (useClientQuery as Mock).mockReturnValue({
             data: { getApplicationDetailsAuditReportsByParams: [] },
         });
@@ -101,10 +100,9 @@ describe('VitalityAppInfos', () => {
         const app5Branches = createMockApp({
             repo: { allBranches: ['main', 'dev', 'feature-1', 'hotfix-1', 'feature-2'] },
         });
-        const { container } = render(<VitalityAppInfos app={app5Branches} />);
+        render(<VitalityAppInfos app={app5Branches} />);
 
         expect(screen.getByText('Branches (5)')).toBeInTheDocument();
-        expect(container.querySelector('[class*="h-32"][class*="bg-slate"]')).toBeInTheDocument();
     });
 
     it('displays metric badges based on audit report types', () => {
@@ -122,9 +120,9 @@ describe('VitalityAppInfos', () => {
         const app = createMockApp();
         render(<VitalityAppInfos app={app} />);
 
-        expect(screen.getByText('security')).toBeInTheDocument();
-        expect(screen.getByText('maintainability')).toBeInTheDocument();
-        expect(screen.getByText('accessibility')).toBeInTheDocument();
+        expect(screen.getByText(/security/)).toBeInTheDocument();
+        expect(screen.getByText(/maintainability/)).toBeInTheDocument();
+        expect(screen.getByText(/accessibility/)).toBeInTheDocument();
     });
 
     it('hides metric badges when count is zero', () => {

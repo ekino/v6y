@@ -1,5 +1,12 @@
-import { TargetIcon, useTranslationProvider } from '@v6y/ui-kit-front';
-import { Card, CardContent, CardHeader, CardTitle } from '@v6y/ui-kit-front';
+import {
+    Button,
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    TargetIcon,
+    useTranslationProvider,
+} from '@v6y/ui-kit-front';
 
 const VitalityAppListInfo = () => {
     const { translate } = useTranslationProvider();
@@ -46,6 +53,17 @@ const VitalityAppListInfo = () => {
                                         {translate('vitality.appListPage.infoFeature3Desc')}
                                     </span>
                                 </div>
+                            </div>
+                            <div className="pt-4 flex">
+                                <a
+                                    href={process.env.NEXT_PUBLIC_BACK_OFFICE_URL || '#'}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <Button size="sm" variant="default">
+                                        {translate('vitality.appListPage.goToBackOffice')}
+                                    </Button>
+                                </a>
                             </div>
                         </CardContent>
                     </div>

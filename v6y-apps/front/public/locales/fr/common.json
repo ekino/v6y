@@ -18,7 +18,15 @@
         "lastAnalysis": "Dernière analyse",
         "branches": "Branches",
         "reset": "Réinitialiser les filtres",
-        "performance": "Performance"
+        "performance": "Performance",
+        "search": "Recherche",
+        "sort": "Trier",
+        "sortAsc": "A → Z",
+        "sortDesc": "Z → A",
+        "branchesAll": "Toutes",
+        "branchesFew": "< 5 branches",
+        "branchesMany": "≥ 5 branches",
+        "quickAccess": "Accès rapide"
       }
     },
     "appListPage": {

@@ -1,9 +1,16 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { ApplicationType } from '@v6y/core-logic/src/types';
-import { InfoCircledIcon, Spinner, useTranslationProvider } from '@v6y/ui-kit-front';
+import {
+    Button,
+    Card,
+    CardContent,
+    InfoCircledIcon,
+    Spinner,
+    useTranslationProvider,
+} from '@v6y/ui-kit-front';
 
 import VitalityAppInfos from '../../../commons/components/application-info/VitalityAppInfos';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
@@ -13,10 +20,17 @@ import {
     buildClientQuery,
     useInfiniteClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
+import { DashboardFilters } from '../../dashboard/components/VitalityDashboardFilters';
 import GetApplicationListByPageAndParams from '../api/getApplicationListByPageAndParams';
 import VitalityAppListHeader from './VitalityAppListHeader';
 import VitalityAppListInfo from './VitalityAppListInfo';
 import VitalityAppListPagination from './VitalityAppListPagination';
+
+export interface DashboardStats {
+    totalCount: number;
+    filteredCount: number;
+    totalBranches: number;
+}
 
 const initialPage = 0;
 
@@ -36,7 +50,11 @@ interface ApplicationListPage {
     getApplicationListByPageAndParams: ApplicationType[];
 }
 
-const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
+const VitalityAppList: React.FC<{
+    source?: string;
+    externalFilters?: DashboardFilters;
+    onStatsChange?: (stats: DashboardStats) => void;
+}> = ({ source, externalFilters, onStatsChange }) => {
     const [appList, setAppList] = useState<ApplicationType[] | undefined>(undefined);
     const [searchInput, setSearchInput] = useState<string>('');
     const currentAppListPage = useRef<number>(initialPage);
@@ -87,10 +105,50 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
 
     const isAppListLoading =
         appListFetchStatus === 'loading' || isAppListFetching || isAppListFetchingNextPage || false;
-    const filteredAppList = appList?.filter(
-        (app) =>
-            searchInput.trim() === '' || app.name.toLowerCase().includes(searchInput.toLowerCase()),
-    );
+
+    const effectiveSearch = externalFilters?.search ?? searchInput;
+
+    const filteredAppList = useMemo(() => {
+        let list = (appList ?? []).filter(
+            (app) =>
+                effectiveSearch.trim() === '' ||
+                (app.name ?? '').toLowerCase().includes(effectiveSearch.toLowerCase()),
+        );
+
+        if (externalFilters?.branchFilter && externalFilters.branchFilter !== 'all') {
+            const branchFilter = externalFilters.branchFilter;
+            list = list.filter((app) => {
+                const count =
+                    (app.repo as { allBranches?: unknown[] } | undefined)?.allBranches?.length ?? 0;
+                return branchFilter === 'few' ? count < 5 : count >= 5;
+            });
+        }
+
+        if (externalFilters?.sortOrder) {
+            list = [...list].sort((a, b) =>
+                externalFilters.sortOrder === 'asc'
+                    ? (a.name ?? '').localeCompare(b.name ?? '')
+                    : (b.name ?? '').localeCompare(a.name ?? ''),
+            );
+        }
+
+        return list;
+    }, [appList, effectiveSearch, externalFilters]);
+
+    useEffect(() => {
+        if (!onStatsChange) return;
+        const totalBranches = (filteredAppList ?? []).reduce(
+            (sum, app) =>
+                sum +
+                ((app.repo as { allBranches?: unknown[] } | undefined)?.allBranches?.length ?? 0),
+            0,
+        );
+        onStatsChange({
+            totalCount: appList?.length ?? 0,
+            filteredCount: filteredAppList?.length ?? 0,
+            totalBranches,
+        });
+    }, [appList, filteredAppList, onStatsChange]);
 
     const onExportApplicationsClicked = () => {
         exportAppListDataToCSV(appList || []);
@@ -105,21 +163,24 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
     const { translate } = useTranslationProvider();
 
     return (
-        <div className="w-full flex flex-col items-center gap-6">
-            <div className="w-full flex items-center gap-4">
-                <div className="flex-1 h-px bg-slate-300"></div>
-                <h1 className="text-base sm:text-2xl font-semibold text-slate-950 whitespace-nowrap">
-                    {translate('vitality.dashboardPage.shortTitle').toUpperCase()}
-                </h1>
-                <div className="flex-1 h-px bg-slate-300"></div>
-            </div>
+        <div className="w-full flex flex-col gap-4">
+            {!externalFilters && (
+                <div className="w-full flex items-center gap-4">
+                    <div className="flex-1 h-px bg-slate-300"></div>
+                    <h1 className="text-base sm:text-2xl font-semibold text-slate-950 whitespace-nowrap">
+                        {translate('vitality.dashboardPage.shortTitle').toUpperCase()}
+                    </h1>
+                    <div className="flex-1 h-px bg-slate-300"></div>
+                </div>
+            )}
 
-            <VitalityAppListInfo />
+            {!externalFilters && <VitalityAppListInfo />}
 
             <VitalityAppListHeader
                 onExportApplicationsClicked={onExportApplicationsClicked}
-                searchValue={searchInput}
-                onSearchChange={setSearchInput}
+                searchValue={externalFilters ? undefined : searchInput}
+                onSearchChange={externalFilters ? undefined : setSearchInput}
+                showSearch={!externalFilters}
                 appsCount={filteredAppList?.length || 0}
             />
 
@@ -134,28 +195,35 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
             ) : (
                 <div className="w-full">
                     {filteredAppList && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                        <div className="grid grid-cols-1 gap-3">
                             {filteredAppList.map((app) => (
                                 <VitalityAppInfos key={app._id} app={app} source={source} />
                             ))}
 
-                            <div className="bg-gradient-to-br from-slate-50 to-white border border-slate-200 rounded-xl p-10 shadow-md hover:shadow-lg flex flex-col items-center justify-center text-center transition-all duration-300">
-                                <div className="space-y-5">
-                                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100">
-                                        <InfoCircledIcon className="w-8 h-8 text-slate-500" />
-                                    </div>
+                            <Card className="w-full border border-dashed border-slate-200 bg-white shadow-none">
+                                <CardContent className="flex flex-col items-center justify-center text-center p-6 gap-3">
+                                    <InfoCircledIcon className="w-6 h-6 text-slate-300" />
                                     <div>
-                                        <div className="text-slate-950 font-bold text-lg">
+                                        <p className="text-sm font-semibold text-slate-500">
                                             {translate('vitality.appListPage.addProjectTitle')}
-                                        </div>
-                                        <p className="text-slate-600 text-sm leading-relaxed max-w-sm mt-2">
+                                        </p>
+                                        <p className="text-xs text-slate-400 mt-1 max-w-xs">
                                             {translate(
                                                 'vitality.appListPage.addProjectDescription',
                                             )}
                                         </p>
                                     </div>
-                                </div>
-                            </div>
+                                    <a
+                                        href={process.env.NEXT_PUBLIC_BACK_OFFICE_URL || '#'}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <Button size="sm" variant="outline">
+                                            {translate('vitality.appListPage.goToBackOffice')}
+                                        </Button>
+                                    </a>
+                                </CardContent>
+                            </Card>
                         </div>
                     )}
 
