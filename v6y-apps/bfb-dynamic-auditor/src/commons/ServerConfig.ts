@@ -1,8 +1,9 @@
-import { ServerEnvConfigType, getServerConfig } from '@v6y/core-logic';
+import { ServerEnvConfigType, getServerConfig, normalizeBasePath } from '@v6y/core-logic';
 
-const V6Y_DYNAMIC_HEALTH_CHECK_PATH = `${process.env.V6Y_DYNAMIC_ANALYZER_API_PATH}health-checks`;
-const V6Y_DYNAMIC_MONITORING_PATH = `${process.env.V6Y_DYNAMIC_ANALYZER_API_PATH}monitoring`;
-const V6Y_DYNAMIC_AUDITOR_API_PATH = `${process.env.V6Y_DYNAMIC_ANALYZER_API_PATH}auditor`;
+const V6Y_API_BASE_PATH = normalizeBasePath(process.env.V6Y_DYNAMIC_ANALYZER_API_PATH);
+const V6Y_DYNAMIC_HEALTH_CHECK_PATH = `${V6Y_API_BASE_PATH}health-checks`;
+const V6Y_DYNAMIC_MONITORING_PATH = `${V6Y_API_BASE_PATH}monitoring`;
+const V6Y_DYNAMIC_AUDITOR_API_PATH = `${V6Y_API_BASE_PATH}auditor`;
 
 /**
  * Server configuration for different environments.
