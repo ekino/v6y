@@ -1,10 +1,9 @@
 import { ApolloServer } from '@apollo/server';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
-import Express from 'express';
-import ExpressStatusMonitor from 'express-status-monitor';
 
 import { AppLogger, DataBaseManager, ServerUtils, configureAuthMiddleware } from '@v6y/core-logic';
 
+import { createApp } from './app.ts';
 import ServerConfig from './config/ServerConfig.ts';
 import VitalityResolvers from './resolvers/VitalityResolvers.ts';
 import { buildUserMiddleware } from './resolvers/manager/AuthenticationManager.ts';
@@ -14,33 +13,11 @@ const { createServer } = ServerUtils;
 
 const { currentConfig } = ServerConfig;
 
-const { ssl, monitoringPath, hostname, port, apiPath, healthCheckPath } = currentConfig || {};
+const { apiPath } = currentConfig || {};
 
-const app = Express();
+// *********************************************** App & HTTP Server Creation ***********************************************
 
-// *********************************************** Monitoring Endpoints ***********************************************
-
-app.use(
-    ExpressStatusMonitor({
-        path: monitoringPath as string,
-        healthChecks: [
-            {
-                protocol: ssl ? 'https' : 'http',
-                host: hostname as string,
-                port: port,
-                path: healthCheckPath as string,
-            },
-        ],
-    }),
-);
-
-// *********************************************** Health Check Endpoints ***********************************************
-
-app.get(healthCheckPath as string, (req, res) => {
-    res.status(200).send('V6y Sever is UP !');
-});
-
-// *********************************************** Graphql Config & Endpoints ***********************************************
+const app = createApp();
 
 app.use(configureAuthMiddleware());
 
@@ -48,6 +25,8 @@ const httpServer = createServer({
     app,
     config: currentConfig,
 });
+
+// *********************************************** Graphql Config & Endpoints ***********************************************
 
 const server = new ApolloServer({
     typeDefs: VitalityTypes,
@@ -74,7 +53,7 @@ await DataBaseManager.connect();
 await new Promise((resolve) =>
     httpServer.listen(
         {
-            port,
+            port: currentConfig?.port,
         },
         () => resolve(null),
     ),
