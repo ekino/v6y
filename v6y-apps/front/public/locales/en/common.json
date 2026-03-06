@@ -18,7 +18,15 @@
         "lastAnalysis": "Last Analysis",
         "branches": "Branches",
         "reset": "Reset Filters",
-        "performance": "Performance"
+        "performance": "Performance",
+        "search": "Search",
+        "sort": "Sort",
+        "sortAsc": "A → Z",
+        "sortDesc": "Z → A",
+        "branchesAll": "All",
+        "branchesFew": "< 5 branches",
+        "branchesMany": "≥ 5 branches",
+        "quickAccess": "Quick access"
       }
     },
     "appListPage": {
@@ -35,7 +43,19 @@
       "technos": "Technologies: ",
       "lastAnalyzed": "Last analyzed on:",
       "seeReporting": "See Reporting",
-      "links": "Links:"
+      "links": "Links:",
+      "addProjectTitle": "Want to add a new project?",
+      "addProjectDescription": "To add a new project to the platform, please visit the back office. Only administrators can create new projects.",
+      "goToBackOffice": "Go to Back Office",
+      "projectsListTitle": "Projects Monitored List",
+      "infoTitle": "Monitor your projects' health",
+      "infoDescription": "Welcome to Vitality, your centralized dashboard for monitoring and optimizing the health and performance of your projects. Below you will find all the applications you want to monitor, with key metrics and insights at a glance.",
+      "infoFeature1Title": "Real-time Metrics",
+      "infoFeature1Desc": "Security, maintainability, and accessibility issues",
+      "infoFeature2Title": "Quick Navigation",
+      "infoFeature2Desc": "Access repositories and detailed reports instantly",
+      "infoFeature3Title": "Total Overview",
+      "infoFeature3Desc": "See all your projects at a glance with branches info"
     },
     "appDetailsPage": {
       "pageTitle": "Application details",

@@ -18,7 +18,15 @@
         "lastAnalysis": "Dernière analyse",
         "branches": "Branches",
         "reset": "Réinitialiser les filtres",
-        "performance": "Performance"
+        "performance": "Performance",
+        "search": "Recherche",
+        "sort": "Trier",
+        "sortAsc": "A → Z",
+        "sortDesc": "Z → A",
+        "branchesAll": "Toutes",
+        "branchesFew": "< 5 branches",
+        "branchesMany": "≥ 5 branches",
+        "quickAccess": "Accès rapide"
       }
     },
     "appListPage": {
@@ -35,7 +43,19 @@
       "technos": "Technologies : ",
       "lastAnalyzed": "Dernière analyse le :",
       "seeReporting": "Voir le reporting",
-      "links": "Liens :"
+      "links": "Liens :",
+      "addProjectTitle": "Vous souhaitez ajouter un nouveau projet ?",
+      "addProjectDescription": "Pour ajouter un nouveau projet à la plateforme, veuillez consulter le back office. Seuls les administrateurs peuvent créer de nouveaux projets.",
+      "goToBackOffice": "Aller au Back Office",
+      "projectsListTitle": "Liste des Projets Surveillés",
+      "infoTitle": "Surveillez la santé de vos projets",
+      "infoDescription": "Bienvenue sur Vitality, votre tableau de bord centralisé pour surveiller et optimiser la santé et les performances de vos projets. Vous trouverez ci-dessous toutes les applications que vous souhaitez surveiller, avec les métriques clés et les aperçus en un coup d'œil.",
+      "infoFeature1Title": "Métriques en Temps Réel",
+      "infoFeature1Desc": "Problèmes de sécurité, maintenabilité et accessibilité",
+      "infoFeature2Title": "Navigation Rapide",
+      "infoFeature2Desc": "Accédez aux dépôts et aux rapports détaillés instantanément",
+      "infoFeature3Title": "Vue d'Ensemble Complète",
+      "infoFeature3Desc": "Voyez tous vos projets en un coup d'œil avec les infos de branches"
     },
     "appDetailsPage": {
       "pageTitle": "Détail de l'application",

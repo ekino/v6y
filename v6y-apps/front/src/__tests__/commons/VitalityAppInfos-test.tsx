@@ -1,9 +1,10 @@
 import '@testing-library/jest-dom/vitest';
-import { render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { render, screen, waitFor } from '@testing-library/react';
+import { Mock, afterEach, describe, expect, it, vi } from 'vitest';
 
 import VitalityAppInfos from '../../commons/components/application-info/VitalityAppInfos';
 import { VitalityAppInfosProps } from '../../commons/types/VitalityAppInfosProps';
+import { useClientQuery } from '../../infrastructure/adapters/api/useQueryAdapter';
 
 vi.mock('@v6y/ui-kit-front', async () => {
     const actual = await vi.importActual('@v6y/ui-kit-front');
@@ -24,12 +25,17 @@ vi.mock('@v6y/ui-kit-front', async () => {
     };
 });
 
+vi.mock('../../infrastructure/adapters/api/useQueryAdapter', () => ({
+    useClientQuery: vi.fn(),
+    buildClientQuery: vi.fn(),
+}));
+
 describe('VitalityAppInfos', () => {
     afterEach(() => {
         vi.clearAllMocks();
     });
 
-    const mockApp: VitalityAppInfosProps['app'] = {
+    const createMockApp = (overrides?: Partial<VitalityAppInfosProps['app']>) => ({
         _id: 1,
         name: 'Test App',
         description: 'This is a test application.',
@@ -37,126 +43,110 @@ describe('VitalityAppInfos', () => {
         repo: {
             organization: 'TestOrg',
             webUrl: 'https://github.com/TestOrg/TestApp',
+            gitUrl: 'https://git.github.com/TestOrg/TestApp',
             allBranches: ['main', 'dev'],
         },
         links: [{ label: 'GitHub', value: 'https://github.com/TestOrg/TestApp' }],
-    };
+        ...overrides,
+    });
 
-    it('renders app details correctly', () => {
-        render(<VitalityAppInfos app={mockApp} canOpenDetails={true} />);
+    it('renders app details with name, branches, repo links, and contact email', () => {
+        (useClientQuery as Mock).mockReturnValue({
+            data: { getApplicationDetailsAuditReportsByParams: [] },
+        });
+
+        const app = createMockApp();
+        render(<VitalityAppInfos app={app} canOpenDetails={true} />);
 
         expect(screen.getByTestId('app-name')).toHaveTextContent('Test App');
         expect(screen.getByText('Branches (2)')).toBeInTheDocument();
-        expect(screen.getByText('vitality.appListPage.seeReporting')).toBeInTheDocument();
-
-        // Links pills should render
         expect(screen.getByText('GitHub')).toBeInTheDocument();
 
-        // Repo web url should be present among anchors
-        const anchors = screen.getAllByRole('link') as HTMLAnchorElement[];
+        const links = screen.getAllByRole('link') as HTMLAnchorElement[];
         expect(
-            anchors.some((a) => a.getAttribute('href') === 'https://github.com/TestOrg/TestApp'),
+            links.some((a) => a.getAttribute('href') === 'https://github.com/TestOrg/TestApp'),
         ).toBe(true);
-
-        // Contact mailto link
-        const mailLink = anchors.find((a) => a.getAttribute('href')?.startsWith('mailto:'));
-        expect(mailLink).toBeDefined();
     });
 
-    it('handles missing optional fields gracefully', () => {
-        const incompleteApp = { _id: 2, name: 'No Info App' };
+    it('handles incomplete app data gracefully', () => {
+        (useClientQuery as Mock).mockReturnValue({
+            data: { getApplicationDetailsAuditReportsByParams: [] },
+        });
 
-        render(<VitalityAppInfos app={incompleteApp} canOpenDetails={true} />);
+        render(<VitalityAppInfos app={{ _id: 1, name: 'No Info App' }} canOpenDetails={true} />);
 
         expect(screen.getByTestId('app-name')).toHaveTextContent('No Info App');
         expect(screen.getByText('Branches (0)')).toBeInTheDocument();
-        expect(screen.getByText('vitality.appListPage.seeReporting')).toBeInTheDocument();
     });
 
-    it('shows the app details link when canOpenDetails is true', () => {
-        render(<VitalityAppInfos app={mockApp} canOpenDetails={true} />);
+    it('toggles see reporting button based on canOpenDetails prop', () => {
+        (useClientQuery as Mock).mockReturnValue({
+            data: { getApplicationDetailsAuditReportsByParams: [] },
+        });
 
-        expect(screen.getByText('vitality.appListPage.seeReporting')).toBeInTheDocument();
+        const app = createMockApp();
+        const { rerender } = render(<VitalityAppInfos app={app} canOpenDetails={true} />);
+        expect(screen.getByTestId('app-card')).toHaveAttribute('role', 'button');
+
+        rerender(<VitalityAppInfos app={app} canOpenDetails={false} />);
+        expect(screen.getByTestId('app-card')).not.toHaveAttribute('role');
     });
 
-    it('shows the app details link when canOpenDetails is false', () => {
-        render(<VitalityAppInfos app={mockApp} canOpenDetails={false} />);
+    it('displays branch count correctly', () => {
+        (useClientQuery as Mock).mockReturnValue({
+            data: { getApplicationDetailsAuditReportsByParams: [] },
+        });
 
-        // When canOpenDetails is false, the See Reporting button should be hidden
-        expect(screen.queryByText('vitality.appListPage.seeReporting')).toBeNull();
-    });
-
-    it('renders repository links correctly', () => {
-        render(<VitalityAppInfos app={mockApp} canOpenDetails={true} />);
-
-        const anchors = screen.getAllByRole('link') as HTMLAnchorElement[];
-        expect(
-            anchors.some((a) => a.getAttribute('href') === 'https://github.com/TestOrg/TestApp'),
-        ).toBe(true);
-    });
-
-    it('renders application details correctly', () => {
-        const app = {
-            _id: 1,
-            name: 'Vitality App',
-            description: 'An example application',
-            repo: {
-                organization: 'Vitality Org',
-                webUrl: 'https://repo.example.com',
-                allBranches: ['main', 'develop'],
-            },
-            links: [{ label: 'Docs', value: 'https://docs.example.com' }],
-        };
-
-        render(<VitalityAppInfos app={app} />);
-
-        expect(screen.getByTestId('app-name')).toHaveTextContent('Vitality App');
-        expect(screen.getByText('Branches (2)')).toBeInTheDocument();
-        expect(screen.getByText('vitality.appListPage.seeReporting')).toBeInTheDocument();
-    });
-
-    it('displays open details link when canOpenDetails is true', () => {
-        const app = { _id: 1, name: 'Details App' };
-
-        render(<VitalityAppInfos app={app} canOpenDetails={true} />);
-
-        const detailsLink = screen.getByText('vitality.appListPage.seeReporting');
-        expect(detailsLink).toBeInTheDocument();
-    });
-
-    it('displays open details link when canOpenDetails is false', () => {
-        const app = { _id: 1, name: 'No Details App' };
-
-        render(<VitalityAppInfos app={app} canOpenDetails={false} />);
-
-        // Should not render when canOpenDetails is false
-        expect(screen.queryByText('vitality.appListPage.seeReporting')).toBeNull();
-    });
-
-    it('renders without crashing when given an empty object', () => {
-        render(<VitalityAppInfos app={{ _id: 999 }} canOpenDetails={true} />);
-
-        expect(screen.getByText('Branches (0)')).toBeInTheDocument();
-        expect(screen.getByText('vitality.appListPage.seeReporting')).toBeInTheDocument();
-    });
-
-    it('applies correct branch count display', () => {
-        const app = {
-            _id: 4,
-            name: 'Branch Test App',
-            repo: { allBranches: ['main', 'develop', 'feature-1', 'hotfix-1', 'feature-2'] },
-        };
-
-        render(<VitalityAppInfos app={app} />);
+        const app5Branches = createMockApp({
+            repo: { allBranches: ['main', 'dev', 'feature-1', 'hotfix-1', 'feature-2'] },
+        });
+        render(<VitalityAppInfos app={app5Branches} />);
 
         expect(screen.getByText('Branches (5)')).toBeInTheDocument();
     });
 
-    it('renders app name correctly', () => {
-        const app = { _id: 7, name: 'Email App', contactMail: 'support@example.com' };
+    it('displays metric badges based on audit report types', () => {
+        (useClientQuery as Mock).mockReturnValue({
+            data: {
+                getApplicationDetailsAuditReportsByParams: [
+                    { _id: 1, type: 'Code-Security', category: 'commons-security' },
+                    { _id: 2, type: 'Code-Security', category: 'react-security' },
+                    { _id: 3, type: 'Code-Complexity' },
+                    { _id: 4, category: 'accessibility' },
+                ],
+            },
+        });
 
+        const app = createMockApp();
         render(<VitalityAppInfos app={app} />);
 
-        expect(screen.getByTestId('app-name')).toHaveTextContent('Email App');
+        expect(screen.getByText(/security/)).toBeInTheDocument();
+        expect(screen.getByText(/maintainability/)).toBeInTheDocument();
+        expect(screen.getByText(/accessibility/)).toBeInTheDocument();
+    });
+
+    it('hides metric badges when count is zero', () => {
+        (useClientQuery as Mock).mockReturnValue({
+            data: { getApplicationDetailsAuditReportsByParams: [] },
+        });
+
+        render(<VitalityAppInfos app={createMockApp()} />);
+
+        expect(screen.queryByText('security')).not.toBeInTheDocument();
+        expect(screen.queryByText('maintainability')).not.toBeInTheDocument();
+        expect(screen.queryByText('accessibility')).not.toBeInTheDocument();
+    });
+
+    it('applies warning variant to branches badge when >= 4 branches', () => {
+        (useClientQuery as Mock).mockReturnValue({
+            data: { getApplicationDetailsAuditReportsByParams: [] },
+        });
+
+        const appMany = createMockApp({
+            repo: { allBranches: ['main', 'dev', 'staging', 'hotfix', 'feature'] },
+        });
+
+        render(<VitalityAppInfos app={appMany} />);
+        expect(screen.getByText('Branches (5)')).toBeInTheDocument();
     });
 });

@@ -29,7 +29,10 @@ const VitalityBreadcrumb = () => {
     if (!items || items.length === 0) return null;
 
     return (
-        <nav className="py-2 md:py-3 px-0 overflow-x-auto" aria-label="Breadcrumb">
+        <nav
+            className="-mx-4 md:-mx-16 px-4 md:px-16 py-2 md:py-3 overflow-x-auto bg-slate-100"
+            aria-label="Breadcrumb"
+        >
             <Breadcrumb>
                 <BreadcrumbList className="text-xs md:text-sm whitespace-nowrap">
                     {items.map((item, idx) => {
