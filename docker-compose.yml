@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   v6y-database:
     image: postgres:18
@@ -177,6 +175,27 @@ services:
       - NEXTAUTH_URL=${NEXTAUTH_URL}
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4008/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  v6y-metabase:
+    image: metabase/metabase
+    ports:
+      - "4000:4000"
+    environment:
+      - MB_DB_TYPE=postgres
+      - MB_DB_HOST=v6y-database
+      - MB_DB_PORT=5432
+      - MB_DB_DBNAME=${PSQL_DB_NAME}
+      - MB_DB_USER=${PSQL_DB_USER}
+      - MB_DB_PASS=${PSQL_DB_PASSWORD}
+      - MB_JETTY_PORT=4000
+    depends_on:
+      v6y-database:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:4000/api/health" ]
       interval: 30s
       timeout: 10s
       retries: 3

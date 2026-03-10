@@ -24,6 +24,9 @@ if [ ! -f /var/lib/postgresql/data/.initialized ]; then
 
   psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "$sql"
   
+  echo "Creating metabase database..."
+  psql -U "$POSTGRES_USER" -c "CREATE DATABASE metabase OWNER $POSTGRES_USER;" || true
+  
   touch /var/lib/postgresql/data/.initialized
   echo "Database restore completed!"
 else
