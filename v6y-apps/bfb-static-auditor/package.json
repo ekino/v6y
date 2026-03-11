@@ -83,7 +83,7 @@
     "jsinspect": "=0.12.7",
     "lodash": "=4.17.23",
     "madge": "=8.0.0",
-    "sequelize": "=6.37.5",
+    "sequelize": "=6.37.8",
     "typhonjs-escomplex": "=0.1.0",
     "unixify": "=1.0.0",
     "xml2js": "=0.6.2"
