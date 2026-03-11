@@ -75,7 +75,7 @@
     "pg": "=8.13.1",
     "pg-hstore": "=2.3.4",
     "semver": "=7.6.3",
-    "sequelize": "=6.37.5",
+    "sequelize": "=6.37.8",
     "spdy": "=4.0.2",
     "superagent": "=10.1.1",
     "unixify": "=1.0.0",
