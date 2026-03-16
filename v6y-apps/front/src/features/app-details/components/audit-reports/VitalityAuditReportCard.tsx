@@ -45,12 +45,12 @@ const VitalityAuditReportCard = ({ report }: VitalityAuditReportCardProps) => {
         <Card
             className={`relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${
                 report.scoreStatus === 'success'
-                    ? 'bg-gradient-to-br from-green-50 to-emerald-50 border-l-4 border-l-green-500'
+                    ? 'bg-linear-to-br from-green-50 to-emerald-50 border-l-4 border-l-green-500'
                     : report.scoreStatus === 'warning'
-                      ? 'bg-gradient-to-br from-amber-50 to-yellow-50 border-l-4 border-l-amber-500'
+                      ? 'bg-linear-to-br from-amber-50 to-yellow-50 border-l-4 border-l-amber-500'
                       : report.scoreStatus === 'failure' || report.scoreStatus === 'error'
-                        ? 'bg-gradient-to-br from-red-50 to-rose-50 border-l-4 border-l-red-500'
-                        : 'bg-gradient-to-br from-slate-50 to-gray-50 border-l-4 border-l-slate-400'
+                        ? 'bg-linear-to-br from-red-50 to-rose-50 border-l-4 border-l-red-500'
+                        : 'bg-linear-to-br from-slate-50 to-gray-50 border-l-4 border-l-slate-400'
             }`}
         >
             <CardHeader>
@@ -91,7 +91,7 @@ const VitalityAuditReportCard = ({ report }: VitalityAuditReportCardProps) => {
                     </div>
                 </div>
                 {report.extraInfos && (
-                    <div className="bg-white/60 backdrop-blur-sm rounded-lg p-2 border border-white/40">
+                    <div className="bg-white/60 backdrop-blur-xs rounded-lg p-2 border border-white/40">
                         <p className="text-xs text-gray-700 leading-relaxed">
                             {report.extraInfos.length > 100
                                 ? `${report.extraInfos.substring(0, 100)}...`

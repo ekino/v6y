@@ -23,7 +23,7 @@ export function ContactForm() {
     };
 
     return (
-        <Card className="p-8 border-slate-200 shadow">
+        <Card className="p-8 border-slate-200 shadow-sm">
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
                     <Label htmlFor="email" className="text-base font-medium">

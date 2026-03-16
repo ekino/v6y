@@ -120,7 +120,7 @@ const VitalityAuditReportsView = ({
 
     if (isAppDetailsAuditReportsLoading) {
         return (
-            <Card className="border-slate-200 shadow-sm">
+            <Card className="border-slate-200 shadow-xs">
                 <CardContent className="flex items-center justify-center p-12">
                     <div className="text-sm font-medium text-slate-500">
                         {translate('vitality.appDetailsPage.loadingStates.auditReports')}
@@ -132,7 +132,7 @@ const VitalityAuditReportsView = ({
 
     if (!allAuditReports.length) {
         return (
-            <Card className="border-slate-200 shadow-sm">
+            <Card className="border-slate-200 shadow-xs">
                 <CardContent className="flex flex-col items-center justify-center p-12 gap-2">
                     <div className="text-4xl mb-2">📋</div>
                     <div className="text-base font-semibold text-slate-900">
@@ -147,7 +147,7 @@ const VitalityAuditReportsView = ({
     }
 
     return (
-        <Card className="space-y-6 border-slate-200 shadow-sm">
+        <Card className="space-y-6 border-slate-200 shadow-xs">
             <VitalityAuditReportsTypeGrouper auditReports={allAuditReports} category={category} />
         </Card>
     );

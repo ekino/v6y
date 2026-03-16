@@ -270,7 +270,7 @@ const VitalityAuditReportsSection = ({
                                                                         String(report._id),
                                                                     )
                                                                 }
-                                                                className="p-1 hover:bg-gray-200 rounded transition-colors flex-shrink-0"
+                                                                className="p-1 hover:bg-gray-200 rounded transition-colors shrink-0"
                                                                 title="Copy location"
                                                             >
                                                                 {copiedId === String(report._id) ? (

@@ -25,7 +25,7 @@ const DesktopMenuItems = ({ isLoggedIn, userName, onLogout }: DesktopMenuItemsPr
 
     return (
         <div className="hidden md:flex items-center gap-2 flex-wrap justify-end">
-            <Link className="text-black flex-shrink-0" href="/faq">
+            <Link className="text-black shrink-0" href="/faq">
                 <Button className="border-gray-200 h-10 w-10" size="icon" variant="outline">
                     <QuestionMarkCircledIcon className="w-5 h-5" />
                 </Button>
@@ -35,13 +35,13 @@ const DesktopMenuItems = ({ isLoggedIn, userName, onLogout }: DesktopMenuItemsPr
                 <Button
                     size="icon"
                     variant="outline"
-                    className="border-gray-200 h-10 w-10 flex-shrink-0"
+                    className="border-gray-200 h-10 w-10 shrink-0"
                 >
                     <MagnifyingGlassIcon className="w-5 h-5" />
                 </Button>
             )}
 
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
                 <LanguageMenu />
             </div>
 
@@ -56,7 +56,7 @@ const DesktopMenuItems = ({ isLoggedIn, userName, onLogout }: DesktopMenuItemsPr
                     <Link
                         href={VitalityNavigationPaths.LOGIN}
                         onClick={onLogout}
-                        className="flex-shrink-0"
+                        className="shrink-0"
                     >
                         <Button size="icon" variant="outline" className="border-gray-200 h-10 w-10">
                             <ExitIcon className="w-5 h-5" />

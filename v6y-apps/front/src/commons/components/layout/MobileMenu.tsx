@@ -38,7 +38,7 @@ const MobileMenu = ({ isOpen, onClose, isLoggedIn, userName, onLogout }: MobileM
                 className="absolute inset-0 bg-white flex flex-col overflow-hidden"
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="w-full flex items-center justify-between px-4 py-2 md:py-4 flex-shrink-0">
+                <div className="w-full flex items-center justify-between px-4 py-2 md:py-4 shrink-0">
                     <HeaderLogo onClick={onClose} />
                     <Button
                         size="icon"
@@ -66,14 +66,14 @@ const MobileMenu = ({ isOpen, onClose, isLoggedIn, userName, onLogout }: MobileM
                 <nav className="flex-1 overflow-y-auto space-y-2">
                     <Link href="/faq" onClick={onClose}>
                         <button className="w-full text-left px-4 py-3 rounded-lg hover:bg-slate-100 flex items-center gap-3 transition-colors">
-                            <QuestionMarkCircledIcon className="w-5 h-5 flex-shrink-0" />
+                            <QuestionMarkCircledIcon className="w-5 h-5 shrink-0" />
                             <span className="text-base font-medium">FAQ</span>
                         </button>
                     </Link>
 
                     {isLoggedIn && (
                         <button className="w-full text-left px-4 py-3 rounded-lg hover:bg-slate-100 flex items-center gap-3 transition-colors">
-                            <MagnifyingGlassIcon className="w-5 h-5 flex-shrink-0" />
+                            <MagnifyingGlassIcon className="w-5 h-5 shrink-0" />
                             <span className="text-base font-medium">Search</span>
                         </button>
                     )}
@@ -89,7 +89,7 @@ const MobileMenu = ({ isOpen, onClose, isLoggedIn, userName, onLogout }: MobileM
                 </nav>
 
                 {/* Mobile Menu Footer */}
-                <div className="border-t border-slate-200 p-4 space-y-3 flex-shrink-0 bg-white">
+                <div className="border-t border-slate-200 p-4 space-y-3 shrink-0 bg-white">
                     <div className="w-full">
                         <p className="text-xs text-slate-500 mb-2">Language</p>
                         <LanguageMenu />
