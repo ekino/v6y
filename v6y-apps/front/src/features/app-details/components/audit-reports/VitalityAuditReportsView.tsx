@@ -8,6 +8,7 @@ import {
     useClientQuery,
 } from '../../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationDetailsAuditReportsByParams from '../../api/getApplicationDetailsAuditReportsByParams';
+import VitalityGreenIndexSection from './VitalityGreenIndexSection';
 
 const VitalityAuditReportsTypeGrouper = DynamicLoader(
     () => import('./VitalityAuditReportsTypeGrouper'),
@@ -84,6 +85,8 @@ const VitalityAuditReportsView = ({
             report.type !== 'Code-Duplication' &&
             report.type !== 'DORA' &&
             report.type !== 'Ecological-Impact' &&
+            report.type !== 'Green-Hosting' &&
+            report.type !== 'Ecoindex' &&
             !(report.category?.toLowerCase() || '').includes('maintainability') &&
             !(report.category?.toLowerCase() || '').includes('modularity') &&
             !(report.category?.toLowerCase() || '').includes('duplication') &&
@@ -104,7 +107,10 @@ const VitalityAuditReportsView = ({
             !(report.category?.toLowerCase() || '').includes('seo'),
         security: (report) => isSecuritySmell(report),
         dora: (report) => report.type === 'DORA',
-        greenIndex: (report) => report.type === 'Ecological-Impact',
+        greenIndex: (report) =>
+            report.type === 'Ecological-Impact' ||
+            report.type === 'Green-Hosting' ||
+            report.type === 'Ecoindex',
     };
 
     const filterFn = category ? staticFilters[category] : undefined;
@@ -170,7 +176,14 @@ const VitalityAuditReportsView = ({
 
     return (
         <Card className="space-y-6 border-slate-200 shadow-sm">
-            <VitalityAuditReportsTypeGrouper auditReports={allAuditReports} category={category} />
+            {category === 'greenIndex' ? (
+                <VitalityGreenIndexSection reports={allAuditReports} />
+            ) : (
+                <VitalityAuditReportsTypeGrouper
+                    auditReports={allAuditReports}
+                    category={category}
+                />
+            )}
         </Card>
     );
 };

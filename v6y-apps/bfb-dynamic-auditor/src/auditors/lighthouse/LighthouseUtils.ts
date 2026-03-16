@@ -6,6 +6,12 @@ import {
     LighthouseAuditParamsType,
     LighthouseReportType,
 } from '../types/LighthouseAuditType.ts';
+import {
+    computeEcoIndex,
+    computeGhg,
+    computeWater,
+    getEcoIndexGrade,
+} from './EcoindexComputeUtils.ts';
 
 /**
  * Check if the audit status is failed
@@ -289,6 +295,129 @@ const parseLighthouseAuditReport = (
 };
 
 /**
+ * Extract Ecoindex input metrics from raw Lighthouse JSON data.
+ * Returns null if the required audits are not present.
+ * @param auditReportData
+ */
+const extractEcoindexInputs = (
+    auditReportData?: string | string[],
+): { dom: number; requests: number; size: number } | null => {
+    try {
+        if (!auditReportData?.length) return null;
+        const raw = Array.isArray(auditReportData) ? auditReportData[0] : auditReportData;
+        const jsonData = JSON.parse(raw);
+        const { audits } = jsonData || {};
+        if (!audits) return null;
+
+        const dom = audits?.['dom-size']?.numericValue;
+        const requests = audits?.['network-requests']?.numericValue;
+        const sizeBytes = audits?.['total-byte-weight']?.numericValue;
+
+        if (dom == null || requests == null || sizeBytes == null) return null;
+
+        return {
+            dom: Math.round(dom),
+            requests: Math.round(requests),
+            size: Math.round(sizeBytes / 1024), // convert bytes to Kb
+        };
+    } catch (error) {
+        AppLogger.info(`[LighthouseUtils - extractEcoindexInputs] error: ${error}`);
+        return null;
+    }
+};
+
+/**
+ * Compute a single Ecoindex AuditType entry from Lighthouse raw data.
+ * Uses the GreenIT-Analysis reference algorithm (no external package).
+ * @param data
+ * @param subCategory - device (mobile/desktop)
+ * @param appId
+ * @param webUrl
+ */
+const computeEcoindexAuditEntry = ({
+    data,
+    subCategory,
+    appId,
+    webUrl,
+}: {
+    data?: string | string[];
+    subCategory?: string;
+    appId?: number;
+    webUrl?: string;
+}): AuditType | null => {
+    try {
+        const inputs = extractEcoindexInputs(data);
+        if (!inputs) return null;
+
+        const { dom, requests, size } = inputs;
+        const score = computeEcoIndex(dom, requests, size);
+        const grade = getEcoIndexGrade(score);
+        const water = computeWater(score);
+        const ghg = computeGhg(score);
+
+        const ecoScoreStatus = Matcher()
+            .on(
+                () => grade <= 'B',
+                () => scoreStatus.success,
+            )
+            .on(
+                () => grade <= 'D',
+                () => scoreStatus.warning,
+            )
+            .otherwise(() => scoreStatus.error);
+
+        return {
+            type: 'Ecoindex',
+            category: 'ecoindex',
+            subCategory,
+            auditStatus: auditStatus.success,
+            scoreStatus: ecoScoreStatus as string,
+            score: parseFloat(score.toFixed(1)),
+            scoreUnit: '/100',
+            extraInfos: JSON.stringify({ grade, water, ghg, dom, requests, size }),
+            module: {
+                appId: appId as number,
+                url: webUrl,
+                path: webUrl,
+                branch: undefined,
+            },
+        };
+    } catch (error) {
+        AppLogger.info(`[LighthouseUtils - computeEcoindexAuditEntry] error: ${error}`);
+        return null;
+    }
+};
+
+const buildLighthouseAuditEntries = ({
+    results,
+    appId,
+    webUrl,
+    subCategory,
+}: {
+    results: ReturnType<typeof parseLighthouseAuditReport>;
+    appId: number;
+    webUrl: string | undefined;
+    subCategory: string | undefined;
+}): AuditType[] => {
+    if (!results?.length) return [];
+    return results.map((result) => ({
+        type: 'Lighthouse',
+        category: result?.category,
+        subCategory,
+        auditStatus: result.auditStatus || auditStatus.failure,
+        scoreStatus: result.scoreStatus || null,
+        score: result.score || null,
+        scoreUnit: result?.scoreUnit,
+        module: {
+            appId,
+            url: webUrl,
+            path: webUrl,
+            branch: undefined,
+        },
+    }));
+};
+
+/**
  * Format the lighthouse reports
  * @param reports
  * @param application
@@ -307,33 +436,29 @@ const formatLighthouseReports = ({
         for (const report of reports) {
             const { appLink: webUrl, data, subCategory } = report || {};
 
-            const results = parseLighthouseAuditReport(data);
-
-            if (!results?.length) {
+            if (!application?._id) {
                 continue;
             }
 
-            for (const result of results) {
-                // eslint-disable-next-line max-depth
-                if (!application?._id) {
-                    continue;
-                }
-
-                auditReports.push({
-                    type: 'Lighthouse',
-                    category: result?.category,
+            const results = parseLighthouseAuditReport(data);
+            auditReports.push(
+                ...buildLighthouseAuditEntries({
+                    results,
+                    appId: application._id,
+                    webUrl,
                     subCategory,
-                    auditStatus: result.auditStatus || auditStatus.failure,
-                    scoreStatus: result.scoreStatus || null,
-                    score: result.score || null,
-                    scoreUnit: result?.scoreUnit,
-                    module: {
-                        appId: application?._id,
-                        url: webUrl,
-                        path: webUrl,
-                        branch: undefined,
-                    },
-                });
+                }),
+            );
+
+            // Compute Ecoindex from the same raw Lighthouse data
+            const ecoindexEntry = computeEcoindexAuditEntry({
+                data,
+                subCategory,
+                appId: application._id,
+                webUrl,
+            });
+            if (ecoindexEntry) {
+                auditReports.push(ecoindexEntry);
             }
         }
 
