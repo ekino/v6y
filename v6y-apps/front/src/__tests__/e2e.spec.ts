@@ -1,30 +1,34 @@
 import { expect, test } from '@playwright/test';
 
-test('front smoke: app loads and optionally performs login', async ({ page }) => {
-    const baseURL = process.env.BASE_URL ?? `http://localhost:${process.env.PORT ?? 3000}`;
+test.describe('Authentication', () => {
+    test('login page renders the form', async ({ page }) => {
+        await page.goto('/login');
 
-    const resp = await page.goto(baseURL, { waitUntil: 'domcontentloaded', timeout: 10000 });
-    if (!resp || resp.status() >= 400) {
-        throw new Error(`Failed to load ${baseURL} (status: ${resp?.status() ?? 'no response'})`);
-    }
+        await expect(page.locator('input[type="email"]')).toBeVisible();
+        await expect(page.locator('input[type="password"]')).toBeVisible();
+        await expect(page.locator('button[type="submit"]')).toBeVisible();
+    });
 
-    const email = page.locator('input[type="email"]');
-    if ((await email.count()) > 0) {
-        await email.fill('test@example.com');
-        const pass = page.locator('input[type="password"]');
-        if ((await pass.count()) > 0) await pass.fill('password');
-        const submit = page.locator('button[type="submit"]');
-        if ((await submit.count()) > 0) {
-            await submit
-                .first()
-                .click()
-                .catch(() => {});
-            await Promise.race([
-                page.waitForURL(/dashboard|\/app|\/home/i, { timeout: 5000 }).catch(() => null),
-                page.waitForSelector('text=Dashboard', { timeout: 5000 }).catch(() => null),
-            ]);
-        }
-    }
+    test('protected route redirects to login when unauthenticated', async ({ page }) => {
+        await page.goto('/dashboard');
 
-    await expect(page.locator('body')).not.toBeEmpty();
+        await expect(page).toHaveURL(/\/login/);
+        await expect(page.locator('input[type="email"]')).toBeVisible();
+    });
+});
+
+test.describe('Public routes', () => {
+    test('faq page loads without authentication', async ({ page }) => {
+        const response = await page.goto('/faq');
+
+        expect(response?.status()).toBeLessThan(400);
+        await expect(page.locator('body')).not.toBeEmpty();
+    });
+
+    test('contact page loads without authentication', async ({ page }) => {
+        const response = await page.goto('/contact');
+
+        expect(response?.status()).toBeLessThan(400);
+        await expect(page.locator('body')).not.toBeEmpty();
+    });
 });
