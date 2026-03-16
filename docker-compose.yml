@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   v6y-database:
     image: postgres:18

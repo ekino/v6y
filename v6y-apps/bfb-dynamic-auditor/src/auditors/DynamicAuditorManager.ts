@@ -28,6 +28,15 @@ const startDynamicAudit = async ({ applicationId }: AuditCommonsType) => {
             '[DynamicAuditorManager - startDynamicAudit] Lighthouse Audit have completed successfully.',
         );
 
+        // start Green Hosting analysis
+        await forkWorker(
+            './src/workers/GreenHostingAnalysisWorker.ts',
+            workerConfig as WorkerOptions,
+        );
+        AppLogger.info(
+            '[DynamicAuditorManager - startDynamicAudit] Green Hosting Audit have completed successfully.',
+        );
+
         // start other dynamic analysis
 
         return true; // Indicates successful initiation of audits

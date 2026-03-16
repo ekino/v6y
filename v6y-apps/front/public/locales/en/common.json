@@ -46,6 +46,7 @@
         "accessibility": "Accessibility",
         "security": "Security",
         "maintainability": "Maintainability",
+        "greenIndex": "Eco-design",
         "devops": "DevOps"
       },
       "branches": {
@@ -66,6 +67,10 @@
         "auditReports": {
           "title": "No audit reports available",
           "description": "There are no audit reports to display for this application"
+        },
+        "greenIndex": {
+          "title": "Code is Ecologically Optimized",
+          "description": "No ecological impact issues detected. Your codebase meets environmental efficiency standards."
         },
         "qualityIndicators": {
           "title": "No quality indicators available",
@@ -121,6 +126,7 @@
           "accessibility": "Accessibility & Quality",
           "security": "Security Analysis",
           "maintainability": "Code Quality & Maintainability",
+          "greenIndex": "Eco-design & Green Metrics",
           "dora": "DevOps Metrics (DORA)",
           "general": "Audit Reports"
         },
@@ -129,6 +135,8 @@
           "accessibility": "WCAG compliance, screen reader compatibility, accessibility standards",
           "security": "Security vulnerabilities, insecure patterns, code smells",
           "maintainability": "Code complexity, coupling, metrics and quality assessments",
+          "greenIndex": "Ecological impact analysis, energy efficiency, environmental metrics",
+          "greenIndex": "Ecological impact analysis, hosting green certification, Ecoindex score and energy efficiency metrics",
           "dora": "Deployment frequency, lead time, change failure rate, mean time to restore",
           "general": "Analysis results"
         },
@@ -139,6 +147,26 @@
           "CHANGE_FAILURE_RATE": "Change Failure Rate",
           "MEAN_TIME_TO_RESTORE_SERVICE": "Mean Time to Restore Service",
           "UP_TIME_AVERAGE": "Uptime Average"
+        },
+        "greenIndex": {
+          "hostingProvider": {
+            "sectionTitle": "Hosting Provider",
+            "greenBadge": "Green Hosting ✔",
+            "nonGreenBadge": "Non-Green Hosting ✘",
+            "providerLabel": "Provider:",
+            "greenDescription": "This hosting provider uses verified renewable energy or has carbon offsets certified by The Green Web Foundation.",
+            "nonGreenDescription": "This hosting provider has not been verified as using renewable energy by The Green Web Foundation."
+          },
+          "ecoindex": {
+            "sectionTitle": "Ecoindex",
+            "sectionSubtitle": "via Lighthouse metrics",
+            "cardTitle": "Ecoindex Score"
+          },
+          "ecologicalImpact": {
+            "sectionTitle": "Code Eco-Design Rules",
+            "cardTitle": "Ecological Code Issues",
+            "cardSubtitle": "Static analysis via ESLint @creedengo rules — eco-design patterns for your codebase"
+          }
         }
       },
       "dependencies": {
