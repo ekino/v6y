@@ -63,6 +63,6 @@
     "fs-extra": "=11.2.0",
     "mongoose": "=9.3.0",
     "node-cron": "=4.2.1",
-    "sequelize": "=6.37.5"
+    "sequelize": "=6.37.8"
   }
 }

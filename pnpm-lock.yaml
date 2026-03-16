@@ -92,8 +92,8 @@ importers:
         specifier: '=2.3.4'
         version: 2.3.4
       sequelize:
-        specifier: '=6.37.5'
-        version: 6.37.5(pg-hstore@2.3.4)(pg@8.13.1)
+        specifier: '=6.37.8'
+        version: 6.37.8(pg-hstore@2.3.4)(pg@8.13.1)
     devDependencies:
       '@eslint/js':
         specifier: '=10.0.1'
@@ -204,8 +204,8 @@ importers:
         specifier: '=11.2.0'
         version: 11.2.0
       sequelize:
-        specifier: '=6.37.5'
-        version: 6.37.5(pg-hstore@2.3.4)(pg@8.13.1)
+        specifier: '=6.37.8'
+        version: 6.37.8(pg-hstore@2.3.4)(pg@8.13.1)
     devDependencies:
       '@eslint/js':
         specifier: '=10.0.1'
@@ -269,7 +269,7 @@ importers:
         version: 7.0.0
       ts-node:
         specifier: '=10.9.2'
-        version: 10.9.2(@swc/core@1.15.18)(@types/node@24.12.0)(typescript@5.7.3)
+        version: 10.9.2(@swc/core@1.15.18)(@types/node@25.2.3)(typescript@5.7.3)
       typescript:
         specifier: '=5.7.3'
         version: 5.7.3
@@ -278,7 +278,7 @@ importers:
         version: 8.56.0(eslint@10.0.1(jiti@2.6.1))(typescript@5.7.3)
       vitest:
         specifier: '=3.0.5'
-        version: 3.0.5(@types/debug@4.1.12)(@types/node@24.12.0)(@vitest/ui@4.0.14)(jsdom@28.1.0)(msw@2.12.10(@types/node@24.12.0)(typescript@5.7.3))
+        version: 3.0.5(@types/debug@4.1.12)(@types/node@25.2.3)(@vitest/ui@4.0.14)(jsdom@28.1.0)(msw@2.12.10(@types/node@25.2.3)(typescript@5.7.3))
 
   v6y-apps/bfb-main-analyzer:
     dependencies:
@@ -328,8 +328,8 @@ importers:
         specifier: '=4.2.1'
         version: 4.2.1
       sequelize:
-        specifier: '=6.37.5'
-        version: 6.37.5(pg-hstore@2.3.4)(pg@8.13.1)
+        specifier: '=6.37.8'
+        version: 6.37.8(pg-hstore@2.3.4)(pg@8.13.1)
     devDependencies:
       '@eslint/js':
         specifier: '=10.0.1'
@@ -384,7 +384,7 @@ importers:
         version: 7.0.0
       ts-node:
         specifier: '=10.9.2'
-        version: 10.9.2(@swc/core@1.15.18)(@types/node@24.12.0)(typescript@5.7.3)
+        version: 10.9.2(@swc/core@1.15.18)(@types/node@25.2.3)(typescript@5.7.3)
       typescript:
         specifier: '=5.7.3'
         version: 5.7.3
@@ -393,7 +393,7 @@ importers:
         version: 8.56.0(eslint@10.0.1(jiti@2.6.1))(typescript@5.7.3)
       vitest:
         specifier: '=3.0.5'
-        version: 3.0.5(@types/debug@4.1.12)(@types/node@24.12.0)(@vitest/ui@4.0.14)(jsdom@28.1.0)(msw@2.12.10(@types/node@24.12.0)(typescript@5.7.3))
+        version: 3.0.5(@types/debug@4.1.12)(@types/node@25.2.3)(@vitest/ui@4.0.14)(jsdom@28.1.0)(msw@2.12.10(@types/node@25.2.3)(typescript@5.7.3))
 
   v6y-apps/bfb-static-auditor:
     dependencies:
@@ -476,8 +476,8 @@ importers:
         specifier: '=8.0.0'
         version: 8.0.0(typescript@5.7.3)
       sequelize:
-        specifier: '=6.37.5'
-        version: 6.37.5(pg-hstore@2.3.4)(pg@8.13.1)
+        specifier: '=6.37.8'
+        version: 6.37.8(pg-hstore@2.3.4)(pg@8.13.1)
       typhonjs-escomplex:
         specifier: '=0.1.0'
         version: 0.1.0
@@ -556,7 +556,7 @@ importers:
         version: 7.0.0
       ts-node:
         specifier: '=10.9.2'
-        version: 10.9.2(@swc/core@1.15.18)(@types/node@24.12.0)(typescript@5.7.3)
+        version: 10.9.2(@swc/core@1.15.18)(@types/node@25.2.3)(typescript@5.7.3)
       typescript:
         specifier: '=5.7.3'
         version: 5.7.3
@@ -565,7 +565,7 @@ importers:
         version: 8.56.0(eslint@10.0.1(jiti@2.6.1))(typescript@5.7.3)
       vitest:
         specifier: '=3.0.5'
-        version: 3.0.5(@types/debug@4.1.12)(@types/node@24.12.0)(@vitest/ui@4.0.14)(jsdom@28.1.0)(msw@2.12.10(@types/node@24.12.0)(typescript@5.7.3))
+        version: 3.0.5(@types/debug@4.1.12)(@types/node@25.2.3)(@vitest/ui@4.0.14)(jsdom@28.1.0)(msw@2.12.10(@types/node@25.2.3)(typescript@5.7.3))
 
   v6y-apps/bff:
     dependencies:
@@ -615,8 +615,8 @@ importers:
         specifier: '=0.7.0'
         version: 0.7.0
       sequelize:
-        specifier: '=6.37.5'
-        version: 6.37.5(pg-hstore@2.3.4)(pg@8.13.1)
+        specifier: '=6.37.8'
+        version: 6.37.8(pg-hstore@2.3.4)(pg@8.13.1)
     devDependencies:
       '@eslint/js':
         specifier: '=10.0.1'
@@ -662,7 +662,7 @@ importers:
         version: 7.0.0
       ts-node:
         specifier: '=10.9.2'
-        version: 10.9.2(@swc/core@1.15.18)(@types/node@24.12.0)(typescript@5.7.3)
+        version: 10.9.2(@swc/core@1.15.18)(@types/node@25.2.3)(typescript@5.7.3)
       typescript:
         specifier: '=5.7.3'
         version: 5.7.3
@@ -671,7 +671,7 @@ importers:
         version: 8.56.0(eslint@10.0.1(jiti@2.6.1))(typescript@5.7.3)
       vitest:
         specifier: '=3.0.5'
-        version: 3.0.5(@types/debug@4.1.12)(@types/node@24.12.0)(@vitest/ui@4.0.14)(jsdom@28.1.0)(msw@2.12.10(@types/node@24.12.0)(typescript@5.7.3))
+        version: 3.0.5(@types/debug@4.1.12)(@types/node@25.2.3)(@vitest/ui@4.0.14)(jsdom@28.1.0)(msw@2.12.10(@types/node@25.2.3)(typescript@5.7.3))
 
   v6y-apps/front:
     dependencies:
@@ -1113,8 +1113,8 @@ importers:
         specifier: '=7.6.3'
         version: 7.6.3
       sequelize:
-        specifier: '=6.37.5'
-        version: 6.37.5(pg-hstore@2.3.4)(pg@8.13.1)
+        specifier: '=6.37.8'
+        version: 6.37.8(pg-hstore@2.3.4)(pg@8.13.1)
       spdy:
         specifier: '=4.0.2'
         version: 4.0.2
@@ -1446,7 +1446,7 @@ importers:
         version: 2.6.0
       tailwindcss-animate:
         specifier: '=1.0.7'
-        version: 1.0.7(tailwindcss@3.4.17(ts-node@10.9.2(@swc/core@1.15.18)(@types/node@24.12.0)(typescript@5.7.3)))
+        version: 1.0.7(tailwindcss@3.4.17(ts-node@10.9.2(@swc/core@1.15.18)(@types/node@25.2.3)(typescript@5.7.3)))
       zod:
         specifier: '=4.3.6'
         version: 4.3.6
@@ -1501,10 +1501,10 @@ importers:
         version: 3.4.2
       shadcn:
         specifier: '=2.6.1'
-        version: 2.6.1(@types/node@24.12.0)(typescript@5.7.3)
+        version: 2.6.1(@types/node@25.2.3)(typescript@5.7.3)
       tailwindcss:
         specifier: '=3.4.17'
-        version: 3.4.17(ts-node@10.9.2(@swc/core@1.15.18)(@types/node@24.12.0)(typescript@5.7.3))
+        version: 3.4.17(ts-node@10.9.2(@swc/core@1.15.18)(@types/node@25.2.3)(typescript@5.7.3))
       typescript:
         specifier: '=5.7.3'
         version: 5.7.3
@@ -4948,9 +4948,6 @@ packages:
 
   '@types/node@24.10.12':
     resolution: {integrity: sha512-68e+T28EbdmLSTkPgs3+UacC6rzmqrcWFPQs1C8mwJhI/r5Uxr0yEuQotczNRROd1gq30NGxee+fo0rSIxpyAw==}
-
-  '@types/node@24.12.0':
-    resolution: {integrity: sha512-GYDxsZi3ChgmckRT9HPU0WEhKLP08ev/Yfcq2AstjrDASOYCSXeyjDsHg4v5t4jOj7cyDX3vmprafKlWIG9MXQ==}
 
   '@types/node@25.2.3':
     resolution: {integrity: sha512-m0jEgYlYz+mDJZ2+F4v8D1AyQb+QzsNqRuI7xg1VQX/KlKS0qT9r1Mo16yo5F/MtifXFgaofIFsdFMox2SxIbQ==}
@@ -10525,8 +10522,8 @@ packages:
     resolution: {integrity: sha512-xY04c5ctp6lKE4ZoSVo7YJHN5FHVhoYMoH2Z8jWIJG26c9kJSkIjql5HgD9XG5cwJbYMF0Ko2Fhgws20HC90Ug==}
     engines: {node: '>= 10.0.0'}
 
-  sequelize@6.37.5:
-    resolution: {integrity: sha512-10WA4poUb3XWnUROThqL2Apq9C2NhyV1xHPMZuybNMCucDsbbFuKg51jhmyvvAUyUqCiimwTZamc3AHhMoBr2Q==}
+  sequelize@6.37.8:
+    resolution: {integrity: sha512-HJ0IQFqcTsTiqbEgiuioYFMSD00TP6Cz7zoTti+zVVBwVe9fEhev9cH6WnM3XU31+ABS356durAb99ZuOthnKw==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       ibm_db: '*'
@@ -13831,20 +13828,12 @@ snapshots:
     optionalDependencies:
       '@types/node': 24.10.0
 
-  '@inquirer/confirm@5.1.6(@types/node@24.12.0)':
-    dependencies:
-      '@inquirer/core': 10.1.7(@types/node@24.12.0)
-      '@inquirer/type': 3.0.4(@types/node@24.12.0)
-    optionalDependencies:
-      '@types/node': 24.12.0
-
   '@inquirer/confirm@5.1.6(@types/node@25.2.3)':
     dependencies:
       '@inquirer/core': 10.1.7(@types/node@25.2.3)
       '@inquirer/type': 3.0.4(@types/node@25.2.3)
     optionalDependencies:
       '@types/node': 25.2.3
-    optional: true
 
   '@inquirer/core@10.1.7(@types/node@24.10.0)':
     dependencies:
@@ -13859,19 +13848,6 @@ snapshots:
     optionalDependencies:
       '@types/node': 24.10.0
 
-  '@inquirer/core@10.1.7(@types/node@24.12.0)':
-    dependencies:
-      '@inquirer/figures': 1.0.10
-      '@inquirer/type': 3.0.4(@types/node@24.12.0)
-      ansi-escapes: 4.3.2
-      cli-width: 4.1.0
-      mute-stream: 2.0.0
-      signal-exit: 4.1.0
-      wrap-ansi: 6.2.0
-      yoctocolors-cjs: 2.1.2
-    optionalDependencies:
-      '@types/node': 24.12.0
-
   '@inquirer/core@10.1.7(@types/node@25.2.3)':
     dependencies:
       '@inquirer/figures': 1.0.10
@@ -13884,7 +13860,6 @@ snapshots:
       yoctocolors-cjs: 2.1.2
     optionalDependencies:
       '@types/node': 25.2.3
-    optional: true
 
   '@inquirer/figures@1.0.10': {}
 
@@ -13892,14 +13867,9 @@ snapshots:
     optionalDependencies:
       '@types/node': 24.10.0
 
-  '@inquirer/type@3.0.4(@types/node@24.12.0)':
-    optionalDependencies:
-      '@types/node': 24.12.0
-
   '@inquirer/type@3.0.4(@types/node@25.2.3)':
     optionalDependencies:
       '@types/node': 25.2.3
-    optional: true
 
   '@isaacs/balanced-match@4.0.1': {}
 
@@ -15993,10 +15963,6 @@ snapshots:
     dependencies:
       undici-types: 7.16.0
 
-  '@types/node@24.12.0':
-    dependencies:
-      undici-types: 7.16.0
-
   '@types/node@25.2.3':
     dependencies:
       undici-types: 7.16.0
@@ -16342,15 +16308,6 @@ snapshots:
     optionalDependencies:
       msw: 2.12.10(@types/node@24.10.0)(typescript@5.7.3)
       vite: 5.4.14(@types/node@24.10.0)
-
-  '@vitest/mocker@3.0.5(msw@2.12.10(@types/node@24.12.0)(typescript@5.7.3))(vite@5.4.14(@types/node@24.12.0))':
-    dependencies:
-      '@vitest/spy': 3.0.5
-      estree-walker: 3.0.3
-      magic-string: 0.30.19
-    optionalDependencies:
-      msw: 2.12.10(@types/node@24.12.0)(typescript@5.7.3)
-      vite: 5.4.14(@types/node@24.12.0)
 
   '@vitest/mocker@3.0.5(msw@2.12.10(@types/node@25.2.3)(typescript@5.7.3))(vite@5.4.14(@types/node@25.2.3))':
     dependencies:
@@ -20703,31 +20660,6 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  msw@2.12.10(@types/node@24.12.0)(typescript@5.7.3):
-    dependencies:
-      '@inquirer/confirm': 5.1.6(@types/node@24.12.0)
-      '@mswjs/interceptors': 0.41.2
-      '@open-draft/deferred-promise': 2.2.0
-      '@types/statuses': 2.0.6
-      cookie: 1.1.1
-      graphql: 16.12.0
-      headers-polyfill: 4.0.3
-      is-node-process: 1.2.0
-      outvariant: 1.4.3
-      path-to-regexp: 6.3.0
-      picocolors: 1.1.1
-      rettime: 0.10.1
-      statuses: 2.0.2
-      strict-event-emitter: 0.5.1
-      tough-cookie: 6.0.0
-      type-fest: 5.4.4
-      until-async: 3.0.2
-      yargs: 17.7.2
-    optionalDependencies:
-      typescript: 5.7.3
-    transitivePeerDependencies:
-      - '@types/node'
-
   msw@2.12.10(@types/node@25.2.3)(typescript@5.7.3):
     dependencies:
       '@inquirer/confirm': 5.1.6(@types/node@25.2.3)
@@ -20752,7 +20684,6 @@ snapshots:
       typescript: 5.7.3
     transitivePeerDependencies:
       - '@types/node'
-    optional: true
 
   muggle-string@0.4.1: {}
 
@@ -21430,13 +21361,13 @@ snapshots:
       postcss: 8.5.6
       ts-node: 10.9.2(@swc/core@1.15.18)(@types/node@24.10.0)(typescript@5.7.3)
 
-  postcss-load-config@4.0.2(postcss@8.5.6)(ts-node@10.9.2(@swc/core@1.15.18)(@types/node@24.12.0)(typescript@5.7.3)):
+  postcss-load-config@4.0.2(postcss@8.5.6)(ts-node@10.9.2(@swc/core@1.15.18)(@types/node@25.2.3)(typescript@5.7.3)):
     dependencies:
       lilconfig: 3.1.3
       yaml: 2.8.1
     optionalDependencies:
       postcss: 8.5.6
-      ts-node: 10.9.2(@swc/core@1.15.18)(@types/node@24.12.0)(typescript@5.7.3)
+      ts-node: 10.9.2(@swc/core@1.15.18)(@types/node@25.2.3)(typescript@5.7.3)
 
   postcss-nested@6.2.0(postcss@8.5.6):
     dependencies:
@@ -22645,11 +22576,11 @@ snapshots:
 
   sequelize-pool@8.0.0: {}
 
-  sequelize@6.37.5(pg-hstore@2.3.4)(pg@8.13.1):
+  sequelize@6.37.8(pg-hstore@2.3.4)(pg@8.13.1):
     dependencies:
       '@types/debug': 4.1.12
       '@types/validator': 13.12.2
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.3
       dottie: 2.0.6
       inflection: 1.13.4
       lodash: 4.17.21
@@ -22657,7 +22588,7 @@ snapshots:
       moment-timezone: 0.5.47
       pg-connection-string: 2.7.0
       retry-as-promised: 7.1.1
-      semver: 7.7.1
+      semver: 7.7.4
       sequelize-pool: 7.1.0
       toposort-class: 1.0.1
       uuid: 8.3.2
@@ -22717,7 +22648,7 @@ snapshots:
       safe-buffer: 5.2.1
       to-buffer: 1.2.2
 
-  shadcn@2.6.1(@types/node@24.12.0)(typescript@5.7.3):
+  shadcn@2.6.1(@types/node@25.2.3)(typescript@5.7.3):
     dependencies:
       '@antfu/ni': 23.3.1
       '@babel/core': 7.26.9
@@ -22733,7 +22664,7 @@ snapshots:
       fs-extra: 11.3.2
       https-proxy-agent: 6.2.1
       kleur: 4.1.5
-      msw: 2.12.10(@types/node@24.12.0)(typescript@5.7.3)
+      msw: 2.12.10(@types/node@25.2.3)(typescript@5.7.3)
       node-fetch: 3.3.2
       ora: 6.3.1
       postcss: 8.5.6
@@ -23325,9 +23256,9 @@ snapshots:
 
   tailwind-merge@2.6.0: {}
 
-  tailwindcss-animate@1.0.7(tailwindcss@3.4.17(ts-node@10.9.2(@swc/core@1.15.18)(@types/node@24.12.0)(typescript@5.7.3))):
+  tailwindcss-animate@1.0.7(tailwindcss@3.4.17(ts-node@10.9.2(@swc/core@1.15.18)(@types/node@25.2.3)(typescript@5.7.3))):
     dependencies:
-      tailwindcss: 3.4.17(ts-node@10.9.2(@swc/core@1.15.18)(@types/node@24.12.0)(typescript@5.7.3))
+      tailwindcss: 3.4.17(ts-node@10.9.2(@swc/core@1.15.18)(@types/node@25.2.3)(typescript@5.7.3))
 
   tailwindcss@3.4.17(ts-node@10.9.2(@swc/core@1.15.18)(@types/node@24.10.0)(typescript@5.7.3)):
     dependencies:
@@ -23356,7 +23287,7 @@ snapshots:
     transitivePeerDependencies:
       - ts-node
 
-  tailwindcss@3.4.17(ts-node@10.9.2(@swc/core@1.15.18)(@types/node@24.12.0)(typescript@5.7.3)):
+  tailwindcss@3.4.17(ts-node@10.9.2(@swc/core@1.15.18)(@types/node@25.2.3)(typescript@5.7.3)):
     dependencies:
       '@alloc/quick-lru': 5.2.0
       arg: 5.0.2
@@ -23375,7 +23306,7 @@ snapshots:
       postcss: 8.5.6
       postcss-import: 15.1.0(postcss@8.5.6)
       postcss-js: 4.1.0(postcss@8.5.6)
-      postcss-load-config: 4.0.2(postcss@8.5.6)(ts-node@10.9.2(@swc/core@1.15.18)(@types/node@24.12.0)(typescript@5.7.3))
+      postcss-load-config: 4.0.2(postcss@8.5.6)(ts-node@10.9.2(@swc/core@1.15.18)(@types/node@25.2.3)(typescript@5.7.3))
       postcss-nested: 6.2.0(postcss@8.5.6)
       postcss-selector-parser: 6.1.2
       resolve: 1.22.10
@@ -23567,14 +23498,14 @@ snapshots:
     optionalDependencies:
       '@swc/core': 1.15.18
 
-  ts-node@10.9.2(@swc/core@1.15.18)(@types/node@24.12.0)(typescript@5.7.3):
+  ts-node@10.9.2(@swc/core@1.15.18)(@types/node@25.2.3)(typescript@5.7.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.11
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 24.12.0
+      '@types/node': 25.2.3
       acorn: 8.14.0
       acorn-walk: 8.3.4
       arg: 4.1.3
@@ -23994,24 +23925,6 @@ snapshots:
       - supports-color
       - terser
 
-  vite-node@3.0.5(@types/node@24.12.0):
-    dependencies:
-      cac: 6.7.14
-      debug: 4.4.3
-      es-module-lexer: 1.6.0
-      pathe: 2.0.3
-      vite: 5.4.14(@types/node@24.12.0)
-    transitivePeerDependencies:
-      - '@types/node'
-      - less
-      - lightningcss
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-
   vite-node@3.0.5(@types/node@25.2.3):
     dependencies:
       cac: 6.7.14
@@ -24058,15 +23971,6 @@ snapshots:
       '@types/node': 24.10.0
       fsevents: 2.3.3
 
-  vite@5.4.14(@types/node@24.12.0):
-    dependencies:
-      esbuild: 0.21.5
-      postcss: 8.5.6
-      rollup: 4.59.0
-    optionalDependencies:
-      '@types/node': 24.12.0
-      fsevents: 2.3.3
-
   vite@5.4.14(@types/node@25.2.3):
     dependencies:
       esbuild: 0.21.5
@@ -24101,44 +24005,6 @@ snapshots:
     optionalDependencies:
       '@types/debug': 4.1.12
       '@types/node': 24.10.0
-      '@vitest/ui': 4.0.14(vitest@3.0.5)
-      jsdom: 28.1.0
-    transitivePeerDependencies:
-      - less
-      - lightningcss
-      - msw
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-
-  vitest@3.0.5(@types/debug@4.1.12)(@types/node@24.12.0)(@vitest/ui@4.0.14)(jsdom@28.1.0)(msw@2.12.10(@types/node@24.12.0)(typescript@5.7.3)):
-    dependencies:
-      '@vitest/expect': 3.0.5
-      '@vitest/mocker': 3.0.5(msw@2.12.10(@types/node@24.12.0)(typescript@5.7.3))(vite@5.4.14(@types/node@24.12.0))
-      '@vitest/pretty-format': 3.0.7
-      '@vitest/runner': 3.0.5
-      '@vitest/snapshot': 3.0.5
-      '@vitest/spy': 3.0.5
-      '@vitest/utils': 3.0.5
-      chai: 5.1.2
-      debug: 4.4.3
-      expect-type: 1.1.0
-      magic-string: 0.30.19
-      pathe: 2.0.3
-      std-env: 3.8.0
-      tinybench: 2.9.0
-      tinyexec: 0.3.2
-      tinypool: 1.0.2
-      tinyrainbow: 2.0.0
-      vite: 5.4.14(@types/node@24.12.0)
-      vite-node: 3.0.5(@types/node@24.12.0)
-      why-is-node-running: 2.3.0
-    optionalDependencies:
-      '@types/debug': 4.1.12
-      '@types/node': 24.12.0
       '@vitest/ui': 4.0.14(vitest@3.0.5)
       jsdom: 28.1.0
     transitivePeerDependencies:
@@ -24382,7 +24248,7 @@ snapshots:
 
   wkx@0.5.0:
     dependencies:
-      '@types/node': 24.10.1
+      '@types/node': 25.2.3
 
   wonka@6.3.5: {}
 
