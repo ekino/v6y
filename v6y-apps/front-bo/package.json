@@ -21,8 +21,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write ./src",
     "test": "vitest --coverage --watch false",
-    "test:watch": "vitest",
-    "test:ui": "vitest --ui"
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@refinedev/cli": "=2.16.42",
