@@ -25,7 +25,7 @@ const DesktopMenuItems = ({ isLoggedIn, userName, onLogout }: DesktopMenuItemsPr
 
     return (
         <div className="hidden md:flex items-center gap-2 flex-wrap justify-end">
-            <Link className="text-black shrink-0" href="/faq">
+            <Link className="shrink-0" href="/faq">
                 <Button className="border-gray-200 h-10 w-10" size="icon" variant="outline">
                     <QuestionMarkCircledIcon className="w-5 h-5" />
                 </Button>

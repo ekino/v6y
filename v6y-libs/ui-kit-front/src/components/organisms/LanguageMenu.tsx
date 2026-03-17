@@ -15,8 +15,8 @@ const LanguageMenu = () => {
 
     return (
         <Select value={currentLocale} onValueChange={changeLocale}>
-            <SelectTrigger className="border-gray-200" aria-label="Language selector">
-                <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <SelectTrigger aria-label="Language selector">
+                <span className="flex items-center gap-2">
                     <img
                         src={`https://flagcdn.com/h20/${currentLanguage?.flagCode}.png`}
                         width={20}
@@ -32,7 +32,7 @@ const LanguageMenu = () => {
                     .filter((lang) => lang.code !== currentLocale)
                     .map((lang) => (
                         <SelectItem key={lang.code} value={lang.code}>
-                            <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                            <span className="flex items-center gap-2">
                                 <img
                                     src={`https://flagcdn.com/h20/${lang.flagCode}.png`}
                                     width={20}

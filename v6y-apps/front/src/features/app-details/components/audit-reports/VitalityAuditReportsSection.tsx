@@ -289,27 +289,24 @@ const VitalityAuditReportsSection = ({
                                                 <td className="px-4 md:px-6 py-3 text-sm text-center">
                                                     {report.score !== undefined &&
                                                     report.score !== null ? (
-                                                        <div>
-                                                            <div className="font-semibold text-gray-900">
-                                                                {typeof report.score === 'number'
-                                                                    ? report.score.toFixed(1)
-                                                                    : report.score}
-                                                            </div>
-                                                            {report.scoreUnit && (
-                                                                <div className="text-xs text-gray-500">
-                                                                    {report.scoreUnit}
-                                                                </div>
-                                                            )}
-                                                        </div>
+                                                        <span className="font-semibold text-gray-900">
+                                                            {typeof report.score === 'number'
+                                                                ? report.score.toFixed(1)
+                                                                : report.score}
+                                                            {report.scoreUnit &&
+                                                                ` ${report.scoreUnit}`}
+                                                        </span>
                                                     ) : (
                                                         <span className="text-gray-400">-</span>
                                                     )}
                                                 </td>
                                                 <td className="px-4 md:px-6 py-3 text-sm text-center">
                                                     <Badge
-                                                        className={getStatusColor(
-                                                            report.scoreStatus || '',
-                                                        )}
+                                                        className={
+                                                            getStatusColor(
+                                                                report.scoreStatus || '',
+                                                            ) + ' p-1'
+                                                        }
                                                     >
                                                         {report.scoreStatus || report.auditStatus}
                                                     </Badge>

@@ -2,12 +2,12 @@ import { Inter } from 'next/font/google';
 import { ReactNode, Suspense } from 'react';
 
 import { LoaderView } from '@v6y/ui-kit';
-import '@v6y/ui-kit-front/styles.css';
 
 import VitalityPageLayout from '../commons/components/layout/VitalityPageLayout';
 import { AppProvider } from '../infrastructure/providers/AppProvider';
 import '../infrastructure/translation/i18nHelper';
 import { getServerTranslation } from '../infrastructure/translation/serverTranslation';
+import '../styles.css';
 
 const inter = Inter({
     subsets: ['latin'],
