@@ -5,7 +5,7 @@
 import AppLogger from '../core/AppLogger.ts';
 import { prisma } from './PrismaClient.ts';
 
-const logger = AppLogger.getInstance();
+const logger = AppLogger;
 
 export interface DependencyInput {
     appId: number;
