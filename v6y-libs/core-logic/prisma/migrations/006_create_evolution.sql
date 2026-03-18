@@ -3,7 +3,7 @@
 
 CREATE TABLE IF NOT EXISTS evolution (
   _id SERIAL PRIMARY KEY,
-  app_id INTEGER NOT NULL REFERENCES "Application"(_id) ON DELETE CASCADE,
+  app_id INTEGER NOT NULL REFERENCES applications(id) ON DELETE CASCADE,
   audit_execution_id UUID NOT NULL REFERENCES audit_execution(id) ON DELETE CASCADE,
   category VARCHAR(100) NOT NULL,
   metric VARCHAR(255),
@@ -18,5 +18,5 @@ CREATE TABLE IF NOT EXISTS evolution (
   CHECK (impact IN ('MAJOR', 'MINOR', 'PATCH'))
 );
 
-CREATE INDEX idx_evolution_app_id ON evolution(app_id);
-CREATE INDEX idx_evolution_created_at ON evolution(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_evolution_app_id ON evolution(app_id);
+CREATE INDEX IF NOT EXISTS idx_evolution_created_at ON evolution(created_at DESC);

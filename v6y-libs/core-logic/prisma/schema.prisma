@@ -32,16 +32,16 @@ model Account {
 
 /// Represents projects/applications being audited
 model Application {
-  id              Int     @id @default(autoincrement()) @map("_id")
+  id              Int     @id @default(autoincrement()) @map("id")
   name            String  @unique
   acronym         String  @unique
-  contactMail     String
-  description     String?
+  contactMail     String  @map("contact_mail")
+  description     String
   repo            Json?   // Git repository configuration
   configuration   Json?   // Legacy: Tool-specific config (migrating to Configuration table)
   links           Json?   // External references
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
 
   // Relations
   auditExecutions       AuditExecution[]
@@ -51,7 +51,7 @@ model Application {
   configurations        Configuration[]
   metricHistories       MetricHistory[]
 
-  @@map("Application")
+  @@map("applications")
 }
 
 /// Help documentation for audit results

@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS "Dependency" CASCADE;
 
 CREATE TABLE IF NOT EXISTS dependency (
   _id SERIAL PRIMARY KEY,
-  app_id INTEGER NOT NULL REFERENCES "Application"(_id) ON DELETE CASCADE,
+  app_id INTEGER NOT NULL REFERENCES applications(id) ON DELETE CASCADE,
   audit_execution_id UUID NOT NULL REFERENCES audit_execution(id) ON DELETE CASCADE,
   ecosystem_type VARCHAR(50) NOT NULL,
   package_name VARCHAR(500) NOT NULL,
@@ -22,6 +22,6 @@ CREATE TABLE IF NOT EXISTS dependency (
   CHECK (ecosystem_type IN ('npm', 'pip', 'maven', 'nuget', 'cargo', 'composer', 'gem'))
 );
 
-CREATE INDEX idx_dependency_app_id ON dependency(app_id);
-CREATE INDEX idx_dependency_app_status ON dependency(app_id, status);
-CREATE INDEX idx_dependency_severity ON dependency(max_severity);
+CREATE INDEX IF NOT EXISTS idx_dependency_app_id ON dependency(app_id);
+CREATE INDEX IF NOT EXISTS idx_dependency_app_status ON dependency(app_id, status);
+CREATE INDEX IF NOT EXISTS idx_dependency_severity ON dependency(max_severity);

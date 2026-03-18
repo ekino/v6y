@@ -26,4 +26,4 @@ VALUES
   ('DATADOG', 'Datadog Monitoring', 'Real-time application performance metrics from Datadog', '1.0', false)
 ON CONFLICT (name) DO NOTHING;
 
-CREATE INDEX idx_audit_source_is_active ON audit_source(is_active);
+CREATE INDEX IF NOT EXISTS idx_audit_source_is_active ON audit_source(is_active);

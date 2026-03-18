@@ -3,7 +3,7 @@
 
 CREATE TABLE IF NOT EXISTS metric_history (
   _id BIGSERIAL PRIMARY KEY,
-  app_id INTEGER NOT NULL REFERENCES "Application"(_id) ON DELETE CASCADE,
+  app_id INTEGER NOT NULL REFERENCES applications(id) ON DELETE CASCADE,
   metric VARCHAR(255) NOT NULL,
   period VARCHAR(50) NOT NULL,
   period_start DATE NOT NULL,
@@ -19,5 +19,5 @@ CREATE TABLE IF NOT EXISTS metric_history (
   CHECK (period IN ('DAILY', 'WEEKLY', 'MONTHLY'))
 );
 
-CREATE INDEX idx_metric_history_app_metric_time ON metric_history(app_id, metric, period_start DESC);
-CREATE INDEX idx_metric_history_app_id ON metric_history(app_id);
+CREATE INDEX IF NOT EXISTS idx_metric_history_app_metric_time ON metric_history(app_id, metric, period_start DESC);
+CREATE INDEX IF NOT EXISTS idx_metric_history_app_id ON metric_history(app_id);

@@ -1,12 +1,15 @@
 import { OperatorsAliases, Sequelize } from 'sequelize';
 
 import AppLogger from '../core/AppLogger.ts';
+import { hashPassword } from '../core/PasswordUtils.ts';
 import AuditHelpProvider from './AuditHelpProvider.ts';
 import DependencyStatusHelpProvider from './DependencyStatusHelpProvider.ts';
 import EvolutionHelpProvider from './EvolutionHelpProvider.ts';
 import { runMigrations } from './MigrationRunner.ts';
 import AccountModel from './models/AccountModel.ts';
+import { AccountModelType } from './models/AccountModel.ts';
 import ApplicationModel from './models/ApplicationModel.ts';
+import { ApplicationModelType } from './models/ApplicationModel.ts';
 import AuditHelpModel from './models/AuditHelpModel.ts';
 import AuditModel from './models/AuditModel.ts';
 import DependencyModel from './models/DependencyModel.ts';
@@ -70,6 +73,46 @@ const initDefaultData = async () => {
     await EvolutionHelpProvider.initDefaultData();
     await AuditHelpProvider.initDefaultData();
     await DependencyStatusHelpProvider.initDefaultData();
+
+    if (process.env.NODE_ENV === 'development') {
+        const devEmail = 'superadmin@example.com';
+        const existing = await AccountModelType.findOne({ where: { email: devEmail } });
+        if (!existing) {
+            await AccountModelType.create({
+                username: 'superadmin',
+                email: devEmail,
+                password: await hashPassword('superadmin'),
+                role: 'SUPERADMIN',
+                applications: [],
+            });
+            AppLogger.info(`[DataBaseManager - initDefaultData] Dev superadmin account created`);
+        }
+
+        const devAppName = 'v6y-dev-app';
+        const existingApp = await ApplicationModelType.findOne({ where: { name: devAppName } });
+        if (!existingApp) {
+            await ApplicationModelType.create({
+                name: devAppName,
+                acronym: 'VDA',
+                contactMail: 'dev@example.com',
+                description: 'Default development application for local testing',
+                repo: {
+                    webUrl: 'https://github.com/example/v6y-dev-app',
+                    gitUrl: 'git@github.com:example/v6y-dev-app.git',
+                    organization: 'example',
+                },
+                links: [
+                    {
+                        label: 'Production',
+                        value: 'https://example.com',
+                        description: 'Production URL',
+                    },
+                ],
+                configuration: {},
+            });
+            AppLogger.info(`[DataBaseManager - initDefaultData] Dev application created`);
+        }
+    }
 };
 
 /**

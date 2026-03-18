@@ -60,7 +60,8 @@ const applicationOptions = {
 const initializeApplicationModel = (sequelize: Sequelize) => {
     ApplicationModelType.init(applicationSchema, {
         sequelize,
-        modelName: 'Application',
+        modelName: 'applications',
+        tableName: 'applications',
         ...applicationOptions,
     });
 

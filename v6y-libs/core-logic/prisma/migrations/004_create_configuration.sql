@@ -3,7 +3,7 @@
 
 CREATE TABLE IF NOT EXISTS configuration (
   _id SERIAL PRIMARY KEY,
-  app_id INTEGER NOT NULL REFERENCES "Application"(_id) ON DELETE CASCADE,
+  app_id INTEGER NOT NULL REFERENCES applications(id) ON DELETE CASCADE,
   tool_name VARCHAR(100) NOT NULL,
   is_enabled BOOLEAN NOT NULL DEFAULT false,
   credentials JSONB,
@@ -21,5 +21,5 @@ CREATE TABLE IF NOT EXISTS configuration (
   ))
 );
 
-CREATE INDEX idx_configuration_app_id ON configuration(app_id);
-CREATE INDEX idx_configuration_enabled ON configuration(app_id, is_enabled);
+CREATE INDEX IF NOT EXISTS idx_configuration_app_id ON configuration(app_id);
+CREATE INDEX IF NOT EXISTS idx_configuration_enabled ON configuration(app_id, is_enabled);

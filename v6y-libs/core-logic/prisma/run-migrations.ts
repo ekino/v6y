@@ -22,7 +22,7 @@ async function main() {
     await initializePrisma();
 
     // Check if already migrated
-    const alreadyMigrated = await isMigrationRun('audit_execution');
+    const alreadyMigrated = await isMigrationRun();
     if (alreadyMigrated) {
       logger.warn('⚠️  Database appears to be already migrated. Skipping migrations.');
       await disconnectPrisma();
