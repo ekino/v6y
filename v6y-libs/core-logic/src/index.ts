@@ -9,10 +9,14 @@ import StringUtils from './core/StringUtils.ts';
 import WorkerHelper from './core/WorkerHelper.ts';
 import ZipUtils from './core/ZipUtils.ts';
 import AccountProvider from './database/AccountProvider.ts';
+import ApplicationPrismaProvider from './database/ApplicationPrismaProvider.ts';
 import ApplicationProvider from './database/ApplicationProvider.ts';
 import AuditHelpProvider from './database/AuditHelpProvider.ts';
+import AuditPrismaProvider from './database/AuditPrismaProvider.ts';
 import AuditProvider from './database/AuditProvider.ts';
+import ConfigurationPrismaProvider from './database/ConfigurationPrismaProvider.ts';
 import DataBaseManager from './database/DataBaseManager.ts';
+import DependencyPrismaProvider from './database/DependencyPrismaProvider.ts';
 import DependencyProvider from './database/DependencyProvider.ts';
 import DependencyStatusHelpProvider from './database/DependencyStatusHelpProvider.ts';
 import DeprecatedDependencyProvider from './database/DeprecatedDependencyProvider.ts';
@@ -20,7 +24,10 @@ import EvolutionHelpProvider from './database/EvolutionHelpProvider.ts';
 import EvolutionProvider from './database/EvolutionProvider.ts';
 import FaqProvider from './database/FaqProvider.ts';
 import KeywordProvider from './database/KeywordProvider.ts';
+import { isMigrationRun, runMigrations } from './database/MigrationRunner.ts';
 import NotificationProvider from './database/NotificationProvider.ts';
+// Prisma database layer
+import { disconnectPrisma, initializePrisma, prisma } from './database/PrismaClient.ts';
 import DateUtils from './utils/DateUtils.ts';
 import MonitoringUtils from './utils/MonitoringUtils.ts';
 
@@ -60,4 +67,14 @@ export {
     MonitoringApi,
     MonitoringUtils,
     DateUtils,
+    // Prisma database layer
+    prisma,
+    initializePrisma,
+    disconnectPrisma,
+    ApplicationPrismaProvider,
+    AuditPrismaProvider,
+    ConfigurationPrismaProvider,
+    DependencyPrismaProvider,
+    runMigrations,
+    isMigrationRun,
 };

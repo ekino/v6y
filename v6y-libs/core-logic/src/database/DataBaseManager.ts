@@ -4,6 +4,7 @@ import AppLogger from '../core/AppLogger.ts';
 import AuditHelpProvider from './AuditHelpProvider.ts';
 import DependencyStatusHelpProvider from './DependencyStatusHelpProvider.ts';
 import EvolutionHelpProvider from './EvolutionHelpProvider.ts';
+import { runMigrations } from './MigrationRunner.ts';
 import AccountModel from './models/AccountModel.ts';
 import ApplicationModel from './models/ApplicationModel.ts';
 import AuditHelpModel from './models/AuditHelpModel.ts';
@@ -110,6 +111,10 @@ const connect = async () => {
         AppLogger.info(
             `[DataBaseManager - connect] PSQL connection has been established successfully`,
         );
+
+        // Run Prisma migrations to ensure audit schema is up to date
+        await runMigrations();
+        AppLogger.info(`[DataBaseManager - connect] PSQL migrations completed successfully`);
 
         await registerModels();
         AppLogger.info(`[DataBaseManager - connect] PSQL registering models made successfully`);
