@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Suspense } from 'react';
 
+import { graphik } from '@v6y/ui-kit/fonts';
+
 import AppProvider from '../infrastructure/providers/AppProvider';
 import '../infrastructure/translation/i18nHelper';
 
@@ -15,7 +17,7 @@ export const metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en">
+        <html lang="en" className={graphik.className}>
             <body>
                 <Suspense>
                     <AppProvider>{children}</AppProvider>

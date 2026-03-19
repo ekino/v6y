@@ -2,6 +2,10 @@
   "name": "@v6y/ui-kit",
   "version": "0.0.1",
   "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./fonts": "./src/fonts/index.ts"
+  },
   "type": "module",
   "files": [
     "src",

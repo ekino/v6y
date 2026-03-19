@@ -168,7 +168,6 @@
 @layer base {
     * {
         @apply border-[hsl(var(--border))] outline-[hsl(var(--ring))]/50;
-        font-family: 'Inter', 'sans-serif';
         color: inherit;
     }
     body {
