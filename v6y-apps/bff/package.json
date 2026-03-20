@@ -60,6 +60,6 @@
     "graphql": "=16.10.0",
     "graphql-tag": "=2.12.6",
     "passport": "=0.7.0",
-    "sequelize": "=6.37.5"
+    "sequelize": "=6.37.8"
   }
 }

@@ -92,8 +92,8 @@ importers:
         specifier: '=2.3.4'
         version: 2.3.4
       sequelize:
-        specifier: '=6.37.5'
-        version: 6.37.5(pg-hstore@2.3.4)(pg@8.13.1)
+        specifier: '=6.37.8'
+        version: 6.37.8(pg-hstore@2.3.4)(pg@8.13.1)
     devDependencies:
       '@eslint/js':
         specifier: '=10.0.1'
@@ -204,8 +204,8 @@ importers:
         specifier: '=11.2.0'
         version: 11.2.0
       sequelize:
-        specifier: '=6.37.5'
-        version: 6.37.5(pg-hstore@2.3.4)(pg@8.13.1)
+        specifier: '=6.37.8'
+        version: 6.37.8(pg-hstore@2.3.4)(pg@8.13.1)
     devDependencies:
       '@eslint/js':
         specifier: '=10.0.1'
@@ -328,8 +328,8 @@ importers:
         specifier: '=4.2.1'
         version: 4.2.1
       sequelize:
-        specifier: '=6.37.5'
-        version: 6.37.5(pg-hstore@2.3.4)(pg@8.13.1)
+        specifier: '=6.37.8'
+        version: 6.37.8(pg-hstore@2.3.4)(pg@8.13.1)
     devDependencies:
       '@eslint/js':
         specifier: '=10.0.1'
@@ -476,8 +476,8 @@ importers:
         specifier: '=8.0.0'
         version: 8.0.0(typescript@5.7.3)
       sequelize:
-        specifier: '=6.37.5'
-        version: 6.37.5(pg-hstore@2.3.4)(pg@8.13.1)
+        specifier: '=6.37.8'
+        version: 6.37.8(pg-hstore@2.3.4)(pg@8.13.1)
       typhonjs-escomplex:
         specifier: '=0.1.0'
         version: 0.1.0
@@ -615,8 +615,8 @@ importers:
         specifier: '=0.7.0'
         version: 0.7.0
       sequelize:
-        specifier: '=6.37.5'
-        version: 6.37.5(pg-hstore@2.3.4)(pg@8.13.1)
+        specifier: '=6.37.8'
+        version: 6.37.8(pg-hstore@2.3.4)(pg@8.13.1)
     devDependencies:
       '@eslint/js':
         specifier: '=10.0.1'
@@ -1119,8 +1119,8 @@ importers:
         specifier: '=7.6.3'
         version: 7.6.3
       sequelize:
-        specifier: '=6.37.5'
-        version: 6.37.5(pg-hstore@2.3.4)(pg@8.13.1)
+        specifier: '=6.37.8'
+        version: 6.37.8(pg-hstore@2.3.4)(pg@8.13.1)
       spdy:
         specifier: '=4.0.2'
         version: 4.0.2
@@ -10609,8 +10609,8 @@ packages:
     resolution: {integrity: sha512-xY04c5ctp6lKE4ZoSVo7YJHN5FHVhoYMoH2Z8jWIJG26c9kJSkIjql5HgD9XG5cwJbYMF0Ko2Fhgws20HC90Ug==}
     engines: {node: '>= 10.0.0'}
 
-  sequelize@6.37.5:
-    resolution: {integrity: sha512-10WA4poUb3XWnUROThqL2Apq9C2NhyV1xHPMZuybNMCucDsbbFuKg51jhmyvvAUyUqCiimwTZamc3AHhMoBr2Q==}
+  sequelize@6.37.8:
+    resolution: {integrity: sha512-HJ0IQFqcTsTiqbEgiuioYFMSD00TP6Cz7zoTti+zVVBwVe9fEhev9cH6WnM3XU31+ABS356durAb99ZuOthnKw==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       ibm_db: '*'
@@ -22679,11 +22679,11 @@ snapshots:
 
   sequelize-pool@8.0.0: {}
 
-  sequelize@6.37.5(pg-hstore@2.3.4)(pg@8.13.1):
+  sequelize@6.37.8(pg-hstore@2.3.4)(pg@8.13.1):
     dependencies:
       '@types/debug': 4.1.12
       '@types/validator': 13.12.2
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.3
       dottie: 2.0.6
       inflection: 1.13.4
       lodash: 4.17.21
@@ -22691,7 +22691,7 @@ snapshots:
       moment-timezone: 0.5.47
       pg-connection-string: 2.7.0
       retry-as-promised: 7.1.1
-      semver: 7.7.1
+      semver: 7.7.4
       sequelize-pool: 7.1.0
       toposort-class: 1.0.1
       uuid: 8.3.2
@@ -24351,7 +24351,7 @@ snapshots:
 
   wkx@0.5.0:
     dependencies:
-      '@types/node': 24.10.1
+      '@types/node': 25.2.3
 
   wonka@6.3.5: {}
 
