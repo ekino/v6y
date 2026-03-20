@@ -35,7 +35,7 @@ const VitalityDependenciesBranchGrouper = ({
                                     {dependency.name}
                                 </CardTitle>
                                 <span
-                                    className={`px-2 py-1 rounded text-white text-xs flex-shrink-0 ${getScoreStatusColor(
+                                    className={`px-2 py-1 rounded text-white text-xs shrink-0 ${getScoreStatusColor(
                                         dependency.status || '',
                                     )}`}
                                 >

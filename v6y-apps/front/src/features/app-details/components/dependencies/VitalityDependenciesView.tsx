@@ -43,7 +43,7 @@ const VitalityDependenciesView = () => {
 
     if (isAppDetailsDependenciesLoading) {
         return (
-            <Card className="border-slate-200 shadow-sm">
+            <Card className="border-slate-200 shadow-xs">
                 <CardContent className="flex items-center justify-center p-12">
                     <div className="text-sm font-medium text-slate-500">
                         {translate('vitality.appDetailsPage.loadingStates.dependencies')}
@@ -55,7 +55,7 @@ const VitalityDependenciesView = () => {
 
     if (!dependencies?.length) {
         return (
-            <Card className="border-slate-200 shadow-sm">
+            <Card className="border-slate-200 shadow-xs">
                 <CardContent className="flex flex-col items-center justify-center p-12 gap-2">
                     <div className="text-4xl mb-2">📦</div>
                     <div className="text-base font-semibold text-slate-900">
@@ -70,7 +70,7 @@ const VitalityDependenciesView = () => {
     }
 
     return (
-        <Card className="border-slate-200 shadow-sm">
+        <Card className="border-slate-200 shadow-xs">
             <CardContent className="p-4">
                 <VitalityDependenciesBranchGrouper dependencies={dependencies || []} />
             </CardContent>

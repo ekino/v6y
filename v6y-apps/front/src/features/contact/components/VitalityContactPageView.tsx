@@ -25,7 +25,7 @@ export default function VitalityContactPageView() {
 
             <div className="grid md:grid-cols-5 gap-8 md:gap-12">
                 <div className="md:col-span-2 space-y-6">
-                    <Card className="p-6 border-slate-200 shadow hover:border-foreground/20 transition-colors">
+                    <Card className="p-6 border-slate-200 shadow-sm hover:border-foreground/20 transition-colors">
                         <div className="flex items-start gap-4">
                             <div className="p-3 bg-foreground text-background rounded-lg">
                                 <EnvelopeClosedIcon className="w-5 h-5" />
@@ -41,7 +41,7 @@ export default function VitalityContactPageView() {
                         </div>
                     </Card>
 
-                    <Card className="p-6 border-slate-200 shadow hover:border-foreground/20 transition-colors">
+                    <Card className="p-6 border-slate-200 shadow-sm hover:border-foreground/20 transition-colors">
                         <div className="flex items-start gap-4">
                             <div className="p-3 bg-foreground text-background rounded-lg">
                                 <ChatBubbleIcon className="w-5 h-5" />

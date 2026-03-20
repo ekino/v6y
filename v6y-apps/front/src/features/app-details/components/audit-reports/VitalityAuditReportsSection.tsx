@@ -270,7 +270,7 @@ const VitalityAuditReportsSection = ({
                                                                         String(report._id),
                                                                     )
                                                                 }
-                                                                className="p-1 hover:bg-gray-200 rounded transition-colors flex-shrink-0"
+                                                                className="p-1 hover:bg-gray-200 rounded transition-colors shrink-0"
                                                                 title="Copy location"
                                                             >
                                                                 {copiedId === String(report._id) ? (
@@ -289,27 +289,24 @@ const VitalityAuditReportsSection = ({
                                                 <td className="px-4 md:px-6 py-3 text-sm text-center">
                                                     {report.score !== undefined &&
                                                     report.score !== null ? (
-                                                        <div>
-                                                            <div className="font-semibold text-gray-900">
-                                                                {typeof report.score === 'number'
-                                                                    ? report.score.toFixed(1)
-                                                                    : report.score}
-                                                            </div>
-                                                            {report.scoreUnit && (
-                                                                <div className="text-xs text-gray-500">
-                                                                    {report.scoreUnit}
-                                                                </div>
-                                                            )}
-                                                        </div>
+                                                        <span className="font-semibold text-gray-900">
+                                                            {typeof report.score === 'number'
+                                                                ? report.score.toFixed(1)
+                                                                : report.score}
+                                                            {report.scoreUnit &&
+                                                                ` ${report.scoreUnit}`}
+                                                        </span>
                                                     ) : (
                                                         <span className="text-gray-400">-</span>
                                                     )}
                                                 </td>
                                                 <td className="px-4 md:px-6 py-3 text-sm text-center">
                                                     <Badge
-                                                        className={getStatusColor(
-                                                            report.scoreStatus || '',
-                                                        )}
+                                                        className={
+                                                            getStatusColor(
+                                                                report.scoreStatus || '',
+                                                            ) + ' p-1'
+                                                        }
                                                     >
                                                         {report.scoreStatus || report.auditStatus}
                                                     </Badge>

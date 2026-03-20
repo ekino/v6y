@@ -194,7 +194,7 @@ describe('VitalityAppDetailsView', () => {
             const overviewTab = screen.getByText('vitality.appDetailsPage.tabs.overview');
             const performanceTab = screen.getByText('vitality.appDetailsPage.tabs.performance');
 
-            expect(overviewTab).toHaveClass('bg-white', 'text-slate-900', 'shadow-sm');
+            expect(overviewTab).toHaveClass('bg-white', 'text-slate-900', 'shadow-xs');
             expect(performanceTab).toHaveClass('text-slate-700');
         });
 
@@ -204,7 +204,7 @@ describe('VitalityAppDetailsView', () => {
             const overviewTab = screen.getByText('vitality.appDetailsPage.tabs.overview');
             const performanceTab = screen.getByText('vitality.appDetailsPage.tabs.performance');
 
-            expect(performanceTab).toHaveClass('bg-white', 'text-slate-900', 'shadow-sm');
+            expect(performanceTab).toHaveClass('bg-white', 'text-slate-900', 'shadow-xs');
             expect(overviewTab).toHaveClass('text-slate-700');
         });
     });

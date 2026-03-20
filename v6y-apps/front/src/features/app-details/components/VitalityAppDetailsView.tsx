@@ -156,7 +156,7 @@ const VitalityAppDetailsView = () => {
                             >
                                 <SelectTrigger className="h-10 sm:h-8 border-slate-300 rounded-md px-3 sm:px-4 py-2 text-sm bg-white">
                                     <span className="flex items-center gap-1">
-                                        <ShuffleIcon className="w-4 h-4 flex-shrink-0" />
+                                        <ShuffleIcon className="w-4 h-4 shrink-0" />
                                         <SelectValue className="truncate" />
                                     </span>
                                 </SelectTrigger>
@@ -179,22 +179,22 @@ const VitalityAppDetailsView = () => {
                             />
                         </div>
 
-                        <div className="flex items-center gap-1.5 flex-shrink-0">
+                        <div className="flex items-center gap-1.5 shrink-0">
                             <Button
                                 variant="outline"
                                 size="sm"
-                                className="h-10 sm:h-8 w-10 sm:w-9 p-2 border-slate-300 rounded-md flex-shrink-0"
+                                className="h-10 sm:h-8 w-10 sm:w-9 p-2 border-slate-300 rounded-md shrink-0"
                                 title="Reload"
                             >
-                                <ReloadIcon className="w-4 h-4 flex-shrink-0" />
+                                <ReloadIcon className="w-4 h-4 shrink-0" />
                             </Button>
                             <Button
                                 variant="outline"
                                 size="sm"
-                                className="h-10 sm:h-8 w-10 sm:w-9 p-2 border-slate-300 rounded-md flex-shrink-0"
+                                className="h-10 sm:h-8 w-10 sm:w-9 p-2 border-slate-300 rounded-md shrink-0"
                                 title="Globe"
                             >
-                                <GlobeIcon className="w-4 h-4 flex-shrink-0" />
+                                <GlobeIcon className="w-4 h-4 shrink-0" />
                             </Button>
                             <Button
                                 onClick={onRunAuditClicked}
@@ -236,9 +236,9 @@ const VitalityAppDetailsView = () => {
                                     onClick={() => setActiveTab(tab.id)}
                                     role="tab"
                                     aria-selected={activeTab === tab.id}
-                                    className={`px-2 sm:px-3 py-1.5 rounded text-xs sm:text-sm font-medium transition-colors flex-shrink-0 ${
+                                    className={`px-2 sm:px-3 py-1.5 rounded text-xs sm:text-sm font-medium transition-colors shrink-0 ${
                                         activeTab === tab.id
-                                            ? 'bg-white text-slate-900 shadow-sm'
+                                            ? 'bg-white text-slate-900 shadow-xs'
                                             : 'text-slate-700 hover:text-slate-900'
                                     }`}
                                 >
@@ -249,7 +249,7 @@ const VitalityAppDetailsView = () => {
 
                         <Button
                             onClick={onExportClicked}
-                            className="w-full sm:w-auto h-10 sm:h-8 bg-slate-900 hover:bg-slate-800 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium flex-shrink-0"
+                            className="w-full sm:w-auto h-10 sm:h-8 bg-slate-900 hover:bg-slate-800 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium shrink-0"
                         >
                             {translate('vitality.appDetailsPage.exportButton')}
                         </Button>

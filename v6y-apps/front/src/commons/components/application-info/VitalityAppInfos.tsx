@@ -45,7 +45,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true }: VitalityAppInf
                                     variant="outline"
                                     className="w-10 h-10 rounded-md border border-slate-200 flex items-center justify-center"
                                 >
-                                    <CommitIcon />
+                                    <CommitIcon className="scale-300" />
                                 </Button>
                             </Link>
                         )}
@@ -55,7 +55,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true }: VitalityAppInf
                                     variant="outline"
                                     className="w-10 h-10 rounded-md border border-slate-200 flex items-center justify-center"
                                 >
-                                    <GlobeIcon />
+                                    <GlobeIcon className="scale-300" />
                                 </Button>
                             </Link>
                         )}
@@ -67,7 +67,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true }: VitalityAppInf
                 <div className="flex items-center gap-x-3">
                     <Badge
                         variant={appOpenedBranches >= 4 ? 'warning' : 'default'}
-                        className="text-sm"
+                        className="text-sm p-1"
                     >
                         Branches ({appOpenedBranches})
                     </Badge>

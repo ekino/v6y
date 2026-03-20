@@ -53,7 +53,7 @@ function TypographyP({
     return (
         <p
             className={cn(
-                'leading-7 font-normal [&:not(:first-child)]:mt-6',
+                'leading-7 font-normal not-first:mt-6',
                 muted && 'text-slate-500',
                 className,
             )}

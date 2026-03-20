@@ -21,7 +21,7 @@ const VitalityPageHeader = () => {
     return (
         <>
             <header className="py-2 md:py-4 md:px-0 flex items-center justify-between bg-white">
-                <div className="flex items-center gap-4 md:gap-8 flex-shrink-0">
+                <div className="flex items-center gap-4 md:gap-8 shrink-0">
                     <HeaderLogo />
                 </div>
 
@@ -30,7 +30,7 @@ const VitalityPageHeader = () => {
                 <Button
                     size="icon"
                     variant="outline"
-                    className="md:hidden border-gray-200 h-9 w-9 flex-shrink-0"
+                    className="md:hidden border-gray-200 h-9 w-9 shrink-0"
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     aria-label="Toggle menu"
                 >

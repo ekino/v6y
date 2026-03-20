@@ -11,7 +11,7 @@ interface HeaderLogoProps {
 
 const HeaderLogo = ({ onClick }: HeaderLogoProps) => {
     return (
-        <Link href={VitalityNavigationPaths.DASHBOARD} className="flex-shrink-0" onClick={onClick}>
+        <Link href={VitalityNavigationPaths.DASHBOARD} className="shrink-0" onClick={onClick}>
             <div className="md:hidden flex items-center justify-center h-10 w-10">
                 <Image
                     width={40}

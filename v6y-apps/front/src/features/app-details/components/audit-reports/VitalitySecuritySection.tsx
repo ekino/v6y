@@ -138,7 +138,7 @@ const VitalitySecuritySection = ({ auditTrigger = 0 }: VitalitySecuritySectionPr
 
     if (isLoading) {
         return (
-            <Card className="border-slate-200 shadow-sm">
+            <Card className="border-slate-200 shadow-xs">
                 <CardContent className="flex items-center justify-center p-12">
                     <div className="text-sm font-medium text-slate-500">
                         {translate('vitality.appDetailsPage.loadingStates.auditReports')}
@@ -150,7 +150,7 @@ const VitalitySecuritySection = ({ auditTrigger = 0 }: VitalitySecuritySectionPr
 
     if (!hasContent) {
         return (
-            <Card className="border-slate-200 shadow-sm">
+            <Card className="border-slate-200 shadow-xs">
                 <CardContent className="flex flex-col items-center justify-center p-12 gap-2">
                     <div className="text-4xl mb-2">🔒</div>
                     <div className="text-base font-semibold text-slate-900">
@@ -165,7 +165,7 @@ const VitalitySecuritySection = ({ auditTrigger = 0 }: VitalitySecuritySectionPr
     }
 
     return (
-        <Card className="space-y-6 border-slate-200 shadow-sm">
+        <Card className="space-y-6 border-slate-200 shadow-xs">
             {securityReports.length > 0 && (
                 <div data-testid="audit-reports-view">
                     <VitalityAuditReportsTypeGrouper
@@ -307,7 +307,7 @@ const VitalitySecuritySection = ({ auditTrigger = 0 }: VitalitySecuritySectionPr
                                                                             ),
                                                                         )
                                                                     }
-                                                                    className="p-1 hover:bg-gray-200 rounded transition-colors flex-shrink-0"
+                                                                    className="p-1 hover:bg-gray-200 rounded transition-colors shrink-0"
                                                                     title="Copy location"
                                                                 >
                                                                     {copiedId ===

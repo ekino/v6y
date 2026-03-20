@@ -145,7 +145,6 @@ const VitalityLoginForm = () => {
                             />
 
                             <Button
-                                variant="default"
                                 className="w-full h-10 sm:h-11 md:h-12 text-sm sm:text-base font-medium mt-2"
                                 type="submit"
                                 disabled={isAuthenticationLoading}
