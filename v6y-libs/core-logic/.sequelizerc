@@ -1,8 +1,0 @@
-var path = require('path');
-
-module.exports = {
-  'config': path.resolve('../../v6y-database/psql/config', 'config.json'),
-  'migrations-path': path.resolve('../../v6y-database/psql', 'migrations'),
-  'seeders-path': path.resolve('../../v6y-database/psql', 'seeders'),
-  'models-path': path.resolve('../../v6y-database/psql', 'models')
-}

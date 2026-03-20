@@ -143,3 +143,6 @@ dist
 **/duplications-report
 
 storybook-static
+
+# core-logic database generated files
+**/core-logic/generated

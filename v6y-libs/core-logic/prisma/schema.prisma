@@ -1,0 +1,334 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================================================
+// EXISTING MODELS (From current database)
+// ============================================================================
+
+/// User account for authentication and authorization
+model Account {
+  id           Int     @id @default(autoincrement()) @map("_id")
+  username     String  @unique
+  email        String  @unique
+  password     String
+  role         String  @default("USER") // SUPERADMIN, ADMIN, USER
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  notifications Notification[]
+
+  @@map("Account")
+}
+
+/// Represents projects/applications being audited
+model Application {
+  id              Int     @id @default(autoincrement()) @map("id")
+  name            String  @unique
+  acronym         String  @unique
+  contactMail     String  @map("contact_mail")
+  description     String
+  repo            Json?   // Git repository configuration
+  configuration   Json?   // Legacy: Tool-specific config (migrating to Configuration table)
+  links           Json?   // External references
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  auditExecutions       AuditExecution[]
+  auditDimensions       AuditDimension[]
+  dependencies          Dependency[]
+  evolutions            Evolution[]
+  configurations        Configuration[]
+  metricHistories       MetricHistory[]
+
+  @@map("applications")
+}
+
+/// Help documentation for audit results
+model AuditHelp {
+  id              Int     @id @default(autoincrement()) @map("_id")
+  metric          String  @unique
+  title           String
+  description     String?
+  recommendation  String?
+  learnMore       String?
+  severity        String? // CRITICAL, HIGH, MEDIUM, LOW, INFO
+  version         String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("AuditHelp")
+}
+
+/// Legacy audit reports (for backward compatibility during migration)
+model AuditReport {
+  id              Int     @id @default(autoincrement()) @map("_id")
+  appId           Int
+  dateStart       DateTime?
+  dateEnd         DateTime?
+  type            String?
+  category        String?
+  subCategory     String?
+  auditStatus     String?
+  score           Float?
+  scoreStatus     String?
+  scoreUnit       String?
+  extraInfos      String?
+  auditHelp       Json?
+  module          Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([appId])
+  @@map("AuditReport")
+}
+
+/// Help for dependency statuses
+model DependencyStatusHelp {
+  id           Int     @id @default(autoincrement()) @map("_id")
+  status       String  @unique
+  description  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("DependencyStatusHelp")
+}
+
+/// Help for evolution categories
+model EvolutionHelp {
+  id              Int     @id @default(autoincrement()) @map("_id")
+  category        String  @unique
+  title           String?
+  description     String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("EvolutionHelp")
+}
+
+/// FAQ entries
+model Faq {
+  id              Int     @id @default(autoincrement()) @map("_id")
+  question        String
+  answer          String?
+  category        String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("FAQ")
+}
+
+/// Keywords for search
+model Keyword {
+  id              Int     @id @default(autoincrement()) @map("_id")
+  keyword         String  @unique
+  relatedContent  String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("Keyword")
+}
+
+/// User notifications
+model Notification {
+  id              Int     @id @default(autoincrement()) @map("_id")
+  accountId       Int
+  message         String
+  isRead          Boolean @default(false)
+  type            String?
+  createdAt       DateTime @default(now())
+
+  // Relations
+  account         Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@index([accountId])
+  @@map("Notification")
+}
+
+// ============================================================================
+// NEW MODELS (CDM Architecture)
+// ============================================================================
+
+/// Groups all metrics from a single audit execution
+model AuditExecution {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  appId           Int
+  executedAt      DateTime @db.Timestamp @default(now())
+  completedAt     DateTime? @db.Timestamp
+  initiatedBy     String   @default("SCHEDULED") // SCHEDULED, MANUAL, WEBHOOK
+  status          String   @default("PENDING") // PENDING, IN_PROGRESS, COMPLETED, FAILED
+  batchId         String?
+  createdAt       DateTime @default(now())
+
+  // Relations
+  application     Application @relation(fields: [appId], references: [id], onDelete: Cascade)
+  auditDimensions AuditDimension[]
+  dependencies    Dependency[]
+  evolutions      Evolution[]
+
+  @@index([appId])
+  @@index([executedAt(sort: Desc)])
+  @@map("audit_execution")
+}
+
+/// Manages which tools perform audits (SonarQube, Lighthouse, Datadog, etc.)
+model AuditSource {
+  id              Int     @id @default(autoincrement())
+  name            String  @unique // STATIC_CODE, LIGHTHOUSE, SONARQUBE, DATADOG, etc.
+  displayName     String?
+  description     String?
+  version         String?
+  isActive        Boolean @default(true)
+  minVersion      String?
+  configuration   Json?   // Tool-specific default configuration
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  auditDimensions AuditDimension[]
+
+  @@map("audit_source")
+}
+
+/// Normalized audit metrics - stores each metric as a separate record
+model AuditDimension {
+  id              BigInt   @id @default(autoincrement()) @map("_id")
+  executionId     String   @db.Uuid
+  appId           Int
+  sourceId        Int
+  category        String   // Code Quality, Security, Performance, DevOps
+  metric          String   // Specific metric name (e.g., cyclomatic_complexity)
+  value           Float?
+  unit            String?  // %, points, ms, count
+  status          String?  // PASS, WARN, FAIL, INFO
+  trend           Float?   // Change from previous execution (%)
+  metadata        Json?    // Tool-specific details
+  helpId          Int?
+  createdAt       DateTime @db.Timestamp @default(now())
+
+  // Relations
+  execution       AuditExecution @relation(fields: [executionId], references: [id], onDelete: Cascade)
+  application     Application @relation(fields: [appId], references: [id], onDelete: Cascade)
+  source          AuditSource @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+
+  @@unique([executionId, sourceId, metric])
+  @@index([appId])
+  @@index([appId, metric, createdAt(sort: Desc)])
+  @@index([sourceId])
+  @@map("audit_dimension")
+}
+
+/// Tool and application configuration management
+model Configuration {
+  id              Int     @id @default(autoincrement()) @map("_id")
+  appId           Int
+  toolName        String  // DATADOG, SONARQUBE, LIGHTHOUSE, etc.
+  isEnabled       Boolean @default(false)
+  credentials     Json?   // API keys, tokens (should be encrypted in production)
+  settings        Json?   // Tool-specific settings
+  webhookUrl      String?
+  lastSyncedAt    DateTime? @db.Timestamp
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  application     Application @relation(fields: [appId], references: [id], onDelete: Cascade)
+
+  @@unique([appId, toolName])
+  @@index([appId])
+  @@map("configuration")
+}
+
+/// External dependencies and their status (npm, pip, maven, etc.)
+model Dependency {
+  id                  Int     @id @default(autoincrement()) @map("_id")
+  appId               Int
+  auditExecutionId    String  @db.Uuid
+  ecosystemType       String  // npm, pip, maven, nuget, etc.
+  packageName         String
+  currentVersion      String?
+  latestVersion       String?
+  status              String? // CURRENT, OUTDATED, VULNERABLE
+  vulnerabilityCount  Int     @default(0)
+  maxSeverity         String? // CRITICAL, HIGH, MEDIUM, LOW
+  updateAvailable     Boolean @default(false)
+  metadata            Json?   // CVE details, release notes
+  createdAt           DateTime @db.Timestamp @default(now())
+
+  // Relations
+  application         Application @relation(fields: [appId], references: [id], onDelete: Cascade)
+  execution           AuditExecution @relation(fields: [auditExecutionId], references: [id], onDelete: Cascade)
+
+  @@unique([appId, ecosystemType, packageName, createdAt])
+  @@index([appId, status])
+  @@index([maxSeverity])
+  @@map("dependency")
+}
+
+/// Legacy deprecated dependencies (for backward compatibility)
+model DeprecatedDependency {
+  id                  Int     @id @default(autoincrement()) @map("_id")
+  appId               Int
+  name                String
+  oldVersion          String?
+  replacementLibrary  String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@map("DeprecatedDependency")
+}
+
+/// Tracks codebase evolution and progression
+model Evolution {
+  id              Int     @id @default(autoincrement()) @map("_id")
+  appId           Int
+  auditExecutionId String  @db.Uuid
+  category        String  // Framework Version, Code Structure, Dependencies
+  metric          String?
+  oldValue        String?
+  newValue        String?
+  changeType      String? // UPGRADE, DOWNGRADE, NEW, REMOVED
+  impact          String? // MAJOR, MINOR, PATCH
+  metadata        Json?   // Release notes, breaking changes
+  createdAt       DateTime @db.Timestamp @default(now())
+
+  // Relations
+  application     Application @relation(fields: [appId], references: [id], onDelete: Cascade)
+  execution       AuditExecution @relation(fields: [auditExecutionId], references: [id], onDelete: Cascade)
+
+  @@index([appId])
+  @@map("evolution")
+}
+
+/// Time-series data for trending analysis
+model MetricHistory {
+  id              BigInt   @id @default(autoincrement()) @map("_id")
+  appId           Int
+  metric          String
+  period          String   // DAILY, WEEKLY, MONTHLY
+  periodStart     DateTime @db.Date
+  periodEnd       DateTime @db.Date
+  avgValue        Float?
+  minValue        Float?
+  maxValue        Float?
+  trend           Float?
+  dataPoints      Int?     // Number of samples
+  createdAt       DateTime @db.Timestamp @default(now())
+
+  // Relations
+  application     Application @relation(fields: [appId], references: [id], onDelete: Cascade)
+
+  @@unique([appId, metric, period, periodStart])
+  @@index([appId, metric, periodStart(sort: Desc)])
+  @@map("metric_history")
+}
