@@ -1,6 +1,6 @@
 'use client';
 
-import { ThemedLayoutV2 } from '@refinedev/antd';
+import { ThemedLayout } from '@refinedev/antd';
 import * as React from 'react';
 
 type AdminPageLayoutProps = {
@@ -11,9 +11,9 @@ type AdminPageLayoutProps = {
 };
 
 const AdminLayout = ({ title, header, footer, children }: AdminPageLayoutProps) => (
-    <ThemedLayoutV2 Title={title} Header={header} Footer={footer}>
+    <ThemedLayout Title={title} Header={header} Footer={footer}>
         {children}
-    </ThemedLayoutV2>
+    </ThemedLayout>
 );
 
 export default AdminLayout;

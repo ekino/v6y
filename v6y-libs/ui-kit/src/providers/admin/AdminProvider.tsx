@@ -88,10 +88,9 @@ const AdminProvider = ({
                         i18nProvider={i18nProvider}
                         resources={resources}
                         options={{
-                            liveMode: 'auto',
+                            liveMode: liveProvider ? 'auto' : 'off',
                             syncWithLocation: true,
                             warnWhenUnsavedChanges: true,
-                            useNewQueryKeys: true,
                             projectId: '15myAK-vcBUHf-ebxe3F',
                         }}
                     >

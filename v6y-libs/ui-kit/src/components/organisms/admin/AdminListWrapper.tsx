@@ -16,7 +16,11 @@ const AdminListWrapper = <T extends BaseRecord>({
     renderContent,
 }: AdminTableType<T>) => {
     const { tableQuery } = useTable<T, HttpError>({
-        initialSorter: defaultSorter,
+        sorters: defaultSorter
+            ? {
+                  initial: defaultSorter,
+              }
+            : undefined,
         syncWithLocation: false,
         filters: {
             mode: 'off',
