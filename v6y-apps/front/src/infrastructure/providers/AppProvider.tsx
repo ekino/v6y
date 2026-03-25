@@ -3,6 +3,7 @@
 import { ThemeModes, ThemeProvider, ThemeTypes } from '@v6y/ui-kit';
 import { ThemeProps } from '@v6y/ui-kit/src/theme/types/ThemeProps';
 
+import '../translation/i18nHelper';
 import QueryProvider from './QueryProvider';
 
 export const AppProvider = ({ children }: ThemeProps) => {

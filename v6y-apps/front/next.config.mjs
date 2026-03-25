@@ -7,6 +7,7 @@ const withBundleAnalyzer = BundleAnalyzer({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    turbopack: {},
     async redirects() {
         return [
             {
