@@ -6,6 +6,7 @@ import { AdminProvider } from '@v6y/ui-kit';
 
 import VitalityPageLayout from '../../commons/components/layout/VitalityPageLayout';
 import { VitalityRoutes } from '../../commons/config/VitalityNavigationConfig';
+import '../translation/i18nHelper';
 import { gqlAuthProvider, gqlDataProvider, gqlLiveProvider } from './GraphQLProvider';
 
 type AppProviderProps = {

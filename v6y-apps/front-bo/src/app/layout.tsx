@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Suspense } from 'react';
 
 import AppProvider from '../infrastructure/providers/AppProvider';
-import '../infrastructure/translation/i18nHelper';
 
 export const metadata = {
     title: 'Vitality Back Office (V6Y BO)',

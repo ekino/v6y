@@ -7,6 +7,7 @@ const withBundleAnalyzer = BundleAnalyzer({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    turbopack: {},
     transpilePackages: ['@refinedev/antd'],
     webpack(config, { isServer }) {
         if (!isServer) {
