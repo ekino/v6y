@@ -5,8 +5,8 @@ type AdminAuthenticatedViewProps = {
     children: React.ReactNode;
 };
 
-const AdminAuthenticatedWrapper = ({ children, key }: AdminAuthenticatedViewProps) => (
-    <Authenticated key={key}>{children}</Authenticated>
+const AdminAuthenticatedWrapper = ({ children }: AdminAuthenticatedViewProps) => (
+    <Authenticated key="admin-authenticated">{children}</Authenticated>
 );
 
 export default AdminAuthenticatedWrapper;

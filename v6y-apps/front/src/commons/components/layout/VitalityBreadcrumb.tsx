@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import * as React from 'react';
 
 import {
@@ -11,7 +12,10 @@ import {
     useTranslationProvider,
 } from '@v6y/ui-kit-front';
 
-import { buildBreadCrumbItems } from '../../config/VitalityCommonConfig';
+import {
+    type BreadCrumbDisplayItem,
+    buildBreadCrumbItems,
+} from '../../config/VitalityCommonConfig';
 
 const VitalityBreadcrumb = () => {
     const { pathname, urlParams, getUrlParams } = useNavigationAdapter();
@@ -24,7 +28,7 @@ const VitalityBreadcrumb = () => {
         lastPage: source || '',
         urlParams,
         translate,
-    }).filter((item) => item) as { title: React.ReactNode }[];
+    }).filter((item) => item) as BreadCrumbDisplayItem[];
 
     if (!items || items.length === 0) return null;
 
@@ -42,7 +46,7 @@ const VitalityBreadcrumb = () => {
                                             className="text-black hover:text-slate-700 text-xs md:text-sm"
                                             asChild
                                         >
-                                            {item.title}
+                                            <Link href={item.href || '#'}>{item.title}</Link>
                                         </BreadcrumbLink>
                                     ) : (
                                         <BreadcrumbPage className="text-xs md:text-sm font-medium text-slate-600">
