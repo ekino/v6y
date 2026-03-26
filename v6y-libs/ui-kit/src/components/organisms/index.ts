@@ -1,5 +1,6 @@
 export { default as CollapseView } from './app/CollapseView.tsx';
 export { default as EmptyView } from './app/EmptyView.tsx';
+export { default as Paragraph } from './app/Paragraph.tsx';
 export { default as Links } from './app/Links.tsx';
 export { default as LoaderView } from './app/LoaderView.tsx';
 export { default as ModalView } from './app/ModalView.tsx';
