@@ -1363,16 +1363,6 @@ importers:
 
   v6y-libs/ui-kit-front:
     dependencies:
-<<<<<<< HEAD
-      '@hookform/resolvers':
-        specifier: '=5.0.1'
-        version: 5.0.1(react-hook-form@7.54.2(react@19.2.4))
-||||||| parent of 4556088 ([CHORE]: ran pnpm knip in ui-kit-front)
-      '@hookform/resolvers':
-        specifier: '=5.0.1'
-        version: 5.0.1(react-hook-form@7.54.2(react@19.0.0))
-=======
->>>>>>> 4556088 ([CHORE]: ran pnpm knip in ui-kit-front)
       '@radix-ui/react-accordion':
         specifier: '=1.2.12'
         version: 1.2.12(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -1396,62 +1386,16 @@ importers:
         version: 2.2.5(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@radix-ui/react-slot':
         specifier: '=1.1.2'
-<<<<<<< HEAD
         version: 1.1.2(@types/react@19.0.7)(react@19.2.4)
-      '@types/i18next':
-        specifier: '=13.0.0'
-        version: 13.0.0(typescript@5.7.3)
-||||||| parent of 4556088 ([CHORE]: ran pnpm knip in ui-kit-front)
-        version: 1.1.2(@types/react@19.0.7)(react@19.0.0)
-      '@types/i18next':
-        specifier: '=13.0.0'
-        version: 13.0.0(typescript@5.7.3)
-=======
-        version: 1.1.2(@types/react@19.0.7)(react@19.0.0)
->>>>>>> 4556088 ([CHORE]: ran pnpm knip in ui-kit-front)
       class-variance-authority:
         specifier: '=0.7.1'
         version: 0.7.1
       clsx:
         specifier: '=2.1.1'
         version: 2.1.1
-<<<<<<< HEAD
-||||||| parent of 4556088 ([CHORE]: ran pnpm knip in ui-kit-front)
-      i18next:
-        specifier: '=25.8.0'
-        version: 25.8.0(typescript@5.7.3)
-      i18next-browser-languagedetector:
-        specifier: '=8.0.2'
-        version: 8.0.2
-      i18next-resources-to-backend:
-        specifier: '=1.2.1'
-        version: 1.2.1
-      i18next-xhr-backend:
-        specifier: '=3.2.2'
-        version: 3.2.2
-=======
-      i18next:
-        specifier: '=25.8.0'
-        version: 25.8.0(typescript@5.7.3)
->>>>>>> 4556088 ([CHORE]: ran pnpm knip in ui-kit-front)
       lucide-react:
         specifier: '=0.511.0'
-<<<<<<< HEAD
         version: 0.511.0(react@19.2.4)
-||||||| parent of 4556088 ([CHORE]: ran pnpm knip in ui-kit-front)
-        version: 0.511.0(react@19.0.0)
-      next:
-        specifier: '=15.5.10'
-        version: 15.5.10(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      next-i18next:
-        specifier: '=15.4.1'
-        version: 15.4.1(i18next@25.8.0(typescript@5.7.3))(next@15.5.10(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-i18next@15.4.0(i18next@25.8.0(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
-=======
-        version: 0.511.0(react@19.0.0)
-      next:
-        specifier: '=15.5.10'
-        version: 15.5.10(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
->>>>>>> 4556088 ([CHORE]: ran pnpm knip in ui-kit-front)
       next-themes:
         specifier: '=0.4.6'
         version: 0.4.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -1471,50 +1415,12 @@ importers:
       '@eslint/js':
         specifier: '=10.0.1'
         version: 10.0.1(eslint@10.0.1(jiti@2.6.1))
-<<<<<<< HEAD
-      '@testing-library/react':
-        specifier: '=16.1.0'
-        version: 16.1.0(@testing-library/dom@10.4.0)(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      '@trivago/prettier-plugin-sort-imports':
-        specifier: '=6.0.0'
-        version: 6.0.0(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)
-      '@types/eslint__js':
-        specifier: '=8.42.3'
-        version: 8.42.3
-||||||| parent of 4556088 ([CHORE]: ran pnpm knip in ui-kit-front)
-      '@testing-library/react':
-        specifier: '=16.1.0'
-        version: 16.1.0(@testing-library/dom@10.4.0)(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      '@trivago/prettier-plugin-sort-imports':
-        specifier: '=6.0.0'
-        version: 6.0.0(@vue/compiler-sfc@3.5.13)(prettier@3.4.2)
-      '@types/eslint__js':
-        specifier: '=8.42.3'
-        version: 8.42.3
-=======
->>>>>>> 4556088 ([CHORE]: ran pnpm knip in ui-kit-front)
       '@types/react':
         specifier: '=19.0.7'
         version: 19.0.7
       '@types/react-dom':
         specifier: '=19.0.3'
         version: 19.0.3(@types/react@19.0.7)
-<<<<<<< HEAD
-      '@types/react-i18next':
-        specifier: '=8.1.0'
-        version: 8.1.0(i18next@25.8.0(typescript@5.7.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      autoprefixer:
-        specifier: '=10.4.20'
-        version: 10.4.20(postcss@8.5.1)
-||||||| parent of 4556088 ([CHORE]: ran pnpm knip in ui-kit-front)
-      '@types/react-i18next':
-        specifier: '=8.1.0'
-        version: 8.1.0(i18next@25.8.0(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      autoprefixer:
-        specifier: '=10.4.20'
-        version: 10.4.20(postcss@8.5.1)
-=======
->>>>>>> 4556088 ([CHORE]: ran pnpm knip in ui-kit-front)
       eslint:
         specifier: '=10.0.1'
         version: 10.0.1(jiti@2.6.1)
@@ -1530,44 +1436,24 @@ importers:
       globals:
         specifier: '=16.4.0'
         version: 16.4.0
-<<<<<<< HEAD
       i18next:
         specifier: '=25.8.0'
         version: 25.8.0(typescript@5.7.3)
       next:
-        specifier: 16.2.1
+        specifier: '=16.2.1'
         version: 16.2.1(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      postcss:
-        specifier: '=8.5.1'
-        version: 8.5.1
-||||||| parent of 4556088 ([CHORE]: ran pnpm knip in ui-kit-front)
-      postcss:
-        specifier: '=8.5.1'
-        version: 8.5.1
-=======
->>>>>>> 4556088 ([CHORE]: ran pnpm knip in ui-kit-front)
       prettier:
         specifier: '=3.4.2'
         version: 3.4.2
-<<<<<<< HEAD
       react:
-        specifier: 19.2.4
+        specifier: '=19.2.4'
         version: 19.2.4
       react-dom:
-        specifier: 19.2.4
+        specifier: '=19.2.4'
         version: 19.2.4(react@19.2.4)
       react-i18next:
         specifier: '=15.4.0'
         version: 15.4.0(i18next@25.8.0(typescript@5.7.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      shadcn:
-        specifier: '=2.6.1'
-        version: 2.6.1(@types/node@24.10.0)(typescript@5.7.3)
-||||||| parent of 4556088 ([CHORE]: ran pnpm knip in ui-kit-front)
-      shadcn:
-        specifier: '=2.6.1'
-        version: 2.6.1(@types/node@24.10.0)(typescript@5.7.3)
-=======
->>>>>>> 4556088 ([CHORE]: ran pnpm knip in ui-kit-front)
       tailwindcss:
         specifier: '=4.2.1'
         version: 4.2.1
@@ -5912,10 +5798,6 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
-  baseline-browser-mapping@2.8.10:
-    resolution: {integrity: sha512-uLfgBi+7IBNay8ECBO2mVMGZAc1VgZWEChxm4lv+TobGdG82LnXMjuNGo/BSSZZL4UmkWhxEHP2f5ziLNwGWMA==}
-    hasBin: true
-
   basic-auth@2.0.1:
     resolution: {integrity: sha512-NF+epuEdnUYVlGuhaxbbq+dvJttwLnGY+YixlXlME5KpQ5W3CnXA5cVTneY3SPbPDRkcjMbifrwmFYcClgOZeg==}
     engines: {node: '>= 0.8'}
@@ -6038,9 +5920,6 @@ packages:
   camelcase@6.3.0:
     resolution: {integrity: sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==}
     engines: {node: '>=10'}
-
-  caniuse-lite@1.0.30001747:
-    resolution: {integrity: sha512-mzFa2DGIhuc5490Nd/G31xN1pnBnYMadtkyTjefPI7wzypqgCEpeWu9bJr0OnDsyKrW75zA9ZAt7pbQFmwLsQg==}
 
   caniuse-lite@1.0.30001781:
     resolution: {integrity: sha512-RdwNCyMsNBftLjW6w01z8bKEvT6e/5tpPVEgtn22TiLGlstHOVecsX2KHFkD5e/vRnIE4EGzpuIODb3mtswtkw==}
@@ -13577,20 +13456,6 @@ snapshots:
     dependencies:
       graphql: 16.10.0
 
-<<<<<<< HEAD
-  '@hookform/resolvers@5.0.1(react-hook-form@7.54.2(react@19.2.4))':
-    dependencies:
-      '@standard-schema/utils': 0.3.0
-      react-hook-form: 7.54.2(react@19.2.4)
-
-||||||| parent of 4556088 ([CHORE]: ran pnpm knip in ui-kit-front)
-  '@hookform/resolvers@5.0.1(react-hook-form@7.54.2(react@19.0.0))':
-    dependencies:
-      '@standard-schema/utils': 0.3.0
-      react-hook-form: 7.54.2(react@19.0.0)
-
-=======
->>>>>>> 4556088 ([CHORE]: ran pnpm knip in ui-kit-front)
   '@humanfs/core@0.19.1': {}
 
   '@humanfs/node@0.16.6':
@@ -16002,28 +15867,6 @@ snapshots:
     dependencies:
       '@types/react': 19.0.7
 
-<<<<<<< HEAD
-  '@types/react-i18next@8.1.0(i18next@25.8.0(typescript@5.7.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
-    dependencies:
-      react-i18next: 15.4.0(i18next@25.8.0(typescript@5.7.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-    transitivePeerDependencies:
-      - i18next
-      - react
-      - react-dom
-      - react-native
-
-||||||| parent of 4556088 ([CHORE]: ran pnpm knip in ui-kit-front)
-  '@types/react-i18next@8.1.0(i18next@25.8.0(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
-    dependencies:
-      react-i18next: 15.4.0(i18next@25.8.0(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-    transitivePeerDependencies:
-      - i18next
-      - react
-      - react-dom
-      - react-native
-
-=======
->>>>>>> 4556088 ([CHORE]: ran pnpm knip in ui-kit-front)
   '@types/react@19.0.7':
     dependencies:
       csstype: 3.2.3
@@ -16975,8 +16818,6 @@ snapshots:
 
   baseline-browser-mapping@2.10.10: {}
 
-  baseline-browser-mapping@2.8.10: {}
-
   basic-auth@2.0.1:
     dependencies:
       safe-buffer: 5.1.2
@@ -17077,8 +16918,8 @@ snapshots:
 
   browserslist@4.26.3:
     dependencies:
-      baseline-browser-mapping: 2.8.10
-      caniuse-lite: 1.0.30001747
+      baseline-browser-mapping: 2.10.10
+      caniuse-lite: 1.0.30001781
       electron-to-chromium: 1.5.229
       node-releases: 2.0.21
       update-browserslist-db: 1.1.3(browserslist@4.26.3)
@@ -17133,8 +16974,6 @@ snapshots:
   callsites@3.1.0: {}
 
   camelcase@6.3.0: {}
-
-  caniuse-lite@1.0.30001747: {}
 
   caniuse-lite@1.0.30001781: {}
 
