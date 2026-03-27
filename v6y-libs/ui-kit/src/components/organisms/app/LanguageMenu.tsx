@@ -45,7 +45,7 @@ const LanguageMenu = () => {
         >
             <Button type="text">
                 <Space>
-                    <Avatar size={16} src={`/images/flags/${currentLocale}.svg`} />
+                    <Avatar size={16} src={`/images/flags/${currentLocale ?? 'en'}.svg`} />
                     <TextView content={currentLocale === 'en' ? 'English' : 'French'} />
                     <DownOutlined />
                 </Space>

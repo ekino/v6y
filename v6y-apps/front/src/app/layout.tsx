@@ -5,7 +5,6 @@ import { LoaderView } from '@v6y/ui-kit';
 
 import VitalityPageLayout from '../commons/components/layout/VitalityPageLayout';
 import { AppProvider } from '../infrastructure/providers/AppProvider';
-import '../infrastructure/translation/i18nHelper';
 import { getServerTranslation } from '../infrastructure/translation/serverTranslation';
 import '../styles.css';
 

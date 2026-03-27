@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
@@ -20,6 +19,11 @@ export interface BreadCrumbItemType {
     lastPage: string;
     urlParams: string;
     translate: (key: string) => string;
+}
+
+export interface BreadCrumbDisplayItem {
+    title: string;
+    href?: string;
 }
 
 export interface DashboardItemType {
@@ -97,100 +101,94 @@ export const buildBreadCrumbItems = ({
     urlParams,
     translate,
 }: BreadCrumbItemType) => {
-    const dashboardLink = (
-        <Link href={VitalityNavigationPaths.DASHBOARD}>
-            {translate('vitality.dashboardPage.shortTitle')}
-        </Link>
-    );
-
     const sourceParams =
         (urlParams || '')
             .split('&')
             .filter((url) => !url.includes('source') && !url.includes('_id'))
             .join('&') || '';
-    const appListLink = (
-        <Link href={VitalityNavigationPaths.APP_LIST + '?' + sourceParams}>
-            {translate('vitality.appListPage.shortTitle')}
-        </Link>
-    );
-    const appsStatsLink = (
-        <Link href={VitalityNavigationPaths.APPS_STATS + '?' + sourceParams}>
-            {translate('vitality.appStatsPage.shortTitle')}
-        </Link>
-    );
-    const searchLink = (
-        <Link href={VitalityNavigationPaths.SEARCH + '?' + sourceParams}>
-            {translate('vitality.searchPage.shortTitle')}
-        </Link>
-    );
+    const withSourceParams = (path: string) => (sourceParams ? `${path}?${sourceParams}` : path);
 
     return (
         {
             [VitalityNavigationPaths.APP_DETAILS]: [
                 {
-                    title: dashboardLink,
+                    title: translate('vitality.dashboardPage.shortTitle'),
+                    href: VitalityNavigationPaths.DASHBOARD,
                 },
                 {
                     title: Matcher()
                         .on(
                             () => lastPage === 'stats',
-                            () => appsStatsLink,
+                            () => translate('vitality.appStatsPage.shortTitle'),
                         )
                         .on(
                             () => lastPage === 'search',
-                            () => searchLink,
+                            () => translate('vitality.searchPage.shortTitle'),
                         )
-                        .otherwise(() => appListLink),
+                        .otherwise(() => translate('vitality.appListPage.shortTitle')),
+                    href: Matcher()
+                        .on(
+                            () => lastPage === 'stats',
+                            () => withSourceParams(VitalityNavigationPaths.APPS_STATS),
+                        )
+                        .on(
+                            () => lastPage === 'search',
+                            () => withSourceParams(VitalityNavigationPaths.SEARCH),
+                        )
+                        .otherwise(() => withSourceParams(VitalityNavigationPaths.APP_LIST)),
                 },
                 {
-                    title: <Link href="">{translate('vitality.appDetailsPage.shortTitle')}</Link>,
+                    title: translate('vitality.appDetailsPage.shortTitle'),
                 },
             ],
             [VitalityNavigationPaths.DASHBOARD]: [
                 {
-                    title: <Link href="">{translate('vitality.dashboardPage.shortTitle')}</Link>,
+                    title: translate('vitality.dashboardPage.shortTitle'),
                 },
             ],
             [VitalityNavigationPaths.APP_LIST]: [
                 {
-                    title: dashboardLink,
+                    title: translate('vitality.dashboardPage.shortTitle'),
+                    href: VitalityNavigationPaths.DASHBOARD,
                 },
                 {
-                    title: <Link href="">{translate('vitality.appListPage.shortTitle')}</Link>,
+                    title: translate('vitality.appListPage.shortTitle'),
                 },
             ],
             [VitalityNavigationPaths.FAQ]: [
                 {
-                    title: dashboardLink,
+                    title: translate('vitality.dashboardPage.shortTitle'),
+                    href: VitalityNavigationPaths.DASHBOARD,
                 },
                 {
-                    title: <Link href="">{translate('vitality.faqPage.shortTitle')}</Link>,
+                    title: translate('vitality.faqPage.shortTitle'),
                 },
             ],
             [VitalityNavigationPaths.NOTIFICATIONS]: [
                 {
-                    title: dashboardLink,
+                    title: translate('vitality.dashboardPage.shortTitle'),
+                    href: VitalityNavigationPaths.DASHBOARD,
                 },
                 {
-                    title: (
-                        <Link href="">{translate('vitality.notificationsPage.shortTitle')}</Link>
-                    ),
+                    title: translate('vitality.notificationsPage.shortTitle'),
                 },
             ],
             [VitalityNavigationPaths.APPS_STATS]: [
                 {
-                    title: dashboardLink,
+                    title: translate('vitality.dashboardPage.shortTitle'),
+                    href: VitalityNavigationPaths.DASHBOARD,
                 },
                 {
-                    title: <Link href="">{translate('vitality.appStatsPage.shortTitle')}</Link>,
+                    title: translate('vitality.appStatsPage.shortTitle'),
                 },
             ],
             [VitalityNavigationPaths.SEARCH]: [
                 {
-                    title: dashboardLink,
+                    title: translate('vitality.dashboardPage.shortTitle'),
+                    href: VitalityNavigationPaths.DASHBOARD,
                 },
                 {
-                    title: <Link href="">{translate('vitality.searchPage.shortTitle')}</Link>,
+                    title: translate('vitality.searchPage.shortTitle'),
                 },
             ],
         }[currentPage] || []

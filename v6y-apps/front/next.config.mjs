@@ -1,3 +1,5 @@
+import { fileURLToPath } from 'node:url';
+
 import BundleAnalyzer from '@next/bundle-analyzer';
 
 const withBundleAnalyzer = BundleAnalyzer({
@@ -5,8 +7,13 @@ const withBundleAnalyzer = BundleAnalyzer({
     enabled: process.env.ANALYZE === 'true',
 });
 
+const workspaceRoot = fileURLToPath(new URL('../../', import.meta.url));
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    turbopack: {
+        root: workspaceRoot,
+    },
     async redirects() {
         return [
             {

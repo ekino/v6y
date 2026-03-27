@@ -65,6 +65,9 @@
       "sha.js": "=2.4.12",
       "tar-fs": "=3.0.9",
       "vite": "=5.4.14"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "msw"
+    ]
   }
 }
