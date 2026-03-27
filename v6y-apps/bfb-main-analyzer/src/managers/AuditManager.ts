@@ -22,14 +22,19 @@ export const buildStaticReports = async ({ application, branches }: BuildApplica
             return false;
         }
 
-        for (const branch of branches) {
-            AppLogger.info('[ApplicationManager - buildStaticReports] branch: ', branch);
+        const mainBranch = branches.find((branch) => branch?.name === 'main');
 
-            await buildApplicationDetailsByBranch({
-                application,
-                branch,
-            });
+        if (!mainBranch) {
+            AppLogger.info('[ApplicationManager - buildStaticReports] main branch not found');
+            return false;
         }
+
+        AppLogger.info('[ApplicationManager - buildStaticReports] branch: ', mainBranch);
+
+        await buildApplicationDetailsByBranch({
+            application,
+            branch: mainBranch,
+        });
 
         return true;
     } catch (error) {

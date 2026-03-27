@@ -1,3 +1,5 @@
+import { createRequire } from 'node:module';
+
 import { AppLogger, AuditType, Matcher, auditStatus, scoreStatus } from '@v6y/core-logic';
 
 import {
@@ -6,18 +8,19 @@ import {
     LighthouseAuditParamsType,
     LighthouseReportType,
 } from '../types/LighthouseAuditType.ts';
-import {
+
+const {
     computeEcoIndex,
-    computeGhg,
-    computeWater,
+    computeGreenhouseGasesEmissionfromEcoIndex,
+    computeWaterConsumptionfromEcoIndex,
     getEcoIndexGrade,
-} from './EcoindexComputeUtils.ts';
+} = createRequire(import.meta.url)('ecoindex') as typeof import('ecoindex');
 
 /**
  * Check if the audit status is failed
  * @param status
  */
-const isAuditFailed = (status: string | null): boolean => {
+const isAuditFailed = (status: string | null | undefined): boolean => {
     return status === auditStatus.failure || status === null || status === undefined;
 };
 
@@ -309,9 +312,20 @@ const extractEcoindexInputs = (
         const { audits } = jsonData || {};
         if (!audits) return null;
 
-        const dom = audits?.['dom-size']?.numericValue;
-        const requests = audits?.['network-requests']?.numericValue;
-        const sizeBytes = audits?.['total-byte-weight']?.numericValue;
+        const diagnostics = audits?.diagnostics?.details?.items?.[0];
+
+        const dom =
+            audits?.['dom-size']?.numericValue ??
+            audits?.['dom-size-insight']?.numericValue ??
+            audits?.['dom-size-insight']?.details?.debugData?.totalElements;
+
+        const requests =
+            audits?.['network-requests']?.numericValue ??
+            audits?.['network-requests']?.details?.items?.length ??
+            diagnostics?.numRequests;
+
+        const sizeBytes =
+            audits?.['total-byte-weight']?.numericValue ?? diagnostics?.totalByteWeight;
 
         if (dom == null || requests == null || sizeBytes == null) return null;
 
@@ -352,8 +366,8 @@ const computeEcoindexAuditEntry = ({
         const { dom, requests, size } = inputs;
         const score = computeEcoIndex(dom, requests, size);
         const grade = getEcoIndexGrade(score);
-        const water = computeWater(score);
-        const ghg = computeGhg(score);
+        const water = parseFloat(computeWaterConsumptionfromEcoIndex(score));
+        const ghg = parseFloat(computeGreenhouseGasesEmissionfromEcoIndex(score));
 
         const ecoScoreStatus = Matcher()
             .on(

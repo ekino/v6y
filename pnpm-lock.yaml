@@ -194,6 +194,9 @@ importers:
       date-fns:
         specifier: '=4.1.0'
         version: 4.1.0
+      ecoindex:
+        specifier: '=1.0.7'
+        version: 1.0.7
       express:
         specifier: '=5.2.0'
         version: 5.2.0
@@ -5880,6 +5883,7 @@ packages:
   basic-ftp@5.0.5:
     resolution: {integrity: sha512-4Bcg1P8xhUuqcii/S0Z9wiHIrQVPMermM1any+MX5GeGD7faD3/msQUDGLol9wOcz4/jbg/WJnGqoJF6LiBdtg==}
     engines: {node: '>=10.0.0'}
+    deprecated: Security vulnerability fixed in 5.2.0, please upgrade
 
   bcrypt@6.0.0:
     resolution: {integrity: sha512-cU8v/EGSrnH+HnxV2z0J7/blxH8gq7Xh2JFT6Aroax7UohdmiJJlxApMxtKfuI7z68NvvVcmR78k2LbT6efhRg==}
@@ -6713,6 +6717,13 @@ packages:
 
   ecdsa-sig-formatter@1.0.11:
     resolution: {integrity: sha512-nagl3RYrbNv6kQkeJIpt6NJZy8twLB/2vtz6yN9Z4vRKHN4/QZJIEbqohALSgwKdnksuY3k5Addp5lg8sVoVcQ==}
+
+  ecoindex@1.0.7:
+    resolution: {integrity: sha512-0fJWWWuJ2T9ykpvZ0O6MJX/qMjZ/Z17s4tWvfEWxAuX8YuhVKZ2LXdrUu67cs2FFdHck2oeUP7Uf4NGefGdQfQ==}
+    engines: {node: '>=16.0.0 <18.20.0'}
+
+  ecoindex_reference@1.0.2:
+    resolution: {integrity: sha512-IKse3tu6IQfhrpGsVuxmC1K4xlc1FCZtaNYjLUj+Yxm5wthuVyS7C/miVPqSN7UZaNViUO2013ri+WJJhZfCUA==}
 
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
@@ -17993,6 +18004,12 @@ snapshots:
   ecdsa-sig-formatter@1.0.11:
     dependencies:
       safe-buffer: 5.2.1
+
+  ecoindex@1.0.7:
+    dependencies:
+      ecoindex_reference: 1.0.2
+
+  ecoindex_reference@1.0.2: {}
 
   ee-first@1.1.1: {}
 
