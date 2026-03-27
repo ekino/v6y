@@ -71,6 +71,9 @@ const isDenseMetric = (reports: AuditType[]): boolean => {
             cat.includes('accessibility') ||
             cat.includes('security') ||
             cat.includes('seo') ||
+            cat.includes('instability') ||
+            cat.includes('bundle') ||
+            cat.includes('size') ||
             r.type === 'DORA' ||
             cat.includes('dora')
         );
