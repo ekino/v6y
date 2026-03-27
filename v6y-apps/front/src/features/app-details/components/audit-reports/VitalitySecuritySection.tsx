@@ -88,7 +88,11 @@ const VitalitySecuritySection = ({ auditTrigger = 0 }: VitalitySecuritySectionPr
 
     const { isLoading: isAppDetailsDependenciesLoading, data: appDetailsDependencies } =
         useClientQuery<{ getApplicationDetailsDependenciesByParams: DependencyType[] }>({
-            queryCacheKey: ['getApplicationDetailsDependenciesByParams', `${_id}`],
+            queryCacheKey: [
+                'getApplicationDetailsDependenciesByParams',
+                `${_id}`,
+                `${auditTrigger}`,
+            ],
             queryBuilder: async () =>
                 buildClientQuery({
                     queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
