@@ -1,12 +1,13 @@
 'use client';
 
-import { useForm, useSelect } from '@refinedev/antd';
-import { BaseRecord, GetOneResponse, HttpError } from '@refinedev/core';
+import { useForm } from '@refinedev/antd';
+import { BaseRecord, GetOneResponse } from '@refinedev/core';
+import { useQuery } from '@tanstack/react-query';
 import { ReactNode, useEffect } from 'react';
 
 import { gqlClientRequest } from '../../../api';
 import { EditLayout, Form } from '../../atoms';
-import { FormWrapperType, SelectOptionsType } from '../../types';
+import { FormWrapperType } from '../../types';
 
 const AdminSelectWrapper = <T extends BaseRecord>({
     title,
@@ -73,18 +74,20 @@ const AdminSelectWrapper = <T extends BaseRecord>({
         defaultFormValues: {},
     });
 
-    const { query: selectQueryResult } = useSelect<T, HttpError, SelectOptionsType>({
-        resource: selectOptions?.resource || '',
-        queryOptions: {
-            enabled: true,
-            queryKey: [selectOptions?.resource, selectOptions?.queryParams],
-            queryFn: async () =>
-                gqlClientRequest({
-                    gqlQueryPath: selectOptions?.query,
-                    gqlQueryParams: selectOptions?.queryParams,
-                }),
-        },
+    const { data: selectQueryData, isLoading: isSelectQueryLoading } = useQuery({
+        enabled: Boolean(selectOptions?.resource && selectOptions?.query),
+        queryKey: [selectOptions?.resource, selectOptions?.queryParams],
+        queryFn: async () =>
+            gqlClientRequest({
+                gqlQueryPath: selectOptions?.query,
+                gqlQueryParams: selectOptions?.queryParams,
+            }),
     });
+
+    const selectData =
+        (selectQueryData as Record<string, unknown[]> | undefined)?.[
+            selectOptions?.resource || ''
+        ] || [];
 
     useEffect(() => {
         const data = (query?.data || {}) as BaseRecord;
@@ -101,7 +104,7 @@ const AdminSelectWrapper = <T extends BaseRecord>({
         }
     }, [form, query?.data, queryOptions]);
 
-    const isLoading = selectQueryResult?.isLoading || (queryOptions && query?.isLoading);
+    const isLoading = isSelectQueryLoading || Boolean(queryOptions && query?.isLoading);
 
     return (
         <EditLayout
@@ -111,9 +114,7 @@ const AdminSelectWrapper = <T extends BaseRecord>({
             saveButtonProps={saveButtonProps}
         >
             <Form {...formProps} layout="vertical" variant="filled">
-                {renderSelectOption?.(selectQueryResult?.data?.[selectOptions?.resource || 0])?.map(
-                    (item: ReactNode) => item,
-                )}
+                {renderSelectOption?.(selectData as T[])?.map((item: ReactNode) => item)}
             </Form>
         </EditLayout>
     );

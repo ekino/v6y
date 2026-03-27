@@ -4,14 +4,19 @@ import Cookie from 'js-cookie';
 
 import { AdminAuthProviderType, createDataProvider, createLiveProvider } from '@v6y/ui-kit';
 
-const wsClient = createClient({
-    url: process.env.NEXT_PUBLIC_V6Y_BFF_PATH as string,
-});
+const bffPath = process.env.NEXT_PUBLIC_V6Y_BFF_PATH as string;
+const wsPath = process.env.NEXT_PUBLIC_V6Y_BFF_WS_PATH;
 
-export const gqlLiveProvider = createLiveProvider(wsClient);
+export const gqlLiveProvider = wsPath
+    ? createLiveProvider(
+          createClient({
+              url: wsPath,
+          }),
+      )
+    : undefined;
 
 const gqlClient = new Client({
-    url: process.env.NEXT_PUBLIC_V6Y_BFF_PATH as string,
+    url: bffPath,
     exchanges: [fetchExchange],
 });
 

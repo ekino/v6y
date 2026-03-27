@@ -7,9 +7,7 @@ type AdminAuthenticatedViewProps = {
 };
 
 const AdminAuthenticatedWrapper = ({ children, key }: AdminAuthenticatedViewProps) => (
-    <Authenticated key={key} v3LegacyAuthProviderCompatible={true}>
-        {children}
-    </Authenticated>
+    <Authenticated key={key}>{children}</Authenticated>
 );
 
 export default AdminAuthenticatedWrapper;

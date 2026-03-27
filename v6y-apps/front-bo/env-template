@@ -1,5 +1,7 @@
 # API
 NEXT_PUBLIC_V6Y_BFF_PATH=xxxx
+# Optional: enable Refine live subscriptions only when a WS endpoint is available
+# NEXT_PUBLIC_V6Y_BFF_WS_PATH=ws://localhost:4001/v6y/graphql/
 
 # AUTH
 NEXTAUTH_URL=xxxx
