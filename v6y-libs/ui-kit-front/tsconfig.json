@@ -29,7 +29,7 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["vitest/globals", "@testing-library/jest-dom","./environment.d.ts"]
+    "types": ["./environment.d.ts"]
   },
   "include": [
     "./src/**/*.ts",
