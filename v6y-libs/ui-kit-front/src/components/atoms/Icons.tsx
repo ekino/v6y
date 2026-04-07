@@ -12,4 +12,5 @@ export {
     EnvelopeClosedIcon,
     ChatBubbleIcon,
     MixerHorizontalIcon,
+    SunIcon,
 } from '@radix-ui/react-icons';
