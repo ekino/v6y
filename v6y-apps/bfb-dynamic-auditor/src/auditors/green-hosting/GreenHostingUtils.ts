@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import { AppLogger, ApplicationType, AuditType, auditStatus, scoreStatus } from '@v6y/core-logic';
 
 const GREEN_WEB_API_BASE = 'https://api.thegreenwebfoundation.org/api/v3/greencheck';
@@ -24,11 +22,23 @@ const checkGreenHosting = async (
         const { hostname } = new URL(url);
         AppLogger.info(`[GreenHostingUtils - checkGreenHosting] checking hostname: ${hostname}`);
 
-        const response = await axios.get<GreenWebApiResponse>(`${GREEN_WEB_API_BASE}/${hostname}`, {
-            timeout: 10_000,
-        });
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10_000);
 
-        return { hostname, data: response.data };
+        try {
+            const response = await fetch(`${GREEN_WEB_API_BASE}/${hostname}`, {
+                signal: controller.signal,
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+
+            const data = (await response.json()) as GreenWebApiResponse;
+            return { hostname, data };
+        } finally {
+            clearTimeout(timeoutId);
+        }
     } catch (error) {
         AppLogger.error(`[GreenHostingUtils - checkGreenHosting] error for ${url}: ${error}`);
         return null;

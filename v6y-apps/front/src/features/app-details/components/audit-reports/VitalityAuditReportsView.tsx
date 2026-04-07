@@ -1,6 +1,7 @@
 import { AuditType } from '@v6y/core-logic/src/types';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
 import { Card, CardContent } from '@v6y/ui-kit-front';
+import { SunIcon } from '@v6y/ui-kit-front';
 
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
 import {
@@ -143,27 +144,21 @@ const VitalityAuditReportsView = ({
         let emptyDescription = translate(
             'vitality.appDetailsPage.emptyStates.auditReports.description',
         );
-        let showGreenLeaf = false;
+        let showGreenSun = false;
 
         if (category === 'greenIndex') {
             emptyTitle = translate('vitality.appDetailsPage.emptyStates.greenIndex.title');
             emptyDescription = translate(
                 'vitality.appDetailsPage.emptyStates.greenIndex.description',
             );
-            showGreenLeaf = true;
+            showGreenSun = true;
         }
 
         return (
             <Card className="border-slate-200 shadow-xs">
                 <CardContent className="flex flex-col items-center justify-center p-12 gap-2">
-                    {showGreenLeaf ? (
-                        <img
-                            src="/images/green_index.png"
-                            alt="Green leaf ecological icon"
-                            width="56"
-                            height="56"
-                            className="mb-2"
-                        />
+                    {showGreenSun ? (
+                        <SunIcon className="w-14 h-14 text-yellow-500 mb-2" />
                     ) : (
                         <div className="text-4xl mb-2">📋</div>
                     )}
