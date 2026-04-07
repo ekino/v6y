@@ -16,6 +16,9 @@
             "entry": ["src/index.ts"],
             "project": ["src/**/*.{ts,js}"]
         },
-        "v6y-libs/*": {}
+        "v6y-libs/*": {
+            "entry": ["src/index.ts"],
+            "project": ["src/**/*.{ts,tsx,js,jsx}"]
+        }
     }
 }
