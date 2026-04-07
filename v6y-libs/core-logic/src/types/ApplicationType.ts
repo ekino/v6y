@@ -29,6 +29,7 @@ export interface ApplicationInputType {
     gitUrl?: string;
     gitWebUrl?: string;
     productionLink?: string;
+    sonarqubeLink?: string;
     codeQualityPlatformLink?: string;
     ciPlatformLink?: string;
     deploymentPlatformLink?: string;

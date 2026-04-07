@@ -46,7 +46,8 @@
         "accessibility": "Accessibilité",
         "security": "Sécurité",
         "maintainability": "Maintenabilité",
-        "devops": "DevOps"
+        "devops": "DevOps",
+        "sonarqube": "SonarQube"
       },
       "branches": {
         "main": "main",
@@ -139,6 +140,26 @@
           "CHANGE_FAILURE_RATE": "Taux d'échec des changements",
           "MEAN_TIME_TO_RESTORE_SERVICE": "Temps moyen de restauration du service",
           "UP_TIME_AVERAGE": "Temps de disponibilité moyen"
+        }
+      },
+      "sonarqube": {
+        "title": "Rapports SonarQube",
+        "description": "Ouvrez les tableaux de bord et sections de rapports SonarQube pour cette application.",
+        "projectKey": "Clé du projet",
+        "projectUrlLabel": "URL de projet configuree :",
+        "availableMetrics": "Mesures et rapports disponibles",
+        "openReport": "Voir le rapport",
+        "actions": {
+          "overview": "Ouvrir la vue d'ensemble",
+          "issues": "Ouvrir les issues",
+          "hotspots": "Ouvrir les security hotspots",
+          "measures": "Ouvrir les mesures"
+        },
+        "metrics": {
+          "overviewDesc": "Consulter le tableau de bord complet du projet avec métriques de qualité, indicateurs et historique d'analyse",
+          "issuesDesc": "Examiner tous les problèmes de code : bugs, vulnérabilités, code smells et problèmes de maintenabilité détectés",
+          "hotspotsDesc": "Examiner les points sensibles en matière de sécurité qui méritent un examen manuel approfondi",
+          "measuresDesc": "Analyser les métriques détaillées : couverture de code, complexité, duplication de code et autres indicateurs"
         }
       },
       "dependencies": {

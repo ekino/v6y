@@ -46,7 +46,8 @@
         "accessibility": "Accessibility",
         "security": "Security",
         "maintainability": "Maintainability",
-        "devops": "DevOps"
+        "devops": "DevOps",
+        "sonarqube": "SonarQube"
       },
       "branches": {
         "main": "main",
@@ -139,6 +140,26 @@
           "CHANGE_FAILURE_RATE": "Change Failure Rate",
           "MEAN_TIME_TO_RESTORE_SERVICE": "Mean Time to Restore Service",
           "UP_TIME_AVERAGE": "Uptime Average"
+        }
+      },
+      "sonarqube": {
+        "title": "SonarQube Reports",
+        "description": "Open SonarQube project dashboards and report sections for this application.",
+        "projectKey": "Project Key",
+        "projectUrlLabel": "Configured project URL:",
+        "availableMetrics": "Available Metrics & Reports",
+        "openReport": "View Report",
+        "actions": {
+          "overview": "Open Project Overview",
+          "issues": "Open Issues",
+          "hotspots": "Open Security Hotspots",
+          "measures": "Open Measures"
+        },
+        "metrics": {
+          "overviewDesc": "View the complete project dashboard with quality metrics and indicators",
+          "issuesDesc": "See all code issues including bugs, vulnerabilities, and code smells",
+          "hotspotsDesc": "Review security hotspots that may pose security risks",
+          "measuresDesc": "Analyze detailed code metrics including coverage, complexity, and duplication"
         }
       },
       "dependencies": {

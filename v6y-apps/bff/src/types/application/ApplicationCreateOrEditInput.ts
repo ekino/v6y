@@ -41,6 +41,9 @@ const ApplicationCreateOrEditInput = `
        
       """ APP Contact Mail """
       contactMail: String!
+
+      """ Application SonarQube url """
+      sonarqubeLink: String
       
       """ Application code quality platform url """
       codeQualityPlatformLink: String

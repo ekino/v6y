@@ -205,6 +205,11 @@
         "placeholder": "Enter your application production link",
         "error": "You should enter at least one application production link!"
       },
+      "app-sonarqube-link": {
+        "label": "Lien du projet SonarQube de l'application",
+        "placeholder": "Entrez l'URL du projet SonarQube",
+        "error": "Le format de l'URL SonarQube est invalide"
+      },
       "app-code-quality-platform-link": {
         "label": "Application code quality platform link",
         "placeholder": "Enter your application code quality platform link",

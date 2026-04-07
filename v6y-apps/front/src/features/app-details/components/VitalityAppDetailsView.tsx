@@ -28,6 +28,47 @@ const VitalitySecuritySection = DynamicLoader(
     () => import('./audit-reports/VitalitySecuritySection'),
 );
 
+const VitalitySonarQubeView = DynamicLoader(() => import('./sonarqube/VitalitySonarQubeView'));
+
+const extractProjectKeyFromSonarUrl = (url: string): string | null => {
+    try {
+        const urlObj = new URL(url);
+        return (
+            urlObj.searchParams.get('id') ||
+            urlObj.searchParams.get('project') ||
+            urlObj.searchParams.get('projectKey') ||
+            null
+        );
+    } catch {
+        return null;
+    }
+};
+
+const getSonarQubeLink = (appInfos?: ApplicationType) => {
+    const strictSonarLink = appInfos?.links?.find(
+        (link) => link?.label === 'Application SonarQube url',
+    )?.value;
+    if (strictSonarLink && extractProjectKeyFromSonarUrl(strictSonarLink)) {
+        return strictSonarLink;
+    }
+
+    const legacyCodeQualityLink = appInfos?.links?.find(
+        (link) => link?.label === 'Application code quality platform url',
+    )?.value;
+    if (legacyCodeQualityLink && extractProjectKeyFromSonarUrl(legacyCodeQualityLink)) {
+        return legacyCodeQualityLink;
+    }
+
+    const sonarLink = appInfos?.links?.find((link) =>
+        link?.value?.toLowerCase?.().includes('sonar'),
+    )?.value;
+    if (sonarLink && extractProjectKeyFromSonarUrl(sonarLink)) {
+        return sonarLink;
+    }
+
+    return undefined;
+};
+
 const VitalityAppDetailsView = () => {
     const { getUrlParams } = useNavigationAdapter();
     const { translate } = useTranslationProvider();
@@ -53,6 +94,7 @@ const VitalityAppDetailsView = () => {
     });
 
     const appInfos = appDetailsInfos?.getApplicationDetailsInfoByParams;
+    const sonarqubeLink = getSonarQubeLink(appInfos);
 
     const tabs = [
         { id: 'overview', label: translate('vitality.appDetailsPage.tabs.overview') },
@@ -61,6 +103,9 @@ const VitalityAppDetailsView = () => {
         { id: 'security', label: translate('vitality.appDetailsPage.tabs.security') },
         { id: 'maintainability', label: translate('vitality.appDetailsPage.tabs.maintainability') },
         { id: 'devops', label: translate('vitality.appDetailsPage.tabs.devops') },
+        ...(sonarqubeLink
+            ? [{ id: 'sonarqube', label: translate('vitality.appDetailsPage.tabs.sonarqube') }]
+            : []),
     ];
 
     const onExportClicked = () => {
@@ -114,6 +159,10 @@ const VitalityAppDetailsView = () => {
                 );
             case 'devops':
                 return <VitalityAuditReportsView auditTrigger={auditTrigger} category="dora" />;
+            case 'sonarqube':
+                return sonarqubeLink ? (
+                    <VitalitySonarQubeView sonarqubeUrl={sonarqubeLink} />
+                ) : null;
             default:
                 return (
                     <VitalityGeneralInformationView
