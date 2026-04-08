@@ -21,6 +21,7 @@ const defaultOptions = {};
 const formatCodeModularityReports = async ({
     application,
     workspaceFolder,
+    branchName,
 }: AuditCommonsType): Promise<AuditType[]> => {
     try {
         AppLogger.info(
@@ -47,7 +48,7 @@ const formatCodeModularityReports = async ({
         const module = {
             appId: application?._id,
             url: application?.repo?.webUrl,
-            branch: workspaceFolder.split('/').pop(),
+            branch: branchName || workspaceFolder.split('/').pop(),
             path: '',
         };
 

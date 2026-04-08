@@ -40,6 +40,7 @@ const defaultOptions = {
 const formatCodeCouplingReports = async ({
     application,
     workspaceFolder,
+    branchName,
 }: AuditCommonsType): Promise<AuditType[] | null> => {
     try {
         AppLogger.info(
@@ -77,7 +78,7 @@ const formatCodeCouplingReports = async ({
 
         const auditReports = [];
 
-        const analyzedBranch = workspaceFolder.split('/').pop();
+        const analyzedBranch = branchName || workspaceFolder.split('/').pop();
 
         const module = {
             appId: application?._id,

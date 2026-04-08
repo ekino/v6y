@@ -7,9 +7,10 @@ import BundleAnalyzeAuditor from '../auditors/bundle-analyzer/BundleAnalyzeAudit
 AppLogger.info('******************** Starting background Audit **************************');
 
 try {
-    const { applicationId, workspaceFolder } = workerData || {};
+    const { applicationId, workspaceFolder, branchName } = workerData || {};
     AppLogger.info(`[BundleAnalyzeWorker] applicationId:  ${applicationId}`);
     AppLogger.info(`[BundleAnalyzeWorker] workspaceFolder:  ${workspaceFolder}`);
+    AppLogger.info(`[BundleAnalyzeWorker] branchName:  ${branchName}`);
 
     // *********************************************** Database Configuration and Connection ***********************************************
     await DataBaseManager.connect();
@@ -19,6 +20,7 @@ try {
     await BundleAnalyzeAuditor.startAuditorAnalysis({
         applicationId,
         workspaceFolder,
+        branchName,
     });
     PerformancesUtils.endMeasure('BundleAnalyzeWorker-startAuditorAnalysis');
 

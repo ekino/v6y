@@ -1,2 +1,4 @@
 @import 'tailwindcss';
 @import '@v6y/ui-kit-front/styles.css';
+
+@source '../../../v6y-libs/ui-kit-front/src/**/*.{ts,tsx}';

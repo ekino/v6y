@@ -30,6 +30,7 @@ const {
 const startAuditorAnalysis = async ({
     applicationId,
     workspaceFolder,
+    branchName,
 }: CodeModularityAuditType) => {
     try {
         AppLogger.info(
@@ -38,6 +39,7 @@ const startAuditorAnalysis = async ({
         AppLogger.info(
             `[CodeModularityAuditor - startAuditorAnalysis] workspaceFolder:  ${workspaceFolder}`,
         );
+        AppLogger.info(`[CodeModularityAuditor - startAuditorAnalysis] branchName:  ${branchName}`);
 
         if (applicationId === undefined || !workspaceFolder?.length) {
             return false;
@@ -138,6 +140,7 @@ const startAuditorAnalysis = async ({
         const auditReports = formatCodeModularityReports({
             application,
             workspaceFolder,
+            branchName,
             modularitySummary: {
                 projectTree,
                 projectGraph,
