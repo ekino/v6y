@@ -11,9 +11,10 @@ import CodeSecurityAuditor from '../auditors/code-security/CodeSecurityAuditor.t
 AppLogger.info('******************** Starting background Audit **************************');
 
 try {
-    const { applicationId, workspaceFolder } = workerData || {};
+    const { applicationId, workspaceFolder, branchName } = workerData || {};
     AppLogger.info(`[CodeQualityAnalysisWorker] applicationId:  ${applicationId}`);
     AppLogger.info(`[CodeQualityAnalysisWorker] workspaceFolder:  ${workspaceFolder}`);
+    AppLogger.info(`[CodeQualityAnalysisWorker] branchName:  ${branchName}`);
 
     // *********************************************** Database Configuration and Connection ***********************************************
     await DataBaseManager.connect();
@@ -23,22 +24,27 @@ try {
     await CodeComplexityAuditor.startAuditorAnalysis({
         applicationId,
         workspaceFolder,
+        branchName,
     });
     await CodeCouplingAuditor.startAuditorAnalysis({
         applicationId,
         workspaceFolder,
+        branchName,
     });
     await CodeDuplicationAuditor.startAuditorAnalysis({
         applicationId,
         workspaceFolder,
+        branchName,
     });
     await CodeModularityAuditor.startAuditorAnalysis({
         applicationId,
         workspaceFolder,
+        branchName,
     });
     await CodeSecurityAuditor.startAuditorAnalysis({
         applicationId,
         workspaceFolder,
+        branchName,
     });
     PerformancesUtils.endMeasure('CodeQualityAnalysisWorker-startAuditorAnalysis');
 

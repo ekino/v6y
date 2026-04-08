@@ -71,11 +71,16 @@ const isDenseMetric = (reports: AuditType[]): boolean => {
             cat.includes('accessibility') ||
             cat.includes('security') ||
             cat.includes('seo') ||
+            cat.includes('bundle') ||
+            cat.includes('size') ||
             r.type === 'DORA' ||
             cat.includes('dora')
         );
     });
     if (excludeFromDense) return false;
+
+    const allReportsHaveStatus = reports.every((report) => report.scoreStatus || report.auditStatus);
+    if (!allReportsHaveStatus) return false;
 
     // Check if most reports have the same score
     const scores = reports.map((r) => String(r.score));
@@ -130,8 +135,6 @@ const VitalityAuditReportsSection = ({
         {} as Record<string, AuditType[]>,
     );
 
-    console.log('Grouped Reports:', groupedByGroup);
-
     return (
         <div className="mb-8">
             <div className="mb-6">
@@ -142,8 +145,6 @@ const VitalityAuditReportsSection = ({
             <div className="grid grid-cols-1 gap-6">
                 {Object.entries(groupedByGroup).map(([group, groupReports]) => {
                     const denseMetric = isDenseMetric(groupReports);
-
-                    console.log(denseMetric);
 
                     if (denseMetric) {
                         // Group by status for dense metrics
