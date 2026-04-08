@@ -16,6 +16,7 @@ export interface CodeModularityAuditType {
     application?: ApplicationType;
     applicationId?: number;
     workspaceFolder?: string;
+    branchName?: string;
     modularitySummary?: {
         projectLouvainDetails?: {
             communities?: { [key: string]: number };

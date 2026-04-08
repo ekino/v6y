@@ -6,19 +6,21 @@ import { AuditCommonsType } from './types/AuditCommonsType.ts';
 const { forkWorker } = WorkerHelper;
 const { currentConfig } = ServerConfig;
 
-const startStaticAudit = async ({ applicationId, workspaceFolder }: AuditCommonsType) => {
+const startStaticAudit = async ({ applicationId, workspaceFolder, branchName }: AuditCommonsType) => {
     try {
         AppLogger.info('[StaticAuditorManager - startStaticAudit] applicationId: ', applicationId);
         AppLogger.info(
             '[StaticAuditorManager - startStaticAudit] workspaceFolder: ',
             workspaceFolder,
         );
+        AppLogger.info('[StaticAuditorManager - startStaticAudit] branchName: ', branchName);
 
         // Start audits in a worker thread to prevent blocking the main thread
         const workerConfig = {
             ...currentConfig,
             applicationId,
             workspaceFolder,
+            branchName,
         } as WorkerOptions;
 
         await forkWorker('./src/workers/CodeQualityAnalysisWorker.ts', workerConfig);

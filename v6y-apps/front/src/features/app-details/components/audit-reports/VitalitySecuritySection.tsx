@@ -12,6 +12,7 @@ import {
 } from '../../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationDetailsAuditReportsByParams from '../../api/getApplicationDetailsAuditReportsByParams';
 import GetApplicationDetailsDependenciesByParams from '../../api/getApplicationDetailsDependenciesByParams';
+import { matchesAuditReportBranch } from './VitalityAuditReportsBranchFilter';
 
 const VitalityAuditReportsTypeGrouper = DynamicLoader(
     () => import('./VitalityAuditReportsTypeGrouper'),
@@ -19,6 +20,7 @@ const VitalityAuditReportsTypeGrouper = DynamicLoader(
 
 interface VitalitySecuritySectionProps {
     auditTrigger?: number;
+    branch?: string;
 }
 
 const isSecuritySmell = (report: AuditType): boolean => {
@@ -50,7 +52,10 @@ const getDependencyStatusColor = (status: string) => {
     return 'bg-slate-100 text-slate-800';
 };
 
-const VitalitySecuritySection = ({ auditTrigger = 0 }: VitalitySecuritySectionProps) => {
+const VitalitySecuritySection = ({
+    auditTrigger = 0,
+    branch,
+}: VitalitySecuritySectionProps) => {
     const { getUrlParams } = useNavigationAdapter();
     const { translate, translateHelper } = useTranslationProvider();
     const [_id] = getUrlParams(['_id']);
@@ -102,7 +107,9 @@ const VitalitySecuritySection = ({ auditTrigger = 0 }: VitalitySecuritySectionPr
     // Filter to show static audit reports (exclude lighthouse)
     const staticAuditReports =
         appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams?.filter(
-            (report) => report.type !== 'Lighthouse',
+            (report) =>
+                report.type !== 'Lighthouse' &&
+                matchesAuditReportBranch(report, branch),
         ) || [];
 
     // Filter security reports

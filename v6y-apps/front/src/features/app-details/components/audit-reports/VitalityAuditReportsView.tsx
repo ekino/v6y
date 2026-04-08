@@ -8,6 +8,7 @@ import {
     useClientQuery,
 } from '../../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationDetailsAuditReportsByParams from '../../api/getApplicationDetailsAuditReportsByParams';
+import { matchesAuditReportBranch } from './VitalityAuditReportsBranchFilter';
 
 const VitalityAuditReportsTypeGrouper = DynamicLoader(
     () => import('./VitalityAuditReportsTypeGrouper'),
@@ -16,6 +17,7 @@ const VitalityAuditReportsTypeGrouper = DynamicLoader(
 interface VitalityAuditReportsViewProps {
     auditTrigger?: number;
     category?: string;
+    branch?: string;
 }
 
 const isSecuritySmell = (report: AuditType): boolean => {
@@ -32,6 +34,7 @@ const isSecuritySmell = (report: AuditType): boolean => {
 const VitalityAuditReportsView = ({
     auditTrigger = 0,
     category,
+    branch,
 }: VitalityAuditReportsViewProps) => {
     const { getUrlParams } = useNavigationAdapter();
     const { translate } = useTranslationProvider();
@@ -54,17 +57,20 @@ const VitalityAuditReportsView = ({
                 }),
         });
 
-    // Filter to show static audit reports (exclude lighthouse)
-    const staticAuditReports =
-        appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams?.filter(
-            (report) => report.type !== 'Lighthouse',
+    const branchFilteredAuditReports =
+        appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams?.filter((report) =>
+            matchesAuditReportBranch(report, branch),
         ) || [];
 
+    // Filter to show static audit reports (exclude lighthouse)
+    const staticAuditReports = branchFilteredAuditReports.filter(
+        (report) => report.type !== 'Lighthouse',
+    );
+
     // Filter to show dynamic audit reports (lighthouse only)
-    const dynamicAuditReports =
-        appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams?.filter(
-            (report) => report.type === 'Lighthouse',
-        ) || [];
+    const dynamicAuditReports = branchFilteredAuditReports.filter(
+        (report) => report.type === 'Lighthouse',
+    );
 
     // Further filter Lighthouse reports by category
     const performanceDynamicReports = dynamicAuditReports.filter(

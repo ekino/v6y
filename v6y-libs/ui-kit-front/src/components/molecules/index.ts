@@ -21,18 +21,6 @@ export {
 } from './navigation-menu.tsx';
 export { navigationMenuTriggerStyle } from './navigationMenuStyles';
 export {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectScrollDownButton,
-    SelectScrollUpButton,
-    SelectSeparator,
-    SelectTrigger,
-    SelectValue,
-} from './Select.tsx';
-export {
     TypographyH1,
     TypographyH2,
     TypographyH3,
@@ -53,4 +41,16 @@ export {
     PaginationEllipsis,
     PaginationNext,
     PaginationPrevious,
-} from './pagination.tsx';
+} from './Pagination.tsx';
+export {
+    Select,
+    SelectGroup,
+    SelectValue,
+    SelectTrigger,
+    SelectContent,
+    SelectLabel,
+    SelectItem,
+    SelectSeparator,
+    SelectScrollUpButton,
+    SelectScrollDownButton,
+} from './Select.tsx';
