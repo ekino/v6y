@@ -7,6 +7,7 @@ export interface BuildApplicationBranchParams {
 export interface BuildApplicationParams {
     applicationId?: number;
     workspaceFolder?: string;
+    branchName?: string;
     application?: ApplicationType;
     branch?: BuildApplicationBranchParams;
     branches?: BuildApplicationBranchParams[];

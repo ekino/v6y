@@ -10,7 +10,11 @@ const { formatCodeCouplingReports } = CodeCouplingUtils;
  * @param applicationId
  * @param workspaceFolder
  */
-const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: AuditCommonsType) => {
+const startAuditorAnalysis = async ({
+    applicationId,
+    workspaceFolder,
+    branchName,
+}: AuditCommonsType) => {
     try {
         AppLogger.info(
             `[CodeCouplingAuditor - startAuditorAnalysis] applicationId:  ${applicationId}`,
@@ -18,6 +22,7 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: AuditCom
         AppLogger.info(
             `[CodeCouplingAuditor - startAuditorAnalysis] workspaceFolder:  ${workspaceFolder}`,
         );
+        AppLogger.info(`[CodeCouplingAuditor - startAuditorAnalysis] branchName:  ${branchName}`);
 
         if (applicationId === undefined || !workspaceFolder?.length) {
             return false;
@@ -42,6 +47,7 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: AuditCom
         const auditReports = await formatCodeCouplingReports({
             application,
             workspaceFolder,
+            branchName,
         });
 
         await AuditProvider.insertAuditList(auditReports);
