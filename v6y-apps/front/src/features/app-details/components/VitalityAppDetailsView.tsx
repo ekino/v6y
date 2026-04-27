@@ -191,7 +191,10 @@ const VitalityAppDetailsView = () => {
                 );
             case 'sonarqube':
                 return sonarqubeLink ? (
-                    <VitalitySonarQubeView sonarqubeUrl={sonarqubeLink} />
+                    <VitalitySonarQubeView
+                        applicationId={parseInt(_id as string, 10)}
+                        sonarqubeUrl={sonarqubeLink}
+                    />
                 ) : null;
             default:
                 return (

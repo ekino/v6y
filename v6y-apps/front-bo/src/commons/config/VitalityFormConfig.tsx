@@ -144,6 +144,14 @@ export const applicationOptionalLinksFormItems = (translate: TranslateType) => [
         ],
     },
     {
+        id: 'app-sonarqube-token',
+        name: 'app-sonarqube-token',
+        label: translate('v6y-applications.fields.app-sonarqube-token.label'),
+        placeholder: translate('v6y-applications.fields.app-sonarqube-token.placeholder'),
+        type: 'password',
+        rules: [],
+    },
+    {
         id: 'app-code-quality-platform-link',
         name: 'app-code-quality-platform-link',
         label: translate('v6y-applications.fields.app-code-quality-platform-link.label'),
@@ -262,6 +270,7 @@ export const applicationCreateOrEditFormInAdapter = (params: ApplicationType) =>
     'app-sonarqube-link': params?.['links']?.find?.(
         (item) => item.label === 'Application SonarQube url',
     )?.value,
+    'app-sonarqube-token': undefined, // token is write-only, never returned from server
     'app-ci-cd-platform-link': params?.['links']?.find?.(
         (item) => item.label === 'Application CI/CD platform url',
     )?.value,
@@ -293,6 +302,7 @@ export const applicationCreateOrEditFormOutputAdapter = (data: unknown): Variabl
             ]?.filter((item) => item),
             sonarqubeLink:
                 params?.['app-sonarqube-link'] || params?.['app-code-quality-platform-link'],
+            sonarqubeToken: params?.['app-sonarqube-token'] || undefined,
             codeQualityPlatformLink:
                 params?.['app-code-quality-platform-link'] || params?.['app-sonarqube-link'],
             ciPlatformLink: params?.['app-ci-cd-platform-link'],
