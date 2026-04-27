@@ -53,4 +53,4 @@ export {
     PaginationEllipsis,
     PaginationNext,
     PaginationPrevious,
-} from './pagination.tsx';
+} from './Pagination.tsx';
