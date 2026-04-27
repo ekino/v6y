@@ -1,4 +1,4 @@
-import { AccountType, AppLogger, ApplicationProvider } from '@v6y/core-logic';
+import { AppLogger, ApplicationProvider } from '@v6y/core-logic';
 
 const METRIC_KEYS = [
     'coverage',
@@ -39,11 +39,7 @@ const RATING_LABELS: Record<string, string> = {
 /**
  * Fetch SonarQube metrics for a given application (server-side only, token never exposed)
  */
-const getSonarQubeMetrics = async (
-    _: unknown,
-    args: { _id: number },
-    { user }: { user: AccountType },
-) => {
+const getSonarQubeMetrics = async (_: unknown, args: { _id: number }) => {
     try {
         const { _id } = args || {};
 

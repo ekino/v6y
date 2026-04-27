@@ -47,11 +47,12 @@ describe('VitalityFormConfig - Form Items', () => {
     it('should generate optional application links form items correctly', () => {
         const result = applicationOptionalLinksFormItems(mockTranslate);
 
-        expect(result).toHaveLength(4);
+        expect(result).toHaveLength(5);
         expect(result[0].id).toBe('app-sonarqube-link');
-        expect(result[1].id).toBe('app-code-quality-platform-link');
-        expect(result[2].id).toBe('app-ci-cd-platform-link');
-        expect(result[3].id).toBe('app-deployment-platform-link');
+        expect(result[1].id).toBe('app-sonarqube-token');
+        expect(result[2].id).toBe('app-code-quality-platform-link');
+        expect(result[3].id).toBe('app-ci-cd-platform-link');
+        expect(result[4].id).toBe('app-deployment-platform-link');
     });
 
     it('should generate datadog configuration form items correctly', () => {
@@ -108,6 +109,7 @@ describe('VitalityFormConfig - Form Items', () => {
             'app-production-link-2': 'https://testapp2.com',
             'app-production-link-3': 'https://testapp3.com',
             'app-sonarqube-link': 'https://sonarqube.example.com/dashboard?id=testapp',
+            'app-sonarqube-token': undefined,
             'app-code-quality-platform-link': 'https://sonarqube.example.com/dashboard?id=testapp',
             'app-ci-cd-platform-link': undefined,
             'app-deployment-platform-link': undefined,
@@ -204,6 +206,7 @@ describe('VitalityFormConfig - Form Items', () => {
             'app-production-link-2': undefined,
             'app-production-link-3': undefined,
             'app-sonarqube-link': undefined,
+            'app-sonarqube-token': undefined,
             'app-data-dog-api-key': undefined,
             'app-data-dog-app-key': undefined,
             'app-data-dog-url': undefined,
