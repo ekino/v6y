@@ -210,6 +210,10 @@
         "placeholder": "Enter your SonarQube project URL",
         "error": "The SonarQube URL format is invalid"
       },
+      "app-sonarqube-token": {
+        "label": "SonarQube API Token",
+        "placeholder": "Enter your SonarQube API token"
+      },
       "app-code-quality-platform-link": {
         "label": "Application code quality platform link",
         "placeholder": "Enter your application code quality platform link",

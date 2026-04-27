@@ -83,6 +83,7 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
         gitWebUrl,
         productionLink,
         sonarqubeLink,
+        sonarqubeToken,
         contactMail,
         codeQualityPlatformLink,
         ciPlatformLink,
@@ -144,6 +145,7 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
                       },
                   }
                 : {}),
+            ...(sonarqubeToken ? { sonarqube: { token: sonarqubeToken } } : {}),
         },
     };
 };

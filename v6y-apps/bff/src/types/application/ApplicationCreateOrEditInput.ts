@@ -45,6 +45,9 @@ const ApplicationCreateOrEditInput = `
       """ Application SonarQube url """
       sonarqubeLink: String
       
+      """ Application SonarQube API token (stored securely, never returned to client) """
+      sonarqubeToken: String
+      
       """ Application code quality platform url """
       codeQualityPlatformLink: String
       
