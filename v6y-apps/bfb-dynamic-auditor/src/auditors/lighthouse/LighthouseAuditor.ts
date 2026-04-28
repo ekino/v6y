@@ -160,7 +160,7 @@ const startAuditorAnalysis = async ({ applicationId, browserPath }: LighthouseAu
         });
 
         AppLogger.info(
-            `[LightHouseAuditor - startAuditorAnalysis] auditReports:  ${auditReports?.length}`,
+            `[LighthouseAuditor - startAuditorAnalysis] auditReports:  ${auditReports?.length}`,
         );
 
         await AuditProvider.insertAuditList(auditReports);
@@ -181,6 +181,7 @@ const startAuditorAnalysis = async ({ applicationId, browserPath }: LighthouseAu
 
 const LighthouseAuditor = {
     startAuditorAnalysis,
+    startLighthouseAudit,
 };
 
 export default LighthouseAuditor;

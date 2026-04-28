@@ -6,13 +6,12 @@ import {
     LighthouseAuditParamsType,
     LighthouseReportType,
 } from '../types/LighthouseAuditType.ts';
-import EcoIndexUtils from './EcoIndexUtils.ts';
 
 /**
  * Check if the audit status is failed
  * @param status
  */
-const isAuditFailed = (status: string | null | undefined): boolean => {
+const isAuditFailed = (status: string | null): boolean => {
     return status === auditStatus.failure || status === null || status === undefined;
 };
 
@@ -289,35 +288,6 @@ const parseLighthouseAuditReport = (
     }
 };
 
-const buildLighthouseAuditEntries = ({
-    results,
-    appId,
-    webUrl,
-    subCategory,
-}: {
-    results: ReturnType<typeof parseLighthouseAuditReport>;
-    appId: number;
-    webUrl: string | undefined;
-    subCategory: string | undefined;
-}): AuditType[] => {
-    if (!results?.length) return [];
-    return results.map((result) => ({
-        type: 'Lighthouse',
-        category: result?.category,
-        subCategory,
-        auditStatus: result.auditStatus || auditStatus.failure,
-        scoreStatus: result.scoreStatus || null,
-        score: result.score || null,
-        scoreUnit: result?.scoreUnit,
-        module: {
-            appId,
-            url: webUrl,
-            path: webUrl,
-            branch: undefined,
-        },
-    }));
-};
-
 /**
  * Format the lighthouse reports
  * @param reports
@@ -337,29 +307,33 @@ const formatLighthouseReports = ({
         for (const report of reports) {
             const { appLink: webUrl, data, subCategory } = report || {};
 
-            if (!application?._id) {
+            const results = parseLighthouseAuditReport(data);
+
+            if (!results?.length) {
                 continue;
             }
 
-            const results = parseLighthouseAuditReport(data);
-            auditReports.push(
-                ...buildLighthouseAuditEntries({
-                    results,
-                    appId: application._id,
-                    webUrl,
-                    subCategory,
-                }),
-            );
+            for (const result of results) {
+                // eslint-disable-next-line max-depth
+                if (!application?._id) {
+                    continue;
+                }
 
-            // Compute Ecoindex from the same raw Lighthouse data
-            const ecoindexEntry = EcoIndexUtils.computeEcoindexAuditEntry({
-                data,
-                subCategory,
-                appId: application._id,
-                webUrl,
-            });
-            if (ecoindexEntry) {
-                auditReports.push(ecoindexEntry);
+                auditReports.push({
+                    type: 'Lighthouse',
+                    category: result?.category,
+                    subCategory,
+                    auditStatus: result.auditStatus || auditStatus.failure,
+                    scoreStatus: result.scoreStatus || null,
+                    score: result.score || null,
+                    scoreUnit: result?.scoreUnit,
+                    module: {
+                        appId: application?._id,
+                        url: webUrl,
+                        path: webUrl,
+                        branch: undefined,
+                    },
+                });
             }
         }
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { ApplicationType, AuditType, auditStatus, scoreStatus } from '@v6y/core-logic';
+import { AuditType, auditStatus, scoreStatus } from '@v6y/core-logic';
 
 import LighthouseUtils from '../auditors/lighthouse/LighthouseUtils.ts';
 import {
@@ -367,74 +367,6 @@ describe('LighthouseUtils', () => {
             score: 0.15,
             scoreUnit: '',
             branch: undefined,
-        });
-    });
-
-    it('should create Ecoindex reports from Lighthouse 13 style payloads', () => {
-        const auditReportData = JSON.stringify({
-            categories: {
-                performance: {
-                    id: 'performance',
-                    title: 'Performance',
-                    score: 0.85,
-                },
-            },
-            audits: {
-                'first-contentful-paint': {
-                    id: 'first-contentful-paint',
-                    title: 'First Contentful Paint',
-                    description: 'Measures loading experience.',
-                    numericValue: 1500,
-                    numericUnit: 'millisecond',
-                },
-                'dom-size-insight': {
-                    id: 'dom-size-insight',
-                    numericValue: 512,
-                    details: {
-                        debugData: {
-                            totalElements: 512,
-                        },
-                    },
-                },
-                'network-requests': {
-                    id: 'network-requests',
-                    details: {
-                        items: [{ url: 'https://example.com' }, { url: 'https://cdn.example.com' }],
-                    },
-                },
-                'total-byte-weight': {
-                    id: 'total-byte-weight',
-                    numericValue: 524288,
-                },
-                diagnostics: {
-                    details: {
-                        items: [
-                            {
-                                numRequests: 2,
-                                totalByteWeight: 524288,
-                            },
-                        ],
-                    },
-                },
-            },
-        });
-
-        const result = LighthouseUtils.formatLighthouseReports({
-            application: { _id: 42 } as ApplicationType,
-            reports: [
-                {
-                    appLink: 'https://example.com',
-                    subCategory: 'desktop',
-                    data: auditReportData,
-                },
-            ],
-        });
-
-        expect(result?.some((report) => report.type === 'Ecoindex')).toBe(true);
-        expect(result?.find((report) => report.type === 'Ecoindex')).toMatchObject({
-            category: 'ecoindex',
-            subCategory: 'desktop',
-            scoreUnit: '/100',
         });
     });
 });
