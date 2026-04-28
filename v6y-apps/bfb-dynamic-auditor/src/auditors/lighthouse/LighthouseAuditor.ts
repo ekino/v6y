@@ -4,6 +4,7 @@ import puppeteer from 'puppeteer-core';
 import { AppLogger, ApplicationProvider, AuditProvider, LinkType } from '@v6y/core-logic';
 
 import { LighthouseAuditConfigType } from '../types/LighthouseAuditType.ts';
+import EcoIndexUtils from './EcoIndexUtils.ts';
 import LighthouseConfig from './LighthouseConfig.ts';
 import LighthouseUtils from './LighthouseUtils.ts';
 
@@ -160,13 +161,35 @@ const startAuditorAnalysis = async ({ applicationId, browserPath }: LighthouseAu
         });
 
         AppLogger.info(
-            `[LightHouseAuditor - startAuditorAnalysis] auditReports:  ${auditReports?.length}`,
+            `[LighthouseAuditor - startAuditorAnalysis] auditReports:  ${auditReports?.length}`,
         );
 
         await AuditProvider.insertAuditList(auditReports);
 
         AppLogger.info(
-            `[CodeModularityAuditor - startAuditorAnalysis] audit reports inserted successfully`,
+            `[LighthouseAuditor - startAuditorAnalysis] audit reports inserted successfully`,
+        );
+
+        // Compute and insert Ecoindex reports from the same raw Lighthouse data
+        const ecoIndexReports = lightHouseReports
+            .map((report) =>
+                EcoIndexUtils.computeEcoindexAuditEntry({
+                    data: report.data,
+                    subCategory: report.subCategory,
+                    appId: application._id,
+                    webUrl: report.appLink,
+                }),
+            )
+            .filter((entry): entry is NonNullable<typeof entry> => entry !== null);
+
+        AppLogger.info(
+            `[LighthouseAuditor - startAuditorAnalysis] ecoIndexReports:  ${ecoIndexReports?.length}`,
+        );
+
+        await AuditProvider.insertAuditList(ecoIndexReports);
+
+        AppLogger.info(
+            `[LighthouseAuditor - startAuditorAnalysis] ecoindex reports inserted successfully`,
         );
 
         return true;
