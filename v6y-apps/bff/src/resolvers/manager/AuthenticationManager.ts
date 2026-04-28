@@ -1,5 +1,5 @@
 import { ApolloServer } from '@apollo/server';
-import { expressMiddleware } from '@apollo/server/express4';
+import { expressMiddleware } from '@as-integrations/express5';
 import BodyParser from 'body-parser';
 import Cors from 'cors';
 import { RequestHandler } from 'express';
