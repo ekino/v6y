@@ -37,12 +37,6 @@ const startDynamicAudit = async ({ applicationId }: AuditCommonsType) => {
             '[DynamicAuditorManager - startDynamicAudit] Green Hosting Audit have completed successfully.',
         );
 
-        // start Ecoindex analysis
-        await forkWorker('./src/workers/EcoIndexAnalysisWorker.ts', workerConfig as WorkerOptions);
-        AppLogger.info(
-            '[DynamicAuditorManager - startDynamicAudit] Ecoindex Audit have completed successfully.',
-        );
-
         // start other dynamic analysis
 
         return true; // Indicates successful initiation of audits
