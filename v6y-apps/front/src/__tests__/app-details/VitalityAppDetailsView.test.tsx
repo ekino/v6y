@@ -60,6 +60,12 @@ vi.mock('../../features/app-details/components/summary-card/VitalitySummaryCard'
     ),
 }));
 
+vi.mock('../../features/app-details/components/sonarqube/VitalitySonarQubeView', () => ({
+    default: ({ sonarqubeUrl }: { sonarqubeUrl: string }) => (
+        <div data-testid="sonarqube-view">SonarQube View - {sonarqubeUrl}</div>
+    ),
+}));
+
 const mockAppData = {
     getApplicationDetailsInfoByParams: {
         _id: 123,
@@ -146,6 +152,38 @@ describe('VitalityAppDetailsView', () => {
         ).toBeInTheDocument();
 
         expect(screen.getByText('vitality.appDetailsPage.exportButton')).toBeInTheDocument();
+        expect(
+            screen.queryByText('vitality.appDetailsPage.tabs.sonarqube'),
+        ).not.toBeInTheDocument();
+    });
+
+    it('renders SonarQube tab when SonarQube link is configured', async () => {
+        vi.mocked(useClientQuery).mockReturnValue({
+            isLoading: false,
+            data: {
+                getApplicationDetailsInfoByParams: {
+                    ...mockAppData.getApplicationDetailsInfoByParams,
+                    links: [
+                        {
+                            label: 'Application SonarQube url',
+                            value: 'https://sonarqube.example.com/dashboard?id=test-app',
+                        },
+                    ],
+                },
+            },
+        } as unknown as ReturnType<typeof useClientQuery>);
+
+        renderComponent();
+
+        await waitFor(() => {
+            expect(screen.getByText('vitality.appDetailsPage.tabs.sonarqube')).toBeInTheDocument();
+        });
+
+        fireEvent.click(screen.getByText('vitality.appDetailsPage.tabs.sonarqube'));
+
+        await waitFor(() => {
+            expect(screen.getByTestId('sonarqube-view')).toBeInTheDocument();
+        });
     });
 
     it('shows Overview tab content by default', async () => {

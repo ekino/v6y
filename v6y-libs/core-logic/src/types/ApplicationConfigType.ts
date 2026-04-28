@@ -4,3 +4,7 @@ export interface DataDogConfigType {
     url: string;
     monitorId: string;
 }
+
+export interface SonarQubeConfigType {
+    token: string;
+}

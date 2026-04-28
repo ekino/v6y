@@ -8,6 +8,7 @@ const ApplicationQueriesType = `
     getApplicationDetailsEvolutionsByParams(_id: Int!): [EvolutionType]
     getApplicationDetailsDependenciesByParams(_id: Int!): [DependencyType]
     getApplicationDetailsKeywordsByParams(_id: Int): [KeywordType]
+    getSonarQubeMetrics(_id: Int!): SonarQubeMetricsType
   }
 `;
 
