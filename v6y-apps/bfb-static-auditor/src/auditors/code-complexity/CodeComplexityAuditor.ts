@@ -5,11 +5,7 @@ import CodeComplexityUtils from './CodeComplexityUtils.ts';
 
 const { formatCodeComplexityReports } = CodeComplexityUtils;
 
-const startAuditorAnalysis = async ({
-    applicationId,
-    workspaceFolder,
-    branchName,
-}: AuditCommonsType) => {
+const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: AuditCommonsType) => {
     try {
         AppLogger.info(
             `[CodeComplexityAuditor - startAuditorAnalysis] applicationId:  ${applicationId}`,
@@ -17,7 +13,6 @@ const startAuditorAnalysis = async ({
         AppLogger.info(
             `[CodeComplexityAuditor - startAuditorAnalysis] workspaceFolder:  ${workspaceFolder}`,
         );
-        AppLogger.info(`[CodeComplexityAuditor - startAuditorAnalysis] branchName:  ${branchName}`);
 
         if (applicationId === undefined || !workspaceFolder?.length) {
             return false;
@@ -38,11 +33,7 @@ const startAuditorAnalysis = async ({
             `[CodeComplexityAuditor - startAuditorAnalysis] application _id:  ${application?._id}`,
         );
 
-        const auditReports = formatCodeComplexityReports({
-            workspaceFolder,
-            application,
-            branchName,
-        });
+        const auditReports = formatCodeComplexityReports({ workspaceFolder, application });
         AppLogger.info(
             `[CodeComplexityAuditor - startAuditorAnalysis] auditReports:  ${auditReports?.length}`,
         );

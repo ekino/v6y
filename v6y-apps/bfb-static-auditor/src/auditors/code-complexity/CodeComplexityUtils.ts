@@ -489,7 +489,6 @@ const aggregateCodeComplexityReports = ({
 const formatCodeComplexityReports = ({
     workspaceFolder,
     application,
-    branchName,
 }: AuditCommonsType): AuditType[] | null => {
     try {
         AppLogger.info(
@@ -543,7 +542,7 @@ const formatCodeComplexityReports = ({
         }
 
         // /Users/hela.ben-khalfallah/Desktop/github_workspace/v6y/src/code-analysis-workspace/mfs/loader
-        const analyzedBranch = branchName || workspaceFolder.split('/').pop();
+        const analyzedBranch = workspaceFolder.split('/').pop();
 
         const auditReports: AuditType[] = [];
 

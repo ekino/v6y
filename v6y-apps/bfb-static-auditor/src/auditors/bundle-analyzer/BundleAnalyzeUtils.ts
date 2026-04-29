@@ -23,7 +23,6 @@ const { getFrontendDirectories, getPackageManager, getBundler } = AuditUtils;
 const startBundleAnalyzeReports = async ({
     applicationId,
     workspaceFolder,
-    branchName,
 }: AuditCommonsType): Promise<AuditType[]> => {
     try {
         AppLogger.info(
@@ -59,7 +58,6 @@ const startBundleAnalyzeReports = async ({
             const formattedResult = formatBundleAnalyzeResult({
                 applicationId: Number(applicationId),
                 workspaceFolder,
-                branchName,
                 modulePath,
                 analyzeResult,
             });
@@ -81,19 +79,16 @@ const startBundleAnalyzeReports = async ({
 const formatBundleAnalyzeResult = ({
     applicationId,
     workspaceFolder,
-    branchName,
     modulePath,
     analyzeResult,
 }: {
     applicationId: number;
     workspaceFolder: string;
-    branchName?: string;
     modulePath: string;
     analyzeResult: AnalyzeResult;
 }): AuditType | null => {
     const module: ModuleType = {
         appId: applicationId,
-        branch: branchName,
         path: path.relative(workspaceFolder, modulePath),
     };
     if (!analyzeResult) {

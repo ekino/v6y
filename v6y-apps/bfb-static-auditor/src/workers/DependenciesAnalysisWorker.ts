@@ -7,10 +7,9 @@ import DependenciesAuditor from '../auditors/dependencies-auditor/DependenciesAu
 AppLogger.info('******************** Starting background Audit **************************');
 
 try {
-    const { applicationId, workspaceFolder, branchName } = workerData || {};
+    const { applicationId, workspaceFolder } = workerData || {};
     AppLogger.info(`[DependenciesAnalysisWorker] applicationId:  ${applicationId}`);
     AppLogger.info(`[DependenciesAnalysisWorker] workspaceFolder:  ${workspaceFolder}`);
-    AppLogger.info(`[DependenciesAnalysisWorker] branchName:  ${branchName}`);
 
     // *********************************************** Database Configuration and Connection ***********************************************
     await DataBaseManager.connect();
@@ -20,7 +19,6 @@ try {
     await DependenciesAuditor.startAuditorAnalysis({
         applicationId,
         workspaceFolder,
-        branchName,
     });
     PerformancesUtils.endMeasure('DependenciesAnalysisWorker-startAuditorAnalysis');
 

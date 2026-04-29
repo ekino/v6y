@@ -14,11 +14,7 @@ const { defaultOptions, formatCodeDuplicationReports } = CodeDuplicationUtils;
  * @param applicationId
  * @param workspaceFolder
  */
-const startAuditorAnalysis = async ({
-    applicationId,
-    workspaceFolder,
-    branchName,
-}: AuditCommonsType) => {
+const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: AuditCommonsType) => {
     try {
         AppLogger.info(
             `[CodeDuplicationAuditor - startAuditorAnalysis] applicationId:  ${applicationId}`,
@@ -26,7 +22,6 @@ const startAuditorAnalysis = async ({
         AppLogger.info(
             `[CodeDuplicationAuditor - startAuditorAnalysis] workspaceFolder:  ${workspaceFolder}`,
         );
-        AppLogger.info(`[CodeDuplicationAuditor - startAuditorAnalysis] branchName:  ${branchName}`);
 
         if (applicationId === undefined || !workspaceFolder?.length) {
             return false;
@@ -99,7 +94,6 @@ const startAuditorAnalysis = async ({
         const auditReports = formatCodeDuplicationReports({
             application,
             workspaceFolder,
-            branchName,
             duplicationTotalSummary: jscpdFileAnalysisResultJson?.statistics?.total,
             duplicationFiles: jscpdFileAnalysisResultJson?.duplicates,
         });

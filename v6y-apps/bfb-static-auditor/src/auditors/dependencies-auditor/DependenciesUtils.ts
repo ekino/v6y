@@ -163,11 +163,7 @@ const buildModuleDependenciesAuditReports = async ({
  * @param application
  * @param workspaceFolder
  */
-const formatDependenciesReports = async ({
-    application,
-    workspaceFolder,
-    branchName,
-}: AuditCommonsType) => {
+const formatDependenciesReports = async ({ application, workspaceFolder }: AuditCommonsType) => {
     try {
         AppLogger.info(
             `[DependenciesUtils - formatCodeModularityReports] workspaceFolder:  ${workspaceFolder}`,
@@ -196,7 +192,7 @@ const formatDependenciesReports = async ({
         const module = {
             appId: application?._id,
             url: application?.repo?.webUrl,
-            branch: branchName || workspaceFolder.split('/').pop(),
+            branch: workspaceFolder.split('/').pop(),
             path: '',
         };
 

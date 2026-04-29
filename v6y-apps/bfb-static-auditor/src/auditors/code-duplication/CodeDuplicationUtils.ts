@@ -48,7 +48,6 @@ const defaultOptions = {
 const formatCodeDuplicationReports = ({
     application,
     workspaceFolder,
-    branchName,
     duplicationTotalSummary,
     duplicationFiles,
 }: CodeDuplicationAuditType): AuditType[] => {
@@ -75,7 +74,7 @@ const formatCodeDuplicationReports = ({
         const module = {
             appId: application?._id,
             url: application?.repo?.webUrl,
-            branch: branchName || workspaceFolder.split('/').pop(),
+            branch: workspaceFolder.split('/').pop(),
             path: '',
         };
 

@@ -10,11 +10,7 @@ const { formatCodeModularityReports } = CodeSecurityUtils;
  * @param applicationId
  * @param workspaceFolder
  */
-const startAuditorAnalysis = async ({
-    applicationId,
-    workspaceFolder,
-    branchName,
-}: AuditCommonsType) => {
+const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: AuditCommonsType) => {
     try {
         AppLogger.info(
             `[CodeSecurityAuditor - startAuditorAnalysis] applicationId:  ${applicationId}`,
@@ -22,7 +18,6 @@ const startAuditorAnalysis = async ({
         AppLogger.info(
             `[CodeSecurityAuditor - startAuditorAnalysis] workspaceFolder:  ${workspaceFolder}`,
         );
-        AppLogger.info(`[CodeSecurityAuditor - startAuditorAnalysis] branchName:  ${branchName}`);
 
         if (applicationId === undefined || !workspaceFolder?.length) {
             return false;
@@ -46,7 +41,6 @@ const startAuditorAnalysis = async ({
         const securityAuditReports = await formatCodeModularityReports({
             application,
             workspaceFolder,
-            branchName,
         });
 
         await AuditProvider.insertAuditList(securityAuditReports);

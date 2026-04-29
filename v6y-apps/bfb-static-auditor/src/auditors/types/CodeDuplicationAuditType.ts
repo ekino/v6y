@@ -24,7 +24,6 @@ export interface CodeDuplicationAuditType {
     applicationId?: number;
     application?: ApplicationType;
     workspaceFolder?: string;
-    branchName?: string;
     duplicationTotalSummary?: DuplicationTotalSummaryType;
     duplicationFiles?: DuplicationFileType[];
 }

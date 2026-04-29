@@ -4,5 +4,4 @@ export interface AuditCommonsType {
     applicationId?: number;
     application?: ApplicationType;
     workspaceFolder?: string;
-    branchName?: string;
 }

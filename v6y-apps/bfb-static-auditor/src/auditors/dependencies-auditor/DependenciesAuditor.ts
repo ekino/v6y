@@ -10,11 +10,7 @@ const { formatDependenciesReports } = DependenciesUtils;
  * @param applicationId
  * @param workspaceFolder
  */
-const startAuditorAnalysis = async ({
-    applicationId,
-    workspaceFolder,
-    branchName,
-}: AuditCommonsType) => {
+const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: AuditCommonsType) => {
     try {
         AppLogger.info(
             `[DependenciesAuditor - startAuditorAnalysis] applicationId:  ${applicationId}`,
@@ -22,7 +18,6 @@ const startAuditorAnalysis = async ({
         AppLogger.info(
             `[DependenciesAuditor - startAuditorAnalysis] workspaceFolder:  ${workspaceFolder}`,
         );
-        AppLogger.info(`[DependenciesAuditor - startAuditorAnalysis] branchName:  ${branchName}`);
 
         if (applicationId === undefined || !workspaceFolder?.length) {
             return false;
@@ -63,7 +58,6 @@ const startAuditorAnalysis = async ({
         const dependenciesReports = await formatDependenciesReports({
             application,
             workspaceFolder,
-            branchName,
         });
 
         await DependencyProvider.insertDependencyList(dependenciesReports);

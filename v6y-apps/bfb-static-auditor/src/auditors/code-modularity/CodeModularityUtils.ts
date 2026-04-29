@@ -135,7 +135,6 @@ const normalizeProjectTree = (tree: ProjectTree): NormalizedProjectTree => {
 const formatCodeModularityReports = ({
     application,
     workspaceFolder,
-    branchName,
     modularitySummary,
 }: CodeModularityAuditType): AuditType[] | null => {
     try {
@@ -164,7 +163,7 @@ const formatCodeModularityReports = ({
         const module = {
             appId: application?._id,
             url: application?.repo?.webUrl,
-            branch: branchName || workspaceFolder.split('/').pop(),
+            branch: workspaceFolder.split('/').pop(),
             path: '',
         };
 
