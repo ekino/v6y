@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { ApplicationType, AuditType } from '@v6y/core-logic/src/types';
+import { ApplicationType } from '@v6y/core-logic/src/types';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
 import { Button, GlobeIcon, Input, PlayIcon, ReloadIcon } from '@v6y/ui-kit-front';
 
@@ -12,10 +12,9 @@ import {
     buildClientQuery,
     useClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
-import GetApplicationDetailsAuditReportsByParams from '../api/getApplicationDetailsAuditReportsByParams';
 import GetApplicationDetailsInfosByParams from '../api/getApplicationDetailsInfosByParams';
-import BranchSelector from './BranchSelector';
 import VitalitySummaryCard from '../components/summary-card/VitalitySummaryCard';
+import BranchSelector from './BranchSelector';
 
 const VitalityGeneralInformationView = DynamicLoader(
     () => import('./infos/VitalityGeneralInformationView'),
@@ -53,28 +52,8 @@ const VitalityAppDetailsView = () => {
             }),
     });
 
-    const { data: appDetailsAuditReports } = useClientQuery<{
-        getApplicationDetailsAuditReportsByParams: AuditType[];
-    }>({
-        queryCacheKey: ['getApplicationDetailsAuditReportsByParams', `${_id}`, `${auditTrigger}`],
-        queryBuilder: async () =>
-            buildClientQuery({
-                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
-                query: GetApplicationDetailsAuditReportsByParams,
-                variables: {
-                    _id: parseInt(_id as string, 10),
-                },
-            }),
-    });
-
     const appInfos = appDetailsInfos?.getApplicationDetailsInfoByParams;
-    const auditReportBranches = Array.from(
-        new Set(
-            (appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams || [])
-                .map((report) => report.module?.branch)
-                .filter(Boolean),
-        ),
-    ) as string[];
+    const auditReportBranches = (appInfos?.repo?.allBranches || []) as string[];
 
     React.useEffect(() => {
         if (!auditReportBranches.length) {
@@ -142,10 +121,7 @@ const VitalityAppDetailsView = () => {
                 );
             case 'security':
                 return (
-                    <VitalitySecuritySection
-                        auditTrigger={auditTrigger}
-                        branch={selectedBranch}
-                    />
+                    <VitalitySecuritySection auditTrigger={auditTrigger} branch={selectedBranch} />
                 );
             case 'maintainability':
                 return (
