@@ -4,8 +4,7 @@ import * as React from 'react';
 
 import { ApplicationType } from '@v6y/core-logic/src/types';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
-import { Button, GlobeIcon, Input, PlayIcon, ReloadIcon, ShuffleIcon } from '@v6y/ui-kit-front';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@v6y/ui-kit-front';
+import { Button, GlobeIcon, Input, PlayIcon, ReloadIcon } from '@v6y/ui-kit-front';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import { exportAppDetailsDataToCSV } from '../../../commons/utils/VitalityDataExportUtils';
@@ -15,6 +14,7 @@ import {
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationDetailsInfosByParams from '../api/getApplicationDetailsInfosByParams';
 import VitalitySummaryCard from '../components/summary-card/VitalitySummaryCard';
+import BranchSelector from './BranchSelector';
 
 const VitalityGeneralInformationView = DynamicLoader(
     () => import('./infos/VitalityGeneralInformationView'),
@@ -53,6 +53,17 @@ const VitalityAppDetailsView = () => {
     });
 
     const appInfos = appDetailsInfos?.getApplicationDetailsInfoByParams;
+    const auditReportBranches = (appInfos?.repo?.allBranches || []) as string[];
+
+    React.useEffect(() => {
+        if (!auditReportBranches.length) {
+            return;
+        }
+
+        if (!auditReportBranches.includes(selectedBranch)) {
+            setSelectedBranch(auditReportBranches[0]);
+        }
+    }, [auditReportBranches, selectedBranch]);
 
     const tabs = [
         { id: 'overview', label: translate('vitality.appDetailsPage.tabs.overview') },
@@ -94,26 +105,40 @@ const VitalityAppDetailsView = () => {
                 );
             case 'performance':
                 return (
-                    <VitalityAuditReportsView auditTrigger={auditTrigger} category="performance" />
+                    <VitalityAuditReportsView
+                        auditTrigger={auditTrigger}
+                        category="performance"
+                        branch={selectedBranch}
+                    />
                 );
             case 'accessibility':
                 return (
                     <VitalityAuditReportsView
                         auditTrigger={auditTrigger}
                         category="accessibility"
+                        branch={selectedBranch}
                     />
                 );
             case 'security':
-                return <VitalitySecuritySection auditTrigger={auditTrigger} />;
+                return (
+                    <VitalitySecuritySection auditTrigger={auditTrigger} branch={selectedBranch} />
+                );
             case 'maintainability':
                 return (
                     <VitalityAuditReportsView
                         auditTrigger={auditTrigger}
                         category="maintainability"
+                        branch={selectedBranch}
                     />
                 );
             case 'devops':
-                return <VitalityAuditReportsView auditTrigger={auditTrigger} category="dora" />;
+                return (
+                    <VitalityAuditReportsView
+                        auditTrigger={auditTrigger}
+                        category="dora"
+                        branch={selectedBranch}
+                    />
+                );
             default:
                 return (
                     <VitalityGeneralInformationView
@@ -150,24 +175,11 @@ const VitalityAppDetailsView = () => {
                 <div className="lg:col-span-9 w-full">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-2 mb-4 md:mb-2.5">
                         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-                            <Select
-                                value={selectedBranch}
-                                onValueChange={(v) => setSelectedBranch(v)}
-                            >
-                                <SelectTrigger className="h-10 sm:h-8 border-slate-300 rounded-md px-3 sm:px-4 py-2 text-sm bg-white">
-                                    <span className="flex items-center gap-1">
-                                        <ShuffleIcon className="w-4 h-4 shrink-0" />
-                                        <SelectValue className="truncate" />
-                                    </span>
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {appInfos?.repo?.allBranches?.map((branch) => (
-                                        <SelectItem key={branch} value={branch} className="text-sm">
-                                            {branch}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
+                            <BranchSelector
+                                branches={auditReportBranches}
+                                selectedBranch={selectedBranch}
+                                onBranchChange={setSelectedBranch}
+                            />
 
                             <Input
                                 type="date"
