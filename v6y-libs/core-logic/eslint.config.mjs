@@ -15,6 +15,7 @@ export default [
         name: 'core-logic:source',
         files: ['src/**/*.{js,mjs,ts,tsx}'],
         rules: {
+            '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }],
             'max-depth': ['error', 3],
             'max-nested-callbacks': ['error', 3],
             'max-params': ['error', 3],

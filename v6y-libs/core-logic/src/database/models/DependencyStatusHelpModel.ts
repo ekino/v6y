@@ -7,11 +7,11 @@ export class DependencyStatusHelpModelType
     extends Model<DependencyStatusHelpType>
     implements DependencyStatusHelpType
 {
-    public _id!: number;
-    public category!: string;
-    public title!: string;
-    public description?: string;
-    public links?: LinkType[] | undefined;
+    declare _id: number;
+    declare category: string;
+    declare title: string;
+    declare description?: string;
+    declare links?: LinkType[] | undefined;
 }
 
 const dependencyStatusHelpModelSchema = {

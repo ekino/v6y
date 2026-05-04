@@ -3,7 +3,39 @@ import { FindOptions, Op, Sequelize } from 'sequelize';
 import AppLogger from '../core/AppLogger.ts';
 import { isAdmin, isSuperAdmin } from '../core/AuthenticationHelper.ts';
 import { AccountInputType, AccountType, SearchQueryType } from '../types/index.ts';
+import { AccountApplicationModelType } from './models/AccountApplicationModel.ts';
 import { AccountModelType } from './models/AccountModel.ts';
+
+/**
+ * Syncs AccountApplication join-table rows for an account.
+ * Deletes existing entries and recreates from the provided appId list.
+ */
+const syncAccountApplications = async (accountId: number, applications: number[]) => {
+    await AccountApplicationModelType.destroy({ where: { accountId } });
+    if (applications?.length) {
+        await AccountApplicationModelType.bulkCreate(
+            applications.map((appId) => ({ accountId, appId })),
+            { ignoreDuplicates: true },
+        );
+    }
+};
+
+/**
+ * Shapes a raw account instance, expanding the join-table entries into an
+ * `applications: number[]` array so the GraphQL layer sees the same shape
+ * as before.
+ */
+const shapeAccount = (
+    account: AccountModelType & { accountApplications?: AccountApplicationModelType[] },
+) => ({
+    ...account.dataValues,
+    applications:
+        (
+            account as unknown as {
+                accountApplications?: { dataValues: { appId: number } }[];
+            }
+        ).accountApplications?.map((aa) => aa.dataValues.appId) ?? [],
+});
 
 /**
  *  Build search query
@@ -18,7 +50,9 @@ const buildSearchQuery = async ({
     limit = 10,
     sort = 'username',
 }: SearchQueryType) => {
-    const queryOptions: FindOptions = {};
+    const queryOptions: FindOptions = {
+        include: [{ model: AccountApplicationModelType, as: 'accountApplications' }],
+    };
 
     queryOptions.offset = start;
     queryOptions.limit = limit;
@@ -66,11 +100,14 @@ const createAccount = async (account: AccountInputType) => {
             return null;
         }
 
-        const createdAccount = (await AccountModelType.create(account))?.dataValues;
+        const { applications, ...accountFields } = account;
+        const createdAccount = await AccountModelType.create(accountFields);
+
+        await syncAccountApplications(createdAccount._id, applications ?? []);
 
         AppLogger.info(`[AccountProvider - createAccount] createdAccount: ${createdAccount._id}`);
 
-        return createdAccount;
+        return { ...createdAccount.dataValues, applications: applications ?? [] };
     } catch (error) {
         AppLogger.info(`[AccountProvider - createAccount] error:  ${error}`);
 
@@ -119,11 +156,14 @@ const editAccount = async ({
             return null;
         }
 
-        const editedAccount = await AccountModelType.update(account, {
+        const { applications, ...accountFields } = account;
+        const editedAccount = await AccountModelType.update(accountFields, {
             where: {
                 _id: account?._id,
             },
         });
+
+        await syncAccountApplications(account._id!, applications ?? []);
 
         AppLogger.info(`[AccountProvider - editAccount] editedAccount: ${editedAccount?.[0]}`);
 
@@ -254,6 +294,7 @@ const getAccountDetailsByParams = async ({ _id, email }: { _id?: number; email?:
 
         const accountDetails = await AccountModelType.findOne({
             where: _id ? { _id } : { email },
+            include: [{ model: AccountApplicationModelType, as: 'accountApplications' }],
         });
 
         if (!accountDetails) {
@@ -266,7 +307,11 @@ const getAccountDetailsByParams = async ({ _id, email }: { _id?: number; email?:
             `[AccountProvider - getAccountDetailsByParams] accountDetails: ${accountDetails.dataValues._id}`,
         );
 
-        return accountDetails.dataValues;
+        return shapeAccount(
+            accountDetails as AccountModelType & {
+                accountApplications?: AccountApplicationModelType[];
+            },
+        );
     } catch (error) {
         AppLogger.info(`[AccountProvider - getAccountDetailsByParams] error: ${error}`);
         return null;
@@ -302,13 +347,21 @@ const getAccountListByPageAndParams = async ({
             `[AccountProvider - getAccountListByPageAndParams] searchQuery: ${JSON.stringify(searchQuery)}`,
         );
 
-        const accounts = await AccountModelType.findAll();
+        const accounts = await AccountModelType.findAll(searchQuery);
 
         AppLogger.info(
             `[AccountProvider - getAccountListByPageAndParams] accountList: ${accounts?.length}`,
         );
 
-        return accounts?.map((item) => item?.dataValues) || [];
+        return (
+            accounts?.map((item) =>
+                shapeAccount(
+                    item as AccountModelType & {
+                        accountApplications?: AccountApplicationModelType[];
+                    },
+                ),
+            ) || []
+        );
     } catch (error) {
         AppLogger.error(`[AccountProvider - getAccountListByPageAndParams] error:  ${error}`);
         return [];

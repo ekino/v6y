@@ -7,20 +7,20 @@ import { ModuleType } from '../../types/ModuleType.ts';
 const auditModelOptions = {};
 
 export class AuditModelType extends Model<AuditType> implements AuditType {
-    public _id!: number;
-    public appId!: number;
-    public dateStart?: Date;
-    public dateEnd?: Date;
-    public type?: string;
-    public category?: string;
-    public subCategory?: string;
-    public auditStatus!: string;
-    public score!: number | null;
-    public scoreStatus!: string | null;
-    public scoreUnit?: string;
-    public extraInfos?: string;
-    public auditHelp?: AuditHelpType;
-    public module?: ModuleType;
+    declare _id: number;
+    declare appId: number;
+    declare dateStart?: Date;
+    declare dateEnd?: Date;
+    declare type?: string;
+    declare category?: string;
+    declare subCategory?: string;
+    declare auditStatus: string;
+    declare score: number | null;
+    declare scoreStatus: string | null;
+    declare scoreUnit?: string;
+    declare extraInfos?: string;
+    declare auditHelp?: AuditHelpType;
+    declare module?: ModuleType;
 }
 
 const auditModelSchema = {
@@ -62,12 +62,6 @@ const auditModelSchema = {
     },
     extraInfos: {
         type: DataTypes.TEXT,
-    },
-    auditHelp: {
-        type: DataTypes.JSON,
-    },
-    module: {
-        type: DataTypes.JSON,
     },
 };
 

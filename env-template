@@ -6,7 +6,9 @@ PSQL_DB_PORT=
 
 SUPERADMIN_USERNAME=x
 SUPERADMIN_EMAIL=x
-SUPERADMIN_PASSWORD=x
+# Bcrypt hash of the superadmin password. Generate with:
+#   node v6y-database/create-admin-hash.mjs <plaintext-password>
+SUPERADMIN_PASSWORD_HASH=$2b$12$E8womj/.NF/KizK67JIjYe8D0xs1R.Tx094mgGfhdgcpZw5hPIGCG
 
 GITLAB_PRIVATE_TOKEN=x
 GITHUB_PRIVATE_TOKEN=x

@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   v6y-database:
     image: postgres:18
@@ -10,7 +8,7 @@ services:
       - POSTGRES_DB=${PSQL_DB_NAME}
       - SUPERADMIN_USERNAME=${SUPERADMIN_USERNAME}
       - SUPERADMIN_EMAIL=${SUPERADMIN_EMAIL}
-      - SUPERADMIN_PASSWORD=${SUPERADMIN_PASSWORD}
+      - SUPERADMIN_PASSWORD_HASH=${SUPERADMIN_PASSWORD_HASH}
     ports:
       - "${PSQL_DB_PORT}:5432"
     volumes:

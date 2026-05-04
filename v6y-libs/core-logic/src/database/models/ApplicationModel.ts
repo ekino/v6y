@@ -6,16 +6,16 @@ import { LinkType } from '../../types/LinkType.ts';
 import { RepositoryType } from '../../types/RepositoryType.ts';
 
 export class ApplicationModelType extends Model<ApplicationType> implements ApplicationType {
-    public _id!: number;
-    public name!: string;
-    public acronym!: string;
-    public contactMail!: string;
-    public description!: string;
-    public repo?: RepositoryType;
-    public configuration?: {
+    declare _id: number;
+    declare name: string;
+    declare acronym: string;
+    declare contactMail: string;
+    declare description: string;
+    declare repo?: RepositoryType;
+    declare configuration?: {
         dataDog?: DataDogConfigType;
     };
-    public links?: LinkType[];
+    declare links?: LinkType[];
 }
 
 const applicationSchema = {

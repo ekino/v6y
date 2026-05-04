@@ -12,6 +12,7 @@ import AccountProvider from './database/AccountProvider.ts';
 import ApplicationProvider from './database/ApplicationProvider.ts';
 import AuditHelpProvider from './database/AuditHelpProvider.ts';
 import AuditProvider from './database/AuditProvider.ts';
+import AuditRunProvider from './database/AuditRunProvider.ts';
 import DataBaseManager from './database/DataBaseManager.ts';
 import DependencyProvider from './database/DependencyProvider.ts';
 import DependencyStatusHelpProvider from './database/DependencyStatusHelpProvider.ts';
@@ -20,6 +21,7 @@ import EvolutionHelpProvider from './database/EvolutionHelpProvider.ts';
 import EvolutionProvider from './database/EvolutionProvider.ts';
 import FaqProvider from './database/FaqProvider.ts';
 import KeywordProvider from './database/KeywordProvider.ts';
+import ModuleProvider from './database/ModuleProvider.ts';
 import NotificationProvider from './database/NotificationProvider.ts';
 import DateUtils from './utils/DateUtils.ts';
 import MonitoringUtils from './utils/MonitoringUtils.ts';
@@ -47,6 +49,7 @@ export {
     KeywordProvider,
     DataBaseManager,
     AuditProvider,
+    AuditRunProvider,
     AuditHelpProvider,
     FaqProvider,
     AccountProvider,
@@ -56,6 +59,7 @@ export {
     DependencyProvider,
     DependencyStatusHelpProvider,
     DeprecatedDependencyProvider,
+    ModuleProvider,
     RepositoryApi,
     MonitoringApi,
     MonitoringUtils,

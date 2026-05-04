@@ -26,11 +26,11 @@ const buildSearchQuery = async ({
 }: SearchQueryType) => {
     const queryOptions: FindOptions = {};
 
-    if (offset) {
+    if (offset !== undefined && offset !== null) {
         queryOptions.offset = offset;
     }
 
-    if (limit && limit > (offset || 0)) {
+    if (limit) {
         queryOptions.limit = limit;
     }
 

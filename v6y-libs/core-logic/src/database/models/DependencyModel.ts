@@ -5,15 +5,15 @@ import { DependencyType } from '../../types/DependencyType.ts';
 import { ModuleType } from '../../types/ModuleType.ts';
 
 export class DependencyModelType extends Model<DependencyType> implements DependencyType {
-    public _id!: number;
-    public appId!: number;
-    public type?: string;
-    public name?: string;
-    public version?: string;
-    public recommendedVersion?: string;
-    public status?: string;
-    public statusHelp?: DependencyStatusHelpType;
-    public module?: ModuleType;
+    declare _id: number;
+    declare appId: number;
+    declare type?: string;
+    declare name?: string;
+    declare version?: string;
+    declare recommendedVersion?: string;
+    declare status?: string;
+    declare statusHelp?: DependencyStatusHelpType;
+    declare module?: ModuleType;
 }
 
 const dependencyModelSchema = {
@@ -40,12 +40,6 @@ const dependencyModelSchema = {
     },
     status: {
         type: DataTypes.TEXT,
-    },
-    statusHelp: {
-        type: DataTypes.JSON,
-    },
-    module: {
-        type: DataTypes.JSON,
     },
 };
 

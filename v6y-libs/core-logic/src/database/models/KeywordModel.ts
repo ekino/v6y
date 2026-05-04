@@ -4,10 +4,10 @@ import { KeywordType } from '../../types/KeywordType.ts';
 import { ModuleType } from '../../types/ModuleType.ts';
 
 export class KeywordModelType extends Model<KeywordType> implements KeywordType {
-    public _id!: number;
-    public appId!: number;
-    public label!: string;
-    public module?: ModuleType;
+    declare _id: number;
+    declare appId: number;
+    declare label: string;
+    declare module?: ModuleType;
 }
 
 const keywordModelSchema = {
@@ -23,9 +23,6 @@ const keywordModelSchema = {
     label: {
         type: DataTypes.TEXT,
         allowNull: false,
-    },
-    module: {
-        type: DataTypes.JSON,
     },
 };
 

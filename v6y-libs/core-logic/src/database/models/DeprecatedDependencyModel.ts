@@ -6,8 +6,8 @@ export class DeprecatedDependencyModelType
     extends Model<DeprecatedDependencyType>
     implements DeprecatedDependencyType
 {
-    public _id!: number;
-    public name!: string;
+    declare _id: number;
+    declare name: string;
 }
 
 const deprecatedDependencyModelSchema = {

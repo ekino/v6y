@@ -4,10 +4,10 @@ import { LinkType } from '../../types/LinkType.ts';
 import { NotificationType } from '../../types/NotificationType.ts';
 
 export class NotificationModelType extends Model<NotificationType> implements NotificationType {
-    public _id!: number;
-    public title!: string;
-    public description!: string;
-    public links?: LinkType[];
+    declare _id: number;
+    declare title: string;
+    declare description: string;
+    declare links?: LinkType[];
 }
 
 const notificationSchema = {

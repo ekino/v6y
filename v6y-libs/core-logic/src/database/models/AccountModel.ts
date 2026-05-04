@@ -3,12 +3,12 @@ import { DataTypes, Model, Sequelize } from 'sequelize';
 import { AccountType } from '../../types/AccountType.ts';
 
 export class AccountModelType extends Model<AccountType> implements AccountType {
-    public _id!: number;
-    public username!: string;
-    public email!: string;
-    public password!: string;
-    public role!: string;
-    public applications?: number[];
+    declare _id: number;
+    declare username: string;
+    declare email: string;
+    declare password: string;
+    declare role: string;
+    declare applications?: number[];
 }
 
 const accountSchema = {

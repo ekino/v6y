@@ -3,7 +3,18 @@ import { FindOptions } from 'sequelize';
 import AppLogger from '../core/AppLogger.ts';
 import { EvolutionType } from '../types/EvolutionType.ts';
 import EvolutionHelpProvider from './EvolutionHelpProvider.ts';
+import ModuleProvider from './ModuleProvider.ts';
+import { EvolutionHelpModelType } from './models/EvolutionHelpModel.ts';
 import { EvolutionModelType } from './models/EvolutionModel.ts';
+import { ModuleModelType } from './models/ModuleModel.ts';
+
+const shapeEvolution = (item: EvolutionModelType) => ({
+    ...item.dataValues,
+    module: (item as unknown as Record<string, { dataValues: unknown }>).module?.dataValues ?? null,
+    evolutionHelp:
+        (item as unknown as Record<string, { dataValues: unknown }>).evolutionHelp?.dataValues ??
+        null,
+});
 
 /**
  * Creates a new Evolution in the database
@@ -19,14 +30,21 @@ const createEvolution = async (evolution: EvolutionType) => {
             return null;
         }
 
+        const moduleRecord = evolution.module
+            ? await ModuleProvider.findOrCreateModule(evolution.module)
+            : null;
+
         const evolutionHelp = await EvolutionHelpProvider.getEvolutionHelpDetailsByParams({
             category: evolution?.category,
         });
 
+        const { module: _module, evolutionHelp: _evolutionHelp, ...evoFields } = evolution;
+
         const createdEvolution = await EvolutionModelType.create({
-            ...evolution,
-            appId: evolution.module?.appId,
-            evolutionHelp,
+            ...evoFields,
+            appId: evolution.module?.appId ?? evolution.appId,
+            moduleId: moduleRecord?._id ?? undefined,
+            evolutionHelpId: evolutionHelp?._id ?? undefined,
         });
 
         AppLogger.info(
@@ -71,28 +89,26 @@ const insertEvolutionList = async (evolutionList: EvolutionType[]) => {
  */
 const editEvolution = async (evolution: EvolutionType) => {
     try {
-        AppLogger.info(`[EvolutionProvider - createEvolution] evolution _id:  ${evolution?._id}`);
+        AppLogger.info(`[EvolutionProvider - editEvolution] evolution _id:  ${evolution?._id}`);
         AppLogger.info(
-            `[EvolutionProvider - createEvolution] evolution category:  ${evolution?.category}`,
+            `[EvolutionProvider - editEvolution] evolution category:  ${evolution?.category}`,
         );
 
         if (!evolution?._id || !evolution?.category?.length) {
             return null;
         }
 
-        const editedEvolution = await EvolutionModelType.update(evolution, {
-            where: {
-                _id: evolution?._id,
-            },
+        const { module: _module, evolutionHelp: _evolutionHelp, ...evoFields } = evolution;
+
+        const editedEvolution = await EvolutionModelType.update(evoFields, {
+            where: { _id: evolution._id },
         });
 
         AppLogger.info(
             `[EvolutionProvider - editEvolution] editedEvolution: ${editedEvolution?.[0]}`,
         );
 
-        return {
-            _id: evolution?._id,
-        };
+        return { _id: evolution._id };
     } catch (error) {
         AppLogger.info(`[EvolutionProvider - editEvolution] error:  ${error}`);
         return null;
@@ -110,15 +126,9 @@ const deleteEvolution = async ({ _id }: EvolutionType) => {
             return null;
         }
 
-        await EvolutionModelType.destroy({
-            where: {
-                _id,
-            },
-        });
+        await EvolutionModelType.destroy({ where: { _id } });
 
-        return {
-            _id,
-        };
+        return { _id };
     } catch (error) {
         AppLogger.info(`[EvolutionProvider - deleteEvolution] error:  ${error}`);
         return null;
@@ -126,17 +136,15 @@ const deleteEvolution = async ({ _id }: EvolutionType) => {
 };
 
 /**
- * Deletes all Evolutions in the database
+ * Deletes all Evolutions for an application.
+ * @param appId
  */
-const deleteEvolutionList = async () => {
+const deleteEvolutionListByAppId = async ({ appId }: { appId: number }) => {
     try {
-        await EvolutionModelType.destroy({
-            truncate: true,
-        });
-
+        await EvolutionModelType.destroy({ where: { appId } });
         return true;
     } catch (error) {
-        AppLogger.info(`[EvolutionProvider - deleteEvolutionList] error:  ${error}`);
+        AppLogger.info(`[EvolutionProvider - deleteEvolutionListByAppId] error:  ${error}`);
         return false;
     }
 };
@@ -149,12 +157,15 @@ const getEvolutionListByPageAndParams = async ({ appId }: EvolutionType) => {
     try {
         AppLogger.info(`[EvolutionProvider - getEvolutionListByPageAndParams] appId: ${appId}`);
 
-        const queryOptions: FindOptions = {};
+        const queryOptions: FindOptions = {
+            include: [
+                { model: ModuleModelType, as: 'module', required: false },
+                { model: EvolutionHelpModelType, as: 'evolutionHelp', required: false },
+            ],
+        };
 
         if (appId) {
-            queryOptions.where = {
-                appId,
-            };
+            queryOptions.where = { appId };
         }
 
         const evolutionList = await EvolutionModelType.findAll(queryOptions);
@@ -162,10 +173,20 @@ const getEvolutionListByPageAndParams = async ({ appId }: EvolutionType) => {
             `[EvolutionProvider - getEvolutionListByPageAndParams] evolutionList: ${evolutionList?.length}`,
         );
 
-        return evolutionList?.map((item) => item?.dataValues) || [];
+        return evolutionList?.map(shapeEvolution) || [];
     } catch (error) {
         AppLogger.info(`[EvolutionProvider - getEvolutionListByPageAndParams] error:  ${error}`);
         return [];
+    }
+};
+
+const deleteEvolutionList = async () => {
+    try {
+        await EvolutionModelType.destroy({ truncate: true });
+        return true;
+    } catch (error) {
+        AppLogger.info(`[EvolutionProvider - deleteEvolutionList] error:  ${error}`);
+        return false;
     }
 };
 
@@ -175,6 +196,7 @@ const EvolutionProvider = {
     editEvolution,
     deleteEvolution,
     deleteEvolutionList,
+    deleteEvolutionListByAppId,
     getEvolutionListByPageAndParams,
 };
 

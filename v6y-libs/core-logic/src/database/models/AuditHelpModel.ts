@@ -3,11 +3,11 @@ import { DataTypes, Model, Sequelize } from 'sequelize';
 import { AuditHelpType } from '../../types/AuditHelpType.ts';
 
 export class AuditHelpModelType extends Model<AuditHelpType> implements AuditHelpType {
-    public _id!: number;
-    public category!: string;
-    public title!: string;
-    public description!: string;
-    public explanation?: string;
+    declare _id: number;
+    declare category: string;
+    declare title: string;
+    declare description: string;
+    declare explanation?: string;
 }
 
 const auditHelpModelSchema = {

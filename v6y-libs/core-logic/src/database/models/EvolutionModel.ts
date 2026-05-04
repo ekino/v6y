@@ -5,11 +5,11 @@ import { EvolutionType } from '../../types/EvolutionType.ts';
 import { ModuleType } from '../../types/ModuleType.ts';
 
 export class EvolutionModelType extends Model<EvolutionType> implements EvolutionType {
-    public _id!: number;
-    public appId!: number;
-    public category!: string;
-    public evolutionHelp?: EvolutionHelpType;
-    public module?: ModuleType;
+    declare _id: number;
+    declare appId: number;
+    declare category: string;
+    declare evolutionHelp?: EvolutionHelpType;
+    declare module?: ModuleType;
 }
 
 const evolutionModelSchema = {
@@ -26,12 +26,6 @@ const evolutionModelSchema = {
         type: DataTypes.TEXT,
         allowNull: false,
     },
-    evolutionHelp: {
-        type: DataTypes.JSON,
-    },
-    module: {
-        type: DataTypes.JSON,
-    },
 };
 
 const evolutionModelOptions = {};
@@ -40,6 +34,7 @@ const initializeEvolutionModel = (sequelize: Sequelize) => {
     EvolutionModelType.init(evolutionModelSchema, {
         sequelize,
         modelName: 'Evolution',
+        tableName: 'evolution',
         ...evolutionModelOptions,
     });
     return EvolutionModelType;

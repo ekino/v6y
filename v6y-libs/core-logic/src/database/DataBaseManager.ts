@@ -4,17 +4,24 @@ import AppLogger from '../core/AppLogger.ts';
 import AuditHelpProvider from './AuditHelpProvider.ts';
 import DependencyStatusHelpProvider from './DependencyStatusHelpProvider.ts';
 import EvolutionHelpProvider from './EvolutionHelpProvider.ts';
-import AccountModel from './models/AccountModel.ts';
-import ApplicationModel from './models/ApplicationModel.ts';
-import AuditHelpModel from './models/AuditHelpModel.ts';
-import AuditModel from './models/AuditModel.ts';
-import DependencyModel from './models/DependencyModel.ts';
-import DependencyStatusHelpModel from './models/DependencyStatusHelpModel.ts';
+import AccountApplicationModel, {
+    AccountApplicationModelType,
+} from './models/AccountApplicationModel.ts';
+import AccountModel, { AccountModelType } from './models/AccountModel.ts';
+import ApplicationModel, { ApplicationModelType } from './models/ApplicationModel.ts';
+import AuditHelpModel, { AuditHelpModelType } from './models/AuditHelpModel.ts';
+import AuditModel, { AuditModelType } from './models/AuditModel.ts';
+import AuditRunModel, { AuditRunModelType } from './models/AuditRunModel.ts';
+import DependencyModel, { DependencyModelType } from './models/DependencyModel.ts';
+import DependencyStatusHelpModel, {
+    DependencyStatusHelpModelType,
+} from './models/DependencyStatusHelpModel.ts';
 import DeprecatedDependencyModel from './models/DeprecatedDependencyModel.ts';
-import EvolutionHelpModelModel from './models/EvolutionHelpModel.ts';
-import EvolutionModel from './models/EvolutionModel.ts';
+import EvolutionHelpModelModel, { EvolutionHelpModelType } from './models/EvolutionHelpModel.ts';
+import EvolutionModel, { EvolutionModelType } from './models/EvolutionModel.ts';
 import FaqModel from './models/FaqModel.ts';
-import KeywordModel from './models/KeywordModel.ts';
+import KeywordModel, { KeywordModelType } from './models/KeywordModel.ts';
+import ModuleModel, { ModuleModelType } from './models/ModuleModel.ts';
 import NotificationModel from './models/NotificationModel.ts';
 
 let postgresDataBase: Sequelize | null = null;
@@ -37,9 +44,7 @@ const postgresDataBaseConnector = (dbOptions: DbOptions) => {
         port: parseInt(dbOptions?.dbPort),
         operatorsAliases: false as unknown as OperatorsAliases,
         dialect: 'postgres',
-        dialectOptions: {
-            // Your pg options here
-        },
+        dialectOptions: {},
         define: {
             underscored: true,
         },
@@ -74,12 +79,15 @@ const initDefaultData = async () => {
 /**
  * Registers Sequelize models with the database.
  */
-const registerModels = async () => {
+const registerModels = () => {
     if (!postgresDataBase) {
         return;
     }
     AccountModel(postgresDataBase);
+    AccountApplicationModel(postgresDataBase);
     ApplicationModel(postgresDataBase);
+    ModuleModel(postgresDataBase);
+    AuditRunModel(postgresDataBase);
     AuditModel(postgresDataBase);
     DependencyModel(postgresDataBase);
     DeprecatedDependencyModel(postgresDataBase);
@@ -93,7 +101,62 @@ const registerModels = async () => {
 };
 
 /**
- * Establishes a connection to the PostgresSQL database, registers models, and synchronizes them
+ * Defines all Sequelize associations (relationships between models).
+ * Must be called after all models are initialised.
+ */
+const registerAssociations = () => {
+    // Application → children (CASCADE delete)
+    ApplicationModelType.hasMany(AuditRunModelType, { foreignKey: 'appId', onDelete: 'CASCADE' });
+    ApplicationModelType.hasMany(AuditModelType, { foreignKey: 'appId', onDelete: 'CASCADE' });
+    ApplicationModelType.hasMany(DependencyModelType, {
+        foreignKey: 'appId',
+        onDelete: 'CASCADE',
+    });
+    ApplicationModelType.hasMany(EvolutionModelType, { foreignKey: 'appId', onDelete: 'CASCADE' });
+    ApplicationModelType.hasMany(KeywordModelType, { foreignKey: 'appId', onDelete: 'CASCADE' });
+    ApplicationModelType.hasMany(ModuleModelType, { foreignKey: 'appId', onDelete: 'CASCADE' });
+    ApplicationModelType.hasMany(AccountApplicationModelType, {
+        foreignKey: 'appId',
+        onDelete: 'CASCADE',
+    });
+
+    // AuditRun → AuditReport
+    AuditRunModelType.hasMany(AuditModelType, {
+        as: 'auditReports',
+        foreignKey: 'auditRunId',
+        onDelete: 'CASCADE',
+    });
+    AuditModelType.belongsTo(AuditRunModelType, { as: 'auditRun', foreignKey: 'auditRunId' });
+
+    // Module associations (shared across audit, dependency, evolution, keyword)
+    AuditModelType.belongsTo(ModuleModelType, { as: 'module', foreignKey: 'moduleId' });
+    DependencyModelType.belongsTo(ModuleModelType, { as: 'module', foreignKey: 'moduleId' });
+    EvolutionModelType.belongsTo(ModuleModelType, { as: 'module', foreignKey: 'moduleId' });
+    KeywordModelType.belongsTo(ModuleModelType, { as: 'module', foreignKey: 'moduleId' });
+
+    // Help FK associations
+    AuditModelType.belongsTo(AuditHelpModelType, { as: 'auditHelp', foreignKey: 'auditHelpId' });
+    DependencyModelType.belongsTo(DependencyStatusHelpModelType, {
+        as: 'statusHelp',
+        foreignKey: 'statusHelpId',
+    });
+    EvolutionModelType.belongsTo(EvolutionHelpModelType, {
+        as: 'evolutionHelp',
+        foreignKey: 'evolutionHelpId',
+    });
+
+    // Account → AccountApplication join table
+    AccountModelType.hasMany(AccountApplicationModelType, {
+        as: 'accountApplications',
+        foreignKey: 'accountId',
+        onDelete: 'CASCADE',
+    });
+};
+
+/**
+ * Establishes a connection to the PostgresSQL database, registers models and associations.
+ * Schema changes are handled exclusively via sequelize-cli migrations
+ * (`pnpm run migrate-db` in v6y-libs/core-logic).
  * @returns {Promise<void>}
  */
 const connect = async () => {
@@ -111,11 +174,13 @@ const connect = async () => {
             `[DataBaseManager - connect] PSQL connection has been established successfully`,
         );
 
-        await registerModels();
+        registerModels();
         AppLogger.info(`[DataBaseManager - connect] PSQL registering models made successfully`);
 
-        await postgresDataBase.sync({ alter: true });
-        AppLogger.info(`[DataBaseManager - connect] PSQL synchronizing models made successfully`);
+        registerAssociations();
+        AppLogger.info(
+            `[DataBaseManager - connect] PSQL registering associations made successfully`,
+        );
 
         await initDefaultData();
         AppLogger.info(`[DataBaseManager - connect] PSQL init default data made successfully`);

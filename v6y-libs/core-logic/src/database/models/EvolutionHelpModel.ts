@@ -4,12 +4,12 @@ import { EvolutionHelpType } from '../../types/EvolutionHelpType.ts';
 import { LinkType } from '../../types/LinkType.ts';
 
 export class EvolutionHelpModelType extends Model<EvolutionHelpType> implements EvolutionHelpType {
-    public _id!: number;
-    public category!: string;
-    public title!: string;
-    public description!: string;
-    public status!: string;
-    public links?: LinkType[];
+    declare _id: number;
+    declare category: string;
+    declare title: string;
+    declare description: string;
+    declare status: string;
+    declare links?: LinkType[];
 }
 
 const evolutionHelpModelSchema = {

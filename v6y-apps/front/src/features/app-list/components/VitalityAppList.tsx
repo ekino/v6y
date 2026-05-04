@@ -73,9 +73,10 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
     const totalPages = Math.ceil(totalCount / VitalityApiConfig.VITALITY_BFF_PAGE_SIZE);
 
     useEffect(() => {
+        if (!dataAppList?.pages) return;
         setAppList(
             formatApplicationDataSource(
-                (dataAppList?.pages as {
+                (dataAppList.pages as {
                     getApplicationListByPageAndParams: ApplicationType;
                 }[]) || [],
             ),

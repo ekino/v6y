@@ -4,10 +4,10 @@ import { FaqType } from '../../types/FaqType.ts';
 import { LinkType } from '../../types/LinkType.ts';
 
 export class FaqModelType extends Model<FaqType> implements FaqType {
-    public _id!: number;
-    public title!: string;
-    public description!: string;
-    public links?: LinkType[];
+    declare _id: number;
+    declare title: string;
+    declare description: string;
+    declare links?: LinkType[];
 }
 
 const faqSchema = {

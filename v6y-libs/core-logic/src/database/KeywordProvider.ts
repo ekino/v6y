@@ -3,7 +3,14 @@ import { FindOptions, Op } from 'sequelize';
 import AppLogger from '../core/AppLogger.ts';
 import { KeywordStatsType, KeywordType } from '../types/KeywordType.ts';
 import { SearchQueryType } from '../types/SearchQueryType.ts';
+import ModuleProvider from './ModuleProvider.ts';
 import { KeywordModelType } from './models/KeywordModel.ts';
+import { ModuleModelType } from './models/ModuleModel.ts';
+
+const shapeKeyword = (item: KeywordModelType) => ({
+    ...item.dataValues,
+    module: (item as unknown as Record<string, { dataValues: unknown }>).module?.dataValues ?? null,
+});
 
 /**
  * Format Keywords
@@ -24,9 +31,16 @@ const createKeyword = async (keyword: KeywordType) => {
             return null;
         }
 
+        const moduleRecord = keyword.module
+            ? await ModuleProvider.findOrCreateModule(keyword.module)
+            : null;
+
+        const { module: _module, ...kwFields } = keyword;
+
         const createdKeyword = await KeywordModelType.create({
-            ...keyword,
-            appId: keyword.module?.appId,
+            ...kwFields,
+            appId: keyword.module?.appId ?? keyword.appId,
+            moduleId: moduleRecord?._id ?? undefined,
         });
 
         AppLogger.info(`[KeywordProvider - createKeyword] createdKeyword: ${createdKeyword?._id}`);
@@ -120,14 +134,22 @@ const deleteKeyword = async ({ _id }: KeywordType) => {
 };
 
 /**
- * Delete Keyword List
+ * Delete Keyword List for an application.
+ * @param appId
  */
+const deleteKeywordListByAppId = async ({ appId }: { appId: number }) => {
+    try {
+        await KeywordModelType.destroy({ where: { appId } });
+        return true;
+    } catch (error) {
+        AppLogger.info(`[KeywordProvider - deleteKeywordListByAppId] error:  ${error}`);
+        return false;
+    }
+};
+
 const deleteKeywordList = async () => {
     try {
-        await KeywordModelType.destroy({
-            truncate: true,
-        });
-
+        await KeywordModelType.destroy({ truncate: true });
         return true;
     } catch (error) {
         AppLogger.info(`[KeywordProvider - deleteKeywordList] error:  ${error}`);
@@ -197,7 +219,9 @@ const getKeywordListByPageAndParams = async ({ appId }: KeywordType) => {
     try {
         AppLogger.info(`[KeywordProvider - getKeywordListByPageAndParams] appId: ${appId}`);
 
-        const queryOptions: FindOptions = {};
+        const queryOptions: FindOptions = {
+            include: [{ model: ModuleModelType, as: 'module', required: false }],
+        };
 
         if (appId) {
             queryOptions.where = {
@@ -211,7 +235,7 @@ const getKeywordListByPageAndParams = async ({ appId }: KeywordType) => {
             `[KeywordProvider - getKeywordListByPageAndParams] keywordList: ${keywordList?.length}`,
         );
 
-        return keywordList?.map((item) => item?.dataValues) || [];
+        return keywordList?.map(shapeKeyword) || [];
     } catch (error) {
         AppLogger.info(`[KeywordProvider - getKeywordListByPageAndParams] error:  ${error}`);
         return [];
@@ -303,6 +327,7 @@ const KeywordProvider = {
     editKeyword,
     deleteKeyword,
     deleteKeywordList,
+    deleteKeywordListByAppId,
     getKeywordsStatsByParams,
     getKeywordListByPageAndParams,
     getApplicationsIdsByKeywords,

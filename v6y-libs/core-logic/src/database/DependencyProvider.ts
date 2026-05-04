@@ -3,7 +3,17 @@ import { FindOptions } from 'sequelize';
 import AppLogger from '../core/AppLogger.ts';
 import { DependencyType } from '../types/DependencyType.ts';
 import DependencyStatusHelpProvider from './DependencyStatusHelpProvider.ts';
+import ModuleProvider from './ModuleProvider.ts';
 import { DependencyModelType } from './models/DependencyModel.ts';
+import { DependencyStatusHelpModelType } from './models/DependencyStatusHelpModel.ts';
+import { ModuleModelType } from './models/ModuleModel.ts';
+
+const shapeDependency = (item: DependencyModelType) => ({
+    ...item.dataValues,
+    module: (item as unknown as Record<string, { dataValues: unknown }>).module?.dataValues ?? null,
+    statusHelp:
+        (item as unknown as Record<string, { dataValues: unknown }>).statusHelp?.dataValues ?? null,
+});
 
 /**
  * Create a new Dependency.
@@ -29,16 +39,24 @@ const createDependency = async (dependency: DependencyType) => {
             return null;
         }
 
+        const moduleRecord = dependency.module
+            ? await ModuleProvider.findOrCreateModule(dependency.module)
+            : null;
+
         const depStatusHelp =
             await DependencyStatusHelpProvider.getDependencyStatusHelpDetailsByParams({
                 category: dependency.status,
             });
 
+        const { module: _module, statusHelp: _statusHelp, ...depFields } = dependency;
+
         const createdDependency = await DependencyModelType.create({
-            ...dependency,
-            appId: dependency.module?.appId,
-            statusHelp: depStatusHelp,
+            ...depFields,
+            appId: dependency.module?.appId ?? dependency.appId,
+            moduleId: moduleRecord?._id ?? undefined,
+            statusHelpId: depStatusHelp?._id ?? undefined,
         });
+
         AppLogger.info(
             `[DependencyProvider - createDependency] createdDependency: ${createdDependency?._id}`,
         );
@@ -81,17 +99,15 @@ const insertDependencyList = async (dependencyList: DependencyType[]) => {
  */
 const editDependency = async (dependency: DependencyType) => {
     try {
+        AppLogger.info(`[DependencyProvider - editDependency] dependency _id:  ${dependency?._id}`);
         AppLogger.info(
-            `[DependencyProvider - createDependency] dependency _id:  ${dependency?._id}`,
+            `[DependencyProvider - editDependency] dependency type:  ${dependency?.type}`,
         );
         AppLogger.info(
-            `[DependencyProvider - createDependency] dependency type:  ${dependency?.type}`,
+            `[DependencyProvider - editDependency] dependency name:  ${dependency?.name}`,
         );
         AppLogger.info(
-            `[DependencyProvider - createDependency] dependency name:  ${dependency?.name}`,
-        );
-        AppLogger.info(
-            `[DependencyProvider - createDependency] dependency version:  ${dependency?.version}`,
+            `[DependencyProvider - editDependency] dependency version:  ${dependency?.version}`,
         );
 
         if (
@@ -103,19 +119,17 @@ const editDependency = async (dependency: DependencyType) => {
             return null;
         }
 
-        const editedDependency = await DependencyModelType.update(dependency, {
-            where: {
-                _id: dependency?._id,
-            },
+        const { module: _module, statusHelp: _statusHelp, ...depFields } = dependency;
+
+        const editedDependency = await DependencyModelType.update(depFields, {
+            where: { _id: dependency._id },
         });
 
         AppLogger.info(
             `[DependencyProvider - editDependency] editedDependency: ${editedDependency?.[0]}`,
         );
 
-        return {
-            _id: dependency?._id,
-        };
+        return { _id: dependency._id };
     } catch (error) {
         AppLogger.info(`[DependencyProvider - editDependency] error:  ${error}`);
         return null;
@@ -133,15 +147,9 @@ const deleteDependency = async ({ _id }: DependencyType) => {
             return null;
         }
 
-        await DependencyModelType.destroy({
-            where: {
-                _id,
-            },
-        });
+        await DependencyModelType.destroy({ where: { _id } });
 
-        return {
-            _id,
-        };
+        return { _id };
     } catch (error) {
         AppLogger.info(`[DependencyProvider - deleteDependency] error:  ${error}`);
         return null;
@@ -149,17 +157,15 @@ const deleteDependency = async ({ _id }: DependencyType) => {
 };
 
 /**
- * Delete all Dependencies.
+ * Delete all Dependencies for an application.
+ * @param appId
  */
-const deleteDependencyList = async () => {
+const deleteDependencyListByAppId = async ({ appId }: { appId: number }) => {
     try {
-        await DependencyModelType.destroy({
-            truncate: true,
-        });
-
+        await DependencyModelType.destroy({ where: { appId } });
         return true;
     } catch (error) {
-        AppLogger.info(`[DependencyProvider - deleteDependencyList] error:  ${error}`);
+        AppLogger.info(`[DependencyProvider - deleteDependencyListByAppId] error:  ${error}`);
         return false;
     }
 };
@@ -172,12 +178,15 @@ const getDependencyListByPageAndParams = async ({ appId }: DependencyType) => {
     try {
         AppLogger.info(`[DependencyProvider - getDependencyListByPageAndParams] appId: ${appId}`);
 
-        const queryOptions: FindOptions = {};
+        const queryOptions: FindOptions = {
+            include: [
+                { model: ModuleModelType, as: 'module', required: false },
+                { model: DependencyStatusHelpModelType, as: 'statusHelp', required: false },
+            ],
+        };
 
         if (appId) {
-            queryOptions.where = {
-                appId,
-            };
+            queryOptions.where = { appId };
         }
 
         const dependencyList = await DependencyModelType.findAll(queryOptions);
@@ -185,10 +194,20 @@ const getDependencyListByPageAndParams = async ({ appId }: DependencyType) => {
             `[DependencyProvider - getDependencyListByPageAndParams] dependencyList: ${dependencyList?.length}`,
         );
 
-        return dependencyList?.map((item) => item?.dataValues) || [];
+        return dependencyList?.map(shapeDependency) || [];
     } catch (error) {
         AppLogger.info(`[DependencyProvider - getDependencyListByPageAndParams] error:  ${error}`);
         return [];
+    }
+};
+
+const deleteDependencyList = async () => {
+    try {
+        await DependencyModelType.destroy({ truncate: true });
+        return true;
+    } catch (error) {
+        AppLogger.info(`[DependencyProvider - deleteDependencyList] error:  ${error}`);
+        return false;
     }
 };
 
@@ -198,6 +217,7 @@ const DependencyProvider = {
     editDependency,
     deleteDependency,
     deleteDependencyList,
+    deleteDependencyListByAppId,
     getDependencyListByPageAndParams,
 };
 
