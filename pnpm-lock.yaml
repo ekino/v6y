@@ -398,97 +398,6 @@ importers:
         specifier: '=3.0.5'
         version: 3.0.5(@types/debug@4.1.12)(@types/node@25.3.2)(@vitest/ui@4.0.14)(jsdom@29.0.1)(lightningcss@1.31.1)(msw@2.12.10(@types/node@25.3.2)(typescript@5.7.3))
 
-  v6y-apps/bfb-sonarqube-auditor:
-    dependencies:
-      '@v6y/core-logic':
-        specifier: workspace:^
-        version: link:../../v6y-libs/core-logic
-      body-parser:
-        specifier: '=2.2.1'
-        version: 2.2.1
-      cookie-parser:
-        specifier: '=1.4.7'
-        version: 1.4.7
-      cors:
-        specifier: '=2.8.5'
-        version: 2.8.5
-      express:
-        specifier: '=5.1.0'
-        version: 5.1.0
-      express-status-monitor:
-        specifier: '=1.3.4'
-        version: 1.3.4
-    devDependencies:
-      '@eslint/js':
-        specifier: '=10.0.1'
-        version: 10.0.1(eslint@10.0.1(jiti@2.6.1))
-      '@trivago/prettier-plugin-sort-imports':
-        specifier: '=6.0.0'
-        version: 6.0.0(@vue/compiler-sfc@3.5.13)(prettier@3.8.1)
-      '@types/body-parser':
-        specifier: '=1.19.5'
-        version: 1.19.5
-      '@types/cookie-parser':
-        specifier: '=1.4.8'
-        version: 1.4.8(@types/express@5.0.5)
-      '@types/cors':
-        specifier: '=2.8.17'
-        version: 2.8.17
-      '@types/express':
-        specifier: '=5.0.5'
-        version: 5.0.5
-      '@types/express-status-monitor':
-        specifier: '=1.3.3'
-        version: 1.3.3
-      '@types/node':
-        specifier: '=24.10.0'
-        version: 24.10.0
-      '@types/supertest':
-        specifier: '=6.0.2'
-        version: 6.0.2
-      '@vitest/coverage-v8':
-        specifier: '=3.0.5'
-        version: 3.0.5(vitest@3.0.5)
-      '@vitest/ui':
-        specifier: '=4.0.14'
-        version: 4.0.14(vitest@3.0.5)
-      chai:
-        specifier: '=6.2.1'
-        version: 6.2.1
-      es6-plato:
-        specifier: '=1.2.3'
-        version: 1.2.3
-      eslint:
-        specifier: '=10.0.1'
-        version: 10.0.1(jiti@2.6.1)
-      eslint-config-prettier:
-        specifier: '=10.0.1'
-        version: 10.0.1(eslint@10.0.1(jiti@2.6.1))
-      eslint-plugin-prettier:
-        specifier: '=5.2.1'
-        version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@10.0.1(eslint@10.0.1(jiti@2.6.1)))(eslint@10.0.1(jiti@2.6.1))(prettier@3.8.1)
-      globals:
-        specifier: '=16.4.0'
-        version: 16.4.0
-      nodemon:
-        specifier: '=3.1.9'
-        version: 3.1.9
-      supertest:
-        specifier: '=7.0.0'
-        version: 7.0.0
-      ts-node:
-        specifier: '=10.9.2'
-        version: 10.9.2(@swc/core@1.15.11)(@types/node@24.10.0)(typescript@5.7.3)
-      typescript:
-        specifier: '=5.7.3'
-        version: 5.7.3
-      typescript-eslint:
-        specifier: '=8.56.0'
-        version: 8.56.0(eslint@10.0.1(jiti@2.6.1))(typescript@5.7.3)
-      vitest:
-        specifier: '=3.0.5'
-        version: 3.0.5(@types/debug@4.1.12)(@types/node@24.10.0)(@vitest/ui@4.0.14)(jsdom@29.0.1)(lightningcss@1.31.1)(msw@2.12.10(@types/node@24.10.0)(typescript@5.7.3))
-
   v6y-apps/bfb-static-auditor:
     dependencies:
       '@creedengo/eslint-plugin':
@@ -7233,10 +7142,6 @@ packages:
   express@4.22.1:
     resolution: {integrity: sha512-F2X8g9P1X7uCPZMA3MVf9wcTqlyNp7IhH5qPCI0izhaOIYXaW9L535tGA3qmjRzpH+bZczqq7hVKxTR4NWnu+g==}
     engines: {node: '>= 0.10.0'}
-
-  express@5.1.0:
-    resolution: {integrity: sha512-DT9ck5YIRU+8GYzzU5kT3eHGA5iL+1Zd0EutOmTE9Dtk+Tvuzd23VBU+ec7HPNSTxXYO55gPV/hq4pSBJDjFpA==}
-    engines: {node: '>= 18'}
 
   express@5.2.0:
     resolution: {integrity: sha512-XdpJDLxfztVY59X0zPI6sibRiGcxhTPXRD3IhJmjKf2jwMvkRGV1j7loB8U+heeamoU3XvihAaGRTR4aXXUN3A==}
@@ -18812,38 +18717,6 @@ snapshots:
       statuses: 2.0.2
       type-is: 1.6.18
       utils-merge: 1.0.1
-      vary: 1.1.2
-    transitivePeerDependencies:
-      - supports-color
-
-  express@5.1.0:
-    dependencies:
-      accepts: 2.0.0
-      body-parser: 2.2.2
-      content-disposition: 1.0.1
-      content-type: 1.0.5
-      cookie: 0.7.2
-      cookie-signature: 1.2.2
-      debug: 4.4.3(supports-color@5.5.0)
-      encodeurl: 2.0.0
-      escape-html: 1.0.3
-      etag: 1.8.1
-      finalhandler: 2.1.1
-      fresh: 2.0.0
-      http-errors: 2.0.1
-      merge-descriptors: 2.0.0
-      mime-types: 3.0.2
-      on-finished: 2.4.1
-      once: 1.4.0
-      parseurl: 1.3.3
-      proxy-addr: 2.0.7
-      qs: 6.15.0
-      range-parser: 1.2.1
-      router: 2.2.0
-      send: 1.2.0
-      serve-static: 2.2.0
-      statuses: 2.0.2
-      type-is: 2.0.1
       vary: 1.1.2
     transitivePeerDependencies:
       - supports-color

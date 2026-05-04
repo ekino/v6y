@@ -6,7 +6,7 @@ const { currentConfig } = ServerConfig;
 
 /**
  * Reads the SonarQube URL and token from the database (bff already has DB access),
- * then delegates the actual SonarQube API calls to the dedicated bfb-sonarqube-auditor service.
+ * then delegates the actual SonarQube API calls to the bfb-dynamic-auditor service.
  * The token is never forwarded to the frontend.
  */
 const getSonarQubeMetrics = async (_: unknown, args: { _id: number }) => {

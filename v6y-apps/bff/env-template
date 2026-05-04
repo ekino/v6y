@@ -12,4 +12,4 @@ JWT_SECRET=x
 V6Y_BFF_API_PATH=/v6y/graphql/
 V6Y_BFF_API_PORT=4001
 
-V6Y_SONARQUBE_AUDITOR_API_PATH=http://localhost:4007/v6y/bfb-sonarqube-auditor/auditor
+V6Y_SONARQUBE_AUDITOR_API_PATH=http://localhost:4004/v6y/bfb-dynamic-auditor/sonarqube-auditor

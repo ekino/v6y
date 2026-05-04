@@ -38,6 +38,7 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - V6Y_BFF_API_PATH=${V6Y_BFF_API_PATH}
       - V6Y_BFF_API_PORT=${V6Y_BFF_API_PORT}
+      - V6Y_SONARQUBE_AUDITOR_API_PATH=${V6Y_SONARQUBE_AUDITOR_API_PATH}
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4001/health" ]
       interval: 30s
@@ -142,29 +143,6 @@ services:
       - V6Y_DEVOPS_API_PORT=${V6Y_DEVOPS_API_PORT}
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4005/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  v6y-bfb-sonarqube-auditor:
-    extends:
-      file: docker-compose.base.yml
-      service: v6y-service-base
-    command: pnpm run start:bfb:sonarqube
-    ports:
-      - "4007:4007"
-    image: ghcr.io/${REGISTRY_OWNER}/v6y-bfb-sonarqube-auditor:latest
-    environment:
-      - PSQL_DB_HOST=${PSQL_DB_HOST}
-      - PSQL_DB_NAME=${PSQL_DB_NAME}
-      - PSQL_DB_USER=${PSQL_DB_USER}
-      - PSQL_DB_PASSWORD=${PSQL_DB_PASSWORD}
-      - PSQL_DB_PORT=${PSQL_DB_PORT}
-      - JWT_SECRET=${JWT_SECRET}
-      - V6Y_SONARQUBE_API_PATH=${V6Y_SONARQUBE_API_PATH}
-      - V6Y_SONARQUBE_API_PORT=${V6Y_SONARQUBE_API_PORT}
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:4007/health" ]
       interval: 30s
       timeout: 10s
       retries: 3

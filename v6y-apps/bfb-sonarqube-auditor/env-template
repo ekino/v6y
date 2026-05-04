@@ -1,4 +1,0 @@
-JWT_SECRET=x
-
-V6Y_SONARQUBE_API_PATH=/v6y/bfb-sonarqube-auditor/
-V6Y_SONARQUBE_API_PORT=4007

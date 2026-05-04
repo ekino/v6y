@@ -4,6 +4,7 @@ const V6Y_API_BASE_PATH = normalizeBasePath(process.env.V6Y_DYNAMIC_ANALYZER_API
 const V6Y_DYNAMIC_HEALTH_CHECK_PATH = `${V6Y_API_BASE_PATH}health-checks`;
 const V6Y_DYNAMIC_MONITORING_PATH = `${V6Y_API_BASE_PATH}monitoring`;
 const V6Y_DYNAMIC_AUDITOR_API_PATH = `${V6Y_API_BASE_PATH}auditor`;
+const V6Y_SONARQUBE_AUDITOR_API_PATH = `${V6Y_API_BASE_PATH}sonarqube-auditor`;
 
 /**
  * Server configuration for different environments.
@@ -15,6 +16,7 @@ const SERVER_ENV_CONFIGURATION = {
         hostname: 'localhost',
         apiPath: process.env.V6Y_DYNAMIC_ANALYZER_API_PATH,
         dynamicAuditorApiPath: V6Y_DYNAMIC_AUDITOR_API_PATH,
+        sonarqubeAuditorApiPath: V6Y_SONARQUBE_AUDITOR_API_PATH,
         healthCheckPath: V6Y_DYNAMIC_HEALTH_CHECK_PATH,
         monitoringPath: V6Y_DYNAMIC_MONITORING_PATH,
         databaseUri: '',
@@ -27,6 +29,7 @@ const SERVER_ENV_CONFIGURATION = {
         hostname: 'localhost',
         apiPath: process.env.V6Y_DYNAMIC_ANALYZER_API_PATH,
         dynamicAuditorApiPath: V6Y_DYNAMIC_AUDITOR_API_PATH,
+        sonarqubeAuditorApiPath: V6Y_SONARQUBE_AUDITOR_API_PATH,
         healthCheckPath: V6Y_DYNAMIC_HEALTH_CHECK_PATH,
         monitoringPath: V6Y_DYNAMIC_MONITORING_PATH,
         databaseUri: '',
