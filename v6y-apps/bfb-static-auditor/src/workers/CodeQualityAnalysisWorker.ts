@@ -7,6 +7,7 @@ import CodeCouplingAuditor from '../auditors/code-coupling/CodeCouplingAuditor.t
 import CodeDuplicationAuditor from '../auditors/code-duplication/CodeDuplicationAuditor.ts';
 import CodeModularityAuditor from '../auditors/code-modularity/CodeModularityAuditor.ts';
 import CodeSecurityAuditor from '../auditors/code-security/CodeSecurityAuditor.ts';
+import CreedengoAuditor from '../auditors/ecological-impact/CreedengoAuditor.ts';
 
 AppLogger.info('******************** Starting background Audit **************************');
 
@@ -15,10 +16,8 @@ try {
     AppLogger.info(`[CodeQualityAnalysisWorker] applicationId:  ${applicationId}`);
     AppLogger.info(`[CodeQualityAnalysisWorker] workspaceFolder:  ${workspaceFolder}`);
 
-    // *********************************************** Database Configuration and Connection ***********************************************
     await DataBaseManager.connect();
 
-    // *********************************************** Audit Configuration and Launch ***********************************************
     PerformancesUtils.startMeasure('CodeQualityAnalysisWorker-startAuditorAnalysis');
     await CodeComplexityAuditor.startAuditorAnalysis({
         applicationId,
@@ -40,6 +39,11 @@ try {
         applicationId,
         workspaceFolder,
     });
+    await CreedengoAuditor.startAuditorAnalysis({
+        applicationId,
+        workspaceFolder,
+    });
+
     PerformancesUtils.endMeasure('CodeQualityAnalysisWorker-startAuditorAnalysis');
 
     AppLogger.info('******************** Audit completed successfully ********************');
