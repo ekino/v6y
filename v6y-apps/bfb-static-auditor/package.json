@@ -58,7 +58,6 @@
   },
   "dependencies": {
     "@creedengo/eslint-plugin": "=3.0.0",
-    "@sequelize/core": "=7.0.0-alpha.43",
     "@types/fs-extra": "=11.0.4",
     "@typhonjs/babel-parser": "=0.2.0",
     "@v6y/core-logic": "workspace:^",
@@ -84,9 +83,9 @@
     "jsinspect": "=0.12.7",
     "lodash": "=4.18.1",
     "madge": "=8.0.0",
-    "sequelize": "=6.37.8",
     "typhonjs-escomplex": "=0.1.0",
     "unixify": "=1.0.0",
-    "xml2js": "=0.6.2"
+    "xml2js": "=0.6.2",
+    "@prisma/client": "=7.8.0"
   }
 }

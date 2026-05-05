@@ -3,6 +3,7 @@ PSQL_DB_NAME=x
 PSQL_DB_USER=x
 PSQL_DB_PASSWORD=x
 PSQL_DB_PORT=
+DATABASE_URL=postgresql://user:password@host:port/database
 
 SUPERADMIN_USERNAME=x
 SUPERADMIN_EMAIL=x

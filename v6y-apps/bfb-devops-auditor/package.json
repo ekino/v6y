@@ -49,7 +49,6 @@
     "supertest": "=7.0.0"
   },
   "dependencies": {
-    "@sequelize/core": "=7.0.0-alpha.43",
     "@v6y/core-logic": "workspace:^",
     "axios": "=1.15.2",
     "axios-retry": "=4.5.0",
@@ -63,6 +62,6 @@
     "fs-extra": "=11.2.0",
     "pg": "=8.13.1",
     "pg-hstore": "=2.3.4",
-    "sequelize": "=6.37.8"
+    "@prisma/client": "=7.8.0"
   }
 }
