@@ -188,7 +188,7 @@ const VitalityAppDetailsView = () => {
 
                             <Input
                                 type="date"
-                                className="h-10 sm:h-8 border-slate-300 rounded-md text-sm"
+                                className="h-10 sm:h-8 w-fit border-slate-300 rounded-md text-sm"
                                 value={selectedDate}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                                     setSelectedDate(e.target.value)

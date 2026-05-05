@@ -14,7 +14,7 @@ interface BranchSelectorProps {
 const BranchSelector = ({ branches, selectedBranch, onBranchChange }: BranchSelectorProps) => {
     return (
         <Select value={selectedBranch} onValueChange={onBranchChange}>
-            <SelectTrigger className="h-10 sm:h-8 w-full sm:w-[320px] border-slate-300 rounded-md px-3 sm:px-4 py-2 text-sm bg-white">
+            <SelectTrigger className="h-10 sm:h-8 w-fit border-slate-300 rounded-md px-3 sm:px-4 py-2 text-sm bg-white">
                 <span className="flex min-w-0 items-center gap-1 truncate">
                     <ShuffleIcon className="w-4 h-4 shrink-0" />
                     <SelectValue className="truncate" />
