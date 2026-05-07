@@ -3,6 +3,7 @@ import { cleanup } from '@testing-library/react';
 import { List } from '@v6y/ui-kit';
 import '@v6y/ui-kit-front';
 import dynamic from 'next/dynamic';
+import { lazy, Suspense } from 'react';
 import { afterEach, beforeEach, vi } from 'vitest';
 
 vi.mock('next/dynamic', async () => {
@@ -432,10 +433,17 @@ vi.mock('@v6y/ui-kit', () => {
         TitleView: ({ title }: { title: string }) => <h3>{title}</h3>,
         LoaderView: () => <div data-testid="mock-loader">Loading...</div>,
         DynamicLoader: (importFn: () => Promise<{ default: React.ComponentType<any> }>) => {
-            return (props: any) => {
-                const LazyComponent = dynamic(() => importFn(), { ssr: false });
-                return <LazyComponent {...props} />;
-            };
+            // Create the lazy component ONCE outside the render function.
+            // Creating it inside the render would produce a new unresolved component on
+            // every re-render (e.g. from useEffect state updates), preventing waitFor from
+            // ever finding the resolved content.
+            const LazyComponent = lazy(importFn);
+            const WrappedComponent = (props: any) => (
+                <Suspense fallback={null}>
+                    <LazyComponent {...props} />
+                </Suspense>
+            );
+            return WrappedComponent;
         },
         PaginatedList: ({
             dataSource,
