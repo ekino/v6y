@@ -81,7 +81,7 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
         gitOrganization,
         gitUrl,
         gitWebUrl,
-        gitDefaultBranch,
+        gitBranchesToAudit,
         productionLink,
         contactMail,
         codeQualityPlatformLink,
@@ -104,7 +104,7 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
             webUrl: gitWebUrl,
             gitUrl,
             organization: gitOrganization,
-            ...(gitDefaultBranch ? { defaultBranch: gitDefaultBranch } : {}),
+            ...(gitBranchesToAudit?.length ? { branchesToAudit: gitBranchesToAudit } : {}),
         },
         links: [
             {
@@ -182,6 +182,10 @@ const editFormApplication = async (application: ApplicationInputType) => {
             return null;
         }
 
+        const existing = await ApplicationModelType.findOne({
+            where: { _id: application._id },
+        });
+
         const formApplication = formatApplicationInput(application);
         AppLogger.info(
             `[ApplicationProvider - editFormApplication] formApplication: ${formApplication?._id}`,
@@ -189,6 +193,16 @@ const editFormApplication = async (application: ApplicationInputType) => {
 
         if (!formApplication?._id) {
             return null;
+        }
+
+        // Preserve all analyzer-managed repo fields (allBranches, etc.) not controlled by the form.
+        // Use toJSON() to get a reliable plain-object copy of the Sequelize model instance.
+        const existingRepo = (existing?.toJSON() as ApplicationType | undefined)?.repo;
+        if (existingRepo) {
+            formApplication.repo = {
+                ...existingRepo, // start with ALL existing repo fields
+                ...formApplication.repo, // override with form-managed fields
+            };
         }
 
         const editedApplication = await ApplicationModelType.update(formApplication, {

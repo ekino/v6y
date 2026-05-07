@@ -149,6 +149,23 @@ const deleteDependency = async ({ _id }: DependencyType) => {
 };
 
 /**
+ * Delete all Dependencies for a given application.
+ * @param appId
+ */
+const deleteDependenciesByAppId = async (appId: number) => {
+    try {
+        AppLogger.info(`[DependencyProvider - deleteDependenciesByAppId] appId:  ${appId}`);
+        await DependencyModelType.destroy({
+            where: { appId },
+        });
+        return true;
+    } catch (error) {
+        AppLogger.info(`[DependencyProvider - deleteDependenciesByAppId] error:  ${error}`);
+        return false;
+    }
+};
+
+/**
  * Delete all Dependencies.
  */
 const deleteDependencyList = async () => {
@@ -197,6 +214,7 @@ const DependencyProvider = {
     insertDependencyList,
     editDependency,
     deleteDependency,
+    deleteDependenciesByAppId,
     deleteDependencyList,
     getDependencyListByPageAndParams,
 };

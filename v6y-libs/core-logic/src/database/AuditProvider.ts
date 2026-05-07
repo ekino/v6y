@@ -120,6 +120,23 @@ const deleteAudit = async ({ _id }: AuditType) => {
 };
 
 /**
+ * Deletes all Audit entries for a given application.
+ * @param appId
+ */
+const deleteAuditsByAppId = async (appId: number) => {
+    try {
+        AppLogger.info(`[AuditProvider - deleteAuditsByAppId] appId:  ${appId}`);
+        await AuditModelType.destroy({
+            where: { appId },
+        });
+        return true;
+    } catch (error) {
+        AppLogger.info(`[AuditProvider - deleteAuditsByAppId] error:  ${error}`);
+        return false;
+    }
+};
+
+/**
  * Deletes all Audit entries from the database.
  */
 const deleteAuditList = async () => {
@@ -168,6 +185,7 @@ const AuditProvider = {
     insertAuditList,
     editAudit,
     deleteAudit,
+    deleteAuditsByAppId,
     deleteAuditList,
     getAuditListByPageAndParams,
 };
