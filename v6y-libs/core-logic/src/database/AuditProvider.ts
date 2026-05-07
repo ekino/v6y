@@ -1,3 +1,5 @@
+import { Prisma } from '@prisma/client';
+
 import AppLogger from '../core/AppLogger.ts';
 import { AuditType } from '../types/AuditType.ts';
 import AuditHelpProvider from './AuditHelpProvider.ts';
@@ -27,8 +29,10 @@ const createAudit = async (audit: AuditType) => {
                 scoreStatus: audit.scoreStatus ?? null,
                 scoreUnit: audit.scoreUnit ?? null,
                 extraInfos: audit.extraInfos ?? null,
-                auditHelp: auditHelp ? JSON.parse(JSON.stringify(auditHelp)) : undefined,
-                module: audit.module ? JSON.parse(JSON.stringify(audit.module)) : undefined,
+                auditHelp: auditHelp ? (auditHelp as unknown as Prisma.InputJsonValue) : undefined,
+                module: audit.module
+                    ? (audit.module as unknown as Prisma.InputJsonValue)
+                    : undefined,
             },
         });
         AppLogger.info('[AuditProvider - createAudit] created: ' + created.id);
@@ -42,9 +46,7 @@ const createAudit = async (audit: AuditType) => {
 const insertAuditList = async (auditList: AuditType[] | null) => {
     try {
         if (!auditList?.length) return false;
-        for (const audit of auditList) {
-            await createAudit(audit);
-        }
+        await Promise.all(auditList.map((audit) => createAudit(audit)));
         return true;
     } catch (error) {
         AppLogger.info('[AuditProvider - insertAuditList] error: ' + error);

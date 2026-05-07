@@ -118,13 +118,13 @@ const createFormApplication = async (application: ApplicationInputType) => {
                 contactMail: formApplication.contactMail!,
                 description: formApplication.description!,
                 repo: formApplication.repo
-                    ? JSON.parse(JSON.stringify(formApplication.repo))
+                    ? (formApplication.repo as unknown as Prisma.InputJsonValue)
                     : undefined,
                 configuration: formApplication.configuration
-                    ? JSON.parse(JSON.stringify(formApplication.configuration))
+                    ? (formApplication.configuration as unknown as Prisma.InputJsonValue)
                     : undefined,
                 links: formApplication.links
-                    ? JSON.parse(JSON.stringify(formApplication.links))
+                    ? (formApplication.links as unknown as Prisma.InputJsonValue)
                     : undefined,
             },
         });
@@ -168,13 +168,13 @@ const editFormApplication = async (application: ApplicationInputType) => {
                 contactMail: formApplication.contactMail ?? undefined,
                 description: formApplication.description ?? undefined,
                 repo: formApplication.repo
-                    ? JSON.parse(JSON.stringify(formApplication.repo))
+                    ? (formApplication.repo as unknown as Prisma.InputJsonValue)
                     : undefined,
                 configuration: formApplication.configuration
-                    ? JSON.parse(JSON.stringify(formApplication.configuration))
+                    ? (formApplication.configuration as unknown as Prisma.InputJsonValue)
                     : undefined,
                 links: formApplication.links
-                    ? JSON.parse(JSON.stringify(formApplication.links))
+                    ? (formApplication.links as unknown as Prisma.InputJsonValue)
                     : undefined,
             },
         });
@@ -195,12 +195,14 @@ const editApplication = async (application: ApplicationType) => {
                 acronym: application.acronym ?? undefined,
                 contactMail: application.contactMail ?? undefined,
                 description: application.description ?? undefined,
-                repo: application.repo ? JSON.parse(JSON.stringify(application.repo)) : undefined,
+                repo: application.repo
+                    ? (application.repo as unknown as Prisma.InputJsonValue)
+                    : undefined,
                 configuration: application.configuration
-                    ? JSON.parse(JSON.stringify(application.configuration))
+                    ? (application.configuration as unknown as Prisma.InputJsonValue)
                     : undefined,
                 links: application.links
-                    ? JSON.parse(JSON.stringify(application.links))
+                    ? (application.links as unknown as Prisma.InputJsonValue)
                     : undefined,
             },
         });

@@ -1,3 +1,5 @@
+import { Prisma } from '@prisma/client';
+
 import AppLogger from '../core/AppLogger.ts';
 import { EvolutionType } from '../types/EvolutionType.ts';
 import EvolutionHelpProvider from './EvolutionHelpProvider.ts';
@@ -16,9 +18,11 @@ const createEvolution = async (evolution: EvolutionType) => {
                 appId: (evolution.module?.appId ?? evolution.appId)!,
                 category: evolution.category,
                 evolutionHelp: evolutionHelp
-                    ? JSON.parse(JSON.stringify(evolutionHelp))
+                    ? (evolutionHelp as unknown as Prisma.InputJsonValue)
                     : undefined,
-                module: evolution.module ? JSON.parse(JSON.stringify(evolution.module)) : undefined,
+                module: evolution.module
+                    ? (evolution.module as unknown as Prisma.InputJsonValue)
+                    : undefined,
             },
         });
         return { ...created, _id: created.id };
@@ -31,9 +35,7 @@ const createEvolution = async (evolution: EvolutionType) => {
 const insertEvolutionList = async (evolutionList: EvolutionType[]) => {
     try {
         if (!evolutionList?.length) return null;
-        for (const evolution of evolutionList) {
-            await createEvolution(evolution);
-        }
+        await Promise.all(evolutionList.map((evolution) => createEvolution(evolution)));
     } catch (error) {
         AppLogger.info('[EvolutionProvider - insertEvolutionList] error: ' + error);
     }

@@ -15,6 +15,7 @@
   "scripts": {
     "build:tsc": "tsc --project ./tsconfig.json",
     "check:tsc": "tsc --noEmit --project ./tsconfig.json",
+    "postinstall": "prisma generate --schema=./prisma/schema.prisma",
     "db:generate": "prisma generate --schema=./prisma/schema.prisma",
     "db:migrate": "prisma migrate dev --schema=./prisma/schema.prisma",
     "db:migrate:deploy": "prisma migrate deploy --schema=./prisma/schema.prisma",

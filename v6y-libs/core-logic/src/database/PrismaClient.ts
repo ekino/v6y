@@ -1,16 +1,9 @@
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '@prisma/client';
 
-let _prisma: PrismaClient | null = null;
+import buildDatabaseUrl from './buildDatabaseUrl.ts';
 
-const buildDatabaseUrl = (): string => {
-    const host = process.env.PSQL_DB_HOST || 'localhost';
-    const name = process.env.PSQL_DB_NAME || 'v6y';
-    const user = process.env.PSQL_DB_USER || 'v6y';
-    const password = process.env.PSQL_DB_PASSWORD || 'v6y';
-    const port = process.env.PSQL_DB_PORT || '5432';
-    return `postgresql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:${port}/${name}`;
-};
+let _prisma: PrismaClient | null = null;
 
 const getPrismaClient = (): PrismaClient => {
     if (!_prisma) {

@@ -1,3 +1,5 @@
+import { Prisma } from '@prisma/client';
+
 import AppLogger from '../core/AppLogger.ts';
 import { KeywordStatsType, KeywordType } from '../types/KeywordType.ts';
 import { SearchQueryType } from '../types/SearchQueryType.ts';
@@ -13,7 +15,9 @@ const createKeyword = async (keyword: KeywordType) => {
             data: {
                 appId: (keyword.module?.appId ?? keyword.appId)!,
                 label: keyword.label,
-                module: keyword.module ? JSON.parse(JSON.stringify(keyword.module)) : undefined,
+                module: keyword.module
+                    ? (keyword.module as unknown as Prisma.InputJsonValue)
+                    : undefined,
             },
         });
         return { ...created, _id: created.id };
@@ -26,9 +30,7 @@ const createKeyword = async (keyword: KeywordType) => {
 const insertKeywordList = async (keywordList: KeywordType[]) => {
     try {
         if (!keywordList?.length) return null;
-        for (const keyword of keywordList) {
-            await createKeyword(keyword);
-        }
+        await Promise.all(keywordList.map((keyword) => createKeyword(keyword)));
     } catch (error) {
         AppLogger.info('[KeywordProvider - insertKeywordList] error: ' + error);
     }

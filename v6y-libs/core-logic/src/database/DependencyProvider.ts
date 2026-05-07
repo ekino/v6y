@@ -1,3 +1,5 @@
+import { Prisma } from '@prisma/client';
+
 import AppLogger from '../core/AppLogger.ts';
 import { DependencyType } from '../types/DependencyType.ts';
 import DependencyStatusHelpProvider from './DependencyStatusHelpProvider.ts';
@@ -21,9 +23,11 @@ const createDependency = async (dependency: DependencyType) => {
                 version: dependency.version ?? null,
                 recommendedVersion: dependency.recommendedVersion ?? null,
                 status: dependency.status ?? null,
-                statusHelp: depStatusHelp ? JSON.parse(JSON.stringify(depStatusHelp)) : undefined,
+                statusHelp: depStatusHelp
+                    ? (depStatusHelp as unknown as Prisma.InputJsonValue)
+                    : undefined,
                 module: dependency.module
-                    ? JSON.parse(JSON.stringify(dependency.module))
+                    ? (dependency.module as unknown as Prisma.InputJsonValue)
                     : undefined,
             },
         });
@@ -37,9 +41,7 @@ const createDependency = async (dependency: DependencyType) => {
 const insertDependencyList = async (dependencyList: DependencyType[]) => {
     try {
         if (!dependencyList?.length) return null;
-        for (const dependency of dependencyList) {
-            await createDependency(dependency);
-        }
+        await Promise.all(dependencyList.map((dependency) => createDependency(dependency)));
     } catch (error) {
         AppLogger.info('[DependencyProvider - insertDependencyList] error: ' + error);
     }
