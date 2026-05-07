@@ -50,7 +50,7 @@ export interface FormWrapperType {
     queryOptions?: FormQueryOptionsType;
     mutationOptions?: FormMutationOptionsType;
     createOptions?: FormCreateOptionsType;
-    formItems?: ReactNode[];
+    formItems?: ReactNode[] | ((queryData: Record<string, unknown>) => ReactNode[]);
     selectOptions?: {
         resource: string;
         query: string;
