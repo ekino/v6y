@@ -27,6 +27,8 @@ const startUpdateWorkers = () => {
  * Database updates are performed by default at startup, then every midnight.
  */
 const start = () => {
+    // Initial update
+    AppLogger.info('******************** Starting initial update **************************');
     setTimeout(() => {
         AppLogger.info('[DataUpdateScheduler] Starting initial data update...');
         startUpdateWorkers();
