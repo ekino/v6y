@@ -81,6 +81,7 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
         gitOrganization,
         gitUrl,
         gitWebUrl,
+        gitDefaultBranch,
         productionLink,
         contactMail,
         codeQualityPlatformLink,
@@ -99,7 +100,12 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
         acronym,
         description,
         contactMail,
-        repo: { webUrl: gitWebUrl, gitUrl, organization: gitOrganization },
+        repo: {
+            webUrl: gitWebUrl,
+            gitUrl,
+            organization: gitOrganization,
+            ...(gitDefaultBranch ? { defaultBranch: gitDefaultBranch } : {}),
+        },
         links: [
             {
                 label: 'Application production url',

@@ -197,6 +197,10 @@
         "placeholder": "Enter your application Git URL",
         "error": "Application Git URL is a mandatory field!"
       },
+      "app-git-default-branch": {
+        "label": "Branche par défaut à auditer (laisser vide pour détecter automatiquement depuis le dépôt)",
+        "placeholder": "ex: main, master, develop"
+      },
       "app-links": {
         "label": "Application links"
       },

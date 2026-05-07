@@ -99,6 +99,13 @@ export const applicationGitRepositoryFormItems = (translate: TranslateType) => [
             },
         ],
     },
+    {
+        id: 'app-git-default-branch',
+        name: 'app-git-default-branch',
+        label: translate('v6y-applications.fields.app-git-default-branch.label'),
+        placeholder: translate('v6y-applications.fields.app-git-default-branch.placeholder'),
+        rules: [],
+    },
 ];
 
 export const applicationRequiredLinksFormItems = (translate: TranslateType) => [
@@ -230,6 +237,7 @@ export const applicationCreateOrEditFormInAdapter = (params: ApplicationType) =>
     'app-git-organization': params?.['repo']?.organization,
     'app-git-web-url': params?.['repo']?.webUrl,
     'app-git-url': params?.['repo']?.gitUrl,
+    'app-git-default-branch': params?.['repo']?.defaultBranch,
     'app-contact-email': params?.['contactMail'],
     'app-production-link-1': params?.['links']?.find?.(
         (item) => item.label === 'Application production url',
@@ -265,6 +273,7 @@ export const applicationCreateOrEditFormOutputAdapter = (data: unknown): Variabl
             gitOrganization: params?.['app-git-organization'],
             gitWebUrl: params?.['app-git-web-url'],
             gitUrl: params?.['app-git-url'],
+            gitDefaultBranch: params?.['app-git-default-branch'],
             name: params?.['app-name'],
             contactMail: params?.['app-contact-email'],
             productionLink: params?.['app-production-link-1'],

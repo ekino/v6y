@@ -28,6 +28,7 @@ export interface ApplicationInputType {
     gitOrganization?: string;
     gitUrl?: string;
     gitWebUrl?: string;
+    gitDefaultBranch?: string;
     productionLink?: string;
     codeQualityPlatformLink?: string;
     ciPlatformLink?: string;

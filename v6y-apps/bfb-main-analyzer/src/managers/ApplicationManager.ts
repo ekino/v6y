@@ -47,11 +47,28 @@ const buildApplicationReports = async (application: ApplicationType) => {
             return false;
         }
 
+        const targetBranchName =
+            application.repo.defaultBranch ||
+            repositoryDetails.default_branch ||
+            repositoryBranches[0]?.name;
+
+        const targetBranches = repositoryBranches.filter(
+            (branch) => branch?.name === targetBranchName,
+        );
+
+        const branchesToAudit = targetBranches.length ? targetBranches : [repositoryBranches[0]];
+
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationReports] auditing branch: ',
+            branchesToAudit[0]?.name,
+        );
+
         await ApplicationProvider.editApplication({
             ...application,
             repo: {
                 ...application?.repo,
                 allBranches: repositoryBranches.map((branch) => branch?.name),
+                defaultBranch: branchesToAudit[0]?.name,
             },
         });
 
@@ -59,7 +76,7 @@ const buildApplicationReports = async (application: ApplicationType) => {
 
         await buildStaticReports({
             application,
-            branches: repositoryBranches,
+            branches: branchesToAudit,
         });
 
         AppLogger.info('[ApplicationManager - buildApplicationDetails] end of static analysis');

@@ -20,7 +20,10 @@ const ApplicationCreateOrEditInput = `
         
       """ Application git repository url """
       gitUrl: String!
-        
+      
+      """ Default branch to audit (leave empty to auto-detect from repository) """
+      gitDefaultBranch: String
+      
       """ Application production url """
       productionLink: String!
       
