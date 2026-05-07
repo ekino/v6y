@@ -13,6 +13,7 @@ const GetApplicationDetailsInfosByParams = gql`
                 webUrl
                 gitUrl
                 allBranches
+                branchesToAudit
             }
             links {
                 label

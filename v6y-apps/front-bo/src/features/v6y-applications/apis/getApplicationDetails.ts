@@ -17,6 +17,8 @@ const GetApplicationDetails = gql`
                 organization
                 webUrl
                 gitUrl
+                branchesToAudit
+                allBranches
             }
             configuration {
                 dataDog {

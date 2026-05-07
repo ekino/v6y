@@ -24,7 +24,11 @@ const VitalityFormFieldSet = ({ groupTitle, items, selectOptions }: VitalityForm
                         disabled={item.disabled || false}
                         //defaultValue={item.defaultValue}
                         placeholder={item.placeholder}
-                        options={selectOptions}
+                        options={
+                            ((item as Record<string, unknown>).options as
+                                | SelectOptionType[]
+                                | undefined) || selectOptions
+                        }
                         mode={item.mode || undefined}
                     />
                 )}

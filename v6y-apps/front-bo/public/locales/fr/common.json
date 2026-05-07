@@ -197,6 +197,10 @@
         "placeholder": "Enter your application Git URL",
         "error": "Application Git URL is a mandatory field!"
       },
+      "app-git-branches-to-audit": {
+        "label": "Branches à auditer (saisir un nom de branche et appuyer sur Entrée ; laisser vide pour détecter automatiquement)",
+        "placeholder": "ex: main, develop, release/1.0"
+      },
       "app-links": {
         "label": "Application links"
       },
