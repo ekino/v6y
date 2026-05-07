@@ -53,7 +53,8 @@
       "branches": {
         "main": "main",
         "develop": "develop",
-        "release": "release"
+        "release": "release",
+        "allBranches": "Toutes les branches"
       },
       "exportButton": "Exporter le reporting",
       "runAuditButton": "Lancer l'audit",
