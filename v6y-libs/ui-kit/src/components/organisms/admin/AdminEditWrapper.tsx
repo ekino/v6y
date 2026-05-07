@@ -42,7 +42,16 @@ const AdminEditWrapper = ({ title, queryOptions, mutationOptions, formItems }: F
         }
     }, [form, query, queryOptions]);
 
-    if (!formItems?.length) {
+    if (!formItems) {
+        return null;
+    }
+
+    const queryData = (query?.data?.[queryOptions?.queryResource as keyof typeof query.data] ||
+        {}) as Record<string, unknown>;
+
+    const resolvedItems = typeof formItems === 'function' ? formItems(queryData) : formItems;
+
+    if (!resolvedItems?.length) {
         return null;
     }
 
@@ -52,7 +61,7 @@ const AdminEditWrapper = ({ title, queryOptions, mutationOptions, formItems }: F
     return (
         <EditLayout canDelete={false} title={title} saveButtonProps={saveButtonProps}>
             <Form {...otherFormProps} layout="vertical" variant="filled">
-                {formItems?.map((item) => item)}
+                {resolvedItems?.map((item) => item)}
             </Form>
         </EditLayout>
     );

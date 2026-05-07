@@ -201,6 +201,10 @@
                 "label": "Branche par défaut à auditer (laisser vide pour détecter automatiquement depuis le dépôt)",
                 "placeholder": "ex: main, master, develop"
             },
+            "app-git-branches-to-audit": {
+                "label": "Branches à auditer (saisir un nom de branche et appuyer sur Entrée ; laisser vide pour détecter automatiquement)",
+                "placeholder": "ex: main, develop, release/1.0"
+            },
             "app-links": {
                 "label": "Application links"
             },

@@ -33,7 +33,7 @@ describe('VitalityFormConfig - Form Items', () => {
         expect(result[0].id).toBe('app-git-organization');
         expect(result[1].id).toBe('app-git-web-url');
         expect(result[2].id).toBe('app-git-url');
-        expect(result[3].id).toBe('app-git-default-branch');
+        expect(result[3].id).toBe('app-git-branches-to-audit');
     });
 
     it('should generate required application links form items correctly', () => {
@@ -110,7 +110,7 @@ describe('VitalityFormConfig - Form Items', () => {
             'app-git-organization': 'TestOrg',
             'app-git-web-url': 'https://testrepo.com',
             'app-git-url': 'https://git.testrepo.com',
-            'app-git-default-branch': undefined,
+            'app-git-branches-to-audit': undefined,
             'app-production-link-1': 'https://testapp.com',
             'app-production-link-2': 'https://testapp2.com',
             'app-production-link-3': 'https://testapp3.com',
@@ -158,7 +158,7 @@ describe('VitalityFormConfig - Form Items', () => {
                 gitOrganization: 'TestOrg',
                 gitWebUrl: 'https://testrepo.com',
                 gitUrl: 'https://git.testrepo.com',
-                gitDefaultBranch: undefined,
+                gitBranchesToAudit: undefined,
                 productionLink: 'https://testapp.com',
                 additionalProductionLinks: ['https://testapp2.com', 'https://testapp3.com'],
                 sonarqubeLink: 'https://sonarqube.example.com/dashboard?id=testapp',
@@ -211,7 +211,7 @@ describe('VitalityFormConfig - Form Items', () => {
             'app-git-organization': undefined,
             'app-git-web-url': undefined,
             'app-git-url': 'https://git.partial.com',
-            'app-git-default-branch': undefined,
+            'app-git-branches-to-audit': undefined,
             'app-production-link-1': undefined,
             'app-production-link-2': undefined,
             'app-production-link-3': undefined,
