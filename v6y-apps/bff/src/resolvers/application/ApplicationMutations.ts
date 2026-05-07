@@ -23,6 +23,7 @@ const createOrEditApplication = async (
             gitOrganization,
             gitUrl,
             gitWebUrl,
+            gitBranchesToAudit,
             productionLink,
             additionalProductionLinks,
             dataDogApiKey,
@@ -45,6 +46,9 @@ const createOrEditApplication = async (
         AppLogger.info(`[AppMutations - createOrEditApplication] gitWebUrl : ${gitWebUrl}`);
         AppLogger.info(
             `[AppMutations - createOrEditApplication] gitOrganization : ${gitOrganization}`,
+        );
+        AppLogger.info(
+            `[AppMutations - createOrEditApplication] gitBranchesToAudit : ${gitBranchesToAudit}`,
         );
         AppLogger.info(
             `[AppMutations - createOrEditApplication] dataDogApiKey : ${dataDogApiKey ? '"********"}`,' : 'null'}`,
@@ -83,6 +87,7 @@ const createOrEditApplication = async (
                 gitOrganization,
                 gitUrl,
                 gitWebUrl,
+                gitBranchesToAudit,
                 productionLink,
                 contactMail,
                 sonarqubeLink,
@@ -111,6 +116,7 @@ const createOrEditApplication = async (
             gitOrganization,
             gitUrl,
             gitWebUrl,
+            gitBranchesToAudit,
             productionLink,
             contactMail,
             sonarqubeLink,
@@ -166,9 +172,47 @@ const deleteApplication = async (_: unknown, params: { input: SearchQueryType })
     }
 };
 
+/**
+ * Trigger analysis for a single application on demand.
+ */
+const triggerApplicationAnalysis = async (_: unknown, params: { applicationId: number }) => {
+    try {
+        const { applicationId } = params || {};
+        AppLogger.info(
+            `[AppMutations - triggerApplicationAnalysis] applicationId: ${applicationId}`,
+        );
+
+        if (!applicationId) {
+            return { success: false, message: 'applicationId is required' };
+        }
+
+        const mainAnalyzerPort = process.env.V6Y_MAIN_API_PORT || '4002';
+        const mainAnalyzerPath = process.env.V6Y_MAIN_API_PATH || '/api/main';
+        const triggerUrl = `http://localhost:${mainAnalyzerPort}${mainAnalyzerPath}trigger`;
+
+        AppLogger.info(`[AppMutations - triggerApplicationAnalysis] calling: ${triggerUrl}`);
+
+        const response = await fetch(triggerUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ applicationId }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        return { success: true, applicationId };
+    } catch (error) {
+        AppLogger.info(`[AppMutations - triggerApplicationAnalysis] error: ${error}`);
+        return { success: false, message: String(error) };
+    }
+};
+
 const ApplicationMutations = {
     createOrEditApplication,
     deleteApplication,
+    triggerApplicationAnalysis,
 };
 
 export default ApplicationMutations;

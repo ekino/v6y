@@ -12,8 +12,8 @@ const RepositoryType = `
      """ Repository Organization """
     organization: String
     
-    """ Default branch to audit """
-    defaultBranch: String
+    """ Branches to audit (user-selected) """
+    branchesToAudit: [String]
         
     """ Repository all related branches """
     allBranches: [String]                  

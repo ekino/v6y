@@ -26,7 +26,7 @@ export interface ApplicationInputType {
     gitOrganization?: string;
     gitUrl?: string;
     gitWebUrl?: string;
-    gitDefaultBranch?: string;
+    gitBranchesToAudit?: string[];
     productionLink?: string;
     sonarqubeLink?: string;
     sonarqubeToken?: string;

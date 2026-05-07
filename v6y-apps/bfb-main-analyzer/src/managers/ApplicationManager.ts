@@ -47,20 +47,26 @@ const buildApplicationReports = async (application: ApplicationType) => {
             return false;
         }
 
-        const targetBranchName =
-            application.repo.defaultBranch ||
-            repositoryDetails.default_branch ||
-            repositoryBranches[0]?.name;
+        const userBranchesToAudit = application.repo.branchesToAudit;
 
-        const targetBranches = repositoryBranches.filter(
-            (branch) => branch?.name === targetBranchName,
-        );
-
-        const branchesToAudit = targetBranches.length ? targetBranches : [repositoryBranches[0]];
+        let branchesToAudit;
+        if (userBranchesToAudit?.length) {
+            const matched = repositoryBranches.filter((branch) =>
+                userBranchesToAudit.includes(branch?.name),
+            );
+            branchesToAudit = matched.length ? matched : [repositoryBranches[0]];
+        } else {
+            const defaultBranchName =
+                repositoryDetails.default_branch || repositoryBranches[0]?.name;
+            const defaultBranch = repositoryBranches.find(
+                (branch) => branch?.name === defaultBranchName,
+            );
+            branchesToAudit = defaultBranch ? [defaultBranch] : [repositoryBranches[0]];
+        }
 
         AppLogger.info(
-            '[ApplicationManager - buildApplicationReports] auditing branch: ',
-            branchesToAudit[0]?.name,
+            '[ApplicationManager - buildApplicationReports] auditing branches: ',
+            branchesToAudit.map((b) => b?.name).join(', '),
         );
 
         await ApplicationProvider.editApplication({
@@ -68,7 +74,6 @@ const buildApplicationReports = async (application: ApplicationType) => {
             repo: {
                 ...application?.repo,
                 allBranches: repositoryBranches.map((branch) => branch?.name),
-                defaultBranch: branchesToAudit[0]?.name,
             },
         });
 
@@ -126,6 +131,7 @@ const buildApplicationList = async () => {
 };
 
 const ApplicationManager = {
+    buildApplicationReports,
     buildApplicationList,
 };
 
