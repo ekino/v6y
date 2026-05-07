@@ -1,6 +1,6 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
-import { DataDogConfigType } from '../../types/ApplicationConfigType.ts';
+import { ApplicationConfigType } from '../../types/ApplicationConfigType.ts';
 import { ApplicationType } from '../../types/ApplicationType.ts';
 import { LinkType } from '../../types/LinkType.ts';
 import { RepositoryType } from '../../types/RepositoryType.ts';
@@ -12,9 +12,7 @@ export class ApplicationModelType extends Model<ApplicationType> implements Appl
     public contactMail!: string;
     public description!: string;
     public repo?: RepositoryType;
-    public configuration?: {
-        dataDog?: DataDogConfigType;
-    };
+    public configuration?: ApplicationConfigType;
     public links?: LinkType[];
 }
 

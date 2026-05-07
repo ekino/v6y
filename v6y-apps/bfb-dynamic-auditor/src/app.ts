@@ -8,7 +8,6 @@ import { AppLogger, CorsOptions } from '@v6y/core-logic';
 
 import ServerConfig from './commons/ServerConfig.ts';
 import DynamicAuditorRouter from './routes/DynamicAuditorRouter.ts';
-import SonarQubeAuditorRouter from './routes/SonarQubeAuditorRouter.ts';
 
 /**
  * Creates and configures the Express application
@@ -19,7 +18,7 @@ export function createApp(): Express {
 
     const { currentConfig } = ServerConfig;
 
-    const { monitoringPath, dynamicAuditorApiPath, sonarqubeAuditorApiPath } = currentConfig || {};
+    const { monitoringPath, dynamicAuditorApiPath } = currentConfig || {};
 
     // *********************************************** Server Configuration ***********************************************
 
@@ -43,7 +42,6 @@ export function createApp(): Express {
 
     // *********************************************** App Auditor Routes ***********************************************
     app.use(dynamicAuditorApiPath || '', DynamicAuditorRouter);
-    app.use(sonarqubeAuditorApiPath || '', SonarQubeAuditorRouter);
 
     // *********************************************** Default Route (404) ***********************************************
 

@@ -8,3 +8,8 @@ export interface DataDogConfigType {
 export interface SonarQubeConfigType {
     token: string;
 }
+
+export interface ApplicationConfigType {
+    dataDog?: DataDogConfigType;
+    sonarqube?: SonarQubeConfigType;
+}

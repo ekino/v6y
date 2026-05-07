@@ -193,6 +193,17 @@ const editFormApplication = async (application: ApplicationInputType) => {
             return null;
         }
 
+        // Merge configuration with existing DB value so write-only fields (e.g. sonarqube token)
+        // are not erased when the form is saved without re-entering them.
+        const existing = (await ApplicationModelType.findOne({ where: { _id: application._id } }))
+            ?.dataValues;
+        if (existing?.configuration) {
+            formApplication.configuration = {
+                ...existing.configuration,
+                ...formApplication.configuration,
+            };
+        }
+
         const editedApplication = await ApplicationModelType.update(formApplication, {
             where: {
                 _id: application?._id,

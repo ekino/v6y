@@ -8,26 +8,25 @@ import {
     buildClientQuery,
     useClientQuery,
 } from '../../../../infrastructure/adapters/api/useQueryAdapter';
-import GetSonarQubeMetrics from '../../api/getSonarQubeMetrics';
+import GetApplicationDetailsAuditReportsByParams from '../../api/getApplicationDetailsAuditReportsByParams';
 
 interface VitalitySonarQubeViewProps {
     applicationId: number;
     sonarqubeUrl: string;
+    auditTrigger?: number;
 }
 
-const extractProjectKey = (url: string): string | null => {
-    try {
-        const urlObj = new URL(url);
-        return (
-            urlObj.searchParams.get('id') ||
-            urlObj.searchParams.get('project') ||
-            urlObj.searchParams.get('projectKey') ||
-            null
-        );
-    } catch {
-        return null;
-    }
-};
+interface AuditReport {
+    _id?: number | null;
+    type?: string | null;
+    category?: string | null;
+    subCategory?: string | null;
+    auditStatus?: string | null;
+    scoreStatus?: string | null;
+    score?: number | null;
+    scoreUnit?: string | null;
+    extraInfos?: string | null;
+}
 
 const getQualityGateStyle = (status: string | undefined) => {
     switch (status) {
@@ -81,20 +80,6 @@ const getRatingStyle = (rating: string | undefined) => {
         default:
             return { cls: 'bg-slate-400 text-white', desc: '' };
     }
-};
-
-/** SonarCloud returns float strings like "5.0" — normalise to letter grade */
-const resolveRating = (
-    value: string | null | undefined,
-    rating: string | null | undefined,
-): string | undefined => {
-    if (rating && /^[A-E]$/.test(rating)) return rating;
-    if (value) {
-        const n = Math.round(parseFloat(value));
-        const map: Record<number, string> = { 1: 'A', 2: 'B', 3: 'C', 4: 'D', 5: 'E' };
-        if (map[n]) return map[n];
-    }
-    return undefined;
 };
 
 const METRIC_DISPLAY: Record<
@@ -168,46 +153,67 @@ const METRIC_DISPLAY: Record<
 
 const RATING_KEYS = new Set(['reliability_rating', 'security_rating', 'sqale_rating']);
 
-interface SonarMetric {
-    key?: string | null;
-    name?: string | null;
-    value?: string | null;
-    rating?: string | null;
-}
-
-interface SonarData {
-    success?: boolean | null;
-    error?: string | null;
-    projectKey?: string | null;
-    baseUrl?: string | null;
-    qualityGate?: { status?: string | null; name?: string | null } | null;
-    metrics?: SonarMetric[] | null;
-}
-
-const VitalitySonarQubeView = ({ applicationId, sonarqubeUrl }: VitalitySonarQubeViewProps) => {
+const VitalitySonarQubeView = ({
+    applicationId,
+    sonarqubeUrl,
+    auditTrigger = 0,
+}: VitalitySonarQubeViewProps) => {
     const { translate } = useTranslationProvider();
-    const projectKey = React.useMemo(() => extractProjectKey(sonarqubeUrl), [sonarqubeUrl]);
 
-    const { isLoading, data } = useClientQuery<{ getSonarQubeMetrics: SonarData }>({
-        queryCacheKey: ['getSonarQubeMetrics', `${applicationId}`],
+    const { isLoading, data } = useClientQuery<{
+        getApplicationDetailsAuditReportsByParams: AuditReport[];
+    }>({
+        queryCacheKey: [
+            'getApplicationDetailsAuditReportsByParams-sonarqube',
+            `${applicationId}`,
+            `${auditTrigger}`,
+        ],
         queryBuilder: async () =>
             buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
-                query: GetSonarQubeMetrics,
+                query: GetApplicationDetailsAuditReportsByParams,
                 variables: { _id: applicationId },
             }),
     });
 
-    const sonarData = data?.getSonarQubeMetrics;
-    const qualityGateStyle = getQualityGateStyle(sonarData?.qualityGate?.status ?? undefined);
+    const auditReports = React.useMemo(
+        () =>
+            (data?.getApplicationDetailsAuditReportsByParams || []).filter(
+                (r) => r.type === 'sonarqube',
+            ),
+        [data],
+    );
+
+    const qualityGateRecord = React.useMemo(
+        () => auditReports.find((r) => r.category === 'quality_gate'),
+        [auditReports],
+    );
+
+    const qualityGateStatus = qualityGateRecord?.subCategory ?? undefined;
+    const qualityGateStyle = getQualityGateStyle(qualityGateStatus);
+
+    const qualityGateExtra = React.useMemo(() => {
+        try {
+            return qualityGateRecord?.extraInfos
+                ? (JSON.parse(qualityGateRecord.extraInfos) as {
+                      projectKey?: string;
+                      baseUrl?: string;
+                  })
+                : null;
+        } catch {
+            return null;
+        }
+    }, [qualityGateRecord]);
 
     const metricMap = React.useMemo(() => {
-        const map: Record<string, SonarMetric> = {};
-        sonarData?.metrics?.forEach((m) => {
-            if (m.key) map[m.key] = m;
+        const map: Record<string, AuditReport> = {};
+        auditReports.forEach((r) => {
+            if (r.category && r.category !== 'quality_gate') map[r.category] = r;
         });
         return map;
-    }, [sonarData]);
+    }, [auditReports]);
+
+    const hasData = auditReports.length > 0;
 
     return (
         <Card className="border-slate-200 shadow-sm">
@@ -217,14 +223,14 @@ const VitalitySonarQubeView = ({ applicationId, sonarqubeUrl }: VitalitySonarQub
                         <CardTitle className="text-lg text-gray-900">
                             {translate('vitality.appDetailsPage.sonarqube.title')}
                         </CardTitle>
-                        {(sonarData?.projectKey || projectKey) && (
+                        {qualityGateExtra?.projectKey && (
                             <span className="bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-mono text-xs">
-                                {sonarData?.projectKey || projectKey}
+                                {qualityGateExtra.projectKey}
                             </span>
                         )}
                     </div>
                     {/* Quality Gate inline badge */}
-                    {!isLoading && sonarData?.success && (
+                    {!isLoading && hasData && qualityGateStatus && (
                         <span
                             className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${qualityGateStyle.bg} ${qualityGateStyle.border} ${qualityGateStyle.text}`}
                         >
@@ -235,10 +241,11 @@ const VitalitySonarQubeView = ({ applicationId, sonarqubeUrl }: VitalitySonarQub
             </CardHeader>
 
             <CardContent className="space-y-3 pt-2">
-                {/* Error state */}
-                {!isLoading && sonarData?.error && (
+                {/* No data yet */}
+                {!isLoading && !hasData && (
                     <div className="rounded border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600">
-                        ⚠️ {sonarData.error}
+                        ⚠️ No SonarQube audit data available yet. Run an audit to populate this
+                        section.
                     </div>
                 )}
 
@@ -256,17 +263,18 @@ const VitalitySonarQubeView = ({ applicationId, sonarqubeUrl }: VitalitySonarQub
                             </div>
                         ))}
                     </div>
-                ) : sonarData?.success && sonarData.metrics && sonarData.metrics.length > 0 ? (
+                ) : hasData ? (
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                         {Object.entries(METRIC_DISPLAY).map(([key, config]) => {
-                            const metric = metricMap[key];
-                            if (!metric) return null;
+                            const report = metricMap[key];
+                            if (!report) return null;
                             const isRating = RATING_KEYS.has(key);
-                            const displayValue = metric.value ?? '—';
-                            const grade = isRating
-                                ? resolveRating(metric.value, metric.rating)
-                                : undefined;
+                            const grade = isRating ? (report.subCategory ?? undefined) : undefined;
                             const ratingStyle = isRating ? getRatingStyle(grade) : null;
+                            const displayValue =
+                                report.score !== null && report.score !== undefined
+                                    ? String(report.score)
+                                    : '—';
                             return (
                                 <div
                                     key={key}
@@ -291,9 +299,9 @@ const VitalitySonarQubeView = ({ applicationId, sonarqubeUrl }: VitalitySonarQub
                                             className={`text-3xl font-bold leading-none ${config.color}`}
                                         >
                                             {displayValue}
-                                            {config.unit && (
+                                            {report.scoreUnit && (
                                                 <span className="text-base font-normal text-slate-400 ml-1">
-                                                    {config.unit}
+                                                    {report.scoreUnit}
                                                 </span>
                                             )}
                                         </span>

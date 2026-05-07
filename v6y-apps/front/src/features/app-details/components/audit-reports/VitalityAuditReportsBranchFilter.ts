@@ -5,7 +5,10 @@ const normalizeBranch = (branch?: string): string => {
         return '';
     }
 
-    return branch.replace(/^refs\/heads\//i, '').trim().toLowerCase();
+    return branch
+        .replace(/^refs\/heads\//i, '')
+        .trim()
+        .toLowerCase();
 };
 
 const escapeRegExp = (value: string): string => {
@@ -59,16 +62,13 @@ const matchesReportBranchWithSelectedBranch = (
     const normalizedReportBranch = normalizeBranch(reportBranch);
 
     if (!normalizedReportBranch) {
-        return false;
+        return true; // Report has no branch → branch-agnostic, always show
     }
 
     return selectedBranchAliases.some((alias) => matchesBranchAlias(normalizedReportBranch, alias));
 };
 
-const matchesAuditReportBranch = (
-    report: AuditType,
-    selectedBranch?: string,
-): boolean => {
+const matchesAuditReportBranch = (report: AuditType, selectedBranch?: string): boolean => {
     return matchesReportBranchWithSelectedBranch(report.module?.branch, selectedBranch);
 };
 

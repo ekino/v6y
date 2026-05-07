@@ -1,4 +1,4 @@
-import { DataDogConfigType, SonarQubeConfigType } from './ApplicationConfigType.ts';
+import { ApplicationConfigType } from './ApplicationConfigType.ts';
 import { LinkType } from './LinkType.ts';
 import { RepositoryType } from './RepositoryType.ts';
 
@@ -9,10 +9,7 @@ export interface ApplicationType {
     contactMail?: string;
     description?: string;
     repo?: RepositoryType;
-    configuration?: {
-        dataDog?: DataDogConfigType;
-        sonarqube?: SonarQubeConfigType;
-    };
+    configuration?: ApplicationConfigType;
     links?: LinkType[];
 }
 

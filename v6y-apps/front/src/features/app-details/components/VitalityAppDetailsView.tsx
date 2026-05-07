@@ -74,7 +74,7 @@ const VitalityAppDetailsView = () => {
     const { translate } = useTranslationProvider();
     const [_id] = getUrlParams(['_id']);
     const [activeTab, setActiveTab] = React.useState('overview');
-    const [selectedBranch, setSelectedBranch] = React.useState('main');
+    const [selectedBranch, setSelectedBranch] = React.useState('');
     const [selectedDate, setSelectedDate] = React.useState('2025-01-01');
     const [isRunningAudit, setIsRunningAudit] = React.useState(false);
     const [auditTrigger, setAuditTrigger] = React.useState(0);
@@ -194,6 +194,7 @@ const VitalityAppDetailsView = () => {
                     <VitalitySonarQubeView
                         applicationId={parseInt(_id as string, 10)}
                         sonarqubeUrl={sonarqubeLink}
+                        auditTrigger={auditTrigger}
                     />
                 ) : null;
             default:

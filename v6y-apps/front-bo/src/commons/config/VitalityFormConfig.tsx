@@ -270,7 +270,7 @@ export const applicationCreateOrEditFormInAdapter = (params: ApplicationType) =>
     'app-sonarqube-link': params?.['links']?.find?.(
         (item) => item.label === 'Application SonarQube url',
     )?.value,
-    'app-sonarqube-token': undefined, // token is write-only, never returned from server
+    'app-sonarqube-token': params?.['configuration']?.sonarqube?.token,
     'app-ci-cd-platform-link': params?.['links']?.find?.(
         (item) => item.label === 'Application CI/CD platform url',
     )?.value,
