@@ -53,6 +53,7 @@ const createOrEditApplication = async (
             gitOrganization,
             gitUrl,
             gitWebUrl,
+            gitBranchesToAudit,
             productionLink,
             additionalProductionLinks,
             dataDogApiKey,
@@ -75,6 +76,9 @@ const createOrEditApplication = async (
         AppLogger.info(`[AppMutations - createOrEditApplication] gitWebUrl : ${gitWebUrl}`);
         AppLogger.info(
             `[AppMutations - createOrEditApplication] gitOrganization : ${gitOrganization}`,
+        );
+        AppLogger.info(
+            `[AppMutations - createOrEditApplication] gitBranchesToAudit : ${gitBranchesToAudit}`,
         );
         AppLogger.info(
             `[AppMutations - createOrEditApplication] dataDogApiKey : ${dataDogApiKey ? '"********"' : 'null'}`,
@@ -113,6 +117,7 @@ const createOrEditApplication = async (
                 gitOrganization,
                 gitUrl,
                 gitWebUrl,
+                gitBranchesToAudit,
                 productionLink,
                 contactMail,
                 sonarqubeLink,
@@ -141,6 +146,7 @@ const createOrEditApplication = async (
             gitOrganization,
             gitUrl,
             gitWebUrl,
+            gitBranchesToAudit,
             productionLink,
             contactMail,
             sonarqubeLink,

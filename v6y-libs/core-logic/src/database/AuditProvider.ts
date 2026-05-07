@@ -121,6 +121,23 @@ const deleteAudit = async ({ _id }: AuditType) => {
     }
 };
 
+/**
+ * Deletes all Audit entries for a given application.
+ * @param appId
+ */
+const deleteAuditsByAppId = async (appId: number) => {
+    try {
+        AppLogger.info(`[AuditProvider - deleteAuditsByAppId] appId:  ${appId}`);
+        await getPrismaClient().audit.deleteMany({
+            where: { appId },
+        });
+        return true;
+    } catch (error) {
+        AppLogger.info(`[AuditProvider - deleteAuditsByAppId] error:  ${error}`);
+        return false;
+    }
+};
+
 const deleteAuditList = async () => {
     try {
         await getPrismaClient().audit.deleteMany();
@@ -149,6 +166,7 @@ const AuditProvider = {
     insertAuditList,
     editAudit,
     deleteAudit,
+    deleteAuditsByAppId,
     deleteAuditList,
     getAuditListByPageAndParams,
 };
