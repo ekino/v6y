@@ -192,8 +192,8 @@ importers:
         specifier: '=4.1.0'
         version: 4.1.0
       ecoindex:
-        specifier: '=1.0.7'
-        version: 1.0.7
+        specifier: '=2.0.1'
+        version: 2.0.1
       express:
         specifier: '=5.2.0'
         version: 5.2.0
@@ -6897,9 +6897,9 @@ packages:
   ecdsa-sig-formatter@1.0.11:
     resolution: {integrity: sha512-nagl3RYrbNv6kQkeJIpt6NJZy8twLB/2vtz6yN9Z4vRKHN4/QZJIEbqohALSgwKdnksuY3k5Addp5lg8sVoVcQ==}
 
-  ecoindex@1.0.7:
-    resolution: {integrity: sha512-0fJWWWuJ2T9ykpvZ0O6MJX/qMjZ/Z17s4tWvfEWxAuX8YuhVKZ2LXdrUu67cs2FFdHck2oeUP7Uf4NGefGdQfQ==}
-    engines: {node: '>=16.0.0 <18.20.0'}
+  ecoindex@2.0.1:
+    resolution: {integrity: sha512-62wNhERrLcrJ7ItG1BXCOEGZCWt2f9wHq1nXua73tQ/2PKV1vup5Kj2bQiqQxBzslmNYQ8H79CQOtyHbmiQqxA==}
+    engines: {node: '>=18.20.0'}
 
   ecoindex_reference@1.0.2:
     resolution: {integrity: sha512-IKse3tu6IQfhrpGsVuxmC1K4xlc1FCZtaNYjLUj+Yxm5wthuVyS7C/miVPqSN7UZaNViUO2013ri+WJJhZfCUA==}
@@ -18368,7 +18368,7 @@ snapshots:
     dependencies:
       safe-buffer: 5.2.1
 
-  ecoindex@1.0.7:
+  ecoindex@2.0.1:
     dependencies:
       ecoindex_reference: 1.0.2
 
