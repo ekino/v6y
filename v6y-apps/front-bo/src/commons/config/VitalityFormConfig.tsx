@@ -262,11 +262,7 @@ export const applicationCreateOrEditFormInAdapter = (params: ApplicationType) =>
     )?.value,
     'app-code-quality-platform-link': params?.['links']?.find?.(
         (item) => item.label === 'Application SonarQube url',
-    )?.value
-        ? params?.['links']?.find?.((item) => item.label === 'Application SonarQube url')?.value
-        : params?.['links']?.find?.(
-              (item) => item.label === 'Application code quality platform url',
-          )?.value,
+    )?.value,
     'app-sonarqube-link': params?.['links']?.find?.(
         (item) => item.label === 'Application SonarQube url',
     )?.value,
@@ -300,11 +296,9 @@ export const applicationCreateOrEditFormOutputAdapter = (data: unknown): Variabl
                 params?.['app-production-link-2'],
                 params?.['app-production-link-3'],
             ]?.filter((item) => item),
-            sonarqubeLink:
-                params?.['app-sonarqube-link'] || params?.['app-code-quality-platform-link'],
+            sonarqubeLink: params?.['app-sonarqube-link'],
             sonarqubeToken: params?.['app-sonarqube-token'] || undefined,
-            codeQualityPlatformLink:
-                params?.['app-code-quality-platform-link'] || params?.['app-sonarqube-link'],
+            codeQualityPlatformLink: params?.['app-code-quality-platform-link'],
             ciPlatformLink: params?.['app-ci-cd-platform-link'],
             deploymentPlatformLink: params?.['app-deployment-platform-link'],
             dataDogApiKey: params?.['app-data-dog-api-key'],
