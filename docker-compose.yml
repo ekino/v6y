@@ -38,7 +38,6 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - V6Y_BFF_API_PATH=${V6Y_BFF_API_PATH}
       - V6Y_BFF_API_PORT=${V6Y_BFF_API_PORT}
-      - V6Y_SONARQUBE_AUDITOR_API_PATH=${V6Y_SONARQUBE_AUDITOR_API_PATH}
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4001/health" ]
       interval: 30s

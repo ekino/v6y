@@ -120,7 +120,7 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
             },
             {
                 label: 'Application code quality platform url',
-                value: codeQualityPlatformLink || sonarqubeLink,
+                value: codeQualityPlatformLink,
                 description: '',
             },
             {

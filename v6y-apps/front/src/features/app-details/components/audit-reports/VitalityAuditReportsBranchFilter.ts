@@ -62,7 +62,7 @@ const matchesReportBranchWithSelectedBranch = (
     const normalizedReportBranch = normalizeBranch(reportBranch);
 
     if (!normalizedReportBranch) {
-        return true; // Report has no branch → branch-agnostic, always show
+        return false;
     }
 
     return selectedBranchAliases.some((alias) => matchesBranchAlias(normalizedReportBranch, alias));
