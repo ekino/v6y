@@ -187,7 +187,8 @@
           "issuesDesc": "See all code issues including bugs, vulnerabilities, and code smells",
           "hotspotsDesc": "Review security hotspots that may pose security risks",
           "measuresDesc": "Analyze detailed code metrics including coverage, complexity, and duplication"
-        }
+        },
+        "noData": "No SonarQube audit data available yet. Run an audit to populate this section."
       },
       "dependencies": {
         "title": "Dependencies",

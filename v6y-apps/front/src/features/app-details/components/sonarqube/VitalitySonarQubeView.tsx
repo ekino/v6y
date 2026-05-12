@@ -244,8 +244,7 @@ const VitalitySonarQubeView = ({
                 {/* No data yet */}
                 {!isLoading && !hasData && (
                     <div className="rounded border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600">
-                        ⚠️ No SonarQube audit data available yet. Run an audit to populate this
-                        section.
+                        ⚠️ {translate('vitality.appDetailsPage.sonarqube.noData')}
                     </div>
                 )}
 

@@ -261,7 +261,7 @@ export const applicationCreateOrEditFormInAdapter = (params: ApplicationType) =>
         (item) => item.label === 'Additional production url (2)',
     )?.value,
     'app-code-quality-platform-link': params?.['links']?.find?.(
-        (item) => item.label === 'Application SonarQube url',
+        (item) => item.label === 'Application code quality platform url',
     )?.value,
     'app-sonarqube-link': params?.['links']?.find?.(
         (item) => item.label === 'Application SonarQube url',

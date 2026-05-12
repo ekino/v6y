@@ -84,6 +84,10 @@ describe('VitalityFormConfig - Form Items', () => {
                     label: 'Application SonarQube url',
                     value: 'https://sonarqube.example.com/dashboard?id=testapp',
                 },
+                {
+                    label: 'Application code quality platform url',
+                    value: 'https://sonarqube.example.com/dashboard?id=testapp',
+                },
             ] as LinkType[],
             configuration: {
                 dataDog: {
@@ -111,6 +115,7 @@ describe('VitalityFormConfig - Form Items', () => {
             'app-sonarqube-link': 'https://sonarqube.example.com/dashboard?id=testapp',
             'app-sonarqube-token': undefined,
             'app-code-quality-platform-link': 'https://sonarqube.example.com/dashboard?id=testapp',
+
             'app-ci-cd-platform-link': undefined,
             'app-deployment-platform-link': undefined,
             'app-data-dog-api-key': 'testApiKey',
