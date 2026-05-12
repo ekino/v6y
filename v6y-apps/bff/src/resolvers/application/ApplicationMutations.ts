@@ -30,6 +30,8 @@ const createOrEditApplication = async (
             dataDogUrl,
             dataDogMonitorId,
             contactMail,
+            sonarqubeLink,
+            sonarqubeToken,
             codeQualityPlatformLink,
             ciPlatformLink,
             deploymentPlatformLink,
@@ -64,6 +66,13 @@ const createOrEditApplication = async (
                 ',',
             )}`,
         );
+        AppLogger.info(`[AppMutations - createOrEditApplication] sonarqubeLink : ${sonarqubeLink}`);
+        AppLogger.info(
+            `[AppMutations - createOrEditApplication] sonarqubeToken : ${sonarqubeToken ? '"********"' : 'null'}`,
+        );
+        AppLogger.info(
+            `[AppMutations - createOrEditApplication] codeQualityPlatformLink : ${codeQualityPlatformLink}`,
+        );
 
         if (_id) {
             const editedApplication = await ApplicationProvider.editFormApplication({
@@ -76,6 +85,8 @@ const createOrEditApplication = async (
                 gitWebUrl,
                 productionLink,
                 contactMail,
+                sonarqubeLink,
+                sonarqubeToken,
                 codeQualityPlatformLink,
                 ciPlatformLink,
                 deploymentPlatformLink,
@@ -102,6 +113,8 @@ const createOrEditApplication = async (
             gitWebUrl,
             productionLink,
             contactMail,
+            sonarqubeLink,
+            sonarqubeToken,
             codeQualityPlatformLink,
             ciPlatformLink,
             deploymentPlatformLink,

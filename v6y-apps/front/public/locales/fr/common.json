@@ -47,7 +47,8 @@
         "security": "Sécurité",
         "maintainability": "Maintenabilité",
         "greenIndex": "Eco conception",
-        "devops": "DevOps"
+        "devops": "DevOps",
+        "sonarqube": "SonarQube"
       },
       "branches": {
         "main": "main",
@@ -167,6 +168,27 @@
             "cardSubtitle": "Analyse statique via les règles ESLint @creedengo — bonnes pratiques éco-conception"
           }
         }
+      },
+      "sonarqube": {
+        "title": "Rapports SonarQube",
+        "description": "Ouvrez les tableaux de bord et sections de rapports SonarQube pour cette application.",
+        "projectKey": "Clé du projet",
+        "projectUrlLabel": "URL de projet configuree :",
+        "availableMetrics": "Mesures et rapports disponibles",
+        "openReport": "Voir le rapport",
+        "actions": {
+          "overview": "Ouvrir la vue d'ensemble",
+          "issues": "Ouvrir les issues",
+          "hotspots": "Ouvrir les security hotspots",
+          "measures": "Ouvrir les mesures"
+        },
+        "metrics": {
+          "overviewDesc": "Consulter le tableau de bord complet du projet avec métriques de qualité, indicateurs et historique d'analyse",
+          "issuesDesc": "Examiner tous les problèmes de code : bugs, vulnérabilités, code smells et problèmes de maintenabilité détectés",
+          "hotspotsDesc": "Examiner les points sensibles en matière de sécurité qui méritent un examen manuel approfondi",
+          "measuresDesc": "Analyser les métriques détaillées : couverture de code, complexité, duplication de code et autres indicateurs"
+        },
+        "noData": "Aucune donnée d'audit SonarQube disponible pour l'instant. Lancez un audit pour alimenter cette section."
       },
       "dependencies": {
         "title": "Dépendances",

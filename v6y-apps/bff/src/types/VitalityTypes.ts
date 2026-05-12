@@ -29,6 +29,7 @@ import DataDogConfigType from './commons/DataDogConfigType.ts';
 import LinkType from './commons/LinkType.ts';
 import ModuleType from './commons/ModuleType.ts';
 import RepositoryType from './commons/RepositoryType.ts';
+import SonarQubeConfigType from './commons/SonarQubeConfigType.ts';
 import DependencyType from './dependency/DependencyType.ts';
 import DeprecatedDependencyCreateOrEditInput from './dependency/deprecated-status/DeprecatedDependencyCreateOrEditInput.ts';
 import DeprecatedDependencyDeleteInput from './dependency/deprecated-status/DeprecatedDependencyDeleteInput.ts';
@@ -71,6 +72,7 @@ const VitalityTypes = gql(`
 
     # common schemas
     ${DataDogConfigType}
+    ${SonarQubeConfigType}
     ${ApplicationConfigType}
     ${LinkType}
     ${RepositoryType}

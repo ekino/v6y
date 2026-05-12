@@ -37,7 +37,11 @@ const startDynamicAudit = async ({ applicationId }: AuditCommonsType) => {
             '[DynamicAuditorManager - startDynamicAudit] Green Hosting Audit have completed successfully.',
         );
 
-        // start other dynamic analysis
+        // start SonarQube analysis
+        await forkWorker('./src/workers/SonarQubeAnalysisWorker.ts', workerConfig as WorkerOptions);
+        AppLogger.info(
+            '[DynamicAuditorManager - startDynamicAudit] SonarQube Audit have completed successfully.',
+        );
 
         return true; // Indicates successful initiation of audits
     } catch (error) {

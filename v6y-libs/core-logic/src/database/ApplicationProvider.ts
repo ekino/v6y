@@ -82,6 +82,8 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
         gitUrl,
         gitWebUrl,
         productionLink,
+        sonarqubeLink,
+        sonarqubeToken,
         contactMail,
         codeQualityPlatformLink,
         ciPlatformLink,
@@ -112,6 +114,11 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
                 description: '',
             })) || []),
             {
+                label: 'Application SonarQube url',
+                value: sonarqubeLink,
+                description: '',
+            },
+            {
                 label: 'Application code quality platform url',
                 value: codeQualityPlatformLink,
                 description: '',
@@ -138,6 +145,7 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
                       },
                   }
                 : {}),
+            ...(sonarqubeToken ? { sonarqube: { token: sonarqubeToken } } : {}),
         },
     };
 };
@@ -183,6 +191,17 @@ const editFormApplication = async (application: ApplicationInputType) => {
 
         if (!formApplication?._id) {
             return null;
+        }
+
+        // Merge configuration with existing DB value so write-only fields (e.g. sonarqube token)
+        // are not erased when the form is saved without re-entering them.
+        const existing = (await ApplicationModelType.findOne({ where: { _id: application._id } }))
+            ?.dataValues;
+        if (existing?.configuration) {
+            formApplication.configuration = {
+                ...existing.configuration,
+                ...formApplication.configuration,
+            };
         }
 
         const editedApplication = await ApplicationModelType.update(formApplication, {

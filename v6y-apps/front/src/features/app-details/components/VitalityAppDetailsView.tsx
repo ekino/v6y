@@ -28,12 +28,53 @@ const VitalitySecuritySection = DynamicLoader(
     () => import('./audit-reports/VitalitySecuritySection'),
 );
 
+const VitalitySonarQubeView = DynamicLoader(() => import('./sonarqube/VitalitySonarQubeView'));
+
+const extractProjectKeyFromSonarUrl = (url: string): string | null => {
+    try {
+        const urlObj = new URL(url);
+        return (
+            urlObj.searchParams.get('id') ||
+            urlObj.searchParams.get('project') ||
+            urlObj.searchParams.get('projectKey') ||
+            null
+        );
+    } catch {
+        return null;
+    }
+};
+
+const getSonarQubeLink = (appInfos?: ApplicationType) => {
+    const strictSonarLink = appInfos?.links?.find(
+        (link) => link?.label === 'Application SonarQube url',
+    )?.value;
+    if (strictSonarLink && extractProjectKeyFromSonarUrl(strictSonarLink)) {
+        return strictSonarLink;
+    }
+
+    const legacyCodeQualityLink = appInfos?.links?.find(
+        (link) => link?.label === 'Application code quality platform url',
+    )?.value;
+    if (legacyCodeQualityLink && extractProjectKeyFromSonarUrl(legacyCodeQualityLink)) {
+        return legacyCodeQualityLink;
+    }
+
+    const sonarLink = appInfos?.links?.find((link) =>
+        link?.value?.toLowerCase?.().includes('sonar'),
+    )?.value;
+    if (sonarLink && extractProjectKeyFromSonarUrl(sonarLink)) {
+        return sonarLink;
+    }
+
+    return undefined;
+};
+
 const VitalityAppDetailsView = () => {
     const { getUrlParams } = useNavigationAdapter();
     const { translate } = useTranslationProvider();
     const [_id] = getUrlParams(['_id']);
     const [activeTab, setActiveTab] = React.useState('overview');
-    const [selectedBranch, setSelectedBranch] = React.useState('main');
+    const [selectedBranch, setSelectedBranch] = React.useState('');
     const [selectedDate, setSelectedDate] = React.useState('2025-01-01');
     const [isRunningAudit, setIsRunningAudit] = React.useState(false);
     const [auditTrigger, setAuditTrigger] = React.useState(0);
@@ -64,6 +105,7 @@ const VitalityAppDetailsView = () => {
             setSelectedBranch(auditReportBranches[0]);
         }
     }, [auditReportBranches, selectedBranch]);
+    const sonarqubeLink = getSonarQubeLink(appInfos);
 
     const tabs = [
         { id: 'overview', label: translate('vitality.appDetailsPage.tabs.overview') },
@@ -73,6 +115,9 @@ const VitalityAppDetailsView = () => {
         { id: 'maintainability', label: translate('vitality.appDetailsPage.tabs.maintainability') },
         { id: 'greenIndex', label: translate('vitality.appDetailsPage.tabs.greenIndex') },
         { id: 'devops', label: translate('vitality.appDetailsPage.tabs.devops') },
+        ...(sonarqubeLink
+            ? [{ id: 'sonarqube', label: translate('vitality.appDetailsPage.tabs.sonarqube') }]
+            : []),
     ];
 
     const onExportClicked = () => {
@@ -144,6 +189,14 @@ const VitalityAppDetailsView = () => {
                         branch={selectedBranch}
                     />
                 );
+            case 'sonarqube':
+                return sonarqubeLink ? (
+                    <VitalitySonarQubeView
+                        applicationId={parseInt(_id as string, 10)}
+                        sonarqubeUrl={sonarqubeLink}
+                        auditTrigger={auditTrigger}
+                    />
+                ) : null;
             default:
                 return (
                     <VitalityGeneralInformationView

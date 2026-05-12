@@ -47,7 +47,8 @@
         "security": "Security",
         "maintainability": "Maintainability",
         "greenIndex": "Eco-design",
-        "devops": "DevOps"
+        "devops": "DevOps",
+        "sonarqube": "SonarQube"
       },
       "branches": {
         "main": "main",
@@ -135,7 +136,6 @@
           "accessibility": "WCAG compliance, screen reader compatibility, accessibility standards",
           "security": "Security vulnerabilities, insecure patterns, code smells",
           "maintainability": "Code complexity, coupling, metrics and quality assessments",
-          "greenIndex": "Ecological impact analysis, energy efficiency, environmental metrics",
           "greenIndex": "Ecological impact analysis, hosting green certification, Ecoindex score and energy efficiency metrics",
           "dora": "Deployment frequency, lead time, change failure rate, mean time to restore",
           "general": "Analysis results"
@@ -168,6 +168,27 @@
             "cardSubtitle": "Static analysis via ESLint @creedengo rules — eco-design patterns for your codebase"
           }
         }
+      },
+      "sonarqube": {
+        "title": "SonarQube Reports",
+        "description": "Open SonarQube project dashboards and report sections for this application.",
+        "projectKey": "Project Key",
+        "projectUrlLabel": "Configured project URL:",
+        "availableMetrics": "Available Metrics & Reports",
+        "openReport": "View Report",
+        "actions": {
+          "overview": "Open Project Overview",
+          "issues": "Open Issues",
+          "hotspots": "Open Security Hotspots",
+          "measures": "Open Measures"
+        },
+        "metrics": {
+          "overviewDesc": "View the complete project dashboard with quality metrics and indicators",
+          "issuesDesc": "See all code issues including bugs, vulnerabilities, and code smells",
+          "hotspotsDesc": "Review security hotspots that may pose security risks",
+          "measuresDesc": "Analyze detailed code metrics including coverage, complexity, and duplication"
+        },
+        "noData": "No SonarQube audit data available yet. Run an audit to populate this section."
       },
       "dependencies": {
         "title": "Dependencies",

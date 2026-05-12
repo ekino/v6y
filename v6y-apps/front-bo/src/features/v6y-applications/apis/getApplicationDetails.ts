@@ -25,6 +25,9 @@ const GetApplicationDetails = gql`
                     monitorId
                     url
                 }
+                sonarqube {
+                    token
+                }
             }
         }
     }
