@@ -13,6 +13,10 @@ const prisma = getPrismaClient();
 async function main() {
     console.log('[Seed] Starting seed...');
 
+    if (!process.env.SUPERADMIN_PASSWORD) {
+        throw new Error('SUPERADMIN_PASSWORD env variable is required to run seed');
+    }
+
     // ─── Reference data ───────────────────────────────────────────────────────
 
     await prisma.evolutionHelp.upsert({
@@ -106,49 +110,11 @@ async function main() {
 
     const superadminUsername = process.env.SUPERADMIN_USERNAME || 'superadmin';
     const superadminEmail = process.env.SUPERADMIN_EMAIL || 'superadmin@v6y.dev';
-    const superadminPassword = await bcrypt.hash(process.env.SUPERADMIN_PASSWORD || 'superadmin', 10);
+    const superadminPassword = await bcrypt.hash(process.env.SUPERADMIN_PASSWORD, 10);
     const adminPassword = await bcrypt.hash('admin1234', 10);
     const userPassword = await bcrypt.hash('user1234', 10);
 
-    const superAdmin = await prisma.account.upsert({
-        where: { email: superadminEmail },
-        update: {},
-        create: {
-            username: superadminUsername,
-            email: superadminEmail,
-            password: superadminPassword,
-            role: 'SUPERADMIN',
-            applications: [],
-        },
-    });
-
-    const admin = await prisma.account.upsert({
-        where: { email: 'admin@v6y.dev' },
-        update: {},
-        create: {
-            username: 'admin',
-            email: 'admin@v6y.dev',
-            password: adminPassword,
-            role: 'ADMIN',
-            applications: [],
-        },
-    });
-
-    const user = await prisma.account.upsert({
-        where: { email: 'user@v6y.dev' },
-        update: {},
-        create: {
-            username: 'user',
-            email: 'user@v6y.dev',
-            password: userPassword,
-            role: 'USER',
-            applications: [],
-        },
-    });
-
-    console.log('[Seed] Accounts created:', { superAdmin: superAdmin.id, admin: admin.id, user: user.id });
-
-    // ─── Applications ─────────────────────────────────────────────────────────
+    // ─── Applications (created first so IDs are available for accounts) ───────
 
     const app1 = await prisma.application.upsert({
         where: { name: 'v6y Front' },
@@ -187,8 +153,43 @@ async function main() {
 
     console.log('[Seed] Applications created:', { app1: app1.id, app2: app2.id });
 
-    // Update user account to include app IDs
-    await prisma.account.update({ where: { id: user.id }, data: { applications: [app1.id, app2.id] } });
+    const superAdmin = await prisma.account.upsert({
+        where: { email: superadminEmail },
+        update: {},
+        create: {
+            username: superadminUsername,
+            email: superadminEmail,
+            password: superadminPassword,
+            role: 'SUPERADMIN',
+            applications: [],
+        },
+    });
+
+    const admin = await prisma.account.upsert({
+        where: { email: 'admin@v6y.dev' },
+        update: {},
+        create: {
+            username: 'admin',
+            email: 'admin@v6y.dev',
+            password: adminPassword,
+            role: 'ADMIN',
+            applications: [],
+        },
+    });
+
+    const user = await prisma.account.upsert({
+        where: { email: 'user@v6y.dev' },
+        update: {},
+        create: {
+            username: 'user',
+            email: 'user@v6y.dev',
+            password: userPassword,
+            role: 'USER',
+            applications: [app1.id, app2.id],
+        },
+    });
+
+    console.log('[Seed] Accounts created:', { superAdmin: superAdmin.id, admin: admin.id, user: user.id });
 
     // ─── Keywords ─────────────────────────────────────────────────────────────
 

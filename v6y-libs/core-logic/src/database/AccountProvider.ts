@@ -34,7 +34,7 @@ const createAccount = async (account: AccountInputType) => {
         AppLogger.info(`[AccountProvider - createAccount] createdAccount: ${createdAccount.id}`);
         return { ...createdAccount, _id: createdAccount.id };
     } catch (error) {
-        AppLogger.info(`[AccountProvider - createAccount] error:  ${error}`);
+        AppLogger.error(`[AccountProvider - createAccount] error: `, error);
         return null;
     }
 };
@@ -83,7 +83,7 @@ const editAccount = async ({
 
         return { _id: account._id };
     } catch (error) {
-        AppLogger.info(`[AccountProvider - editAccount] error:  ${error}`);
+        AppLogger.error(`[AccountProvider - editAccount] error: `, error);
         return null;
     }
 };
@@ -120,7 +120,7 @@ const updateAccountPassword = async ({
 
         return { _id };
     } catch (error) {
-        AppLogger.info(`[AccountProvider - updateAccountPassword] error:  ${error}`);
+        AppLogger.error(`[AccountProvider - updateAccountPassword] error: `, error);
         return null;
     }
 };
@@ -156,7 +156,7 @@ const deleteAccount = async ({
         AppLogger.info(`[AccountProvider - deleteAccount] deleted account: ${userToDelete._id}`);
         return { _id: userToDelete._id };
     } catch (error) {
-        AppLogger.info(`[AccountProvider - deleteAccount] error:  ${error}`);
+        AppLogger.error(`[AccountProvider - deleteAccount] error: `, error);
         return null;
     }
 };
@@ -185,7 +185,7 @@ const getAccountDetailsByParams = async ({ _id, email }: { _id?: number; email?:
 
         return { ...account, _id: account.id };
     } catch (error) {
-        AppLogger.info(`[AccountProvider - getAccountDetailsByParams] error: ${error}`);
+        AppLogger.error(`[AccountProvider - getAccountDetailsByParams] error: `, error);
         return null;
     }
 };

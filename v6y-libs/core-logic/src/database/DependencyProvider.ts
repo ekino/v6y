@@ -33,7 +33,7 @@ const createDependency = async (dependency: DependencyType) => {
         });
         return { ...created, _id: created.id };
     } catch (error) {
-        AppLogger.info('[DependencyProvider - createDependency] error: ' + error);
+        AppLogger.error('[DependencyProvider - createDependency] error: ', error);
         return null;
     }
 };
@@ -41,9 +41,36 @@ const createDependency = async (dependency: DependencyType) => {
 const insertDependencyList = async (dependencyList: DependencyType[]) => {
     try {
         if (!dependencyList?.length) return null;
-        await Promise.all(dependencyList.map((dependency) => createDependency(dependency)));
+
+        const records = (await Promise.all(
+            dependencyList
+                .filter((dep) => dep?.type?.length && dep?.name?.length && dep?.version?.length)
+                .map(async (dependency) => {
+                    const depStatusHelp =
+                        await DependencyStatusHelpProvider.getDependencyStatusHelpDetailsByParams({
+                            category: dependency.status,
+                        });
+                    return {
+                        appId: (dependency.module?.appId ?? dependency.appId)!,
+                        type: dependency.type ?? null,
+                        name: dependency.name ?? null,
+                        version: dependency.version ?? null,
+                        recommendedVersion: dependency.recommendedVersion ?? null,
+                        status: dependency.status ?? null,
+                        statusHelp: depStatusHelp
+                            ? (depStatusHelp as unknown as Prisma.InputJsonValue)
+                            : undefined,
+                        module: dependency.module
+                            ? (dependency.module as unknown as Prisma.InputJsonValue)
+                            : undefined,
+                    };
+                }),
+        )) as Prisma.DependencyCreateManyInput[];
+
+        if (!records.length) return null;
+        await getPrismaClient().dependency.createMany({ data: records, skipDuplicates: true });
     } catch (error) {
-        AppLogger.info('[DependencyProvider - insertDependencyList] error: ' + error);
+        AppLogger.error('[DependencyProvider - insertDependencyList] error: ', error);
     }
 };
 
@@ -68,7 +95,7 @@ const editDependency = async (dependency: DependencyType) => {
         });
         return { _id: dependency._id };
     } catch (error) {
-        AppLogger.info('[DependencyProvider - editDependency] error: ' + error);
+        AppLogger.error('[DependencyProvider - editDependency] error: ', error);
         return null;
     }
 };
@@ -79,7 +106,7 @@ const deleteDependency = async ({ _id }: DependencyType) => {
         await getPrismaClient().dependency.delete({ where: { id: _id } });
         return { _id };
     } catch (error) {
-        AppLogger.info('[DependencyProvider - deleteDependency] error: ' + error);
+        AppLogger.error('[DependencyProvider - deleteDependency] error: ', error);
         return null;
     }
 };
@@ -89,7 +116,7 @@ const deleteDependencyList = async () => {
         await getPrismaClient().dependency.deleteMany();
         return true;
     } catch (error) {
-        AppLogger.info('[DependencyProvider - deleteDependencyList] error: ' + error);
+        AppLogger.error('[DependencyProvider - deleteDependencyList] error: ', error);
         return false;
     }
 };
@@ -101,7 +128,7 @@ const getDependencyListByPageAndParams = async ({ appId }: DependencyType) => {
         });
         return list.map((item) => ({ ...item, _id: item.id }));
     } catch (error) {
-        AppLogger.info('[DependencyProvider - getDependencyListByPageAndParams] error: ' + error);
+        AppLogger.error('[DependencyProvider - getDependencyListByPageAndParams] error: ', error);
         return [];
     }
 };

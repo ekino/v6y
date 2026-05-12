@@ -27,7 +27,7 @@ const editDeprecatedDependency = async (deprecatedDependency: DeprecatedDependen
         });
         return { _id: deprecatedDependency._id };
     } catch (error) {
-        AppLogger.info('[DeprecatedDependencyProvider - editDeprecatedDependency] error: ' + error);
+        AppLogger.error('[DeprecatedDependencyProvider - editDeprecatedDependency] error: ', error);
         return null;
     }
 };

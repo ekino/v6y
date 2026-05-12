@@ -27,7 +27,7 @@ const createEvolution = async (evolution: EvolutionType) => {
         });
         return { ...created, _id: created.id };
     } catch (error) {
-        AppLogger.info('[EvolutionProvider - createEvolution] error: ' + error);
+        AppLogger.error('[EvolutionProvider - createEvolution] error: ', error);
         return null;
     }
 };
@@ -35,9 +35,32 @@ const createEvolution = async (evolution: EvolutionType) => {
 const insertEvolutionList = async (evolutionList: EvolutionType[]) => {
     try {
         if (!evolutionList?.length) return null;
-        await Promise.all(evolutionList.map((evolution) => createEvolution(evolution)));
+
+        const records = (await Promise.all(
+            evolutionList
+                .filter((evolution) => evolution?.category?.length)
+                .map(async (evolution) => {
+                    const evolutionHelp =
+                        await EvolutionHelpProvider.getEvolutionHelpDetailsByParams({
+                            category: evolution?.category,
+                        });
+                    return {
+                        appId: (evolution.module?.appId ?? evolution.appId)!,
+                        category: evolution.category,
+                        evolutionHelp: evolutionHelp
+                            ? (evolutionHelp as unknown as Prisma.InputJsonValue)
+                            : undefined,
+                        module: evolution.module
+                            ? (evolution.module as unknown as Prisma.InputJsonValue)
+                            : undefined,
+                    };
+                }),
+        )) as Prisma.EvolutionCreateManyInput[];
+
+        if (!records.length) return null;
+        await getPrismaClient().evolution.createMany({ data: records, skipDuplicates: true });
     } catch (error) {
-        AppLogger.info('[EvolutionProvider - insertEvolutionList] error: ' + error);
+        AppLogger.error('[EvolutionProvider - insertEvolutionList] error: ', error);
     }
 };
 
@@ -50,7 +73,7 @@ const editEvolution = async (evolution: EvolutionType) => {
         });
         return { _id: evolution._id };
     } catch (error) {
-        AppLogger.info('[EvolutionProvider - editEvolution] error: ' + error);
+        AppLogger.error('[EvolutionProvider - editEvolution] error: ', error);
         return null;
     }
 };
@@ -61,7 +84,7 @@ const deleteEvolution = async ({ _id }: EvolutionType) => {
         await getPrismaClient().evolution.delete({ where: { id: _id } });
         return { _id };
     } catch (error) {
-        AppLogger.info('[EvolutionProvider - deleteEvolution] error: ' + error);
+        AppLogger.error('[EvolutionProvider - deleteEvolution] error: ', error);
         return null;
     }
 };
@@ -71,7 +94,7 @@ const deleteEvolutionList = async () => {
         await getPrismaClient().evolution.deleteMany();
         return true;
     } catch (error) {
-        AppLogger.info('[EvolutionProvider - deleteEvolutionList] error: ' + error);
+        AppLogger.error('[EvolutionProvider - deleteEvolutionList] error: ', error);
         return false;
     }
 };
@@ -83,7 +106,7 @@ const getEvolutionListByPageAndParams = async ({ appId }: EvolutionType) => {
         });
         return list.map((item) => ({ ...item, _id: item.id }));
     } catch (error) {
-        AppLogger.info('[EvolutionProvider - getEvolutionListByPageAndParams] error: ' + error);
+        AppLogger.error('[EvolutionProvider - getEvolutionListByPageAndParams] error: ', error);
         return [];
     }
 };

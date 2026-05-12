@@ -55,7 +55,7 @@ const editDependencyStatusHelp = async (dependencyStatusHelp: DependencyStatusHe
         });
         return { _id: dependencyStatusHelp._id };
     } catch (error) {
-        AppLogger.info('[DependencyStatusHelpProvider - editDependencyStatusHelp] error: ' + error);
+        AppLogger.error('[DependencyStatusHelpProvider - editDependencyStatusHelp] error: ', error);
         return null;
     }
 };
@@ -129,7 +129,7 @@ const initDefaultData = async () => {
         }
         return true;
     } catch (error) {
-        AppLogger.info('[DependencyStatusHelpProvider - initDefaultData] error: ' + error);
+        AppLogger.error('[DependencyStatusHelpProvider - initDefaultData] error: ', error);
         return false;
     }
 };

@@ -22,7 +22,7 @@ const createAuditHelp = async (auditHelp: AuditHelpType): Promise<AuditHelpType 
             explanation: created.explanation ?? undefined,
         } as AuditHelpType;
     } catch (error) {
-        AppLogger.info('[AuditHelpProvider - createAuditHelp] error: ' + error);
+        AppLogger.error('[AuditHelpProvider - createAuditHelp] error: ', error);
         return null;
     }
 };
@@ -41,7 +41,7 @@ const editAuditHelp = async (auditHelp: AuditHelpType) => {
         });
         return { _id: auditHelp._id };
     } catch (error) {
-        AppLogger.info('[AuditHelpProvider - editAuditHelp] error: ' + error);
+        AppLogger.error('[AuditHelpProvider - editAuditHelp] error: ', error);
         return null;
     }
 };
@@ -52,7 +52,7 @@ const deleteAuditHelp = async ({ _id }: AuditHelpType) => {
         await getPrismaClient().auditHelp.delete({ where: { id: _id } });
         return { _id };
     } catch (error) {
-        AppLogger.info('[AuditHelpProvider - deleteAuditHelp] error: ' + error);
+        AppLogger.error('[AuditHelpProvider - deleteAuditHelp] error: ', error);
         return null;
     }
 };
@@ -62,7 +62,7 @@ const deleteAuditHelpList = async () => {
         await getPrismaClient().auditHelp.deleteMany();
         return true;
     } catch (error) {
-        AppLogger.info('[AuditHelpProvider - deleteAuditHelpList] error: ' + error);
+        AppLogger.error('[AuditHelpProvider - deleteAuditHelpList] error: ', error);
         return false;
     }
 };
@@ -75,7 +75,7 @@ const getAuditHelpListByPageAndParams = async ({ start, limit }: SearchQueryType
         });
         return list.map((item) => ({ ...item, _id: item.id }));
     } catch (error) {
-        AppLogger.info('[AuditHelpProvider - getAuditHelpListByPageAndParams] error: ' + error);
+        AppLogger.error('[AuditHelpProvider - getAuditHelpListByPageAndParams] error: ', error);
         return [];
     }
 };
@@ -92,7 +92,7 @@ const getAuditHelpDetailsByParams = async ({ _id, category }: AuditHelpType) => 
             explanation: item.explanation ?? undefined,
         } as AuditHelpType;
     } catch (error) {
-        AppLogger.info('[AuditHelpProvider - getAuditHelpDetailsByParams] error: ' + error);
+        AppLogger.error('[AuditHelpProvider - getAuditHelpDetailsByParams] error: ', error);
         return null;
     }
 };
@@ -106,7 +106,7 @@ const initDefaultData = async () => {
         }
         return true;
     } catch (error) {
-        AppLogger.info('[AuditHelpProvider - initDefaultData] error: ' + error);
+        AppLogger.error('[AuditHelpProvider - initDefaultData] error: ', error);
         return false;
     }
 };

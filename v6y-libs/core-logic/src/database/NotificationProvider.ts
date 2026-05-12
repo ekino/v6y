@@ -21,7 +21,7 @@ const createNotification = async (notification: NotificationInputType) => {
         });
         return { ...created, _id: created.id };
     } catch (error) {
-        AppLogger.info('[NotificationProvider - createNotification] error: ' + error);
+        AppLogger.error('[NotificationProvider - createNotification] error: ', error);
         return null;
     }
 };
@@ -36,7 +36,7 @@ const editNotification = async (notification: NotificationInputType) => {
         });
         return { _id: notification._id };
     } catch (error) {
-        AppLogger.info('[NotificationProvider - editNotification] error: ' + error);
+        AppLogger.error('[NotificationProvider - editNotification] error: ', error);
         return null;
     }
 };
@@ -47,7 +47,7 @@ const deleteNotification = async ({ _id }: NotificationType) => {
         await getPrismaClient().notification.delete({ where: { id: _id } });
         return { _id };
     } catch (error) {
-        AppLogger.info('[NotificationProvider - deleteNotification] error: ' + error);
+        AppLogger.error('[NotificationProvider - deleteNotification] error: ', error);
         return null;
     }
 };
@@ -57,7 +57,7 @@ const deleteNotificationList = async () => {
         await getPrismaClient().notification.deleteMany();
         return true;
     } catch (error) {
-        AppLogger.info('[NotificationProvider - deleteNotificationList] error: ' + error);
+        AppLogger.error('[NotificationProvider - deleteNotificationList] error: ', error);
         return false;
     }
 };
@@ -84,7 +84,7 @@ const getNotificationDetailsByParams = async ({ _id }: NotificationType) => {
         if (!item) return null;
         return { ...item, _id: item.id };
     } catch (error) {
-        AppLogger.info('[NotificationProvider - getNotificationDetailsByParams] error: ' + error);
+        AppLogger.error('[NotificationProvider - getNotificationDetailsByParams] error: ', error);
         return null;
     }
 };

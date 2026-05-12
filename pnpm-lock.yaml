@@ -1109,12 +1109,6 @@ importers:
       passport-jwt:
         specifier: '=4.0.1'
         version: 4.0.1
-      pg:
-        specifier: '=8.13.1'
-        version: 8.13.1
-      pg-hstore:
-        specifier: '=2.3.4'
-        version: 2.3.4
       semver:
         specifier: '=7.6.3'
         version: 7.6.3
@@ -1155,9 +1149,6 @@ importers:
       '@types/passport-jwt':
         specifier: '=4.0.1'
         version: 4.0.1
-      '@types/pg':
-        specifier: ^8.20.0
-        version: 8.20.0
       '@vitest/coverage-v8':
         specifier: '=3.0.5'
         version: 3.0.5(vitest@3.0.5)

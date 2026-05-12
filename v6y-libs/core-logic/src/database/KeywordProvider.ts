@@ -22,7 +22,7 @@ const createKeyword = async (keyword: KeywordType) => {
         });
         return { ...created, _id: created.id };
     } catch (error) {
-        AppLogger.info('[KeywordProvider - createKeyword] error: ' + error);
+        AppLogger.error('[KeywordProvider - createKeyword] error: ', error);
         return null;
     }
 };
@@ -30,9 +30,21 @@ const createKeyword = async (keyword: KeywordType) => {
 const insertKeywordList = async (keywordList: KeywordType[]) => {
     try {
         if (!keywordList?.length) return null;
-        await Promise.all(keywordList.map((keyword) => createKeyword(keyword)));
+
+        const records = keywordList
+            .filter((keyword) => keyword?.label?.length)
+            .map((keyword) => ({
+                appId: (keyword.module?.appId ?? keyword.appId)!,
+                label: keyword.label,
+                module: keyword.module
+                    ? (keyword.module as unknown as Prisma.InputJsonValue)
+                    : undefined,
+            })) as Prisma.KeywordCreateManyInput[];
+
+        if (!records.length) return null;
+        await getPrismaClient().keyword.createMany({ data: records, skipDuplicates: true });
     } catch (error) {
-        AppLogger.info('[KeywordProvider - insertKeywordList] error: ' + error);
+        AppLogger.error('[KeywordProvider - insertKeywordList] error: ', error);
     }
 };
 
@@ -45,7 +57,7 @@ const editKeyword = async (keyword: KeywordType) => {
         });
         return { _id: keyword._id };
     } catch (error) {
-        AppLogger.info('[KeywordProvider - editKeyword] error: ' + error);
+        AppLogger.error('[KeywordProvider - editKeyword] error: ', error);
         return null;
     }
 };
@@ -56,7 +68,7 @@ const deleteKeyword = async ({ _id }: KeywordType) => {
         await getPrismaClient().keyword.delete({ where: { id: _id } });
         return { _id };
     } catch (error) {
-        AppLogger.info('[KeywordProvider - deleteKeyword] error: ' + error);
+        AppLogger.error('[KeywordProvider - deleteKeyword] error: ', error);
         return null;
     }
 };
@@ -66,7 +78,7 @@ const deleteKeywordList = async () => {
         await getPrismaClient().keyword.deleteMany();
         return true;
     } catch (error) {
-        AppLogger.info('[KeywordProvider - deleteKeywordList] error: ' + error);
+        AppLogger.error('[KeywordProvider - deleteKeywordList] error: ', error);
         return false;
     }
 };
@@ -83,7 +95,7 @@ const getApplicationsIdsByKeywords = async ({
         const uniqueAppIds = new Set<number>(keywordList.map((item) => item.appId));
         return uniqueAppIds.size ? [...uniqueAppIds] : null;
     } catch (error) {
-        AppLogger.info('[KeywordProvider - getApplicationsIdsByKeywords] error: ' + error);
+        AppLogger.error('[KeywordProvider - getApplicationsIdsByKeywords] error: ', error);
         return null;
     }
 };
@@ -95,7 +107,7 @@ const getKeywordListByPageAndParams = async ({ appId }: KeywordType) => {
         });
         return list.map((item) => ({ ...item, _id: item.id }));
     } catch (error) {
-        AppLogger.info('[KeywordProvider - getKeywordListByPageAndParams] error: ' + error);
+        AppLogger.error('[KeywordProvider - getKeywordListByPageAndParams] error: ', error);
         return [];
     }
 };
@@ -122,7 +134,7 @@ const getKeywordsStatsByParams = async ({
 
         return Array.from(keywordStatsMap).map(([label, total]) => ({ keyword: { label }, total }));
     } catch (error) {
-        AppLogger.info('[KeywordProvider - getKeywordsStatsByParams] error: ' + error);
+        AppLogger.error('[KeywordProvider - getKeywordsStatsByParams] error: ', error);
         return null;
     }
 };

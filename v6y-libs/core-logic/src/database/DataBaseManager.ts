@@ -35,6 +35,7 @@ const connect = async () => {
         AppLogger.info(`[DataBaseManager - connect] Default data initialized successfully`);
     } catch (error) {
         AppLogger.error(`[DataBaseManager - connect] An error occurred during connection: `, error);
+        throw error;
     }
 };
 

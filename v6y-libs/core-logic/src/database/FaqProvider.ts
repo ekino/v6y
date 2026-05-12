@@ -21,7 +21,7 @@ const createFaq = async (faq: FaqInputType) => {
         });
         return { ...created, _id: created.id };
     } catch (error) {
-        AppLogger.info('[FaqProvider - createFaq] error: ' + error);
+        AppLogger.error('[FaqProvider - createFaq] error: ', error);
         return null;
     }
 };
@@ -36,7 +36,7 @@ const editFaq = async (faq: FaqInputType) => {
         });
         return { _id: faq._id };
     } catch (error) {
-        AppLogger.info('[FaqProvider - editFaq] error: ' + error);
+        AppLogger.error('[FaqProvider - editFaq] error: ', error);
         return null;
     }
 };
@@ -47,7 +47,7 @@ const deleteFaq = async ({ _id }: FaqType) => {
         await getPrismaClient().faq.delete({ where: { id: _id } });
         return { _id };
     } catch (error) {
-        AppLogger.info('[FaqProvider - deleteFaq] error: ' + error);
+        AppLogger.error('[FaqProvider - deleteFaq] error: ', error);
         return null;
     }
 };
@@ -57,7 +57,7 @@ const deleteFaqList = async () => {
         await getPrismaClient().faq.deleteMany();
         return true;
     } catch (error) {
-        AppLogger.info('[FaqProvider - deleteFaqList] error: ' + error);
+        AppLogger.error('[FaqProvider - deleteFaqList] error: ', error);
         return false;
     }
 };
@@ -70,7 +70,7 @@ const getFaqListByPageAndParams = async ({ start, limit }: SearchQueryType) => {
         });
         return list.map((item) => ({ ...item, _id: item.id }));
     } catch (error) {
-        AppLogger.info('[FaqProvider - getFaqListByPageAndParams] error: ' + error);
+        AppLogger.error('[FaqProvider - getFaqListByPageAndParams] error: ', error);
         return [];
     }
 };
@@ -82,7 +82,7 @@ const getFaqDetailsByParams = async ({ _id }: FaqType) => {
         if (!item) return null;
         return { ...item, _id: item.id };
     } catch (error) {
-        AppLogger.info('[FaqProvider - getFaqDetailsByParams] error: ' + error);
+        AppLogger.error('[FaqProvider - getFaqDetailsByParams] error: ', error);
         return null;
     }
 };

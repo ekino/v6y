@@ -38,7 +38,7 @@ const createAudit = async (audit: AuditType) => {
         AppLogger.info('[AuditProvider - createAudit] created: ' + created.id);
         return { ...created, _id: created.id };
     } catch (error) {
-        AppLogger.info('[AuditProvider - createAudit] error: ' + error);
+        AppLogger.error('[AuditProvider - createAudit] error: ', error);
         return null;
     }
 };
@@ -46,10 +46,41 @@ const createAudit = async (audit: AuditType) => {
 const insertAuditList = async (auditList: AuditType[] | null) => {
     try {
         if (!auditList?.length) return false;
-        await Promise.all(auditList.map((audit) => createAudit(audit)));
+
+        const records = (await Promise.all(
+            auditList
+                .filter((audit) => audit?.type?.length && audit?.category?.length)
+                .map(async (audit) => {
+                    const auditHelp = await AuditHelpProvider.getAuditHelpDetailsByParams({
+                        category: audit.type + '-' + audit.category,
+                    });
+                    return {
+                        appId: (audit.module?.appId ?? audit.appId)!,
+                        dateStart: audit.dateStart ?? null,
+                        dateEnd: audit.dateEnd ?? null,
+                        type: audit.type ?? null,
+                        category: audit.category ?? null,
+                        subCategory: audit.subCategory ?? null,
+                        auditStatus: audit.auditStatus ?? null,
+                        score: audit.score ?? null,
+                        scoreStatus: audit.scoreStatus ?? null,
+                        scoreUnit: audit.scoreUnit ?? null,
+                        extraInfos: audit.extraInfos ?? null,
+                        auditHelp: auditHelp
+                            ? (auditHelp as unknown as Prisma.InputJsonValue)
+                            : undefined,
+                        module: audit.module
+                            ? (audit.module as unknown as Prisma.InputJsonValue)
+                            : undefined,
+                    };
+                }),
+        )) as Prisma.AuditCreateManyInput[];
+
+        if (!records.length) return false;
+        await getPrismaClient().audit.createMany({ data: records, skipDuplicates: true });
         return true;
     } catch (error) {
-        AppLogger.info('[AuditProvider - insertAuditList] error: ' + error);
+        AppLogger.error('[AuditProvider - insertAuditList] error: ', error);
         return false;
     }
 };
@@ -72,7 +103,7 @@ const editAudit = async (audit: AuditType) => {
         });
         return { _id: audit._id };
     } catch (error) {
-        AppLogger.info('[AuditProvider - editAudit] error: ' + error);
+        AppLogger.error('[AuditProvider - editAudit] error: ', error);
         return null;
     }
 };
@@ -83,7 +114,7 @@ const deleteAudit = async ({ _id }: AuditType) => {
         await getPrismaClient().audit.delete({ where: { id: _id } });
         return { _id };
     } catch (error) {
-        AppLogger.info('[AuditProvider - deleteAudit] error: ' + error);
+        AppLogger.error('[AuditProvider - deleteAudit] error: ', error);
         return null;
     }
 };
@@ -93,7 +124,7 @@ const deleteAuditList = async () => {
         await getPrismaClient().audit.deleteMany();
         return true;
     } catch (error) {
-        AppLogger.info('[AuditProvider - deleteAuditList] error: ' + error);
+        AppLogger.error('[AuditProvider - deleteAuditList] error: ', error);
         return false;
     }
 };
@@ -106,7 +137,7 @@ const getAuditListByPageAndParams = async ({ appId }: AuditType) => {
         AppLogger.info('[AuditProvider - getAuditListByPageAndParams] count: ' + list?.length);
         return list.map((item) => ({ ...item, _id: item.id }));
     } catch (error) {
-        AppLogger.info('[AuditProvider - getAuditListByPageAndParams] error: ' + error);
+        AppLogger.error('[AuditProvider - getAuditListByPageAndParams] error: ', error);
         return [];
     }
 };

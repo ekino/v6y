@@ -24,7 +24,7 @@ const createEvolutionHelp = async (evolutionHelp: EvolutionHelpInputType) => {
         });
         return { ...created, _id: created.id };
     } catch (error) {
-        AppLogger.info('[EvolutionHelpProvider - createEvolutionHelp] error: ' + error);
+        AppLogger.error('[EvolutionHelpProvider - createEvolutionHelp] error: ', error);
         return null;
     }
 };
@@ -39,7 +39,7 @@ const editEvolutionHelp = async (evolutionHelp: EvolutionHelpInputType) => {
         });
         return { _id: evolutionHelp._id };
     } catch (error) {
-        AppLogger.info('[EvolutionHelpProvider - editEvolutionHelp] error: ' + error);
+        AppLogger.error('[EvolutionHelpProvider - editEvolutionHelp] error: ', error);
         return null;
     }
 };
@@ -50,7 +50,7 @@ const deleteEvolutionHelp = async ({ _id }: EvolutionHelpType) => {
         await getPrismaClient().evolutionHelp.delete({ where: { id: _id } });
         return { _id };
     } catch (error) {
-        AppLogger.info('[EvolutionHelpProvider - deleteEvolutionHelp] error: ' + error);
+        AppLogger.error('[EvolutionHelpProvider - deleteEvolutionHelp] error: ', error);
         return null;
     }
 };
@@ -60,7 +60,7 @@ const deleteEvolutionHelpList = async () => {
         await getPrismaClient().evolutionHelp.deleteMany();
         return true;
     } catch (error) {
-        AppLogger.info('[EvolutionHelpProvider - deleteEvolutionHelpList] error: ' + error);
+        AppLogger.error('[EvolutionHelpProvider - deleteEvolutionHelpList] error: ', error);
         return false;
     }
 };
@@ -88,7 +88,7 @@ const getEvolutionHelpDetailsByParams = async ({ _id, category }: EvolutionHelpT
         if (!item) return null;
         return { ...item, _id: item.id };
     } catch (error) {
-        AppLogger.info('[EvolutionHelpProvider - getEvolutionHelpDetailsByParams] error: ' + error);
+        AppLogger.error('[EvolutionHelpProvider - getEvolutionHelpDetailsByParams] error: ', error);
         return null;
     }
 };
@@ -102,7 +102,7 @@ const initDefaultData = async () => {
         }
         return true;
     } catch (error) {
-        AppLogger.info('[EvolutionHelpProvider - initDefaultData] error: ' + error);
+        AppLogger.error('[EvolutionHelpProvider - initDefaultData] error: ', error);
         return false;
     }
 };
