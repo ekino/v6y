@@ -17,7 +17,7 @@ const nextConfig = {
     transpilePackages: ['@refinedev/antd'],
     webpack(config, { isServer }) {
         if (!isServer) {
-            config.externals = [...config.externals, 'globby', 'sequelize'];
+            config.externals = [...config.externals, 'globby'];
             config.resolve = {
                 ...config.resolve,
                 fallback: {

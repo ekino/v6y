@@ -1,209 +1,89 @@
 import AppLogger from '../core/AppLogger.ts';
 import { DeprecatedDependencyType } from '../types/DeprecatedDependencyType.ts';
 import { SearchQueryType } from '../types/SearchQueryType.ts';
-import { DeprecatedDependencyModelType } from './models/DeprecatedDependencyModel.ts';
+import { getPrismaClient } from './PrismaClient.ts';
 
-/**
- * Create a new deprecated dependency
- * @param deprecatedDependency
- */
 const createDeprecatedDependency = async (deprecatedDependency: DeprecatedDependencyType) => {
     try {
-        AppLogger.info(
-            `[DeprecatedDependencyProvider - createDeprecatedDependency] deprecatedDependency name:  ${deprecatedDependency?.name}`,
-        );
-
-        if (!deprecatedDependency?.name?.length) {
-            return null;
-        }
-
-        const createdDeprecatedDependency =
-            await DeprecatedDependencyModelType.create(deprecatedDependency);
-        AppLogger.info(
-            `[DeprecatedDependencyProvider - createDeprecatedDependency] createdDeprecatedDependency _id: ${createdDeprecatedDependency?._id}`,
-        );
-
-        return createdDeprecatedDependency;
+        if (!deprecatedDependency?.name?.length) return null;
+        const created = await getPrismaClient().deprecatedDependency.create({
+            data: { name: deprecatedDependency.name },
+        });
+        return { ...created, _id: created.id };
     } catch (error) {
         AppLogger.info(
-            `[DeprecatedDependencyProvider - createDeprecatedDependency] error:  ${error}`,
+            '[DeprecatedDependencyProvider - createDeprecatedDependency] error: ' + error,
         );
         return null;
     }
 };
 
-/**
- * Edit an existing deprecated dependency
- * @param deprecatedDependency
- */
 const editDeprecatedDependency = async (deprecatedDependency: DeprecatedDependencyType) => {
     try {
-        AppLogger.info(
-            `[DeprecatedDependencyProvider - editDeprecatedDependency] deprecatedDependency id:  ${deprecatedDependency?._id}`,
-        );
-        AppLogger.info(
-            `[DeprecatedDependencyProvider - editDeprecatedDependency] deprecatedDependency name:  ${deprecatedDependency?.name}`,
-        );
-
-        if (!deprecatedDependency?._id || !deprecatedDependency?.name?.length) {
-            return null;
-        }
-
-        const editedDeprecatedDependency = await DeprecatedDependencyModelType.update(
-            deprecatedDependency,
-            {
-                where: {
-                    _id: deprecatedDependency?._id,
-                },
-            },
-        );
-
-        AppLogger.info(
-            `[DeprecatedDependencyProvider - editDeprecatedDependency] editedDeprecatedDependency: ${editedDeprecatedDependency?.[0]}`,
-        );
-
-        return {
-            _id: deprecatedDependency?._id,
-        };
+        if (!deprecatedDependency?._id || !deprecatedDependency?.name?.length) return null;
+        await getPrismaClient().deprecatedDependency.update({
+            where: { id: deprecatedDependency._id },
+            data: { name: deprecatedDependency.name },
+        });
+        return { _id: deprecatedDependency._id };
     } catch (error) {
-        AppLogger.info(
-            `[DeprecatedDependencyProvider - editDeprecatedDependency] error:  ${error}`,
-        );
+        AppLogger.error('[DeprecatedDependencyProvider - editDeprecatedDependency] error: ', error);
         return null;
     }
 };
 
-/**
- * Delete a deprecated dependency
- * @param _id
- */
 const deleteDeprecatedDependency = async ({ _id }: DeprecatedDependencyType) => {
     try {
-        AppLogger.info(`[DeprecatedDependencyProvider - deleteDeprecatedDependency] _id:  ${_id}`);
-        if (!_id) {
-            return null;
-        }
-
-        await DeprecatedDependencyModelType.destroy({
-            where: {
-                _id,
-            },
-        });
-
-        return {
-            _id,
-        };
+        if (!_id) return null;
+        await getPrismaClient().deprecatedDependency.delete({ where: { id: _id } });
+        return { _id };
     } catch (error) {
         AppLogger.info(
-            `[DeprecatedDependencyProvider - deleteDeprecatedDependency] error:  ${error}`,
+            '[DeprecatedDependencyProvider - deleteDeprecatedDependency] error: ' + error,
         );
         return null;
     }
 };
 
-/**
- * Delete all deprecated dependencies
- */
 const deleteDeprecatedDependencyList = async () => {
     try {
-        await DeprecatedDependencyModelType.destroy({
-            truncate: true,
-        });
-
+        await getPrismaClient().deprecatedDependency.deleteMany();
         return true;
     } catch (error) {
         AppLogger.info(
-            `[DeprecatedDependencyProvider - deleteDeprecatedDependencyList] error:  ${error}`,
+            '[DeprecatedDependencyProvider - deleteDeprecatedDependencyList] error: ' + error,
         );
         return false;
     }
 };
 
-/**
- * Get deprecated dependencies by page and query parameters
- * @param start
- * @param limit
- * @param sort
- */
-const getDeprecatedDependencyListByPageAndParams = async ({
-    start,
-    limit,
-    sort,
-}: SearchQueryType) => {
+const getDeprecatedDependencyListByPageAndParams = async ({ start, limit }: SearchQueryType) => {
     try {
-        // Construct the query options based on provided arguments
-        const queryOptions = {};
-
-        // Handle pagination
-        if (start !== undefined) {
-            // queryOptions.offset = start;
-        }
-
-        if (limit !== undefined) {
-            //    queryOptions.limit = limit;
-        }
-
-        // Handle sorting
-        if (sort) {
-            // queryOptions.order = sort; // Assuming 'sort' specifies the sorting order directly
-        }
-
-        const deprecatedDependencyList = await DeprecatedDependencyModelType.findAll(queryOptions);
-        AppLogger.info(
-            `[DeprecatedDependencyProvider - getDeprecatedDependencyListByPageAndParams] deprecatedDependencyList: ${deprecatedDependencyList?.length}`,
-        );
-
-        return deprecatedDependencyList?.map((item) => item?.dataValues) || [];
+        const list = await getPrismaClient().deprecatedDependency.findMany({
+            skip: start ?? undefined,
+            take: limit ?? undefined,
+        });
+        return list.map((item) => ({ ...item, _id: item.id }));
     } catch (error) {
         AppLogger.info(
-            `[DeprecatedDependencyProvider - getDeprecatedDependencyListByPageAndParams] error:  ${error}`,
+            '[DeprecatedDependencyProvider - getDeprecatedDependencyListByPageAndParams] error: ' +
+                error,
         );
         return [];
     }
 };
 
-/**
- * Get deprecated dependency details by parameters
- * @param _id
- * @param name
- */
 const getDeprecatedDependencyDetailsByParams = async ({ _id, name }: DeprecatedDependencyType) => {
     try {
-        AppLogger.info(
-            `[DeprecatedDependencyProvider - getDeprecatedDependencyDetailsByParams] _id: ${_id}`,
-        );
-        AppLogger.info(
-            `[DeprecatedDependencyProvider - getDeprecatedDependencyDetailsByParams] name: ${name}`,
-        );
-
-        const deprecatedDependencyDetails = _id
-            ? (
-                  await DeprecatedDependencyModelType.findOne({
-                      where: {
-                          _id,
-                      },
-                  })
-              )?.dataValues
-            : (
-                  await DeprecatedDependencyModelType.findOne({
-                      where: {
-                          name,
-                      },
-                  })
-              )?.dataValues;
-
-        AppLogger.info(
-            `[DeprecatedDependencyProvider - getDeprecatedDependencyDetailsByParams] deprecatedDependencyDetails _id: ${deprecatedDependencyDetails?._id}`,
-        );
-
-        if (!deprecatedDependencyDetails?._id) {
-            return null;
-        }
-
-        return deprecatedDependencyDetails;
+        const item = await getPrismaClient().deprecatedDependency.findFirst({
+            where: _id ? { id: _id } : { name },
+        });
+        if (!item) return null;
+        return { ...item, _id: item.id };
     } catch (error) {
         AppLogger.info(
-            `[DeprecatedDependencyProvider - getDeprecatedDependencyDetailsByParams] error: ${error}`,
+            '[DeprecatedDependencyProvider - getDeprecatedDependencyDetailsByParams] error: ' +
+                error,
         );
         return null;
     }
@@ -217,5 +97,4 @@ const DeprecatedDependencyProvider = {
     getDeprecatedDependencyListByPageAndParams,
     getDeprecatedDependencyDetailsByParams,
 };
-
 export default DeprecatedDependencyProvider;

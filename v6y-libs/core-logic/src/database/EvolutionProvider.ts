@@ -1,170 +1,112 @@
-import { FindOptions } from 'sequelize';
+import { Prisma } from '@prisma/client';
 
 import AppLogger from '../core/AppLogger.ts';
 import { EvolutionType } from '../types/EvolutionType.ts';
 import EvolutionHelpProvider from './EvolutionHelpProvider.ts';
-import { EvolutionModelType } from './models/EvolutionModel.ts';
+import { getPrismaClient } from './PrismaClient.ts';
 
-/**
- * Creates a new Evolution in the database
- * @param evolution
- */
 const createEvolution = async (evolution: EvolutionType) => {
     try {
-        AppLogger.info(
-            `[EvolutionProvider - createEvolution] evolution category:  ${evolution?.category}`,
-        );
-
-        if (!evolution?.category?.length) {
-            return null;
-        }
+        if (!evolution?.category?.length) return null;
 
         const evolutionHelp = await EvolutionHelpProvider.getEvolutionHelpDetailsByParams({
             category: evolution?.category,
         });
 
-        const createdEvolution = await EvolutionModelType.create({
-            ...evolution,
-            appId: evolution.module?.appId,
-            evolutionHelp,
+        const created = await getPrismaClient().evolution.create({
+            data: {
+                appId: (evolution.module?.appId ?? evolution.appId)!,
+                category: evolution.category,
+                evolutionHelp: evolutionHelp
+                    ? (evolutionHelp as unknown as Prisma.InputJsonValue)
+                    : undefined,
+                module: evolution.module
+                    ? (evolution.module as unknown as Prisma.InputJsonValue)
+                    : undefined,
+            },
         });
-
-        AppLogger.info(
-            `[EvolutionProvider - createEvolution] createdEvolution: ${createdEvolution?._id}`,
-        );
-
-        return createdEvolution;
+        return { ...created, _id: created.id };
     } catch (error) {
-        AppLogger.info(`[EvolutionProvider - createEvolution] error:  ${error}`);
+        AppLogger.error('[EvolutionProvider - createEvolution] error: ', error);
         return null;
     }
 };
 
-/**
- * Inserts a list of Evolutions in the database
- * @param evolutionList
- */
 const insertEvolutionList = async (evolutionList: EvolutionType[]) => {
     try {
-        AppLogger.info(
-            `[EvolutionProvider - insertEvolutionList] evolutionList:  ${evolutionList?.length}`,
-        );
-        if (!evolutionList?.length) {
-            return null;
-        }
+        if (!evolutionList?.length) return null;
 
-        for (const evolution of evolutionList) {
-            await createEvolution(evolution);
-        }
+        const records = (await Promise.all(
+            evolutionList
+                .filter((evolution) => evolution?.category?.length)
+                .map(async (evolution) => {
+                    const evolutionHelp =
+                        await EvolutionHelpProvider.getEvolutionHelpDetailsByParams({
+                            category: evolution?.category,
+                        });
+                    return {
+                        appId: (evolution.module?.appId ?? evolution.appId)!,
+                        category: evolution.category,
+                        evolutionHelp: evolutionHelp
+                            ? (evolutionHelp as unknown as Prisma.InputJsonValue)
+                            : undefined,
+                        module: evolution.module
+                            ? (evolution.module as unknown as Prisma.InputJsonValue)
+                            : undefined,
+                    };
+                }),
+        )) as Prisma.EvolutionCreateManyInput[];
 
-        AppLogger.info(
-            `[EvolutionProvider - insertEvolutionList] evolutionList list inserted successfully`,
-        );
+        if (!records.length) return null;
+        await getPrismaClient().evolution.createMany({ data: records, skipDuplicates: true });
     } catch (error) {
-        AppLogger.info(`[EvolutionProvider - insertEvolutionList] error:  ${error}`);
+        AppLogger.error('[EvolutionProvider - insertEvolutionList] error: ', error);
     }
 };
 
-/**
- * Edits an existing Evolution in the database
- * @param evolution
- */
 const editEvolution = async (evolution: EvolutionType) => {
     try {
-        AppLogger.info(`[EvolutionProvider - createEvolution] evolution _id:  ${evolution?._id}`);
-        AppLogger.info(
-            `[EvolutionProvider - createEvolution] evolution category:  ${evolution?.category}`,
-        );
-
-        if (!evolution?._id || !evolution?.category?.length) {
-            return null;
-        }
-
-        const editedEvolution = await EvolutionModelType.update(evolution, {
-            where: {
-                _id: evolution?._id,
-            },
+        if (!evolution?._id || !evolution?.category?.length) return null;
+        await getPrismaClient().evolution.update({
+            where: { id: evolution._id },
+            data: { category: evolution.category },
         });
-
-        AppLogger.info(
-            `[EvolutionProvider - editEvolution] editedEvolution: ${editedEvolution?.[0]}`,
-        );
-
-        return {
-            _id: evolution?._id,
-        };
+        return { _id: evolution._id };
     } catch (error) {
-        AppLogger.info(`[EvolutionProvider - editEvolution] error:  ${error}`);
+        AppLogger.error('[EvolutionProvider - editEvolution] error: ', error);
         return null;
     }
 };
 
-/**
- * Deletes an existing Evolution in the database
- * @param _id
- */
 const deleteEvolution = async ({ _id }: EvolutionType) => {
     try {
-        AppLogger.info(`[EvolutionProvider - deleteEvolution] _id:  ${_id}`);
-        if (!_id) {
-            return null;
-        }
-
-        await EvolutionModelType.destroy({
-            where: {
-                _id,
-            },
-        });
-
-        return {
-            _id,
-        };
+        if (!_id) return null;
+        await getPrismaClient().evolution.delete({ where: { id: _id } });
+        return { _id };
     } catch (error) {
-        AppLogger.info(`[EvolutionProvider - deleteEvolution] error:  ${error}`);
+        AppLogger.error('[EvolutionProvider - deleteEvolution] error: ', error);
         return null;
     }
 };
 
-/**
- * Deletes all Evolutions in the database
- */
 const deleteEvolutionList = async () => {
     try {
-        await EvolutionModelType.destroy({
-            truncate: true,
-        });
-
+        await getPrismaClient().evolution.deleteMany();
         return true;
     } catch (error) {
-        AppLogger.info(`[EvolutionProvider - deleteEvolutionList] error:  ${error}`);
+        AppLogger.error('[EvolutionProvider - deleteEvolutionList] error: ', error);
         return false;
     }
 };
 
-/**
- * Fetches a list of Evolutions from the database
- * @param appId
- */
 const getEvolutionListByPageAndParams = async ({ appId }: EvolutionType) => {
     try {
-        AppLogger.info(`[EvolutionProvider - getEvolutionListByPageAndParams] appId: ${appId}`);
-
-        const queryOptions: FindOptions = {};
-
-        if (appId) {
-            queryOptions.where = {
-                appId,
-            };
-        }
-
-        const evolutionList = await EvolutionModelType.findAll(queryOptions);
-        AppLogger.info(
-            `[EvolutionProvider - getEvolutionListByPageAndParams] evolutionList: ${evolutionList?.length}`,
-        );
-
-        return evolutionList?.map((item) => item?.dataValues) || [];
+        const list = await getPrismaClient().evolution.findMany({
+            where: appId ? { appId } : undefined,
+        });
+        return list.map((item) => ({ ...item, _id: item.id }));
     } catch (error) {
-        AppLogger.info(`[EvolutionProvider - getEvolutionListByPageAndParams] error:  ${error}`);
+        AppLogger.error('[EvolutionProvider - getEvolutionListByPageAndParams] error: ', error);
         return [];
     }
 };
@@ -177,5 +119,4 @@ const EvolutionProvider = {
     deleteEvolutionList,
     getEvolutionListByPageAndParams,
 };
-
 export default EvolutionProvider;

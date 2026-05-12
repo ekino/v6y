@@ -6,19 +6,32 @@ services:
       - POSTGRES_USER=${PSQL_DB_USER}
       - POSTGRES_PASSWORD=${PSQL_DB_PASSWORD}
       - POSTGRES_DB=${PSQL_DB_NAME}
-      - SUPERADMIN_USERNAME=${SUPERADMIN_USERNAME}
-      - SUPERADMIN_EMAIL=${SUPERADMIN_EMAIL}
-      - SUPERADMIN_PASSWORD=${SUPERADMIN_PASSWORD}
     ports:
       - "${PSQL_DB_PORT}:5432"
     volumes:
-      - ./v6y-database/v6y_database:/docker-entrypoint-initdb.d/v6y_database:ro
-      - ./v6y-database/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
+      - v6y-database-data:/var/lib/postgresql
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${PSQL_DB_USER} -d ${PSQL_DB_NAME}" ]
       interval: 10s
       timeout: 5s
       retries: 5
+  v6y-migrate:
+    extends:
+      file: docker-compose.base.yml
+      service: v6y-service-base
+    command: pnpm --filter @v6y/core-logic db:migrate:deploy
+    image: ghcr.io/${REGISTRY_OWNER}/v6y-bff:latest
+    environment:
+      - PSQL_DB_HOST=${PSQL_DB_HOST}
+      - PSQL_DB_NAME=${PSQL_DB_NAME}
+      - PSQL_DB_USER=${PSQL_DB_USER}
+      - PSQL_DB_PASSWORD=${PSQL_DB_PASSWORD}
+      - PSQL_DB_PORT=${PSQL_DB_PORT}
+    depends_on:
+      v6y-database:
+        condition: service_healthy
+    restart: "no"
+
   v6y-bff:
     extends:
       file: docker-compose.base.yml
@@ -38,6 +51,9 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - V6Y_BFF_API_PATH=${V6Y_BFF_API_PATH}
       - V6Y_BFF_API_PORT=${V6Y_BFF_API_PORT}
+    depends_on:
+      v6y-migrate:
+        condition: service_completed_successfully
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4001/health" ]
       interval: 30s
@@ -65,6 +81,9 @@ services:
       - V6Y_MAIN_API_PORT=${V6Y_MAIN_API_PORT}
       - V6Y_STATIC_ANALYZER_API_PATH=${V6Y_STATIC_ANALYZER_API_PATH}
       - V6Y_DYNAMIC_ANALYZER_API_PATH=${V6Y_DYNAMIC_ANALYZER_API_PATH}
+    depends_on:
+      v6y-migrate:
+        condition: service_completed_successfully
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4002/health" ]
       interval: 30s
@@ -90,6 +109,9 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - V6Y_STATIC_ANALYZER_API_PATH=${V6Y_STATIC_ANALYZER_API_PATH}
       - V6Y_STATIC_ANALYZER_API_PORT=${V6Y_STATIC_ANALYZER_API_PORT}
+    depends_on:
+      v6y-migrate:
+        condition: service_completed_successfully
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4003/health" ]
       interval: 30s
@@ -115,6 +137,9 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - V6Y_DYNAMIC_ANALYZER_API_PATH=${V6Y_DYNAMIC_ANALYZER_API_PATH}
       - V6Y_DYNAMIC_ANALYZER_API_PORT=${V6Y_DYNAMIC_ANALYZER_API_PORT}
+    depends_on:
+      v6y-migrate:
+        condition: service_completed_successfully
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4004/health" ]
       interval: 30s
@@ -140,6 +165,9 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - V6Y_DEVOPS_API_PATH=${V6Y_DEVOPS_API_PATH}
       - V6Y_DEVOPS_API_PORT=${V6Y_DEVOPS_API_PORT}
+    depends_on:
+      v6y-migrate:
+        condition: service_completed_successfully
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4005/health" ]
       interval: 30s
@@ -181,3 +209,4 @@ services:
 
 volumes:
   mono-node-modules: null
+  v6y-database-data: null

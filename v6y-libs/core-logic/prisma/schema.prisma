@@ -1,0 +1,178 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Account {
+  id           Int      @id @default(autoincrement()) @map("_id")
+  username     String   @unique
+  email        String   @unique
+  password     String
+  role         String
+  applications Int[]
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("accounts")
+}
+
+model Application {
+  id            Int          @id @default(autoincrement()) @map("_id")
+  name          String       @unique
+  acronym       String       @unique
+  contactMail   String       @map("contact_mail")
+  description   String
+  repo          Json?
+  configuration Json?
+  links         Json?
+  createdAt     DateTime     @default(now()) @map("created_at")
+  updatedAt     DateTime     @updatedAt @map("updated_at")
+  audits        Audit[]
+  dependencies  Dependency[]
+  evolutions    Evolution[]
+  keywords      Keyword[]
+
+  @@map("applications")
+}
+
+model Audit {
+  id          Int         @id @default(autoincrement()) @map("_id")
+  appId       Int         @map("app_id")
+  application Application @relation(fields: [appId], references: [id], onDelete: Cascade)
+  dateStart   DateTime?   @map("date_start")
+  dateEnd     DateTime?   @map("date_end")
+  type        String?
+  category    String?
+  subCategory String?     @map("sub_category")
+  auditStatus String?     @map("audit_status")
+  score       Float?
+  scoreStatus String?     @map("score_status")
+  scoreUnit   String?     @map("score_unit")
+  extraInfos  String?     @map("extra_infos")
+  auditHelp   Json?       @map("audit_help")
+  module      Json?
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+
+  @@index([appId])
+  @@index([appId, type, category])
+  @@map("audit_reports")
+}
+
+model Dependency {
+  id                 Int         @id @default(autoincrement()) @map("_id")
+  appId              Int         @map("app_id")
+  application        Application @relation(fields: [appId], references: [id], onDelete: Cascade)
+  type               String?
+  name               String?
+  version            String?
+  recommendedVersion String?     @map("recommended_version")
+  status             String?
+  statusHelp         Json?       @map("status_help")
+  module             Json?
+  createdAt          DateTime    @default(now()) @map("created_at")
+  updatedAt          DateTime    @updatedAt @map("updated_at")
+
+  @@index([appId])
+  @@index([appId, name])
+  @@map("dependencies")
+}
+
+model DeprecatedDependency {
+  id        Int      @id @default(autoincrement()) @map("_id")
+  name      String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("deprecated_dependencies")
+}
+
+model Evolution {
+  id            Int         @id @default(autoincrement()) @map("_id")
+  appId         Int         @map("app_id")
+  application   Application @relation(fields: [appId], references: [id], onDelete: Cascade)
+  category      String
+  evolutionHelp Json?       @map("evolution_help")
+  module        Json?
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
+
+  @@index([appId])
+  @@map("evolutions")
+}
+
+model AuditHelp {
+  id          Int      @id @default(autoincrement()) @map("_id")
+  category    String   @unique
+  title       String
+  description String
+  explanation String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("audit_helps")
+}
+
+model EvolutionHelp {
+  id          Int      @id @default(autoincrement()) @map("_id")
+  category    String   @unique
+  title       String
+  description String
+  status      String
+  links       Json?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("evolution_helps")
+}
+
+model DependencyStatusHelp {
+  id          Int      @id @default(autoincrement()) @map("_id")
+  category    String   @unique
+  title       String
+  description String?
+  links       Json?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("dependency_status_helps")
+}
+
+model Faq {
+  id          Int      @id @default(autoincrement()) @map("_id")
+  title       String   @unique
+  description String
+  links       Json?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("faqs")
+}
+
+model Keyword {
+  id          Int         @id @default(autoincrement()) @map("_id")
+  appId       Int         @map("app_id")
+  application Application @relation(fields: [appId], references: [id], onDelete: Cascade)
+  label       String
+  module      Json?
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+
+  @@index([appId])
+  @@index([label])
+  @@map("keywords")
+}
+
+model Notification {
+  id          Int      @id @default(autoincrement()) @map("_id")
+  title       String   @unique
+  description String
+  links       Json?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("notifications")
+}

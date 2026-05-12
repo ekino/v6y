@@ -1,164 +1,143 @@
-import { FindOptions } from 'sequelize';
+import { Prisma } from '@prisma/client';
 
 import AppLogger from '../core/AppLogger.ts';
 import { AuditType } from '../types/AuditType.ts';
 import AuditHelpProvider from './AuditHelpProvider.ts';
-import { AuditModelType } from './models/AuditModel.ts';
+import { getPrismaClient } from './PrismaClient.ts';
 
-/**
- * Creates a new Audit entry in the database.
- * @param audit
- */
 const createAudit = async (audit: AuditType) => {
     try {
-        AppLogger.info(`[AuditProvider - createAudit] audit type:  ${audit?.type}`);
-        AppLogger.info(`[AuditProvider - createAudit] audit category:  ${audit?.category}`);
-        AppLogger.info(`[AuditProvider - createAudit] audit subCategory:  ${audit?.subCategory}`);
-
-        if (!audit?.type?.length || !audit?.category?.length) {
-            return null;
-        }
+        AppLogger.info(
+            '[AuditProvider - createAudit] type: ' + audit?.type + ' category: ' + audit?.category,
+        );
+        if (!audit?.type?.length || !audit?.category?.length) return null;
 
         const auditHelp = await AuditHelpProvider.getAuditHelpDetailsByParams({
-            category: `${audit.type}-${audit.category}`,
+            category: audit.type + '-' + audit.category,
         });
 
-        const createdAudit = await AuditModelType.create({
-            ...audit,
-            appId: audit.module?.appId,
-            auditHelp,
+        const created = await getPrismaClient().audit.create({
+            data: {
+                appId: (audit.module?.appId ?? audit.appId)!,
+                dateStart: audit.dateStart ?? null,
+                dateEnd: audit.dateEnd ?? null,
+                type: audit.type ?? null,
+                category: audit.category ?? null,
+                subCategory: audit.subCategory ?? null,
+                auditStatus: audit.auditStatus ?? null,
+                score: audit.score ?? null,
+                scoreStatus: audit.scoreStatus ?? null,
+                scoreUnit: audit.scoreUnit ?? null,
+                extraInfos: audit.extraInfos ?? null,
+                auditHelp: auditHelp ? (auditHelp as unknown as Prisma.InputJsonValue) : undefined,
+                module: audit.module
+                    ? (audit.module as unknown as Prisma.InputJsonValue)
+                    : undefined,
+            },
         });
-
-        AppLogger.info(`[AuditProvider - createAudit] createdAudit: ${createdAudit?._id}`);
-
-        return createdAudit;
+        AppLogger.info('[AuditProvider - createAudit] created: ' + created.id);
+        return { ...created, _id: created.id };
     } catch (error) {
-        AppLogger.info(`[AuditProvider - createAudit] error:  ${error}`);
+        AppLogger.error('[AuditProvider - createAudit] error: ', error);
         return null;
     }
 };
 
-/**
- * Inserts a list of Audit entries in the database.
- * @param auditList
- */
 const insertAuditList = async (auditList: AuditType[] | null) => {
     try {
-        AppLogger.info(`[AuditProvider - insertAuditList] auditList:  ${auditList?.length}`);
-        if (!auditList?.length) {
-            return false;
-        }
+        if (!auditList?.length) return false;
 
-        for (const audit of auditList) {
-            await createAudit(audit);
-        }
+        const records = (await Promise.all(
+            auditList
+                .filter((audit) => audit?.type?.length && audit?.category?.length)
+                .map(async (audit) => {
+                    const auditHelp = await AuditHelpProvider.getAuditHelpDetailsByParams({
+                        category: audit.type + '-' + audit.category,
+                    });
+                    return {
+                        appId: (audit.module?.appId ?? audit.appId)!,
+                        dateStart: audit.dateStart ?? null,
+                        dateEnd: audit.dateEnd ?? null,
+                        type: audit.type ?? null,
+                        category: audit.category ?? null,
+                        subCategory: audit.subCategory ?? null,
+                        auditStatus: audit.auditStatus ?? null,
+                        score: audit.score ?? null,
+                        scoreStatus: audit.scoreStatus ?? null,
+                        scoreUnit: audit.scoreUnit ?? null,
+                        extraInfos: audit.extraInfos ?? null,
+                        auditHelp: auditHelp
+                            ? (auditHelp as unknown as Prisma.InputJsonValue)
+                            : undefined,
+                        module: audit.module
+                            ? (audit.module as unknown as Prisma.InputJsonValue)
+                            : undefined,
+                    };
+                }),
+        )) as Prisma.AuditCreateManyInput[];
 
-        AppLogger.info(`[AuditProvider - insertAuditList] audit reports inserted successfully`);
-
+        if (!records.length) return false;
+        await getPrismaClient().audit.createMany({ data: records, skipDuplicates: true });
         return true;
     } catch (error) {
-        AppLogger.info(`[AuditProvider - insertAuditList] error:  ${error}`);
+        AppLogger.error('[AuditProvider - insertAuditList] error: ', error);
         return false;
     }
 };
 
-/**
- * Edits an existing Audit entry in the database.
- * @param audit
- */
 const editAudit = async (audit: AuditType) => {
     try {
-        AppLogger.info(`[AuditProvider - createAudit] audit type:  ${audit?.type}`);
-        AppLogger.info(`[AuditProvider - createAudit] audit category:  ${audit?.category}`);
-        AppLogger.info(`[AuditProvider - createAudit] audit subCategory:  ${audit?.subCategory}`);
-
-        if (!audit?._id || !audit?.type?.length || !audit?.category?.length) {
-            return null;
-        }
-
-        const editedAudit = await AuditModelType.update(audit, {
-            where: {
-                _id: audit?._id,
+        if (!audit?._id || !audit?.type?.length || !audit?.category?.length) return null;
+        await getPrismaClient().audit.update({
+            where: { id: audit._id },
+            data: {
+                type: audit.type ?? null,
+                category: audit.category ?? null,
+                subCategory: audit.subCategory ?? null,
+                auditStatus: audit.auditStatus ?? null,
+                score: audit.score ?? null,
+                scoreStatus: audit.scoreStatus ?? null,
+                scoreUnit: audit.scoreUnit ?? null,
+                extraInfos: audit.extraInfos ?? null,
             },
         });
-
-        AppLogger.info(`[AuditProvider - editAudit] editedAudit: ${editedAudit?.[0]}`);
-
-        return {
-            _id: audit?._id,
-        };
+        return { _id: audit._id };
     } catch (error) {
-        AppLogger.info(`[AuditProvider - editAudit] error:  ${error}`);
+        AppLogger.error('[AuditProvider - editAudit] error: ', error);
         return null;
     }
 };
 
-/**
- * Deletes an Audit entry from the database.
- * @param _id
- */
 const deleteAudit = async ({ _id }: AuditType) => {
     try {
-        AppLogger.info(`[AuditProvider - deleteAudit] _id:  ${_id}`);
-        if (!_id) {
-            return null;
-        }
-
-        await AuditModelType.destroy({
-            where: {
-                _id,
-            },
-        });
-
-        return {
-            _id,
-        };
+        if (!_id) return null;
+        await getPrismaClient().audit.delete({ where: { id: _id } });
+        return { _id };
     } catch (error) {
-        AppLogger.info(`[AuditProvider - deleteAudit] error:  ${error}`);
+        AppLogger.error('[AuditProvider - deleteAudit] error: ', error);
         return null;
     }
 };
 
-/**
- * Deletes all Audit entries from the database.
- */
 const deleteAuditList = async () => {
     try {
-        await AuditModelType.destroy({
-            truncate: true,
-        });
-
+        await getPrismaClient().audit.deleteMany();
         return true;
     } catch (error) {
-        AppLogger.info(`[AuditProvider - deleteAuditList] error:  ${error}`);
+        AppLogger.error('[AuditProvider - deleteAuditList] error: ', error);
         return false;
     }
 };
 
-/**
- * Fetches a list of Audit entries from the database based on the provided parameters.
- * @param appId
- */
 const getAuditListByPageAndParams = async ({ appId }: AuditType) => {
     try {
-        AppLogger.info(`[AuditProvider - getAuditListByPageAndParams] appId: ${appId}`);
-
-        const queryOptions: FindOptions = {};
-
-        if (appId) {
-            queryOptions.where = {
-                appId,
-            };
-        }
-
-        const auditList = await AuditModelType.findAll(queryOptions);
-        AppLogger.info(
-            `[AuditProvider - getAuditListByPageAndParams] auditList: ${auditList?.length}`,
-        );
-
-        return auditList?.map((item) => item?.dataValues) || [];
+        const list = await getPrismaClient().audit.findMany({
+            where: appId ? { appId } : undefined,
+        });
+        AppLogger.info('[AuditProvider - getAuditListByPageAndParams] count: ' + list?.length);
+        return list.map((item) => ({ ...item, _id: item.id }));
     } catch (error) {
-        AppLogger.info(`[AuditProvider - getAuditListByPageAndParams] error:  ${error}`);
+        AppLogger.error('[AuditProvider - getAuditListByPageAndParams] error: ', error);
         return [];
     }
 };
@@ -171,5 +150,4 @@ const AuditProvider = {
     deleteAuditList,
     getAuditListByPageAndParams,
 };
-
 export default AuditProvider;

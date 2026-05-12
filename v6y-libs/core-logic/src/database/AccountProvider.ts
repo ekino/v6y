@@ -1,52 +1,8 @@
-import { FindOptions, Op, Sequelize } from 'sequelize';
-
 import AppLogger from '../core/AppLogger.ts';
 import { isAdmin, isSuperAdmin } from '../core/AuthenticationHelper.ts';
 import { AccountInputType, AccountType, SearchQueryType } from '../types/index.ts';
-import { AccountModelType } from './models/AccountModel.ts';
+import { getPrismaClient } from './PrismaClient.ts';
 
-/**
- *  Build search query
- * @param searchText
- * @param start
- * @param limit
- * @param sort
- */
-const buildSearchQuery = async ({
-    searchText = '',
-    start = 0,
-    limit = 10,
-    sort = 'username',
-}: SearchQueryType) => {
-    const queryOptions: FindOptions = {};
-
-    queryOptions.offset = start;
-    queryOptions.limit = limit;
-
-    if (sort) {
-        // queryOptions.order = [[sort, 'ASC']];
-    }
-
-    if (searchText) {
-        queryOptions.where = {
-            [Op.or]: [
-                Sequelize.where(Sequelize.fn('lower', Sequelize.col('username')), {
-                    [Op.like]: `%${searchText.toLowerCase()}%`,
-                }),
-                Sequelize.where(Sequelize.fn('lower', Sequelize.col('email')), {
-                    [Op.like]: `%${searchText.toLowerCase()}%`,
-                }),
-            ],
-        };
-    }
-
-    return queryOptions;
-};
-
-/**
- * Create An Account
- * @param account
- */
 const createAccount = async (account: AccountInputType) => {
     try {
         AppLogger.info(`[AccountProvider - createAccount] account username: ${account?.username}`);
@@ -55,7 +11,6 @@ const createAccount = async (account: AccountInputType) => {
             `[AccountProvider - createAccount] account apps: ${account?.applications?.length}`,
         );
 
-        // Check mandatory fields
         if (
             !account?.username ||
             !account?.password ||
@@ -66,22 +21,24 @@ const createAccount = async (account: AccountInputType) => {
             return null;
         }
 
-        const createdAccount = (await AccountModelType.create(account))?.dataValues;
+        const createdAccount = await getPrismaClient().account.create({
+            data: {
+                username: account.username,
+                email: account.email,
+                password: account.password,
+                role: account.role,
+                applications: account.applications ?? [],
+            },
+        });
 
-        AppLogger.info(`[AccountProvider - createAccount] createdAccount: ${createdAccount._id}`);
-
-        return createdAccount;
+        AppLogger.info(`[AccountProvider - createAccount] createdAccount: ${createdAccount.id}`);
+        return { ...createdAccount, _id: createdAccount.id };
     } catch (error) {
-        AppLogger.info(`[AccountProvider - createAccount] error:  ${error}`);
-
+        AppLogger.error(`[AccountProvider - createAccount] error: `, error);
         return null;
     }
 };
 
-/**
- * Edit an Account
- * @param account
- */
 const editAccount = async ({
     account,
     currentUser,
@@ -103,11 +60,6 @@ const editAccount = async ({
         }
 
         AppLogger.info(`[AccountProvider - editAccount] account id: ${account?._id}`);
-        AppLogger.info(`[AccountProvider - editAccount] account username: ${account?.username}`);
-        AppLogger.info(`[AccountProvider - editAccount] account role: ${account?.role}`);
-        AppLogger.info(
-            `[AccountProvider - editAccount] account apps: ${account?.applications?.length}`,
-        );
 
         if (
             !account?._id ||
@@ -119,27 +71,22 @@ const editAccount = async ({
             return null;
         }
 
-        const editedAccount = await AccountModelType.update(account, {
-            where: {
-                _id: account?._id,
+        await getPrismaClient().account.update({
+            where: { id: account._id },
+            data: {
+                username: account.username,
+                email: account.email,
+                role: account.role,
+                applications: account.applications ?? [],
             },
         });
 
-        AppLogger.info(`[AccountProvider - editAccount] editedAccount: ${editedAccount?.[0]}`);
-
-        return {
-            _id: account?._id,
-        };
+        return { _id: account._id };
     } catch (error) {
-        AppLogger.info(`[AccountProvider - editAccount] error:  ${error}`);
+        AppLogger.error(`[AccountProvider - editAccount] error: `, error);
         return null;
     }
 };
-
-/**
- * Update Account Password
- * @param account
- */
 
 const updateAccountPassword = async ({
     _id,
@@ -161,40 +108,23 @@ const updateAccountPassword = async ({
 
         AppLogger.info(`[AccountProvider - updateAccountPassword] _id: ${_id}`);
 
-        const accountDetails = await AccountModelType.findOne({
-            where: {
-                _id,
-            },
-        });
-
-        if (!accountDetails) {
+        const exists = await getPrismaClient().account.findUnique({ where: { id: _id } });
+        if (!exists) {
             return null;
         }
 
-        await AccountModelType.update(
-            {
-                password: password,
-            },
-            {
-                where: {
-                    _id,
-                },
-            },
-        );
+        await getPrismaClient().account.update({
+            where: { id: _id },
+            data: { password },
+        });
 
-        return {
-            _id,
-        };
+        return { _id };
     } catch (error) {
-        AppLogger.info(`[AccountProvider - updateAccountPassword] error:  ${error}`);
+        AppLogger.error(`[AccountProvider - updateAccountPassword] error: `, error);
         return null;
     }
 };
 
-/**
- * Delete an Account
- * @param _id
- */
 const deleteAccount = async ({
     userToDelete,
     currentUser,
@@ -221,28 +151,16 @@ const deleteAccount = async ({
             return null;
         }
 
-        await AccountModelType.destroy({
-            where: {
-                _id: userToDelete._id,
-            },
-        });
+        await getPrismaClient().account.delete({ where: { id: userToDelete._id } });
 
         AppLogger.info(`[AccountProvider - deleteAccount] deleted account: ${userToDelete._id}`);
-
-        return {
-            _id: userToDelete._id,
-        };
+        return { _id: userToDelete._id };
     } catch (error) {
-        AppLogger.info(`[AccountProvider - deleteAccount] error:  ${error}`);
+        AppLogger.error(`[AccountProvider - deleteAccount] error: `, error);
         return null;
     }
 };
 
-/**
- * Get account details by params
- * @param _id
- * @param email
- **/
 const getAccountDetailsByParams = async ({ _id, email }: { _id?: number; email?: string }) => {
     try {
         AppLogger.info(
@@ -252,63 +170,54 @@ const getAccountDetailsByParams = async ({ _id, email }: { _id?: number; email?:
             return null;
         }
 
-        const accountDetails = await AccountModelType.findOne({
-            where: _id ? { _id } : { email },
+        const account = await getPrismaClient().account.findFirst({
+            where: _id ? { id: _id } : { email },
         });
 
-        if (!accountDetails) {
+        if (!account) {
             AppLogger.info(`[AccountProvider - getAccountDetailsByParams] account not found`);
             return null;
         }
 
         AppLogger.info(
-            `[AccountProvider - getAccountDetailsByParams] account found, accountDetails: ${accountDetails._id}`,
-            `[AccountProvider - getAccountDetailsByParams] accountDetails: ${accountDetails.dataValues._id}`,
+            `[AccountProvider - getAccountDetailsByParams] account found: ${account.id}`,
         );
 
-        return accountDetails.dataValues;
+        return { ...account, _id: account.id };
     } catch (error) {
-        AppLogger.info(`[AccountProvider - getAccountDetailsByParams] error: ${error}`);
+        AppLogger.error(`[AccountProvider - getAccountDetailsByParams] error: `, error);
         return null;
     }
 };
 
-/**
- * Get account list by page and params
- * @param searchText
- * @param start
- * @param limit
- * @param sort
- */
 const getAccountListByPageAndParams = async ({
     searchText = '',
     start = 0,
     limit = 10,
-    sort = 'username',
 }: SearchQueryType) => {
     try {
         AppLogger.info(`[AccountProvider - getAccountListByPageAndParams] start: ${start}`);
         AppLogger.info(`[AccountProvider - getAccountListByPageAndParams] limit: ${limit}`);
-        AppLogger.info(`[AccountProvider - getAccountListByPageAndParams] sort: ${sort}`);
 
-        const searchQuery = await buildSearchQuery({
-            searchText,
-            start,
-            limit,
-            sort,
+        const accounts = await getPrismaClient().account.findMany({
+            skip: start,
+            take: limit,
+            where: searchText
+                ? {
+                      OR: [
+                          { username: { contains: searchText, mode: 'insensitive' } },
+                          { email: { contains: searchText, mode: 'insensitive' } },
+                      ],
+                  }
+                : undefined,
+            orderBy: { username: 'asc' },
         });
-
-        AppLogger.info(
-            `[AccountProvider - getAccountListByPageAndParams] searchQuery: ${JSON.stringify(searchQuery)}`,
-        );
-
-        const accounts = await AccountModelType.findAll();
 
         AppLogger.info(
             `[AccountProvider - getAccountListByPageAndParams] accountList: ${accounts?.length}`,
         );
 
-        return accounts?.map((item) => item?.dataValues) || [];
+        return accounts.map((a) => ({ ...a, _id: a.id }));
     } catch (error) {
         AppLogger.error(`[AccountProvider - getAccountListByPageAndParams] error:  ${error}`);
         return [];
