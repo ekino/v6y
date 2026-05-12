@@ -30,6 +30,7 @@ const {
 const startAuditorAnalysis = async ({
     applicationId,
     workspaceFolder,
+    auditRunId,
 }: CodeModularityAuditType) => {
     try {
         AppLogger.info(
@@ -38,6 +39,7 @@ const startAuditorAnalysis = async ({
         AppLogger.info(
             `[CodeModularityAuditor - startAuditorAnalysis] workspaceFolder:  ${workspaceFolder}`,
         );
+        AppLogger.info(`[CodeModularityAuditor - startAuditorAnalysis] auditRunId:  ${auditRunId}`);
 
         if (applicationId === undefined || !workspaceFolder?.length) {
             return false;
@@ -148,6 +150,15 @@ const startAuditorAnalysis = async ({
                 projectOutDegreeCentrality: outDegreeCentrality(projectGraph),
             },
         });
+
+        // Add auditRunId to each report
+        if (auditRunId) {
+            const auditRunIdNum =
+                typeof auditRunId === 'string' ? parseInt(auditRunId, 10) : auditRunId;
+            auditReports.forEach((audit) => {
+                audit.auditRunId = auditRunIdNum;
+            });
+        }
 
         await AuditProvider.insertAuditList(auditReports);
 

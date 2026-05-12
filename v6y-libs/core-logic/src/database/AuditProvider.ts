@@ -19,6 +19,7 @@ const createAudit = async (audit: AuditType) => {
         const created = await getPrismaClient().audit.create({
             data: {
                 appId: (audit.module?.appId ?? audit.appId)!,
+                auditRunId: audit.auditRunId ?? null,
                 dateStart: audit.dateStart ?? null,
                 dateEnd: audit.dateEnd ?? null,
                 type: audit.type ?? null,
@@ -56,6 +57,7 @@ const insertAuditList = async (auditList: AuditType[] | null) => {
                     });
                     return {
                         appId: (audit.module?.appId ?? audit.appId)!,
+                        auditRunId: audit.auditRunId ?? null,
                         dateStart: audit.dateStart ?? null,
                         dateEnd: audit.dateEnd ?? null,
                         type: audit.type ?? null,

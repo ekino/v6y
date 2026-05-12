@@ -8,6 +8,10 @@ const ApplicationQueriesType = `
     getApplicationDetailsEvolutionsByParams(_id: Int!): [EvolutionType]
     getApplicationDetailsDependenciesByParams(_id: Int!): [DependencyType]
     getApplicationDetailsKeywordsByParams(_id: Int): [KeywordType]
+    getApplicationAuditHistoryByParams(_id: Int!, limit: Int, offset: Int): [AuditRunType]
+    getApplicationAuditHistoryCountByParams(_id: Int!): Int
+    getApplicationLatestAuditRunByParams(_id: Int!): AuditRunType
+    getAuditRunDetailsByParams(_id: Int!): AuditRunType
   }
 `;
 

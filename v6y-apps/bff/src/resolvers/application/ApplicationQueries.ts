@@ -3,6 +3,7 @@ import {
     AppLogger,
     ApplicationProvider,
     ApplicationType,
+    AuditRunProvider,
     SearchQueryType,
 } from '@v6y/core-logic';
 
@@ -327,6 +328,161 @@ const getApplicationTotalByParams = async (
     }
 };
 
+/**
+ * Get application audit history by params
+ * @param _
+ * @param args
+ * @param user
+ */
+const getApplicationAuditHistoryByParams = async (
+    _: unknown,
+    args: { _id: number; limit?: number; offset?: number },
+    { user }: { user: AccountType },
+) => {
+    try {
+        const { _id, limit, offset } = args || {};
+
+        if (!(user.role === 'ADMIN' || user.role === 'SUPERADMIN')) {
+            const userApplicationsIds = user.applications || [];
+            if (!userApplicationsIds.includes(_id)) {
+                throw new Error('Unauthorized');
+            }
+        }
+
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationAuditHistoryByParams] _id: ${_id}, limit: ${limit}, offset: ${offset}`,
+        );
+
+        const auditRuns = await AuditRunProvider.getAuditRunsByApplicationId(_id, limit, offset);
+
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationAuditHistoryByParams] auditRuns count: ${auditRuns?.length}`,
+        );
+
+        return auditRuns;
+    } catch (error) {
+        AppLogger.error(
+            `[ApplicationQueries - getApplicationAuditHistoryByParams] error: ${error}`,
+        );
+        return [];
+    }
+};
+
+/**
+ * Get application audit history count by params
+ * @param _
+ * @param args
+ * @param user
+ */
+const getApplicationAuditHistoryCountByParams = async (
+    _: unknown,
+    args: { _id: number },
+    { user }: { user: AccountType },
+) => {
+    try {
+        const { _id } = args || {};
+
+        if (!(user.role === 'ADMIN' || user.role === 'SUPERADMIN')) {
+            const userApplicationsIds = user.applications || [];
+            if (!userApplicationsIds.includes(_id)) {
+                throw new Error('Unauthorized');
+            }
+        }
+
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationAuditHistoryCountByParams] _id: ${_id}`,
+        );
+
+        const count = await AuditRunProvider.getAuditRunsCountByApplicationId(_id);
+
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationAuditHistoryCountByParams] count: ${count}`,
+        );
+
+        return count;
+    } catch (error) {
+        AppLogger.error(
+            `[ApplicationQueries - getApplicationAuditHistoryCountByParams] error: ${error}`,
+        );
+        return 0;
+    }
+};
+
+/**
+ * Get application latest audit run by params
+ * @param _
+ * @param args
+ * @param user
+ */
+const getApplicationLatestAuditRunByParams = async (
+    _: unknown,
+    args: { _id: number },
+    { user }: { user: AccountType },
+) => {
+    try {
+        const { _id } = args || {};
+
+        if (!(user.role === 'ADMIN' || user.role === 'SUPERADMIN')) {
+            const userApplicationsIds = user.applications || [];
+            if (!userApplicationsIds.includes(_id)) {
+                throw new Error('Unauthorized');
+            }
+        }
+
+        AppLogger.info(`[ApplicationQueries - getApplicationLatestAuditRunByParams] _id: ${_id}`);
+
+        const auditRun = await AuditRunProvider.getLatestAuditRun(_id);
+
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationLatestAuditRunByParams] auditRun: ${auditRun?._id}`,
+        );
+
+        return auditRun;
+    } catch (error) {
+        AppLogger.error(
+            `[ApplicationQueries - getApplicationLatestAuditRunByParams] error: ${error}`,
+        );
+        return null;
+    }
+};
+
+/**
+ * Get audit run details by params
+ * @param _
+ * @param args
+ * @param user
+ */
+const getAuditRunDetailsByParams = async (
+    _: unknown,
+    args: { _id: number },
+    { user }: { user: AccountType },
+) => {
+    try {
+        const { _id } = args || {};
+
+        AppLogger.info(`[ApplicationQueries - getAuditRunDetailsByParams] _id: ${_id}`);
+
+        const auditRun = await AuditRunProvider.getAuditRunById(_id);
+
+        // Check authorization if audit run exists and user is not ADMIN/SUPERADMIN
+        if (auditRun && !(user.role === 'ADMIN' || user.role === 'SUPERADMIN')) {
+            const userApplicationsIds = user.applications || [];
+            if (!userApplicationsIds.includes(auditRun.appId)) {
+                throw new Error('Unauthorized');
+            }
+        }
+
+        AppLogger.info(
+            `[ApplicationQueries - getAuditRunDetailsByParams] auditRun: ${auditRun?._id}`,
+        );
+
+        return auditRun;
+    } catch (error) {
+        AppLogger.error(`[ApplicationQueries - getAuditRunDetailsByParams] error: ${error}`);
+        return null;
+    }
+};
+
 const ApplicationQueries = {
     getApplicationDetailsInfoByParams,
     getApplicationDetailsAuditReportsByParams,
@@ -336,6 +492,10 @@ const ApplicationQueries = {
     getApplicationTotalByParams,
     getApplicationListByPageAndParams,
     getApplicationStatsByParams,
+    getApplicationAuditHistoryByParams,
+    getApplicationAuditHistoryCountByParams,
+    getApplicationLatestAuditRunByParams,
+    getAuditRunDetailsByParams,
 };
 
 export default ApplicationQueries;

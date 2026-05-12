@@ -14,13 +14,20 @@ const { defaultOptions, formatCodeDuplicationReports } = CodeDuplicationUtils;
  * @param applicationId
  * @param workspaceFolder
  */
-const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: AuditCommonsType) => {
+const startAuditorAnalysis = async ({
+    applicationId,
+    workspaceFolder,
+    auditRunId,
+}: AuditCommonsType) => {
     try {
         AppLogger.info(
             `[CodeDuplicationAuditor - startAuditorAnalysis] applicationId:  ${applicationId}`,
         );
         AppLogger.info(
             `[CodeDuplicationAuditor - startAuditorAnalysis] workspaceFolder:  ${workspaceFolder}`,
+        );
+        AppLogger.info(
+            `[CodeDuplicationAuditor - startAuditorAnalysis] auditRunId:  ${auditRunId}`,
         );
 
         if (applicationId === undefined || !workspaceFolder?.length) {
@@ -97,6 +104,15 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: AuditCom
             duplicationTotalSummary: jscpdFileAnalysisResultJson?.statistics?.total,
             duplicationFiles: jscpdFileAnalysisResultJson?.duplicates,
         });
+
+        // Add auditRunId to each report
+        if (auditRunId) {
+            const auditRunIdNum =
+                typeof auditRunId === 'string' ? parseInt(auditRunId, 10) : auditRunId;
+            auditReports.forEach((audit) => {
+                audit.auditRunId = auditRunIdNum;
+            });
+        }
 
         await AuditProvider.insertAuditList(auditReports);
 
