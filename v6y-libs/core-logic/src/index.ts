@@ -12,6 +12,7 @@ import AccountProvider from './database/AccountProvider.ts';
 import ApplicationProvider from './database/ApplicationProvider.ts';
 import AuditHelpProvider from './database/AuditHelpProvider.ts';
 import AuditProvider from './database/AuditProvider.ts';
+import AuditRunProvider from './database/AuditRunProvider.ts';
 import DataBaseManager from './database/DataBaseManager.ts';
 import DependencyProvider from './database/DependencyProvider.ts';
 import DependencyStatusHelpProvider from './database/DependencyStatusHelpProvider.ts';
@@ -47,6 +48,7 @@ export {
     KeywordProvider,
     DataBaseManager,
     AuditProvider,
+    AuditRunProvider,
     AuditHelpProvider,
     FaqProvider,
     AccountProvider,

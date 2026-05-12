@@ -12,11 +12,12 @@ DynamicAuditorRouter.post('/start-dynamic-auditor.json', async (request, respons
     try {
         AppLogger.debug('[DynamicAuditorApiPath] Entering service: [start-dynamic-auditor]');
 
-        const { applicationId } = request.body || {};
+        const { applicationId, auditRunId } = request.body || {};
 
         // ********************************************** Start Audits ***********************************************
         const auditsStartedSuccessfully = await DynamicAuditorManager.startDynamicAudit({
             applicationId,
+            auditRunId,
         }); // Wait for audits to potentially complete
 
         // ********************************************** Server Response ***********************************************

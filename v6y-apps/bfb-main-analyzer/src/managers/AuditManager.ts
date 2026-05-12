@@ -12,11 +12,17 @@ const { dynamicAuditorApiPath, devopsAuditorApiPath } = currentConfig || {};
  * Builds the static reports.
  * @param application
  * @param branches
+ * @param auditRunId
  */
-export const buildStaticReports = async ({ application, branches }: BuildApplicationParams) => {
+export const buildStaticReports = async ({
+    application,
+    branches,
+    auditRunId,
+}: BuildApplicationParams) => {
     try {
         AppLogger.info('[ApplicationManager - buildStaticReports] branches: ', branches?.length);
         AppLogger.info('[ApplicationManager - buildStaticReports] application: ', application);
+        AppLogger.info('[ApplicationManager - buildStaticReports] auditRunId: ', auditRunId);
 
         if (!branches?.length || !application) {
             return false;
@@ -28,6 +34,7 @@ export const buildStaticReports = async ({ application, branches }: BuildApplica
             await buildApplicationDetailsByBranch({
                 application,
                 branch,
+                auditRunId,
             });
         }
 
@@ -41,13 +48,18 @@ export const buildStaticReports = async ({ application, branches }: BuildApplica
 /**
  * Builds the dynamic reports.
  * @param application
+ * @param auditRunId
  */
-export const buildDynamicReports = async ({ application }: BuildApplicationParams) => {
+export const buildDynamicReports = async ({ application, auditRunId }: BuildApplicationParams) => {
     AppLogger.info('[ApplicationManager - buildDynamicReports] application: ', application?._id);
+    AppLogger.info('[ApplicationManager - buildDynamicReports] auditRunId: ', auditRunId);
 
     if (!application) {
         return false;
     }
+
+    let devOpsSuccess = true;
+    let dynamicSuccess = true;
 
     AppLogger.info(
         '[ApplicationManager - buildDynamicReports] devopsAuditorApiPath: ',
@@ -60,6 +72,7 @@ export const buildDynamicReports = async ({ application }: BuildApplicationParam
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 applicationId: application?._id,
+                auditRunId,
             }),
         });
 
@@ -67,6 +80,7 @@ export const buildDynamicReports = async ({ application }: BuildApplicationParam
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
     } catch (error) {
+        devOpsSuccess = false;
         AppLogger.info(
             `[ApplicationManager - buildDynamicReports - devOpsAuditor] error:  ${String(error)}`,
         );
@@ -83,6 +97,7 @@ export const buildDynamicReports = async ({ application }: BuildApplicationParam
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 applicationId: application?._id,
+                auditRunId,
                 workspaceFolder: null,
             }),
         });
@@ -91,10 +106,11 @@ export const buildDynamicReports = async ({ application }: BuildApplicationParam
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
     } catch (error) {
+        dynamicSuccess = false;
         AppLogger.info(
             `[ApplicationManager - buildDynamicReports - dynamicAuditor] error:  ${String(error)}`,
         );
     }
 
-    return true;
+    return devOpsSuccess && dynamicSuccess;
 };

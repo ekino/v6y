@@ -75,13 +75,19 @@ const startLighthouseAudit = async (auditConfig: LighthouseAuditConfigType) => {
 /**
  * Starts the Lighthouse audit for a given application.
  * @param applicationId
+ * @param auditRunId
  * @param browserPath
  */
-const startAuditorAnalysis = async ({ applicationId, browserPath }: LighthouseAuditConfigType) => {
+const startAuditorAnalysis = async ({
+    applicationId,
+    auditRunId,
+    browserPath,
+}: LighthouseAuditConfigType) => {
     try {
         AppLogger.info(
             `[LighthouseAuditor - startAuditorAnalysis] applicationId:  ${applicationId}`,
         );
+        AppLogger.info(`[LighthouseAuditor - startAuditorAnalysis] auditRunId:  ${auditRunId}`);
         AppLogger.info(`[LighthouseAuditor - startAuditorAnalysis] browserPath:  ${browserPath}`);
 
         if (applicationId === undefined) {
@@ -164,6 +170,15 @@ const startAuditorAnalysis = async ({ applicationId, browserPath }: LighthouseAu
             `[LighthouseAuditor - startAuditorAnalysis] auditReports:  ${auditReports?.length}`,
         );
 
+        // Add auditRunId to each report
+        if (auditRunId) {
+            const auditRunIdNum =
+                typeof auditRunId === 'string' ? parseInt(auditRunId, 10) : auditRunId;
+            auditReports.forEach((audit) => {
+                audit.auditRunId = auditRunIdNum;
+            });
+        }
+
         await AuditProvider.insertAuditList(auditReports);
 
         AppLogger.info(
@@ -185,6 +200,15 @@ const startAuditorAnalysis = async ({ applicationId, browserPath }: LighthouseAu
         AppLogger.info(
             `[LighthouseAuditor - startAuditorAnalysis] ecoIndexReports:  ${ecoIndexReports?.length}`,
         );
+
+        // Add auditRunId to each ecoIndex report
+        if (auditRunId) {
+            const auditRunIdNum =
+                typeof auditRunId === 'string' ? parseInt(auditRunId, 10) : auditRunId;
+            ecoIndexReports.forEach((audit) => {
+                audit.auditRunId = auditRunIdNum;
+            });
+        }
 
         await AuditProvider.insertAuditList(ecoIndexReports);
 

@@ -17,7 +17,10 @@ import ApplicationDeleteOutput from './application/ApplicationDeleteOutput.ts';
 import ApplicationMutationsType from './application/ApplicationMutationsType.ts';
 import ApplicationQueriesType from './application/ApplicationQueriesType.ts';
 import ApplicationType from './application/ApplicationType.ts';
+import TriggerApplicationAnalysisInput from './application/TriggerApplicationAnalysisInput.ts';
+import TriggerApplicationAnalysisOutput from './application/TriggerApplicationAnalysisOutput.ts';
 import AuditReportType from './audit/AuditReportType.ts';
+import AuditRunType from './audit/AuditRunType.ts';
 import AuditHelpCreateOrEditInput from './audit/help/AuditHelpCreateOrEditInput.ts';
 import AuditHelpDeleteInput from './audit/help/AuditHelpDeleteInput.ts';
 import AuditHelpDeleteOutput from './audit/help/AuditHelpDeleteOutput.ts';
@@ -91,6 +94,7 @@ const VitalityTypes = gql(`
     ${ApplicationType}
     ${AuditHelpType}
     ${AuditReportType}
+    ${AuditRunType}
     ${FaqType}
     ${NotificationType}
 
@@ -108,6 +112,8 @@ const VitalityTypes = gql(`
     ${ApplicationCreateOrEditInput}
     ${ApplicationDeleteOutput}
     ${ApplicationDeleteInput}
+    ${TriggerApplicationAnalysisInput}
+    ${TriggerApplicationAnalysisOutput}
     ${ApplicationMutationsType}
 
     ${FaqCreateOrEditInput}
