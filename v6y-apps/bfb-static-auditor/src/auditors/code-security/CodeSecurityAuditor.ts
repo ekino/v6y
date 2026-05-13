@@ -48,14 +48,15 @@ const startAuditorAnalysis = async ({
             workspaceFolder,
         });
 
-        // Add auditRunId to each report
-        if (auditRunId) {
-            const auditRunIdNum =
-                typeof auditRunId === 'string' ? parseInt(auditRunId, 10) : auditRunId;
-            securityAuditReports.forEach((audit) => {
+        // Add appId and auditRunId to each report
+        securityAuditReports.forEach((audit) => {
+            audit.appId = applicationId;
+            if (auditRunId) {
+                const auditRunIdNum =
+                    typeof auditRunId === 'string' ? parseInt(auditRunId, 10) : auditRunId;
                 audit.auditRunId = auditRunIdNum;
-            });
-        }
+            }
+        });
 
         await AuditProvider.insertAuditList(securityAuditReports);
 

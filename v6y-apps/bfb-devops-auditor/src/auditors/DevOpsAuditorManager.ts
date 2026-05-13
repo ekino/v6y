@@ -4,25 +4,25 @@
  */
 import { AppLogger, WorkerHelper } from '@v6y/core-logic';
 
-import ServerConfig from '../commons/ServerConfig.ts';
 import { AuditCommonsType } from './types/AuditCommonsType.ts';
 
 const { forkWorker } = WorkerHelper;
-const { currentConfig } = ServerConfig;
 
 /**
  * Starts the DevOps audit process for a given application
  * @param applicationId
+ * @param auditRunId
  */
-const startDevOpsAudit = async ({ applicationId }: AuditCommonsType) => {
+const startDevOpsAudit = async ({ applicationId, auditRunId }: AuditCommonsType) => {
     try {
         AppLogger.info('[DevOpsAuditorManager - startDevOpsAudit] applicationId: ', applicationId);
+        AppLogger.info('[DevOpsAuditorManager - startDevOpsAudit] auditRunId: ', auditRunId);
 
         // Start audits in a worker thread to prevent blocking the main thread
         const workerConfig = {
-            ...currentConfig,
             applicationId,
-        } as WorkerOptions;
+            auditRunId,
+        };
 
         await forkWorker('./src/workers/DevOpsAnalysisWorker.ts', workerConfig);
 

@@ -2,58 +2,30 @@ import {
     AppLogger,
     ApplicationInputType,
     ApplicationProvider,
-    AuditRunProvider,
     SearchQueryType,
 } from '@v6y/core-logic';
 
-/**
- * Trigger static auditor for application
- */
-const triggerStaticAuditor = async (applicationId: number, auditRunId: string) => {
-    try {
-        const staticAuditorUrl =
-            process.env.V6Y_STATIC_AUDITOR_API_PATH || 'http://bfb-static-auditor:3001/audits';
-        await fetch(staticAuditorUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ applicationId, auditRunId }),
-        });
-    } catch (err) {
-        AppLogger.warn(`[AppMutations - triggerApplicationAnalysis] Static auditor error: ${err}`);
-    }
-};
+import ServerConfig from '../../config/ServerConfig.ts';
+
+const { currentConfig } = ServerConfig;
 
 /**
- * Trigger dynamic auditor for application
+ * Trigger audit analysis via main-analyzer
  */
-const triggerDynamicAuditor = async (applicationId: number, auditRunId: string) => {
+const triggerAuditAnalysis = async (
+    applicationId: number,
+    branch: string | undefined,
+    analysisTypes: string[],
+) => {
     try {
-        const dynamicAuditorUrl =
-            process.env.V6Y_DYNAMIC_AUDITOR_API_PATH || 'http://bfb-dynamic-auditor:3002/audits';
-        await fetch(dynamicAuditorUrl, {
+        const mainAnalyzerUrl = currentConfig?.mainAnalyzerApiPath;
+        await fetch(mainAnalyzerUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ applicationId, auditRunId, workspaceFolder: null }),
+            body: JSON.stringify({ applicationId, branch, analysisTypes }),
         });
     } catch (err) {
-        AppLogger.warn(`[AppMutations - triggerApplicationAnalysis] Dynamic auditor error: ${err}`);
-    }
-};
-
-/**
- * Trigger devops auditor for application
- */
-const triggerDevopsAuditor = async (applicationId: number, auditRunId: string) => {
-    try {
-        const devopsAuditorUrl =
-            process.env.V6Y_DEVOPS_AUDITOR_API_PATH || 'http://bfb-devops-auditor:3003/audits';
-        await fetch(devopsAuditorUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ applicationId, auditRunId }),
-        });
-    } catch (err) {
-        AppLogger.warn(`[AppMutations - triggerApplicationAnalysis] DevOps auditor error: ${err}`);
+        AppLogger.warn(`[AppMutations - triggerApplicationAnalysis] Main analyzer error: ${err}`);
     }
 };
 
@@ -99,10 +71,10 @@ const createOrEditApplication = async (
             `[AppMutations - createOrEditApplication] gitOrganization : ${gitOrganization}`,
         );
         AppLogger.info(
-            `[AppMutations - createOrEditApplication] dataDogApiKey : ${dataDogApiKey ? '"********"}`,' : 'null'}`,
+            `[AppMutations - createOrEditApplication] dataDogApiKey : ${dataDogApiKey ? '"********"' : 'null'}`,
         );
         AppLogger.info(
-            `[AppMutations - createOrEditApplication] dataDogAppKey : ${dataDogAppKey ? '"********"}`,' : 'null'}`,
+            `[AppMutations - createOrEditApplication] dataDogAppKey : ${dataDogAppKey ? '"********"' : 'null'}`,
         );
         AppLogger.info(`[AppMutations - createOrEditApplication] dataDogUrl : ${dataDogUrl}`);
         AppLogger.info(
@@ -233,8 +205,6 @@ const triggerApplicationAnalysis = async (
         };
     },
 ) => {
-    let auditRunId: string | undefined;
-
     try {
         const { applicationId, branch, analysisTypes } = params?.input || {};
 
@@ -273,80 +243,20 @@ const triggerApplicationAnalysis = async (
             };
         }
 
-        // Create audit run record
-        const auditRun = await AuditRunProvider.createAuditRun({
-            appId: applicationId,
-            branch: branch || null,
-            runStatus: 'pending',
-            analysisTypes,
-        });
-
-        if (!auditRun) {
-            AppLogger.error(
-                '[AppMutations - triggerApplicationAnalysis] Failed to create audit run',
-            );
-            return {
-                success: false,
-                message: 'Failed to create audit run',
-                applicationId,
-                branch,
-                auditRun: null,
-            };
-        }
-
-        auditRunId = auditRun._id;
         AppLogger.info(
-            `[AppMutations - triggerApplicationAnalysis] Audit run created: ${auditRunId}`,
+            `[AppMutations - triggerApplicationAnalysis] applicationId: ${applicationId}, branch: ${branch}, analysisTypes: ${analysisTypes.join(',')}`,
         );
 
-        // Update status to in_progress
-        await AuditRunProvider.updateAuditRunStatus({
-            auditRunId,
-            runStatus: 'in_progress',
-        });
-
-        // Trigger async analysis job via API calls
+        // Trigger async analysis job via main-analyzer
         (async () => {
             try {
-                const branchesToAnalyze = branch
-                    ? [{ name: branch }]
-                    : application?.repo?.allBranches?.map((b: string) => ({ name: b })) || [];
-
-                // Trigger static auditor if included
-                if (analysisTypes.includes('static') && branchesToAnalyze.length > 0) {
-                    AppLogger.info(
-                        `[AppMutations - triggerApplicationAnalysis] Triggering static auditor for app ${applicationId}`,
-                    );
-                    await triggerStaticAuditor(applicationId, auditRunId);
-                }
-
-                // Trigger dynamic auditor if included
-                if (analysisTypes.includes('dynamic')) {
-                    AppLogger.info(
-                        `[AppMutations - triggerApplicationAnalysis] Triggering dynamic auditor for app ${applicationId}`,
-                    );
-                    await triggerDynamicAuditor(applicationId, auditRunId);
-                }
-
-                // Trigger devops auditor if included
-                if (analysisTypes.includes('devops')) {
-                    AppLogger.info(
-                        `[AppMutations - triggerApplicationAnalysis] Triggering devops auditor for app ${applicationId}`,
-                    );
-                    await triggerDevopsAuditor(applicationId, auditRunId);
-                }
+                AppLogger.info(
+                    `[AppMutations - triggerApplicationAnalysis] Triggering main-analyzer for app ${applicationId}`,
+                );
+                await triggerAuditAnalysis(applicationId, branch, analysisTypes);
             } catch (asyncError) {
                 AppLogger.error(
                     `[AppMutations - triggerApplicationAnalysis] Async analysis job error: ${asyncError}`,
-                );
-                await AuditRunProvider.updateAuditRunStatus({
-                    auditRunId: auditRunId!,
-                    runStatus: 'error',
-                    errorMessage: String(asyncError),
-                }).catch((updateErr) =>
-                    AppLogger.warn(
-                        `[AppMutations - triggerApplicationAnalysis] Failed to update error status: ${updateErr}`,
-                    ),
                 );
             }
         })();
@@ -356,23 +266,10 @@ const triggerApplicationAnalysis = async (
             message: 'Analysis triggered successfully',
             applicationId,
             branch,
-            auditRun,
+            auditRun: null,
         };
     } catch (error) {
         AppLogger.error(`[AppMutations - triggerApplicationAnalysis] error: ${error}`);
-
-        // Try to update run status to error if it was created
-        if (auditRunId) {
-            await AuditRunProvider.updateAuditRunStatus({
-                auditRunId,
-                runStatus: 'error',
-                errorMessage: String(error),
-            }).catch((updateErr) =>
-                AppLogger.warn(
-                    `[AppMutations - triggerApplicationAnalysis] Failed to update error status: ${updateErr}`,
-                ),
-            );
-        }
 
         return {
             success: false,

@@ -1,10 +1,8 @@
 import { AppLogger, WorkerHelper } from '@v6y/core-logic';
 
-import ServerConfig from '../commons/ServerConfig.ts';
 import { AuditCommonsType } from './types/AuditCommonsType.ts';
 
 const { forkWorker } = WorkerHelper;
-const { currentConfig } = ServerConfig;
 
 const startStaticAudit = async ({
     applicationId,
@@ -21,11 +19,10 @@ const startStaticAudit = async ({
 
         // Start audits in a worker thread to prevent blocking the main thread
         const workerConfig = {
-            ...currentConfig,
             applicationId,
             workspaceFolder,
             auditRunId,
-        } as WorkerOptions;
+        };
 
         await forkWorker('./src/workers/CodeQualityAnalysisWorker.ts', workerConfig);
         AppLogger.info(
