@@ -1,22 +1,21 @@
 import { AppLogger, WorkerHelper } from '@v6y/core-logic';
 
-import ServerConfig from '../commons/ServerConfig.ts';
 import { AuditCommonsType } from './types/AuditCommonsType.ts';
 
 const { forkWorker } = WorkerHelper;
-const { currentConfig } = ServerConfig;
 
-const startDynamicAudit = async ({ applicationId }: AuditCommonsType) => {
+const startDynamicAudit = async ({ applicationId, auditRunId }: AuditCommonsType) => {
     try {
         AppLogger.info(
             '[DynamicAuditorManager - startDynamicAudit] applicationId: ',
             applicationId,
         );
+        AppLogger.info('[DynamicAuditorManager - startDynamicAudit] auditRunId: ', auditRunId);
 
         // Start audits in a worker thread to prevent blocking the main thread
         const workerConfig = {
-            ...currentConfig,
             applicationId,
+            auditRunId,
         };
 
         // start Lighthouse analysis

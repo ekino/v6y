@@ -12,12 +12,13 @@ StaticAuditorRouter.post('/start-static-auditor.json', async (request, response)
     try {
         AppLogger.debug('[StaticAuditorRouter] Entering service: [start-static-auditor]');
 
-        const { applicationId, workspaceFolder } = request.body || {};
+        const { applicationId, workspaceFolder, auditRunId } = request.body || {};
 
         // ********************************************** Start Audits ***********************************************
         const auditsStartedSuccessfully = await StaticAuditorManager.startStaticAudit({
             applicationId,
             workspaceFolder,
+            auditRunId,
         }); // Wait for audits to potentially complete
 
         // ********************************************** Server Response ***********************************************

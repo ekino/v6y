@@ -19,11 +19,12 @@ const { analyseDoraMetrics } = DoraMetricsUtils;
  * Starts the Dora Metrics auditor analysis.
  * @param auditConfig
  */
-const startAuditorAnalysis = async ({ applicationId }: DoraMetricsAuditConfigType) => {
+const startAuditorAnalysis = async ({ applicationId, auditRunId }: DoraMetricsAuditConfigType) => {
     try {
         AppLogger.info(
             `[DoraMetricsAuditor - startAuditorAnalysis] applicationId:  ${applicationId}`,
         );
+        AppLogger.info(`[DoraMetricsAuditor - startAuditorAnalysis] auditRunId:  ${auditRunId}`);
 
         if (applicationId === undefined) {
             return false;
@@ -67,6 +68,15 @@ const startAuditorAnalysis = async ({ applicationId }: DoraMetricsAuditConfigTyp
                 dateEnd,
             });
             auditReports.push(...reports);
+        }
+
+        // Add auditRunId to each report
+        if (auditRunId) {
+            const auditRunIdNum =
+                typeof auditRunId === 'string' ? parseInt(auditRunId, 10) : auditRunId;
+            auditReports.forEach((audit) => {
+                audit.auditRunId = auditRunIdNum;
+            });
         }
 
         await AuditProvider.insertAuditList(auditReports);

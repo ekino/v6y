@@ -4,6 +4,9 @@ const V6Y_API_BASE_PATH = normalizeBasePath(process.env.V6Y_BFF_API_PATH);
 const V6Y_HEALTH_CHECK_PATH = `${V6Y_API_BASE_PATH}health-checks`;
 const V6Y_MONITORING_PATH = `${V6Y_API_BASE_PATH}monitoring`;
 
+const V6Y_MAIN_API_PATH = normalizeBasePath(process.env.V6Y_MAIN_API_PATH);
+const MAIN_ANALYZER_API_PATH = `${V6Y_MAIN_API_PATH}trigger-audit`;
+
 const SERVER_ENV_CONFIGURATION = {
     production: {
         ssl: false,
@@ -12,6 +15,8 @@ const SERVER_ENV_CONFIGURATION = {
         apiPath: process.env.V6Y_BFF_API_PATH,
         healthCheckPath: V6Y_HEALTH_CHECK_PATH,
         monitoringPath: V6Y_MONITORING_PATH,
+        mainAnalyzerApiPath: MAIN_ANALYZER_API_PATH,
+        databaseUri: '',
         serverTimeout: 900000, // milliseconds
     },
     development: {
@@ -21,6 +26,8 @@ const SERVER_ENV_CONFIGURATION = {
         apiPath: process.env.V6Y_BFF_API_PATH,
         healthCheckPath: V6Y_HEALTH_CHECK_PATH,
         monitoringPath: V6Y_MONITORING_PATH,
+        mainAnalyzerApiPath: MAIN_ANALYZER_API_PATH,
+        databaseUri: '',
         serverTimeout: 900000, // milliseconds
     },
 } as ServerEnvConfigType;

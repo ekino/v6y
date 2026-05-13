@@ -31,6 +31,7 @@ model Application {
   createdAt     DateTime     @default(now()) @map("created_at")
   updatedAt     DateTime     @updatedAt @map("updated_at")
   audits        Audit[]
+  auditRuns     AuditRun[]
   dependencies  Dependency[]
   evolutions    Evolution[]
   keywords      Keyword[]
@@ -42,6 +43,8 @@ model Audit {
   id          Int         @id @default(autoincrement()) @map("_id")
   appId       Int         @map("app_id")
   application Application @relation(fields: [appId], references: [id], onDelete: Cascade)
+  auditRunId  Int?        @map("audit_run_id")
+  auditRun    AuditRun?   @relation(fields: [auditRunId], references: [id], onDelete: SetNull)
   dateStart   DateTime?   @map("date_start")
   dateEnd     DateTime?   @map("date_end")
   type        String?
@@ -58,8 +61,29 @@ model Audit {
   updatedAt   DateTime    @updatedAt @map("updated_at")
 
   @@index([appId])
+  @@index([auditRunId])
   @@index([appId, type, category])
   @@map("audit_reports")
+}
+
+model AuditRun {
+  id             Int         @id @default(autoincrement()) @map("_id")
+  appId          Int         @map("app_id")
+  application    Application @relation(fields: [appId], references: [id], onDelete: Cascade)
+  branch         String?
+  runStatus      String      @default("pending") @map("run_status")
+  analysisTypes  String[]    @default([]) @map("analysis_types")
+  audits         Audit[]
+  triggeredAt    DateTime    @default(now()) @map("triggered_at")
+  completedAt    DateTime?   @map("completed_at")
+  errorMessage   String?     @map("error_message")
+  createdAt      DateTime    @default(now()) @map("created_at")
+  updatedAt      DateTime    @updatedAt @map("updated_at")
+
+  @@index([appId])
+  @@index([triggeredAt])
+  @@index([runStatus])
+  @@map("audit_runs")
 }
 
 model Dependency {
