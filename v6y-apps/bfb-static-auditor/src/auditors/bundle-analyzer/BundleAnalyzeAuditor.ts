@@ -31,14 +31,15 @@ const startAuditorAnalysis = async ({
 
         const auditReports = await startBundleAnalyzeReports({ workspaceFolder, applicationId });
 
-        // Add auditRunId to each report
-        if (auditRunId) {
-            const auditRunIdNum =
-                typeof auditRunId === 'string' ? parseInt(auditRunId, 10) : auditRunId;
-            auditReports.forEach((audit) => {
+        // Add appId and auditRunId to each report
+        auditReports.forEach((audit) => {
+            audit.appId = applicationId;
+            if (auditRunId) {
+                const auditRunIdNum =
+                    typeof auditRunId === 'string' ? parseInt(auditRunId, 10) : auditRunId;
                 audit.auditRunId = auditRunIdNum;
-            });
-        }
+            }
+        });
 
         await AuditProvider.insertAuditList(auditReports);
         AppLogger.info(

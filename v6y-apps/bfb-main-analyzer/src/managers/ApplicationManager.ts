@@ -4,6 +4,7 @@ import {
     ApplicationType,
     AuditRunProvider,
     RepositoryApi,
+    RepositoryBranchType,
 } from '@v6y/core-logic';
 
 import { buildDynamicReports, buildStaticReports } from './AuditManager.ts';
@@ -32,27 +33,49 @@ const buildApplicationReports = async (application: ApplicationType) => {
         const { organization, gitUrl } = application.repo;
         const gitRepositoryName = gitUrl?.split('/')?.pop()?.replace('.git', '');
 
-        const repositoryDetails = await getRepositoryDetails({
-            organization,
-            gitRepositoryName,
-        });
+        let repositoryDetails;
+        let repositoryBranches: RepositoryBranchType[] = [];
+
+        try {
+            repositoryDetails = await getRepositoryDetails({
+                organization,
+                gitRepositoryName,
+            });
+        } catch (repoError) {
+            AppLogger.warn(
+                `[ApplicationManager - buildApplicationReports] Failed to fetch repository details for ${application.name}: ${repoError}. Will use default branches.`,
+            );
+        }
 
         if (
             !repositoryDetails?.id ||
             repositoryDetails?.archived ||
             repositoryDetails?.empty_repo
         ) {
-            return false;
+            AppLogger.warn(
+                `[ApplicationManager - buildApplicationReports] Repository check failed for ${application.name}, using default branches only.`,
+            );
+        } else {
+            const { _links: repositoryLinks } = repositoryDetails;
+
+            try {
+                repositoryBranches = await getRepositoryBranches({
+                    repoBranchesUrl: repositoryLinks?.repo_branches,
+                });
+            } catch (branchError) {
+                AppLogger.warn(
+                    `[ApplicationManager - buildApplicationReports] Failed to fetch branches for ${application.name}: ${branchError}`,
+                );
+            }
         }
 
-        const { _links: repositoryLinks } = repositoryDetails;
-
-        const repositoryBranches = await getRepositoryBranches({
-            repoBranchesUrl: repositoryLinks?.repo_branches,
-        });
-
+        // If no branches found, attempt to use default branch names
         if (!repositoryBranches?.length) {
-            return false;
+            AppLogger.warn(
+                `[ApplicationManager - buildApplicationReports] No branches found for ${application.name}, attempting default branches (main/master)`,
+            );
+            // Create default branch objects for main and master
+            repositoryBranches = [{ name: 'main' }, { name: 'master' }];
         }
 
         await ApplicationProvider.editApplication({
@@ -141,26 +164,41 @@ const buildApplicationReports = async (application: ApplicationType) => {
  */
 const buildApplicationList = async () => {
     try {
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationList] Fetching applications from database...',
+        );
         const applications = await ApplicationProvider.getApplicationListByPageAndParams(
             {},
             { role: 'ADMIN' },
         );
+        const appCount = applications?.length || 0;
         AppLogger.info(
-            '[ApplicationManager -  buildApplicationList] applications: ',
-            applications?.length,
+            `[ApplicationManager - buildApplicationList] Found ${appCount} application(s) to process`,
         );
 
         if (!applications?.length) {
+            AppLogger.warn(
+                '[ApplicationManager - buildApplicationList] No applications found in database',
+            );
             return false;
         }
 
+        AppLogger.info(
+            `[ApplicationManager - buildApplicationList] Processing ${appCount} applications...`,
+        );
         for (const application of applications) {
+            AppLogger.info(
+                `[ApplicationManager - buildApplicationList] Processing application: ${application.name}`,
+            );
             await buildApplicationReports(application);
         }
 
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationList] ✅ All applications processed successfully',
+        );
         return true;
     } catch (error) {
-        AppLogger.info('[ApplicationManager - buildApplicationList] error: ', error);
+        AppLogger.error('[ApplicationManager - buildApplicationList] ❌ Error: ', error);
         return false;
     }
 };

@@ -63,14 +63,15 @@ const startAuditorAnalysis = async ({
             return true;
         }
 
-        // Add auditRunId to each report
-        if (auditRunId) {
-            const auditRunIdNum =
-                typeof auditRunId === 'string' ? parseInt(auditRunId, 10) : auditRunId;
-            creedengoAuditReports.forEach((audit) => {
+        // Add appId and auditRunId to each report
+        creedengoAuditReports.forEach((audit) => {
+            audit.appId = applicationId;
+            if (auditRunId) {
+                const auditRunIdNum =
+                    typeof auditRunId === 'string' ? parseInt(auditRunId, 10) : auditRunId;
                 audit.auditRunId = auditRunIdNum;
-            });
-        }
+            }
+        });
 
         await AuditProvider.insertAuditList(creedengoAuditReports);
 

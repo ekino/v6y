@@ -12,10 +12,11 @@ DevOpsAuditorRouter.post('/start-devops-auditor.json', async (request, response)
     try {
         AppLogger.debug('[DevOpsAuditorRouter] Entering service: [start-devops-auditor]');
 
-        const { applicationId } = request.body || {};
+        const { applicationId, auditRunId } = request.body || {};
 
         // ********************************************** Input Validation ***********************************************
         AppLogger.info(`[DevOpsAuditorRouter] applicationId: ${applicationId}`);
+        AppLogger.info(`[DevOpsAuditorRouter] auditRunId: ${auditRunId}`);
 
         if (!applicationId) {
             AppLogger.error(
@@ -32,6 +33,7 @@ DevOpsAuditorRouter.post('/start-devops-auditor.json', async (request, response)
         // ********************************************** Start Audits ***********************************************
         const auditsStartedSuccessfully = await DevOpsAuditorManager.startDevOpsAudit({
             applicationId,
+            auditRunId,
         }); // Wait for audits to potentially complete
 
         // ********************************************** Server Response ***********************************************

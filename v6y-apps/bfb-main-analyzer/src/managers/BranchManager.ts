@@ -104,6 +104,15 @@ export const buildApplicationFrontendByBranch = async ({
     );
 
     try {
+        AppLogger.debug(
+            '[ApplicationManager - buildApplicationFrontendByBranch] URL type: ',
+            typeof staticAuditorApiPath,
+        );
+        AppLogger.debug(
+            '[ApplicationManager - buildApplicationFrontendByBranch] URL length: ',
+            typeof staticAuditorApiPath === 'string' ? staticAuditorApiPath.length : 'N/A',
+        );
+
         const response = await fetch(staticAuditorApiPath as string, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

@@ -21,9 +21,17 @@ export const CorsOptions = {
 export const getServerConfig = (
     SERVER_ENV_CONFIGURATION: ServerEnvConfigType,
 ): ServerConfigType => {
+    // Check multiple sources for dev mode detection:
+    // 1. NODE_ENV environment variable (most reliable)
+    // 2. --dev command line flag (for backward compatibility)
+    const nodeEnv = process.env.NODE_ENV;
     const execEnv = process?.argv;
-    const currentContext = execEnv?.includes('--dev') ? 'development' : 'production';
+    const hasDevFlag = execEnv?.includes('--dev');
 
+    const currentContext = nodeEnv === 'development' || hasDevFlag ? 'development' : 'production';
+
+    AppLogger.info(`[getServerConfig] NODE_ENV: ${nodeEnv}`);
+    AppLogger.info(`[getServerConfig] process.argv: ${JSON.stringify(execEnv)}`);
     AppLogger.info(`[getServerConfig] currentContext: ${currentContext}`);
 
     const currentConfig = SERVER_ENV_CONFIGURATION[currentContext];
