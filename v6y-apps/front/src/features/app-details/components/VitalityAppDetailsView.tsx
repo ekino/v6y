@@ -77,9 +77,14 @@ const VitalityAppDetailsView = () => {
     const [selectedBranch, setSelectedBranch] = React.useState('');
     const [selectedDate, setSelectedDate] = React.useState('2025-01-01');
     const [isRunningAudit, setIsRunningAudit] = React.useState(false);
+    const [isReloading, setIsReloading] = React.useState(false);
     const [auditTrigger, setAuditTrigger] = React.useState(0);
 
-    const { isLoading: isAppDetailsInfosLoading, data: appDetailsInfos } = useClientQuery<{
+    const {
+        isLoading: isAppDetailsInfosLoading,
+        data: appDetailsInfos,
+        refetch: refetchAppDetails,
+    } = useClientQuery<{
         getApplicationDetailsInfoByParams: ApplicationType;
     }>({
         queryCacheKey: ['getApplicationDetailsInfoByParams', `${_id}`],
@@ -123,6 +128,16 @@ const VitalityAppDetailsView = () => {
     const onExportClicked = () => {
         if (appInfos) {
             exportAppDetailsDataToCSV(appInfos);
+        }
+    };
+
+    const onReloadClicked = async () => {
+        setIsReloading(true);
+        try {
+            await refetchAppDetails();
+            setAuditTrigger((prev) => prev + 1);
+        } finally {
+            setIsReloading(false);
         }
     };
 
@@ -251,12 +266,16 @@ const VitalityAppDetailsView = () => {
 
                         <div className="flex items-center gap-1.5 shrink-0">
                             <Button
+                                onClick={onReloadClicked}
+                                disabled={isReloading}
                                 variant="outline"
                                 size="sm"
                                 className="h-10 sm:h-8 w-10 sm:w-9 p-2 border-slate-300 rounded-md shrink-0"
                                 title="Reload"
                             >
-                                <ReloadIcon className="w-4 h-4 shrink-0" />
+                                <ReloadIcon
+                                    className={`w-4 h-4 shrink-0 ${isReloading ? 'animate-spin' : ''}`}
+                                />
                             </Button>
                             <Button
                                 variant="outline"
