@@ -51,7 +51,7 @@
     "graphql": "=16.10.0",
     "graphql-request": "=7.1.2",
     "graphql-ws": "=6.0.4",
-    "js-cookie": "=3.0.5",
+    "js-cookie": "=3.0.7",
     "react-hook-form": "=7.54.2"
   },
   "devDependencies": {
