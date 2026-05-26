@@ -16,11 +16,11 @@ services:
       timeout: 5s
       retries: 5
   v6y-migrate:
-    extends:
-      file: docker-compose.base.yml
-      service: v6y-service-base
-    command: pnpm --filter @v6y/core-logic db:migrate:deploy
-    image: ghcr.io/${REGISTRY_OWNER}/v6y-bff:latest
+    image: ${REGISTRY}v6y-migrate:${IMAGE_TAG}
+    pull_policy: build
+    build:
+      context: .
+      dockerfile: v6y-config/Dockerfile.migrations
     environment:
       - PSQL_DB_HOST=${PSQL_DB_HOST}
       - PSQL_DB_NAME=${PSQL_DB_NAME}
@@ -31,15 +31,19 @@ services:
       v6y-database:
         condition: service_healthy
     restart: "no"
+    volumes:
+      - ./:/app
+      - mono-node-modules:/app/node_modules
 
   v6y-bff:
+    image: ${REGISTRY}v6y-bff:${IMAGE_TAG}
+    pull_policy: build
     extends:
       file: docker-compose.base.yml
       service: v6y-service-base
     command: pnpm run start:bff
     ports:
       - "4001:4001"
-    image: ghcr.io/${REGISTRY_OWNER}/v6y-bff:latest
     environment:
       - PSQL_DB_HOST=${PSQL_DB_HOST}
       - PSQL_DB_NAME=${PSQL_DB_NAME}
@@ -61,13 +65,14 @@ services:
       retries: 3
 
   v6y-bfb-main-analyzer:
+    image: ${REGISTRY}v6y-bfb-main-analyzer:${IMAGE_TAG}
+    pull_policy: build
     extends:
       file: docker-compose.base.yml
       service: v6y-service-base
     command: pnpm run start:bfb:main
     ports:
       - "4002:4002"
-    image: ghcr.io/${REGISTRY_OWNER}/v6y-bfb-main-analyzer:latest
     environment:
       - PSQL_DB_HOST=${PSQL_DB_HOST}
       - PSQL_DB_NAME=${PSQL_DB_NAME}
@@ -91,13 +96,14 @@ services:
       retries: 3
 
   v6y-bfb-static-code-auditor:
+    image: ${REGISTRY}v6y-bfb-static-code-auditor:${IMAGE_TAG}
+    pull_policy: build
     extends:
       file: docker-compose.base.yml
       service: v6y-service-base
     command: pnpm run start:bfb:static
     ports:
       - "4003:4003"
-    image: ghcr.io/${REGISTRY_OWNER}/v6y-bfb-static-code-auditor:latest
     environment:
       - PSQL_DB_HOST=${PSQL_DB_HOST}
       - PSQL_DB_NAME=${PSQL_DB_NAME}
@@ -119,13 +125,14 @@ services:
       retries: 3
 
   v6y-bfb-url-dynamic-auditor:
+    image: ${REGISTRY}v6y-bfb-url-dynamic-auditor:${IMAGE_TAG}
+    pull_policy: build
     extends:
       file: docker-compose.base.yml
       service: v6y-service-base
     command: pnpm run start:bfb:dynamic
     ports:
       - "4004:4004"
-    image: ghcr.io/${REGISTRY_OWNER}/v6y-bfb-url-dynamic-auditor:latest
     environment:
       - PSQL_DB_HOST=${PSQL_DB_HOST}
       - PSQL_DB_NAME=${PSQL_DB_NAME}
@@ -147,13 +154,14 @@ services:
       retries: 3
 
   v6y-bfb-devops-auditor:
+    image: ${REGISTRY}v6y-bfb-devops-auditor:${IMAGE_TAG}
+    pull_policy: build
     extends:
       file: docker-compose.base.yml
       service: v6y-service-base
     command: pnpm run start:bfb:devops
     ports:
       - "4005:4005"
-    image: ghcr.io/${REGISTRY_OWNER}/v6y-bfb-devops-auditor:latest
     environment:
       - PSQL_DB_HOST=${PSQL_DB_HOST}
       - PSQL_DB_NAME=${PSQL_DB_NAME}
@@ -175,13 +183,14 @@ services:
       retries: 3
 
   v6y-frontend:
+    image: ${REGISTRY}v6y-frontend:${IMAGE_TAG}
+    pull_policy: build
     extends:
       file: docker-compose.base.yml
       service: v6y-service-base
     command: pnpm run start:frontend
     ports:
       - "4006:4006"
-    image: ghcr.io/${REGISTRY_OWNER}/v6y-frontend:latest
     environment:
       - NEXT_PUBLIC_V6Y_BFF_PATH=${NEXT_PUBLIC_V6Y_BFF_PATH}
     healthcheck:
@@ -191,13 +200,14 @@ services:
       retries: 3
 
   v6y-frontend-bo:
+    image: ${REGISTRY}v6y-frontend-bo:${IMAGE_TAG}
+    pull_policy: build
     extends:
       file: docker-compose.base.yml
       service: v6y-service-base
     command: pnpm run start:frontend:bo
     ports:
       - "4008:4008"
-    image: ghcr.io/${REGISTRY_OWNER}/v6y-frontend-bo:latest
     environment:
       - NEXT_PUBLIC_V6Y_BFF_PATH=${NEXT_PUBLIC_V6Y_BFF_PATH}
       - NEXTAUTH_URL=${NEXTAUTH_URL}

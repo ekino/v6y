@@ -1,0 +1,11 @@
+ARG NODE_VERSION=22-alpine
+FROM node:${NODE_VERSION}
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm install -g pnpm@10.20.0
+RUN pnpm install
+
+CMD ["pnpm", "--filter", "@v6y/core-logic", "db:migrate:deploy"]
