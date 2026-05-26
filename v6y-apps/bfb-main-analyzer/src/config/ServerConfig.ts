@@ -30,7 +30,6 @@ const buildAuditorUrl = (
         AppLogger.warn(`[buildAuditorUrl] Missing port for apiPath: ${apiPath}`);
         return '';
     }
-
     const normalizedPath = normalizeBasePath(apiPath);
     const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
     const fullUrl = `http://localhost:${port}${normalizedPath}${normalizedEndpoint}`;

@@ -21,7 +21,6 @@ const forkWorker = (filepath: string, workerData: WorkerOptions) => {
                   { eval: true, workerData },
               )
             : new Worker(absolutePath, { workerData });
-
         worker.on('online', () => {
             console.log('******************** Launching intensive CPU task ******************** ');
         });

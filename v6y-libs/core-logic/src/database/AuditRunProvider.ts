@@ -16,6 +16,27 @@ const createAuditRun = async (auditRun: AuditRunType) => {
             return null;
         }
 
+        // Check if there's a recent pending run for the same app/branch (within last 5 minutes)
+        // to avoid creating duplicates
+        const recentRun = await getPrismaClient().auditRun.findFirst({
+            where: {
+                appId: auditRun.appId,
+                branch: auditRun.branch ?? null,
+                runStatus: 'pending',
+                triggeredAt: {
+                    gte: new Date(Date.now() - 5 * 60 * 1000), // Last 5 minutes
+                },
+            },
+            orderBy: { triggeredAt: 'desc' },
+        });
+
+        if (recentRun) {
+            AppLogger.info(
+                '[AuditRunProvider - createAuditRun] Reusing recent run: ' + recentRun.id,
+            );
+            return { ...recentRun, _id: recentRun.id };
+        }
+
         const created = await getPrismaClient().auditRun.create({
             data: {
                 appId: auditRun.appId,
@@ -66,6 +87,50 @@ const updateAuditRunStatus = async ({
         return { ...updated, _id: updated.id };
     } catch (error) {
         AppLogger.error('[AuditRunProvider - updateAuditRunStatus] error: ', error);
+        return null;
+    }
+};
+
+/**
+ * Complete an audit run after all audits are done
+ */
+const completeAuditRun = async (auditRunId: number, hasErrors: boolean = false) => {
+    try {
+        AppLogger.info(
+            '[AuditRunProvider - completeAuditRun] auditRunId: ' +
+                auditRunId +
+                ' hasErrors: ' +
+                hasErrors,
+        );
+
+        const completed = await updateAuditRunStatus({
+            auditRunId,
+            runStatus: hasErrors ? 'failed' : 'completed',
+            completedAt: new Date(),
+            errorMessage: hasErrors ? 'Audit completed with errors' : null,
+        });
+
+        AppLogger.info('[AuditRunProvider - completeAuditRun] completed: ' + auditRunId);
+        return completed;
+    } catch (error) {
+        AppLogger.error('[AuditRunProvider - completeAuditRun] error: ', error);
+        return null;
+    }
+};
+
+/**
+ * Get audit run with all its audits to check completion
+ */
+const getAuditRunWithAudits = async (auditRunId: number) => {
+    try {
+        const auditRun = await getPrismaClient().auditRun.findUnique({
+            where: { id: auditRunId },
+            include: { audits: true },
+        });
+
+        return auditRun ? { ...auditRun, _id: auditRun.id } : null;
+    } catch (error) {
+        AppLogger.error('[AuditRunProvider - getAuditRunWithAudits] error: ', error);
         return null;
     }
 };
@@ -161,6 +226,8 @@ const deleteAuditRun = async (auditRunId: number) => {
 const AuditRunProvider = {
     createAuditRun,
     updateAuditRunStatus,
+    completeAuditRun,
+    getAuditRunWithAudits,
     getAuditRunById,
     getAuditRunsByApplicationId,
     getLatestAuditRun,
