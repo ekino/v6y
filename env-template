@@ -32,4 +32,8 @@ V6Y_BFF_API_PORT=4001
 NEXT_PUBLIC_V6Y_BFF_PATH=xxxx
 NEXTAUTH_URL=xxxx
 
-REGISTRY_OWNER=x
+# Docker Registry
+# For local development, keep REGISTRY empty to use simple image names (e.g., v6y-bff:latest)
+# For CI/CD, this is set to ghcr.io/ekino/ by the workflow
+REGISTRY=
+IMAGE_TAG=latest

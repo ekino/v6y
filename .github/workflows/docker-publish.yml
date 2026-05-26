@@ -102,16 +102,13 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Update docker-compose.yml with dynamic image names
-        run: |
-          sed -i "s|<registry-owner>|${{ github.repository_owner }}|g" docker-compose.yml
-          sed -i "s|:latest|:${{ env.IMAGE_TAG }}|g" docker-compose.yml
-
       - name: Validate Docker Compose Configuration
         run: docker-compose -f docker-compose.yml config
 
       - name: Build and push images using Docker Compose
         run: |
+          export REGISTRY="ghcr.io/${{ github.repository_owner }}/"
+          export IMAGE_TAG="${{ env.IMAGE_TAG }}"
           docker-compose -f docker-compose.yml build
           docker-compose -f docker-compose.yml push
 
