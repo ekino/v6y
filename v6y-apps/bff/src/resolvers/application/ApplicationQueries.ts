@@ -84,6 +84,53 @@ const getApplicationDetailsAuditReportsByParams = async (
 };
 
 /**
+ * Get application audit runs history by params
+ * @param _
+ * @param args
+ * @param user
+ */
+const getApplicationAuditRunsByParams = async (
+    _: unknown,
+    args: ApplicationType,
+    { user }: { user: AccountType },
+) => {
+    try {
+        const { _id } = args || {};
+
+        AppLogger.info(`[ApplicationQueries - getApplicationAuditRuns] Received args:`, args);
+        AppLogger.info(`[ApplicationQueries - getApplicationAuditRuns] _id : ${_id}`);
+
+        if (!_id) {
+            AppLogger.error('[ApplicationQueries - getApplicationAuditRuns] Missing _id parameter');
+            return [];
+        }
+
+        if (!(user.role === 'ADMIN' || user.role === 'SUPERADMIN')) {
+            const userApplicationsIds = user.applications || [];
+            if (!userApplicationsIds.includes(_id)) {
+                AppLogger.warn(
+                    `[ApplicationQueries - getApplicationAuditRuns] Unauthorized access attempt for app ${_id}`,
+                );
+                throw new Error('Unauthorized');
+            }
+        }
+
+        const auditRuns = await AuditRunProvider.getAuditRunsByAppId(_id);
+
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationAuditRuns] Found ${auditRuns?.length} audit runs for app ${_id}`,
+        );
+
+        return auditRuns || [];
+    } catch (error) {
+        AppLogger.error(
+            `[ApplicationQueries - getApplicationAuditRuns] error for app ${args?._id} : ${error}`,
+        );
+        return [];
+    }
+};
+
+/**
  * Get application details evolutions by params
  * @param _
  * @param args
@@ -486,6 +533,7 @@ const getAuditRunDetailsByParams = async (
 const ApplicationQueries = {
     getApplicationDetailsInfoByParams,
     getApplicationDetailsAuditReportsByParams,
+    getApplicationAuditRunsByParams,
     getApplicationDetailsEvolutionsByParams,
     getApplicationDetailsDependenciesByParams,
     getApplicationDetailsKeywordsByParams,

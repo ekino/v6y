@@ -30,6 +30,10 @@ const VitalitySecuritySection = DynamicLoader(
 
 const VitalitySonarQubeView = DynamicLoader(() => import('./sonarqube/VitalitySonarQubeView'));
 
+const VitalityAuditRunHistoryView = DynamicLoader(
+    () => import('./audit-runs/VitalityAuditRunHistoryView'),
+);
+
 const extractProjectKeyFromSonarUrl = (url: string): string | null => {
     try {
         const urlObj = new URL(url);
@@ -326,6 +330,13 @@ const VitalityAppDetailsView = () => {
                     </div>
 
                     {renderTabContent()}
+
+                    <div className="mt-12 pt-8 pb-8 border-t border-slate-200">
+                        <h2 className="text-lg font-semibold text-slate-900 mb-6">
+                            {translate('vitality.appDetailsPage.auditHistory.title')}
+                        </h2>
+                        <VitalityAuditRunHistoryView applicationId={parseInt(_id as string, 10)} />
+                    </div>
                 </div>
             </div>
         </div>

@@ -168,7 +168,22 @@ const getAuditRunsByApplicationId = async (appId: number, limit?: number, offset
         AppLogger.info(
             '[AuditRunProvider - getAuditRunsByApplicationId] count: ' + auditRuns?.length,
         );
-        return auditRuns.map((item) => ({ ...item, _id: item.id }));
+
+        const mapped = auditRuns.map((run) => ({
+            ...run,
+            _id: run.id,
+            audits: run.audits.map((audit) => ({
+                ...audit,
+                _id: audit.id,
+            })),
+        }));
+
+        AppLogger.info(
+            '[AuditRunProvider - getAuditRunsByApplicationId] mapped first: ' +
+                JSON.stringify(mapped[0]),
+        );
+
+        return mapped;
     } catch (error) {
         AppLogger.error('[AuditRunProvider - getAuditRunsByApplicationId] error: ', error);
         return [];
@@ -230,6 +245,7 @@ const AuditRunProvider = {
     getAuditRunWithAudits,
     getAuditRunById,
     getAuditRunsByApplicationId,
+    getAuditRunsByAppId: getAuditRunsByApplicationId,
     getLatestAuditRun,
     getAuditRunsCountByApplicationId,
     deleteAuditRun,

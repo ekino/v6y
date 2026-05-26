@@ -16,7 +16,7 @@ const AuditRunType = `
     analysisTypes: [String!]!
 
     """ Audit reports generated in this run """
-    audits: [AuditReportType!]!
+    audits: [AuditReportType]
 
     """ When the audit run was triggered """
     triggeredAt: String!
