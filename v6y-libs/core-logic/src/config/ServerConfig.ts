@@ -9,7 +9,9 @@ export const CorsOptions = {
         origin: string | undefined,
         callback: (err: Error | null, origin?: string) => void,
     ) {
-        AppLogger.debug(`[getServerConfig] CORS origin redirect: ${origin}`);
+        if (origin) {
+            AppLogger.debug(`[getServerConfig] CORS origin redirect: ${origin}`);
+        }
         callback(null, origin);
     },
 };
