@@ -7,11 +7,12 @@ import {
     buildClientQuery,
     useClientQuery,
 } from '../../../../infrastructure/adapters/api/useQueryAdapter';
+import GetAllAuditRuns from '../../api/getAllAuditRuns.ts';
 import GetApplicationAuditRuns from '../../api/getApplicationAuditRuns.ts';
 import VitalityAuditRunHistory from './VitalityAuditRunHistory.tsx';
 
 interface VitalityAuditRunHistoryViewProps {
-    applicationId: number;
+    applicationId?: number;
 }
 
 interface AuditRunType {
@@ -33,17 +34,21 @@ interface AuditRunType {
 export const VitalityAuditRunHistoryView: React.FC<VitalityAuditRunHistoryViewProps> = ({
     applicationId,
 }) => {
+    const isAppSpecific = applicationId !== undefined;
+    const cacheKey = isAppSpecific
+        ? ['getApplicationAuditRunsByParams', `${applicationId}`]
+        : ['getAllAuditRuns'];
+
     const { isLoading, data, error } = useClientQuery<{
-        getApplicationAuditRunsByParams: AuditRunType[];
+        getApplicationAuditRunsByParams?: AuditRunType[];
+        getAllAuditRuns?: AuditRunType[];
     }>({
-        queryCacheKey: ['getApplicationAuditRunsByParams', `${applicationId}`],
+        queryCacheKey: cacheKey,
         queryBuilder: async () =>
             buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
-                query: GetApplicationAuditRuns,
-                variables: {
-                    _id: applicationId,
-                },
+                query: isAppSpecific ? GetApplicationAuditRuns : GetAllAuditRuns,
+                variables: isAppSpecific ? { _id: applicationId } : {},
             }),
     });
 
@@ -51,11 +56,13 @@ export const VitalityAuditRunHistoryView: React.FC<VitalityAuditRunHistoryViewPr
         console.log('[VitalityAuditRunHistoryView]', {
             applicationId,
             isLoading,
-            dataLength: data?.getApplicationAuditRunsByParams?.length,
+            dataLength: isAppSpecific
+                ? data?.getApplicationAuditRunsByParams?.length
+                : data?.getAllAuditRuns?.length,
             data,
             error,
         });
-    }, [applicationId, isLoading, data, error]);
+    }, [applicationId, isLoading, data, error, isAppSpecific]);
 
     if (error) {
         console.error('[VitalityAuditRunHistoryView] Error fetching audit runs:', error);
@@ -66,12 +73,11 @@ export const VitalityAuditRunHistoryView: React.FC<VitalityAuditRunHistoryViewPr
         );
     }
 
-    return (
-        <VitalityAuditRunHistory
-            auditRuns={data?.getApplicationAuditRunsByParams || []}
-            isLoading={isLoading}
-        />
-    );
+    const auditRuns = isAppSpecific
+        ? data?.getApplicationAuditRunsByParams || []
+        : data?.getAllAuditRuns || [];
+
+    return <VitalityAuditRunHistory auditRuns={auditRuns} isLoading={isLoading} />;
 };
 
 export default VitalityAuditRunHistoryView;

@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import cookieParser from 'cookie-parser';
-import expressStatusMonitor from 'express-status-monitor';
 import { Application as ExpressApplication, Request, Response } from 'express';
+import expressStatusMonitor from 'express-status-monitor';
 import 'reflect-metadata';
 
 import {
@@ -137,9 +137,13 @@ export async function createApp(): Promise<NestExpressApplication> {
                         completedAt: new Date(),
                     });
 
-                    AppLogger.info(`[MainAnalyzerApp - triggerAudit] AuditRun completed: ${auditRunId}`);
+                    AppLogger.info(
+                        `[MainAnalyzerApp - triggerAudit] AuditRun completed: ${auditRunId}`,
+                    );
                 } catch (asyncError) {
-                    AppLogger.error(`[MainAnalyzerApp - triggerAudit] Async audit error: ${asyncError}`);
+                    AppLogger.error(
+                        `[MainAnalyzerApp - triggerAudit] Async audit error: ${asyncError}`,
+                    );
                     await AuditRunProvider.updateAuditRunStatus({
                         auditRunId,
                         runStatus: 'error',
@@ -166,19 +170,20 @@ export async function createApp(): Promise<NestExpressApplication> {
         }
     });
 
-    // *********************************************** Handle Endpoints ***********************************************
-
-    expressApp.get('/{*any}', (request: Request, response: Response) => {
-        AppLogger.debug(`[*] KO:  la route demandé ${request.url} n'existe pas`);
-        response.status(404).send({
-            success: false,
-            message: "La route demandé n'existe pas",
-        });
-    });
-
     app.useGlobalFilters(new NotFoundFilter());
 
     await app.init();
+
+    // *********************************************** Handle Endpoints ***********************************************
+
+    // Register fallback route after Nest initialization so framework routes (e.g. /health) are not shadowed.
+    expressApp.get('/{*any}', (request: Request, response: Response) => {
+        AppLogger.debug(`[*] KO: requested route does not exist: ${request.url}`);
+        response.status(404).send({
+            success: false,
+            message: 'The requested route does not exist',
+        });
+    });
 
     return app;
 }

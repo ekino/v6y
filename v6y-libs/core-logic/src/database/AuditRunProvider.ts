@@ -238,6 +238,31 @@ const deleteAuditRun = async (auditRunId: number) => {
     }
 };
 
+const getAllAuditRuns = async (limit?: number, offset?: number) => {
+    try {
+        AppLogger.info(
+            '[AuditRunProvider - getAllAuditRuns] limit: ' + limit + ', offset: ' + offset,
+        );
+
+        const auditRuns = await getPrismaClient().auditRun.findMany({
+            take: limit,
+            skip: offset,
+            orderBy: { triggeredAt: 'desc' },
+            include: { audits: true },
+        });
+
+        AppLogger.info('[AuditRunProvider - getAllAuditRuns] count: ' + auditRuns?.length);
+
+        const mapped = auditRuns.map((run) => ({ ...run, _id: run.id }));
+
+        AppLogger.info('[AuditRunProvider - getAllAuditRuns] mapped first: ' + mapped[0]?.appId);
+        return mapped || [];
+    } catch (error) {
+        AppLogger.error('[AuditRunProvider - getAllAuditRuns] error: ', error);
+        return [];
+    }
+};
+
 const AuditRunProvider = {
     createAuditRun,
     updateAuditRunStatus,
@@ -249,6 +274,7 @@ const AuditRunProvider = {
     getLatestAuditRun,
     getAuditRunsCountByApplicationId,
     deleteAuditRun,
+    getAllAuditRuns,
 };
 
 export default AuditRunProvider;

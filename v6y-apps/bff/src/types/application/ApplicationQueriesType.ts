@@ -13,6 +13,7 @@ const ApplicationQueriesType = `
     getApplicationAuditHistoryCountByParams(_id: Int!): Int
     getApplicationLatestAuditRunByParams(_id: Int!): AuditRunType
     getAuditRunDetailsByParams(_id: Int!): AuditRunType
+    getAllAuditRuns(limit: Int, offset: Int): [AuditRunType]
   }
 `;
 

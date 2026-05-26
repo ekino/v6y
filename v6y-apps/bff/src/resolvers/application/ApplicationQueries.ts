@@ -131,6 +131,50 @@ const getApplicationAuditRunsByParams = async (
 };
 
 /**
+ * Get all audit runs across all applications (respecting user authorization)
+ * @param _
+ * @param args
+ * @param user
+ */
+const getAllAuditRuns = async (
+    _: unknown,
+    args: { limit?: number; offset?: number },
+    { user }: { user: AccountType },
+) => {
+    try {
+        const { limit, offset } = args || {};
+
+        AppLogger.info(
+            `[ApplicationQueries - getAllAuditRuns] Received args: limit=${limit}, offset=${offset}`,
+        );
+
+        // Get all audit runs
+        const allAuditRuns = await AuditRunProvider.getAllAuditRuns(limit, offset);
+
+        // If user is SUPERADMIN or ADMIN, return all audit runs
+        if (user.role === 'ADMIN' || user.role === 'SUPERADMIN') {
+            AppLogger.info(
+                `[ApplicationQueries - getAllAuditRuns] Returning ${allAuditRuns?.length} audit runs for ${user.role}`,
+            );
+            return allAuditRuns || [];
+        }
+
+        // Otherwise, filter to only include audit runs from apps the user has access to
+        const userApplicationsIds = user.applications || [];
+        const filteredRuns = allAuditRuns.filter((run) => userApplicationsIds.includes(run.appId));
+
+        AppLogger.info(
+            `[ApplicationQueries - getAllAuditRuns] Returning ${filteredRuns?.length} audit runs for user with access to ${userApplicationsIds.length} apps`,
+        );
+
+        return filteredRuns || [];
+    } catch (error) {
+        AppLogger.error(`[ApplicationQueries - getAllAuditRuns] error: ${error}`);
+        return [];
+    }
+};
+
+/**
  * Get application details evolutions by params
  * @param _
  * @param args
@@ -534,6 +578,7 @@ const ApplicationQueries = {
     getApplicationDetailsInfoByParams,
     getApplicationDetailsAuditReportsByParams,
     getApplicationAuditRunsByParams,
+    getAllAuditRuns,
     getApplicationDetailsEvolutionsByParams,
     getApplicationDetailsDependenciesByParams,
     getApplicationDetailsKeywordsByParams,

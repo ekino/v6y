@@ -147,11 +147,21 @@ const VitalityAppDetailsView = () => {
         switch (activeTab) {
             case 'overview':
                 return (
-                    <VitalityGeneralInformationView
-                        appInfos={appInfos}
-                        branch={selectedBranch}
-                        date={selectedDate}
-                    />
+                    <div className="space-y-8">
+                        <VitalityGeneralInformationView
+                            appInfos={appInfos}
+                            branch={selectedBranch}
+                            date={selectedDate}
+                        />
+                        <div className="pt-8 border-t border-slate-200">
+                            <h2 className="text-lg font-semibold text-slate-900 mb-6">
+                                {translate('vitality.appDetailsPage.auditHistory.title')}
+                            </h2>
+                            <VitalityAuditRunHistoryView
+                                applicationId={parseInt(_id as string, 10)}
+                            />
+                        </div>
+                    </div>
                 );
             case 'performance':
                 return (
@@ -330,13 +340,6 @@ const VitalityAppDetailsView = () => {
                     </div>
 
                     {renderTabContent()}
-
-                    <div className="mt-12 pt-8 pb-8 border-t border-slate-200">
-                        <h2 className="text-lg font-semibold text-slate-900 mb-6">
-                            {translate('vitality.appDetailsPage.auditHistory.title')}
-                        </h2>
-                        <VitalityAuditRunHistoryView applicationId={parseInt(_id as string, 10)} />
-                    </div>
                 </div>
             </div>
         </div>
