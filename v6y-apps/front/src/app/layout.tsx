@@ -34,14 +34,12 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" className={inter.className}>
-            <body>
-                <main>
-                    <AppProvider>
-                        <Suspense fallback={<LoaderView />}>
-                            <VitalityPageLayout>{children}</VitalityPageLayout>
-                        </Suspense>
-                    </AppProvider>
-                </main>
+            <body className="min-h-screen bg-background text-foreground antialiased">
+                <AppProvider>
+                    <Suspense fallback={<LoaderView />}>
+                        <VitalityPageLayout>{children}</VitalityPageLayout>
+                    </Suspense>
+                </AppProvider>
             </body>
         </html>
     );

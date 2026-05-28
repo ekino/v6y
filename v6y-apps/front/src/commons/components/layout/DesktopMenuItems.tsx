@@ -22,21 +22,19 @@ interface DesktopMenuItemsProps {
 
 const DesktopMenuItems = ({ isLoggedIn, userName, onLogout }: DesktopMenuItemsProps) => {
     const { translate } = useTranslationProvider();
+    const iconButtonClassName =
+        'h-10 w-10 border-slate-200 bg-white/90 text-slate-700 shadow-sm transition-colors hover:border-slate-300 hover:bg-slate-100';
 
     return (
         <div className="hidden md:flex items-center gap-2 flex-wrap justify-end">
             <Link className="shrink-0" href="/faq">
-                <Button className="border-gray-200 h-10 w-10" size="icon" variant="outline">
+                <Button className={iconButtonClassName} size="icon" variant="outline">
                     <QuestionMarkCircledIcon className="w-5 h-5" />
                 </Button>
             </Link>
 
             {isLoggedIn && (
-                <Button
-                    size="icon"
-                    variant="outline"
-                    className="border-gray-200 h-10 w-10 shrink-0"
-                >
+                <Button size="icon" variant="outline" className={`${iconButtonClassName} shrink-0`}>
                     <MagnifyingGlassIcon className="w-5 h-5" />
                 </Button>
             )}
@@ -58,7 +56,7 @@ const DesktopMenuItems = ({ isLoggedIn, userName, onLogout }: DesktopMenuItemsPr
                         onClick={onLogout}
                         className="shrink-0"
                     >
-                        <Button size="icon" variant="outline" className="border-gray-200 h-10 w-10">
+                        <Button size="icon" variant="outline" className={iconButtonClassName}>
                             <ExitIcon className="w-5 h-5" />
                         </Button>
                     </Link>
