@@ -12,7 +12,7 @@ const SERVER_ENV_CONFIGURATION = {
         apiPath: process.env.V6Y_MAIN_API_PATH,
         staticAuditorApiPath: process.env.V6Y_STATIC_ANALYZER_API_PATH,
         dynamicAuditorApiPath: process.env.V6Y_DYNAMIC_ANALYZER_API_PATH,
-        devopsAuditorApiPath: process.env.V6Y_DEVOPS_ANALYSER_API_PATH,
+        devopsAuditorApiPath: process.env.V6Y_DEVOPS_API_PATH,
         healthCheckPath: V6Y_HEALTH_CHECK_PATH,
         monitoringPath: V6Y_MONITORING_PATH,
         serverTimeout: 900000, // milliseconds
@@ -24,7 +24,7 @@ const SERVER_ENV_CONFIGURATION = {
         apiPath: process.env.V6Y_MAIN_API_PATH,
         staticAuditorApiPath: process.env.V6Y_STATIC_ANALYZER_API_PATH,
         dynamicAuditorApiPath: process.env.V6Y_DYNAMIC_ANALYZER_API_PATH,
-        devopsAuditorApiPath: process.env.V6Y_DEVOPS_ANALYSER_API_PATH,
+        devopsAuditorApiPath: process.env.V6Y_DEVOPS_API_PATH,
         healthCheckPath: V6Y_HEALTH_CHECK_PATH,
         monitoringPath: V6Y_MONITORING_PATH,
         serverTimeout: 900000, // milliseconds
