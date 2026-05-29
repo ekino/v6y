@@ -1,7 +1,10 @@
 import eslint from '@eslint/js';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import { fileURLToPath } from 'node:url';
 import globals from 'globals';
 import tsEslint from 'typescript-eslint';
+
+const tsconfigRootDir = fileURLToPath(new URL('.', import.meta.url));
 
 export default [
     {
@@ -14,6 +17,11 @@ export default [
     {
         name: 'analyzer:source',
         files: ['src/**/*.{js,mjs,ts,tsx}'],
+        languageOptions: {
+            parserOptions: {
+                tsconfigRootDir,
+            },
+        },
         rules: {
             'max-depth': ['error', 3],
             'max-nested-callbacks': ['error', 3],
@@ -27,6 +35,11 @@ export default [
     {
         name: 'analyzer:tests',
         files: ['src/**/__tests__/**/*-test.{ts,js}', 'src/**/*.test.{ts,js,tsx}'],
+        languageOptions: {
+            parserOptions: {
+                tsconfigRootDir,
+            },
+        },
         rules: {
             'max-lines-per-function': 'off',
             'max-lines': 'off',
