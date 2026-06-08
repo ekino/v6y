@@ -7,13 +7,9 @@ import { CodeModularityAuditType, ProjectTree } from '../auditors/types/CodeModu
 
 // Mock external modules
 vi.mock('xml2js', () => {
-    const ParserMock = vi.fn(() => ({
-        parseStringPromise: vi.fn(),
-    }));
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    (ParserMock as unknown).prototype.constructor = ParserMock;
+    class ParserMock {
+        parseStringPromise = vi.fn();
+    }
 
     return {
         default: {
