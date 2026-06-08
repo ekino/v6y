@@ -33,9 +33,9 @@ export default function RootLayout({
     children: ReactNode;
 }>) {
     return (
-        <html lang="en" className={inter.className}>
-            <body>
-                <main>
+        <html lang="en" className={`${inter.className} h-screen`}>
+            <body className="h-screen m-0 p-0">
+                <main className="h-screen">
                     <AppProvider>
                         <Suspense fallback={<LoaderView />}>
                             <VitalityPageLayout>{children}</VitalityPageLayout>
