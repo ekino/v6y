@@ -1,58 +1,30 @@
-import bodyParser from 'body-parser';
+import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import cookieParser from 'cookie-parser';
-import cors from 'cors';
-import express, { Express } from 'express';
 import expressStatusMonitor from 'express-status-monitor';
+import 'reflect-metadata';
 
-import { AppLogger, CorsOptions } from '@v6y/core-logic';
+import { CorsOptions } from '@v6y/core-logic';
 
+import { AppModule } from './app.module.ts';
 import ServerConfig from './commons/ServerConfig.ts';
-import DynamicAuditorRouter from './routes/DynamicAuditorRouter.ts';
+import { NotFoundFilter } from './filters/NotFoundFilter.ts';
 
-/**
- * Creates and configures the Express application
- * @returns Configured Express app instance
- */
-export function createApp(): Express {
-    const app = express();
-
+export async function createApp(): Promise<NestExpressApplication> {
     const { currentConfig } = ServerConfig;
+    const { monitoringPath } = currentConfig || {};
 
-    const { monitoringPath, dynamicAuditorApiPath } = currentConfig || {};
-
-    // *********************************************** Server Configuration ***********************************************
-
-    // Cookie Parser: Parses cookies from incoming requests.
-    app.use(cookieParser());
-
-    // CORS (Cross-Origin Resource Sharing): Configures the server to allow requests from other origins.
-    app.use(cors(CorsOptions));
-
-    // Body Parser: Parses incoming request bodies in different formats (URL-encoded, JSON).
-    app.use(bodyParser.json());
-
-    // *********************************************** Monitoring ***********************************************
-
-    // Express Status Monitor: Adds a monitoring dashboard accessible at the specified path.
-    app.use(
-        expressStatusMonitor({
-            path: monitoringPath,
-        }),
-    );
-
-    // *********************************************** App Auditor Routes ***********************************************
-    app.use(dynamicAuditorApiPath || '', DynamicAuditorRouter);
-
-    // *********************************************** Default Route (404) ***********************************************
-
-    // Default Route: Handles requests to unknown routes and returns a 404 Not Found response.
-    app.get('/{*any}', (request, response) => {
-        AppLogger.debug(`[*] KO: Requested route ${request.url} does not exist`);
-        response.status(404).json({
-            success: false,
-            message: 'The requested route does not exist',
-        });
+    const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+        logger: false,
     });
+
+    app.use(cookieParser());
+    app.enableCors(CorsOptions);
+    app.use(expressStatusMonitor({ path: monitoringPath as string }));
+
+    app.useGlobalFilters(new NotFoundFilter());
+
+    await app.init();
 
     return app;
 }

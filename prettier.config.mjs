@@ -8,6 +8,7 @@ const config = {
     singleQuote: true,
     printWidth: 100,
     plugins: [PrettierImportConfig],
+    importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],
     importOrder: [
         '^@v6y/(.*)$',      // Packages internes du monorepo
         '^@ui/(.*)$',

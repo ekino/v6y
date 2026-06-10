@@ -12,10 +12,10 @@ const { port } = currentConfig || {};
 
 // *********************************************** Server Creation & Launch ***********************************************
 
-const app = createApp();
+const app = await createApp();
 
 const httpServer = createServer({
-    app,
+    app: app.getHttpAdapter().getInstance(),
     config: currentConfig,
 });
 

@@ -1,61 +1,30 @@
-import BodyParser from 'body-parser';
-import CookieParser from 'cookie-parser';
-import Cors from 'cors';
-import Express, { Express as ExpressApp } from 'express';
-import ExpressStatusMonitor from 'express-status-monitor';
+import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import cookieParser from 'cookie-parser';
+import expressStatusMonitor from 'express-status-monitor';
+import 'reflect-metadata';
 
-import { AppLogger, CorsOptions } from '@v6y/core-logic';
+import { CorsOptions } from '@v6y/core-logic';
 
+import { AppModule } from './app.module.ts';
 import ServerConfig from './config/ServerConfig.ts';
+import { NotFoundFilter } from './filters/NotFoundFilter.ts';
 
-/**
- * Creates and configures the Express application
- * @returns Configured Express app instance
- */
-export function createApp(): ExpressApp {
-    const app = Express();
-
+export async function createApp(): Promise<NestExpressApplication> {
     const { currentConfig } = ServerConfig;
-
     const { monitoringPath } = currentConfig || {};
 
-    // *********************************************** Configure Server ***********************************************
-
-    // configure cookie parser
-    app.use(CookieParser());
-
-    // configure cors
-    // https://expressjs.com/en/resources/middleware/cors.html
-    app.use(Cors(CorsOptions));
-
-    // parse application/x-www-form-urlencoded
-    app.use(
-        BodyParser.urlencoded({
-            extended: false,
-        }),
-    );
-
-    // parse application/json
-    app.use(BodyParser.json());
-
-    // *********************************************** Monitoring Endpoints ***********************************************
-
-    app.use(
-        ExpressStatusMonitor({
-            path: monitoringPath,
-        }),
-    );
-
-    // *********************************************** Handle Endpoints ***********************************************
-
-    // default response (unknown routes)
-    app.get('/{*any}', (request, response) => {
-        AppLogger.debug(`[*] KO:  la route demandé ${request.url} n'existe pas`);
-        response.status(404).send({
-            success: false,
-            message: "La route demandé n'existe pas",
-        });
+    const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+        logger: false,
     });
+
+    app.use(cookieParser());
+    app.enableCors(CorsOptions);
+    app.use(expressStatusMonitor({ path: monitoringPath as string }));
+
+    app.useGlobalFilters(new NotFoundFilter());
+
+    await app.init();
 
     return app;
 }

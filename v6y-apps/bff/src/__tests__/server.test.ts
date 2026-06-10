@@ -6,11 +6,11 @@ import ServerConfig from '../config/ServerConfig.ts';
 
 describe('BFF Server', () => {
     it('should have express-status-monitor configured at the monitoring path', async () => {
-        const app = createApp();
+        const app = await createApp();
         const { currentConfig } = ServerConfig;
         const monitoringPath = currentConfig?.monitoringPath;
 
-        const response = await request(app)
+        const response = await request(app.getHttpServer())
             .get(monitoringPath as string)
             .expect(200);
 
@@ -18,12 +18,12 @@ describe('BFF Server', () => {
     });
 
     it('should have the app properly configured', async () => {
-        const app = createApp();
+        const app = await createApp();
         const { currentConfig } = ServerConfig;
         const monitoringPath = currentConfig?.monitoringPath;
 
         // Test that the app accepts requests at monitoring path
-        const response = await request(app)
+        const response = await request(app.getHttpServer())
             .get(monitoringPath as string)
             .set('Content-Type', 'application/json');
 
