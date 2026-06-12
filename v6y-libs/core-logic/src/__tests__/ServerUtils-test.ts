@@ -6,9 +6,21 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import ServerUtils from '../core/ServerUtils.ts';
 
-vi.mock('http');
-vi.mock('https');
-vi.mock('spdy');
+vi.mock('http', () => ({
+    default: {
+        createServer: vi.fn(),
+    },
+}));
+vi.mock('https', () => ({
+    default: {
+        createServer: vi.fn(),
+    },
+}));
+vi.mock('spdy', () => ({
+    default: {
+        createServer: vi.fn(),
+    },
+}));
 
 describe('ServerUtils', () => {
     const mockApp = vi.fn();
