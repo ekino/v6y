@@ -1,0 +1,13 @@
+node_modules
+dist
+coverage
+.next
+.turbo
+out
+build
+.cache
+.eslintcache
+playwright-report
+test-results
+storybook-static
+target
