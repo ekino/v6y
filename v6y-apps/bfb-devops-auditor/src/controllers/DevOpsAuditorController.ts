@@ -1,5 +1,11 @@
-import { Body, Controller, HttpCode, Post, Res } from '@nestjs/common';
-import type { Response } from 'express';
+import {
+    BadRequestException,
+    Body,
+    Controller,
+    HttpCode,
+    InternalServerErrorException,
+    Post,
+} from '@nestjs/common';
 
 import { AppLogger } from '@v6y/core-logic';
 
@@ -13,59 +19,59 @@ interface StartDevOpsAuditorBody {
     applicationId?: number;
 }
 
+interface StartDevOpsAuditorResponse {
+    success: boolean;
+    message: string;
+}
+
 @Controller(basePath)
 export class DevOpsAuditorController {
     @Post('start-devops-auditor.json')
     @HttpCode(200)
     async startDevOpsAudit(
         @Body() body: StartDevOpsAuditorBody,
-        @Res() response: Response,
-    ): Promise<void> {
+    ): Promise<StartDevOpsAuditorResponse> {
+        AppLogger.debug('[DevOpsAuditorController] Entering service: [start-devops-auditor]');
+
+        const { applicationId } = body || {};
+        AppLogger.info(`[DevOpsAuditorController] applicationId: ${applicationId}`);
+
+        if (!applicationId) {
+            AppLogger.error(
+                '[DevOpsAuditorController] The applicationId is required to start the DevOps Audits.',
+            );
+            throw new BadRequestException({
+                success: false,
+                message: 'The applicationId is required to start the DevOps Audits.',
+            });
+        }
+
+        let auditsStartedSuccessfully: boolean;
         try {
-            AppLogger.debug('[DevOpsAuditorRouter] Entering service: [start-devops-auditor]');
-
-            const { applicationId } = body || {};
-
-            // ********************************************** Input Validation ***********************************************
-            AppLogger.info(`[DevOpsAuditorRouter] applicationId: ${applicationId}`);
-
-            if (!applicationId) {
-                AppLogger.error(
-                    '[DevOpsAuditorRouter] The applicationId is required to start the DevOps Audits.',
-                );
-                response.status(400).json({
-                    success: false,
-                    message: 'The applicationId is required to start the DevOps Audits.',
-                });
-                return;
-            }
-
-            // ********************************************** Start Audits ***********************************************
-            const auditsStartedSuccessfully = await DevOpsAuditorManager.startDevOpsAudit({
+            auditsStartedSuccessfully = await DevOpsAuditorManager.startDevOpsAudit({
                 applicationId,
-            }); // Wait for audits to potentially complete
-
-            // ********************************************** Server Response ***********************************************
-            if (auditsStartedSuccessfully) {
-                response.status(200).json({
-                    success: true,
-                    message: 'DevOps Audits have end successfully!',
-                });
-            } else {
-                response.status(500).json({
-                    success: false,
-                    message: 'An error occurred while starting the DevOps Audits.',
-                });
-            }
+            });
         } catch (error) {
             AppLogger.error(
-                '[DevOpsAuditorRouter] An exception occurred during the DevOps Audits:',
+                '[DevOpsAuditorController] An exception occurred during the DevOps Audits:',
                 error,
             );
-            response.status(500).json({
+            throw new InternalServerErrorException({
                 success: false,
                 message: 'An error occurred during the DevOps Audits.',
             });
         }
+
+        if (!auditsStartedSuccessfully) {
+            throw new InternalServerErrorException({
+                success: false,
+                message: 'An error occurred while starting the DevOps Audits.',
+            });
+        }
+
+        return {
+            success: true,
+            message: 'DevOps Audits have end successfully!',
+        };
     }
 }

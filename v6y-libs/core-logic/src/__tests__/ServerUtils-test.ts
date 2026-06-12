@@ -1,26 +1,12 @@
 // ServerUtils.test.ts
 import http from 'http';
 import HttpsClient from 'https';
-import HttpStaticClient from 'spdy';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import ServerUtils from '../core/ServerUtils.ts';
 
-vi.mock('http', () => ({
-    default: {
-        createServer: vi.fn(),
-    },
-}));
-vi.mock('https', () => ({
-    default: {
-        createServer: vi.fn(),
-    },
-}));
-vi.mock('spdy', () => ({
-    default: {
-        createServer: vi.fn(),
-    },
-}));
+vi.mock('http');
+vi.mock('https');
 
 describe('ServerUtils', () => {
     const mockApp = vi.fn();
@@ -52,19 +38,6 @@ describe('ServerUtils', () => {
                 mockApp,
             );
             expect(http.createServer).not.toHaveBeenCalled();
-        });
-    });
-
-    describe('createStaticServer', () => {
-        it('should create a static server with the provided config', () => {
-            ServerUtils.createStaticServer({ app: mockApp, config: mockConfig });
-            expect(HttpStaticClient.createServer).toHaveBeenCalledWith(
-                {
-                    key: mockConfig.key,
-                    cert: mockConfig.cert,
-                },
-                mockApp,
-            );
         });
     });
 });

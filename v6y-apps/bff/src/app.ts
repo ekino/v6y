@@ -3,7 +3,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import expressStatusMonitor from 'express-status-monitor';
 import 'reflect-metadata';
 
-import { configureAuthMiddleware } from '@v6y/core-logic';
+import { NestAppLogger, configureAuthMiddleware } from '@v6y/core-logic';
 
 import { AppModule } from './app.module.ts';
 import ServerConfig from './config/ServerConfig.ts';
@@ -13,7 +13,7 @@ export async function createApp(): Promise<NestExpressApplication> {
     const { monitoringPath } = currentConfig || {};
 
     const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-        logger: false,
+        logger: new NestAppLogger(),
     });
 
     // Passport JWT initialization — must run before GraphQL routes are mounted.

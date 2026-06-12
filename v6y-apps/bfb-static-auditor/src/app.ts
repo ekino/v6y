@@ -4,18 +4,17 @@ import cookieParser from 'cookie-parser';
 import expressStatusMonitor from 'express-status-monitor';
 import 'reflect-metadata';
 
-import { CorsOptions } from '@v6y/core-logic';
+import { CorsOptions, NestAppLogger, NotFoundFilter } from '@v6y/core-logic';
 
 import { AppModule } from './app.module.ts';
 import ServerConfig from './commons/ServerConfig.ts';
-import { NotFoundFilter } from './filters/NotFoundFilter.ts';
 
 export async function createApp(): Promise<NestExpressApplication> {
     const { currentConfig } = ServerConfig;
     const { monitoringPath } = currentConfig || {};
 
     const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-        logger: false,
+        logger: new NestAppLogger(),
     });
 
     app.use(cookieParser());

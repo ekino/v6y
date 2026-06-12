@@ -36,4 +36,12 @@ describe('Dynamic Auditor Server', () => {
 
         expect(response.status).toBe(404);
     });
+
+    it('should expose the health endpoint used by docker healthchecks', async () => {
+        const app = await createApp();
+
+        const response = await request(app.getHttpServer()).get('/health').expect(200);
+
+        expect(response.body).toEqual({ success: true, message: 'OK' });
+    });
 });

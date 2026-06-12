@@ -1,7 +1,6 @@
 import { ServerEnvConfigType, getServerConfig, normalizeBasePath } from '@v6y/core-logic';
 
 const V6Y_API_BASE_PATH = normalizeBasePath(process.env.V6Y_BFF_API_PATH);
-const V6Y_HEALTH_CHECK_PATH = `${V6Y_API_BASE_PATH}health-checks`;
 const V6Y_MONITORING_PATH = `${V6Y_API_BASE_PATH}monitoring`;
 
 const SERVER_ENV_CONFIGURATION = {
@@ -10,7 +9,6 @@ const SERVER_ENV_CONFIGURATION = {
         port: parseInt(process.env.V6Y_BFF_API_PORT || '4001', 10),
         hostname: 'localhost',
         apiPath: process.env.V6Y_BFF_API_PATH,
-        healthCheckPath: V6Y_HEALTH_CHECK_PATH,
         monitoringPath: V6Y_MONITORING_PATH,
         serverTimeout: 900000, // milliseconds
     },
@@ -19,7 +17,6 @@ const SERVER_ENV_CONFIGURATION = {
         port: parseInt(process.env.V6Y_BFF_API_PORT || '4001', 10),
         hostname: 'localhost',
         apiPath: process.env.V6Y_BFF_API_PATH,
-        healthCheckPath: V6Y_HEALTH_CHECK_PATH,
         monitoringPath: V6Y_MONITORING_PATH,
         serverTimeout: 900000, // milliseconds
     },

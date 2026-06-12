@@ -23,7 +23,7 @@ describe('Main Analyzer Server', () => {
         const response = await request(app.getHttpServer()).get('/unknown-route').expect(404);
 
         expect(response.body.success).toBe(false);
-        expect(response.body.message).toContain("n'existe pas");
+        expect(response.body.message).toContain('does not exist');
     });
 
     it('should have the app properly configured with middleware', async () => {
@@ -35,5 +35,13 @@ describe('Main Analyzer Server', () => {
             .set('Content-Type', 'application/json');
 
         expect(response.status).toBe(404);
+    });
+
+    it('should expose the health endpoint used by docker healthchecks', async () => {
+        const app = await createApp();
+
+        const response = await request(app.getHttpServer()).get('/health').expect(200);
+
+        expect(response.body).toEqual({ success: true, message: 'OK' });
     });
 });

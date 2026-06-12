@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { print } from 'graphql';
 
-import { validateCredentials } from '@v6y/core-logic';
+import { HealthController, validateCredentials } from '@v6y/core-logic';
 
 import ServerConfig from './config/ServerConfig.ts';
 import { AccountResolver } from './resolvers/account/AccountResolver.ts';
@@ -52,6 +52,7 @@ const typeDefsSdl = print(VitalityTypes);
             },
         }),
     ],
+    controllers: [HealthController],
     providers: [
         AccountResolver,
         ApplicationResolver,

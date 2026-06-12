@@ -34,6 +34,10 @@ export * from './utils/index.ts';
 export * from './core/AuthenticationHelper.ts';
 export * from './types/index.ts';
 
+export * from './nest/NotFoundFilter.ts';
+export * from './nest/NestAppLogger.ts';
+export * from './nest/HealthController.ts';
+
 export {
     AppLogger,
     PerformancesUtils,
