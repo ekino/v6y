@@ -5,11 +5,9 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import ServerUtils from '../core/ServerUtils.ts';
 
-vi.mock('http');
-vi.mock('https');
-
 describe('ServerUtils', () => {
     const mockApp = vi.fn();
+    const mockHttpServer = {} as ReturnType<typeof http.createServer>;
     const mockConfig = {
         key: 'mock_key',
         cert: 'mock_cert',
@@ -22,22 +20,29 @@ describe('ServerUtils', () => {
 
     describe('createServer', () => {
         it('should create an HTTP server if ssl is false', () => {
+            const httpSpy = vi.spyOn(http, 'createServer').mockReturnValue(mockHttpServer);
+            const httpsSpy = vi.spyOn(HttpsClient, 'createServer').mockReturnValue(mockHttpServer);
+
             ServerUtils.createServer({ app: mockApp, config: mockConfig });
-            expect(http.createServer).toHaveBeenCalledWith(mockApp);
-            expect(HttpsClient.createServer).not.toHaveBeenCalled();
+            expect(httpSpy).toHaveBeenCalledWith(mockApp);
+            expect(httpsSpy).not.toHaveBeenCalled();
         });
 
         it('should create an HTTPS server if ssl is true', () => {
+            const httpSpy = vi.spyOn(http, 'createServer').mockReturnValue(mockHttpServer);
+            const httpsSpy = vi.spyOn(HttpsClient, 'createServer').mockReturnValue(mockHttpServer);
             const httpsConfig = { ...mockConfig, ssl: true };
+
             ServerUtils.createServer({ app: mockApp, config: httpsConfig });
-            expect(HttpsClient.createServer).toHaveBeenCalledWith(
+
+            expect(httpsSpy).toHaveBeenCalledWith(
                 {
                     key: httpsConfig.key,
                     cert: httpsConfig.cert,
                 },
                 mockApp,
             );
-            expect(http.createServer).not.toHaveBeenCalled();
+            expect(httpSpy).not.toHaveBeenCalled();
         });
     });
 });
