@@ -20,6 +20,7 @@
     "start:all": "nx run-many --target=start --all --parallel --maxParallel=7",
     "start:dev:all": "nx run-many --target=start:dev --all --parallel --maxParallel=7",
     "stop:all": "nx run-many --target=stop --all",
+    "stop:ports": "node scripts/stop-ports.js",
     "build:tsc": "nx run-many --target=build:tsc --all",
     "build": "nx run-many --target=build --all",
     "lint": "nx run-many --target=lint --all",
