@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 
 import {
@@ -40,7 +42,12 @@ export default function VitalityApplicationEditView() {
                     _id: parseInt(id as string, 10),
                 },
             }}
-            formItems={applicationCreateEditItems(translate)}
+            formItems={(queryData) => {
+                const allBranches = (queryData?.['repo'] as Record<string, unknown> | undefined)?.[
+                    'allBranches'
+                ] as string[] | undefined;
+                return applicationCreateEditItems(translate, allBranches);
+            }}
         />
     );
 }

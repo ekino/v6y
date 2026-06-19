@@ -19,6 +19,7 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
         gitOrganization,
         gitUrl,
         gitWebUrl,
+        gitBranchesToAudit,
         productionLink,
         sonarqubeLink,
         sonarqubeToken,
@@ -38,7 +39,12 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
         acronym,
         description,
         contactMail,
-        repo: { webUrl: gitWebUrl, gitUrl, organization: gitOrganization },
+        repo: {
+            webUrl: gitWebUrl,
+            gitUrl,
+            organization: gitOrganization,
+            ...(gitBranchesToAudit?.length ? { branchesToAudit: gitBranchesToAudit } : {}),
+        },
         links: [
             { label: 'Application production url', value: productionLink, description: '' },
             ...(additionalProductionLinks?.map((link, index) => ({
@@ -138,7 +144,10 @@ const createFormApplication = async (application: ApplicationInputType) => {
 
 const editFormApplication = async (application: ApplicationInputType) => {
     try {
-        if (!application?._id) return null;
+        if (!application?._id) {
+            return null;
+        }
+
         const formApplication = formatApplicationInput(application);
         AppLogger.info(
             `[ApplicationProvider - editFormApplication] formApplication: ${formApplication?._id}`,
@@ -148,11 +157,19 @@ const editFormApplication = async (application: ApplicationInputType) => {
             return null;
         }
 
-        // Merge configuration with existing DB value so write-only fields (e.g. sonarqube token)
-        // are not erased when the form is saved without re-entering them.
         const existing = await getPrismaClient().application.findUnique({
             where: { id: application._id },
         });
+
+        // Preserve analyzer-managed repo fields (e.g. allBranches) not controlled by form input.
+        if (existing?.repo) {
+            formApplication.repo = {
+                ...(existing.repo as object),
+                ...formApplication.repo,
+            };
+        }
+
+        // Preserve write-only config values (e.g. sonarqube token) when not re-submitted from the form.
         if (existing?.configuration) {
             formApplication.configuration = {
                 ...(existing.configuration as object),
