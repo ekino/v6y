@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@v6y/core-logic": "workspace:^",
-    "axios": "=1.16.0",
+    "axios": "=1.16.1",
     "axios-retry": "=4.5.0",
     "body-parser": "=2.2.1",
     "cookie-parser": "=1.4.7",

@@ -52,7 +52,7 @@
     "@types/express": "=5.0.5",
     "@v6y/core-logic": "workspace:^",
     "apollo-server-plugin-response-cache": "=3.8.2",
-    "axios": "=1.16.0",
+    "axios": "=1.16.1",
     "axios-retry": "=4.5.0",
     "body-parser": "=2.2.1",
     "cors": "=2.8.5",
