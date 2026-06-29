@@ -49,8 +49,10 @@ const startAuditorAnalysis = async ({ applicationId, auditRunId }: DoraMetricsAu
         });
 
         if (!repositoryDetails?.id) {
-            AppLogger.error(`[DoraMetricsAuditor - startAuditorAnalysis] repository id is missing`);
-            return false;
+            AppLogger.warn(
+                `[DoraMetricsAuditor - startAuditorAnalysis] repository id is missing, skipping Dora metrics audit`,
+            );
+            return true;
         }
 
         const auditReports = [];
@@ -109,7 +111,7 @@ const startDoraMetricsAnalysis = async ({
     dateEnd,
 }: startDoraMetricsAnalysisParamsType) => {
     if (!repositoryDetails?.id) {
-        AppLogger.error(`[DoraMetricsAuditor - startAuditorAnalysis] repository id is missing`);
+        AppLogger.warn(`[DoraMetricsAuditor - startAuditorAnalysis] repository id is missing`);
         return [];
     }
 

@@ -46,6 +46,7 @@
     "vitest": "catalog:testing"
   },
   "dependencies": {
+    "@nestjs/bullmq": "=11.0.4",
     "@nestjs/common": "catalog:nestjs11",
     "@nestjs/core": "catalog:nestjs11",
     "@nestjs/platform-express": "catalog:nestjs11",
@@ -53,6 +54,7 @@
     "@v6y/core-logic": "workspace:^",
     "axios": "catalog:",
     "axios-retry": "catalog:",
+    "bullmq": "=5.61.0",
     "compare-versions": "catalog:",
     "cookie-parser": "catalog:",
     "express-status-monitor": "catalog:",

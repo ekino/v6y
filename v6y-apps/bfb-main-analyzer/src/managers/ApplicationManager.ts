@@ -12,6 +12,58 @@ import { buildDynamicReports, buildStaticReports } from './AuditManager.ts';
 const { getRepositoryDetails, getRepositoryBranches } = RepositoryApi;
 
 /**
+ * Resolves the branches to analyze for an application, falling back to cached
+ * branches (and finally default branch names) whenever repository metadata or
+ * branch listing calls fail or return nothing usable.
+ */
+const resolveRepositoryBranches = async ({
+    organization,
+    gitRepositoryName,
+    fallbackBranches,
+    applicationName,
+}: {
+    organization?: string;
+    gitRepositoryName?: string;
+    fallbackBranches: RepositoryBranchType[];
+    applicationName?: string;
+}): Promise<RepositoryBranchType[]> => {
+    let repositoryDetails;
+
+    try {
+        repositoryDetails = await getRepositoryDetails({
+            organization,
+            gitRepositoryName,
+        });
+    } catch (repoError) {
+        AppLogger.warn(
+            `[ApplicationManager - buildApplicationReports] Failed to fetch repository details for ${applicationName}: ${repoError}. Will use cached branches.`,
+        );
+    }
+
+    if (!repositoryDetails?.id || repositoryDetails?.archived || repositoryDetails?.empty_repo) {
+        AppLogger.warn(
+            '[ApplicationManager - buildApplicationDetails] repository metadata unavailable, using cached branches only',
+        );
+        return fallbackBranches;
+    }
+
+    const { _links: repositoryLinks } = repositoryDetails;
+
+    try {
+        const fetchedBranches = await getRepositoryBranches({
+            repoBranchesUrl: repositoryLinks?.repo_branches,
+        });
+
+        return fetchedBranches?.length ? fetchedBranches : fallbackBranches;
+    } catch (branchError) {
+        AppLogger.warn(
+            `[ApplicationManager - buildApplicationReports] Failed to fetch branches for ${applicationName}: ${branchError}`,
+        );
+        return fallbackBranches;
+    }
+};
+
+/**
  * Builds the application reports.
  * @param application
  */
@@ -33,59 +85,34 @@ const buildApplicationReports = async (application: ApplicationType) => {
         const { organization, gitUrl } = application.repo;
         const gitRepositoryName = gitUrl?.split('/')?.pop()?.replace('.git', '');
 
-        let repositoryDetails;
-        let repositoryBranches: RepositoryBranchType[] = [];
+        const fallbackBranches = (application?.repo?.allBranches || [])
+            .filter((branch) => branch?.length)
+            .map((name) => ({ name }));
 
-        try {
-            repositoryDetails = await getRepositoryDetails({
-                organization,
-                gitRepositoryName,
-            });
-        } catch (repoError) {
-            AppLogger.warn(
-                `[ApplicationManager - buildApplicationReports] Failed to fetch repository details for ${application.name}: ${repoError}. Will use default branches.`,
-            );
-        }
-
-        if (
-            !repositoryDetails?.id ||
-            repositoryDetails?.archived ||
-            repositoryDetails?.empty_repo
-        ) {
-            AppLogger.warn(
-                `[ApplicationManager - buildApplicationReports] Repository check failed for ${application.name}, using default branches only.`,
-            );
-        } else {
-            const { _links: repositoryLinks } = repositoryDetails;
-
-            try {
-                repositoryBranches =
-                    (await getRepositoryBranches({
-                        repoBranchesUrl: repositoryLinks?.repo_branches,
-                    })) ?? [];
-            } catch (branchError) {
-                AppLogger.warn(
-                    `[ApplicationManager - buildApplicationReports] Failed to fetch branches for ${application.name}: ${branchError}`,
-                );
-            }
-        }
+        let repositoryBranches = await resolveRepositoryBranches({
+            organization,
+            gitRepositoryName,
+            fallbackBranches,
+            applicationName: application.name,
+        });
 
         // If no branches found, attempt to use default branch names
         if (!repositoryBranches?.length) {
             AppLogger.warn(
                 `[ApplicationManager - buildApplicationReports] No branches found for ${application.name}, attempting default branches (main/master)`,
             );
-            // Create default branch objects for main and master
             repositoryBranches = [{ name: 'main' }, { name: 'master' }];
         }
 
-        await ApplicationProvider.editApplication({
-            ...application,
-            repo: {
-                ...application?.repo,
-                allBranches: repositoryBranches.map((branch) => branch?.name),
-            },
-        });
+        if (repositoryBranches?.length) {
+            await ApplicationProvider.editApplication({
+                ...application,
+                repo: {
+                    ...application?.repo,
+                    allBranches: repositoryBranches.map((branch) => branch?.name),
+                },
+            });
+        }
 
         // Create AuditRun record for this scheduled analysis
         const auditRun = await AuditRunProvider.createAuditRun({
@@ -110,11 +137,18 @@ const buildApplicationReports = async (application: ApplicationType) => {
 
         AppLogger.info('[ApplicationManager - buildApplicationDetails] start of static analysis');
 
-        const staticSuccess = await buildStaticReports({
-            application,
-            branches: repositoryBranches,
-            auditRunId,
-        });
+        let staticSuccess = false;
+        if (repositoryBranches?.length) {
+            staticSuccess = await buildStaticReports({
+                application,
+                branches: repositoryBranches,
+                auditRunId,
+            });
+        } else {
+            AppLogger.warn(
+                '[ApplicationManager - buildApplicationDetails] static analysis skipped: no branches available',
+            );
+        }
 
         AppLogger.info('[ApplicationManager - buildApplicationDetails] end of static analysis');
 
@@ -156,6 +190,34 @@ const buildApplicationReports = async (application: ApplicationType) => {
             );
         }
 
+        return false;
+    }
+};
+
+/**
+ * Builds the reports for a single application id.
+ * @param applicationId
+ */
+const buildApplicationReportsById = async (applicationId: number) => {
+    try {
+        if (!applicationId) {
+            return false;
+        }
+
+        const application = await ApplicationProvider.getApplicationDetailsInfoByParams({
+            _id: applicationId,
+        });
+
+        if (!application?._id) {
+            AppLogger.info(
+                `[ApplicationManager - buildApplicationReportsById] application not found: ${applicationId}`,
+            );
+            return false;
+        }
+
+        return buildApplicationReports(application as unknown as ApplicationType);
+    } catch (error) {
+        AppLogger.error(`[ApplicationManager - buildApplicationReportsById] error: ${error}`);
         return false;
     }
 };
@@ -205,6 +267,7 @@ const buildApplicationList = async () => {
 };
 
 const ApplicationManager = {
+    buildApplicationReportsById,
     buildApplicationList,
 };
 

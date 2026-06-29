@@ -3,6 +3,7 @@ import CronJob from 'node-cron';
 import { AppLogger, WorkerHelper } from '@v6y/core-logic';
 
 import ServerConfig from '../config/ServerConfig.ts';
+import { ApplicationAnalysisQueueService } from '../queues/ApplicationAnalysisQueueService.ts';
 
 const { forkWorker } = WorkerHelper;
 const { currentConfig } = ServerConfig;
@@ -10,10 +11,10 @@ const { currentConfig } = ServerConfig;
 /**
  * Start the workers that will update the database.
  */
-const startUpdateWorkers = () => {
+const startUpdateWorkers = (applicationAnalysisQueueService: ApplicationAnalysisQueueService) => {
     (async () => {
         // *********************************************** Update APP List ***********************************************
-        await forkWorker('./src/workers/ApplicationWorker.ts', currentConfig as WorkerOptions); // Start worker thread
+        await applicationAnalysisQueueService.enqueueStartupAnalysis();
 
         // *********************************************** Update Keywords List ******************************************
         await forkWorker('./src/workers/KeywordWorker.ts', currentConfig as WorkerOptions); // Start worker thread
@@ -26,15 +27,21 @@ const startUpdateWorkers = () => {
 /**
  * Database updates are performed by default at startup, then every midnight.
  */
-const start = () => {
+const start = (applicationAnalysisQueueService: ApplicationAnalysisQueueService | null) => {
+    if (!applicationAnalysisQueueService) {
+        AppLogger.warn('[DataUpdateScheduler] Application analysis queue is unavailable.');
+        return;
+    }
+
+    // Initial update
+    AppLogger.info('******************** Starting initial update **************************');
     setTimeout(() => {
-        AppLogger.info('[DataUpdateScheduler] Starting initial data update...');
-        startUpdateWorkers();
-    }, 2000);
+        startUpdateWorkers(applicationAnalysisQueueService);
+    }, 2000); // Delay the initial update by 2 seconds
 
     const job = CronJob.schedule('00 00 00 * * *', () => {
-        AppLogger.info('[DataUpdateScheduler] Starting scheduled data update...');
-        startUpdateWorkers();
+        AppLogger.info('******************** Starting scheduled update **************************');
+        startUpdateWorkers(applicationAnalysisQueueService);
     });
     job.start();
 };

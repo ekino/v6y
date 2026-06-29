@@ -10,6 +10,7 @@ onlyBuiltDependencies:
   - core-js
   - esbuild
   - event-loop-stats
+  - msgpackr-extract
   - msw
   - nx
   - prisma
@@ -24,6 +25,7 @@ allowBuilds:
   core-js: true
   esbuild: true
   event-loop-stats: true
+  msgpackr-extract: true
   msw: true
   nx: true
   prisma: true
