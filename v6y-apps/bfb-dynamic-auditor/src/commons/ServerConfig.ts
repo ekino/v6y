@@ -1,7 +1,6 @@
 import { ServerEnvConfigType, getServerConfig, normalizeBasePath } from '@v6y/core-logic';
 
 const V6Y_API_BASE_PATH = normalizeBasePath(process.env.V6Y_DYNAMIC_ANALYZER_API_PATH);
-const V6Y_DYNAMIC_HEALTH_CHECK_PATH = `${V6Y_API_BASE_PATH}health-checks`;
 const V6Y_DYNAMIC_MONITORING_PATH = `${V6Y_API_BASE_PATH}monitoring`;
 const V6Y_DYNAMIC_AUDITOR_API_PATH = `${V6Y_API_BASE_PATH}auditor`;
 
@@ -15,7 +14,6 @@ const SERVER_ENV_CONFIGURATION = {
         hostname: 'localhost',
         apiPath: process.env.V6Y_DYNAMIC_ANALYZER_API_PATH,
         dynamicAuditorApiPath: V6Y_DYNAMIC_AUDITOR_API_PATH,
-        healthCheckPath: V6Y_DYNAMIC_HEALTH_CHECK_PATH,
         monitoringPath: V6Y_DYNAMIC_MONITORING_PATH,
         databaseUri: '',
         serverTimeout: 900000, // milliseconds
@@ -27,7 +25,6 @@ const SERVER_ENV_CONFIGURATION = {
         hostname: 'localhost',
         apiPath: process.env.V6Y_DYNAMIC_ANALYZER_API_PATH,
         dynamicAuditorApiPath: V6Y_DYNAMIC_AUDITOR_API_PATH,
-        healthCheckPath: V6Y_DYNAMIC_HEALTH_CHECK_PATH,
         monitoringPath: V6Y_DYNAMIC_MONITORING_PATH,
         databaseUri: '',
         serverTimeout: 900000, // milliseconds

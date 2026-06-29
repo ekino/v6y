@@ -77,6 +77,9 @@ jobs:
       - run: npm install -g pnpm@10.20.0
       - run: pnpm install
 
+      - name: Generate Prisma types
+        run: cd v6y-libs/core-logic && npx prisma generate
+
       - run: pnpm build
         env:
           ENV: ${{ env.ENV }}

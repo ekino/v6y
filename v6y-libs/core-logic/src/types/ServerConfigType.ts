@@ -5,7 +5,6 @@ export interface ServerConfigType {
     port: number;
     hostname: string;
     apiPath?: string;
-    healthCheckPath: string;
     monitoringPath: string;
     serverTimeout: number;
     databaseUri: string;

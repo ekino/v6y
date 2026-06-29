@@ -217,7 +217,7 @@ const getAccountListByPageAndParams = async ({
             `[AccountProvider - getAccountListByPageAndParams] accountList: ${accounts?.length}`,
         );
 
-        return accounts.map((a) => ({ ...a, _id: a.id }));
+        return accounts.map((a: (typeof accounts)[0]) => ({ ...a, _id: a.id }));
     } catch (error) {
         AppLogger.error(`[AccountProvider - getAccountListByPageAndParams] error:  ${error}`);
         return [];

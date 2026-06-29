@@ -1,27 +1,28 @@
-import Express, { Express as ExpressApp } from 'express';
-import ExpressStatusMonitor from 'express-status-monitor';
+import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import expressStatusMonitor from 'express-status-monitor';
+import 'reflect-metadata';
 
+import { NestAppLogger, configureAuthMiddleware } from '@v6y/core-logic';
+
+import { AppModule } from './app.module.ts';
 import ServerConfig from './config/ServerConfig.ts';
 
-/**
- * Creates and configures the Express application with monitoring and health check
- * Note: GraphQL endpoints are configured in index.ts after Apollo Server initialization
- * @returns Configured Express app instance
- */
-export function createApp(): ExpressApp {
-    const app = Express();
-
+export async function createApp(): Promise<NestExpressApplication> {
     const { currentConfig } = ServerConfig;
-
     const { monitoringPath } = currentConfig || {};
 
-    // *********************************************** Monitoring Endpoints ***********************************************
+    const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+        logger: new NestAppLogger(),
+    });
 
-    app.use(
-        ExpressStatusMonitor({
-            path: monitoringPath as string,
-        }),
-    );
+    // Passport JWT initialization — must run before GraphQL routes are mounted.
+    app.use(configureAuthMiddleware());
+
+    app.enableCors();
+    app.use(expressStatusMonitor({ path: monitoringPath as string }));
+
+    await app.init();
 
     return app;
 }

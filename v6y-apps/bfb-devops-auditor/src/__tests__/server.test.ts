@@ -6,11 +6,11 @@ import ServerConfig from '../commons/ServerConfig.ts';
 
 describe('DevOps Auditor Server', () => {
     it('should have express-status-monitor configured at the monitoring path', async () => {
-        const app = createApp();
+        const app = await createApp();
         const { currentConfig } = ServerConfig;
         const monitoringPath = currentConfig?.monitoringPath;
 
-        const response = await request(app)
+        const response = await request(app.getHttpServer())
             .get(monitoringPath as string)
             .expect(200);
 
@@ -18,22 +18,30 @@ describe('DevOps Auditor Server', () => {
     });
 
     it('should respond with 404 for unknown routes', async () => {
-        const app = createApp();
+        const app = await createApp();
 
-        const response = await request(app).get('/unknown-route').expect(404);
+        const response = await request(app.getHttpServer()).get('/unknown-route').expect(404);
 
         expect(response.body.success).toBe(false);
         expect(response.body.message).toContain('does not exist');
     });
 
     it('should have the app properly configured with middleware', async () => {
-        const app = createApp();
+        const app = await createApp();
 
         // Test that the app accepts JSON
-        const response = await request(app)
+        const response = await request(app.getHttpServer())
             .get('/unknown-route')
             .set('Content-Type', 'application/json');
 
         expect(response.status).toBe(404);
+    });
+
+    it('should expose the health endpoint used by docker healthchecks', async () => {
+        const app = await createApp();
+
+        const response = await request(app.getHttpServer()).get('/health').expect(200);
+
+        expect(response.body).toEqual({ success: true, message: 'OK' });
     });
 });
