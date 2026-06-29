@@ -11,6 +11,7 @@ import AccountQueriesType from './account/AccountQueriesType.ts';
 import AccountType from './account/AccountType.ts';
 import AccountUpdatePasswordInput from './account/AccountUpdatePasswordInput.ts';
 import AccountUpdatePasswordOutput from './account/AccountUpdatePasswordOutput.ts';
+import ApplicationAnalysisTriggerOutput from './application/ApplicationAnalysisTriggerOutput.ts';
 import ApplicationCreateOrEditInput from './application/ApplicationCreateOrEditInput.ts';
 import ApplicationDeleteInput from './application/ApplicationDeleteInput.ts';
 import ApplicationDeleteOutput from './application/ApplicationDeleteOutput.ts';
@@ -106,6 +107,7 @@ const VitalityTypes = gql(`
 
     # this schemas allows the following mutations
     ${ApplicationCreateOrEditInput}
+    ${ApplicationAnalysisTriggerOutput}
     ${ApplicationDeleteOutput}
     ${ApplicationDeleteInput}
     ${ApplicationMutationsType}

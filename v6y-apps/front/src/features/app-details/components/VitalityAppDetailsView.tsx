@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { ApplicationType } from '@v6y/core-logic/src/types';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
-import { Button, GlobeIcon, Input, PlayIcon, ReloadIcon } from '@v6y/ui-kit-front';
+import { Button, GlobeIcon, Input, PlayIcon, ReloadIcon, toast } from '@v6y/ui-kit-front';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import { exportAppDetailsDataToCSV } from '../../../commons/utils/VitalityDataExportUtils';
@@ -13,6 +13,7 @@ import {
     useClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationDetailsInfosByParams from '../api/getApplicationDetailsInfosByParams';
+import TriggerApplicationAnalysis from '../api/triggerApplicationAnalysis';
 import VitalitySummaryCard from '../components/summary-card/VitalitySummaryCard';
 import BranchSelector from './BranchSelector';
 
@@ -29,6 +30,13 @@ const VitalitySecuritySection = DynamicLoader(
 );
 
 const VitalitySonarQubeView = DynamicLoader(() => import('./sonarqube/VitalitySonarQubeView'));
+const MIN_AUDIT_RUNNING_MS = 2500;
+
+const auditToastStyle = {
+    background: 'rgba(255, 255, 255, 0.96)',
+    color: '#111827',
+    border: '1px solid rgba(17, 24, 39, 0.15)',
+};
 
 const extractProjectKeyFromSonarUrl = (url: string): string | null => {
     try {
@@ -127,15 +135,63 @@ const VitalityAppDetailsView = () => {
     };
 
     const onRunAuditClicked = async () => {
+        const applicationId = parseInt(_id as string, 10);
+        if (Number.isNaN(applicationId)) {
+            toast.error(translate('vitality.appDetailsPage.auditToasts.invalidApplication'), {
+                style: auditToastStyle,
+            });
+            console.error('Unable to trigger audit: invalid application id');
+            return;
+        }
+
+        const startTimestamp = Date.now();
+        const loadingToastId = toast.loading(
+            translate('vitality.appDetailsPage.auditToasts.running'),
+            {
+                style: auditToastStyle,
+            },
+        );
+
         setIsRunningAudit(true);
         try {
+            const response = await buildClientQuery<{
+                triggerApplicationAnalysis: {
+                    success: boolean;
+                    applicationId: number;
+                    message: string;
+                };
+            }>({
+                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
+                query: TriggerApplicationAnalysis,
+                variables: {
+                    applicationId,
+                },
+            });
+
+            if (!response?.triggerApplicationAnalysis?.success) {
+                throw new Error(
+                    response?.triggerApplicationAnalysis?.message || 'Unable to trigger the audit',
+                );
+            }
+
+            toast.success(translate('vitality.appDetailsPage.auditToasts.queued'), {
+                id: loadingToastId,
+                style: auditToastStyle,
+            });
             setAuditTrigger((prev) => prev + 1);
         } catch (error) {
+            toast.error(translate('vitality.appDetailsPage.auditToasts.failed'), {
+                id: loadingToastId,
+                style: auditToastStyle,
+            });
             console.error('Error running audit:', error);
         } finally {
-            setTimeout(() => {
-                setIsRunningAudit(false);
-            }, 2000);
+            const elapsed = Date.now() - startTimestamp;
+            const remainingDelay = Math.max(0, MIN_AUDIT_RUNNING_MS - elapsed);
+            if (remainingDelay) {
+                await new Promise((resolve) => setTimeout(resolve, remainingDelay));
+            }
+            setIsRunningAudit(false);
         }
     };
 
@@ -292,6 +348,18 @@ const VitalityAppDetailsView = () => {
                                 )}
                             </Button>
                         </div>
+
+                        {isRunningAudit ? (
+                            <div className="flex items-center gap-2 rounded-md border border-amber-300 bg-amber-50 px-3 py-1.5 animate-pulse self-start md:self-center">
+                                <span className="relative inline-flex h-2.5 w-2.5">
+                                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500 opacity-75"></span>
+                                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-amber-600"></span>
+                                </span>
+                                <span className="text-xs font-medium text-amber-800">
+                                    {translate('vitality.appDetailsPage.auditToasts.running')}
+                                </span>
+                            </div>
+                        ) : null}
                     </div>
 
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 md:gap-2 mb-4 md:mb-2">

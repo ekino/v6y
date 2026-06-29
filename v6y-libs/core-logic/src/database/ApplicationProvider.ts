@@ -2,7 +2,10 @@ import { Prisma } from '@prisma/client';
 
 import AppLogger from '../core/AppLogger.ts';
 import { AccountType } from '../types/AccountType.ts';
+import { ApplicationConfigType } from '../types/ApplicationConfigType.ts';
 import { ApplicationInputType, ApplicationType } from '../types/ApplicationType.ts';
+import { LinkType } from '../types/LinkType.ts';
+import { RepositoryType } from '../types/RepositoryType.ts';
 import { SearchQueryType } from '../types/SearchQueryType.ts';
 import AuditProvider from './AuditProvider.ts';
 import DependencyProvider from './DependencyProvider.ts';
@@ -79,6 +82,51 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
     };
 };
 
+const toRepository = (repo: Prisma.JsonValue | null | undefined): RepositoryType | undefined => {
+    if (!repo || typeof repo !== 'object' || Array.isArray(repo)) {
+        return undefined;
+    }
+
+    return repo as unknown as RepositoryType;
+};
+
+const toLinks = (links: Prisma.JsonValue | null | undefined): LinkType[] | undefined => {
+    if (!Array.isArray(links)) {
+        return undefined;
+    }
+
+    return links as unknown as LinkType[];
+};
+
+const toConfiguration = (
+    configuration: Prisma.JsonValue | null | undefined,
+): ApplicationConfigType | undefined => {
+    if (!configuration || typeof configuration !== 'object' || Array.isArray(configuration)) {
+        return undefined;
+    }
+
+    return configuration as unknown as ApplicationConfigType;
+};
+
+const normalizeApplication = (application: {
+    id: number;
+    name: string;
+    acronym: string;
+    contactMail: string;
+    description: string;
+    repo: Prisma.JsonValue | null;
+    configuration: Prisma.JsonValue | null;
+    links: Prisma.JsonValue | null;
+}) => {
+    return {
+        ...application,
+        _id: application.id,
+        repo: toRepository(application.repo),
+        configuration: toConfiguration(application.configuration),
+        links: toLinks(application.links),
+    } as ApplicationType;
+};
+
 const buildWhereClause = async (
     { searchText, keywords }: SearchQueryType,
     user?: AccountType,
@@ -129,7 +177,7 @@ const createFormApplication = async (application: ApplicationInputType) => {
             },
         });
         AppLogger.info('[ApplicationProvider - createFormApplication] created: ' + created.id);
-        return { ...created, _id: created.id };
+        return normalizeApplication(created);
     } catch (error) {
         AppLogger.error('[ApplicationProvider - createFormApplication] error: ', error);
         return null;
@@ -238,7 +286,7 @@ const getApplicationDetailsInfoByParams = async ({ _id }: ApplicationType) => {
         if (!_id) return null;
         const application = await getPrismaClient().application.findUnique({ where: { id: _id } });
         if (!application) return null;
-        return { ...application, _id: application.id };
+        return normalizeApplication(application);
     } catch (error) {
         AppLogger.error('[ApplicationProvider - getApplicationDetailsInfoByParams] error: ', error);
         return null;
@@ -304,7 +352,7 @@ const getApplicationListByPageAndParams = async (
             skip: offset ?? undefined,
             take: limit ?? undefined,
         });
-        return applications.map((app) => ({ ...app, _id: app.id }));
+        return applications.map((app) => normalizeApplication(app));
     } catch (error) {
         AppLogger.error('[ApplicationProvider - getApplicationListByPageAndParams] error: ', error);
         return [];

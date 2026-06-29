@@ -1,11 +1,21 @@
-import {
+import { createRequire } from 'node:module';
+
+import { AppLogger, AuditType, Matcher, auditStatus, scoreStatus } from '@v6y/core-logic';
+
+type EcoIndexLibType = {
+    computeEcoIndex: (dom: number, req: number, size: number) => number;
+    getEcoIndexGrade: (ecoIndex: number) => string | false;
+    computeGreenhouseGasesEmissionfromEcoIndex: (ecoIndex: number) => string;
+    computeWaterConsumptionfromEcoIndex: (ecoIndex: number) => string;
+};
+
+const require = createRequire(import.meta.url);
+const {
     computeEcoIndex,
     computeGreenhouseGasesEmissionfromEcoIndex,
     computeWaterConsumptionfromEcoIndex,
     getEcoIndexGrade,
-} from 'ecoindex';
-
-import { AppLogger, AuditType, Matcher, auditStatus, scoreStatus } from '@v6y/core-logic';
+} = require('ecoindex') as EcoIndexLibType;
 
 /**
  * Extract Ecoindex input metrics from raw Lighthouse JSON data.
@@ -52,7 +62,7 @@ const extractEcoindexInputs = (
 
 /**
  * Compute a single Ecoindex AuditType entry from Lighthouse raw data.
- * Uses the GreenIT-Analysis reference algorithm (no external package).
+ * Uses the Ecoindex external library algorithm.
  * @param data
  * @param subCategory - device (mobile/desktop)
  * @param appId

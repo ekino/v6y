@@ -1,4 +1,5 @@
 import {
+    AccountType,
     AppLogger,
     ApplicationInputType,
     ApplicationProvider,
@@ -166,9 +167,78 @@ const deleteApplication = async (_: unknown, params: { input: SearchQueryType })
     }
 };
 
+/**
+ * Trigger application analysis asynchronously.
+ * @param _
+ * @param params
+ * @param user
+ */
+const triggerApplicationAnalysis = async (
+    _: unknown,
+    params: { applicationId: number },
+    { user }: { user: AccountType },
+) => {
+    try {
+        const { applicationId } = params || {};
+
+        if (!applicationId) {
+            throw new Error('The applicationId is required');
+        }
+
+        if (!(user.role === 'ADMIN' || user.role === 'SUPERADMIN')) {
+            const userApplicationsIds = user.applications || [];
+            if (!userApplicationsIds.includes(applicationId)) {
+                throw new Error('Unauthorized');
+            }
+        }
+
+        const triggerUrl = process.env.V6Y_MAIN_ANALYZER_TRIGGER_API_PATH;
+
+        if (!triggerUrl?.length) {
+            throw new Error('The main analyzer trigger API path is not configured');
+        }
+
+        AppLogger.info(
+            `[AppMutations - triggerApplicationAnalysis] applicationId : ${applicationId}`,
+        );
+
+        const response = await fetch(triggerUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ applicationId }),
+        });
+
+        const responseBody = (await response.json().catch(() => null)) as {
+            success?: boolean;
+            message?: string;
+            applicationId?: number;
+        } | null;
+
+        if (!response.ok || !responseBody?.success) {
+            throw new Error(
+                responseBody?.message || `Unable to trigger the analysis (HTTP ${response.status})`,
+            );
+        }
+
+        return {
+            success: true,
+            message: responseBody.message || 'Analysis triggered successfully',
+            applicationId: responseBody.applicationId || applicationId,
+        };
+    } catch (error) {
+        AppLogger.info(`[AppMutations - triggerApplicationAnalysis] error : ${error}`);
+        return {
+            success: false,
+            message: error instanceof Error ? error.message : 'Unable to trigger analysis',
+            applicationId: params?.applicationId || 0,
+        };
+    }
+};
+
 const ApplicationMutations = {
     createOrEditApplication,
     deleteApplication,
+    triggerApplicationAnalysis,
 };
 
 export default ApplicationMutations;

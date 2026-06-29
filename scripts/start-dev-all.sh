@@ -13,6 +13,16 @@ echo "🛑 Cleaning up orphaned processes..."
 node scripts/stop-ports.js > /dev/null 2>&1 || true
 echo ""
 
+# 1b. Make sure Redis is available for the BullMQ-backed main analyzer.
+if command -v docker >/dev/null 2>&1; then
+  echo "🧱 Starting Redis for queue processing..."
+  docker compose up -d v6y-redis >/dev/null
+  echo ""
+else
+  echo "⚠️  Docker is not available; Redis must already be running on 127.0.0.1:6379."
+  echo ""
+fi
+
 # 2. Increase file descriptor limit for this shell and all child processes
 echo "📊 Setting file descriptor limits..."
 OLD_LIMIT=$(ulimit -n)

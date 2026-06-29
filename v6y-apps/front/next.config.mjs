@@ -8,6 +8,7 @@ const withBundleAnalyzer = BundleAnalyzer({
 });
 
 const workspaceRoot = fileURLToPath(new URL('../../', import.meta.url));
+const bffProxyTarget = process.env.NEXT_PUBLIC_V6Y_BFF_PATH || 'http://localhost:4001/v6y/graphql/';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -20,6 +21,18 @@ const nextConfig = {
                 source: '/',
                 destination: '/dashboard',
                 permanent: true,
+            },
+        ];
+    },
+    async rewrites() {
+        return [
+            {
+                source: '/v6y/graphql',
+                destination: bffProxyTarget,
+            },
+            {
+                source: '/v6y/graphql/:path*',
+                destination: `${bffProxyTarget}:path*`,
             },
         ];
     },

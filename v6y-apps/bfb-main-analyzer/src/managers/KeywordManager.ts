@@ -5,6 +5,7 @@ import {
     auditStatus,
     scoreStatus,
 } from '@v6y/core-logic';
+import type { ModuleType } from '@v6y/core-logic';
 
 /**
  * Builds the keyword evolution list.
@@ -34,7 +35,7 @@ const buildKeywordList = async () => {
                 await KeywordProvider.createKeyword({
                     label: `${audit.type}-${audit.category}`,
                     module: {
-                        ...audit.module,
+                        ...(audit.module as unknown as ModuleType),
                         status: audit.scoreStatus,
                     },
                 });

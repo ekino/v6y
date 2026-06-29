@@ -58,6 +58,12 @@
       "exportButton": "Export Reporting",
       "runAuditButton": "Run Audit",
       "runAuditButtonLoading": "Running...",
+      "auditToasts": {
+        "running": "Audit is running...",
+        "queued": "Audit successfully queued.",
+        "failed": "Unable to trigger audit.",
+        "invalidApplication": "Invalid application id."
+      },
       "loadingStates": {
         "auditReports": "Loading audit reports...",
         "qualityIndicators": "Loading quality indicators...",

@@ -103,4 +103,13 @@ export class ApplicationResolver {
     deleteApplication(@Args() args: Parameters<typeof ApplicationMutations.deleteApplication>[1]) {
         return ApplicationMutations.deleteApplication(undefined, args);
     }
+
+    @Mutation('triggerApplicationAnalysis')
+    triggerApplicationAnalysis(
+        @Args() args: Parameters<typeof ApplicationMutations.triggerApplicationAnalysis>[1],
+        @Context()
+        context: Parameters<typeof ApplicationMutations.triggerApplicationAnalysis>[2],
+    ) {
+        return ApplicationMutations.triggerApplicationAnalysis(undefined, args, context);
+    }
 }
