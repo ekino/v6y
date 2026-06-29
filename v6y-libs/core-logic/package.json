@@ -64,7 +64,7 @@
     "@types/semver": "=7.5.8",
     "@types/unixify": "=1.0.2",
     "adm-zip": "=0.5.16",
-    "axios": "=1.16.0",
+    "axios": "=1.16.1",
     "axios-retry": "=4.5.0",
     "bcrypt": "=6.0.0",
     "compare-versions": "=6.1.1",

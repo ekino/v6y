@@ -52,7 +52,7 @@
     "@prisma/client": "=7.8.0",
     "@v6y/core-logic": "workspace:^",
     "apollo-server-plugin-response-cache": "=3.8.2",
-    "axios": "=1.16.0",
+    "axios": "=1.16.1",
     "axios-retry": "=4.5.0",
     "express-status-monitor": "=1.3.4",
     "graphql": "=16.10.0",
