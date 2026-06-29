@@ -36,5 +36,9 @@ fi
 # 4. Run the actual dev command with increased limits
 echo "⚙️  Starting 7 dev servers in parallel..."
 echo ""
-NODE_OPTIONS="--max-old-space-size=4096" \
+  # Use polling watchers to avoid Watchpack/Chokidar exhausting file descriptors
+  # when all frontends and backend dev servers run together.
+  WATCHPACK_POLLING=true \
+  CHOKIDAR_USEPOLLING=true \
+  NODE_OPTIONS="--max-old-space-size=4096" \
   nx run-many --target=start:dev --all --parallel --maxParallel=7
