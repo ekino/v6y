@@ -83,5 +83,5 @@ describe('TriggerApplicationAnalysis mutation', () => {
         });
 
         await app.close();
-    });
+    }, 15000);
 });

@@ -48,6 +48,16 @@ const GithubConfig = (organization: string | null): GithubConfigType => {
  */
 const GitlabConfig = (organization: string | null): GitlabConfigType => {
     const baseURL = organization ? `https://gitlab.${organization}.com` : 'https://gitlab.com';
+    const gitlabToken =
+        process.env.GITLAB_PRIVATE_TOKEN ||
+        process.env.GITLAB_TOKEN ||
+        process.env.GITLAB_ACCESS_TOKEN ||
+        '';
+
+    if (!gitlabToken.length) {
+        AppLogger.warn('[RepositoryApi - GitlabConfig] Missing GitLab token environment variable');
+    }
+
     return {
         baseURL,
         api: 'api/v4',
@@ -64,7 +74,8 @@ const GitlabConfig = (organization: string | null): GitlabConfigType => {
         },
 
         headers: {
-            'PRIVATE-TOKEN': process.env.GITLAB_PRIVATE_TOKEN || '',
+            'PRIVATE-TOKEN': gitlabToken,
+            Authorization: gitlabToken.length ? `Bearer ${gitlabToken}` : undefined,
             'Content-Type': 'application/json',
         },
     };
@@ -306,20 +317,38 @@ const prepareGitBranchZipConfig = ({
             return null;
         }
 
-        const normalizedBranchName = branchName.split('/').pop()?.replaceAll(' ', '-');
+        const normalizedBranchName = branchName.replaceAll('/', '-').replaceAll(' ', '-');
         AppLogger.info(
             `[RepositoryApi - prepareGitZipConfig] normalizedBranchName:  ${normalizedBranchName}`,
         );
 
         const { repo } = application;
 
-        const projectName = repo?.webUrl?.split('/').pop();
+        const repositoryWebUrl = repo?.webUrl?.replace(/\/+$/, '');
+
+        if (!repositoryWebUrl?.length) {
+            return null;
+        }
+
+        const projectName = repositoryWebUrl.split('/').pop();
         AppLogger.info(`[RepositoryApi - prepareGitZipConfig] projectName:  ${projectName}`);
 
         const zipFileName = `${projectName}-${normalizedBranchName}.zip`;
         AppLogger.info(`[RepositoryApi - prepareGitZipConfig] zipFileName:  ${zipFileName}`);
 
-        const zipSourceUrl = `${repo?.webUrl}/-/archive/${branchName}/${zipFileName}`;
+        const encodedBranchName = encodeURIComponent(branchName);
+        const isGithubRepository = repositoryWebUrl.includes('github.com');
+        const repositoryOrigin = new URL(repositoryWebUrl).origin;
+        const repositoryPath = new URL(repositoryWebUrl).pathname.replace(/^\//, '');
+
+        // GitLab web archive URLs can return HTML (login/forbidden) instead of binary zip.
+        // Prefer the API archive endpoint, which supports PRIVATE-TOKEN auth headers.
+        const gitlabProjectRef = encodeURIComponent(String(repo?.id || repositoryPath));
+
+        const zipSourceUrl = isGithubRepository
+            ? `${repositoryWebUrl}/archive/refs/heads/${encodedBranchName}.zip`
+            : `${repositoryOrigin}/api/v4/projects/${gitlabProjectRef}/repository/archive.zip?sha=${encodedBranchName}`;
+
         AppLogger.info(`[RepositoryApi - prepareGitZipConfig] zipSourceUrl:  ${zipSourceUrl}`);
 
         const zipDestinationDir = `${zipBaseDir}/${application?.acronym}`;
@@ -338,7 +367,8 @@ const prepareGitBranchZipConfig = ({
             zipBaseFileName,
             zipDestinationDir,
             zipOptions: {
-                headers: buildQueryOptions({})?.headers,
+                headers: buildQueryOptions({ type: isGithubRepository ? 'github' : 'gitlab' })
+                    ?.headers,
             },
         };
     } catch (error) {

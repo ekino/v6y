@@ -24,6 +24,7 @@ export interface GitlabConfigType {
     };
     headers: {
         'PRIVATE-TOKEN': string;
+        Authorization?: string;
         'Content-Type': string;
     };
 }
