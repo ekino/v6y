@@ -6,6 +6,11 @@ import DoraMetricsAuditor from '../auditors/dora-metrics/DoraMetricsAuditor.ts';
 
 AppLogger.info('******************** Starting background Audit **************************');
 
+type DevOpsWorkerResult = {
+    status: 'success' | 'failed';
+    message: string;
+};
+
 try {
     const { applicationId } = workerData || {};
     AppLogger.info(`[DoraMetricsAnalysisWorker] applicationId:  ${applicationId}`);
@@ -24,13 +29,22 @@ try {
 
     if (!result) {
         AppLogger.error('******************** Audit failed ********************');
-        parentPort?.postMessage('Audit failed.'); // Notify the parent of the failure
+        parentPort?.postMessage({
+            status: 'failed',
+            message: 'Audit failed.',
+        } as DevOpsWorkerResult);
     } else {
         AppLogger.info('******************** Audit completed successfully ********************');
 
-        parentPort?.postMessage('Audit completed successfully.'); // Notify the parent of the success
+        parentPort?.postMessage({
+            status: 'success',
+            message: 'Audit completed successfully.',
+        } as DevOpsWorkerResult);
     }
 } catch (error) {
     AppLogger.error('[DoraMetricsAnalysisWorker] An exception occurred during the audits:', error);
-    parentPort?.postMessage('Audit encountered an error.'); // Notify the parent of the error
+    parentPort?.postMessage({
+        status: 'failed',
+        message: 'Audit encountered an error.',
+    } as DevOpsWorkerResult);
 }

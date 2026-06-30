@@ -24,43 +24,58 @@ const buildApplicationReports = async (application: ApplicationType) => {
         const { organization, gitUrl } = application.repo;
         const gitRepositoryName = gitUrl?.split('/')?.pop()?.replace('.git', '');
 
+        const fallbackBranches = (application?.repo?.allBranches || [])
+            .filter((branch) => branch?.length)
+            .map((name) => ({ name }));
+        let repositoryBranches = fallbackBranches;
+
         const repositoryDetails = await getRepositoryDetails({
             organization,
             gitRepositoryName,
         });
 
         if (
-            !repositoryDetails?.id ||
-            repositoryDetails?.archived ||
-            repositoryDetails?.empty_repo
+            repositoryDetails?.id &&
+            !repositoryDetails?.archived &&
+            !repositoryDetails?.empty_repo
         ) {
-            return false;
+            const { _links: repositoryLinks } = repositoryDetails;
+
+            const fetchedBranches = await getRepositoryBranches({
+                repoBranchesUrl: repositoryLinks?.repo_branches,
+            });
+
+            if (fetchedBranches?.length) {
+                repositoryBranches = fetchedBranches;
+            }
+        } else {
+            AppLogger.warn(
+                '[ApplicationManager - buildApplicationDetails] repository metadata unavailable, using cached branches only',
+            );
         }
 
-        const { _links: repositoryLinks } = repositoryDetails;
-
-        const repositoryBranches = await getRepositoryBranches({
-            repoBranchesUrl: repositoryLinks?.repo_branches,
-        });
-
-        if (!repositoryBranches?.length) {
-            return false;
+        if (repositoryBranches?.length) {
+            await ApplicationProvider.editApplication({
+                ...application,
+                repo: {
+                    ...application?.repo,
+                    allBranches: repositoryBranches.map((branch) => branch?.name),
+                },
+            });
         }
-
-        await ApplicationProvider.editApplication({
-            ...application,
-            repo: {
-                ...application?.repo,
-                allBranches: repositoryBranches.map((branch) => branch?.name),
-            },
-        });
 
         AppLogger.info('[ApplicationManager - buildApplicationDetails] start of static analysis');
 
-        await buildStaticReports({
-            application,
-            branches: repositoryBranches,
-        });
+        if (repositoryBranches?.length) {
+            await buildStaticReports({
+                application,
+                branches: repositoryBranches,
+            });
+        } else {
+            AppLogger.warn(
+                '[ApplicationManager - buildApplicationDetails] static analysis skipped: no branches available',
+            );
+        }
 
         AppLogger.info('[ApplicationManager - buildApplicationDetails] end of static analysis');
 
@@ -75,6 +90,34 @@ const buildApplicationReports = async (application: ApplicationType) => {
         return true;
     } catch (error) {
         AppLogger.error('[ApplicationManager - buildApplicationDetails] error: ', error);
+        return false;
+    }
+};
+
+/**
+ * Builds the reports for a single application id.
+ * @param applicationId
+ */
+const buildApplicationReportsById = async (applicationId: number) => {
+    try {
+        if (!applicationId) {
+            return false;
+        }
+
+        const application = await ApplicationProvider.getApplicationDetailsInfoByParams({
+            _id: applicationId,
+        });
+
+        if (!application?._id) {
+            AppLogger.info(
+                `[ApplicationManager - buildApplicationReportsById] application not found: ${applicationId}`,
+            );
+            return false;
+        }
+
+        return buildApplicationReports(application as unknown as ApplicationType);
+    } catch (error) {
+        AppLogger.error(`[ApplicationManager - buildApplicationReportsById] error: ${error}`);
         return false;
     }
 };
@@ -98,7 +141,7 @@ const buildApplicationList = async () => {
         }
 
         for (const application of applications) {
-            await buildApplicationReports(application);
+            await buildApplicationReports(application as unknown as ApplicationType);
         }
 
         return true;
@@ -109,6 +152,7 @@ const buildApplicationList = async () => {
 };
 
 const ApplicationManager = {
+    buildApplicationReportsById,
     buildApplicationList,
 };
 

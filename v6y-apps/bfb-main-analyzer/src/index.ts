@@ -2,6 +2,7 @@ import { AppLogger, ServerUtils } from '@v6y/core-logic';
 
 import { createApp } from './app.ts';
 import ServerConfig from './config/ServerConfig.ts';
+import { ApplicationAnalysisQueueService } from './queues/ApplicationAnalysisQueueService.ts';
 import DataUpdateScheduler from './workers/DataUpdateScheduler.ts';
 
 const { createServer } = ServerUtils;
@@ -33,4 +34,6 @@ httpServer.timeout = currentConfig?.serverTimeout;
 AppLogger.info(`🚀 Server started at ${currentConfig?.serverUrl}`);
 
 // *********************************************** Data Update Scheduler ***********************************************
-DataUpdateScheduler.start();
+const applicationAnalysisQueueService = app.get(ApplicationAnalysisQueueService);
+
+DataUpdateScheduler.start(applicationAnalysisQueueService);

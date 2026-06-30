@@ -14,7 +14,7 @@ const VitalityPageLayout = ({ children }: { children: ReactNode }) => {
             <VitalityPageHeader />
             <VitalityBreadcrumb />
             {children}
-            <Toaster position="top-center" richColors />
+            <Toaster position="top-center" />
         </div>
     );
 };

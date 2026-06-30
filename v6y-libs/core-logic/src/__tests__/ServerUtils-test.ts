@@ -21,7 +21,11 @@ describe('ServerUtils', () => {
     describe('createServer', () => {
         it('should create an HTTP server if ssl is false', () => {
             const httpSpy = vi.spyOn(http, 'createServer').mockReturnValue(mockHttpServer);
-            const httpsSpy = vi.spyOn(HttpsClient, 'createServer').mockReturnValue(mockHttpServer);
+            const httpsSpy = vi
+                .spyOn(HttpsClient, 'createServer')
+                .mockReturnValue(
+                    mockHttpServer as unknown as ReturnType<typeof HttpsClient.createServer>,
+                );
 
             ServerUtils.createServer({ app: mockApp, config: mockConfig });
             expect(httpSpy).toHaveBeenCalledWith(mockApp);
@@ -30,7 +34,11 @@ describe('ServerUtils', () => {
 
         it('should create an HTTPS server if ssl is true', () => {
             const httpSpy = vi.spyOn(http, 'createServer').mockReturnValue(mockHttpServer);
-            const httpsSpy = vi.spyOn(HttpsClient, 'createServer').mockReturnValue(mockHttpServer);
+            const httpsSpy = vi
+                .spyOn(HttpsClient, 'createServer')
+                .mockReturnValue(
+                    mockHttpServer as unknown as ReturnType<typeof HttpsClient.createServer>,
+                );
             const httpsConfig = { ...mockConfig, ssl: true };
 
             ServerUtils.createServer({ app: mockApp, config: httpsConfig });

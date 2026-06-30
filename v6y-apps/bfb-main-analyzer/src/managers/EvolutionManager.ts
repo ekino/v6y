@@ -7,6 +7,7 @@ import {
     dependencyStatus,
     scoreStatus,
 } from '@v6y/core-logic';
+import type { ModuleType } from '@v6y/core-logic';
 
 /**
  * Builds the Evolution list.
@@ -37,7 +38,7 @@ const buildEvolutionList = async () => {
                 await EvolutionProvider.createEvolution({
                     category: `Dependency-${dependency.status}`,
                     module: {
-                        ...dependency.module,
+                        ...(dependency.module as unknown as ModuleType),
                         status: dependency.status,
                     },
                 });
@@ -67,7 +68,7 @@ const buildEvolutionList = async () => {
                 await EvolutionProvider.createEvolution({
                     category: `${audit.type}-${audit.category}`,
                     module: {
-                        ...audit.module,
+                        ...(audit.module as unknown as ModuleType),
                         status: audit.scoreStatus,
                     },
                 });

@@ -10,6 +10,13 @@ import { AuditCommonsType } from './types/AuditCommonsType.ts';
 const { forkWorker } = WorkerHelper;
 const { currentConfig } = ServerConfig;
 
+type DevOpsWorkerResult =
+    | string
+    | {
+          status?: 'success' | 'failed';
+          message?: string;
+      };
+
 /**
  * Starts the DevOps audit process for a given application
  * @param applicationId
@@ -24,7 +31,22 @@ const startDevOpsAudit = async ({ applicationId }: AuditCommonsType) => {
             applicationId,
         } as WorkerOptions;
 
-        await forkWorker('./src/workers/DevOpsAnalysisWorker.ts', workerConfig);
+        const workerResult = (await forkWorker(
+            './src/workers/DevOpsAnalysisWorker.ts',
+            workerConfig,
+        )) as DevOpsWorkerResult;
+
+        const isWorkerFailure =
+            (typeof workerResult === 'object' && workerResult?.status === 'failed') ||
+            (typeof workerResult === 'string' && /failed|error/i.test(workerResult));
+
+        if (isWorkerFailure) {
+            AppLogger.error(
+                '[DevOpsAuditorManager - startDevOpsAudit] DevOps Audit worker reported failure.',
+                workerResult,
+            );
+            return false;
+        }
 
         AppLogger.info(
             '[DevOpsAuditorManager - startDevOpsAudit] DevOps Audit have completed successfully.',

@@ -11,3 +11,4 @@ JWT_SECRET=x
 
 V6Y_BFF_API_PATH=/v6y/graphql/
 V6Y_BFF_API_PORT=4001
+V6Y_MAIN_ANALYZER_TRIGGER_API_PATH=http://localhost:4009/v6y/bfb-main/trigger-application-analysis.json

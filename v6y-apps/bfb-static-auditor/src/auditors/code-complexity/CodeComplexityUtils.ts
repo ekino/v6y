@@ -386,7 +386,25 @@ const aggregateCodeComplexityReports = ({
     let totalCyclomatic = 0;
     let totalPhysicalSLOC = 0;
     let totalLogicalSLOC = 0;
-    const halsteadAggregate = { ...defaultAggregate.halstead };
+    const halsteadAggregate = {
+        operands: {
+            total: defaultAggregate.halstead?.operands?.total || 0,
+            distinct: defaultAggregate.halstead?.operands?.distinct || 0,
+            identifiers: defaultAggregate.halstead?.operands?.identifiers || [],
+        },
+        operators: {
+            total: defaultAggregate.halstead?.operators?.total || 0,
+            distinct: defaultAggregate.halstead?.operators?.distinct || 0,
+            identifiers: defaultAggregate.halstead?.operators?.identifiers || [],
+        },
+        length: defaultAggregate.halstead?.length || 0,
+        vocabulary: defaultAggregate.halstead?.vocabulary || 0,
+        difficulty: defaultAggregate.halstead?.difficulty || 0,
+        volume: defaultAggregate.halstead?.volume || 0,
+        effort: defaultAggregate.halstead?.effort || 0,
+        bugs: defaultAggregate.halstead?.bugs || 0,
+        time: defaultAggregate.halstead?.time || 0,
+    };
     let fileCount = 0;
 
     for (const auditableFile of auditableFiles) {

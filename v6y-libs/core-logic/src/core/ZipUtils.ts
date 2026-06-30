@@ -13,6 +13,23 @@ const finished = promisify(stream.finished);
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+const hasZipMagicHeader = (filePath: string): boolean => {
+    try {
+        const fd = fs.openSync(filePath, 'r');
+        const header = Buffer.alloc(4);
+        fs.readSync(fd, header, 0, 4, 0);
+        fs.closeSync(fd);
+        return (
+            header[0] === 0x50 &&
+            header[1] === 0x4b &&
+            (header[2] === 0x03 || header[2] === 0x05 || header[2] === 0x07) &&
+            (header[3] === 0x04 || header[3] === 0x06 || header[3] === 0x08)
+        );
+    } catch {
+        return false;
+    }
+};
+
 /**
  * Recursively cleans up a workspace directory by deleting any empty subdirectories.
  * @param directoryPath
@@ -82,6 +99,9 @@ const downloadZip = async ({
             responseType: 'stream',
             headers: zipOptions?.headers,
         });
+
+        const contentType = String(response.headers?.['content-type'] || '').toLowerCase();
+        AppLogger.info(`[ZipUtils - downloadZip] contentType: ${contentType}`);
         AppLogger.info(`[ZipUtils - downloadZip] get zipResponse`);
 
         const zipWriterStream = fs.createWriteStream(zipOutFile);
@@ -92,6 +112,14 @@ const downloadZip = async ({
 
         await finished(zipWriterStream);
         AppLogger.info('[ZipUtils - downloadZip] 🎉 end of download');
+
+        if (!hasZipMagicHeader(zipOutFile)) {
+            AppLogger.error(
+                `[ZipUtils - downloadZip] Invalid ZIP payload downloaded from ${zipSourceUrl}. contentType=${contentType}`,
+            );
+            deleteZip({ zipDirFullPath: zipOutFile });
+            return false;
+        }
 
         return true;
     } catch (error) {
