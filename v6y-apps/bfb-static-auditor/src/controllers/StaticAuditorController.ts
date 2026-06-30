@@ -1,10 +1,4 @@
-import {
-    Body,
-    Controller,
-    HttpCode,
-    InternalServerErrorException,
-    Post,
-} from '@nestjs/common';
+import { Body, Controller, HttpCode, InternalServerErrorException, Post } from '@nestjs/common';
 
 import { AppLogger } from '@v6y/core-logic';
 
@@ -17,6 +11,7 @@ const basePath = (currentConfig?.staticAuditorApiPath || '').toString();
 interface StartStaticAuditorBody {
     applicationId?: number;
     workspaceFolder?: string;
+    auditRunId?: string;
 }
 
 interface StartStaticAuditorResponse {
@@ -33,13 +28,14 @@ export class StaticAuditorController {
     ): Promise<StartStaticAuditorResponse> {
         AppLogger.debug('[StaticAuditorController] Entering service: [start-static-auditor]');
 
-        const { applicationId, workspaceFolder } = body || {};
+        const { applicationId, workspaceFolder, auditRunId } = body || {};
 
         let auditsStartedSuccessfully: boolean;
         try {
             auditsStartedSuccessfully = await StaticAuditorManager.startStaticAudit({
                 applicationId,
                 workspaceFolder,
+                auditRunId,
             });
         } catch (error) {
             AppLogger.error(
