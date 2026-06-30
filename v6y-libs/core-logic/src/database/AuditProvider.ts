@@ -5,6 +5,13 @@ import { AuditType } from '../types/AuditType.ts';
 import AuditHelpProvider from './AuditHelpProvider.ts';
 import { getPrismaClient } from './PrismaClient.ts';
 
+const getAuditDateRange = (audit: AuditType) => {
+    const now = new Date();
+    const dateStart = audit.dateStart ?? now;
+    const dateEnd = audit.dateEnd ?? dateStart;
+    return { dateStart, dateEnd };
+};
+
 const createAudit = async (audit: AuditType) => {
     try {
         AppLogger.info(
@@ -15,12 +22,13 @@ const createAudit = async (audit: AuditType) => {
         const auditHelp = await AuditHelpProvider.getAuditHelpDetailsByParams({
             category: audit.type + '-' + audit.category,
         });
+        const { dateStart, dateEnd } = getAuditDateRange(audit);
 
         const created = await getPrismaClient().audit.create({
             data: {
                 appId: (audit.module?.appId ?? audit.appId)!,
-                dateStart: audit.dateStart ?? null,
-                dateEnd: audit.dateEnd ?? null,
+                dateStart,
+                dateEnd,
                 type: audit.type ?? null,
                 category: audit.category ?? null,
                 subCategory: audit.subCategory ?? null,
@@ -54,10 +62,11 @@ const insertAuditList = async (auditList: AuditType[] | null) => {
                     const auditHelp = await AuditHelpProvider.getAuditHelpDetailsByParams({
                         category: audit.type + '-' + audit.category,
                     });
+                    const { dateStart, dateEnd } = getAuditDateRange(audit);
                     return {
                         appId: (audit.module?.appId ?? audit.appId)!,
-                        dateStart: audit.dateStart ?? null,
-                        dateEnd: audit.dateEnd ?? null,
+                        dateStart,
+                        dateEnd,
                         type: audit.type ?? null,
                         category: audit.category ?? null,
                         subCategory: audit.subCategory ?? null,
