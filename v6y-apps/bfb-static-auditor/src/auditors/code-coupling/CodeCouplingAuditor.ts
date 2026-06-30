@@ -49,6 +49,10 @@ const startAuditorAnalysis = async ({
             workspaceFolder,
         });
 
+        if (!auditReports) {
+            return false;
+        }
+
         // Add appId and auditRunId to each report
         auditReports.forEach((audit) => {
             audit.appId = applicationId;

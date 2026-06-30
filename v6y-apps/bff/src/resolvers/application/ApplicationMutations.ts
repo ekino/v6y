@@ -19,6 +19,12 @@ const triggerAuditAnalysis = async (
 ) => {
     try {
         const mainAnalyzerUrl = currentConfig?.mainAnalyzerApiPath;
+        if (!mainAnalyzerUrl) {
+            AppLogger.warn(
+                '[AppMutations - triggerApplicationAnalysis] Missing mainAnalyzerApiPath configuration',
+            );
+            return;
+        }
         await fetch(mainAnalyzerUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

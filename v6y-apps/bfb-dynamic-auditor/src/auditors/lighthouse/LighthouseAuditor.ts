@@ -170,6 +170,10 @@ const startAuditorAnalysis = async ({
             `[LighthouseAuditor - startAuditorAnalysis] auditReports:  ${auditReports?.length}`,
         );
 
+        if (!auditReports) {
+            return false;
+        }
+
         // Add auditRunId to each report
         if (auditRunId) {
             const auditRunIdNum =

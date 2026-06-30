@@ -59,9 +59,10 @@ const buildApplicationReports = async (application: ApplicationType) => {
             const { _links: repositoryLinks } = repositoryDetails;
 
             try {
-                repositoryBranches = await getRepositoryBranches({
-                    repoBranchesUrl: repositoryLinks?.repo_branches,
-                });
+                repositoryBranches =
+                    (await getRepositoryBranches({
+                        repoBranchesUrl: repositoryLinks?.repo_branches,
+                    })) ?? [];
             } catch (branchError) {
                 AppLogger.warn(
                     `[ApplicationManager - buildApplicationReports] Failed to fetch branches for ${application.name}: ${branchError}`,
@@ -89,7 +90,7 @@ const buildApplicationReports = async (application: ApplicationType) => {
         // Create AuditRun record for this scheduled analysis
         const auditRun = await AuditRunProvider.createAuditRun({
             appId: application._id!,
-            branch: null, // Scheduled runs analyze all branches
+            branch: undefined, // Scheduled runs analyze all branches
             runStatus: 'pending',
             analysisTypes: ['static', 'dynamic', 'devops'],
         });
@@ -102,7 +103,7 @@ const buildApplicationReports = async (application: ApplicationType) => {
 
             // Update status to in_progress
             await AuditRunProvider.updateAuditRunStatus({
-                auditRunId,
+                auditRunId: Number(auditRunId),
                 runStatus: 'in_progress',
             });
         }
@@ -129,7 +130,7 @@ const buildApplicationReports = async (application: ApplicationType) => {
         // Update AuditRun status to completed
         if (auditRunId && staticSuccess && dynamicSuccess) {
             await AuditRunProvider.updateAuditRunStatus({
-                auditRunId,
+                auditRunId: Number(auditRunId),
                 runStatus: 'completed',
                 completedAt: new Date(),
             });
@@ -145,7 +146,7 @@ const buildApplicationReports = async (application: ApplicationType) => {
         // Update AuditRun status to error if it was created
         if (auditRunId) {
             await AuditRunProvider.updateAuditRunStatus({
-                auditRunId,
+                auditRunId: Number(auditRunId),
                 runStatus: 'error',
                 errorMessage: String(error),
             }).catch((updateErr) =>
@@ -190,7 +191,7 @@ const buildApplicationList = async () => {
             AppLogger.info(
                 `[ApplicationManager - buildApplicationList] Processing application: ${application.name}`,
             );
-            await buildApplicationReports(application);
+            await buildApplicationReports(application as unknown as ApplicationType);
         }
 
         AppLogger.info(

@@ -11,7 +11,7 @@ import {
  * Check if the audit status is failed
  * @param status
  */
-const isAuditFailed = (status: string | null): boolean => {
+const isAuditFailed = (status: string | null | undefined): boolean => {
     return status === auditStatus.failure || status === null || status === undefined;
 };
 

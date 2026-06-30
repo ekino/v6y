@@ -107,7 +107,7 @@ const completeAuditRun = async (auditRunId: number, hasErrors: boolean = false) 
             auditRunId,
             runStatus: hasErrors ? 'failed' : 'completed',
             completedAt: new Date(),
-            errorMessage: hasErrors ? 'Audit completed with errors' : null,
+            errorMessage: hasErrors ? 'Audit completed with errors' : undefined,
         });
 
         AppLogger.info('[AuditRunProvider - completeAuditRun] completed: ' + auditRunId);

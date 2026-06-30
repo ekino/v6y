@@ -386,7 +386,17 @@ const aggregateCodeComplexityReports = ({
     let totalCyclomatic = 0;
     let totalPhysicalSLOC = 0;
     let totalLogicalSLOC = 0;
-    const halsteadAggregate = { ...defaultAggregate.halstead };
+    const halsteadAggregate = {
+        operands: { total: 0, distinct: 0, identifiers: [] as string[] },
+        operators: { total: 0, distinct: 0, identifiers: [] as string[] },
+        length: 0,
+        vocabulary: 0,
+        difficulty: 0,
+        volume: 0,
+        effort: 0,
+        bugs: 0,
+        time: 0,
+    };
     let fileCount = 0;
 
     for (const auditableFile of auditableFiles) {

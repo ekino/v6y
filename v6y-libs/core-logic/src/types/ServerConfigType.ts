@@ -15,6 +15,7 @@ export interface ServerConfigType {
     staticAuditorApiPath?: string;
     dynamicAuditorApiPath?: string;
     sonarqubeAuditorApiPath?: string;
+    mainAnalyzerApiPath?: string;
 }
 
 export interface ServerEnvConfigType {

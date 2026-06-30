@@ -27,6 +27,8 @@ export interface LighthouseAuditConfigType {
     applicationId?: number;
     auditRunId?: string;
     browserPath?: string;
+    link?: string;
+    lightHouseConfig?: LighthouseDeviceConfigType;
 }
 
 export interface LighthouseAuditCategoryType {
