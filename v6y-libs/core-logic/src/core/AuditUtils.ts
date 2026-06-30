@@ -338,12 +338,12 @@ const deleteAuditFile = ({
             force: true,
         });
 
-        AppLogger.info('[AuditUtils - deleteAuditFile] 🎉 end of deleting zip file');
+        AppLogger.info('[AuditUtils - deleteAuditFile] end of deleting zip file');
 
         return true;
     } catch (error) {
         AppLogger.info(
-            `🚫 [AuditUtils - deleteAuditFile] error:  ${filePath || fileFullPath} / ${error}`,
+            `[AuditUtils - deleteAuditFile] error:  ${filePath || fileFullPath} / ${error}`,
         );
         return false;
     }

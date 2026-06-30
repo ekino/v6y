@@ -33,4 +33,4 @@ await new Promise((resolve) =>
 
 httpServer.timeout = currentConfig?.serverTimeout as number; // milliseconds
 
-AppLogger.info(`🚀 Server started at ${currentConfig?.serverUrl}`);
+AppLogger.info(`Server started at ${currentConfig?.serverUrl}`);

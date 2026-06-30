@@ -30,7 +30,7 @@ await new Promise((resolve) =>
 
 httpServer.timeout = currentConfig?.serverTimeout;
 
-AppLogger.info(`🚀 Server started at ${currentConfig?.serverUrl}`);
+AppLogger.info(`Server started at ${currentConfig?.serverUrl}`);
 
 // *********************************************** Data Update Scheduler ***********************************************
 DataUpdateScheduler.start();

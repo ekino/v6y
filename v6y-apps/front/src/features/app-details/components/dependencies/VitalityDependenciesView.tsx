@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { DependencyType } from '@v6y/core-logic/src/types';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
-import { Card, CardContent } from '@v6y/ui-kit-front';
+import { Card, CardContent, Package } from '@v6y/ui-kit-front';
 
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
 import {
@@ -57,7 +57,7 @@ const VitalityDependenciesView = () => {
         return (
             <Card className="border-slate-200 shadow-xs">
                 <CardContent className="flex flex-col items-center justify-center p-12 gap-2">
-                    <div className="text-4xl mb-2">📦</div>
+                    <Package className="w-10 h-10 text-slate-400 mb-2" />
                     <div className="text-base font-semibold text-slate-900">
                         {translate('vitality.appDetailsPage.emptyStates.dependencies.title')}
                     </div>

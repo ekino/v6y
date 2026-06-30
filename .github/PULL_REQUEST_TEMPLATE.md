@@ -1,12 +1,12 @@
 # Pull Request Template
 
-## ✨ Title
+## Title
 - **[FEATURE]:** for a new feature
 - **[EVOL]:** for an enhancement
 - **[FIX]:** for a bug fix
 - **[REFACTOR]:** for a refactor
 
-## 📄 Description
+## Description
 Please explain in detail what this PR does, why it is needed, and how it addresses a specific problem. Include any relevant context and background information.
 
 ##  Checklist
@@ -20,11 +20,11 @@ Please explain in detail what this PR does, why it is needed, and how it address
 - [ ] New and existing unit tests pass locally with my changes.
 - [ ] Any dependent changes have been merged and published in downstream modules.
 
-## 🔗 Contextual Links (optional)
+## Contextual Links (optional)
 Add any relevant links to tracking tickets, previous discussions, or other resources.
 
-## 📸 Visuals (optional)
+## Visuals (optional)
 If possible, include images or videos that show the result of your changes.
 
-## 🔍 Reviewers
+## Reviewers
 Please assign at least one reviewer for this PR. The PR cannot be merged until it is approved by the reviewer(s).
