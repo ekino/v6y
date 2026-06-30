@@ -1,7 +1,26 @@
 import * as React from 'react';
 
 import { useTranslationProvider } from '@v6y/ui-kit';
-import { Card, CardContent, CardHeader, CardTitle } from '@v6y/ui-kit-front';
+import {
+    AlertTriangle,
+    Bug,
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    Check,
+    CircleHelp,
+    Clipboard,
+    FileText,
+    Link,
+    Lock,
+    Settings,
+    Shield,
+    Unlock,
+    Wind,
+    Wrench,
+    X,
+} from '@v6y/ui-kit-front';
 
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
 import {
@@ -35,7 +54,7 @@ const getQualityGateStyle = (status: string | undefined) => {
                 bg: 'bg-green-50',
                 text: 'text-green-700',
                 border: 'border-green-200',
-                icon: '✅',
+                icon: <Check className="w-3.5 h-3.5" aria-hidden="true" />,
                 label: 'Passed',
             };
         case 'ERROR':
@@ -43,7 +62,7 @@ const getQualityGateStyle = (status: string | undefined) => {
                 bg: 'bg-red-50',
                 text: 'text-red-700',
                 border: 'border-red-200',
-                icon: '❌',
+                icon: <X className="w-3.5 h-3.5" aria-hidden="true" />,
                 label: 'Failed',
             };
         case 'WARN':
@@ -51,7 +70,7 @@ const getQualityGateStyle = (status: string | undefined) => {
                 bg: 'bg-yellow-50',
                 text: 'text-yellow-700',
                 border: 'border-yellow-200',
-                icon: '⚠️',
+                icon: <AlertTriangle className="w-3.5 h-3.5" aria-hidden="true" />,
                 label: 'Warning',
             };
         default:
@@ -59,7 +78,7 @@ const getQualityGateStyle = (status: string | undefined) => {
                 bg: 'bg-slate-50',
                 text: 'text-slate-600',
                 border: 'border-slate-200',
-                icon: '❓',
+                icon: <CircleHelp className="w-3.5 h-3.5" aria-hidden="true" />,
                 label: status || 'Unknown',
             };
     }
@@ -84,67 +103,67 @@ const getRatingStyle = (rating: string | undefined) => {
 
 const METRIC_DISPLAY: Record<
     string,
-    { label: string; icon: string; unit?: string; color: string; subtitle: string }
+    { label: string; icon: React.ReactNode; unit?: string; color: string; subtitle: string }
 > = {
     coverage: {
         label: 'Coverage',
-        icon: '🛡️',
+        icon: <Shield className="w-3.5 h-3.5" aria-hidden="true" />,
         unit: '%',
         color: 'text-blue-700',
         subtitle: 'Code covered by tests',
     },
     bugs: {
         label: 'Bugs',
-        icon: '🐛',
+        icon: <Bug className="w-3.5 h-3.5" aria-hidden="true" />,
         unit: '',
         color: 'text-red-700',
         subtitle: 'Reliability issues found',
     },
     vulnerabilities: {
         label: 'Vulnerabilities',
-        icon: '🔓',
+        icon: <Unlock className="w-3.5 h-3.5" aria-hidden="true" />,
         unit: '',
         color: 'text-orange-700',
         subtitle: 'Security issues found',
     },
     code_smells: {
         label: 'Code Smells',
-        icon: '💨',
+        icon: <Wind className="w-3.5 h-3.5" aria-hidden="true" />,
         unit: '',
         color: 'text-yellow-700',
         subtitle: 'Maintainability issues',
     },
     duplicated_lines_density: {
         label: 'Duplications',
-        icon: '📋',
+        icon: <Clipboard className="w-3.5 h-3.5" aria-hidden="true" />,
         unit: '%',
         color: 'text-purple-700',
         subtitle: 'Duplicated code blocks',
     },
     ncloc: {
         label: 'Lines of Code',
-        icon: '📄',
+        icon: <FileText className="w-3.5 h-3.5" aria-hidden="true" />,
         unit: '',
         color: 'text-slate-700',
         subtitle: 'Non-comment lines',
     },
     reliability_rating: {
         label: 'Reliability',
-        icon: '⚙️',
+        icon: <Settings className="w-3.5 h-3.5" aria-hidden="true" />,
         unit: '',
         color: 'text-blue-700',
         subtitle: 'Bug-free grade (A–E)',
     },
     security_rating: {
         label: 'Security',
-        icon: '🔒',
+        icon: <Lock className="w-3.5 h-3.5" aria-hidden="true" />,
         unit: '',
         color: 'text-orange-700',
         subtitle: 'Vulnerability grade (A–E)',
     },
     sqale_rating: {
         label: 'Maintainability',
-        icon: '🔧',
+        icon: <Wrench className="w-3.5 h-3.5" aria-hidden="true" />,
         unit: '',
         color: 'text-green-700',
         subtitle: 'Technical debt grade (A–E)',
@@ -244,7 +263,10 @@ const VitalitySonarQubeView = ({
                 {/* No data yet */}
                 {!isLoading && !hasData && (
                     <div className="rounded border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600">
-                        ⚠️ {translate('vitality.appDetailsPage.sonarqube.noData')}
+                        <span className="inline-flex items-center gap-1">
+                            <AlertTriangle className="w-3.5 h-3.5" aria-hidden="true" />
+                            {translate('vitality.appDetailsPage.sonarqube.noData')}
+                        </span>
                     </div>
                 )}
 
@@ -316,7 +338,7 @@ const VitalitySonarQubeView = ({
 
                 {/* Project URL */}
                 <div className="flex items-center gap-2 pt-1 border-t border-slate-100">
-                    <span className="text-xs text-slate-400 shrink-0">🔗</span>
+                    <Link className="w-3.5 h-3.5 text-slate-400 shrink-0" aria-hidden="true" />
                     <a
                         href={sonarqubeUrl}
                         className="text-xs text-blue-500 hover:text-blue-700 hover:underline truncate font-mono"

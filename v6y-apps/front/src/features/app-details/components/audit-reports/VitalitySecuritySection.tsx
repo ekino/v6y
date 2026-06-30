@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { AuditType, DependencyType } from '@v6y/core-logic/src/types';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
-import { Badge, Card, CardContent } from '@v6y/ui-kit-front';
+import { Badge, Card, CardContent, Check, Clipboard, Lock } from '@v6y/ui-kit-front';
 
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
 import {
@@ -52,10 +52,7 @@ const getDependencyStatusColor = (status: string) => {
     return 'bg-slate-100 text-slate-800';
 };
 
-const VitalitySecuritySection = ({
-    auditTrigger = 0,
-    branch,
-}: VitalitySecuritySectionProps) => {
+const VitalitySecuritySection = ({ auditTrigger = 0, branch }: VitalitySecuritySectionProps) => {
     const { getUrlParams } = useNavigationAdapter();
     const { translate, translateHelper } = useTranslationProvider();
     const [_id] = getUrlParams(['_id']);
@@ -111,9 +108,7 @@ const VitalitySecuritySection = ({
     // Filter to show static audit reports (exclude lighthouse)
     const staticAuditReports =
         appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams?.filter(
-            (report) =>
-                report.type !== 'Lighthouse' &&
-                matchesAuditReportBranch(report, branch),
+            (report) => report.type !== 'Lighthouse' && matchesAuditReportBranch(report, branch),
         ) || [];
 
     // Filter security reports
@@ -163,7 +158,7 @@ const VitalitySecuritySection = ({
         return (
             <Card className="border-slate-200 shadow-xs">
                 <CardContent className="flex flex-col items-center justify-center p-12 gap-2">
-                    <div className="text-4xl mb-2">🔒</div>
+                    <Lock className="w-10 h-10 text-slate-400 mb-2" />
                     <div className="text-base font-semibold text-slate-900">
                         {translate('vitality.appDetailsPage.emptyStates.auditReports.title')}
                     </div>
@@ -199,7 +194,7 @@ const VitalitySecuritySection = ({
                         {allDependenciesUpToDate ? (
                             <Card className="border-green-200 bg-green-50">
                                 <CardContent className="flex flex-col items-center justify-center p-12 gap-2">
-                                    <div className="text-4xl mb-2">✅</div>
+                                    <Check className="w-10 h-10 text-green-600 mb-2" />
                                     <div className="text-base font-semibold text-green-900">
                                         {translate(
                                             'vitality.appDetailsPage.dependencies.success.title',
@@ -325,13 +320,9 @@ const VitalitySecuritySection = ({
                                                                     String(
                                                                         dependency._id || index,
                                                                     ) ? (
-                                                                        <span className="text-xs text-green-600">
-                                                                            ✓
-                                                                        </span>
+                                                                        <Check className="w-3 h-3 text-green-600" />
                                                                     ) : (
-                                                                        <span className="text-xs text-gray-500">
-                                                                            📋
-                                                                        </span>
+                                                                        <Clipboard className="w-3 h-3 text-gray-500" />
                                                                     )}
                                                                 </button>
                                                             )}

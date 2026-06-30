@@ -21,4 +21,4 @@ await new Promise((resolve) => httpServer.listen({ port }, () => resolve(null)))
 
 httpServer.timeout = serverTimeout; // Set server timeout
 
-AppLogger.info(`🚀 Server started at ${serverUrl}`);
+AppLogger.info(`Server started at ${serverUrl}`);

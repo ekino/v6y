@@ -1,7 +1,6 @@
 import { AuditType } from '@v6y/core-logic/src/types';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
-import { Card, CardContent } from '@v6y/ui-kit-front';
-import { SunIcon } from '@v6y/ui-kit-front';
+import { Card, CardContent, FileText, SunIcon } from '@v6y/ui-kit-front';
 
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
 import {
@@ -166,7 +165,7 @@ const VitalityAuditReportsView = ({
                     {showGreenSun ? (
                         <SunIcon className="w-14 h-14 text-yellow-500 mb-2" />
                     ) : (
-                        <div className="text-4xl mb-2">📋</div>
+                        <FileText className="w-10 h-10 text-slate-400 mb-2" />
                     )}
                     <div className="text-base font-semibold text-slate-900">{emptyTitle}</div>
                     <div className="text-sm text-slate-500">{emptyDescription}</div>

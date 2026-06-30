@@ -31,7 +31,7 @@ const patterns = [
 
 const ports = [4001, 4002, 4003, 4004, 4005, 4006, 4009, 3000, 3001];
 
-console.log('🧹 Stopping dev watchers and freeing ports...\n');
+console.log('Stopping dev watchers and freeing ports...\n');
 
 // Kill each pattern
 patterns.forEach((pattern) => {
@@ -64,19 +64,19 @@ setTimeout(() => {
   ports.forEach((port) => {
     try {
       execSync(`lsof -ti tcp:${port} >/dev/null 2>&1`);
-      console.log(`  ❌ Port ${port} is still in use`);
+      console.log(`  [ERROR] Port ${port} is still in use`);
       allFree = false;
     } catch (e) {
-      console.log(`  ✓ Port ${port} is free`);
+      console.log(`  [OK] Port ${port} is free`);
     }
   });
 
   console.log();
   if (allFree) {
-    console.log('✅ All dev ports are free! Safe to run: pnpm start:dev:all\n');
+    console.log('[OK] All dev ports are free! Safe to run: pnpm start:dev:all\n');
     process.exit(0);
   } else {
-    console.log('⚠️  Some ports are still in use. You may need to manually kill processes.\n');
+    console.log('[WARN] Some ports are still in use. You may need to manually kill processes.\n');
     process.exit(1);
   }
 }, 1000);

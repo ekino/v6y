@@ -151,8 +151,8 @@
         "greenIndex": {
           "hostingProvider": {
             "sectionTitle": "Hébergeur",
-            "greenBadge": "Hébergement Vert ✔",
-            "nonGreenBadge": "Hébergement Non-Vert ✘",
+            "greenBadge": "Hébergement Vert",
+            "nonGreenBadge": "Hébergement Non-Vert",
             "providerLabel": "Fournisseur :",
             "greenDescription": "Cet hébergeur utilise des énergies renouvelables vérifiées ou possède des compensations carbone certifiées par The Green Web Foundation.",
             "nonGreenDescription": "Cet hébergeur n'a pas été vérifié comme utilisant des énergies renouvelables par The Green Web Foundation."
