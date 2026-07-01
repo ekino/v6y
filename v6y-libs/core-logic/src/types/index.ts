@@ -2,6 +2,7 @@ export * from './AccountType.ts';
 export * from './ApplicationType.ts';
 export * from './AuditHelpType.ts';
 export * from './AuditType.ts';
+export * from './AuditRunType.ts';
 export * from './AuditParserType.ts';
 export * from './DependencyType.ts';
 export * from './DependencyStatusHelpType.ts';

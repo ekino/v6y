@@ -4,6 +4,7 @@ import { ModuleType } from './ModuleType.ts';
 export interface AuditType {
     _id?: number;
     appId?: number;
+    auditRunId?: number | null;
     dateStart?: Date;
     dateEnd?: Date;
     type?: string;

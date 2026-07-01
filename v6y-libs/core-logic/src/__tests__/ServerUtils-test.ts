@@ -7,7 +7,8 @@ import ServerUtils from '../core/ServerUtils.ts';
 
 describe('ServerUtils', () => {
     const mockApp = vi.fn();
-    const mockHttpServer = {} as ReturnType<typeof http.createServer>;
+    const mockHttpServer = {} as ReturnType<typeof http.createServer> &
+        ReturnType<typeof HttpsClient.createServer>;
     const mockConfig = {
         key: 'mock_key',
         cert: 'mock_cert',

@@ -5,9 +5,15 @@ const ApplicationQueriesType = `
     getApplicationTotalByParams(keywords: [String], searchText: String): Int
     getApplicationDetailsInfoByParams(_id: Int!): ApplicationType
     getApplicationDetailsAuditReportsByParams(_id: Int!): [AuditReportType]
+    getApplicationAuditRunsByParams(_id: Int!): [AuditRunType]
     getApplicationDetailsEvolutionsByParams(_id: Int!): [EvolutionType]
     getApplicationDetailsDependenciesByParams(_id: Int!): [DependencyType]
     getApplicationDetailsKeywordsByParams(_id: Int): [KeywordType]
+    getApplicationAuditHistoryByParams(_id: Int!, limit: Int, offset: Int): [AuditRunType]
+    getApplicationAuditHistoryCountByParams(_id: Int!): Int
+    getApplicationLatestAuditRunByParams(_id: Int!): AuditRunType
+    getAuditRunDetailsByParams(_id: Int!): AuditRunType
+    getAllAuditRuns(limit: Int, offset: Int): [AuditRunType]
   }
 `;
 

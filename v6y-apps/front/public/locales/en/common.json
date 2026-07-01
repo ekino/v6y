@@ -211,6 +211,35 @@
           "title": "All Dependencies Up to Date",
           "description": "No outdated dependencies with security or compatibility issues have been found"
         }
+      },
+      "auditHistory": {
+        "title": "Audit History",
+        "description": "Complete list of audit runs with statuses, dates and details",
+        "emptyMessage": "No audits have been executed for this application",
+        "table": {
+          "columns": {
+            "status": "Status",
+            "analysisTypes": "Analysis Types",
+            "triggered": "Triggered",
+            "duration": "Duration",
+            "audits": "Audits"
+          }
+        },
+        "statuses": {
+          "pending": "Pending",
+          "in_progress": "In Progress",
+          "completed": "Completed",
+          "failed": "Failed",
+          "error": "Error"
+        },
+        "mobile": {
+          "status": "Status",
+          "date": "Date",
+          "types": "Types",
+          "duration": "Duration",
+          "audits": "Audits",
+          "error": "Error"
+        }
       }
     },
     "appStatsPage": {

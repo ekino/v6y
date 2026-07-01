@@ -5,7 +5,11 @@ import CodeComplexityUtils from './CodeComplexityUtils.ts';
 
 const { formatCodeComplexityReports } = CodeComplexityUtils;
 
-const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: AuditCommonsType) => {
+const startAuditorAnalysis = async ({
+    applicationId,
+    workspaceFolder,
+    auditRunId,
+}: AuditCommonsType) => {
     try {
         AppLogger.info(
             `[CodeComplexityAuditor - startAuditorAnalysis] applicationId:  ${applicationId}`,
@@ -13,6 +17,7 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: AuditCom
         AppLogger.info(
             `[CodeComplexityAuditor - startAuditorAnalysis] workspaceFolder:  ${workspaceFolder}`,
         );
+        AppLogger.info(`[CodeComplexityAuditor - startAuditorAnalysis] auditRunId:  ${auditRunId}`);
 
         if (applicationId === undefined || !workspaceFolder?.length) {
             return false;
@@ -41,6 +46,16 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: AuditCom
         if (!auditReports?.length) {
             return false;
         }
+
+        // Add appId and auditRunId to each report
+        auditReports.forEach((audit) => {
+            audit.appId = applicationId;
+            if (auditRunId) {
+                const auditRunIdNum =
+                    typeof auditRunId === 'string' ? parseInt(auditRunId, 10) : auditRunId;
+                audit.auditRunId = auditRunIdNum;
+            }
+        });
 
         await AuditProvider.insertAuditList(auditReports);
 

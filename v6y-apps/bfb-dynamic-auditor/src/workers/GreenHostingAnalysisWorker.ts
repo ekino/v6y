@@ -7,13 +7,14 @@ import GreenHostingAuditor from '../auditors/green-hosting/GreenHostingAuditor.t
 AppLogger.info('******************** Starting Green Hosting Audit **************************');
 
 try {
-    const { applicationId } = workerData || {};
+    const { applicationId, auditRunId } = workerData || {};
     AppLogger.info(`[GreenHostingAnalysisWorker] applicationId: ${applicationId}`);
+    AppLogger.info(`[GreenHostingAnalysisWorker] auditRunId: ${auditRunId}`);
 
     await DataBaseManager.connect();
 
     PerformancesUtils.startMeasure('GreenHostingAnalysisWorker-startAuditorAnalysis');
-    await GreenHostingAuditor.startAuditorAnalysis({ applicationId });
+    await GreenHostingAuditor.startAuditorAnalysis({ applicationId, auditRunId });
     PerformancesUtils.endMeasure('GreenHostingAnalysisWorker-startAuditorAnalysis');
 
     AppLogger.info('******************** Green Hosting Audit completed ********************');

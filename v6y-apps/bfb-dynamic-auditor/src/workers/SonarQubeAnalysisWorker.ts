@@ -7,15 +7,16 @@ import SonarQubeAuditorManager from '../auditors/SonarQubeAuditorManager.ts';
 AppLogger.info('******************** Starting SonarQube Audit **************************');
 
 try {
-    const { applicationId } = workerData || {};
+    const { applicationId, auditRunId } = workerData || {};
     AppLogger.info(`[SonarQubeAnalysisWorker] applicationId:  ${applicationId}`);
+    AppLogger.info(`[SonarQubeAnalysisWorker] auditRunId:  ${auditRunId}`);
 
     // *********************************************** Database Configuration and Connection ***********************************************
     await DataBaseManager.connect();
 
     // *********************************************** Audit Configuration and Launch ***********************************************
     PerformancesUtils.startMeasure('SonarQubeAnalysisWorker-startAuditorAnalysis');
-    await SonarQubeAuditorManager.startAuditorAnalysis({ applicationId });
+    await SonarQubeAuditorManager.startAuditorAnalysis({ applicationId, auditRunId });
     PerformancesUtils.endMeasure('SonarQubeAnalysisWorker-startAuditorAnalysis');
 
     AppLogger.info(

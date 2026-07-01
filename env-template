@@ -1,9 +1,9 @@
-PSQL_DB_HOST=x.x.x.x
+PSQL_DB_HOST=localhost
 PSQL_DB_NAME=x
 PSQL_DB_USER=x
 PSQL_DB_PASSWORD=x
 PSQL_DB_PORT=
-DATABASE_URL=postgresql://user:password@host:port/database
+DATABASE_URL=postgresql://user:password@localhost:port/database
 
 SUPERADMIN_USERNAME=x
 SUPERADMIN_EMAIL=x

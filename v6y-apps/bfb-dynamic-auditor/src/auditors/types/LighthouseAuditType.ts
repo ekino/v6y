@@ -25,8 +25,9 @@ export type LighthouseDeviceConfigType = {
 
 export interface LighthouseAuditConfigType {
     applicationId?: number;
-    link?: string;
+    auditRunId?: string;
     browserPath?: string;
+    link?: string;
     lightHouseConfig?: LighthouseDeviceConfigType;
 }
 

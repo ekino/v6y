@@ -92,6 +92,59 @@ export class ApplicationResolver {
         return ApplicationQueries.getApplicationStatsByParams(undefined, args);
     }
 
+    @Query('getApplicationAuditRunsByParams')
+    getApplicationAuditRunsByParams(
+        @Args() args: Parameters<typeof ApplicationQueries.getApplicationAuditRunsByParams>[1],
+        @Context()
+        context: Parameters<typeof ApplicationQueries.getApplicationAuditRunsByParams>[2],
+    ) {
+        return ApplicationQueries.getApplicationAuditRunsByParams(undefined, args, context);
+    }
+
+    @Query('getAllAuditRuns')
+    getAllAuditRuns(
+        @Args() args: Parameters<typeof ApplicationQueries.getAllAuditRuns>[1],
+        @Context() context: Parameters<typeof ApplicationQueries.getAllAuditRuns>[2],
+    ) {
+        return ApplicationQueries.getAllAuditRuns(undefined, args, context);
+    }
+
+    @Query('getApplicationAuditHistoryByParams')
+    getApplicationAuditHistoryByParams(
+        @Args() args: Parameters<typeof ApplicationQueries.getApplicationAuditHistoryByParams>[1],
+        @Context()
+        context: Parameters<typeof ApplicationQueries.getApplicationAuditHistoryByParams>[2],
+    ) {
+        return ApplicationQueries.getApplicationAuditHistoryByParams(undefined, args, context);
+    }
+
+    @Query('getApplicationAuditHistoryCountByParams')
+    getApplicationAuditHistoryCountByParams(
+        @Args()
+        args: Parameters<typeof ApplicationQueries.getApplicationAuditHistoryCountByParams>[1],
+        @Context()
+        context: Parameters<typeof ApplicationQueries.getApplicationAuditHistoryCountByParams>[2],
+    ) {
+        return ApplicationQueries.getApplicationAuditHistoryCountByParams(undefined, args, context);
+    }
+
+    @Query('getApplicationLatestAuditRunByParams')
+    getApplicationLatestAuditRunByParams(
+        @Args() args: Parameters<typeof ApplicationQueries.getApplicationLatestAuditRunByParams>[1],
+        @Context()
+        context: Parameters<typeof ApplicationQueries.getApplicationLatestAuditRunByParams>[2],
+    ) {
+        return ApplicationQueries.getApplicationLatestAuditRunByParams(undefined, args, context);
+    }
+
+    @Query('getAuditRunDetailsByParams')
+    getAuditRunDetailsByParams(
+        @Args() args: Parameters<typeof ApplicationQueries.getAuditRunDetailsByParams>[1],
+        @Context() context: Parameters<typeof ApplicationQueries.getAuditRunDetailsByParams>[2],
+    ) {
+        return ApplicationQueries.getAuditRunDetailsByParams(undefined, args, context);
+    }
+
     @Mutation('createOrEditApplication')
     createOrEditApplication(
         @Args() args: Parameters<typeof ApplicationMutations.createOrEditApplication>[1],
@@ -102,5 +155,12 @@ export class ApplicationResolver {
     @Mutation('deleteApplication')
     deleteApplication(@Args() args: Parameters<typeof ApplicationMutations.deleteApplication>[1]) {
         return ApplicationMutations.deleteApplication(undefined, args);
+    }
+
+    @Mutation('triggerApplicationAnalysis')
+    triggerApplicationAnalysis(
+        @Args() args: Parameters<typeof ApplicationMutations.triggerApplicationAnalysis>[1],
+    ) {
+        return ApplicationMutations.triggerApplicationAnalysis(undefined, args);
     }
 }

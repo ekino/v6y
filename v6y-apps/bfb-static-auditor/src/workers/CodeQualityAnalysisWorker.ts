@@ -12,9 +12,10 @@ import CreedengoAuditor from '../auditors/ecological-impact/CreedengoAuditor.ts'
 AppLogger.info('******************** Starting background Audit **************************');
 
 try {
-    const { applicationId, workspaceFolder } = workerData || {};
+    const { applicationId, workspaceFolder, auditRunId } = workerData || {};
     AppLogger.info(`[CodeQualityAnalysisWorker] applicationId:  ${applicationId}`);
     AppLogger.info(`[CodeQualityAnalysisWorker] workspaceFolder:  ${workspaceFolder}`);
+    AppLogger.info(`[CodeQualityAnalysisWorker] auditRunId:  ${auditRunId}`);
 
     await DataBaseManager.connect();
 
@@ -22,26 +23,32 @@ try {
     await CodeComplexityAuditor.startAuditorAnalysis({
         applicationId,
         workspaceFolder,
+        auditRunId,
     });
     await CodeCouplingAuditor.startAuditorAnalysis({
         applicationId,
         workspaceFolder,
+        auditRunId,
     });
     await CodeDuplicationAuditor.startAuditorAnalysis({
         applicationId,
         workspaceFolder,
+        auditRunId,
     });
     await CodeModularityAuditor.startAuditorAnalysis({
         applicationId,
         workspaceFolder,
+        auditRunId,
     });
     await CodeSecurityAuditor.startAuditorAnalysis({
         applicationId,
         workspaceFolder,
+        auditRunId,
     });
     await CreedengoAuditor.startAuditorAnalysis({
         applicationId,
         workspaceFolder,
+        auditRunId,
     });
 
     PerformancesUtils.endMeasure('CodeQualityAnalysisWorker-startAuditorAnalysis');

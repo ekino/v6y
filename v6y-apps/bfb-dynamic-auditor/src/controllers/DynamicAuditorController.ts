@@ -1,10 +1,4 @@
-import {
-    Body,
-    Controller,
-    HttpCode,
-    InternalServerErrorException,
-    Post,
-} from '@nestjs/common';
+import { Body, Controller, HttpCode, InternalServerErrorException, Post } from '@nestjs/common';
 
 import { AppLogger } from '@v6y/core-logic';
 
@@ -16,6 +10,7 @@ const basePath = (currentConfig?.dynamicAuditorApiPath || '').toString();
 
 interface StartDynamicAuditorBody {
     applicationId?: number;
+    auditRunId?: string;
 }
 
 interface StartDynamicAuditorResponse {
@@ -32,12 +27,13 @@ export class DynamicAuditorController {
     ): Promise<StartDynamicAuditorResponse> {
         AppLogger.debug('[DynamicAuditorController] Entering service: [start-dynamic-auditor]');
 
-        const { applicationId } = body || {};
+        const { applicationId, auditRunId } = body || {};
 
         let auditsStartedSuccessfully: boolean;
         try {
             auditsStartedSuccessfully = await DynamicAuditorManager.startDynamicAudit({
                 applicationId,
+                auditRunId,
             });
         } catch (error) {
             AppLogger.error(
