@@ -74,8 +74,32 @@ const getStatusBadgeVariant = (status: string): 'success' | 'warning' | 'error' 
     }
 };
 
-const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
+const parseDateValue = (value: string | null | undefined) => {
+    if (!value) return null;
+
+    const trimmedValue = value.trim();
+    if (!trimmedValue) return null;
+
+    const isNumericTimestamp = /^\d+$/.test(trimmedValue);
+    const date = isNumericTimestamp
+        ? new Date(
+              Number(trimmedValue) < 1_000_000_000_000
+                  ? Number(trimmedValue) * 1000
+                  : Number(trimmedValue),
+          )
+        : new Date(trimmedValue);
+
+    if (Number.isNaN(date.getTime())) {
+        return null;
+    }
+
+    return date;
+};
+
+export const formatDate = (dateString: string | null | undefined) => {
+    const date = parseDateValue(dateString);
+    if (!date) return '-';
+
     return date.toLocaleDateString('en-US', {
         month: 'short',
         day: 'numeric',
@@ -85,11 +109,17 @@ const formatDate = (dateString: string) => {
     });
 };
 
-const getDuration = (startDate: string, endDate: string | null) => {
-    if (!endDate) return null;
-    const start = new Date(startDate);
-    const end = new Date(endDate);
+export const getDuration = (
+    startDate: string | null | undefined,
+    endDate: string | null | undefined,
+) => {
+    const start = parseDateValue(startDate);
+    const end = parseDateValue(endDate);
+    if (!start || !end) return null;
+
     const durationMs = end.getTime() - start.getTime();
+    if (durationMs < 0) return null;
+
     const seconds = Math.floor(durationMs / 1000);
 
     if (seconds < 60) return `${seconds}s`;
@@ -126,80 +156,84 @@ export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = (
             {/* Mobile: Card View */}
             <div className="block sm:hidden">
                 <div className="divide-y divide-slate-200">
-                    {auditRuns.map((run, index) => (
-                        <div
-                            key={run._id || index}
-                            className={`p-5 border-l-4 hover:bg-slate-50 transition-colors ${getStatusColor(run.runStatus)}`}
-                        >
-                            {/* Header with status and date */}
-                            <div className="flex items-start justify-between gap-2 mb-3">
-                                <Badge variant={getStatusBadgeVariant(run.runStatus)}>
-                                    {translate(
-                                        `vitality.appDetailsPage.auditHistory.statuses.${run.runStatus}`,
-                                    ) || run.runStatus}
-                                </Badge>
-                                <span className="text-xs text-slate-500 whitespace-nowrap">
-                                    {formatDate(run.triggeredAt)}
-                                </span>
-                            </div>
+                    {auditRuns.map((run, index) => {
+                        const duration = getDuration(run.triggeredAt, run.completedAt);
 
-                            {/* Analysis types */}
-                            {run.analysisTypes && run.analysisTypes.length > 0 && (
-                                <div className="mb-3">
-                                    <p className="text-xs font-semibold text-slate-700 mb-2 uppercase tracking-wide">
+                        return (
+                            <div
+                                key={run._id || index}
+                                className={`p-5 border-l-4 hover:bg-slate-50 transition-colors ${getStatusColor(run.runStatus)}`}
+                            >
+                                {/* Header with status and date */}
+                                <div className="flex items-start justify-between gap-2 mb-3">
+                                    <Badge variant={getStatusBadgeVariant(run.runStatus)}>
                                         {translate(
-                                            'vitality.appDetailsPage.auditHistory.mobile.types',
-                                        )}
-                                        :
-                                    </p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {run.analysisTypes.map((type, idx) => (
-                                            <Badge key={idx} variant="info" className="text-xs">
-                                                {type}
-                                            </Badge>
-                                        ))}
+                                            `vitality.appDetailsPage.auditHistory.statuses.${run.runStatus}`,
+                                        ) || run.runStatus}
+                                    </Badge>
+                                    <span className="text-xs text-slate-500 whitespace-nowrap">
+                                        {formatDate(run.triggeredAt)}
+                                    </span>
+                                </div>
+
+                                {/* Analysis types */}
+                                {run.analysisTypes && run.analysisTypes.length > 0 && (
+                                    <div className="mb-3">
+                                        <p className="text-xs font-semibold text-slate-700 mb-2 uppercase tracking-wide">
+                                            {translate(
+                                                'vitality.appDetailsPage.auditHistory.mobile.types',
+                                            )}
+                                            :
+                                        </p>
+                                        <div className="flex flex-wrap gap-2">
+                                            {run.analysisTypes.map((type, idx) => (
+                                                <Badge key={idx} variant="info" className="text-xs">
+                                                    {type}
+                                                </Badge>
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
 
-                            {/* Duration */}
-                            {getDuration(run.triggeredAt, run.completedAt) && (
-                                <p className="text-xs text-slate-600 mb-2">
-                                    <span className="font-semibold text-slate-700">
-                                        {translate(
-                                            'vitality.appDetailsPage.auditHistory.mobile.duration',
-                                        )}
-                                    </span>
-                                    : {getDuration(run.triggeredAt, run.completedAt)}
-                                </p>
-                            )}
-
-                            {/* Audit count */}
-                            {run.audits && run.audits.length > 0 && (
-                                <p className="text-xs text-slate-600 mb-2">
-                                    <span className="font-semibold text-slate-700">
-                                        {translate(
-                                            'vitality.appDetailsPage.auditHistory.mobile.audits',
-                                        )}
-                                    </span>
-                                    : {run.audits.length}
-                                </p>
-                            )}
-
-                            {/* Error message */}
-                            {run.errorMessage && (
-                                <div className="mt-3 p-3 bg-red-50 rounded border border-red-200">
-                                    <p className="text-xs text-red-800 font-semibold mb-1">
-                                        {translate(
-                                            'vitality.appDetailsPage.auditHistory.mobile.error',
-                                        )}
-                                        :
+                                {/* Duration */}
+                                {duration && (
+                                    <p className="text-xs text-slate-600 mb-2">
+                                        <span className="font-semibold text-slate-700">
+                                            {translate(
+                                                'vitality.appDetailsPage.auditHistory.mobile.duration',
+                                            )}
+                                        </span>
+                                        : {duration}
                                     </p>
-                                    <p className="text-xs text-red-700">{run.errorMessage}</p>
-                                </div>
-                            )}
-                        </div>
-                    ))}
+                                )}
+
+                                {/* Audit count */}
+                                {run.audits && run.audits.length > 0 && (
+                                    <p className="text-xs text-slate-600 mb-2">
+                                        <span className="font-semibold text-slate-700">
+                                            {translate(
+                                                'vitality.appDetailsPage.auditHistory.mobile.audits',
+                                            )}
+                                        </span>
+                                        : {run.audits.length}
+                                    </p>
+                                )}
+
+                                {/* Error message */}
+                                {run.errorMessage && (
+                                    <div className="mt-3 p-3 bg-red-50 rounded border border-red-200">
+                                        <p className="text-xs text-red-800 font-semibold mb-1">
+                                            {translate(
+                                                'vitality.appDetailsPage.auditHistory.mobile.error',
+                                            )}
+                                            :
+                                        </p>
+                                        <p className="text-xs text-red-700">{run.errorMessage}</p>
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
 
@@ -236,45 +270,49 @@ export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = (
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-200">
-                        {auditRuns.map((run, index) => (
-                            <tr
-                                key={run._id || index}
-                                className="hover:bg-blue-50 transition-colors duration-150"
-                            >
-                                <td className="px-4 py-3">
-                                    <div className="flex flex-col gap-2">
-                                        <Badge variant={getStatusBadgeVariant(run.runStatus)}>
-                                            {translate(
-                                                `vitality.appDetailsPage.auditHistory.statuses.${run.runStatus}`,
-                                            ) || run.runStatus}
-                                        </Badge>
-                                        {run.errorMessage && (
-                                            <p className="text-xs text-red-700 max-w-xs truncate">
-                                                {run.errorMessage}
-                                            </p>
-                                        )}
-                                    </div>
-                                </td>
-                                <td className="px-4 py-3">
-                                    <div className="flex flex-wrap gap-2">
-                                        {run.analysisTypes?.map((type, idx) => (
-                                            <Badge key={idx} variant="info" className="text-xs">
-                                                {type}
+                        {auditRuns.map((run, index) => {
+                            const duration = getDuration(run.triggeredAt, run.completedAt);
+
+                            return (
+                                <tr
+                                    key={run._id || index}
+                                    className="hover:bg-blue-50 transition-colors duration-150"
+                                >
+                                    <td className="px-4 py-3">
+                                        <div className="flex flex-col gap-2">
+                                            <Badge variant={getStatusBadgeVariant(run.runStatus)}>
+                                                {translate(
+                                                    `vitality.appDetailsPage.auditHistory.statuses.${run.runStatus}`,
+                                                ) || run.runStatus}
                                             </Badge>
-                                        ))}
-                                    </div>
-                                </td>
-                                <td className="px-4 py-3 text-slate-600 whitespace-nowrap">
-                                    {formatDate(run.triggeredAt)}
-                                </td>
-                                <td className="px-4 py-3 text-slate-600 whitespace-nowrap font-medium">
-                                    {getDuration(run.triggeredAt, run.completedAt) || '-'}
-                                </td>
-                                <td className="px-4 py-3 text-slate-600 text-center font-semibold">
-                                    {run.audits?.length || 0}
-                                </td>
-                            </tr>
-                        ))}
+                                            {run.errorMessage && (
+                                                <p className="text-xs text-red-700 max-w-xs truncate">
+                                                    {run.errorMessage}
+                                                </p>
+                                            )}
+                                        </div>
+                                    </td>
+                                    <td className="px-4 py-3">
+                                        <div className="flex flex-wrap gap-2">
+                                            {run.analysisTypes?.map((type, idx) => (
+                                                <Badge key={idx} variant="info" className="text-xs">
+                                                    {type}
+                                                </Badge>
+                                            ))}
+                                        </div>
+                                    </td>
+                                    <td className="px-4 py-3 text-slate-600 whitespace-nowrap">
+                                        {formatDate(run.triggeredAt)}
+                                    </td>
+                                    <td className="px-4 py-3 text-slate-600 whitespace-nowrap font-medium">
+                                        {duration || '-'}
+                                    </td>
+                                    <td className="px-4 py-3 text-slate-600 text-center font-semibold">
+                                        {run.audits?.length || 0}
+                                    </td>
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </table>
             </div>
