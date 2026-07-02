@@ -27,6 +27,8 @@
       "pageTitle": "Applications Vitality",
       "totalLabel": "Total Applications: ",
       "exportLabel": "Export Applications",
+      "addApplicationLabel": "Add Application",
+      "addApplicationDescription": "Create and configure a new application from back-office.",
       "contactEmail": "Contact The Team",
       "nbBranches": "Number of opened branches: ",
       "shortTitle": "applications",
@@ -35,7 +37,26 @@
       "technos": "Technologies: ",
       "lastAnalyzed": "Last analyzed on:",
       "seeReporting": "See Reporting",
-      "links": "Links:"
+      "links": "Links:",
+      "globalFilters": {
+        "title": "Global Filters",
+        "description": "Filter applications by reports volume, creation period and number of branches",
+        "highlightsTitle": "Quick focus",
+        "highlightsReports": "Find apps with many audit reports",
+        "highlightsBranches": "Target monorepos with lots of branches",
+        "highlightsDate": "Focus on recently created apps",
+        "minReportsLabel": "Min reports",
+        "maxReportsLabel": "Max reports",
+        "minBranchesLabel": "Min branches",
+        "maxBranchesLabel": "Max branches",
+        "createdFromLabel": "Created from",
+        "createdToLabel": "Created to",
+        "minReportsPlaceholder": "0",
+        "maxReportsPlaceholder": "500",
+        "minBranchesPlaceholder": "1",
+        "maxBranchesPlaceholder": "30",
+        "selectedCount": "{count} selected"
+      }
     },
     "appDetailsPage": {
       "pageTitle": "Application details",

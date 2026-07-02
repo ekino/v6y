@@ -18,6 +18,7 @@ const GetApplicationListByPageAndParams = gql`
             acronym
             contactMail
             description
+            createdAt
             links {
                 label
                 value

@@ -1,132 +1,190 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { ApplicationType } from '@v6y/core-logic/src/types';
 import { Spinner, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit-front';
 
 import VitalityAppInfos from '../../../commons/components/application-info/VitalityAppInfos';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
-import { formatApplicationDataSource } from '../../../commons/config/VitalityCommonConfig';
-import { exportAppListDataToCSV } from '../../../commons/utils/VitalityDataExportUtils';
 import {
     buildClientQuery,
-    useInfiniteClientQuery,
+    useClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
+import GetAllAuditRuns from '../../app-details/api/getAllAuditRuns';
 import GetApplicationListByPageAndParams from '../api/getApplicationListByPageAndParams';
+import { VitalityAppGlobalFilters } from '../types/VitalityAppGlobalFilters';
 import VitalityAppListHeader from './VitalityAppListHeader';
 import VitalityAppListPagination from './VitalityAppListPagination';
 
-const initialPage = 0;
-
-interface VitalityAppListQueryType {
-    isLoading: boolean;
-    data?: {
-        pages?: unknown[];
-    };
-    fetchNextPage?: () => void;
-    status?: string;
-    isFetchingNextPage?: boolean;
-    isFetching?: boolean;
+interface AuditRunSummary {
+    _id: number;
+    appId: number;
+    triggeredAt: string;
 }
 
-interface ApplicationListPage {
-    totalCount: number;
-    getApplicationListByPageAndParams: ApplicationType[];
-}
+const matchesDateRange = (
+    value: string | Date | undefined,
+    from?: string,
+    to?: string,
+): boolean => {
+    if (!from && !to) return true;
+    if (!value) return false;
 
-const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
-    const [appList, setAppList] = useState<ApplicationType[] | undefined>(undefined);
-    const currentAppListPage = useRef<number>(initialPage);
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return false;
+
+    if (from) {
+        const fromDate = new Date(`${from}T00:00:00`);
+        if (date < fromDate) return false;
+    }
+
+    if (to) {
+        const toDate = new Date(`${to}T23:59:59`);
+        if (date > toDate) return false;
+    }
+
+    return true;
+};
+
+const VitalityAppList: React.FC<{ source?: string; filters?: VitalityAppGlobalFilters }> = ({
+    source,
+    filters,
+}) => {
+    const [currentPage, setCurrentPage] = useState(1);
 
     const { getUrlParams } = useNavigationAdapter();
-    const [keywords, searchText] = getUrlParams(['keywords', 'searchText']);
+    const [, searchText] = getUrlParams(['keywords', 'searchText']);
 
     const {
         data: dataAppList,
-        fetchNextPage: fetchAppListNextPage,
-        status: appListFetchStatus,
-        isFetchingNextPage: isAppListFetchingNextPage,
+        isLoading: isAppListLoading,
         isFetching: isAppListFetching,
-    }: VitalityAppListQueryType = useInfiniteClientQuery({
+    } = useClientQuery<{
+        getApplicationListByPageAndParams: ApplicationType[];
+    }>({
         queryCacheKey: [
             'getApplicationListByPageAndParams',
-            keywords?.length ? keywords : 'empty_keywords',
             searchText?.length ? searchText : 'empty_search_text',
-            `${currentAppListPage.current}`,
         ],
         queryBuilder: async () =>
             buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL ?? '',
                 query: GetApplicationListByPageAndParams,
                 variables: {
-                    offset: currentAppListPage.current * VitalityApiConfig.VITALITY_BFF_PAGE_SIZE,
-                    limit: VitalityApiConfig.VITALITY_BFF_PAGE_SIZE,
-                    keywords,
+                    offset: 0,
+                    limit: 1000,
                     searchText,
                 },
             }),
-        getNextPageParam: () => currentAppListPage.current,
     });
 
-    const totalCount = (dataAppList?.pages?.[0] as ApplicationListPage)?.totalCount || 0;
+    const { data: dataAuditRuns, isLoading: isAuditRunsLoading } = useClientQuery<{
+        getAllAuditRuns: AuditRunSummary[];
+    }>({
+        queryCacheKey: ['getAllAuditRuns-app-list'],
+        queryBuilder: async () =>
+            buildClientQuery({
+                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL ?? '',
+                query: GetAllAuditRuns,
+                variables: {},
+            }),
+    });
+
+    const reportsCountByApp = useMemo(() => {
+        const counts = new Map<number, number>();
+        (dataAuditRuns?.getAllAuditRuns || []).forEach((run) => {
+            counts.set(run.appId, (counts.get(run.appId) || 0) + 1);
+        });
+        return counts;
+    }, [dataAuditRuns?.getAllAuditRuns]);
+
+    const filteredAppList = useMemo(() => {
+        const allApps = dataAppList?.getApplicationListByPageAndParams || [];
+        return allApps.filter((app) => {
+            const reportsCount = reportsCountByApp.get(app._id) || 0;
+            const branchesCount = app.repo?.allBranches?.length || 0;
+
+            if (
+                filters?.minReports !== undefined &&
+                Number.isFinite(filters.minReports) &&
+                reportsCount < filters.minReports
+            ) {
+                return false;
+            }
+
+            if (
+                filters?.maxReports !== undefined &&
+                Number.isFinite(filters.maxReports) &&
+                reportsCount > filters.maxReports
+            ) {
+                return false;
+            }
+
+            if (
+                filters?.minBranches !== undefined &&
+                Number.isFinite(filters.minBranches) &&
+                branchesCount < filters.minBranches
+            ) {
+                return false;
+            }
+
+            if (
+                filters?.maxBranches !== undefined &&
+                Number.isFinite(filters.maxBranches) &&
+                branchesCount > filters.maxBranches
+            ) {
+                return false;
+            }
+
+            return matchesDateRange(app.createdAt, filters?.createdFrom, filters?.createdTo);
+        });
+    }, [dataAppList?.getApplicationListByPageAndParams, filters, reportsCountByApp]);
+
+    const totalCount = filteredAppList.length;
     const totalPages = Math.ceil(totalCount / VitalityApiConfig.VITALITY_BFF_PAGE_SIZE);
+    const pageStart = (currentPage - 1) * VitalityApiConfig.VITALITY_BFF_PAGE_SIZE;
+    const pageEnd = pageStart + VitalityApiConfig.VITALITY_BFF_PAGE_SIZE;
+    const paginatedAppList = filteredAppList.slice(pageStart, pageEnd);
 
     useEffect(() => {
-        setAppList(
-            formatApplicationDataSource(
-                (dataAppList?.pages as {
-                    getApplicationListByPageAndParams: ApplicationType;
-                }[]) || [],
-            ),
-        );
-    }, [dataAppList?.pages]);
+        setCurrentPage(1);
+    }, [searchText, filters]);
 
-    useEffect(() => {
-        currentAppListPage.current = 0;
-        fetchAppListNextPage?.();
-    }, [keywords, searchText, fetchAppListNextPage]);
-
-    const isAppListLoading =
-        appListFetchStatus === 'loading' || isAppListFetching || isAppListFetchingNextPage || false;
-
-    const onExportApplicationsClicked = () => {
-        exportAppListDataToCSV(appList || []);
-    };
+    const isLoading = isAppListLoading || isAppListFetching || isAuditRunsLoading;
+    const addApplicationUrl = VitalityApiConfig.VITALITY_FRONT_BO_URL;
 
     const onPageChange = (page: number) => {
-        currentAppListPage.current = page - 1;
-        setAppList(undefined);
-        fetchAppListNextPage?.();
+        setCurrentPage(page);
     };
 
     const { translate } = useTranslationProvider();
 
     return (
         <div className="w-full flex flex-col items-center gap-6">
-            <VitalityAppListHeader onExportApplicationsClicked={onExportApplicationsClicked} />
+            <VitalityAppListHeader appsTotal={totalCount} addApplicationUrl={addApplicationUrl} />
 
-            {isAppListLoading && !appList ? (
+            {isLoading && !dataAppList ? (
                 <div className="py-20">
                     <Spinner />
                 </div>
-            ) : Array.isArray(appList) && appList.length === 0 ? (
+            ) : filteredAppList.length === 0 ? (
                 <div className="w-full max-w-4xl px-4 py-20 text-center text-zinc-500">
                     {translate('vitality.appListPage.empty')}
                 </div>
             ) : (
                 <div className="w-full">
-                    {appList && (
+                    {paginatedAppList && (
                         <ul className="space-y-4">
-                            {appList.map((app) => (
+                            {paginatedAppList.map((app) => (
                                 <VitalityAppInfos key={app._id} app={app} source={source} />
                             ))}
                         </ul>
                     )}
 
-                    {appList && (
+                    {totalPages > 1 && (
                         <VitalityAppListPagination
-                            currentPage={currentAppListPage.current + 1}
+                            currentPage={currentPage}
                             totalPages={totalPages}
                             onPageChange={onPageChange}
                         />

@@ -21,6 +21,8 @@ const VitalityAuditReportsTypeGrouper = DynamicLoader(
 interface VitalitySecuritySectionProps {
     auditTrigger?: number;
     branch?: string;
+    applicationId?: number;
+    auditReports?: AuditType[];
 }
 
 const isSecuritySmell = (report: AuditType): boolean => {
@@ -52,10 +54,21 @@ const getDependencyStatusColor = (status: string) => {
     return 'bg-slate-100 text-slate-800';
 };
 
-const VitalitySecuritySection = ({ auditTrigger = 0, branch }: VitalitySecuritySectionProps) => {
+const VitalitySecuritySection = ({
+    auditTrigger = 0,
+    branch,
+    applicationId,
+    auditReports,
+}: VitalitySecuritySectionProps) => {
     const { getUrlParams } = useNavigationAdapter();
     const { translate, translateHelper } = useTranslationProvider();
     const [_id] = getUrlParams(['_id']);
+    const parsedAppIdFromUrl = Number.parseInt(_id as string, 10);
+    const targetApplicationId = Number.isFinite(applicationId)
+        ? applicationId
+        : Number.isFinite(parsedAppIdFromUrl)
+          ? parsedAppIdFromUrl
+          : undefined;
     const [copiedId, setCopiedId] = useState<string | null>(null);
 
     const copyToClipboard = (text: string, dependencyId: string) => {
@@ -75,41 +88,62 @@ const VitalitySecuritySection = ({ auditTrigger = 0, branch }: VitalitySecurityS
         useClientQuery<{ getApplicationDetailsAuditReportsByParams: AuditType[] }>({
             queryCacheKey: [
                 'getApplicationDetailsAuditReportsByParams',
-                `${_id}`,
+                `${targetApplicationId}`,
                 `${auditTrigger}`,
             ],
-            queryBuilder: async () =>
-                buildClientQuery({
+            queryBuilder: async () => {
+                if (auditReports?.length) {
+                    return {
+                        getApplicationDetailsAuditReportsByParams: [],
+                    } as { getApplicationDetailsAuditReportsByParams: AuditType[] };
+                }
+
+                if (!targetApplicationId) {
+                    return {
+                        getApplicationDetailsAuditReportsByParams: [],
+                    } as { getApplicationDetailsAuditReportsByParams: AuditType[] };
+                }
+
+                return buildClientQuery({
                     queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
                     query: GetApplicationDetailsAuditReportsByParams,
                     variables: {
-                        _id: parseInt(_id as string, 10),
+                        _id: targetApplicationId,
                     },
-                }),
+                });
+            },
         });
 
     const { isLoading: isAppDetailsDependenciesLoading, data: appDetailsDependencies } =
         useClientQuery<{ getApplicationDetailsDependenciesByParams: DependencyType[] }>({
             queryCacheKey: [
                 'getApplicationDetailsDependenciesByParams',
-                `${_id}`,
+                `${targetApplicationId}`,
                 `${auditTrigger}`,
             ],
-            queryBuilder: async () =>
-                buildClientQuery({
+            queryBuilder: async () => {
+                if (!targetApplicationId) {
+                    return {
+                        getApplicationDetailsDependenciesByParams: [],
+                    } as { getApplicationDetailsDependenciesByParams: DependencyType[] };
+                }
+
+                return buildClientQuery({
                     queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
                     query: GetApplicationDetailsDependenciesByParams,
                     variables: {
-                        _id: parseInt(_id as string, 10),
+                        _id: targetApplicationId,
                     },
-                }),
+                });
+            },
         });
 
     // Filter to show static audit reports (exclude lighthouse)
-    const staticAuditReports =
-        appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams?.filter(
-            (report) => report.type !== 'Lighthouse' && matchesAuditReportBranch(report, branch),
-        ) || [];
+    const sourceAuditReports =
+        auditReports || appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams || [];
+    const staticAuditReports = sourceAuditReports.filter(
+        (report) => report.type !== 'Lighthouse' && matchesAuditReportBranch(report, branch),
+    );
 
     // Filter security reports
     const securityReports = staticAuditReports.filter((report) => isSecuritySmell(report));
@@ -136,7 +170,9 @@ const VitalitySecuritySection = ({ auditTrigger = 0, branch }: VitalitySecurityS
     const allDependenciesUpToDate =
         allDependencies.length > 0 && dependencies.length === 0 && hasOutdatedDependencies;
 
-    const isLoading = isAppDetailsAuditReportsLoading || isAppDetailsDependenciesLoading;
+    const isLoading =
+        (!auditReports?.length && isAppDetailsAuditReportsLoading) ||
+        isAppDetailsDependenciesLoading;
     const hasContent =
         securityReports.length > 0 ||
         (dependencies && dependencies.length > 0) ||

@@ -1,5 +1,6 @@
 const VitalityNavigationPaths = {
     DASHBOARD: '/dashboard',
+    APP: '/app',
     APP_LIST: '/app-list',
     APP_DETAILS: '/app-details',
     FAQ: '/faq',

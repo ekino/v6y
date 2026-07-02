@@ -2,9 +2,9 @@
 
 import * as React from 'react';
 
-import { ApplicationType } from '@v6y/core-logic/src/types';
+import { ApplicationType, AuditType } from '@v6y/core-logic/src/types';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
-import { Button, GlobeIcon, Input, PlayIcon, ReloadIcon } from '@v6y/ui-kit-front';
+import { Button, GlobeIcon, PlayIcon, ReloadIcon } from '@v6y/ui-kit-front';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import { exportAppDetailsDataToCSV } from '../../../commons/utils/VitalityDataExportUtils';
@@ -13,12 +13,10 @@ import {
     useClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationDetailsInfosByParams from '../api/getApplicationDetailsInfosByParams';
+import GetAuditRunDetailsByParams from '../api/getAuditRunDetailsByParams';
+import VitalityDetailsPageSkeleton from '../components/VitalityDetailsPageSkeleton';
 import VitalitySummaryCard from '../components/summary-card/VitalitySummaryCard';
 import BranchSelector from './BranchSelector';
-
-const VitalityGeneralInformationView = DynamicLoader(
-    () => import('./infos/VitalityGeneralInformationView'),
-);
 
 const VitalityAuditReportsView = DynamicLoader(
     () => import('./audit-reports/VitalityAuditReportsView'),
@@ -30,9 +28,22 @@ const VitalitySecuritySection = DynamicLoader(
 
 const VitalitySonarQubeView = DynamicLoader(() => import('./sonarqube/VitalitySonarQubeView'));
 
-const VitalityAuditRunHistoryView = DynamicLoader(
-    () => import('./audit-runs/VitalityAuditRunHistoryView'),
-);
+interface AuditRunDetailsType {
+    _id: number;
+    appId: number;
+    branch: string | null;
+    runStatus: string;
+    analysisTypes: string[];
+    triggeredAt: string;
+    completedAt: string | null;
+    errorMessage: string | null;
+    audits: AuditType[];
+}
+
+interface VitalityAppDetailsViewProps {
+    applicationId?: number;
+    auditRunId?: number;
+}
 
 const extractProjectKeyFromSonarUrl = (url: string): string | null => {
     try {
@@ -73,34 +84,83 @@ const getSonarQubeLink = (appInfos?: ApplicationType) => {
     return undefined;
 };
 
-const VitalityAppDetailsView = () => {
+const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetailsViewProps) => {
     const { getUrlParams } = useNavigationAdapter();
     const { translate } = useTranslationProvider();
-    const [_id] = getUrlParams(['_id']);
-    const [activeTab, setActiveTab] = React.useState('overview');
+    const [_id, reportId] = getUrlParams(['_id', 'reportId']);
+
+    const parsedAppIdFromUrl = Number.parseInt(_id as string, 10);
+    const parsedReportIdFromUrl = Number.parseInt(reportId as string, 10);
+    const targetApplicationId = Number.isFinite(applicationId)
+        ? applicationId
+        : Number.isFinite(parsedAppIdFromUrl)
+          ? parsedAppIdFromUrl
+          : undefined;
+    const targetAuditRunId = Number.isFinite(auditRunId)
+        ? auditRunId
+        : Number.isFinite(parsedReportIdFromUrl)
+          ? parsedReportIdFromUrl
+          : undefined;
+
+    const [activeTab, setActiveTab] = React.useState('performance');
     const [selectedBranch, setSelectedBranch] = React.useState('');
-    const [selectedDate, setSelectedDate] = React.useState('2025-01-01');
     const [isRunningAudit, setIsRunningAudit] = React.useState(false);
     const [auditTrigger, setAuditTrigger] = React.useState(0);
 
     const { isLoading: isAppDetailsInfosLoading, data: appDetailsInfos } = useClientQuery<{
-        getApplicationDetailsInfoByParams: ApplicationType;
+        getApplicationDetailsInfoByParams: ApplicationType | null;
     }>({
-        queryCacheKey: ['getApplicationDetailsInfoByParams', `${_id}`],
-        queryBuilder: async () =>
-            buildClientQuery({
+        queryCacheKey: ['getApplicationDetailsInfoByParams', `${targetApplicationId ?? 'invalid'}`],
+        queryBuilder: async () => {
+            if (!targetApplicationId) {
+                return {
+                    getApplicationDetailsInfoByParams: null,
+                };
+            }
+
+            return buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
                 query: GetApplicationDetailsInfosByParams,
                 variables: {
-                    _id: parseInt(_id as string, 10),
+                    _id: targetApplicationId,
                 },
-            }),
+            });
+        },
     });
 
-    const appInfos = appDetailsInfos?.getApplicationDetailsInfoByParams;
+    const { isLoading: isAuditRunLoading, data: auditRunDetails } = useClientQuery<{
+        getAuditRunDetailsByParams: AuditRunDetailsType | null;
+    }>({
+        queryCacheKey: ['getAuditRunDetailsByParams', `${targetAuditRunId || 0}`],
+        queryBuilder: async () => {
+            if (!targetAuditRunId) {
+                return {
+                    getAuditRunDetailsByParams: null,
+                };
+            }
+
+            return buildClientQuery({
+                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
+                query: GetAuditRunDetailsByParams,
+                variables: {
+                    _id: targetAuditRunId,
+                },
+            });
+        },
+    });
+
+    const appInfos = appDetailsInfos?.getApplicationDetailsInfoByParams ?? undefined;
+    const reportDetails = auditRunDetails?.getAuditRunDetailsByParams;
+    const reportAudits = reportDetails?.audits || [];
+    const reportBranch = reportDetails?.branch || '';
     const auditReportBranches = (appInfos?.repo?.allBranches || []) as string[];
 
     React.useEffect(() => {
+        if (reportBranch) {
+            setSelectedBranch(reportBranch);
+            return;
+        }
+
         if (!auditReportBranches.length) {
             return;
         }
@@ -108,11 +168,10 @@ const VitalityAppDetailsView = () => {
         if (!auditReportBranches.includes(selectedBranch)) {
             setSelectedBranch(auditReportBranches[0]);
         }
-    }, [auditReportBranches, selectedBranch]);
+    }, [auditReportBranches, selectedBranch, reportBranch]);
     const sonarqubeLink = getSonarQubeLink(appInfos);
 
     const tabs = [
-        { id: 'overview', label: translate('vitality.appDetailsPage.tabs.overview') },
         { id: 'performance', label: translate('vitality.appDetailsPage.tabs.performance') },
         { id: 'accessibility', label: translate('vitality.appDetailsPage.tabs.accessibility') },
         { id: 'security', label: translate('vitality.appDetailsPage.tabs.security') },
@@ -145,30 +204,14 @@ const VitalityAppDetailsView = () => {
 
     const renderTabContent = () => {
         switch (activeTab) {
-            case 'overview':
-                return (
-                    <div className="space-y-8">
-                        <VitalityGeneralInformationView
-                            appInfos={appInfos}
-                            branch={selectedBranch}
-                            date={selectedDate}
-                        />
-                        <div className="pt-8 border-t border-slate-200">
-                            <h2 className="text-lg font-semibold text-slate-900 mb-6">
-                                {translate('vitality.appDetailsPage.auditHistory.title')}
-                            </h2>
-                            <VitalityAuditRunHistoryView
-                                applicationId={parseInt(_id as string, 10)}
-                            />
-                        </div>
-                    </div>
-                );
             case 'performance':
                 return (
                     <VitalityAuditReportsView
                         auditTrigger={auditTrigger}
                         category="performance"
                         branch={selectedBranch}
+                        applicationId={targetApplicationId}
+                        auditReports={reportAudits}
                     />
                 );
             case 'accessibility':
@@ -177,11 +220,18 @@ const VitalityAppDetailsView = () => {
                         auditTrigger={auditTrigger}
                         category="accessibility"
                         branch={selectedBranch}
+                        applicationId={targetApplicationId}
+                        auditReports={reportAudits}
                     />
                 );
             case 'security':
                 return (
-                    <VitalitySecuritySection auditTrigger={auditTrigger} branch={selectedBranch} />
+                    <VitalitySecuritySection
+                        auditTrigger={auditTrigger}
+                        branch={selectedBranch}
+                        applicationId={targetApplicationId}
+                        auditReports={reportAudits}
+                    />
                 );
             case 'maintainability':
                 return (
@@ -189,11 +239,18 @@ const VitalityAppDetailsView = () => {
                         auditTrigger={auditTrigger}
                         category="maintainability"
                         branch={selectedBranch}
+                        applicationId={targetApplicationId}
+                        auditReports={reportAudits}
                     />
                 );
             case 'greenIndex':
                 return (
-                    <VitalityAuditReportsView auditTrigger={auditTrigger} category="greenIndex" />
+                    <VitalityAuditReportsView
+                        auditTrigger={auditTrigger}
+                        category="greenIndex"
+                        applicationId={targetApplicationId}
+                        auditReports={reportAudits}
+                    />
                 );
             case 'devops':
                 return (
@@ -201,34 +258,39 @@ const VitalityAppDetailsView = () => {
                         auditTrigger={auditTrigger}
                         category="dora"
                         branch={selectedBranch}
+                        applicationId={targetApplicationId}
+                        auditReports={reportAudits}
                     />
                 );
             case 'sonarqube':
                 return sonarqubeLink ? (
                     <VitalitySonarQubeView
-                        applicationId={parseInt(_id as string, 10)}
+                        applicationId={targetApplicationId}
                         sonarqubeUrl={sonarqubeLink}
                         auditTrigger={auditTrigger}
                     />
                 ) : null;
             default:
                 return (
-                    <VitalityGeneralInformationView
-                        appInfos={appInfos}
-                        branch={selectedBranch}
-                        date={selectedDate}
+                    <VitalityAuditReportsView
                         auditTrigger={auditTrigger}
+                        category="performance"
+                        branch={selectedBranch}
+                        applicationId={targetApplicationId}
+                        auditReports={reportAudits}
                     />
                 );
         }
     };
 
-    if (isAppDetailsInfosLoading) {
+    if (isAppDetailsInfosLoading || (!!targetAuditRunId && isAuditRunLoading)) {
+        return <VitalityDetailsPageSkeleton />;
+    }
+
+    if (!targetApplicationId) {
         return (
-            <div className="max-w-7xl mx-auto md:p-6 space-y-6">
-                <div className="bg-gray-100 animate-pulse h-16 rounded-lg"></div>
-                <div className="bg-gray-100 animate-pulse h-16 rounded-lg"></div>
-                <div className="bg-gray-100 animate-pulse h-64 rounded-lg"></div>
+            <div className="min-h-screen mt-4 md:px-6 lg:px-0">
+                <div className="text-sm text-red-500">Invalid application identifier</div>
             </div>
         );
     }
@@ -251,15 +313,6 @@ const VitalityAppDetailsView = () => {
                                 branches={auditReportBranches}
                                 selectedBranch={selectedBranch}
                                 onBranchChange={setSelectedBranch}
-                            />
-
-                            <Input
-                                type="date"
-                                className="h-10 sm:h-8 w-fit border-slate-300 rounded-md text-sm"
-                                value={selectedDate}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                    setSelectedDate(e.target.value)
-                                }
                             />
                         </div>
 

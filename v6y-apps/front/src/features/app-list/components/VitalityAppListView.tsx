@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { DynamicLoader } from '@v6y/ui-kit';
 import {
@@ -10,138 +10,299 @@ import {
     CardDescription,
     CardHeader,
     CardTitle,
-    Checkbox,
+    Clipboard,
+    FileText,
+    Input,
+    MixerHorizontalIcon,
+    ShuffleIcon,
     TypographyH3,
-    useNavigationAdapter,
     useTranslationProvider,
 } from '@v6y/ui-kit-front';
 
-const VitalityAppList = DynamicLoader(() => import('./VitalityAppList'));
+import { VitalityAppGlobalFilters } from '../types/VitalityAppGlobalFilters';
 
-const AVAILABLE_TECHNOLOGIES = [
-    { slug: 'react', name: 'React' },
-    { slug: 'typescript', name: 'TypeScript' },
-    { slug: 'nodejs', name: 'Node.js' },
-    { slug: 'python', name: 'Python' },
-    { slug: 'docker', name: 'Docker' },
-    { slug: 'kubernetes', name: 'Kubernetes' },
-    { slug: 'graphql', name: 'GraphQL' },
-    { slug: 'rest-api', name: 'REST API' },
-    { slug: 'mongodb', name: 'MongoDB' },
-    { slug: 'postgresql', name: 'PostgreSQL' },
-    { slug: 'redis', name: 'Redis' },
-    { slug: 'aws', name: 'AWS' },
-    { slug: 'azure', name: 'Azure' },
-    { slug: 'jest', name: 'Jest' },
-    { slug: 'vitest', name: 'Vitest' },
-    { slug: 'eslint', name: 'ESLint' },
-    { slug: 'prettier', name: 'Prettier' },
-    { slug: 'webpack', name: 'Webpack' },
-    { slug: 'vite', name: 'Vite' },
-    { slug: 'nextjs', name: 'Next.js' },
-    { slug: 'vuejs', name: 'Vue.js' },
-    { slug: 'angular', name: 'Angular' },
-    { slug: 'express', name: 'Express' },
-    { slug: 'nestjs', name: 'NestJS' },
-    { slug: 'prisma', name: 'Prisma' },
-];
+const VitalityAppList = DynamicLoader(() => import('./VitalityAppList'));
 
 const VitalityAppListView = () => {
     const { translate } = useTranslationProvider();
-    const { getUrlParams, createUrlQueryParam, removeUrlQueryParam, router, pathname } =
-        useNavigationAdapter();
-    const [keywords] = getUrlParams(['keywords']);
+    const [filters, setFilters] = useState<VitalityAppGlobalFilters>({});
 
-    const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
-
-    useEffect(() => {
-        if (keywords) {
-            const keywordsFromUrl = keywords.split(',').filter(Boolean);
-            setSelectedKeywords(keywordsFromUrl);
-        }
-    }, [keywords]);
-
-    const handleKeywordToggle = (keyword: string, checked: boolean) => {
-        const newSelectedKeywords = checked
-            ? [...selectedKeywords, keyword]
-            : selectedKeywords.filter((k) => k !== keyword);
-
-        setSelectedKeywords(newSelectedKeywords);
-
-        if (newSelectedKeywords.length > 0) {
-            const queryParams = createUrlQueryParam('keywords', newSelectedKeywords.join(','));
-            router.replace(`${pathname}?${queryParams}`, { scroll: false });
-        } else {
-            const queryParams = removeUrlQueryParam('keywords');
-            router.replace(`${pathname}?${queryParams}`, { scroll: false });
-        }
+    const getCopy = (key: string, fallback: string) => {
+        const value = translate(key);
+        return value && value !== key ? value : fallback;
     };
 
+    const updateNumberFilter = (
+        key: 'minReports' | 'maxReports' | 'minBranches' | 'maxBranches',
+        value: string,
+    ) => {
+        const trimmed = value.trim();
+        setFilters((prev) => ({
+            ...prev,
+            [key]: trimmed === '' ? undefined : Number.parseInt(trimmed, 10),
+        }));
+    };
+
+    const updateDateFilter = (key: 'createdFrom' | 'createdTo', value: string) => {
+        setFilters((prev) => ({
+            ...prev,
+            [key]: value || undefined,
+        }));
+    };
+
+    const resetFilters = () => {
+        setFilters({});
+    };
+
+    const activeFiltersCount = useMemo(
+        () => Object.values(filters).filter((value) => value !== undefined && value !== '').length,
+        [filters],
+    );
+
+    const selectedCountTemplate = getCopy(
+        'vitality.appListPage.globalFilters.selectedCount',
+        '{count} selected',
+    );
+    const selectedCountText = selectedCountTemplate.includes('{count}')
+        ? selectedCountTemplate.replace('{count}', `${activeFiltersCount}`)
+        : `${activeFiltersCount} ${selectedCountTemplate}`;
+
     return (
-        <div className="space-y-8 mt-4">
-            <Card className="border-gray-200 shadow-md">
-                <CardHeader>
-                    <CardTitle className="text-md">
-                        {translate('vitality.dashboardPage.filters.technologies') ||
-                            'Available Technologies'}
-                    </CardTitle>
-                    <CardDescription>
-                        Select technologies to filter applications and discover matching projects
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
-                        {AVAILABLE_TECHNOLOGIES.map(({ slug, name }) => (
-                            <div
-                                key={slug}
-                                className="flex items-center space-x-2 hover:bg-gray-50 p-2 rounded transition-colors"
-                            >
-                                <Checkbox
-                                    id={slug}
-                                    checked={selectedKeywords.includes(slug)}
-                                    onCheckedChange={(checked) =>
-                                        handleKeywordToggle(slug, checked as boolean)
+        <div className="mt-4 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <aside className="lg:col-span-4 xl:col-span-3 space-y-4 lg:sticky lg:top-4">
+                <Card className="border-gray-200 shadow-md">
+                    <CardHeader>
+                        <CardTitle className="text-md flex items-center gap-2">
+                            <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-slate-900 text-white">
+                                <MixerHorizontalIcon className="w-4 h-4" />
+                            </span>
+                            <span>
+                                {getCopy(
+                                    'vitality.appListPage.globalFilters.title',
+                                    'Global Filters',
+                                )}
+                            </span>
+                        </CardTitle>
+                        <CardDescription>
+                            {getCopy(
+                                'vitality.appListPage.globalFilters.description',
+                                'Filter applications by reports volume, creation period and number of branches',
+                            )}
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="grid grid-cols-1 gap-4">
+                            <div className="space-y-1.5">
+                                <label
+                                    htmlFor="global-filter-min-reports"
+                                    className="text-sm font-medium text-slate-700"
+                                >
+                                    {getCopy(
+                                        'vitality.appListPage.globalFilters.minReportsLabel',
+                                        'Min reports',
+                                    )}
+                                </label>
+                                <Input
+                                    id="global-filter-min-reports"
+                                    type="number"
+                                    min={0}
+                                    placeholder={getCopy(
+                                        'vitality.appListPage.globalFilters.minReportsPlaceholder',
+                                        '0',
+                                    )}
+                                    value={filters.minReports ?? ''}
+                                    onChange={(e) =>
+                                        updateNumberFilter('minReports', e.target.value)
                                     }
                                 />
-                                <label
-                                    htmlFor={slug}
-                                    className="text-sm font-medium cursor-pointer select-none flex-1"
-                                >
-                                    {name}
-                                </label>
                             </div>
-                        ))}
-                    </div>
-                </CardContent>
-            </Card>
+                            <div className="space-y-1.5">
+                                <label
+                                    htmlFor="global-filter-max-reports"
+                                    className="text-sm font-medium text-slate-700"
+                                >
+                                    {getCopy(
+                                        'vitality.appListPage.globalFilters.maxReportsLabel',
+                                        'Max reports',
+                                    )}
+                                </label>
+                                <Input
+                                    id="global-filter-max-reports"
+                                    type="number"
+                                    min={0}
+                                    placeholder={getCopy(
+                                        'vitality.appListPage.globalFilters.maxReportsPlaceholder',
+                                        '500',
+                                    )}
+                                    value={filters.maxReports ?? ''}
+                                    onChange={(e) =>
+                                        updateNumberFilter('maxReports', e.target.value)
+                                    }
+                                />
+                            </div>
+                            <div className="space-y-1.5">
+                                <label
+                                    htmlFor="global-filter-min-branches"
+                                    className="text-sm font-medium text-slate-700"
+                                >
+                                    {getCopy(
+                                        'vitality.appListPage.globalFilters.minBranchesLabel',
+                                        'Min branches',
+                                    )}
+                                </label>
+                                <Input
+                                    id="global-filter-min-branches"
+                                    type="number"
+                                    min={0}
+                                    placeholder={getCopy(
+                                        'vitality.appListPage.globalFilters.minBranchesPlaceholder',
+                                        '1',
+                                    )}
+                                    value={filters.minBranches ?? ''}
+                                    onChange={(e) =>
+                                        updateNumberFilter('minBranches', e.target.value)
+                                    }
+                                />
+                            </div>
+                            <div className="space-y-1.5">
+                                <label
+                                    htmlFor="global-filter-max-branches"
+                                    className="text-sm font-medium text-slate-700"
+                                >
+                                    {getCopy(
+                                        'vitality.appListPage.globalFilters.maxBranchesLabel',
+                                        'Max branches',
+                                    )}
+                                </label>
+                                <Input
+                                    id="global-filter-max-branches"
+                                    type="number"
+                                    min={0}
+                                    placeholder={getCopy(
+                                        'vitality.appListPage.globalFilters.maxBranchesPlaceholder',
+                                        '30',
+                                    )}
+                                    value={filters.maxBranches ?? ''}
+                                    onChange={(e) =>
+                                        updateNumberFilter('maxBranches', e.target.value)
+                                    }
+                                />
+                            </div>
+                            <div className="space-y-1.5">
+                                <label
+                                    htmlFor="global-filter-created-from"
+                                    className="text-sm font-medium text-slate-700"
+                                >
+                                    {getCopy(
+                                        'vitality.appListPage.globalFilters.createdFromLabel',
+                                        'Created from',
+                                    )}
+                                </label>
+                                <Input
+                                    id="global-filter-created-from"
+                                    type="date"
+                                    value={filters.createdFrom ?? ''}
+                                    onChange={(e) =>
+                                        updateDateFilter('createdFrom', e.target.value)
+                                    }
+                                />
+                            </div>
+                            <div className="space-y-1.5">
+                                <label
+                                    htmlFor="global-filter-created-to"
+                                    className="text-sm font-medium text-slate-700"
+                                >
+                                    {getCopy(
+                                        'vitality.appListPage.globalFilters.createdToLabel',
+                                        'Created to',
+                                    )}
+                                </label>
+                                <Input
+                                    id="global-filter-created-to"
+                                    type="date"
+                                    value={filters.createdTo ?? ''}
+                                    onChange={(e) => updateDateFilter('createdTo', e.target.value)}
+                                />
+                            </div>
+                        </div>
 
-            {selectedKeywords.length > 0 && (
-                <div className="space-y-3">
-                    <div className="flex items-center gap-2">
-                        <TypographyH3 className="text-md">
-                            {translate('vitality.appListPage.activeFiltersLabel') ||
-                                'Active Filters'}
-                        </TypographyH3>
-                        <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                            {selectedKeywords.length} selected
-                        </span>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                        {selectedKeywords.map((keyword) => (
-                            <Badge
-                                key={keyword}
-                                variant="default"
-                                className="cursor-pointer hover:bg-gray-200"
-                                onClick={() => handleKeywordToggle(keyword, false)}
-                            >
-                                {keyword} ×
+                        <div className="mt-5 pt-4 border-t border-slate-200 space-y-3">
+                            <p className="text-xs uppercase tracking-wide text-slate-500 font-semibold">
+                                {getCopy(
+                                    'vitality.appListPage.globalFilters.highlightsTitle',
+                                    'Quick focus',
+                                )}
+                            </p>
+                            <div className="grid grid-cols-1 gap-2">
+                                <div className="flex items-center gap-2 rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                                    <Clipboard className="w-4 h-4 text-slate-500" />
+                                    <span>
+                                        {getCopy(
+                                            'vitality.appListPage.globalFilters.highlightsReports',
+                                            'Find apps with many audit reports',
+                                        )}
+                                    </span>
+                                </div>
+                                <div className="flex items-center gap-2 rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                                    <ShuffleIcon className="w-4 h-4 text-slate-500" />
+                                    <span>
+                                        {getCopy(
+                                            'vitality.appListPage.globalFilters.highlightsBranches',
+                                            'Target monorepos with lots of branches',
+                                        )}
+                                    </span>
+                                </div>
+                                <div className="flex items-center gap-2 rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                                    <FileText className="w-4 h-4 text-slate-500" />
+                                    <span>
+                                        {getCopy(
+                                            'vitality.appListPage.globalFilters.highlightsDate',
+                                            'Focus on recently created apps',
+                                        )}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {activeFiltersCount > 0 && (
+                            <div className="mt-4 flex justify-end">
+                                <button
+                                    type="button"
+                                    onClick={resetFilters}
+                                    className="text-xs font-medium text-slate-600 hover:text-slate-900 underline underline-offset-2"
+                                >
+                                    {getCopy(
+                                        'vitality.dashboardPage.filters.reset',
+                                        'Reset Filters',
+                                    )}
+                                </button>
+                            </div>
+                        )}
+                    </CardContent>
+                </Card>
+
+                {activeFiltersCount > 0 && (
+                    <div className="space-y-3">
+                        <div className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-2 shadow-sm">
+                            <TypographyH3 className="text-md">
+                                {getCopy(
+                                    'vitality.appListPage.activeFiltersLabel',
+                                    'Active Filters',
+                                )}
+                            </TypographyH3>
+                            <Badge variant="default" className="text-xs">
+                                {selectedCountText}
                             </Badge>
-                        ))}
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
+            </aside>
 
-            <VitalityAppList />
+            <section className="lg:col-span-8 xl:col-span-9">
+                <div className="rounded-xl border border-slate-200 bg-gradient-to-b from-slate-50/70 to-white p-3 md:p-4 shadow-sm">
+                    <VitalityAppList filters={filters} />
+                </div>
+            </section>
         </div>
     );
 };

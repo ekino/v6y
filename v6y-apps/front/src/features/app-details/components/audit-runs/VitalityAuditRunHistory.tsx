@@ -15,6 +15,8 @@ interface AuditRunType {
 interface VitalityAuditRunHistoryProps {
     auditRuns: AuditRunType[];
     isLoading?: boolean;
+    onRunClick?: (runId: number) => void;
+    pageSize?: number;
 }
 
 const Badge = ({
@@ -130,8 +132,32 @@ export const getDuration = (
 export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = ({
     auditRuns = [],
     isLoading = false,
+    onRunClick,
+    pageSize = 8,
 }) => {
     const { translate } = useTranslationProvider();
+
+    const sortedRuns = React.useMemo(
+        () =>
+            [...(auditRuns || [])].sort((runA, runB) => {
+                const runADate = parseDateValue(runA.triggeredAt)?.getTime() || 0;
+                const runBDate = parseDateValue(runB.triggeredAt)?.getTime() || 0;
+                return runBDate - runADate;
+            }),
+        [auditRuns],
+    );
+
+    const [currentPage, setCurrentPage] = React.useState(1);
+    const totalPages = Math.max(1, Math.ceil(sortedRuns.length / pageSize));
+
+    React.useEffect(() => {
+        setCurrentPage(1);
+    }, [sortedRuns.length, pageSize]);
+
+    const currentRuns = React.useMemo(() => {
+        const startIndex = (currentPage - 1) * pageSize;
+        return sortedRuns.slice(startIndex, startIndex + pageSize);
+    }, [sortedRuns, currentPage, pageSize]);
 
     if (isLoading) {
         return (
@@ -141,7 +167,7 @@ export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = (
         );
     }
 
-    if (!auditRuns || auditRuns.length === 0) {
+    if (!sortedRuns || sortedRuns.length === 0) {
         return (
             <div className="w-full p-6 text-center">
                 <p className="text-slate-500">
@@ -156,13 +182,14 @@ export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = (
             {/* Mobile: Card View */}
             <div className="block sm:hidden">
                 <div className="divide-y divide-slate-200">
-                    {auditRuns.map((run, index) => {
+                    {currentRuns.map((run, index) => {
                         const duration = getDuration(run.triggeredAt, run.completedAt);
 
                         return (
                             <div
                                 key={run._id || index}
-                                className={`p-5 border-l-4 hover:bg-slate-50 transition-colors ${getStatusColor(run.runStatus)}`}
+                                className={`p-5 border-l-4 transition-colors ${onRunClick ? 'hover:bg-slate-50 cursor-pointer' : 'hover:bg-slate-50'} ${getStatusColor(run.runStatus)}`}
+                                onClick={onRunClick ? () => onRunClick(run._id) : undefined}
                             >
                                 {/* Header with status and date */}
                                 <div className="flex items-start justify-between gap-2 mb-3">
@@ -270,13 +297,14 @@ export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = (
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-200">
-                        {auditRuns.map((run, index) => {
+                        {currentRuns.map((run, index) => {
                             const duration = getDuration(run.triggeredAt, run.completedAt);
 
                             return (
                                 <tr
                                     key={run._id || index}
-                                    className="hover:bg-blue-50 transition-colors duration-150"
+                                    className={`transition-colors duration-150 ${onRunClick ? 'hover:bg-blue-50 cursor-pointer' : 'hover:bg-blue-50'}`}
+                                    onClick={onRunClick ? () => onRunClick(run._id) : undefined}
                                 >
                                     <td className="px-4 py-3">
                                         <div className="flex flex-col gap-2">
@@ -316,6 +344,32 @@ export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = (
                     </tbody>
                 </table>
             </div>
+
+            {totalPages > 1 && (
+                <div className="flex items-center justify-between px-4 py-3 border-t border-slate-200 bg-slate-50">
+                    <span className="text-xs text-slate-600">
+                        Page {currentPage} / {totalPages}
+                    </span>
+                    <div className="flex items-center gap-2">
+                        <button
+                            type="button"
+                            onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                            disabled={currentPage === 1}
+                            className="px-3 py-1.5 text-xs font-medium rounded border border-slate-300 bg-white text-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            Previous
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+                            disabled={currentPage === totalPages}
+                            className="px-3 py-1.5 text-xs font-medium rounded border border-slate-300 bg-white text-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            Next
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

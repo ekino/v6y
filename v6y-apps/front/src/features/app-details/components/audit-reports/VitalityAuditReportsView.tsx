@@ -19,6 +19,8 @@ interface VitalityAuditReportsViewProps {
     auditTrigger?: number;
     category?: string;
     branch?: string;
+    applicationId?: number;
+    auditReports?: AuditType[];
 }
 
 const isSecuritySmell = (report: AuditType): boolean => {
@@ -36,32 +38,55 @@ const VitalityAuditReportsView = ({
     auditTrigger = 0,
     category,
     branch,
+    applicationId,
+    auditReports,
 }: VitalityAuditReportsViewProps) => {
     const { getUrlParams } = useNavigationAdapter();
     const { translate } = useTranslationProvider();
     const [_id] = getUrlParams(['_id']);
+    const parsedAppIdFromUrl = Number.parseInt(_id as string, 10);
+    const targetApplicationId = Number.isFinite(applicationId)
+        ? applicationId
+        : Number.isFinite(parsedAppIdFromUrl)
+          ? parsedAppIdFromUrl
+          : undefined;
 
     const { isLoading: isAppDetailsAuditReportsLoading, data: appDetailsAuditReports } =
         useClientQuery<{ getApplicationDetailsAuditReportsByParams: AuditType[] }>({
             queryCacheKey: [
                 'getApplicationDetailsAuditReportsByParams',
-                `${_id}`,
+                `${targetApplicationId}`,
                 `${auditTrigger}`,
             ],
-            queryBuilder: async () =>
-                buildClientQuery({
+            queryBuilder: async () => {
+                if (auditReports?.length) {
+                    return {
+                        getApplicationDetailsAuditReportsByParams: [],
+                    } as { getApplicationDetailsAuditReportsByParams: AuditType[] };
+                }
+
+                if (!targetApplicationId) {
+                    return {
+                        getApplicationDetailsAuditReportsByParams: [],
+                    } as { getApplicationDetailsAuditReportsByParams: AuditType[] };
+                }
+
+                return buildClientQuery({
                     queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
                     query: GetApplicationDetailsAuditReportsByParams,
                     variables: {
-                        _id: parseInt(_id as string, 10),
+                        _id: targetApplicationId,
                     },
-                }),
+                });
+            },
         });
 
-    const branchFilteredAuditReports =
-        appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams?.filter((report) =>
-            matchesAuditReportBranch(report, branch),
-        ) || [];
+    const sourceAuditReports =
+        auditReports || appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams || [];
+
+    const branchFilteredAuditReports = sourceAuditReports.filter((report) =>
+        matchesAuditReportBranch(report, branch),
+    );
 
     // Filter to show static audit reports (exclude lighthouse)
     const staticAuditReports = branchFilteredAuditReports.filter(
@@ -132,7 +157,7 @@ const VitalityAuditReportsView = ({
         allAuditReports = [...filteredStaticAuditReports, ...accessibilityDynamicReports];
     }
 
-    if (isAppDetailsAuditReportsLoading) {
+    if (isAppDetailsAuditReportsLoading && !auditReports) {
         return (
             <Card className="border-slate-200 shadow-xs">
                 <CardContent className="flex items-center justify-center p-12">

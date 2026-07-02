@@ -6,7 +6,6 @@ import {
     CommitIcon,
     GlobeIcon,
     StarIcon,
-    useNavigationAdapter,
     useTranslationProvider,
 } from '@v6y/ui-kit-front';
 
@@ -14,12 +13,10 @@ import VitalityNavigationPaths from '../../config/VitalityNavigationPaths';
 import { VitalityAppInfosProps } from '../../types/VitalityAppInfosProps';
 
 const VitalityAppInfos = ({ app, source, canOpenDetails = true }: VitalityAppInfosProps) => {
-    const { createUrlQueryParam } = useNavigationAdapter();
     const { translate } = useTranslationProvider();
-    const queryParams = createUrlQueryParam('_id', `${app._id}`);
     const appDetailsLink = source
-        ? VitalityNavigationPaths.APP_DETAILS + '?' + queryParams + '&' + 'source=' + source
-        : VitalityNavigationPaths.APP_DETAILS + '?' + queryParams;
+        ? `${VitalityNavigationPaths.APP}/${app._id}?source=${source}`
+        : `${VitalityNavigationPaths.APP}/${app._id}`;
 
     const appLinks = app.links;
     const appRepository = app.repo;

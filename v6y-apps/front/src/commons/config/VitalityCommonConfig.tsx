@@ -108,6 +108,65 @@ export const buildBreadCrumbItems = ({
             .join('&') || '';
     const withSourceParams = (path: string) => (sourceParams ? `${path}?${sourceParams}` : path);
 
+    const isProjectDetailsPage = /^\/app\/\d+$/.test(currentPage);
+    const reportDetailsMatch = currentPage.match(/^\/app\/(\d+)\/reports\/(\d+)$/);
+
+    const sourceItem = {
+        title: Matcher()
+            .on(
+                () => lastPage === 'stats',
+                () => translate('vitality.appStatsPage.shortTitle'),
+            )
+            .on(
+                () => lastPage === 'search',
+                () => translate('vitality.searchPage.shortTitle'),
+            )
+            .otherwise(() => translate('vitality.appListPage.shortTitle')),
+        href: Matcher()
+            .on(
+                () => lastPage === 'stats',
+                () => withSourceParams(VitalityNavigationPaths.APPS_STATS),
+            )
+            .on(
+                () => lastPage === 'search',
+                () => withSourceParams(VitalityNavigationPaths.SEARCH),
+            )
+            .otherwise(() => withSourceParams(VitalityNavigationPaths.APP_LIST)),
+    };
+
+    if (isProjectDetailsPage) {
+        return [
+            {
+                title: translate('vitality.dashboardPage.shortTitle'),
+                href: VitalityNavigationPaths.DASHBOARD,
+            },
+            sourceItem,
+            {
+                title: translate('vitality.appDetailsPage.shortTitle'),
+            },
+        ];
+    }
+
+    if (reportDetailsMatch) {
+        const projectHref = withSourceParams(
+            `${VitalityNavigationPaths.APP}/${reportDetailsMatch[1]}`,
+        );
+        return [
+            {
+                title: translate('vitality.dashboardPage.shortTitle'),
+                href: VitalityNavigationPaths.DASHBOARD,
+            },
+            sourceItem,
+            {
+                title: translate('vitality.appDetailsPage.shortTitle'),
+                href: projectHref,
+            },
+            {
+                title: translate('vitality.appDetailsPage.auditReports.categories.general'),
+            },
+        ];
+    }
+
     return (
         {
             [VitalityNavigationPaths.APP_DETAILS]: [
@@ -115,28 +174,7 @@ export const buildBreadCrumbItems = ({
                     title: translate('vitality.dashboardPage.shortTitle'),
                     href: VitalityNavigationPaths.DASHBOARD,
                 },
-                {
-                    title: Matcher()
-                        .on(
-                            () => lastPage === 'stats',
-                            () => translate('vitality.appStatsPage.shortTitle'),
-                        )
-                        .on(
-                            () => lastPage === 'search',
-                            () => translate('vitality.searchPage.shortTitle'),
-                        )
-                        .otherwise(() => translate('vitality.appListPage.shortTitle')),
-                    href: Matcher()
-                        .on(
-                            () => lastPage === 'stats',
-                            () => withSourceParams(VitalityNavigationPaths.APPS_STATS),
-                        )
-                        .on(
-                            () => lastPage === 'search',
-                            () => withSourceParams(VitalityNavigationPaths.SEARCH),
-                        )
-                        .otherwise(() => withSourceParams(VitalityNavigationPaths.APP_LIST)),
-                },
+                sourceItem,
                 {
                     title: translate('vitality.appDetailsPage.shortTitle'),
                 },
@@ -196,6 +234,14 @@ export const buildBreadCrumbItems = ({
 };
 
 export const buildPageTitle = (pathname: string, translate: (key: string) => string) => {
+    if (/^\/app\/\d+$/.test(pathname)) {
+        return translate('vitality.appDetailsPage.pageTitle');
+    }
+
+    if (/^\/app\/\d+\/reports\/\d+$/.test(pathname)) {
+        return translate('vitality.appDetailsPage.pageTitle');
+    }
+
     return (
         {
             [VitalityNavigationPaths.DASHBOARD]: translate('vitality.dashboardPage.pageTitle'),
