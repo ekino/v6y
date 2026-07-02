@@ -7,20 +7,20 @@ assignees: ''
 
 ---
 
-### ❓ Question / Help
+### Question / Help
 A clear and concise description of your question or the help you need.
 
-### 📸 Screenshots
+### Screenshots
 If applicable, add screenshots to help explain your question or issue.
 
-### 💻 Environment
+### Environment
 - OS: [e.g., Windows, macOS, Linux]
 - Browser: [e.g., Chrome, Safari]
 - Version: [e.g., 22]
 - Vitality v6y Version: [e.g., 1.0.0]
 
-### 📝 Additional Context
+### Additional Context
 Add any other context or information about your question or request here.
 
-### 🔗 Relevant Links (if any)
+### Relevant Links (if any)
 Add links to any relevant issues, discussions, or tickets.

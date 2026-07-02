@@ -44,7 +44,7 @@ vi.mock('@v6y/ui-kit', () => {
         useThemeConfigProvider: () => ({
             currentConfig: {
                 status: { error: 'red', success: 'green', warning: 'yellow', default: 'gray' },
-                statusIcons: { error: '❌', success: '✅', warning: '⚠️', default: 'ℹ️' },
+                statusIcons: { error: 'error', success: 'success', warning: 'warning', default: 'info' },
             },
         }),
         useTranslationProvider: vi.fn(() => ({

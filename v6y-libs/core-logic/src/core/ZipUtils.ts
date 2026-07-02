@@ -37,7 +37,7 @@ const cleanZipWorkspace = async (directoryPath: string) => {
             }
         }
     } catch (error) {
-        AppLogger.info(`[ZipUtils - cleanZipWorkspace] 🚫 exception: ${error}`);
+        AppLogger.info(`[ZipUtils - cleanZipWorkspace] exception: ${error}`);
     }
 };
 
@@ -91,11 +91,11 @@ const downloadZip = async ({
         AppLogger.info(`[ZipUtils - downloadZip] pipe response on zipWriterStream`);
 
         await finished(zipWriterStream);
-        AppLogger.info('[ZipUtils - downloadZip] 🎉 end of download');
+        AppLogger.info('[ZipUtils - downloadZip] end of download');
 
         return true;
     } catch (error) {
-        AppLogger.info(`[ZipUtils - downloadZip] 🚫 exception:  ${zipSourceUrl} / ${error}`);
+        AppLogger.info(`[ZipUtils - downloadZip] exception:  ${zipSourceUrl} / ${error}`);
         return false;
     }
 };
@@ -176,13 +176,13 @@ const unZipFile = async ({
         // Clean up any empty folders in the original source directory
         await cleanZipWorkspace(zipOriginalSourceDirPath);
 
-        AppLogger.info('[ZipUtils - unZipFile] 🎉 end unzipping file');
+        AppLogger.info('[ZipUtils - unZipFile] end unzipping file');
 
         // Return the path to the extracted directory
         return finalPath;
     } catch (error) {
         // Log any errors that occur during the unzipping process
-        AppLogger.info(`🚫 [ZipUtils - unZipFile] error: ${zipOriginalFileName} / ${error}`);
+        AppLogger.info(`[ZipUtils - unZipFile] error: ${zipOriginalFileName} / ${error}`);
         return null;
     }
 };
@@ -211,11 +211,11 @@ const deleteZip = ({ zipDir, zipDirFullPath }: ZipFileOptions) => {
             force: true,
         });
 
-        AppLogger.info('[ZipUtils - deleteZip] 🎉 end of deleting zip file');
+        AppLogger.info('[ZipUtils - deleteZip] end of deleting zip file');
 
         return true;
     } catch (error) {
-        AppLogger.info(`🚫 [ZipUtils - deleteZip] error:  ${zipDir} / ${error}`);
+        AppLogger.info(`[ZipUtils - deleteZip] error:  ${zipDir} / ${error}`);
         return false;
     }
 };

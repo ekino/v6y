@@ -151,8 +151,8 @@
         "greenIndex": {
           "hostingProvider": {
             "sectionTitle": "Hosting Provider",
-            "greenBadge": "Green Hosting ✔",
-            "nonGreenBadge": "Non-Green Hosting ✘",
+            "greenBadge": "Green Hosting",
+            "nonGreenBadge": "Non-Green Hosting",
             "providerLabel": "Provider:",
             "greenDescription": "This hosting provider uses verified renewable energy or has carbon offsets certified by The Green Web Foundation.",
             "nonGreenDescription": "This hosting provider has not been verified as using renewable energy by The Green Web Foundation."

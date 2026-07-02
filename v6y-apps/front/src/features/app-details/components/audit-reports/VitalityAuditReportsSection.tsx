@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 
 import { AuditType } from '@v6y/core-logic/src/types';
-import { Badge } from '@v6y/ui-kit-front';
+import { Badge, Check, Clipboard } from '@v6y/ui-kit-front';
 
 interface VitalityAuditReportsSectionProps {
     title: string;
@@ -79,7 +79,9 @@ const isDenseMetric = (reports: AuditType[]): boolean => {
     });
     if (excludeFromDense) return false;
 
-    const allReportsHaveStatus = reports.every((report) => report.scoreStatus || report.auditStatus);
+    const allReportsHaveStatus = reports.every(
+        (report) => report.scoreStatus || report.auditStatus,
+    );
     if (!allReportsHaveStatus) return false;
 
     // Check if most reports have the same score
@@ -275,13 +277,9 @@ const VitalityAuditReportsSection = ({
                                                                 title="Copy location"
                                                             >
                                                                 {copiedId === String(report._id) ? (
-                                                                    <span className="text-xs text-green-600">
-                                                                        ✓
-                                                                    </span>
+                                                                    <Check className="w-3 h-3 text-green-600" />
                                                                 ) : (
-                                                                    <span className="text-xs text-gray-500">
-                                                                        📋
-                                                                    </span>
+                                                                    <Clipboard className="w-3 h-3 text-gray-500" />
                                                                 )}
                                                             </button>
                                                         )}
