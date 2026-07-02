@@ -28,7 +28,7 @@
     "format": "prettier --write \"v6y-apps/*/src/**/*.{ts,tsx,js,jsx}\" \"v6y-libs/*/src/**/*.{ts,tsx,js,jsx}\"",
     "format:check": "prettier --check \"v6y-apps/*/src/**/*.{ts,tsx,js,jsx}\" \"v6y-libs/*/src/**/*.{ts,tsx,js,jsx}\"",
     "verify:code:duplication": "jscpd --config .jscpd.json",
-    "ts-coverage": "typescript-coverage-report",
+    "ts-coverage": "pnpm dlx typescript-coverage-report@1.1.1",
     "test": "nx run-many --target=test --all",
     "init-db": "nx run-many --target=init-db --all",
     "nx:analyze:graph": "nx graph",
@@ -39,16 +39,15 @@
     "knip:ci": "knip --no-progress"
   },
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "=6.0.0",
-    "@types/node": "=26.1.0",
-    "husky": "=9.1.7",
-    "jscpd": "=4.0.5",
-    "knip": "=5.76.3",
-    "lint-staged": "=16.2.7",
-    "nx": "22.0.2",
-    "prettier": "=3.4.2",
-    "typescript": "=5.7.3",
-    "typescript-coverage-report": "=1.1.1"
+    "@trivago/prettier-plugin-sort-imports": "catalog:",
+    "@types/node": "catalog:",
+    "husky": "catalog:",
+    "jscpd": "catalog:",
+    "knip": "catalog:",
+    "lint-staged": "catalog:",
+    "nx": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:"
   },
   "lint-staged": {
     "v6y-apps/*/src/**/*.{ts,tsx,js,jsx}": [
