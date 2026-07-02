@@ -10,12 +10,14 @@ const { formatGreenHostingReports } = GreenHostingUtils;
  * Iterates over production links and checks them against
  * The Green Web Foundation API.
  * @param applicationId
+ * @param auditRunId
  */
-const startAuditorAnalysis = async ({ applicationId }: AuditCommonsType) => {
+const startAuditorAnalysis = async ({ applicationId, auditRunId }: AuditCommonsType) => {
     try {
         AppLogger.info(
             `[GreenHostingAuditor - startAuditorAnalysis] applicationId: ${applicationId}`,
         );
+        AppLogger.info(`[GreenHostingAuditor - startAuditorAnalysis] auditRunId: ${auditRunId}`);
 
         if (applicationId === undefined) {
             AppLogger.warn(
@@ -66,6 +68,15 @@ const startAuditorAnalysis = async ({ applicationId }: AuditCommonsType) => {
 
         if (!greenHostingReports.length) {
             return true;
+        }
+
+        // Add auditRunId to each report
+        if (auditRunId) {
+            const auditRunIdNum =
+                typeof auditRunId === 'string' ? parseInt(auditRunId, 10) : auditRunId;
+            greenHostingReports.forEach((audit) => {
+                audit.auditRunId = auditRunIdNum;
+            });
         }
 
         await AuditProvider.insertAuditList(greenHostingReports);

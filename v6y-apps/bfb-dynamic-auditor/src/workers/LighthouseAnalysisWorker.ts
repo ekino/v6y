@@ -7,9 +7,10 @@ import LighthouseAuditor from '../auditors/lighthouse/LighthouseAuditor.ts';
 AppLogger.info('******************** Starting background Audit **************************');
 
 try {
-    const { applicationId, workspaceFolder, chromeExecutablePath } = workerData || {};
+    const { applicationId, workspaceFolder, chromeExecutablePath, auditRunId } = workerData || {};
     AppLogger.info(`[LighthouseAnalysisWorker] applicationId:  ${applicationId}`);
     AppLogger.info(`[LighthouseAnalysisWorker] workspaceFolder:  ${workspaceFolder}`);
+    AppLogger.info(`[LighthouseAnalysisWorker] auditRunId:  ${auditRunId}`);
 
     // *********************************************** Database Configuration and Connection ***********************************************
     await DataBaseManager.connect();
@@ -18,6 +19,7 @@ try {
     PerformancesUtils.startMeasure('LighthouseAnalysisWorker-startAuditorAnalysis');
     await LighthouseAuditor.startAuditorAnalysis({
         applicationId,
+        auditRunId,
         browserPath: chromeExecutablePath,
     });
     PerformancesUtils.endMeasure('LighthouseAnalysisWorker-startAuditorAnalysis');

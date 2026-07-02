@@ -53,6 +53,7 @@ export const checkForStaticAudits = async (applicationId: number | undefined): P
 export const buildApplicationBackendByBranch = async ({
     applicationId,
     workspaceFolder,
+    auditRunId,
 }: BuildApplicationParams) => {
     try {
         AppLogger.info(
@@ -62,6 +63,10 @@ export const buildApplicationBackendByBranch = async ({
         AppLogger.info(
             '[ApplicationManager - buildApplicationBackendByBranch] workspaceFolder: ',
             workspaceFolder,
+        );
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationBackendByBranch] auditRunId: ',
+            auditRunId,
         );
         return true;
     } catch (error) {
@@ -74,10 +79,12 @@ export const buildApplicationBackendByBranch = async ({
  * Builds the application frontend by branch.
  * @param applicationId
  * @param workspaceFolder
+ * @param auditRunId
  */
 export const buildApplicationFrontendByBranch = async ({
     applicationId,
     workspaceFolder,
+    auditRunId,
 }: BuildApplicationParams) => {
     AppLogger.info(
         '[ApplicationManager - buildApplicationFrontendByBranch] Starting static auditor for applicationId: ',
@@ -88,15 +95,28 @@ export const buildApplicationFrontendByBranch = async ({
         workspaceFolder,
     );
     AppLogger.info(
+        '[ApplicationManager - buildApplicationFrontendByBranch] auditRunId: ',
+        auditRunId,
+    );
+    AppLogger.info(
         '[ApplicationManager - buildApplicationFrontendByBranch] staticAuditorApiPath: ',
         staticAuditorApiPath,
     );
 
     try {
+        AppLogger.debug(
+            '[ApplicationManager - buildApplicationFrontendByBranch] URL type: ',
+            typeof staticAuditorApiPath,
+        );
+        AppLogger.debug(
+            '[ApplicationManager - buildApplicationFrontendByBranch] URL length: ',
+            typeof staticAuditorApiPath === 'string' ? staticAuditorApiPath.length : 'N/A',
+        );
+
         const response = await fetch(staticAuditorApiPath as string, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ applicationId, workspaceFolder }),
+            body: JSON.stringify({ applicationId, workspaceFolder, auditRunId }),
         });
 
         AppLogger.info(
@@ -240,15 +260,21 @@ const extractBranchZip = async (
 /**
  * Triggers the static auditors for the branch.
  */
-const triggerStaticAuditors = async (applicationId: number, workspaceFolder: string) => {
+const triggerStaticAuditors = async (
+    applicationId: number,
+    workspaceFolder: string,
+    auditRunId?: string,
+) => {
     await buildApplicationFrontendByBranch({
         applicationId,
         workspaceFolder,
+        auditRunId,
     });
 
     await buildApplicationBackendByBranch({
         applicationId,
         workspaceFolder,
+        auditRunId,
     });
 };
 
@@ -256,10 +282,12 @@ const triggerStaticAuditors = async (applicationId: number, workspaceFolder: str
  * Builds the application details by branch.
  * @param application
  * @param branch
+ * @param auditRunId
  */
 export const buildApplicationDetailsByBranch = async ({
     application,
     branch,
+    auditRunId,
 }: BuildApplicationParams) => {
     try {
         AppLogger.info(
@@ -267,6 +295,10 @@ export const buildApplicationDetailsByBranch = async ({
             application,
         );
         AppLogger.info('[ApplicationManager - buildApplicationDetailsByBranch] branch: ', branch);
+        AppLogger.info(
+            '[ApplicationManager - buildApplicationDetailsByBranch] auditRunId: ',
+            auditRunId,
+        );
 
         if (!application) return false;
 
@@ -300,7 +332,7 @@ export const buildApplicationDetailsByBranch = async ({
             return false;
         }
 
-        await triggerStaticAuditors(application._id, workspaceFolder!);
+        await triggerStaticAuditors(application._id, workspaceFolder!, auditRunId);
 
         return true;
     } catch (error) {

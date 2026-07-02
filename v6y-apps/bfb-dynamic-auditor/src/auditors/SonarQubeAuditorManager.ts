@@ -149,10 +149,16 @@ const fetchSonarQubeData = async (
  * Fetches SonarQube metrics for an application and persists them as AuditType records in the DB.
  * Follows the same batch auditor pattern as LighthouseAuditor.
  */
-const startAuditorAnalysis = async ({ applicationId }: AuditCommonsType): Promise<boolean> => {
+const startAuditorAnalysis = async ({
+    applicationId,
+    auditRunId,
+}: AuditCommonsType): Promise<boolean> => {
     try {
         AppLogger.info(
             `[SonarQubeAuditorManager - startAuditorAnalysis] applicationId: ${applicationId}`,
+        );
+        AppLogger.info(
+            `[SonarQubeAuditorManager - startAuditorAnalysis] auditRunId: ${auditRunId}`,
         );
 
         if (applicationId === undefined) {
@@ -233,6 +239,15 @@ const startAuditorAnalysis = async ({ applicationId }: AuditCommonsType): Promis
                 scoreUnit: PERCENTAGE_METRICS.has(m.metric) ? '%' : '',
                 extraInfos: JSON.stringify({ name: METRIC_LABELS[m.metric] || m.metric }),
                 module: { appId: applicationId },
+            });
+        }
+
+        // Add auditRunId to each report
+        if (auditRunId) {
+            const auditRunIdNum =
+                typeof auditRunId === 'string' ? parseInt(auditRunId, 10) : auditRunId;
+            auditReports.forEach((audit) => {
+                audit.auditRunId = auditRunIdNum;
             });
         }
 

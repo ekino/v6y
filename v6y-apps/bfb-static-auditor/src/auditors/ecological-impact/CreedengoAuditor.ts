@@ -10,7 +10,11 @@ const { formatCreedengoReports } = CreedengoUtils;
  * @param applicationId
  * @param workspaceFolder
  */
-const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: CreedengoAuditType) => {
+const startAuditorAnalysis = async ({
+    applicationId,
+    workspaceFolder,
+    auditRunId,
+}: CreedengoAuditType) => {
     try {
         AppLogger.info(
             `[CreedengoAuditor - startAuditorAnalysis] Starting ecological impact analysis`,
@@ -21,6 +25,7 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: Creedeng
         AppLogger.info(
             `[CreedengoAuditor - startAuditorAnalysis] workspaceFolder:  ${workspaceFolder}`,
         );
+        AppLogger.info(`[CreedengoAuditor - startAuditorAnalysis] auditRunId:  ${auditRunId}`);
 
         if (applicationId === undefined || !workspaceFolder?.length) {
             AppLogger.warn(
@@ -57,6 +62,16 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: Creedeng
             AppLogger.info(`[CreedengoAuditor - startAuditorAnalysis] No reports to insert`);
             return true;
         }
+
+        // Add appId and auditRunId to each report
+        creedengoAuditReports.forEach((audit) => {
+            audit.appId = applicationId;
+            if (auditRunId) {
+                const auditRunIdNum =
+                    typeof auditRunId === 'string' ? parseInt(auditRunId, 10) : auditRunId;
+                audit.auditRunId = auditRunIdNum;
+            }
+        });
 
         await AuditProvider.insertAuditList(creedengoAuditReports);
 

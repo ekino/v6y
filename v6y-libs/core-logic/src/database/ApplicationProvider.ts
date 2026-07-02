@@ -238,7 +238,7 @@ const getApplicationDetailsInfoByParams = async ({ _id }: ApplicationType) => {
         if (!_id) return null;
         const application = await getPrismaClient().application.findUnique({ where: { id: _id } });
         if (!application) return null;
-        return { ...application, _id: application.id };
+        return { ...application, _id: application.id } as unknown as ApplicationType;
     } catch (error) {
         AppLogger.error('[ApplicationProvider - getApplicationDetailsInfoByParams] error: ', error);
         return null;

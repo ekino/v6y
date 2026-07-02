@@ -7,8 +7,9 @@ import DoraMetricsAuditor from '../auditors/dora-metrics/DoraMetricsAuditor.ts';
 AppLogger.info('******************** Starting background Audit **************************');
 
 try {
-    const { applicationId } = workerData || {};
+    const { applicationId, auditRunId } = workerData || {};
     AppLogger.info(`[DoraMetricsAnalysisWorker] applicationId:  ${applicationId}`);
+    AppLogger.info(`[DoraMetricsAnalysisWorker] auditRunId:  ${auditRunId}`);
 
     // *********************************************** Database Configuration and Connection ***********************************************
     await DataBaseManager.connect();
@@ -18,6 +19,7 @@ try {
 
     const result = await DoraMetricsAuditor.startAuditorAnalysis({
         applicationId,
+        auditRunId,
     });
 
     PerformancesUtils.endMeasure('DoraMetricsAnalysisWorker-startAuditorAnalysis');

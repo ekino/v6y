@@ -3,6 +3,7 @@ import { MonitoringEventType, RepositoryType } from '@v6y/core-logic';
 
 export interface DoraMetricsAuditConfigType {
     applicationId?: number;
+    auditRunId?: string;
 }
 
 export interface startDoraMetricsAnalysisParamsType {

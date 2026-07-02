@@ -3,6 +3,7 @@ import {
     AppLogger,
     ApplicationProvider,
     ApplicationType,
+    AuditRunProvider,
     SearchQueryType,
 } from '@v6y/core-logic';
 
@@ -78,6 +79,97 @@ const getApplicationDetailsAuditReportsByParams = async (
         return auditsReports;
     } catch (error) {
         AppLogger.info(`[ApplicationQueries - getApplicationDetailsAuditReports] error : ${error}`);
+        return [];
+    }
+};
+
+/**
+ * Get application audit runs history by params
+ * @param _
+ * @param args
+ * @param user
+ */
+const getApplicationAuditRunsByParams = async (
+    _: unknown,
+    args: ApplicationType,
+    { user }: { user: AccountType },
+) => {
+    try {
+        const { _id } = args || {};
+
+        AppLogger.info(`[ApplicationQueries - getApplicationAuditRuns] Received args:`, args);
+        AppLogger.info(`[ApplicationQueries - getApplicationAuditRuns] _id : ${_id}`);
+
+        if (!_id) {
+            AppLogger.error('[ApplicationQueries - getApplicationAuditRuns] Missing _id parameter');
+            return [];
+        }
+
+        if (!(user.role === 'ADMIN' || user.role === 'SUPERADMIN')) {
+            const userApplicationsIds = user.applications || [];
+            if (!userApplicationsIds.includes(_id)) {
+                AppLogger.warn(
+                    `[ApplicationQueries - getApplicationAuditRuns] Unauthorized access attempt for app ${_id}`,
+                );
+                throw new Error('Unauthorized');
+            }
+        }
+
+        const auditRuns = await AuditRunProvider.getAuditRunsByAppId(_id);
+
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationAuditRuns] Found ${auditRuns?.length} audit runs for app ${_id}`,
+        );
+
+        return auditRuns || [];
+    } catch (error) {
+        AppLogger.error(
+            `[ApplicationQueries - getApplicationAuditRuns] error for app ${args?._id} : ${error}`,
+        );
+        return [];
+    }
+};
+
+/**
+ * Get all audit runs across all applications (respecting user authorization)
+ * @param _
+ * @param args
+ * @param user
+ */
+const getAllAuditRuns = async (
+    _: unknown,
+    args: { limit?: number; offset?: number },
+    { user }: { user: AccountType },
+) => {
+    try {
+        const { limit, offset } = args || {};
+
+        AppLogger.info(
+            `[ApplicationQueries - getAllAuditRuns] Received args: limit=${limit}, offset=${offset}`,
+        );
+
+        // Get all audit runs
+        const allAuditRuns = await AuditRunProvider.getAllAuditRuns(limit, offset);
+
+        // If user is SUPERADMIN or ADMIN, return all audit runs
+        if (user.role === 'ADMIN' || user.role === 'SUPERADMIN') {
+            AppLogger.info(
+                `[ApplicationQueries - getAllAuditRuns] Returning ${allAuditRuns?.length} audit runs for ${user.role}`,
+            );
+            return allAuditRuns || [];
+        }
+
+        // Otherwise, filter to only include audit runs from apps the user has access to
+        const userApplicationsIds = user.applications || [];
+        const filteredRuns = allAuditRuns.filter((run) => userApplicationsIds.includes(run.appId));
+
+        AppLogger.info(
+            `[ApplicationQueries - getAllAuditRuns] Returning ${filteredRuns?.length} audit runs for user with access to ${userApplicationsIds.length} apps`,
+        );
+
+        return filteredRuns || [];
+    } catch (error) {
+        AppLogger.error(`[ApplicationQueries - getAllAuditRuns] error: ${error}`);
         return [];
     }
 };
@@ -327,15 +419,176 @@ const getApplicationTotalByParams = async (
     }
 };
 
+/**
+ * Get application audit history by params
+ * @param _
+ * @param args
+ * @param user
+ */
+const getApplicationAuditHistoryByParams = async (
+    _: unknown,
+    args: { _id: number; limit?: number; offset?: number },
+    { user }: { user: AccountType },
+) => {
+    try {
+        const { _id, limit, offset } = args || {};
+
+        if (!(user.role === 'ADMIN' || user.role === 'SUPERADMIN')) {
+            const userApplicationsIds = user.applications || [];
+            if (!userApplicationsIds.includes(_id)) {
+                throw new Error('Unauthorized');
+            }
+        }
+
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationAuditHistoryByParams] _id: ${_id}, limit: ${limit}, offset: ${offset}`,
+        );
+
+        const auditRuns = await AuditRunProvider.getAuditRunsByApplicationId(_id, limit, offset);
+
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationAuditHistoryByParams] auditRuns count: ${auditRuns?.length}`,
+        );
+
+        return auditRuns;
+    } catch (error) {
+        AppLogger.error(
+            `[ApplicationQueries - getApplicationAuditHistoryByParams] error: ${error}`,
+        );
+        return [];
+    }
+};
+
+/**
+ * Get application audit history count by params
+ * @param _
+ * @param args
+ * @param user
+ */
+const getApplicationAuditHistoryCountByParams = async (
+    _: unknown,
+    args: { _id: number },
+    { user }: { user: AccountType },
+) => {
+    try {
+        const { _id } = args || {};
+
+        if (!(user.role === 'ADMIN' || user.role === 'SUPERADMIN')) {
+            const userApplicationsIds = user.applications || [];
+            if (!userApplicationsIds.includes(_id)) {
+                throw new Error('Unauthorized');
+            }
+        }
+
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationAuditHistoryCountByParams] _id: ${_id}`,
+        );
+
+        const count = await AuditRunProvider.getAuditRunsCountByApplicationId(_id);
+
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationAuditHistoryCountByParams] count: ${count}`,
+        );
+
+        return count;
+    } catch (error) {
+        AppLogger.error(
+            `[ApplicationQueries - getApplicationAuditHistoryCountByParams] error: ${error}`,
+        );
+        return 0;
+    }
+};
+
+/**
+ * Get application latest audit run by params
+ * @param _
+ * @param args
+ * @param user
+ */
+const getApplicationLatestAuditRunByParams = async (
+    _: unknown,
+    args: { _id: number },
+    { user }: { user: AccountType },
+) => {
+    try {
+        const { _id } = args || {};
+
+        if (!(user.role === 'ADMIN' || user.role === 'SUPERADMIN')) {
+            const userApplicationsIds = user.applications || [];
+            if (!userApplicationsIds.includes(_id)) {
+                throw new Error('Unauthorized');
+            }
+        }
+
+        AppLogger.info(`[ApplicationQueries - getApplicationLatestAuditRunByParams] _id: ${_id}`);
+
+        const auditRun = await AuditRunProvider.getLatestAuditRun(_id);
+
+        AppLogger.info(
+            `[ApplicationQueries - getApplicationLatestAuditRunByParams] auditRun: ${auditRun?._id}`,
+        );
+
+        return auditRun;
+    } catch (error) {
+        AppLogger.error(
+            `[ApplicationQueries - getApplicationLatestAuditRunByParams] error: ${error}`,
+        );
+        return null;
+    }
+};
+
+/**
+ * Get audit run details by params
+ * @param _
+ * @param args
+ * @param user
+ */
+const getAuditRunDetailsByParams = async (
+    _: unknown,
+    args: { _id: number },
+    { user }: { user: AccountType },
+) => {
+    try {
+        const { _id } = args || {};
+
+        AppLogger.info(`[ApplicationQueries - getAuditRunDetailsByParams] _id: ${_id}`);
+
+        const auditRun = await AuditRunProvider.getAuditRunById(_id);
+
+        // Check authorization if audit run exists and user is not ADMIN/SUPERADMIN
+        if (auditRun && !(user.role === 'ADMIN' || user.role === 'SUPERADMIN')) {
+            const userApplicationsIds = user.applications || [];
+            if (!userApplicationsIds.includes(auditRun.appId)) {
+                throw new Error('Unauthorized');
+            }
+        }
+
+        AppLogger.info(
+            `[ApplicationQueries - getAuditRunDetailsByParams] auditRun: ${auditRun?._id}`,
+        );
+
+        return auditRun;
+    } catch (error) {
+        AppLogger.error(`[ApplicationQueries - getAuditRunDetailsByParams] error: ${error}`);
+        return null;
+    }
+};
+
 const ApplicationQueries = {
     getApplicationDetailsInfoByParams,
     getApplicationDetailsAuditReportsByParams,
+    getApplicationAuditRunsByParams,
+    getAllAuditRuns,
     getApplicationDetailsEvolutionsByParams,
     getApplicationDetailsDependenciesByParams,
     getApplicationDetailsKeywordsByParams,
     getApplicationTotalByParams,
     getApplicationListByPageAndParams,
     getApplicationStatsByParams,
+    getApplicationAuditHistoryByParams,
+    getApplicationAuditHistoryCountByParams,
+    getApplicationLatestAuditRunByParams,
+    getAuditRunDetailsByParams,
 };
 
 export default ApplicationQueries;

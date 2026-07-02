@@ -10,7 +10,11 @@ const { formatCodeModularityReports } = CodeSecurityUtils;
  * @param applicationId
  * @param workspaceFolder
  */
-const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: AuditCommonsType) => {
+const startAuditorAnalysis = async ({
+    applicationId,
+    workspaceFolder,
+    auditRunId,
+}: AuditCommonsType) => {
     try {
         AppLogger.info(
             `[CodeSecurityAuditor - startAuditorAnalysis] applicationId:  ${applicationId}`,
@@ -18,6 +22,7 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: AuditCom
         AppLogger.info(
             `[CodeSecurityAuditor - startAuditorAnalysis] workspaceFolder:  ${workspaceFolder}`,
         );
+        AppLogger.info(`[CodeSecurityAuditor - startAuditorAnalysis] auditRunId:  ${auditRunId}`);
 
         if (applicationId === undefined || !workspaceFolder?.length) {
             return false;
@@ -41,6 +46,16 @@ const startAuditorAnalysis = async ({ applicationId, workspaceFolder }: AuditCom
         const securityAuditReports = await formatCodeModularityReports({
             application,
             workspaceFolder,
+        });
+
+        // Add appId and auditRunId to each report
+        securityAuditReports.forEach((audit) => {
+            audit.appId = applicationId;
+            if (auditRunId) {
+                const auditRunIdNum =
+                    typeof auditRunId === 'string' ? parseInt(auditRunId, 10) : auditRunId;
+                audit.auditRunId = auditRunIdNum;
+            }
         });
 
         await AuditProvider.insertAuditList(securityAuditReports);

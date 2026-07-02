@@ -17,6 +17,7 @@ const basePath = (currentConfig?.devopsAuditorApiPath || '').toString();
 
 interface StartDevOpsAuditorBody {
     applicationId?: number;
+    auditRunId?: string;
 }
 
 interface StartDevOpsAuditorResponse {
@@ -33,7 +34,7 @@ export class DevOpsAuditorController {
     ): Promise<StartDevOpsAuditorResponse> {
         AppLogger.debug('[DevOpsAuditorController] Entering service: [start-devops-auditor]');
 
-        const { applicationId } = body || {};
+        const { applicationId, auditRunId } = body || {};
         AppLogger.info(`[DevOpsAuditorController] applicationId: ${applicationId}`);
 
         if (!applicationId) {
@@ -50,6 +51,7 @@ export class DevOpsAuditorController {
         try {
             auditsStartedSuccessfully = await DevOpsAuditorManager.startDevOpsAudit({
                 applicationId,
+                auditRunId,
             });
         } catch (error) {
             AppLogger.error(

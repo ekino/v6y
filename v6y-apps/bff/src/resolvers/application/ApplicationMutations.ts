@@ -5,6 +5,36 @@ import {
     SearchQueryType,
 } from '@v6y/core-logic';
 
+import ServerConfig from '../../config/ServerConfig.ts';
+
+const { currentConfig } = ServerConfig;
+
+/**
+ * Trigger audit analysis via main-analyzer
+ */
+const triggerAuditAnalysis = async (
+    applicationId: number,
+    branch: string | undefined,
+    analysisTypes: string[],
+) => {
+    try {
+        const mainAnalyzerUrl = currentConfig?.mainAnalyzerApiPath;
+        if (!mainAnalyzerUrl) {
+            AppLogger.warn(
+                '[AppMutations - triggerApplicationAnalysis] Missing mainAnalyzerApiPath configuration',
+            );
+            return;
+        }
+        await fetch(mainAnalyzerUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ applicationId, branch, analysisTypes }),
+        });
+    } catch (err) {
+        AppLogger.warn(`[AppMutations - triggerApplicationAnalysis] Main analyzer error: ${err}`);
+    }
+};
+
 /**
  * Create or edit application
  * @param _
@@ -47,10 +77,10 @@ const createOrEditApplication = async (
             `[AppMutations - createOrEditApplication] gitOrganization : ${gitOrganization}`,
         );
         AppLogger.info(
-            `[AppMutations - createOrEditApplication] dataDogApiKey : ${dataDogApiKey ? '"********"}`,' : 'null'}`,
+            `[AppMutations - createOrEditApplication] dataDogApiKey : ${dataDogApiKey ? '"********"' : 'null'}`,
         );
         AppLogger.info(
-            `[AppMutations - createOrEditApplication] dataDogAppKey : ${dataDogAppKey ? '"********"}`,' : 'null'}`,
+            `[AppMutations - createOrEditApplication] dataDogAppKey : ${dataDogAppKey ? '"********"' : 'null'}`,
         );
         AppLogger.info(`[AppMutations - createOrEditApplication] dataDogUrl : ${dataDogUrl}`);
         AppLogger.info(
@@ -166,9 +196,101 @@ const deleteApplication = async (_: unknown, params: { input: SearchQueryType })
     }
 };
 
+/**
+ * Trigger application analysis
+ * @param _
+ * @param params
+ */
+const triggerApplicationAnalysis = async (
+    _: unknown,
+    params: {
+        input: {
+            applicationId: number;
+            branch?: string;
+            analysisTypes: string[];
+        };
+    },
+) => {
+    try {
+        const { applicationId, branch, analysisTypes } = params?.input || {};
+
+        if (!applicationId || !analysisTypes || analysisTypes.length === 0) {
+            AppLogger.error(
+                '[AppMutations - triggerApplicationAnalysis] Missing required parameters',
+            );
+            return {
+                success: false,
+                message: 'Missing applicationId or analysisTypes',
+                applicationId,
+                branch,
+                auditRun: null,
+            };
+        }
+
+        AppLogger.info(
+            `[AppMutations - triggerApplicationAnalysis] applicationId: ${applicationId}, branch: ${branch}, analysisTypes: ${analysisTypes.join(',')}`,
+        );
+
+        // Verify application exists
+        const application = await ApplicationProvider.getApplicationDetailsInfoByParams({
+            _id: applicationId,
+        });
+
+        if (!application) {
+            AppLogger.error(
+                `[AppMutations - triggerApplicationAnalysis] Application not found: ${applicationId}`,
+            );
+            return {
+                success: false,
+                message: 'Application not found',
+                applicationId,
+                branch,
+                auditRun: null,
+            };
+        }
+
+        AppLogger.info(
+            `[AppMutations - triggerApplicationAnalysis] applicationId: ${applicationId}, branch: ${branch}, analysisTypes: ${analysisTypes.join(',')}`,
+        );
+
+        // Trigger async analysis job via main-analyzer
+        (async () => {
+            try {
+                AppLogger.info(
+                    `[AppMutations - triggerApplicationAnalysis] Triggering main-analyzer for app ${applicationId}`,
+                );
+                await triggerAuditAnalysis(applicationId, branch, analysisTypes);
+            } catch (asyncError) {
+                AppLogger.error(
+                    `[AppMutations - triggerApplicationAnalysis] Async analysis job error: ${asyncError}`,
+                );
+            }
+        })();
+
+        return {
+            success: true,
+            message: 'Analysis triggered successfully',
+            applicationId,
+            branch,
+            auditRun: null,
+        };
+    } catch (error) {
+        AppLogger.error(`[AppMutations - triggerApplicationAnalysis] error: ${error}`);
+
+        return {
+            success: false,
+            message: `Error triggering analysis: ${error}`,
+            applicationId: params?.input?.applicationId,
+            branch: params?.input?.branch,
+            auditRun: null,
+        };
+    }
+};
+
 const ApplicationMutations = {
     createOrEditApplication,
     deleteApplication,
+    triggerApplicationAnalysis,
 };
 
 export default ApplicationMutations;

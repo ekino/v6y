@@ -22,11 +22,12 @@ services:
       context: .
       dockerfile: v6y-config/Dockerfile.migrations
     environment:
-      - PSQL_DB_HOST=${PSQL_DB_HOST}
+      - PSQL_DB_HOST=v6y-database
       - PSQL_DB_NAME=${PSQL_DB_NAME}
       - PSQL_DB_USER=${PSQL_DB_USER}
       - PSQL_DB_PASSWORD=${PSQL_DB_PASSWORD}
       - PSQL_DB_PORT=${PSQL_DB_PORT}
+      - DATABASE_URL=postgresql://${PSQL_DB_USER}:${PSQL_DB_PASSWORD}@v6y-database:${PSQL_DB_PORT}/${PSQL_DB_NAME}
     depends_on:
       v6y-database:
         condition: service_healthy
@@ -85,7 +86,11 @@ services:
       - V6Y_MAIN_API_PATH=${V6Y_MAIN_API_PATH}
       - V6Y_MAIN_API_PORT=${V6Y_MAIN_API_PORT}
       - V6Y_STATIC_ANALYZER_API_PATH=${V6Y_STATIC_ANALYZER_API_PATH}
+      - V6Y_STATIC_ANALYZER_API_PORT=${V6Y_STATIC_ANALYZER_API_PORT}
       - V6Y_DYNAMIC_ANALYZER_API_PATH=${V6Y_DYNAMIC_ANALYZER_API_PATH}
+      - V6Y_DYNAMIC_ANALYZER_API_PORT=${V6Y_DYNAMIC_ANALYZER_API_PORT}
+      - V6Y_DEVOPS_API_PATH=${V6Y_DEVOPS_API_PATH}
+      - V6Y_DEVOPS_API_PORT=${V6Y_DEVOPS_API_PORT}
     depends_on:
       v6y-migrate:
         condition: service_completed_successfully

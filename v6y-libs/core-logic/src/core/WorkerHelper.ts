@@ -7,7 +7,7 @@ import { Worker, WorkerOptions } from 'worker_threads';
  * @param filepath
  * @param workerData
  */
-const forkWorker = (filepath: string, workerData: WorkerOptions) => {
+const forkWorker = (filepath: string, workerData: WorkerOptions['workerData']) => {
     return new Promise((resolve, reject) => {
         const absolutePath = path.isAbsolute(filepath)
             ? filepath
@@ -21,7 +21,6 @@ const forkWorker = (filepath: string, workerData: WorkerOptions) => {
                   { eval: true, workerData },
               )
             : new Worker(absolutePath, { workerData });
-
         worker.on('online', () => {
             console.log('******************** Launching intensive CPU task ******************** ');
         });

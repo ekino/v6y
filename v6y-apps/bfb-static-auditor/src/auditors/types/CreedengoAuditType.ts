@@ -4,4 +4,5 @@ export interface CreedengoAuditType {
     application?: ApplicationType;
     applicationId?: number;
     workspaceFolder?: string;
+    auditRunId?: string;
 }

@@ -27,22 +27,13 @@ const startUpdateWorkers = () => {
  * Database updates are performed by default at startup, then every midnight.
  */
 const start = () => {
-    // Check every second to make sure the main thread is still responsive
-    setInterval(() => {
-        AppLogger.info(
-            '******************** Checking that the main thread is not blocked **************************',
-        );
-    }, 1000);
-
-    // Initial update
-    AppLogger.info('******************** Starting initial update **************************');
     setTimeout(() => {
+        AppLogger.info('[DataUpdateScheduler] Starting initial data update...');
         startUpdateWorkers();
-    }, 2000); // Delay the initial update by 2 seconds
+    }, 2000);
 
-    // Schedule periodic updates (every midnight)
     const job = CronJob.schedule('00 00 00 * * *', () => {
-        AppLogger.info('******************** Starting scheduled update **************************');
+        AppLogger.info('[DataUpdateScheduler] Starting scheduled data update...');
         startUpdateWorkers();
     });
     job.start();

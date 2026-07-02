@@ -211,6 +211,35 @@
           "title": "Toutes les Dépendances sont à Jour",
           "description": "Aucune dépendance obsolète avec des problèmes de sécurité ou de compatibilité n'a été trouvée"
         }
+      },
+      "auditHistory": {
+        "title": "Historique des audits",
+        "description": "Liste complète des exécutions d'audit avec statuts, dates et détails",
+        "emptyMessage": "Aucun audit n'a été exécuté pour cette application",
+        "table": {
+          "columns": {
+            "status": "Statut",
+            "analysisTypes": "Types d'analyse",
+            "triggered": "Déclenché",
+            "duration": "Durée",
+            "audits": "Audits"
+          }
+        },
+        "statuses": {
+          "pending": "En attente",
+          "in_progress": "En cours",
+          "completed": "Complété",
+          "failed": "Échoué",
+          "error": "Erreur"
+        },
+        "mobile": {
+          "status": "Statut",
+          "date": "Date",
+          "types": "Types",
+          "duration": "Durée",
+          "audits": "Audits",
+          "error": "Erreur"
+        }
       }
     },
     "appStatsPage": {

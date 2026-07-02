@@ -10,4 +10,5 @@ export interface BuildApplicationParams {
     application?: ApplicationType;
     branch?: BuildApplicationBranchParams;
     branches?: BuildApplicationBranchParams[];
+    auditRunId?: string;
 }
