@@ -84,9 +84,12 @@ const VitalityAuditReportsView = ({
     const sourceAuditReports =
         auditReports || appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams || [];
 
-    const branchFilteredAuditReports = sourceAuditReports.filter((report) =>
-        matchesAuditReportBranch(report, branch),
-    );
+    // When audit reports come from a specific run (report-details page), they are
+    // already scoped to that run: skip the branch filter which would otherwise drop
+    // audits whose module.branch does not match the app's auto-selected branch.
+    const branchFilteredAuditReports = auditReports
+        ? sourceAuditReports
+        : sourceAuditReports.filter((report) => matchesAuditReportBranch(report, branch));
 
     // Filter to show static audit reports (exclude lighthouse)
     const staticAuditReports = branchFilteredAuditReports.filter(

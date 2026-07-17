@@ -21,6 +21,8 @@ const GetAuditRunDetailsByParams = gql`
                 score
                 scoreUnit
                 extraInfos
+                dateStart
+                dateEnd
                 module {
                     branch
                     path

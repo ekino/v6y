@@ -141,8 +141,14 @@ const VitalitySecuritySection = ({
     // Filter to show static audit reports (exclude lighthouse)
     const sourceAuditReports =
         auditReports || appDetailsAuditReports?.getApplicationDetailsAuditReportsByParams || [];
-    const staticAuditReports = sourceAuditReports.filter(
-        (report) => report.type !== 'Lighthouse' && matchesAuditReportBranch(report, branch),
+
+    // When audit reports come from a specific run (report-details page), they are
+    // already scoped to that run: skip the branch filter to avoid dropping audits
+    // whose module.branch does not match the app's auto-selected branch.
+    const staticAuditReports = sourceAuditReports.filter((report) =>
+        auditReports
+            ? report.type !== 'Lighthouse'
+            : report.type !== 'Lighthouse' && matchesAuditReportBranch(report, branch),
     );
 
     // Filter security reports
