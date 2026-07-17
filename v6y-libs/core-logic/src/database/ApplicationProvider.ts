@@ -26,7 +26,6 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
         codeQualityPlatformLink,
         ciPlatformLink,
         deploymentPlatformLink,
-        additionalProductionLinks,
         dataDogApiKey,
         dataDogAppKey,
         dataDogUrl,
@@ -41,11 +40,6 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
         repo: { webUrl: gitWebUrl, gitUrl, organization: gitOrganization },
         links: [
             { label: 'Application production url', value: productionLink, description: '' },
-            ...(additionalProductionLinks?.map((link, index) => ({
-                label: 'Additional production url (' + (index + 1) + ')',
-                value: link,
-                description: '',
-            })) || []),
             {
                 label: 'Application SonarQube url',
                 value: sonarqubeLink,

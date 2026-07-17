@@ -34,5 +34,4 @@ export interface ApplicationInputType {
     codeQualityPlatformLink?: string;
     ciPlatformLink?: string;
     deploymentPlatformLink?: string;
-    additionalProductionLinks?: string[];
 }

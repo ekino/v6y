@@ -38,10 +38,8 @@ describe('VitalityFormConfig - Form Items', () => {
     it('should generate required application links form items correctly', () => {
         const result = applicationRequiredLinksFormItems(mockTranslate);
 
-        expect(result).toHaveLength(3);
-        expect(result[0].id).toBe('app-production-link-1');
-        expect(result[1].id).toBe('app-production-link-2');
-        expect(result[2].id).toBe('app-production-link-3');
+        expect(result).toHaveLength(1);
+        expect(result[0].id).toBe('app-production-link');
     });
 
     it('should generate optional application links form items correctly', () => {
@@ -78,8 +76,6 @@ describe('VitalityFormConfig - Form Items', () => {
             },
             links: [
                 { label: 'Application production url', value: 'https://testapp.com' },
-                { label: 'Additional production url (1)', value: 'https://testapp2.com' },
-                { label: 'Additional production url (2)', value: 'https://testapp3.com' },
                 {
                     label: 'Application SonarQube url',
                     value: 'https://sonarqube.example.com/dashboard?id=testapp',
@@ -109,9 +105,7 @@ describe('VitalityFormConfig - Form Items', () => {
             'app-git-organization': 'TestOrg',
             'app-git-web-url': 'https://testrepo.com',
             'app-git-url': 'https://git.testrepo.com',
-            'app-production-link-1': 'https://testapp.com',
-            'app-production-link-2': 'https://testapp2.com',
-            'app-production-link-3': 'https://testapp3.com',
+            'app-production-link': 'https://testapp.com',
             'app-sonarqube-link': 'https://sonarqube.example.com/dashboard?id=testapp',
             'app-sonarqube-token': undefined,
             'app-code-quality-platform-link': 'https://sonarqube.example.com/dashboard?id=testapp',
@@ -135,9 +129,7 @@ describe('VitalityFormConfig - Form Items', () => {
             'app-git-organization': 'TestOrg',
             'app-git-web-url': 'https://testrepo.com',
             'app-git-url': 'https://git.testrepo.com',
-            'app-production-link-1': 'https://testapp.com',
-            'app-production-link-2': 'https://testapp2.com',
-            'app-production-link-3': 'https://testapp3.com',
+            'app-production-link': 'https://testapp.com',
             'app-sonarqube-link': 'https://sonarqube.example.com/dashboard?id=testapp',
             'app-data-dog-api-key': 'testApiKey',
             'app-data-dog-app-key': 'testAppKey',
@@ -157,7 +149,6 @@ describe('VitalityFormConfig - Form Items', () => {
                 gitWebUrl: 'https://testrepo.com',
                 gitUrl: 'https://git.testrepo.com',
                 productionLink: 'https://testapp.com',
-                additionalProductionLinks: ['https://testapp2.com', 'https://testapp3.com'],
                 sonarqubeLink: 'https://sonarqube.example.com/dashboard?id=testapp',
                 sonarqubeToken: undefined,
                 codeQualityPlatformLink: undefined,
@@ -178,15 +169,13 @@ describe('VitalityFormConfig - Form Items', () => {
             'app-description': 'Test Application',
             'app-git-url': 'https://git.testrepo.com',
             'app-contact-email': 'test@example.com',
-            'app-production-link-1': '',
-            'app-production-link-2': '',
-            'app-production-link-3': '',
+            'app-production-link': '',
         };
 
         const result = applicationCreateOrEditFormOutputAdapter(formData);
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        expect(result.applicationInput.additionalProductionLinks).toEqual([]);
+        expect(result.applicationInput.productionLink).toBe('');
     });
 
     it('should handle missing application fields gracefully', () => {
@@ -208,9 +197,7 @@ describe('VitalityFormConfig - Form Items', () => {
             'app-git-organization': undefined,
             'app-git-web-url': undefined,
             'app-git-url': 'https://git.partial.com',
-            'app-production-link-1': undefined,
-            'app-production-link-2': undefined,
-            'app-production-link-3': undefined,
+            'app-production-link': undefined,
             'app-sonarqube-link': undefined,
             'app-sonarqube-token': undefined,
             'app-data-dog-api-key': undefined,
