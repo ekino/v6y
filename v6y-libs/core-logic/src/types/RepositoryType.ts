@@ -53,7 +53,9 @@ export interface RepositoryType {
     webUrl?: string;
     gitUrl?: string;
     organization?: string;
+    branchesToAudit?: string[];
     allBranches?: string[];
+    default_branch?: string;
     id?: string;
     archived?: string;
     empty_repo?: string;

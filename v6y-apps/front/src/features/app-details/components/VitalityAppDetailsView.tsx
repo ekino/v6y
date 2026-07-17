@@ -1,5 +1,6 @@
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
 import * as React from 'react';
 
 import { ApplicationType } from '@v6y/core-logic/src/types';
@@ -13,6 +14,7 @@ import {
     useClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationDetailsInfosByParams from '../api/getApplicationDetailsInfosByParams';
+import TriggerApplicationAnalysis from '../api/triggerApplicationAnalysis';
 import VitalitySummaryCard from '../components/summary-card/VitalitySummaryCard';
 import BranchSelector from './BranchSelector';
 
@@ -76,6 +78,7 @@ const getSonarQubeLink = (appInfos?: ApplicationType) => {
 const VitalityAppDetailsView = () => {
     const { getUrlParams } = useNavigationAdapter();
     const { translate } = useTranslationProvider();
+    const queryClient = useQueryClient();
     const [_id] = getUrlParams(['_id']);
     const [activeTab, setActiveTab] = React.useState('overview');
     const [selectedBranch, setSelectedBranch] = React.useState('');
@@ -98,18 +101,25 @@ const VitalityAppDetailsView = () => {
     });
 
     const appInfos = appDetailsInfos?.getApplicationDetailsInfoByParams;
-    const auditReportBranches = (appInfos?.repo?.allBranches || []) as string[];
+    const branchesToAudit = (appInfos?.repo?.branchesToAudit || []) as string[];
+    const allBranchesLabel = translate('vitality.appDetailsPage.branches.allBranches');
+    // If no specific branches are configured, show a single "all branches" option
+    const selectorBranches = branchesToAudit.length ? branchesToAudit : [allBranchesLabel];
 
     React.useEffect(() => {
-        if (!auditReportBranches.length) {
+        if (!selectorBranches.length) {
             return;
         }
 
-        if (!auditReportBranches.includes(selectedBranch)) {
-            setSelectedBranch(auditReportBranches[0]);
+        if (!selectorBranches.includes(selectedBranch)) {
+            setSelectedBranch(selectorBranches[0]);
         }
-    }, [auditReportBranches, selectedBranch]);
+    }, [selectorBranches, selectedBranch]);
+
     const sonarqubeLink = getSonarQubeLink(appInfos);
+
+    // The branch value passed to audit queries: undefined when showing "all branches"
+    const activeBranch = selectedBranch === allBranchesLabel ? undefined : selectedBranch;
 
     const tabs = [
         { id: 'overview', label: translate('vitality.appDetailsPage.tabs.overview') },
@@ -133,6 +143,13 @@ const VitalityAppDetailsView = () => {
     const onRunAuditClicked = async () => {
         setIsRunningAudit(true);
         try {
+            await buildClientQuery({
+                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
+                query: TriggerApplicationAnalysis,
+                variables: { applicationId: parseInt(_id as string, 10) },
+            });
+            // Invalidate all cached audit/dependency queries so they refetch fresh data
+            await queryClient.invalidateQueries();
             setAuditTrigger((prev) => prev + 1);
         } catch (error) {
             console.error('Error running audit:', error);
@@ -150,7 +167,7 @@ const VitalityAppDetailsView = () => {
                     <div className="space-y-8">
                         <VitalityGeneralInformationView
                             appInfos={appInfos}
-                            branch={selectedBranch}
+                            branch={activeBranch}
                             date={selectedDate}
                         />
                         <div className="pt-8 border-t border-slate-200">
@@ -168,7 +185,7 @@ const VitalityAppDetailsView = () => {
                     <VitalityAuditReportsView
                         auditTrigger={auditTrigger}
                         category="performance"
-                        branch={selectedBranch}
+                        branch={activeBranch}
                     />
                 );
             case 'accessibility':
@@ -176,19 +193,19 @@ const VitalityAppDetailsView = () => {
                     <VitalityAuditReportsView
                         auditTrigger={auditTrigger}
                         category="accessibility"
-                        branch={selectedBranch}
+                        branch={activeBranch}
                     />
                 );
             case 'security':
                 return (
-                    <VitalitySecuritySection auditTrigger={auditTrigger} branch={selectedBranch} />
+                    <VitalitySecuritySection auditTrigger={auditTrigger} branch={activeBranch} />
                 );
             case 'maintainability':
                 return (
                     <VitalityAuditReportsView
                         auditTrigger={auditTrigger}
                         category="maintainability"
-                        branch={selectedBranch}
+                        branch={activeBranch}
                     />
                 );
             case 'greenIndex':
@@ -200,7 +217,7 @@ const VitalityAppDetailsView = () => {
                     <VitalityAuditReportsView
                         auditTrigger={auditTrigger}
                         category="dora"
-                        branch={selectedBranch}
+                        branch={activeBranch}
                     />
                 );
             case 'sonarqube':
@@ -215,7 +232,7 @@ const VitalityAppDetailsView = () => {
                 return (
                     <VitalityGeneralInformationView
                         appInfos={appInfos}
-                        branch={selectedBranch}
+                        branch={activeBranch}
                         date={selectedDate}
                         auditTrigger={auditTrigger}
                     />
@@ -248,7 +265,7 @@ const VitalityAppDetailsView = () => {
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-2 mb-4 md:mb-2.5">
                         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                             <BranchSelector
-                                branches={auditReportBranches}
+                                branches={selectorBranches}
                                 selectedBranch={selectedBranch}
                                 onBranchChange={setSelectedBranch}
                             />

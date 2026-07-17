@@ -8,7 +8,7 @@ export const metadata = {
     description:
         'Vitality (v6y) is a web-based application developed by Ekino, designed to maintain and optimize the health and performance of codebases and applications.',
     icons: {
-        icon: '/favicon.ico',
+        icon: '/favicon.svg',
     },
 };
 

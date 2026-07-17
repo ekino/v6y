@@ -67,7 +67,10 @@ export const applicationInfosFormItems = (translate: TranslateType) => {
     ];
 };
 
-export const applicationGitRepositoryFormItems = (translate: TranslateType) => [
+export const applicationGitRepositoryFormItems = (
+    translate: TranslateType,
+    allBranches?: string[],
+) => [
     {
         id: 'app-git-organization',
         name: 'app-git-organization',
@@ -98,6 +101,16 @@ export const applicationGitRepositoryFormItems = (translate: TranslateType) => [
                 message: translate('v6y-applications.fields.app-git-url.error'),
             },
         ],
+    },
+    {
+        id: 'app-git-branches-to-audit',
+        name: 'app-git-branches-to-audit',
+        type: 'select',
+        mode: 'tags',
+        label: translate('v6y-applications.fields.app-git-branches-to-audit.label'),
+        placeholder: translate('v6y-applications.fields.app-git-branches-to-audit.placeholder'),
+        options: allBranches?.map((branch) => ({ label: branch, value: branch })),
+        rules: [],
     },
 ];
 
@@ -212,7 +225,7 @@ export const applicationDataDogConfigurationFormItems = (translate: TranslateTyp
     },
 ];
 
-export const applicationCreateEditItems = (translate: TranslateType) => {
+export const applicationCreateEditItems = (translate: TranslateType, allBranches?: string[]) => {
     return [
         <VitalityFormFieldSet
             key={translate('v6y-applications.fields.app-infos-group')}
@@ -222,7 +235,7 @@ export const applicationCreateEditItems = (translate: TranslateType) => {
         <VitalityFormFieldSet
             key={translate('v6y-applications.fields.app-git-repository-group')}
             groupTitle={translate('v6y-applications.fields.app-git-repository-group')}
-            items={applicationGitRepositoryFormItems(translate)}
+            items={applicationGitRepositoryFormItems(translate, allBranches)}
         />,
         <VitalityFormFieldSet
             key={translate('v6y-applications.fields.app-required-links-group')}
@@ -250,6 +263,7 @@ export const applicationCreateOrEditFormInAdapter = (params: ApplicationType) =>
     'app-git-organization': params?.['repo']?.organization,
     'app-git-web-url': params?.['repo']?.webUrl,
     'app-git-url': params?.['repo']?.gitUrl,
+    'app-git-branches-to-audit': params?.['repo']?.branchesToAudit,
     'app-contact-email': params?.['contactMail'],
     'app-production-link-1': params?.['links']?.find?.(
         (item) => item.label === 'Application production url',
@@ -289,6 +303,7 @@ export const applicationCreateOrEditFormOutputAdapter = (data: unknown): Variabl
             gitOrganization: params?.['app-git-organization'],
             gitWebUrl: params?.['app-git-web-url'],
             gitUrl: params?.['app-git-url'],
+            gitBranchesToAudit: params?.['app-git-branches-to-audit'] as string[],
             name: params?.['app-name'],
             contactMail: params?.['app-contact-email'],
             productionLink: params?.['app-production-link-1'],
