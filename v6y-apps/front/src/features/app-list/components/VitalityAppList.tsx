@@ -71,8 +71,17 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
             ) : (
                 <div className="w-full">
                     <ul className="space-y-4">
-                        {paginatedAppList.map((app) => (
-                            <VitalityAppInfos key={app._id} app={app} source={source} />
+                        {paginatedAppList.map((app, index) => (
+                            <VitalityAppInfos
+                                key={app._id}
+                                app={app}
+                                source={source}
+                                style={
+                                    {
+                                        '--stagger-delay': `${Math.min(index, 8) * 60}ms`,
+                                    } as React.CSSProperties
+                                }
+                            />
                         ))}
                     </ul>
 
