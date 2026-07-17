@@ -10,16 +10,7 @@
       "menuTitle": "Choisissez une option pour afficher les applications pertinentes",
       "pageTitle": "Vitality : Maintenir votre base de code saine et performante",
       "shortTitle": "tableau de bord",
-      "searchByProjectName": "Rechercher par nom de projet",
-      "filters": {
-        "title": "Filtres",
-        "technologies": "Technologies",
-        "qualityStatus": "Statut de qualité",
-        "lastAnalysis": "Dernière analyse",
-        "branches": "Branches",
-        "reset": "Réinitialiser les filtres",
-        "performance": "Performance"
-      }
+      "searchByProjectName": "Rechercher par nom de projet"
     },
     "appListPage": {
       "loadMore": "Cliquez pour charger plus d'applications",
@@ -32,31 +23,11 @@
       "addApplicationDescription": "Créer et configurer une nouvelle application depuis le back-office.",
       "contactEmail": " Contacter l'équipe",
       "nbBranches": "Nombre de branches ouvertes : ",
-      "activeFiltersLabel": "Filtres actifs : ",
       "empty": "Aucune application trouvée",
       "technos": "Technologies : ",
       "lastAnalyzed": "Dernière analyse le :",
       "seeReporting": "Voir le reporting",
-      "links": "Liens :",
-      "globalFilters": {
-        "title": "Filtres globaux",
-        "description": "Filtrer les applications par volume de rapports, période de création et nombre de branches",
-        "highlightsTitle": "Accès rapide",
-        "highlightsReports": "Trouver les apps avec beaucoup de rapports d'audit",
-        "highlightsBranches": "Cibler les projets avec de nombreuses branches",
-        "highlightsDate": "Se concentrer sur les applications récentes",
-        "minReportsLabel": "Rapports min",
-        "maxReportsLabel": "Rapports max",
-        "minBranchesLabel": "Branches min",
-        "maxBranchesLabel": "Branches max",
-        "createdFromLabel": "Créée à partir du",
-        "createdToLabel": "Créée jusqu'au",
-        "minReportsPlaceholder": "0",
-        "maxReportsPlaceholder": "500",
-        "minBranchesPlaceholder": "1",
-        "maxBranchesPlaceholder": "30",
-        "selectedCount": "{count} sélectionné(s)"
-      }
+      "links": "Liens :"
     },
     "appDetailsPage": {
       "pageTitle": "Détail de l'application",

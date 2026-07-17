@@ -10,16 +10,7 @@
       "menuTitle": "Choose an option to view the relevant applications",
       "pageTitle": "Vitality: Keeping Your Codebase Healthy and High-Performing",
       "shortTitle": "dashboard",
-      "searchByProjectName": "Search by project name",
-      "filters": {
-        "title": "Filters",
-        "technologies": "Technologies",
-        "qualityStatus": "Quality Status",
-        "lastAnalysis": "Last Analysis",
-        "branches": "Branches",
-        "reset": "Reset Filters",
-        "performance": "Performance"
-      }
+      "searchByProjectName": "Search by project name"
     },
     "appListPage": {
       "loadMore": "Click to load more applications",
@@ -32,31 +23,11 @@
       "contactEmail": "Contact The Team",
       "nbBranches": "Number of opened branches: ",
       "shortTitle": "applications",
-      "activeFiltersLabel": "Active Filters: ",
       "empty": "No applications found",
       "technos": "Technologies: ",
       "lastAnalyzed": "Last analyzed on:",
       "seeReporting": "See Reporting",
-      "links": "Links:",
-      "globalFilters": {
-        "title": "Global Filters",
-        "description": "Filter applications by reports volume, creation period and number of branches",
-        "highlightsTitle": "Quick focus",
-        "highlightsReports": "Find apps with many audit reports",
-        "highlightsBranches": "Target monorepos with lots of branches",
-        "highlightsDate": "Focus on recently created apps",
-        "minReportsLabel": "Min reports",
-        "maxReportsLabel": "Max reports",
-        "minBranchesLabel": "Min branches",
-        "maxBranchesLabel": "Max branches",
-        "createdFromLabel": "Created from",
-        "createdToLabel": "Created to",
-        "minReportsPlaceholder": "0",
-        "maxReportsPlaceholder": "500",
-        "minBranchesPlaceholder": "1",
-        "maxBranchesPlaceholder": "30",
-        "selectedCount": "{count} selected"
-      }
+      "links": "Links:"
     },
     "appDetailsPage": {
       "pageTitle": "Application details",
