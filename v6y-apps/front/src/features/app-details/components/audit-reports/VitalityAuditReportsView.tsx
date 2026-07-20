@@ -3,12 +3,14 @@ import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6
 import { Card, CardContent, FileText, SunIcon } from '@v6y/ui-kit-front';
 
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
+import { resolveNumericId } from '../../../../commons/utils/NumericParamUtils';
 import {
     buildClientQuery,
     useClientQuery,
 } from '../../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationDetailsAuditReportsByParams from '../../api/getApplicationDetailsAuditReportsByParams';
 import { matchesAuditReportBranch } from './VitalityAuditReportsBranchFilter';
+import { filterAuditReportsByCategory } from './VitalityAuditReportsCategoryFilter';
 import VitalityGreenIndexSection from './VitalityGreenIndexSection';
 
 const VitalityAuditReportsTypeGrouper = DynamicLoader(
@@ -23,17 +25,6 @@ interface VitalityAuditReportsViewProps {
     auditReports?: AuditType[];
 }
 
-const isSecuritySmell = (report: AuditType): boolean => {
-    const categoryLower = report.category?.toLowerCase() || '';
-    // Check if category matches security smell patterns (commons-, react-, angular- prefixes)
-    return (
-        categoryLower.startsWith('commons-') ||
-        categoryLower.startsWith('react-') ||
-        categoryLower.startsWith('angular-') ||
-        report.type === 'Code-Security'
-    );
-};
-
 const VitalityAuditReportsView = ({
     auditTrigger = 0,
     category,
@@ -44,12 +35,7 @@ const VitalityAuditReportsView = ({
     const { getUrlParams } = useNavigationAdapter();
     const { translate } = useTranslationProvider();
     const [_id] = getUrlParams(['_id']);
-    const parsedAppIdFromUrl = Number.parseInt(_id as string, 10);
-    const targetApplicationId = Number.isFinite(applicationId)
-        ? applicationId
-        : Number.isFinite(parsedAppIdFromUrl)
-          ? parsedAppIdFromUrl
-          : undefined;
+    const targetApplicationId = resolveNumericId(applicationId, _id as string);
 
     const { isLoading: isAppDetailsAuditReportsLoading, data: appDetailsAuditReports } =
         useClientQuery<{ getApplicationDetailsAuditReportsByParams: AuditType[] }>({
@@ -88,74 +74,7 @@ const VitalityAuditReportsView = ({
         ? sourceAuditReports
         : sourceAuditReports.filter((report) => matchesAuditReportBranch(report, branch));
 
-    // Filter to show static audit reports (exclude lighthouse)
-    const staticAuditReports = branchFilteredAuditReports.filter(
-        (report) => report.type !== 'Lighthouse',
-    );
-
-    // Filter to show dynamic audit reports (lighthouse only)
-    const dynamicAuditReports = branchFilteredAuditReports.filter(
-        (report) => report.type === 'Lighthouse',
-    );
-
-    // Further filter Lighthouse reports by category
-    const performanceDynamicReports = dynamicAuditReports.filter(
-        (report) => !report.category?.toLowerCase().includes('accessibility'),
-    );
-    const accessibilityDynamicReports = dynamicAuditReports.filter((report) =>
-        report.category?.toLowerCase().includes('accessibility'),
-    );
-
-    // Filter static audit reports based on category
-    const staticFilters: Partial<Record<string, (report: AuditType) => boolean>> = {
-        performance: (report) =>
-            report.type !== 'Code-Complexity' &&
-            report.type !== 'Code-Coupling' &&
-            report.type !== 'Code-Security' &&
-            report.type !== 'Dependencies' &&
-            report.type !== 'Code-Duplication' &&
-            report.type !== 'DORA' &&
-            report.type !== 'Ecological-Impact' &&
-            report.type !== 'Green-Hosting' &&
-            report.type !== 'Ecoindex' &&
-            !(report.category?.toLowerCase() || '').includes('maintainability') &&
-            !(report.category?.toLowerCase() || '').includes('modularity') &&
-            !(report.category?.toLowerCase() || '').includes('duplication') &&
-            !(report.category?.toLowerCase() || '').includes('accessibility') &&
-            !(report.type?.toLowerCase() || '').includes('accessibility') &&
-            !isSecuritySmell(report),
-        maintainability: (report) =>
-            report.type === 'Code-Complexity' ||
-            report.type === 'Code-Coupling' ||
-            (report.category?.toLowerCase() || '').includes('maintainability') ||
-            (report.category?.toLowerCase() || '').includes('modularity') ||
-            (report.category?.toLowerCase() || '').includes('coupling') ||
-            (report.category?.toLowerCase() || '').includes('duplication'),
-        accessibility: (report) =>
-            ((report.category?.toLowerCase() || '').includes('accessibility') ||
-                (report.type?.toLowerCase() || '').includes('accessibility')) &&
-            !(report.category?.toLowerCase() || '').includes('performance') &&
-            !(report.category?.toLowerCase() || '').includes('seo'),
-        security: (report) => isSecuritySmell(report),
-        dora: (report) => report.type === 'DORA',
-        greenIndex: (report) =>
-            report.type === 'Ecological-Impact' ||
-            report.type === 'Green-Hosting' ||
-            report.type === 'Ecoindex',
-    };
-
-    const filterFn = category ? staticFilters[category] : undefined;
-    const filteredStaticAuditReports = filterFn
-        ? staticAuditReports.filter(filterFn)
-        : staticAuditReports;
-
-    // Combine filtered static reports with appropriate dynamic reports
-    let allAuditReports: AuditType[] = filteredStaticAuditReports;
-    if (category === 'performance') {
-        allAuditReports = [...filteredStaticAuditReports, ...performanceDynamicReports];
-    } else if (category === 'accessibility') {
-        allAuditReports = [...filteredStaticAuditReports, ...accessibilityDynamicReports];
-    }
+    const allAuditReports = filterAuditReportsByCategory(branchFilteredAuditReports, category);
 
     if (isAppDetailsAuditReportsLoading && !auditReports) {
         return (

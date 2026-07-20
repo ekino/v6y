@@ -1,3 +1,4 @@
+import { parseNumericParam } from '../../../../../commons/utils/NumericParamUtils';
 import VitalityReportDetailsPage from '../../../../../features/app-details/pages/VitalityReportDetailsPage';
 
 interface AppReportPageProps {
@@ -14,10 +15,8 @@ interface AppReportPageProps {
 
 export default async function AppReportPage({ params }: AppReportPageProps) {
     const resolvedParams = await Promise.resolve(params);
-    const parsedAppId = Number.parseInt(resolvedParams.appId, 10);
-    const parsedReportId = Number.parseInt(resolvedParams.reportId, 10);
-    const appId = Number.isFinite(parsedAppId) ? parsedAppId : undefined;
-    const reportId = Number.isFinite(parsedReportId) ? parsedReportId : undefined;
+    const appId = parseNumericParam(resolvedParams.appId);
+    const reportId = parseNumericParam(resolvedParams.reportId);
 
     return <VitalityReportDetailsPage appId={appId} reportId={reportId} />;
 }

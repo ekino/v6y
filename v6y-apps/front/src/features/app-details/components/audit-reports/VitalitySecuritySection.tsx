@@ -6,6 +6,12 @@ import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6
 import { Badge, Card, CardContent, Check, Clipboard, Lock } from '@v6y/ui-kit-front';
 
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
+import { resolveNumericId } from '../../../../commons/utils/NumericParamUtils';
+import { getDependencyStatusColor } from '../../../../commons/utils/StatusUtils';
+import {
+    getDependencyLocationText,
+    summarizeDependenciesAudit,
+} from '../../../../commons/utils/VitalityDependencyUtils';
 import {
     buildClientQuery,
     useClientQuery,
@@ -13,6 +19,7 @@ import {
 import GetApplicationDetailsAuditReportsByParams from '../../api/getApplicationDetailsAuditReportsByParams';
 import GetApplicationDetailsDependenciesByParams from '../../api/getApplicationDetailsDependenciesByParams';
 import { matchesAuditReportBranch } from './VitalityAuditReportsBranchFilter';
+import { isSecuritySmell } from './VitalityAuditReportsCategoryFilter';
 
 const VitalityAuditReportsTypeGrouper = DynamicLoader(
     () => import('./VitalityAuditReportsTypeGrouper'),
@@ -25,35 +32,6 @@ interface VitalitySecuritySectionProps {
     auditReports?: AuditType[];
 }
 
-const isSecuritySmell = (report: AuditType): boolean => {
-    const categoryLower = report.category?.toLowerCase() || '';
-    // Check if category matches security smell patterns (commons-, react-, angular- prefixes)
-    return (
-        categoryLower.startsWith('commons-') ||
-        categoryLower.startsWith('react-') ||
-        categoryLower.startsWith('angular-') ||
-        report.type === 'Code-Security'
-    );
-};
-
-const getDependencyStatusColor = (status: string) => {
-    const statusLower = status?.toLowerCase() || '';
-    if (statusLower.includes('up to date') || statusLower.includes('success')) {
-        return 'bg-green-100 text-green-800';
-    }
-    if (statusLower.includes('warning') || statusLower.includes('minor')) {
-        return 'bg-yellow-100 text-yellow-800';
-    }
-    if (
-        statusLower.includes('error') ||
-        statusLower.includes('major') ||
-        statusLower.includes('critical')
-    ) {
-        return 'bg-red-100 text-red-800';
-    }
-    return 'bg-slate-100 text-slate-800';
-};
-
 const VitalitySecuritySection = ({
     auditTrigger = 0,
     branch,
@@ -63,25 +41,13 @@ const VitalitySecuritySection = ({
     const { getUrlParams } = useNavigationAdapter();
     const { translate, translateHelper } = useTranslationProvider();
     const [_id] = getUrlParams(['_id']);
-    const parsedAppIdFromUrl = Number.parseInt(_id as string, 10);
-    const targetApplicationId = Number.isFinite(applicationId)
-        ? applicationId
-        : Number.isFinite(parsedAppIdFromUrl)
-          ? parsedAppIdFromUrl
-          : undefined;
+    const targetApplicationId = resolveNumericId(applicationId, _id as string);
     const [copiedId, setCopiedId] = useState<string | null>(null);
 
     const copyToClipboard = (text: string, dependencyId: string) => {
         navigator.clipboard.writeText(text);
         setCopiedId(dependencyId);
         setTimeout(() => setCopiedId(null), 2000);
-    };
-
-    const getDependencyLocationText = (dependency: DependencyType) => {
-        const parts = [];
-        if (dependency.module?.branch) parts.push(dependency.module.branch);
-        if (dependency.module?.path) parts.push(dependency.module.path);
-        return parts.join(' - ');
     };
 
     const { isLoading: isAppDetailsAuditReportsLoading, data: appDetailsAuditReports } =
@@ -153,25 +119,7 @@ const VitalitySecuritySection = ({
 
     // Filter dependencies
     const allDependencies = appDetailsDependencies?.getApplicationDetailsDependenciesByParams || [];
-    const filteredDependencies = allDependencies
-        .filter((dependency) => dependency?.statusHelp?.category && dependency?.statusHelp?.title)
-        .filter((dependency) => {
-            const status = dependency.status?.toLowerCase() || '';
-            return !status.includes('up to date') && !status.includes('up-to-date');
-        })
-        .map((dependency) => ({
-            ...dependency,
-            ...dependency?.statusHelp,
-            status: dependency.status,
-        }));
-
-    const dependencies = filteredDependencies;
-    const hasOutdatedDependencies = allDependencies.some((dependency) => {
-        const status = dependency.status?.toLowerCase() || '';
-        return status.includes('up to date') || status.includes('up-to-date');
-    });
-    const allDependenciesUpToDate =
-        allDependencies.length > 0 && dependencies.length === 0 && hasOutdatedDependencies;
+    const { dependencies, allDependenciesUpToDate } = summarizeDependenciesAudit(allDependencies);
 
     const isLoading =
         (!auditReports?.length && isAppDetailsAuditReportsLoading) ||

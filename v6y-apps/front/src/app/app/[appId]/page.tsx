@@ -1,3 +1,4 @@
+import { parseNumericParam } from '../../../commons/utils/NumericParamUtils';
 import VitalityProjectDetailsPage from '../../../features/app-details/pages/VitalityProjectDetailsPage';
 
 interface AppProjectPageProps {
@@ -12,8 +13,7 @@ interface AppProjectPageProps {
 
 export default async function AppProjectPage({ params }: AppProjectPageProps) {
     const resolvedParams = await Promise.resolve(params);
-    const parsedAppId = Number.parseInt(resolvedParams.appId, 10);
-    const appId = Number.isFinite(parsedAppId) ? parsedAppId : undefined;
+    const appId = parseNumericParam(resolvedParams.appId);
 
     return <VitalityProjectDetailsPage appId={appId} />;
 }

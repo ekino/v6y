@@ -4,6 +4,7 @@ import { ApplicationType } from '@v6y/core-logic/src/types';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
+import { resolveNumericId } from '../../../commons/utils/NumericParamUtils';
 import {
     buildClientQuery,
     useClientQuery,
@@ -29,12 +30,7 @@ const VitalityProjectDetailsView = ({ applicationId }: VitalityProjectDetailsVie
     const { translate } = useTranslationProvider();
     const [_id, source] = getUrlParams(['_id', 'source']);
 
-    const parsedAppIdFromUrl = Number.parseInt(_id as string, 10);
-    const targetApplicationId = Number.isFinite(applicationId)
-        ? applicationId
-        : Number.isFinite(parsedAppIdFromUrl)
-          ? parsedAppIdFromUrl
-          : undefined;
+    const targetApplicationId = resolveNumericId(applicationId, _id as string);
 
     const { isLoading: isAppDetailsInfosLoading, data: appDetailsInfos } = useClientQuery<{
         getApplicationDetailsInfoByParams: ApplicationType | null;

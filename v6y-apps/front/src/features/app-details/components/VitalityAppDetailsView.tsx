@@ -7,6 +7,7 @@ import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6
 import { Button, GlobeIcon, PlayIcon, ReloadIcon } from '@v6y/ui-kit-front';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
+import { resolveNumericId } from '../../../commons/utils/NumericParamUtils';
 import { exportAppDetailsDataToCSV } from '../../../commons/utils/VitalityDataExportUtils';
 import {
     buildClientQuery,
@@ -89,18 +90,8 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
     const { translate } = useTranslationProvider();
     const [_id, reportId] = getUrlParams(['_id', 'reportId']);
 
-    const parsedAppIdFromUrl = Number.parseInt(_id as string, 10);
-    const parsedReportIdFromUrl = Number.parseInt(reportId as string, 10);
-    const targetApplicationId = Number.isFinite(applicationId)
-        ? applicationId
-        : Number.isFinite(parsedAppIdFromUrl)
-          ? parsedAppIdFromUrl
-          : undefined;
-    const targetAuditRunId = Number.isFinite(auditRunId)
-        ? auditRunId
-        : Number.isFinite(parsedReportIdFromUrl)
-          ? parsedReportIdFromUrl
-          : undefined;
+    const targetApplicationId = resolveNumericId(applicationId, _id as string);
+    const targetAuditRunId = resolveNumericId(auditRunId, reportId as string);
 
     const [activeTab, setActiveTab] = React.useState('performance');
     const [selectedBranch, setSelectedBranch] = React.useState('');
