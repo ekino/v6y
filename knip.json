@@ -17,6 +17,11 @@
             "entry": ["src/index.ts", "src/workers/*.ts"],
             "project": ["src/**/*.{ts,js}"]
         },
+        "v6y-apps/bff": {
+            "entry": ["src/index.ts"],
+            "project": ["src/**/*.{ts,js}"],
+            "ignoreDependencies": ["@as-integrations/express5"]
+        },
         "v6y-apps/*": {
             "entry": ["src/index.ts"],
             "project": ["src/**/*.{ts,js}"]
