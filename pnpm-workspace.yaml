@@ -1,3 +1,24 @@
 packages:
   - 'v6y-apps/*'
   - 'v6y-libs/*'
+
+overrides:
+  form-data: '=4.0.4'
+  axios: '=1.12.0'
+  lodash: '=4.17.21'
+  sha.js: '=2.4.12'
+  tar-fs: '=3.0.9'
+
+allowBuilds:
+  '@apollo/protobufjs': false
+  '@prisma/engines': true
+  '@swc/core': true
+  bcrypt: true
+  core-js: false
+  esbuild: true
+  event-loop-stats: false
+  msw: true
+  nx: true
+  prisma: true
+  sharp: true
+  unrs-resolver: true
