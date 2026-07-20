@@ -72,4 +72,4 @@ const matchesAuditReportBranch = (report: AuditType, selectedBranch?: string): b
     return matchesReportBranchWithSelectedBranch(report.module?.branch, selectedBranch);
 };
 
-export { matchesAuditReportBranch, matchesReportBranchWithSelectedBranch };
+export { matchesAuditReportBranch };
