@@ -39,21 +39,6 @@ vi.mock('../../features/app-details/components/audit-reports/VitalitySecuritySec
     ),
 }));
 
-vi.mock(
-    '../../features/app-details/components/quality-indicators/VitalityQualityIndicatorsView',
-    () => ({
-        default: () => <div data-testid="quality-indicators-view">Quality Indicators View</div>,
-    }),
-);
-
-vi.mock('../../features/app-details/components/dependencies/VitalityDependenciesView', () => ({
-    default: () => <div data-testid="dependencies-view">Dependencies View</div>,
-}));
-
-vi.mock('../../features/app-details/components/evolutions/VitalityEvolutionsView', () => ({
-    default: () => <div data-testid="evolutions-view">Evolutions View</div>,
-}));
-
 vi.mock('../../features/app-details/components/summary-card/VitalitySummaryCard', () => ({
     default: ({ appInfos }: { appInfos?: { name?: string } }) => (
         <div data-testid="summary-card">Summary Card {appInfos?.name && `- ${appInfos.name}`}</div>
