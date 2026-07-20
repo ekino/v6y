@@ -2,13 +2,7 @@ import fs from 'fs-extra';
 import os from 'os';
 import path from 'path';
 
-import {
-    AppLogger,
-    ApplicationType,
-    AuditProvider,
-    RepositoryApi,
-    ZipUtils,
-} from '@v6y/core-logic';
+import { AppLogger, ApplicationType, RepositoryApi, ZipUtils } from '@v6y/core-logic';
 
 import ServerConfig from '../config/ServerConfig.ts';
 import { BuildApplicationParams } from './Types.js';
@@ -22,35 +16,11 @@ const { currentConfig } = ServerConfig;
 const { staticAuditorApiPath } = currentConfig || {};
 
 /**
- * Checks if static audits exist for the application.
- * @param applicationId
- * @returns true if static audits found, false otherwise
- */
-export const checkForStaticAudits = async (applicationId: number | undefined): Promise<boolean> => {
-    const audits = await AuditProvider.getAuditListByPageAndParams({ appId: applicationId });
-
-    if (!audits?.length) {
-        return false;
-    }
-
-    const staticAudits = audits.filter((audit) => audit.type === 'Code-Complexity');
-    if (staticAudits.length > 0) {
-        AppLogger.info(
-            '[ApplicationManager - checkForStaticAudits] Static audits found:',
-            staticAudits.length,
-        );
-        return true;
-    }
-
-    return false;
-};
-
-/**
  * Builds the application backend by branch.
  * @param applicationId
  * @param workspaceFolder
  */
-export const buildApplicationBackendByBranch = async ({
+const buildApplicationBackendByBranch = async ({
     applicationId,
     workspaceFolder,
     auditRunId,
@@ -81,7 +51,7 @@ export const buildApplicationBackendByBranch = async ({
  * @param workspaceFolder
  * @param auditRunId
  */
-export const buildApplicationFrontendByBranch = async ({
+const buildApplicationFrontendByBranch = async ({
     applicationId,
     workspaceFolder,
     auditRunId,

@@ -1,4 +1,5 @@
-import { execSync } from 'child_process';
+import { execFileSync } from 'child_process';
+import { createRequire } from 'module';
 
 import { AppLogger, ApplicationProvider, AuditProvider, AuditUtils } from '@v6y/core-logic';
 
@@ -8,6 +9,8 @@ import CodeDuplicationUtils from './CodeDuplicationUtils.ts';
 const { getFileContent, deleteAuditFile } = AuditUtils;
 
 const { defaultOptions, formatCodeDuplicationReports } = CodeDuplicationUtils;
+const require = createRequire(import.meta.url);
+const jscpdBinPath = require.resolve('jscpd/bin/jscpd');
 
 /**
  * Start code duplication analysis.
@@ -50,25 +53,32 @@ const startAuditorAnalysis = async ({
             `[CodeDuplicationAuditor - startAuditorAnalysis] application _id:  ${application?._id}`,
         );
 
-        // add jscpd if not installed
-        execSync('npm i -g jscpd@4.0.4', { stdio: 'ignore' });
-
-        // execute audit
-        const codeDuplicationCommand = `jscpd --silent --mode "${
-            defaultOptions.mode
-        }" --threshold ${
-            defaultOptions.threshold
-        } --reporters "json" --output "${workspaceFolder}" --format "${
-            defaultOptions.format
-        }" --ignore "${defaultOptions.ignore.join(',')}" ${workspaceFolder}`;
+        const jscpdArgs = [
+            '--silent',
+            '--mode',
+            defaultOptions.mode,
+            '--threshold',
+            defaultOptions.threshold.toString(),
+            '--reporters',
+            'json',
+            '--output',
+            workspaceFolder,
+            '--format',
+            defaultOptions.format.join(','),
+            '--ignore',
+            defaultOptions.ignore.join(','),
+            workspaceFolder,
+        ];
 
         AppLogger.info(
-            `[CodeDuplicationAuditor - startAuditorAnalysis] jscpd script:  ${codeDuplicationCommand}`,
+            `[CodeDuplicationAuditor - startAuditorAnalysis] jscpd script:  ${process.execPath} ${jscpdBinPath} ${jscpdArgs.join(' ')}`,
         );
 
         // generate report
         try {
-            execSync(codeDuplicationCommand, { stdio: 'ignore' }).toString();
+            execFileSync(process.execPath, [jscpdBinPath, ...jscpdArgs], {
+                stdio: 'ignore',
+            }).toString();
         } catch (error) {
             AppLogger.info(
                 // @ts-expect-error TS(2571): Object is of type 'unknown'.
