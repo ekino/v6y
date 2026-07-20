@@ -36,7 +36,7 @@ catalogs:
     '@ant-design/nextjs-registry': '=1.0.2'
     '@ant-design/v5-patch-for-react-19': '=1.0.3'
     '@babel/plugin-transform-private-methods': '=7.25.9'
-    '@babel/preset-react': '=7.26.3'
+    '@babel/preset-react': '=8.0.1'
     '@babel/preset-typescript': '=7.26.0'
     '@creedengo/eslint-plugin': '=3.0.0'
     '@hookform/resolvers': '=5.0.1'
