@@ -56,10 +56,5 @@
     "v6y-libs/*/src/**/*.{ts,tsx,js,jsx}": [
       "prettier --write"
     ]
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "msw"
-    ]
   }
 }

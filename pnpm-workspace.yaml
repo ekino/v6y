@@ -2,6 +2,34 @@ packages:
   - 'v6y-apps/*'
   - 'v6y-libs/*'
 
+onlyBuiltDependencies:
+  - '@apollo/protobufjs'
+  - '@prisma/engines'
+  - '@swc/core'
+  - bcrypt
+  - core-js
+  - esbuild
+  - event-loop-stats
+  - msw
+  - nx
+  - prisma
+  - sharp
+  - unrs-resolver
+
+allowBuilds:
+  '@apollo/protobufjs': true
+  '@prisma/engines': true
+  '@swc/core': true
+  bcrypt: true
+  core-js: true
+  esbuild: true
+  event-loop-stats: true
+  msw: true
+  nx: true
+  prisma: true
+  sharp: true
+  unrs-resolver: true
+
 catalogs:
   default:
     '@ant-design/icons': '=6.1.0'
