@@ -188,7 +188,7 @@ export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = (
                         return (
                             <div
                                 key={run._id || index}
-                                className={`p-5 border-l-4 transition-colors ${onRunClick ? 'hover:bg-slate-50 cursor-pointer' : 'hover:bg-slate-50'} ${getStatusColor(run.runStatus)}`}
+                                className={`rounded-none border-b border-slate-200 p-5 transition-colors ${onRunClick ? 'hover:bg-slate-50 cursor-pointer' : 'hover:bg-slate-50'} ${getStatusColor(run.runStatus)}`}
                                 onClick={onRunClick ? () => onRunClick(run._id) : undefined}
                             >
                                 {/* Header with status and date */}

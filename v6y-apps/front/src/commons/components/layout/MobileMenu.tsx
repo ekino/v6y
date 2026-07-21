@@ -33,17 +33,17 @@ const MobileMenu = ({ isOpen, onClose, isLoggedIn, userName, onLogout }: MobileM
     };
 
     return (
-        <div className="md:hidden fixed inset-0 bg-black/20 z-40" onClick={onClose}>
+        <div className="md:hidden fixed inset-0 z-40 bg-slate-950/35 backdrop-blur-sm" onClick={onClose}>
             <div
-                className="absolute inset-0 bg-white flex flex-col overflow-hidden"
+                className="absolute inset-x-0 top-0 flex max-h-[100svh] flex-col overflow-hidden border-b border-slate-200 bg-white text-slate-900 shadow-2xl"
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="w-full flex items-center justify-between px-4 py-2 md:py-4 shrink-0">
+                <div className="flex w-full items-center justify-between px-4 py-3 shrink-0">
                     <HeaderLogo onClick={onClose} />
                     <Button
                         size="icon"
                         variant="outline"
-                        className="border-gray-200 h-9 w-9"
+                        className="h-10 w-10 border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
                         onClick={onClose}
                         aria-label="Close menu"
                     >
@@ -63,35 +63,34 @@ const MobileMenu = ({ isOpen, onClose, isLoggedIn, userName, onLogout }: MobileM
                     </Button>
                 </div>
 
-                <nav className="flex-1 overflow-y-auto space-y-2">
+                <nav className="flex-1 overflow-y-auto px-4 pb-6 pt-2">
                     <Link href="/faq" onClick={onClose}>
-                        <button className="w-full text-left px-4 py-3 rounded-lg hover:bg-slate-100 flex items-center gap-3 transition-colors">
+                        <button className="flex w-full items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-left transition-colors hover:bg-slate-100">
                             <QuestionMarkCircledIcon className="w-5 h-5 shrink-0" />
                             <span className="text-base font-medium">FAQ</span>
                         </button>
                     </Link>
 
                     {isLoggedIn && (
-                        <button className="w-full text-left px-4 py-3 rounded-lg hover:bg-slate-100 flex items-center gap-3 transition-colors">
+                        <button className="mt-3 flex w-full items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-left transition-colors hover:bg-slate-100">
                             <MagnifyingGlassIcon className="w-5 h-5 shrink-0" />
                             <span className="text-base font-medium">Search</span>
                         </button>
                     )}
 
                     {isLoggedIn && (
-                        <div className="px-4 py-4 border-y border-slate-200 my-4">
-                            <p className="text-xs text-slate-500 mb-1">
+                        <div className="my-4 rounded-xl border border-slate-200 bg-slate-50 px-4 py-4">
+                            <p className="mb-1 text-xs text-slate-500">
                                 {translate('vitality.header.welcome')}
                             </p>
-                            <p className="font-semibold text-base text-slate-900">{userName}</p>
+                            <p className="text-base font-semibold text-slate-950">{userName}</p>
                         </div>
                     )}
                 </nav>
 
-                {/* Mobile Menu Footer */}
-                <div className="border-t border-slate-200 p-4 space-y-3 shrink-0 bg-white">
+                <div className="border-t border-slate-200 bg-white p-4 space-y-3 shrink-0">
                     <div className="w-full">
-                        <p className="text-xs text-slate-500 mb-2">Language</p>
+                        <p className="mb-2 text-xs text-slate-500">Language</p>
                         <LanguageMenu />
                     </div>
 
@@ -103,7 +102,7 @@ const MobileMenu = ({ isOpen, onClose, isLoggedIn, userName, onLogout }: MobileM
                         >
                             <Button
                                 variant="outline"
-                                className="w-full border-red-200 text-red-600 hover:bg-red-50 gap-2 h-10"
+                                className="h-10 w-full gap-2 border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
                                 onClick={handleLogout}
                             >
                                 <ExitIcon className="w-4 h-4" />

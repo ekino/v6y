@@ -14,21 +14,32 @@ const VitalityAppListHeader = ({
     const targetUrl = addApplicationUrl || VitalityApiConfig.VITALITY_FRONT_BO_URL;
 
     return (
-        <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-4">
+        <div className="w-full flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div className="space-y-1">
+                <div className="flex flex-wrap items-center gap-3">
+                    <h2 className="text-xl font-semibold tracking-tight text-slate-950">
+                        Projects under watch
+                    </h2>
+                    <span className="rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-500 ring-1 ring-slate-200">
+                        {appsTotal} {appsTotal === 1 ? 'result' : 'results'}
+                    </span>
+                </div>
+                <p className="text-sm text-slate-600">
+                    Compare repositories and jump straight to the report that matters.
+                </p>
+            </div>
+
             <a
                 href={targetUrl}
                 className="inline-flex w-full md:w-auto justify-center md:justify-start no-underline hover:no-underline"
             >
-                <Button className="h-9 md:h-10 text-sm md:text-base">
+                <Button className="h-10 w-full rounded-full bg-slate-950 px-5 text-sm font-medium text-white hover:bg-slate-800 md:w-auto">
                     <AppstoreAddOutlined className="w-4 h-4" />
                     <span className="ml-2">
                         {translate('vitality.appListPage.addApplicationLabel') || 'Add Application'}
                     </span>
                 </Button>
             </a>
-            <p className="text-xs md:text-sm text-slate-600 text-center md:text-right">
-                {appsTotal} {appsTotal === 1 ? 'result' : 'results'}
-            </p>
         </div>
     );
 };
