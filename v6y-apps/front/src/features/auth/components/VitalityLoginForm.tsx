@@ -57,7 +57,7 @@ const VitalityLoginForm = () => {
     return (
         <div className="w-full flex items-center justify-center">
             <Card className="w-full max-w-sm overflow-hidden border-slate-200 shadow-[0_1px_0_rgba(27,31,36,0.04),0_16px_40px_rgba(140,149,159,0.16)] md:max-w-lg">
-                <CardHeader className="border-b border-slate-200 bg-slate-50/80 pb-5">
+                <CardHeader className="border-b border-slate-200 bg-white pb-5">
                     <CardTitle className="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
                         {translate('vitality.loginPage.formTitle')}
                     </CardTitle>

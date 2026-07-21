@@ -281,7 +281,7 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
 
     if (!targetApplicationId) {
         return (
-            <div className="min-h-screen mt-4 md:px-6 lg:px-0">
+            <div className="mt-3">
                 <div className="text-sm text-red-500">Invalid application identifier</div>
             </div>
         );
@@ -350,7 +350,9 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                                         <>
                                             <PlayIcon className="w-4 h-4" />
                                             <span className="text-sm">
-                                                {translate('vitality.appDetailsPage.runAuditButton')}
+                                                {translate(
+                                                    'vitality.appDetailsPage.runAuditButton',
+                                                )}
                                             </span>
                                         </>
                                     )}

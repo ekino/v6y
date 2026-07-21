@@ -61,20 +61,20 @@ const VitalityProjectDetailsView = ({ applicationId }: VitalityProjectDetailsVie
 
     if (!targetApplicationId) {
         return (
-            <div className="min-h-screen mt-4 md:px-6 lg:px-0">
+            <div className="mt-3">
                 <div className="text-sm text-red-500">Invalid application identifier</div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen mt-4 md:px-6 lg:px-0">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
+        <div className="space-y-5">
+            <div className="grid grid-cols-1 gap-5 lg:grid-cols-12 lg:gap-7">
                 <div className="lg:col-span-3 w-full">
                     {appInfos ? <VitalitySummaryCard appInfos={appInfos} /> : null}
                 </div>
 
-                <div className="lg:col-span-9 w-full space-y-8">
+                <div className="lg:col-span-9 w-full space-y-7">
                     <VitalityGeneralInformationView appInfos={appInfos} />
 
                     <div className="pt-8 border-t border-slate-200">
