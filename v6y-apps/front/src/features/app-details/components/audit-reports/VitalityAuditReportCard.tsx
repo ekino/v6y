@@ -43,29 +43,29 @@ const VitalityAuditReportCard = ({ report }: VitalityAuditReportCardProps) => {
 
     return (
         <Card
-            className={`relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${
+            className={`relative overflow-hidden border shadow-sm transition-all duration-200 hover:border-slate-300 hover:shadow-md ${
                 report.scoreStatus === 'success'
-                    ? 'bg-linear-to-br from-green-50 to-emerald-50 border-l-4 border-l-green-500'
+                    ? 'border-emerald-200 bg-emerald-50/70'
                     : report.scoreStatus === 'warning'
-                      ? 'bg-linear-to-br from-amber-50 to-yellow-50 border-l-4 border-l-amber-500'
+                      ? 'border-amber-200 bg-amber-50/80'
                       : report.scoreStatus === 'failure' || report.scoreStatus === 'error'
-                        ? 'bg-linear-to-br from-red-50 to-rose-50 border-l-4 border-l-red-500'
-                        : 'bg-linear-to-br from-slate-50 to-gray-50 border-l-4 border-l-slate-400'
+                        ? 'border-red-200 bg-red-50/80'
+                        : 'border-slate-200 bg-slate-50/80'
             }`}
         >
-            <CardHeader>
+            <CardHeader className="pb-3">
                 <div className="flex justify-between items-start">
                     <div className="flex-1 min-w-0">
-                        <CardTitle className="text-base font-bold text-gray-900 mb-0.5 leading-tight">
+                        <CardTitle className="mb-1 text-base font-semibold leading-tight text-slate-950">
                             {getDisplayName(report.type || 'Unknown')}
                         </CardTitle>
-                        <div className="flex items-center gap-1.5 text-xs text-gray-600">
-                            <span className="font-medium">
+                        <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                            <span className="font-medium text-slate-700">
                                 {getDisplayName(report.category || 'Unknown')}
                             </span>
                             {report.subCategory && (
                                 <>
-                                    <span className="w-0.5 h-0.5 bg-gray-400 rounded-full"></span>
+                                    <span className="h-0.5 w-0.5 rounded-full bg-slate-400"></span>
                                     <span>{report.subCategory}</span>
                                 </>
                             )}
@@ -73,7 +73,7 @@ const VitalityAuditReportCard = ({ report }: VitalityAuditReportCardProps) => {
                     </div>
                     <div className="flex flex-col items-end gap-1">
                         <span
-                            className={`px-2 py-0.5 text-sm font-semibold rounded-full uppercase tracking-wide ${getScoreStatusColor(
+                            className={`rounded-full px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.12em] ${getScoreStatusColor(
                                 report.scoreStatus || '',
                             )}`}
                         >
@@ -83,16 +83,16 @@ const VitalityAuditReportCard = ({ report }: VitalityAuditReportCardProps) => {
                 </div>
             </CardHeader>
             <CardContent>
-                <div className="flex justify-between items-center mb-2">
+                <div className="mb-3 flex items-center justify-between">
                     <div className="flex flex-col">
-                        <span className="text-md font-bold text-gray-900 leading-none">
+                        <span className="text-2xl font-semibold leading-none tracking-tight text-slate-950">
                             {getScoreDisplay(report)}
                         </span>
                     </div>
                 </div>
                 {report.extraInfos && (
-                    <div className="bg-white/60 backdrop-blur-xs rounded-lg p-2 border border-white/40">
-                        <p className="text-xs text-gray-700 leading-relaxed">
+                    <div className="rounded-xl border border-white/70 bg-white/80 p-3">
+                        <p className="text-xs leading-relaxed text-slate-700">
                             {report.extraInfos.length > 100
                                 ? `${report.extraInfos.substring(0, 100)}...`
                                 : report.extraInfos}
