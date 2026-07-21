@@ -56,21 +56,21 @@ const VitalityLoginForm = () => {
 
     return (
         <div className="w-full flex items-center justify-center">
-            <Card className="w-full max-w-sm md:max-w-md border border-slate-200">
-                <CardHeader>
-                    <CardTitle className="text-xl sm:text-2xl md:text-3xl font-bold">
+            <Card className="w-full max-w-sm overflow-hidden border-slate-200 shadow-[0_1px_0_rgba(27,31,36,0.04),0_16px_40px_rgba(140,149,159,0.16)] md:max-w-lg">
+                <CardHeader className="border-b border-slate-200 bg-white pb-5">
+                    <CardTitle className="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
                         {translate('vitality.loginPage.formTitle')}
                     </CardTitle>
-                    <CardDescription className="text-xs sm:text-sm md:text-base text-slate-500 mt-2">
+                    <CardDescription className="mt-2 max-w-[32rem] text-sm leading-7 text-slate-600 md:text-base">
                         {translate('vitality.loginPage.formDescription')}
                     </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-5 md:p-6">
                     <Form {...form}>
                         <form
                             onSubmit={form.handleSubmit(onAuthentication)}
                             autoComplete="off"
-                            className="space-y-4 sm:space-y-5 md:space-y-6"
+                            className="space-y-5 md:space-y-6"
                         >
                             <FormField
                                 control={form.control}
@@ -90,12 +90,12 @@ const VitalityLoginForm = () => {
                                 }}
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-xs sm:text-sm font-medium">
+                                        <FormLabel className="text-sm font-medium text-slate-700">
                                             {translate('vitality.loginPage.formEmail.label')}
                                         </FormLabel>
                                         <FormControl>
                                             <Input
-                                                className="border-slate-300 text-sm sm:text-base h-10 sm:h-11 focus:ring-2"
+                                                className="h-11 rounded-lg border-slate-300 bg-white text-sm sm:text-base focus:ring-2"
                                                 placeholder="m@example.com"
                                                 type="email"
                                                 autoComplete="email"
@@ -126,13 +126,13 @@ const VitalityLoginForm = () => {
                                 render={({ field }) => (
                                     <FormItem>
                                         <div className="flex items-center">
-                                            <FormLabel className="text-xs sm:text-sm font-medium">
+                                            <FormLabel className="text-sm font-medium text-slate-700">
                                                 {translate('vitality.loginPage.formPassword.label')}
                                             </FormLabel>
                                         </div>
                                         <FormControl>
                                             <Input
-                                                className="border-slate-300 text-sm sm:text-base h-10 sm:h-11 focus:ring-2"
+                                                className="h-11 rounded-lg border-slate-300 bg-white text-sm sm:text-base focus:ring-2"
                                                 placeholder="●●●●●●"
                                                 type="password"
                                                 autoComplete="current-password"
@@ -145,7 +145,7 @@ const VitalityLoginForm = () => {
                             />
 
                             <Button
-                                className="w-full h-10 sm:h-11 md:h-12 text-sm sm:text-base font-medium mt-2"
+                                className="mt-2 h-11 w-full rounded-full bg-slate-950 text-sm font-medium text-white hover:bg-slate-800 sm:text-base md:h-12"
                                 type="submit"
                                 disabled={isAuthenticationLoading}
                             >

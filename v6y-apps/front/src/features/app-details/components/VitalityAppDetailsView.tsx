@@ -160,6 +160,7 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
             setSelectedBranch(auditReportBranches[0]);
         }
     }, [auditReportBranches, selectedBranch, reportBranch]);
+
     const sonarqubeLink = getSonarQubeLink(appInfos);
 
     const tabs = [
@@ -280,26 +281,24 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
 
     if (!targetApplicationId) {
         return (
-            <div className="min-h-screen mt-4 md:px-6 lg:px-0">
-                <div className="text-sm text-red-500">Invalid application identifier</div>
+            <div className="mt-3">
+                <div className="text-sm text-red-500">
+                    {translate('vitality.appDetailsPage.invalidApplicationIdentifier')}
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen mt-4 md:px-6 lg:px-0">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
-                <div className="lg:col-span-3 w-full">
-                    {isAppDetailsInfosLoading ? (
-                        <div className="bg-gray-100 animate-pulse h-80 rounded-xl"></div>
-                    ) : appInfos ? (
-                        <VitalitySummaryCard appInfos={appInfos} />
-                    ) : null}
+        <div className="space-y-6">
+            <div className="grid grid-cols-1 gap-5 lg:grid-cols-12 lg:gap-6">
+                <div className="w-full lg:col-span-4">
+                    {appInfos ? <VitalitySummaryCard appInfos={appInfos} /> : null}
                 </div>
 
-                <div className="lg:col-span-9 w-full">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-2 mb-4 md:mb-2.5">
-                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                <div className="w-full lg:col-span-8">
+                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                             <BranchSelector
                                 branches={auditReportBranches}
                                 selectedBranch={selectedBranch}
@@ -307,20 +306,20 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                             />
                         </div>
 
-                        <div className="flex items-center gap-1.5 shrink-0">
+                        <div className="flex items-center gap-2 shrink-0">
                             <Button
                                 variant="outline"
                                 size="sm"
-                                className="h-10 sm:h-8 w-10 sm:w-9 p-2 border-slate-300 rounded-md shrink-0"
-                                title="Reload"
+                                className="h-10 w-10 shrink-0 rounded-lg border-slate-300 bg-white p-2 text-slate-700 hover:bg-slate-50"
+                                title={translate('vitality.appDetailsPage.actions.reload')}
                             >
                                 <ReloadIcon className="w-4 h-4 shrink-0" />
                             </Button>
                             <Button
                                 variant="outline"
                                 size="sm"
-                                className="h-10 sm:h-8 w-10 sm:w-9 p-2 border-slate-300 rounded-md shrink-0"
-                                title="Globe"
+                                className="h-10 w-10 shrink-0 rounded-lg border-slate-300 bg-white p-2 text-slate-700 hover:bg-slate-50"
+                                title={translate('vitality.appDetailsPage.actions.globe')}
                             >
                                 <GlobeIcon className="w-4 h-4 shrink-0" />
                             </Button>
@@ -329,7 +328,7 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                                 disabled={isRunningAudit}
                                 variant="outline"
                                 size="sm"
-                                className="h-8 px-3 border-slate-300 rounded-md flex items-center gap-1.5"
+                                className="flex h-10 items-center gap-1.5 rounded-full border-slate-900 bg-slate-900 px-4 text-white hover:bg-slate-800"
                             >
                                 {isRunningAudit ? (
                                     <>
@@ -352,9 +351,9 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                         </div>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 md:gap-2 mb-4 md:mb-2">
+                    <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between md:gap-2">
                         <div
-                            className="bg-slate-100 p-1.5 rounded-md inline-flex overflow-x-auto"
+                            className="inline-flex overflow-x-auto rounded-xl border border-slate-200 bg-white/95 p-1 shadow-sm"
                             role="tablist"
                             aria-label="Details tabs"
                         >
@@ -364,10 +363,10 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                                     onClick={() => setActiveTab(tab.id)}
                                     role="tab"
                                     aria-selected={activeTab === tab.id}
-                                    className={`px-2 sm:px-3 py-1.5 rounded text-xs sm:text-sm font-medium transition-colors shrink-0 ${
+                                    className={`shrink-0 rounded-lg px-3 py-2 text-xs font-medium transition-colors sm:text-sm ${
                                         activeTab === tab.id
-                                            ? 'bg-white text-slate-900 shadow-xs'
-                                            : 'text-slate-700 hover:text-slate-900'
+                                            ? 'bg-slate-900 text-white shadow-sm'
+                                            : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
                                     }`}
                                 >
                                     {tab.label}
@@ -377,7 +376,7 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
 
                         <Button
                             onClick={onExportClicked}
-                            className="w-full sm:w-auto h-10 sm:h-8 bg-slate-900 hover:bg-slate-800 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium shrink-0"
+                            className="h-10 w-full shrink-0 rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-900 shadow-sm ring-1 ring-slate-300 hover:bg-slate-50 sm:w-auto"
                         >
                             {translate('vitality.appDetailsPage.exportButton')}
                         </Button>

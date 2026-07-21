@@ -3,13 +3,17 @@
 import * as React from 'react';
 
 import VitalityAppList from '../../app-list/components/VitalityAppList';
+import VitalityDashboardReportsChart from './VitalityDashboardReportsChart';
 
 const VitalityDashboardView = () => {
     return (
-        <div className="mt-4">
-            <div className="h-1 w-full rounded-full bg-linear-to-r from-indigo-400 via-fuchsia-400 to-amber-400 animate-gradient-pan mb-3" />
-            <section className="rounded-xl border border-slate-200 bg-linear-to-b from-slate-50/70 to-white p-3 md:p-4 shadow-sm">
-                <VitalityAppList source="search" />
+        <div className="mt-2 space-y-4 md:mt-3 md:space-y-5">
+            <section className="rounded-2xl border border-slate-200/80 bg-white px-3 py-4 shadow-sm md:px-4 md:py-5">
+                <VitalityDashboardReportsChart />
+            </section>
+
+            <section className="rounded-2xl border border-slate-200/80 bg-white px-3 py-4 md:px-4 md:py-5">
+                <VitalityAppList source="dashboard" />
             </section>
         </div>
     );

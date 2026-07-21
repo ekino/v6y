@@ -2,6 +2,8 @@ import React from 'react';
 
 import { useTranslationProvider } from '@v6y/ui-kit';
 
+import { parseDateValue } from '../../../../commons/utils/DateParamUtils.ts';
+
 interface AuditRunType {
     _id: number;
     runStatus: string;
@@ -74,28 +76,6 @@ const getStatusBadgeVariant = (status: string): 'success' | 'warning' | 'error' 
         default:
             return 'info';
     }
-};
-
-const parseDateValue = (value: string | null | undefined) => {
-    if (!value) return null;
-
-    const trimmedValue = value.trim();
-    if (!trimmedValue) return null;
-
-    const isNumericTimestamp = /^\d+$/.test(trimmedValue);
-    const date = isNumericTimestamp
-        ? new Date(
-              Number(trimmedValue) < 1_000_000_000_000
-                  ? Number(trimmedValue) * 1000
-                  : Number(trimmedValue),
-          )
-        : new Date(trimmedValue);
-
-    if (Number.isNaN(date.getTime())) {
-        return null;
-    }
-
-    return date;
 };
 
 export const formatDate = (dateString: string | null | undefined) => {
@@ -178,8 +158,7 @@ export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = (
     }
 
     return (
-        <div className="w-full bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm">
-            {/* Mobile: Card View */}
+        <div className="w-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
             <div className="block sm:hidden">
                 <div className="divide-y divide-slate-200">
                     {currentRuns.map((run, index) => {
@@ -188,25 +167,23 @@ export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = (
                         return (
                             <div
                                 key={run._id || index}
-                                className={`p-5 border-l-4 transition-colors ${onRunClick ? 'hover:bg-slate-50 cursor-pointer' : 'hover:bg-slate-50'} ${getStatusColor(run.runStatus)}`}
                                 onClick={onRunClick ? () => onRunClick(run._id) : undefined}
+                                className={`border-b border-slate-200 p-5 transition-colors ${onRunClick ? 'cursor-pointer hover:bg-slate-50' : 'hover:bg-slate-50'} ${getStatusColor(run.runStatus)}`}
                             >
-                                {/* Header with status and date */}
-                                <div className="flex items-start justify-between gap-2 mb-3">
+                                <div className="mb-3 flex items-start justify-between gap-2">
                                     <Badge variant={getStatusBadgeVariant(run.runStatus)}>
                                         {translate(
                                             `vitality.appDetailsPage.auditHistory.statuses.${run.runStatus}`,
                                         ) || run.runStatus}
                                     </Badge>
-                                    <span className="text-xs text-slate-500 whitespace-nowrap">
+                                    <span className="whitespace-nowrap text-xs text-slate-500">
                                         {formatDate(run.triggeredAt)}
                                     </span>
                                 </div>
 
-                                {/* Analysis types */}
                                 {run.analysisTypes && run.analysisTypes.length > 0 && (
                                     <div className="mb-3">
-                                        <p className="text-xs font-semibold text-slate-700 mb-2 uppercase tracking-wide">
+                                        <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-700">
                                             {translate(
                                                 'vitality.appDetailsPage.auditHistory.mobile.types',
                                             )}
@@ -222,9 +199,8 @@ export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = (
                                     </div>
                                 )}
 
-                                {/* Duration */}
                                 {duration && (
-                                    <p className="text-xs text-slate-600 mb-2">
+                                    <p className="mb-2 text-xs text-slate-600">
                                         <span className="font-semibold text-slate-700">
                                             {translate(
                                                 'vitality.appDetailsPage.auditHistory.mobile.duration',
@@ -234,9 +210,8 @@ export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = (
                                     </p>
                                 )}
 
-                                {/* Audit count */}
                                 {run.audits && run.audits.length > 0 && (
-                                    <p className="text-xs text-slate-600 mb-2">
+                                    <p className="mb-2 text-xs text-slate-600">
                                         <span className="font-semibold text-slate-700">
                                             {translate(
                                                 'vitality.appDetailsPage.auditHistory.mobile.audits',
@@ -246,10 +221,9 @@ export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = (
                                     </p>
                                 )}
 
-                                {/* Error message */}
                                 {run.errorMessage && (
-                                    <div className="mt-3 p-3 bg-red-50 rounded border border-red-200">
-                                        <p className="text-xs text-red-800 font-semibold mb-1">
+                                    <div className="mt-3 rounded border border-red-200 bg-red-50 p-3">
+                                        <p className="mb-1 text-xs font-semibold text-red-800">
                                             {translate(
                                                 'vitality.appDetailsPage.auditHistory.mobile.error',
                                             )}
@@ -264,32 +238,31 @@ export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = (
                 </div>
             </div>
 
-            {/* Desktop: Table View */}
-            <div className="hidden sm:block overflow-x-auto">
+            <div className="hidden overflow-x-auto sm:block">
                 <table className="w-full text-sm">
-                    <thead className="bg-slate-50 border-b-2 border-slate-200 sticky top-0">
+                    <thead className="sticky top-0 border-b-2 border-slate-200 bg-slate-50">
                         <tr>
-                            <th className="px-4 py-4 text-left font-semibold text-slate-700 text-xs uppercase tracking-wide">
+                            <th className="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-700">
                                 {translate(
                                     'vitality.appDetailsPage.auditHistory.table.columns.status',
                                 )}
                             </th>
-                            <th className="px-4 py-4 text-left font-semibold text-slate-700 text-xs uppercase tracking-wide">
+                            <th className="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-700">
                                 {translate(
                                     'vitality.appDetailsPage.auditHistory.table.columns.analysisTypes',
                                 )}
                             </th>
-                            <th className="px-4 py-4 text-left font-semibold text-slate-700 text-xs uppercase tracking-wide">
+                            <th className="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-700">
                                 {translate(
                                     'vitality.appDetailsPage.auditHistory.table.columns.triggered',
                                 )}
                             </th>
-                            <th className="px-4 py-4 text-left font-semibold text-slate-700 text-xs uppercase tracking-wide">
+                            <th className="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-700">
                                 {translate(
                                     'vitality.appDetailsPage.auditHistory.table.columns.duration',
                                 )}
                             </th>
-                            <th className="px-4 py-4 text-center font-semibold text-slate-700 text-xs uppercase tracking-wide">
+                            <th className="px-4 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-700">
                                 {translate(
                                     'vitality.appDetailsPage.auditHistory.table.columns.audits',
                                 )}
@@ -303,7 +276,7 @@ export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = (
                             return (
                                 <tr
                                     key={run._id || index}
-                                    className={`transition-colors duration-150 ${onRunClick ? 'hover:bg-blue-50 cursor-pointer' : 'hover:bg-blue-50'}`}
+                                    className={`transition-colors duration-150 ${onRunClick ? 'cursor-pointer hover:bg-blue-50' : 'hover:bg-blue-50'}`}
                                     onClick={onRunClick ? () => onRunClick(run._id) : undefined}
                                 >
                                     <td className="px-4 py-3">
@@ -314,7 +287,7 @@ export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = (
                                                 ) || run.runStatus}
                                             </Badge>
                                             {run.errorMessage && (
-                                                <p className="text-xs text-red-700 max-w-xs truncate">
+                                                <p className="max-w-xs truncate text-xs text-red-700">
                                                     {run.errorMessage}
                                                 </p>
                                             )}
@@ -329,13 +302,13 @@ export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = (
                                             ))}
                                         </div>
                                     </td>
-                                    <td className="px-4 py-3 text-slate-600 whitespace-nowrap">
+                                    <td className="whitespace-nowrap px-4 py-3 text-slate-600">
                                         {formatDate(run.triggeredAt)}
                                     </td>
-                                    <td className="px-4 py-3 text-slate-600 whitespace-nowrap font-medium">
+                                    <td className="whitespace-nowrap px-4 py-3 font-medium text-slate-600">
                                         {duration || '-'}
                                     </td>
-                                    <td className="px-4 py-3 text-slate-600 text-center font-semibold">
+                                    <td className="px-4 py-3 text-center font-semibold text-slate-600">
                                         {run.audits?.length || 0}
                                     </td>
                                 </tr>
@@ -346,24 +319,24 @@ export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = (
             </div>
 
             {totalPages > 1 && (
-                <div className="flex items-center justify-between px-4 py-3 border-t border-slate-200 bg-slate-50">
+                <div className="flex items-center justify-between border-t border-slate-200 bg-slate-50 px-4 py-3">
                     <span className="text-xs text-slate-600">
                         Page {currentPage} / {totalPages}
                     </span>
                     <div className="flex items-center gap-2">
                         <button
                             type="button"
-                            onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                            onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
                             disabled={currentPage === 1}
-                            className="px-3 py-1.5 text-xs font-medium rounded border border-slate-300 bg-white text-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="rounded border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 disabled:cursor-not-allowed disabled:opacity-50"
                         >
-                            Previous
+                            Prev
                         </button>
                         <button
                             type="button"
-                            onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+                            onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
                             disabled={currentPage === totalPages}
-                            className="px-3 py-1.5 text-xs font-medium rounded border border-slate-300 bg-white text-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="rounded border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 disabled:cursor-not-allowed disabled:opacity-50"
                         >
                             Next
                         </button>
