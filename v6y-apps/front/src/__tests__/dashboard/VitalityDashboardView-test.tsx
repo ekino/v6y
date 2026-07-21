@@ -19,9 +19,12 @@ describe('VitalityDashboardView', () => {
             </QueryClientProvider>,
         );
 
-        const section = container.querySelector('section');
-        expect(section).not.toBeNull();
-        expect(section).toHaveClass('rounded-xl');
-        expect(section).toHaveClass('border-slate-200');
+        const sections = container.querySelectorAll('section');
+        const appListSection = Array.from(sections).find((section) =>
+            section.querySelector('[data-testid="mock-app-list"]'),
+        );
+        expect(appListSection).not.toBeUndefined();
+        expect(appListSection).toHaveClass('rounded-2xl');
+        expect(appListSection).toHaveClass('border-slate-200/80');
     });
 });

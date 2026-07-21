@@ -1,11 +1,39 @@
 import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
 import * as React from 'react';
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 
 import { AuditType } from '@v6y/core-logic/src/types';
 
 import VitalityAuditReportsSection from '../../features/app-details/components/audit-reports/VitalityAuditReportsSection';
+
+vi.mock('recharts', () => ({
+    Area: () => <g data-testid="area-series" />,
+    AreaChart: ({ children }: { children: React.ReactNode }) => <svg>{children}</svg>,
+    CartesianGrid: () => <g />,
+    XAxis: () => <g />,
+    YAxis: () => <g />,
+    Pie: ({ children }: { children: React.ReactNode }) => (
+        <g data-testid="pie-series">{children}</g>
+    ),
+    PieChart: ({ children }: { children: React.ReactNode }) => <svg>{children}</svg>,
+    Cell: () => <g />,
+}));
+
+vi.mock('../../features/app-details/components/audit-reports/VitalityAuditReportsSummary', () => ({
+    default: () => <div data-testid="audit-reports-summary">Summary</div>,
+}));
+
+beforeAll(() => {
+    vi.stubGlobal(
+        'ResizeObserver',
+        class ResizeObserver {
+            observe() {}
+            unobserve() {}
+            disconnect() {}
+        },
+    );
+});
 
 const buildBundleReport = (index: number): AuditType => ({
     _id: index,
@@ -30,7 +58,7 @@ const buildPerformanceReport = (index: number): AuditType => ({
 });
 
 describe('VitalityAuditReportsSection', () => {
-    it('renders bundle analysis reports in the table layout', () => {
+    it('renders chart-first report overview for bundled metrics', () => {
         render(
             <VitalityAuditReportsSection
                 title="Performance Metrics"
@@ -39,13 +67,17 @@ describe('VitalityAuditReportsSection', () => {
             />,
         );
 
-        expect(screen.getByRole('columnheader', { name: 'Category' })).toBeInTheDocument();
-        expect(screen.getByRole('columnheader', { name: 'Location' })).toBeInTheDocument();
-        expect(screen.getAllByText('bundle-size')).toHaveLength(6);
-        expect(screen.queryByText('unknown')).not.toBeInTheDocument();
+        expect(screen.getByText('Report health overview')).toBeInTheDocument();
+        expect(screen.getByText('Status by metric family')).toBeInTheDocument();
+        expect(screen.getByText('Priority findings')).toBeInTheDocument();
+        expect(
+            screen.getAllByText(
+                (_, element) => element?.textContent?.includes('Critical: 0') ?? false,
+            ).length,
+        ).toBeGreaterThan(0);
     });
 
-    it('keeps dense layout for status-based performance metrics', () => {
+    it('surfaces warning and success statuses clearly', () => {
         render(
             <VitalityAuditReportsSection
                 title="Performance Metrics"
@@ -54,8 +86,23 @@ describe('VitalityAuditReportsSection', () => {
             />,
         );
 
-        expect(screen.queryByRole('columnheader', { name: 'Category' })).not.toBeInTheDocument();
-        expect(screen.getByText('warning')).toBeInTheDocument();
-        expect(screen.getByText('success')).toBeInTheDocument();
+        expect(screen.getByText(/critical: 0/i)).toBeInTheDocument();
+        expect(screen.getByText(/warning: 3/i)).toBeInTheDocument();
+        expect(screen.getByText(/healthy: 3/i)).toBeInTheDocument();
+    });
+
+    it('renders a pie chart instead of an area chart when chartVariant is pie', () => {
+        render(
+            <VitalityAuditReportsSection
+                title="DevOps Metrics"
+                description="DORA metrics"
+                reports={Array.from({ length: 6 }, (_, index) => buildPerformanceReport(index + 1))}
+                chartVariant="pie"
+            />,
+        );
+
+        expect(screen.getByText('Status breakdown')).toBeInTheDocument();
+        expect(screen.getByTestId('pie-series')).toBeInTheDocument();
+        expect(screen.queryByTestId('area-series')).not.toBeInTheDocument();
     });
 });

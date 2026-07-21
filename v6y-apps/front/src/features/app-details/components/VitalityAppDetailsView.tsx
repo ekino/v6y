@@ -296,8 +296,7 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                 </div>
 
                 <div className="w-full lg:col-span-8">
-                    <div className="mb-4 rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#fafbfc_0%,#f4f6f8_100%)] p-4 shadow-sm md:p-5">
-                        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                             <BranchSelector
                                 branches={auditReportBranches}
