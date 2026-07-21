@@ -1,7 +1,0 @@
-{
-  "framework": "next",
-  "files": ["src/app/**/*.tsx"],
-  "insertBefore": "export default",
-  "commentSyntax": "tsx",
-  "cspChecked": true
-}

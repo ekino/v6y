@@ -1,42 +1,95 @@
 # Product
 
-## Register
+## Product Name
 
-product
+Vitality
 
 ## Platform
 
-web
+Web
 
 ## Users
 
-Internal Ekino developers who own, maintain, and improve technical projects. They work in fast-paced environments and need a reliable way to understand their project health at a glance. Their context: they're already managing code, deployments, and sprints — Vitality fits into their workflow without adding cognitive load.
+Vitality is built for people responsible for the health of digital projects: developers, technical leads, and engineering managers working on internal Ekino applications and client-facing products.
 
-## Product Purpose
+They need to monitor several projects at once, understand where risk is increasing, and communicate project health without digging through multiple tools or unreadable audit outputs.
 
-Vitality provides a unified dashboard to monitor and report on the health and performance of Ekino projects. Developers can scan their projects, see detailed reports, and access actionable insights on code quality, dependencies, and deployment readiness. Success means developers can quickly assess project health and make informed decisions about next steps — all from one accessible, trusted interface.
+## Core Problem
 
-## Positioning
+Project health data is often fragmented. Audit results, dependency issues, code quality signals, and operational checks live in different places or appear in formats that are too technical, too noisy, or too hard to compare.
 
-**Vitality gives developers visible, actionable health insights into all their projects in one place.** It turns complex audits and metrics into clear, scannable reports that teams trust.
+Users do not just need more data. They need a clear interface and reports they can read quickly, trust, and use to decide what to do next.
+
+## Product Promise
+
+Vitality helps teams monitor their projects through a clear interface and easy-to-read reports.
+
+It turns scattered health signals into one understandable product experience: a place where users can scan project status, inspect detailed findings, and act on the issues that matter most.
+
+## Primary Jobs To Be Done
+
+- Check the current health of one project or a portfolio of projects.
+- Identify which application needs attention first.
+- Read an audit report without needing expert context for every metric.
+- Compare findings over time and understand whether things are improving.
+- Share a readable project-health view with teammates and stakeholders.
+
+## What Success Looks Like
+
+Vitality is successful when users can:
+
+- understand the state of a project in a few seconds
+- open a report and immediately grasp the main findings
+- move from summary to detail without confusion
+- prioritize follow-up actions with confidence
+
+## Product Positioning
+
+Vitality is not a generic analytics dashboard and not a raw audit log viewer.
+
+It is a project health monitoring product. Its value comes from transforming complex technical checks into a readable, decision-ready view of project status.
+
+## Product Principles
+
+### 1. Clarity Beats Exhaustiveness
+
+Vitality should expose the most important signals first. Detailed data matters, but it should support decisions rather than overwhelm them.
+
+### 2. Monitoring Before Management
+
+The first promise is visibility. Users come to Vitality to understand health, risk, and change across projects before they decide what to fix.
+
+### 3. Reports Must Be Human-Readable
+
+Reports should translate technical results into structured, understandable information. They must support both expert review and fast stakeholder communication.
+
+### 4. One Product, Many Projects
+
+Vitality should make it easy to move across multiple projects while preserving consistency in status language, layout, and report reading patterns.
+
+### 5. Trust Is Essential
+
+Every metric, label, and status should feel dependable. The product should never exaggerate, hide uncertainty, or rely on visual tricks to create urgency.
+
+## User Experience Expectations
+
+- Dashboard views provide fast portfolio awareness.
+- Project pages preserve a clear summary before deep technical detail.
+- Reports are structured around findings, severity, context, and next action.
+- Filters and navigation help users focus, not get lost.
+- The product should feel calm and operational, even when surfacing critical issues.
 
 ## Brand Personality
 
-Professional but approachable. Vitality speaks to developers with clarity and respect — no hype, no jargon unless necessary, no cute mascots. The interface is serious about the job but not austere. A developer should feel confident that Vitality will show them what matters and won't waste their time.
+Vitality is clear, serious, and supportive. It respects the user's time and attention. The tone should be direct and understandable, with plain language whenever possible.
 
-## Anti-references
+## What Vitality Should Not Become
 
-Avoid overly decorative SaaS dashboards with gradients, animations for decoration's sake, or candy-colored badges. Avoid cluttered information hierarchies that hide what matters. Don't mimic analytics tools that overwhelm with features; Vitality is focused.
+- A flashy dashboard full of decorative metrics
+- A developer tool that only experts can decode
+- A cluttered back office with inconsistent report formats
+- A monitoring surface that surfaces problems without context or prioritization
 
-## Design Principles
+## Product Outcome
 
-- **Progressive disclosure**: Advanced options and secondary data stay hidden until needed. The primary view shows the health snapshot and primary actions; details reveal on demand.
-- **Data-first hierarchy**: Every screen prioritizes useful information over visual polish. No decorative elements that don't serve understanding.
-- **Scannable reports**: Developers should be able to grasp project status in seconds. Clear color coding, strong typography hierarchy, and strategic white space.
-- **One interface, multiple projects**: The dashboard seamlessly handles monitoring dozens of projects without overwhelming users or requiring modal dialogs.
-
-## Accessibility & Inclusion
-
-- **WCAG AA compliance** across all screens and components.
-- Support reduced motion defaults; animations enhance but don't gate interaction.
-- Color is never the only signal; status and alerts are reinforced with text, icons, or positioning.
+Vitality should help users feel that project monitoring is finally manageable: the interface is clear, the reports are readable, and the next important action is obvious.

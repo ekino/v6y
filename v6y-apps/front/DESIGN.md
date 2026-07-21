@@ -1,112 +1,145 @@
 # Design
 
-## Color Palette
+## Design Intent
 
-Using OKLCH for consistent, perceptually uniform color throughout light and dark modes.
+Vitality should feel like a calm control room for project health. The interface exists to help users understand what is happening across their applications in seconds, then move naturally from overview to detailed reports without losing context.
 
-### Light Mode (Default)
+The design priority is clarity before decoration. Every visual choice should make monitoring easier: stronger hierarchy, quieter surfaces, clearer states, and reports that are readable even when the data is dense.
 
-- **Background**: `oklch(100% 0.00011 271.152)` — near-white, almost pure white
-- **Foreground**: `oklch(0.145 0 0)` — almost black, high contrast for text
-- **Primary**: `oklch(0.205 0 0)` — dark gray, used for key actions and sidebars
-- **Primary Foreground**: `oklch(0.985 0 0)` — near-white, text on dark backgrounds
-- **Secondary**: `oklch(0.97 0 0)` — very light gray, for subtle accents
-- **Muted**: `oklch(0.97 0 0)` — very light gray, for disabled/secondary states
-- **Muted Foreground**: `oklch(0.556 0 0)` — medium gray, subtle text
-- **Card**: `oklch(1 0 0)` — pure white, card and surface containers
-- **Border**: `oklch(0.922 0 0)` — light gray, subtle dividers
-- **Input**: `oklch(0.922 0 0)` — light gray, form field backgrounds
-- **Destructive**: `oklch(0.577 0.245 27.325)` — warm red, alerts and errors
-- **Chart 1–5**: Warm, cool, cool, light, muted orange — for data visualization series
+## Experience Goals
 
-### Dark Mode
+- Help users spot the health of a project at a glance.
+- Make audit reports easy to scan, compare, and revisit.
+- Reduce cognitive load when switching between projects, categories, and report sections.
+- Present important signals first: status, trend, severity, impacted area, and next action.
 
-- **Background**: `oklch(0.145 0 0)` — dark gray/charcoal
-- **Foreground**: `oklch(0.985 0 0)` — near-white, high contrast text
-- **Primary**: `oklch(0.922 0 0)` — light gray, bright actions
-- **Card**: `oklch(0.205 0 0)` — dark surface
-- **Destructive**: `oklch(0.704 0.191 22.216)` — lighter red for dark backgrounds
-- **Border**: `oklch(1 0 0 / 10%)` — white at 10% opacity, subtle dividers
+## Interface Principles
 
-### Sidebar
+### 1. Monitoring First
 
-- **Light**: `oklch(0.985 0 0)` (near-white background) on foreground text
-- **Dark**: `oklch(0.205 0 0)` (dark background) on light text
-- **Primary button**: `oklch(0.205 0 0)` — acts as highlight/active state
+The main experience is not content browsing. It is ongoing monitoring. Dashboards, lists, and detail pages should always answer these questions quickly:
 
-## Typography
+- Which projects are healthy?
+- Which ones need attention now?
+- What changed since the last check?
+- Where should the user go next?
 
-- **Font Family**: Inter, sans-serif (system fallback)
-- **Font Weights**: 400 (regular), 500 (medium), 600 (semibold), 700 (bold)
-- **Strategy**: Clean, neutral, highly legible. Single-family hierarchy via weight variation.
+### 2. Readable Reports Over Fancy Reports
 
-### Recommended Scale
+Reports should feel structured and operational, not theatrical. Favor:
 
-- **Display**: 28–36px, weight 700, line-height 1.2
-- **Heading 1**: 24–28px, weight 600, line-height 1.3
-- **Heading 2**: 20–24px, weight 600, line-height 1.3
-- **Heading 3**: 18–20px, weight 600, line-height 1.4
-- **Body**: 14–16px, weight 400, line-height 1.5
-- **Small**: 12–14px, weight 400, line-height 1.5
-- **Label**: 12–13px, weight 500, line-height 1.4
+- clear section headers
+- consistent card layouts
+- compact summaries before deep detail
+- tables and lists with strong labels
+- meaningful status chips and severity markers
 
-## Spacing & Rhythm
+Avoid visual noise that competes with the data.
 
-- **Base Unit**: 0.25rem (4px)
-- **Radius**: 0.625rem (10px) — slightly rounded, modern but restrained
-- **Breakpoints**: sm, md, lg (Tailwind defaults)
-- **Max Content Width**: 1400px with consistent side gutters
+### 3. Progressive Disclosure
 
-## Components
+Show the signal first, then the explanation. Summary metrics, status labels, and key findings should appear before raw details, code references, or historical entries.
 
-Built with Radix UI + class-variance-authority (CVA) for consistent variants.
+### 4. Stable Navigation
 
-### Core Components
+Users should always know where they are: dashboard, project, audit run, or report. Keep navigation predictable and keep filter state visible.
 
-- **Button**: Primary (dark), secondary (light), outline, ghost variants. Sizes: sm, md, lg.
-- **Input / Textarea**: Light gray background, dark text, clear focus states via `--ring`
-- **Select / Dropdown**: Radix-based, inherits theme colors
-- **Card**: White background (light) / dark gray (dark), subtle border or shadow
-- **Badge**: Primary, secondary, destructive variants
-- **Alert**: Destructive (red) for errors, semantic use
-- **Pagination**: Minimal, inherits button and text styling
-- **Breadcrumb**: Text-based, slash-separated, low visual weight
-- **Avatar**: Circular, supports initials or images
-- **Checkbox / Radio**: Radix-based, accessible
-- **Accordion**: Smooth expand/collapse, `accordion-down` / `accordion-up` animations
-- **Sidebar**: Dedicated color role with primary/accent highlights
+## Visual Direction
 
-## Motion
+### Tone
 
-### Animations
+Professional, reassuring, and precise. Vitality should feel trustworthy enough for operational follow-up, but not heavy or intimidating.
 
-- **Accordion**: 0.2s ease-out, smooth open/close
-- **Custom Fade-In**: 0.5s ease-out, subtle upward motion (0–12px)
-- **Gradient Pan** (optional): 8s ease infinite, for animated backgrounds
+### Color
 
-### Principles
+Use a restrained neutral base with a small set of semantic accents:
 
-- Ease-out curves (no bounce, no elastic)
-- Duration: 200–500ms for micro-interactions, 500ms+ for larger reveals
-- Respect `prefers-reduced-motion: reduce`
+- neutral surfaces for dashboards and reports
+- green for healthy or compliant states
+- amber for warnings and watch points
+- red for urgent issues and failing checks
+- blue only for navigation, filters, or informational focus
 
-## Dark Mode
+Status colors must support comprehension, not branding alone. Never rely on color as the only signal.
 
-- Implemented via `.dark` class on document root or parent container
-- Full color system override via CSS variables
-- No separate file; light/dark variants coexist in single CSS layer
+### Typography
 
-## Design Principles for This System
+Typography should make dense information easier to read:
 
-1. **Restrained Palette**: Nearly monochromatic with one warm accent (red for destructive). Lets data and content speak.
-2. **High Contrast**: Dark text on light, light text on dark. Every color pair meets WCAG AA minimum.
-3. **GitHub-Like Aesthetic**: Clean, professional, developer-friendly. No decorative gradients or excess personality.
-4. **Accessible by Default**: Color is never the only signal; text, icons, and positioning reinforce meaning.
-5. **Progressive Disclosure**: Secondary options and advanced settings hidden until needed; primary surfaces remain clear.
+- strong page titles and section titles
+- clear metric numerals
+- short descriptive labels
+- generous line-height in long report content
+- tabular or monospaced numerals where comparing scores, counts, or dates matters
 
-## File Locations
+### Spacing
 
-- **Colors & Theme**: CSS variables in `src/styles.css` (ui-kit-front)
-- **Components**: `src/components/atoms/` (fundamental) and `src/components/molecules/` (composed)
-- **Animations**: Keyframes in `src/styles.css`
-- **Tailwind Config**: Imported via `@import 'tailwindcss'` in `src/styles.css`
+Use spacing to separate levels of meaning:
+
+- tight spacing inside related metrics
+- larger gaps between sections
+- visible breathing room around report summaries and callouts
+
+## Core Surfaces
+
+### Dashboard
+
+The dashboard should surface portfolio health first:
+
+- health overview per project
+- critical alerts and regressions
+- recent audit activity
+- shortcuts to the most relevant reports
+
+The dashboard is successful when a user can decide where to focus in less than 30 seconds.
+
+### Project List
+
+The project list should behave like a monitoring queue, not a directory. Each row or card should make it easy to compare:
+
+- project name
+- overall status
+- last audit date
+- most important issue or category
+- direct path to details
+
+### Project Details
+
+Details pages should preserve the summary at the top and organize the rest into readable sections. Users should not need to scroll through raw data to find the overall state.
+
+### Reports
+
+Reports are the trust layer of Vitality. They must be easy to read, easy to share, and easy to act on. A good report page includes:
+
+- an executive summary at the top
+- grouped findings by category or severity
+- plain-language labels for technical metrics
+- timestamps and audit context
+- clear next steps when action is required
+
+## Interaction Patterns
+
+- Filters must be visible, understandable, and reversible.
+- Sorting should support monitoring tasks such as severity, freshness, or risk.
+- Empty states should explain what is missing and how to generate the next useful signal.
+- Loading states should preserve structure so users understand what is coming.
+- Trend and status changes should be noticeable but subtle.
+
+## Accessibility
+
+- Target WCAG AA contrast across dashboards and reports.
+- Use text, icons, and layout in addition to color for statuses.
+- Support keyboard navigation across filters, tables, tabs, and expandable sections.
+- Keep motion minimal and never required for comprehension.
+
+## What To Avoid
+
+- Overly decorative gradients or marketing-style visuals on data-heavy screens
+- Crowded cards with too many competing metrics
+- Ambiguous icons without text labels
+- Deep nesting that hides the report summary
+- Tables that require horizontal scanning to understand severity or status
+
+## Design Outcome
+
+When the design is working, Vitality helps users feel in control of their projects. The interface makes health signals obvious, reports feel readable instead of overwhelming, and every screen supports a simple flow: monitor, understand, decide, act.
