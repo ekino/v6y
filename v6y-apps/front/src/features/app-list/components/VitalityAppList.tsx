@@ -58,6 +58,7 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
             <VitalityAppListHeader
                 appsTotal={totalCount}
                 addApplicationUrl={VitalityApiConfig.VITALITY_FRONT_BO_URL}
+                source={source}
             />
 
             {isAppListLoading && !dataAppList ? (

@@ -289,7 +289,7 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
 
     return (
         <div className="space-y-6">
-            <section className="rounded-2xl border border-sky-200/80 bg-[linear-gradient(135deg,#ffffff_0%,#eef6ff_55%,#f4fbff_100%)] px-5 py-5 shadow-sm md:px-6">
+            <section className="rounded-2xl border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#f4f6f8_55%,#f8fafc_100%)] px-5 py-5 shadow-sm md:px-6">
                 <div className="max-w-3xl space-y-2">
                     <h1 className="text-2xl font-semibold tracking-tight text-slate-950 md:text-3xl">
                         Review branches, report categories, and audit history.
@@ -303,7 +303,7 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                 </div>
 
                 <div className="w-full lg:col-span-9">
-                    <div className="mb-4 rounded-2xl border border-sky-200/70 bg-[linear-gradient(180deg,#f9fcff_0%,#f2f8ff_100%)] p-4 shadow-sm md:p-5">
+                    <div className="mb-4 rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#fafbfc_0%,#f4f6f8_100%)] p-4 shadow-sm md:p-5">
                         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                             <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                                 <BranchSelector
@@ -317,7 +317,7 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                                 <Button
                                     variant="outline"
                                     size="sm"
-                                    className="h-10 w-10 shrink-0 rounded-lg border-sky-200 bg-white p-2 text-slate-700 hover:bg-sky-50"
+                                    className="h-10 w-10 shrink-0 rounded-lg border-slate-300 bg-white p-2 text-slate-700 hover:bg-slate-50"
                                     title="Reload"
                                 >
                                     <ReloadIcon className="w-4 h-4 shrink-0" />
@@ -325,7 +325,7 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                                 <Button
                                     variant="outline"
                                     size="sm"
-                                    className="h-10 w-10 shrink-0 rounded-lg border-sky-200 bg-white p-2 text-slate-700 hover:bg-sky-50"
+                                    className="h-10 w-10 shrink-0 rounded-lg border-slate-300 bg-white p-2 text-slate-700 hover:bg-slate-50"
                                     title="Globe"
                                 >
                                     <GlobeIcon className="w-4 h-4 shrink-0" />
@@ -335,7 +335,7 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                                     disabled={isRunningAudit}
                                     variant="outline"
                                     size="sm"
-                                    className="flex h-10 items-center gap-1.5 rounded-full border-sky-700 bg-sky-700 px-4 text-white hover:bg-sky-800"
+                                    className="flex h-10 items-center gap-1.5 rounded-full border-slate-900 bg-slate-900 px-4 text-white hover:bg-slate-800"
                                 >
                                     {isRunningAudit ? (
                                         <>
@@ -363,7 +363,7 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
 
                     <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between md:gap-2">
                         <div
-                            className="inline-flex overflow-x-auto rounded-xl border border-sky-200/80 bg-white/95 p-1 shadow-sm"
+                            className="inline-flex overflow-x-auto rounded-xl border border-slate-200 bg-white/95 p-1 shadow-sm"
                             role="tablist"
                             aria-label="Details tabs"
                         >
@@ -375,8 +375,8 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                                     aria-selected={activeTab === tab.id}
                                     className={`shrink-0 rounded-lg px-3 py-2 text-xs font-medium transition-colors sm:text-sm ${
                                         activeTab === tab.id
-                                            ? 'bg-sky-700 text-white shadow-sm'
-                                            : 'text-slate-600 hover:bg-sky-50 hover:text-slate-900'
+                                            ? 'bg-slate-900 text-white shadow-sm'
+                                            : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
                                     }`}
                                 >
                                     {tab.label}
@@ -386,7 +386,7 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
 
                         <Button
                             onClick={onExportClicked}
-                            className="h-10 w-full shrink-0 rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-900 shadow-sm ring-1 ring-sky-200 hover:bg-sky-50 sm:w-auto"
+                            className="h-10 w-full shrink-0 rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-900 shadow-sm ring-1 ring-slate-300 hover:bg-slate-50 sm:w-auto"
                         >
                             {translate('vitality.appDetailsPage.exportButton')}
                         </Button>
