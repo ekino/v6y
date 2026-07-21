@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
@@ -9,13 +10,30 @@ import VitalityBreadcrumb from './VitalityBreadcrumb';
 import VitalityPageHeader from './VitalityPageHeader';
 
 const VitalityPageLayout = ({ children }: { children: ReactNode }) => {
+    const pathname = usePathname();
+    const isLoginPage = pathname === '/login';
+
     return (
-        <div className="min-h-screen bg-slate-50 text-slate-950">
+        <div
+            className={`min-h-screen bg-slate-50 text-slate-950 ${isLoginPage ? 'overflow-hidden' : ''}`}
+        >
             <VitalityPageHeader />
 
-            <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 pb-8 pt-4 md:px-6 md:pb-10 md:pt-5 lg:gap-4 lg:px-8">
-                <VitalityBreadcrumb />
-                <section className="min-h-[calc(100vh-8rem)] px-0 py-2 md:py-4">
+            <div
+                className={`mx-auto flex w-full max-w-[96rem] flex-col ${
+                    isLoginPage
+                        ? 'px-3 pt-3 md:px-4 md:pt-4 lg:px-6'
+                        : 'gap-3 px-3 pb-6 pt-3 md:px-4 md:pb-8 md:pt-4 lg:gap-4 lg:px-6'
+                }`}
+            >
+                {!isLoginPage && <VitalityBreadcrumb />}
+                <section
+                    className={
+                        isLoginPage
+                            ? 'flex min-h-[calc(100dvh-4.75rem)] items-center justify-center px-0 py-0 md:min-h-[calc(100dvh-5rem)]'
+                            : 'min-h-[calc(100vh-6rem)] px-0 py-1 md:min-h-[calc(100vh-6.5rem)] md:py-2'
+                    }
+                >
                     {children}
                 </section>
             </div>
