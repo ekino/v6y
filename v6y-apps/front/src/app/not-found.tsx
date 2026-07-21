@@ -1,8 +1,15 @@
 import Link from 'next/link';
 
 import VitalityNavigationPaths from '../commons/config/VitalityNavigationPaths';
+import { getServerTranslation } from '../infrastructure/translation/serverTranslation';
 
-export default function NotFound() {
+export default async function NotFound() {
+    const badge = await getServerTranslation('vitality.notFound.badge');
+    const title = await getServerTranslation('vitality.notFound.title');
+    const description = await getServerTranslation('vitality.notFound.description');
+    const backToDashboard = await getServerTranslation('vitality.notFound.backToDashboard');
+    const openApplications = await getServerTranslation('vitality.notFound.openApplications');
+
     return (
         <div className="mx-auto w-full max-w-3xl px-2 py-6 md:py-10">
             <section className="rounded-3xl border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#f5f7fa_58%,#f8fafc_100%)] p-6 shadow-sm md:p-10">
@@ -17,13 +24,12 @@ export default function NotFound() {
                     </svg>
                 </div>
 
-                <p className="text-sm font-medium uppercase tracking-wide text-slate-600">Error 404</p>
+                <p className="text-sm font-medium uppercase tracking-wide text-slate-600">{badge}</p>
                 <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950 md:text-4xl">
-                    This page could not be found
+                    {title}
                 </h1>
                 <p className="mt-3 max-w-2xl text-base leading-relaxed text-slate-700">
-                    The requested resource is unavailable or the link is outdated. Continue from the
-                    dashboard or go back to the application list.
+                    {description}
                 </p>
 
                 <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -31,13 +37,13 @@ export default function NotFound() {
                         href={VitalityNavigationPaths.DASHBOARD}
                         className="inline-flex h-11 items-center justify-center rounded-full bg-slate-900 px-5 text-sm font-medium text-white transition-colors hover:bg-slate-800"
                     >
-                        Return to dashboard
+                        {backToDashboard}
                     </Link>
                     <Link
                         href={VitalityNavigationPaths.APP_LIST}
                         className="inline-flex h-11 items-center justify-center rounded-full border border-slate-300 bg-white px-5 text-sm font-medium text-slate-900 transition-colors hover:bg-slate-50"
                     >
-                        Open applications list
+                        {openApplications}
                     </Link>
                 </div>
             </section>

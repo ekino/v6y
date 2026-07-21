@@ -10,7 +10,11 @@
       "menuTitle": "Choose an option to view the relevant applications",
       "pageTitle": "Vitality: Keeping Your Codebase Healthy and High-Performing",
       "shortTitle": "dashboard",
-      "searchByProjectName": "Search by project name"
+      "searchByProjectName": "Search by project name",
+      "reportsTrendTitle": "Reports generated over the last month",
+      "reportsTrendSubtitle": "Weekly trend of audit activity across monitored applications",
+      "reportsTrendLegend": "Reports",
+      "reportsTrendEmpty": "No reports generated recently"
     },
     "appListPage": {
       "loadMore": "Click to load more applications",
@@ -20,6 +24,10 @@
       "exportLabel": "Export Applications",
       "addApplicationLabel": "Add Application",
       "addApplicationDescription": "Create and configure a new application from back-office.",
+      "headerTitle": "Projects under watch",
+      "headerDescription": "Compare repositories, open the right report quickly, and export the current view when needed.",
+      "resultsOne": "result",
+      "resultsOther": "results",
       "contactEmail": "Contact The Team",
       "nbBranches": "Number of opened branches: ",
       "shortTitle": "applications",
@@ -50,6 +58,12 @@
       "exportButton": "Export Reporting",
       "runAuditButton": "Run Audit",
       "runAuditButtonLoading": "Running...",
+      "invalidApplicationIdentifier": "Invalid application identifier",
+      "auditIntroTitle": "Review branches, report categories, and audit history.",
+      "actions": {
+        "reload": "Reload",
+        "globe": "Open link"
+      },
       "loadingStates": {
         "auditReports": "Loading audit reports...",
         "qualityIndicators": "Loading quality indicators...",
@@ -96,8 +110,15 @@
         "noIndicators": "No quality indicators available for this application."
       },
       "summaryCard": {
+        "title": "App health summary",
+        "description": "Follow branches, reporting coverage, and the channels attached to this project before drilling into category-level findings.",
         "lastAnalyze": "Last analyze {date}",
         "branchesLabel": "Git branches: {count}",
+        "branchesTracked": "Branches tracked",
+        "linkedSystems": "Linked systems",
+        "ownerChannel": "Owner channel",
+        "available": "Available",
+        "missing": "Missing",
         "status": {
           "success": "success",
           "warning": "warning",
@@ -293,6 +314,13 @@
           "default": "Send Message"
         }
       }
+    },
+    "notFound": {
+      "badge": "Error 404",
+      "title": "This page could not be found",
+      "description": "The requested resource is unavailable or the link is outdated. Continue from the dashboard or go back to the application list.",
+      "backToDashboard": "Return to dashboard",
+      "openApplications": "Open applications list"
     },
     "metadata": {
       "title": "Vitality | Monitor and Optimize Your Codebase Health",

@@ -32,6 +32,7 @@ export {
     Package,
     Scale,
     Search,
+    Eye,
     Settings,
     Shield,
     Type,

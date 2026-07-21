@@ -22,6 +22,7 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
     const { translate } = useTranslationProvider();
     const { getUrlParams } = useNavigationAdapter();
     const [, searchText] = getUrlParams(['keywords', 'searchText']);
+    const isDashboard = source === 'dashboard';
 
     const { data: dataAppList, isLoading: isAppListLoading } = useClientQuery<{
         getApplicationListByPageAndParams: ApplicationType[];
@@ -54,7 +55,7 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
     }, [searchText]);
 
     return (
-        <div className="w-full flex flex-col items-center gap-6">
+        <div className={`w-full flex flex-col items-center ${isDashboard ? 'gap-5' : 'gap-6'}`}>
             <VitalityAppListHeader
                 appsTotal={totalCount}
                 addApplicationUrl={VitalityApiConfig.VITALITY_FRONT_BO_URL}
@@ -71,7 +72,7 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
                 </div>
             ) : (
                 <div className="w-full">
-                    <ul className="space-y-4">
+                    <ul className={isDashboard ? 'space-y-3' : 'space-y-4'}>
                         {paginatedAppList.map((app, index) => (
                             <VitalityAppInfos
                                 key={app._id}

@@ -282,27 +282,21 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
     if (!targetApplicationId) {
         return (
             <div className="mt-3">
-                <div className="text-sm text-red-500">Invalid application identifier</div>
+                <div className="text-sm text-red-500">
+                    {translate('vitality.appDetailsPage.invalidApplicationIdentifier')}
+                </div>
             </div>
         );
     }
 
     return (
         <div className="space-y-6">
-            <section className="rounded-2xl border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#f4f6f8_55%,#f8fafc_100%)] px-5 py-5 shadow-sm md:px-6">
-                <div className="max-w-3xl space-y-2">
-                    <h1 className="text-2xl font-semibold tracking-tight text-slate-950 md:text-3xl">
-                        Review branches, report categories, and audit history.
-                    </h1>
-                </div>
-            </section>
-
             <div className="grid grid-cols-1 gap-5 lg:grid-cols-12 lg:gap-6">
-                <div className="w-full lg:col-span-3">
+                <div className="w-full lg:col-span-4">
                     {appInfos ? <VitalitySummaryCard appInfos={appInfos} /> : null}
                 </div>
 
-                <div className="w-full lg:col-span-9">
+                <div className="w-full lg:col-span-8">
                     <div className="mb-4 rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#fafbfc_0%,#f4f6f8_100%)] p-4 shadow-sm md:p-5">
                         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                             <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
@@ -318,7 +312,7 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                                     variant="outline"
                                     size="sm"
                                     className="h-10 w-10 shrink-0 rounded-lg border-slate-300 bg-white p-2 text-slate-700 hover:bg-slate-50"
-                                    title="Reload"
+                                    title={translate('vitality.appDetailsPage.actions.reload')}
                                 >
                                     <ReloadIcon className="w-4 h-4 shrink-0" />
                                 </Button>
@@ -326,7 +320,7 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                                     variant="outline"
                                     size="sm"
                                     className="h-10 w-10 shrink-0 rounded-lg border-slate-300 bg-white p-2 text-slate-700 hover:bg-slate-50"
-                                    title="Globe"
+                                    title={translate('vitality.appDetailsPage.actions.globe')}
                                 >
                                     <GlobeIcon className="w-4 h-4 shrink-0" />
                                 </Button>

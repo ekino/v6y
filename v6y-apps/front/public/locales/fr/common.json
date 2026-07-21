@@ -10,7 +10,11 @@
       "menuTitle": "Choisissez une option pour afficher les applications pertinentes",
       "pageTitle": "Vitality : Maintenir votre base de code saine et performante",
       "shortTitle": "tableau de bord",
-      "searchByProjectName": "Rechercher par nom de projet"
+      "searchByProjectName": "Rechercher par nom de projet",
+      "reportsTrendTitle": "Rapports générés sur le dernier mois",
+      "reportsTrendSubtitle": "Tendance hebdomadaire des audits sur les applications suivies",
+      "reportsTrendLegend": "Rapports",
+      "reportsTrendEmpty": "Aucun rapport généré récemment"
     },
     "appListPage": {
       "loadMore": "Cliquez pour charger plus d'applications",
@@ -21,6 +25,10 @@
       "exportLabel": "Exporter les applications",
       "addApplicationLabel": "Ajouter une application",
       "addApplicationDescription": "Créer et configurer une nouvelle application depuis le back-office.",
+      "headerTitle": "Projets sous surveillance",
+      "headerDescription": "Comparez les dépôts, ouvrez rapidement le bon rapport et exportez la vue actuelle si nécessaire.",
+      "resultsOne": "résultat",
+      "resultsOther": "résultats",
       "contactEmail": " Contacter l'équipe",
       "nbBranches": "Nombre de branches ouvertes : ",
       "empty": "Aucune application trouvée",
@@ -50,6 +58,12 @@
       "exportButton": "Exporter le reporting",
       "runAuditButton": "Lancer l'audit",
       "runAuditButtonLoading": "En cours...",
+      "invalidApplicationIdentifier": "Identifiant d'application invalide",
+      "auditIntroTitle": "Parcourez les branches, les catégories de rapports et l'historique des audits.",
+      "actions": {
+        "reload": "Rafraîchir",
+        "globe": "Ouvrir le lien"
+      },
       "loadingStates": {
         "auditReports": "Chargement des rapports d'audit...",
         "qualityIndicators": "Chargement des indicateurs de qualité...",
@@ -96,8 +110,15 @@
         "noIndicators": "Aucun indicateur de qualité disponible pour cette application."
       },
       "summaryCard": {
+        "title": "Résumé de santé de l'application",
+        "description": "Suivez les branches, la couverture des rapports et les canaux rattachés à ce projet avant d'entrer dans les détails par catégorie.",
         "lastAnalyze": "Dernière analyse {date}",
         "branchesLabel": "Branches Git : {count}",
+        "branchesTracked": "Branches suivies",
+        "linkedSystems": "Systèmes liés",
+        "ownerChannel": "Canal propriétaire",
+        "available": "Disponible",
+        "missing": "Manquant",
         "status": {
           "success": "succès",
           "warning": "avertissement",
@@ -293,6 +314,13 @@
           "default": "Envoyer le message"
         }
       }
+    },
+    "notFound": {
+      "badge": "Erreur 404",
+      "title": "Cette page est introuvable",
+      "description": "La ressource demandée est indisponible ou le lien est obsolète. Revenez au tableau de bord ou ouvrez la liste des applications.",
+      "backToDashboard": "Retourner au tableau de bord",
+      "openApplications": "Ouvrir la liste des applications"
     },
     "metadata": {
       "title": "Vitality | Surveiller et Optimiser la Santé de Votre Base de Code",
