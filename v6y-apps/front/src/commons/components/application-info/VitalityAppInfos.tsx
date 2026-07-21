@@ -6,20 +6,22 @@ import {
     CommitIcon,
     GlobeIcon,
     StarIcon,
-    useNavigationAdapter,
     useTranslationProvider,
 } from '@v6y/ui-kit-front';
 
 import VitalityNavigationPaths from '../../config/VitalityNavigationPaths';
 import { VitalityAppInfosProps } from '../../types/VitalityAppInfosProps';
 
-const VitalityAppInfos = ({ app, source, canOpenDetails = true }: VitalityAppInfosProps) => {
-    const { createUrlQueryParam } = useNavigationAdapter();
+const VitalityAppInfos = ({
+    app,
+    source,
+    canOpenDetails = true,
+    style,
+}: VitalityAppInfosProps) => {
     const { translate } = useTranslationProvider();
-    const queryParams = createUrlQueryParam('_id', `${app._id}`);
     const appDetailsLink = source
-        ? VitalityNavigationPaths.APP_DETAILS + '?' + queryParams + '&' + 'source=' + source
-        : VitalityNavigationPaths.APP_DETAILS + '?' + queryParams;
+        ? `${VitalityNavigationPaths.APP}/${app._id}?source=${source}`
+        : `${VitalityNavigationPaths.APP}/${app._id}`;
 
     const appLinks = app.links;
     const appRepository = app.repo;
@@ -27,7 +29,10 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true }: VitalityAppInf
     const trackedLinks = (appLinks || []).filter((link) => typeof link.value === 'string').length;
 
     return (
-        <li className="w-full rounded-2xl border border-slate-200 bg-white px-5 py-5 shadow-sm transition-colors hover:border-slate-300">
+        <li
+            className="w-full rounded-2xl border border-slate-200 bg-white px-5 py-5 shadow-sm transition-colors hover:border-slate-300"
+            style={style}
+        >
             <div className="flex flex-col gap-5">
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                     <div className="min-w-0 flex-1 space-y-3">

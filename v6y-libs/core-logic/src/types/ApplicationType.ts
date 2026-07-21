@@ -8,6 +8,8 @@ export interface ApplicationType {
     acronym?: string;
     contactMail?: string;
     description?: string;
+    createdAt?: string | Date;
+    updatedAt?: string | Date;
     repo?: RepositoryType;
     configuration?: ApplicationConfigType;
     links?: LinkType[];
@@ -32,5 +34,4 @@ export interface ApplicationInputType {
     codeQualityPlatformLink?: string;
     ciPlatformLink?: string;
     deploymentPlatformLink?: string;
-    additionalProductionLinks?: string[];
 }

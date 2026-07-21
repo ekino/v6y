@@ -18,14 +18,6 @@ const TestWrapper = ({ children }: { children: React.ReactNode }) => {
     return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 };
 
-vi.mock('../../features/app-details/components/infos/VitalityGeneralInformationView', () => ({
-    default: ({ appInfos }: { appInfos?: { name?: string } }) => (
-        <div data-testid="general-information-view">
-            General Information View {appInfos?.name && `- ${appInfos.name}`}
-        </div>
-    ),
-}));
-
 vi.mock('../../features/app-details/components/audit-reports/VitalityAuditReportsView', () => ({
     default: () => <div data-testid="audit-reports-view">Audit Reports View</div>,
 }));
@@ -138,12 +130,9 @@ describe('VitalityAppDetailsView', () => {
 
         expect(screen.getByRole('combobox')).toBeInTheDocument();
 
-        expect(screen.getByDisplayValue('2025-01-01')).toBeInTheDocument();
-
         const buttons = screen.getAllByRole('button');
         expect(buttons.length).toBeGreaterThanOrEqual(4);
 
-        expect(screen.getByText('vitality.appDetailsPage.tabs.overview')).toBeInTheDocument();
         expect(screen.getByText('vitality.appDetailsPage.tabs.performance')).toBeInTheDocument();
         expect(screen.getByText('vitality.appDetailsPage.tabs.accessibility')).toBeInTheDocument();
         expect(screen.getByText('vitality.appDetailsPage.tabs.security')).toBeInTheDocument();
@@ -186,31 +175,25 @@ describe('VitalityAppDetailsView', () => {
         });
     });
 
-    it('shows Overview tab content by default', async () => {
+    it('shows Performance tab content by default', async () => {
         renderComponent();
 
         await waitFor(() => {
-            expect(screen.getByTestId('general-information-view')).toBeInTheDocument();
+            expect(screen.getByTestId('audit-reports-view')).toBeInTheDocument();
         });
     });
 
     it('switches tab content when clicking different tabs', async () => {
         renderComponent();
 
-        await waitFor(() => {
-            expect(screen.getByTestId('general-information-view')).toBeInTheDocument();
-        });
-
         fireEvent.click(screen.getByText('vitality.appDetailsPage.tabs.performance'));
         await waitFor(() => {
             expect(screen.getByTestId('audit-reports-view')).toBeInTheDocument();
-            expect(screen.queryByTestId('general-information-view')).not.toBeInTheDocument();
         });
 
         fireEvent.click(screen.getByText('vitality.appDetailsPage.tabs.accessibility'));
         await waitFor(() => {
             expect(screen.getByTestId('audit-reports-view')).toBeInTheDocument();
-            expect(screen.queryByTestId('general-information-view')).not.toBeInTheDocument();
         });
 
         fireEvent.click(screen.getByText('vitality.appDetailsPage.tabs.security'));
@@ -229,21 +212,21 @@ describe('VitalityAppDetailsView', () => {
         renderComponent();
 
         await waitFor(() => {
-            const overviewTab = screen.getByText('vitality.appDetailsPage.tabs.overview');
             const performanceTab = screen.getByText('vitality.appDetailsPage.tabs.performance');
-
-            expect(overviewTab).toHaveClass('bg-white', 'text-slate-900', 'shadow-xs');
-            expect(performanceTab).toHaveClass('text-slate-700');
-        });
-
-        fireEvent.click(screen.getByText('vitality.appDetailsPage.tabs.performance'));
-
-        await waitFor(() => {
-            const overviewTab = screen.getByText('vitality.appDetailsPage.tabs.overview');
-            const performanceTab = screen.getByText('vitality.appDetailsPage.tabs.performance');
+            const accessibilityTab = screen.getByText('vitality.appDetailsPage.tabs.accessibility');
 
             expect(performanceTab).toHaveClass('bg-white', 'text-slate-900', 'shadow-xs');
-            expect(overviewTab).toHaveClass('text-slate-700');
+            expect(accessibilityTab).toHaveClass('text-slate-700');
+        });
+
+        fireEvent.click(screen.getByText('vitality.appDetailsPage.tabs.accessibility'));
+
+        await waitFor(() => {
+            const performanceTab = screen.getByText('vitality.appDetailsPage.tabs.performance');
+            const accessibilityTab = screen.getByText('vitality.appDetailsPage.tabs.accessibility');
+
+            expect(accessibilityTab).toHaveClass('bg-white', 'text-slate-900', 'shadow-xs');
+            expect(performanceTab).toHaveClass('text-slate-700');
         });
     });
 
@@ -272,8 +255,7 @@ describe('VitalityAppDetailsView', () => {
 
         renderComponent();
 
-        expect(document.querySelectorAll('.animate-pulse')).toHaveLength(3);
-        expect(document.querySelector('.bg-gray-100')).toBeInTheDocument();
+        expect(screen.getByTestId('app-details-skeleton')).toBeInTheDocument();
     });
 
     it('passes app data to child components', async () => {
@@ -281,9 +263,6 @@ describe('VitalityAppDetailsView', () => {
 
         await waitFor(() => {
             expect(screen.getByTestId('summary-card')).toHaveTextContent('Summary Card - Test App');
-            expect(screen.getByTestId('general-information-view')).toHaveTextContent(
-                'General Information View - Test App',
-            );
         });
     });
 

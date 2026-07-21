@@ -10,16 +10,7 @@
       "menuTitle": "Choisissez une option pour afficher les applications pertinentes",
       "pageTitle": "Vitality : Maintenir votre base de code saine et performante",
       "shortTitle": "tableau de bord",
-      "searchByProjectName": "Rechercher par nom de projet",
-      "filters": {
-        "title": "Filtres",
-        "technologies": "Technologies",
-        "qualityStatus": "Statut de qualité",
-        "lastAnalysis": "Dernière analyse",
-        "branches": "Branches",
-        "reset": "Réinitialiser les filtres",
-        "performance": "Performance"
-      }
+      "searchByProjectName": "Rechercher par nom de projet"
     },
     "appListPage": {
       "loadMore": "Cliquez pour charger plus d'applications",
@@ -28,9 +19,10 @@
       "pageTitle": "Applications Vitality",
       "totalLabel": "TOTAL Applications: ",
       "exportLabel": "Exporter les applications",
+      "addApplicationLabel": "Ajouter une application",
+      "addApplicationDescription": "Créer et configurer une nouvelle application depuis le back-office.",
       "contactEmail": " Contacter l'équipe",
       "nbBranches": "Nombre de branches ouvertes : ",
-      "activeFiltersLabel": "Filtres actifs : ",
       "empty": "Aucune application trouvée",
       "technos": "Technologies : ",
       "lastAnalyzed": "Dernière analyse le :",

@@ -1,134 +1,95 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { ApplicationType } from '@v6y/core-logic/src/types';
 import { Spinner, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit-front';
 
 import VitalityAppInfos from '../../../commons/components/application-info/VitalityAppInfos';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
-import { formatApplicationDataSource } from '../../../commons/config/VitalityCommonConfig';
-import { exportAppListDataToCSV } from '../../../commons/utils/VitalityDataExportUtils';
 import {
     buildClientQuery,
-    useInfiniteClientQuery,
+    useClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationListByPageAndParams from '../api/getApplicationListByPageAndParams';
 import VitalityAppListHeader from './VitalityAppListHeader';
 import VitalityAppListPagination from './VitalityAppListPagination';
 
-const initialPage = 0;
-
-interface VitalityAppListQueryType {
-    isLoading: boolean;
-    data?: {
-        pages?: unknown[];
-    };
-    fetchNextPage?: () => void;
-    status?: string;
-    isFetchingNextPage?: boolean;
-    isFetching?: boolean;
-}
-
-interface ApplicationListPage {
-    totalCount: number;
-    getApplicationListByPageAndParams: ApplicationType[];
-}
+const APP_LIST_MAX_ITEMS = 1000;
 
 const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
-    const [appList, setAppList] = useState<ApplicationType[] | undefined>(undefined);
-    const currentAppListPage = useRef<number>(initialPage);
-
+    const [currentPage, setCurrentPage] = useState(1);
+    const { translate } = useTranslationProvider();
     const { getUrlParams } = useNavigationAdapter();
-    const [keywords, searchText] = getUrlParams(['keywords', 'searchText']);
+    const [, searchText] = getUrlParams(['keywords', 'searchText']);
 
-    const {
-        data: dataAppList,
-        fetchNextPage: fetchAppListNextPage,
-        status: appListFetchStatus,
-        isFetchingNextPage: isAppListFetchingNextPage,
-        isFetching: isAppListFetching,
-    }: VitalityAppListQueryType = useInfiniteClientQuery({
+    const { data: dataAppList, isLoading: isAppListLoading } = useClientQuery<{
+        getApplicationListByPageAndParams: ApplicationType[];
+    }>({
         queryCacheKey: [
             'getApplicationListByPageAndParams',
-            keywords?.length ? keywords : 'empty_keywords',
             searchText?.length ? searchText : 'empty_search_text',
-            `${currentAppListPage.current}`,
         ],
         queryBuilder: async () =>
             buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL ?? '',
                 query: GetApplicationListByPageAndParams,
                 variables: {
-                    offset: currentAppListPage.current * VitalityApiConfig.VITALITY_BFF_PAGE_SIZE,
-                    limit: VitalityApiConfig.VITALITY_BFF_PAGE_SIZE,
-                    keywords,
+                    offset: 0,
+                    limit: APP_LIST_MAX_ITEMS,
                     searchText,
                 },
             }),
-        getNextPageParam: () => currentAppListPage.current,
     });
 
-    const totalCount = (dataAppList?.pages?.[0] as ApplicationListPage)?.totalCount || 0;
-    const totalPages = Math.ceil(totalCount / VitalityApiConfig.VITALITY_BFF_PAGE_SIZE);
+    const appList = dataAppList?.getApplicationListByPageAndParams || [];
+    const totalCount = appList.length;
+    const pageSize = VitalityApiConfig.VITALITY_BFF_PAGE_SIZE;
+    const totalPages = Math.ceil(totalCount / pageSize);
+    const pageStart = (currentPage - 1) * pageSize;
+    const paginatedAppList = appList.slice(pageStart, pageStart + pageSize);
 
     useEffect(() => {
-        setAppList(
-            formatApplicationDataSource(
-                (dataAppList?.pages as {
-                    getApplicationListByPageAndParams: ApplicationType;
-                }[]) || [],
-            ),
-        );
-    }, [dataAppList?.pages]);
-
-    useEffect(() => {
-        currentAppListPage.current = 0;
-        fetchAppListNextPage?.();
-    }, [keywords, searchText, fetchAppListNextPage]);
-
-    const isAppListLoading =
-        appListFetchStatus === 'loading' || isAppListFetching || isAppListFetchingNextPage || false;
-
-    const onExportApplicationsClicked = () => {
-        exportAppListDataToCSV(appList || []);
-    };
-
-    const onPageChange = (page: number) => {
-        currentAppListPage.current = page - 1;
-        setAppList(undefined);
-        fetchAppListNextPage?.();
-    };
-
-    const { translate } = useTranslationProvider();
+        setCurrentPage(1);
+    }, [searchText]);
 
     return (
         <div className="w-full flex flex-col items-center gap-6">
-            <VitalityAppListHeader onExportApplicationsClicked={onExportApplicationsClicked} />
+            <VitalityAppListHeader
+                appsTotal={totalCount}
+                addApplicationUrl={VitalityApiConfig.VITALITY_FRONT_BO_URL}
+            />
 
-            {isAppListLoading && !appList ? (
+            {isAppListLoading && !dataAppList ? (
                 <div className="py-20">
                     <Spinner />
                 </div>
-            ) : Array.isArray(appList) && appList.length === 0 ? (
+            ) : appList.length === 0 ? (
                 <div className="w-full max-w-4xl px-4 py-20 text-center text-zinc-500">
                     {translate('vitality.appListPage.empty')}
                 </div>
             ) : (
                 <div className="w-full">
-                    {appList && (
-                        <ul className="space-y-4">
-                            {appList.map((app) => (
-                                <VitalityAppInfos key={app._id} app={app} source={source} />
-                            ))}
-                        </ul>
-                    )}
+                    <ul className="space-y-4">
+                        {paginatedAppList.map((app, index) => (
+                            <VitalityAppInfos
+                                key={app._id}
+                                app={app}
+                                source={source}
+                                style={
+                                    {
+                                        '--stagger-delay': `${Math.min(index, 8) * 60}ms`,
+                                    } as React.CSSProperties
+                                }
+                            />
+                        ))}
+                    </ul>
 
-                    {appList && (
+                    {totalPages > 1 && (
                         <VitalityAppListPagination
-                            currentPage={currentAppListPage.current + 1}
+                            currentPage={currentPage}
                             totalPages={totalPages}
-                            onPageChange={onPageChange}
+                            onPageChange={setCurrentPage}
                         />
                     )}
                 </div>

@@ -1,52 +1,17 @@
-import { useEffect, useState } from 'react';
-
-import { ExportOutlined } from '@v6y/ui-kit';
-import { Button, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit-front';
+import { AppstoreAddOutlined } from '@v6y/ui-kit';
+import { Button, useTranslationProvider } from '@v6y/ui-kit-front';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
-import {
-    buildClientQuery,
-    useClientQuery,
-} from '../../../infrastructure/adapters/api/useQueryAdapter';
-import GetApplicationTotalByParams from '../api/getApplicationTotalByParams';
 
 const VitalityAppListHeader = ({
-    onExportApplicationsClicked,
+    appsTotal,
+    addApplicationUrl,
 }: {
-    onExportApplicationsClicked: () => void;
+    appsTotal: number;
+    addApplicationUrl?: string;
 }) => {
-    const [appsTotal, setAppsTotal] = useState<number>(0);
-    const { getUrlParams } = useNavigationAdapter();
-    const [keywords, searchText] = getUrlParams(['keywords', 'searchText']);
-
-    const { data: dataAppsTotal, refetch: refetchAppsTotal } = useClientQuery<{
-        getApplicationTotalByParams: number;
-    }>({
-        queryCacheKey: [
-            'getApplicationTotalByParams',
-            keywords?.length ? keywords : 'empty_keywords',
-            searchText?.length ? searchText : 'empty_search_text',
-        ],
-        queryBuilder: async () =>
-            buildClientQuery({
-                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL ?? '',
-                query: GetApplicationTotalByParams,
-                variables: {
-                    keywords,
-                    searchText,
-                },
-            }),
-    });
-
-    useEffect(() => {
-        refetchAppsTotal?.();
-    }, [keywords, searchText, refetchAppsTotal]);
-
-    useEffect(() => {
-        setAppsTotal(dataAppsTotal?.getApplicationTotalByParams || 0);
-    }, [dataAppsTotal?.getApplicationTotalByParams]);
-
     const { translate } = useTranslationProvider();
+    const targetUrl = addApplicationUrl || VitalityApiConfig.VITALITY_FRONT_BO_URL;
 
     return (
         <div className="w-full flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -64,13 +29,20 @@ const VitalityAppListHeader = ({
                 </p>
             </div>
 
-            <Button
-                onClick={onExportApplicationsClicked}
-                className="h-10 w-full rounded-full bg-slate-950 px-5 text-sm font-medium text-white hover:bg-slate-800 md:w-auto"
+            <a
+                href={targetUrl}
+                className="inline-flex w-full md:w-auto justify-center md:justify-start no-underline hover:no-underline"
             >
-                <ExportOutlined className="w-4 h-4" />
-                <span className="ml-2">{translate('vitality.appListPage.exportLabel')}</span>
-            </Button>
+                <Button className="h-9 md:h-10 text-sm md:text-base">
+                    <AppstoreAddOutlined className="w-4 h-4" />
+                    <span className="ml-2">
+                        {translate('vitality.appListPage.addApplicationLabel') || 'Add Application'}
+                    </span>
+                </Button>
+            </a>
+            <p className="text-xs md:text-sm text-slate-600 text-center md:text-right">
+                {appsTotal} {appsTotal === 1 ? 'result' : 'results'}
+            </p>
         </div>
     );
 };

@@ -103,8 +103,8 @@ export const applicationGitRepositoryFormItems = (translate: TranslateType) => [
 
 export const applicationRequiredLinksFormItems = (translate: TranslateType) => [
     {
-        id: 'app-production-link-1',
-        name: `app-production-link-1`,
+        id: 'app-production-link',
+        name: 'app-production-link',
         label: translate('v6y-applications.fields.app-production-link.label'),
         placeholder: translate('v6y-applications.fields.app-production-link.placeholder'),
         rules: [
@@ -113,20 +113,6 @@ export const applicationRequiredLinksFormItems = (translate: TranslateType) => [
                 message: translate('v6y-applications.fields.app-production-link.error'),
             },
         ],
-    },
-    {
-        id: 'app-production-link-2',
-        name: `app-production-link-2`,
-        label: translate('v6y-applications.fields.app-production-link.label'),
-        placeholder: translate('v6y-applications.fields.app-production-link.placeholder'),
-        rules: [],
-    },
-    {
-        id: 'app-production-link-3',
-        name: `app-production-link-3`,
-        label: translate('v6y-applications.fields.app-production-link.label'),
-        placeholder: translate('v6y-applications.fields.app-production-link.placeholder'),
-        rules: [],
     },
 ];
 
@@ -251,14 +237,8 @@ export const applicationCreateOrEditFormInAdapter = (params: ApplicationType) =>
     'app-git-web-url': params?.['repo']?.webUrl,
     'app-git-url': params?.['repo']?.gitUrl,
     'app-contact-email': params?.['contactMail'],
-    'app-production-link-1': params?.['links']?.find?.(
+    'app-production-link': params?.['links']?.find?.(
         (item) => item.label === 'Application production url',
-    )?.value,
-    'app-production-link-2': params?.['links']?.find?.(
-        (item) => item.label === 'Additional production url (1)',
-    )?.value,
-    'app-production-link-3': params?.['links']?.find?.(
-        (item) => item.label === 'Additional production url (2)',
     )?.value,
     'app-code-quality-platform-link': params?.['links']?.find?.(
         (item) => item.label === 'Application code quality platform url',
@@ -291,11 +271,7 @@ export const applicationCreateOrEditFormOutputAdapter = (data: unknown): Variabl
             gitUrl: params?.['app-git-url'],
             name: params?.['app-name'],
             contactMail: params?.['app-contact-email'],
-            productionLink: params?.['app-production-link-1'],
-            additionalProductionLinks: [
-                params?.['app-production-link-2'],
-                params?.['app-production-link-3'],
-            ]?.filter((item) => item),
+            productionLink: params?.['app-production-link'],
             sonarqubeLink: params?.['app-sonarqube-link'],
             sonarqubeToken: params?.['app-sonarqube-token'] || undefined,
             codeQualityPlatformLink: params?.['app-code-quality-platform-link'],

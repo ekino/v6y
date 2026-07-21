@@ -20,8 +20,8 @@ const createAudit = async (audit: AuditType) => {
             data: {
                 appId: (audit.module?.appId ?? audit.appId)!,
                 auditRunId: audit.auditRunId ?? null,
-                dateStart: audit.dateStart ?? null,
-                dateEnd: audit.dateEnd ?? null,
+                dateStart: audit.dateStart ?? new Date(),
+                dateEnd: audit.dateEnd ?? new Date(),
                 type: audit.type ?? null,
                 category: audit.category ?? null,
                 subCategory: audit.subCategory ?? null,
@@ -58,8 +58,8 @@ const insertAuditList = async (auditList: AuditType[] | null) => {
                     return {
                         appId: (audit.module?.appId ?? audit.appId)!,
                         auditRunId: audit.auditRunId ?? null,
-                        dateStart: audit.dateStart ?? null,
-                        dateEnd: audit.dateEnd ?? null,
+                        dateStart: audit.dateStart ?? new Date(),
+                        dateEnd: audit.dateEnd ?? new Date(),
                         type: audit.type ?? null,
                         category: audit.category ?? null,
                         subCategory: audit.subCategory ?? null,

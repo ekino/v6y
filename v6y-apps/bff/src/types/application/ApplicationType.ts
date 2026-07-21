@@ -14,6 +14,12 @@ const ApplicationType = `
     
     """ APP Description """
     description: String
+
+    """ Application creation date """
+    createdAt: String
+
+    """ Application last update date """
+    updatedAt: String
     
     """ First matched APP Web Repository Information """
     repo: RepositoryType

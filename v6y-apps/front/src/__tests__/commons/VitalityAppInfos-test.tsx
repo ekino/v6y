@@ -9,17 +9,6 @@ vi.mock('@v6y/ui-kit-front', async () => {
     const actual = await vi.importActual('@v6y/ui-kit-front');
     return {
         ...actual,
-        useNavigationAdapter: vi.fn(() => ({
-            createUrlQueryParam: vi.fn((name: string, value: string) => `${name}=${value}`),
-            removeUrlQueryParam: vi.fn(),
-            router: {
-                push: vi.fn(),
-                replace: vi.fn(),
-                back: vi.fn(),
-                forward: vi.fn(),
-                refresh: vi.fn(),
-            },
-        })),
         useTranslationProvider: vi.fn(() => ({ translate: (k: string) => k })),
     };
 });

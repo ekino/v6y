@@ -1,16 +1,5 @@
-import * as React from 'react';
-import { ReactNode } from 'react';
-
 import { ApplicationType } from '@v6y/core-logic/src/types';
 import { Matcher } from '@v6y/core-logic/src/utils';
-import {
-    ApiOutlined,
-    AppstoreAddOutlined,
-    DashboardOutlined,
-    PieChartOutlined,
-    SplitCellsOutlined,
-    ThemeTokenType,
-} from '@v6y/ui-kit';
 
 import VitalityNavigationPaths from './VitalityNavigationPaths';
 
@@ -25,65 +14,6 @@ export interface BreadCrumbDisplayItem {
     title: string;
     href?: string;
 }
-
-export interface DashboardItemType {
-    autoFocus: boolean;
-    defaultChecked: boolean;
-    title: string;
-    description: string;
-    url: string;
-    avatar: ReactNode;
-    avatarColor: string;
-}
-
-export const buildDashboardMenuItems = (themeToken: ThemeTokenType | undefined) =>
-    [
-        {
-            autoFocus: true,
-            defaultChecked: false,
-            title: 'React',
-            description: 'Choose this option to view React applications.',
-            url: VitalityNavigationPaths.APP_LIST + '?keywords=react',
-            avatar: <DashboardOutlined />,
-            avatarColor: themeToken?.colorPrimary,
-        },
-        {
-            autoFocus: false,
-            defaultChecked: false,
-            title: 'Angular',
-            description: 'Choose this option to view Angular applications.',
-            url: VitalityNavigationPaths.APP_LIST + '?keywords=angular',
-            avatar: <AppstoreAddOutlined />,
-            avatarColor: themeToken?.colorSecondary,
-        },
-        {
-            autoFocus: false,
-            defaultChecked: false,
-            title: 'React Legacy',
-            description: 'Choose this option to view React Legacy applications.',
-            url: VitalityNavigationPaths.APP_LIST + '?keywords=legacy-react',
-            avatar: <SplitCellsOutlined />,
-            avatarColor: themeToken?.colorError,
-        },
-        {
-            autoFocus: false,
-            defaultChecked: false,
-            title: 'Angular Legacy',
-            description: 'Choose this option to view Angular Legacy applications.',
-            url: VitalityNavigationPaths.APP_LIST + '?keywords=legacy-angular',
-            avatar: <ApiOutlined />,
-            avatarColor: themeToken?.colorWarning,
-        },
-        {
-            autoFocus: false,
-            defaultChecked: false,
-            title: 'Health statistics',
-            description: 'Choose this option to see health statistics for all apps.',
-            url: VitalityNavigationPaths.APPS_STATS,
-            avatar: <PieChartOutlined />,
-            avatarColor: themeToken?.colorInfo,
-        },
-    ] as DashboardItemType[];
 
 export const AUDIT_REPORT_TYPES = {
     lighthouse: 'Lighthouse',
@@ -108,6 +38,65 @@ export const buildBreadCrumbItems = ({
             .join('&') || '';
     const withSourceParams = (path: string) => (sourceParams ? `${path}?${sourceParams}` : path);
 
+    const isProjectDetailsPage = /^\/app\/\d+$/.test(currentPage);
+    const reportDetailsMatch = currentPage.match(/^\/app\/(\d+)\/reports\/(\d+)$/);
+
+    const sourceItem = {
+        title: Matcher()
+            .on(
+                () => lastPage === 'stats',
+                () => translate('vitality.appStatsPage.shortTitle'),
+            )
+            .on(
+                () => lastPage === 'search',
+                () => translate('vitality.searchPage.shortTitle'),
+            )
+            .otherwise(() => translate('vitality.appListPage.shortTitle')),
+        href: Matcher()
+            .on(
+                () => lastPage === 'stats',
+                () => withSourceParams(VitalityNavigationPaths.APPS_STATS),
+            )
+            .on(
+                () => lastPage === 'search',
+                () => withSourceParams(VitalityNavigationPaths.SEARCH),
+            )
+            .otherwise(() => withSourceParams(VitalityNavigationPaths.APP_LIST)),
+    };
+
+    if (isProjectDetailsPage) {
+        return [
+            {
+                title: translate('vitality.dashboardPage.shortTitle'),
+                href: VitalityNavigationPaths.DASHBOARD,
+            },
+            sourceItem,
+            {
+                title: translate('vitality.appDetailsPage.shortTitle'),
+            },
+        ];
+    }
+
+    if (reportDetailsMatch) {
+        const projectHref = withSourceParams(
+            `${VitalityNavigationPaths.APP}/${reportDetailsMatch[1]}`,
+        );
+        return [
+            {
+                title: translate('vitality.dashboardPage.shortTitle'),
+                href: VitalityNavigationPaths.DASHBOARD,
+            },
+            sourceItem,
+            {
+                title: translate('vitality.appDetailsPage.shortTitle'),
+                href: projectHref,
+            },
+            {
+                title: translate('vitality.appDetailsPage.auditReports.categories.general'),
+            },
+        ];
+    }
+
     return (
         {
             [VitalityNavigationPaths.APP_DETAILS]: [
@@ -115,28 +104,7 @@ export const buildBreadCrumbItems = ({
                     title: translate('vitality.dashboardPage.shortTitle'),
                     href: VitalityNavigationPaths.DASHBOARD,
                 },
-                {
-                    title: Matcher()
-                        .on(
-                            () => lastPage === 'stats',
-                            () => translate('vitality.appStatsPage.shortTitle'),
-                        )
-                        .on(
-                            () => lastPage === 'search',
-                            () => translate('vitality.searchPage.shortTitle'),
-                        )
-                        .otherwise(() => translate('vitality.appListPage.shortTitle')),
-                    href: Matcher()
-                        .on(
-                            () => lastPage === 'stats',
-                            () => withSourceParams(VitalityNavigationPaths.APPS_STATS),
-                        )
-                        .on(
-                            () => lastPage === 'search',
-                            () => withSourceParams(VitalityNavigationPaths.SEARCH),
-                        )
-                        .otherwise(() => withSourceParams(VitalityNavigationPaths.APP_LIST)),
-                },
+                sourceItem,
                 {
                     title: translate('vitality.appDetailsPage.shortTitle'),
                 },
@@ -196,6 +164,14 @@ export const buildBreadCrumbItems = ({
 };
 
 export const buildPageTitle = (pathname: string, translate: (key: string) => string) => {
+    if (/^\/app\/\d+$/.test(pathname)) {
+        return translate('vitality.appDetailsPage.pageTitle');
+    }
+
+    if (/^\/app\/\d+\/reports\/\d+$/.test(pathname)) {
+        return translate('vitality.appDetailsPage.pageTitle');
+    }
+
     return (
         {
             [VitalityNavigationPaths.DASHBOARD]: translate('vitality.dashboardPage.pageTitle'),

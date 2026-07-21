@@ -39,4 +39,31 @@ const getStatusLabel = (status: string | undefined) => {
     return status ? statusLabels[status] || 'Unknown' : 'Unknown';
 };
 
-export { getScoreStatusColor, getIndicatorColors, getStatusLabel };
+const dependencyStatusColors: Array<{ match: (statusLower: string) => boolean; color: string }> = [
+    {
+        match: (statusLower) =>
+            statusLower.includes('up to date') || statusLower.includes('success'),
+        color: 'bg-green-100 text-green-800',
+    },
+    {
+        match: (statusLower) => statusLower.includes('warning') || statusLower.includes('minor'),
+        color: 'bg-yellow-100 text-yellow-800',
+    },
+    {
+        match: (statusLower) =>
+            statusLower.includes('error') ||
+            statusLower.includes('major') ||
+            statusLower.includes('critical'),
+        color: 'bg-red-100 text-red-800',
+    },
+];
+
+const getDependencyStatusColor = (status: string): string => {
+    const statusLower = status?.toLowerCase() || '';
+    return (
+        dependencyStatusColors.find(({ match }) => match(statusLower))?.color ||
+        'bg-slate-100 text-slate-800'
+    );
+};
+
+export { getDependencyStatusColor, getIndicatorColors, getScoreStatusColor, getStatusLabel };
