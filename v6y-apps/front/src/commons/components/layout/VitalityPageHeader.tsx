@@ -20,8 +20,8 @@ const VitalityPageHeader = () => {
 
     return (
         <>
-            <header className="border-b border-slate-200 bg-white text-slate-950">
-                <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-3 md:px-6 lg:px-8">
+            <header className="border-b border-slate-200/80 bg-[linear-gradient(180deg,#ffffff_0%,#f8fbff_100%)] text-slate-950">
+                <div className="mx-auto flex w-full max-w-[96rem] items-center justify-between gap-3 px-3 py-3 md:px-4 lg:px-6">
                     <div className="flex min-w-0 items-center gap-3 md:gap-4">
                         <HeaderLogo />
                     </div>
@@ -36,7 +36,7 @@ const VitalityPageHeader = () => {
                         <Button
                             size="icon"
                             variant="outline"
-                            className="h-10 w-10 shrink-0 border-slate-300 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-950 md:hidden"
+                            className="h-10 w-10 shrink-0 border-sky-200 bg-sky-50/70 text-slate-700 hover:bg-sky-100 hover:text-slate-950 md:hidden"
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             aria-label="Toggle menu"
                         >
