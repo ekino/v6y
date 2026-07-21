@@ -14,6 +14,7 @@ import { VitalityAppInfosProps } from '../../types/VitalityAppInfosProps';
 
 const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: VitalityAppInfosProps) => {
     const { translate } = useTranslationProvider();
+    const isDashboard = source === 'dashboard';
     const appDetailsLink = source
         ? `${VitalityNavigationPaths.APP}/${app._id}?source=${source}`
         : `${VitalityNavigationPaths.APP}/${app._id}`;
@@ -25,12 +26,14 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
 
     return (
         <li
-            className="w-full rounded-2xl border border-slate-200 bg-white px-5 py-5 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg"
+            className={`w-full rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg ${
+                isDashboard ? 'px-4 py-4' : 'px-5 py-5'
+            }`}
             style={style}
         >
-            <div className="flex flex-col gap-5">
+            <div className={`flex flex-col ${isDashboard ? 'gap-4' : 'gap-5'}`}>
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                    <div className="min-w-0 flex-1 space-y-3">
+                    <div className={`min-w-0 flex-1 ${isDashboard ? 'space-y-2' : 'space-y-3'}`}>
                         <div className="flex items-center gap-3">
                             <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-700" aria-hidden>
                                 <StarIcon className="scale-125" />
@@ -39,9 +42,11 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                                 <h4 className="truncate text-lg font-semibold tracking-tight text-slate-950 md:text-xl">
                                     <span data-testid="app-name">{app.name}</span>
                                 </h4>
-                                <p className="text-sm text-slate-500">
-                                    Repository health snapshot with direct access to reporting and tracked links.
-                                </p>
+                                {!isDashboard && (
+                                    <p className="text-sm text-slate-500">
+                                        Repository health snapshot with direct access to reporting and tracked links.
+                                    </p>
+                                )}
                             </div>
                         </div>
 
@@ -49,10 +54,14 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                             <Badge variant={appOpenedBranches >= 4 ? 'warning' : 'default'} className="rounded-full px-3 py-1 text-xs">
                                 {appOpenedBranches} {appOpenedBranches === 1 ? 'branch' : 'branches'} tracked
                             </Badge>
-                            <Badge variant="outline" className="rounded-full border-slate-300 bg-white px-3 py-1 text-xs text-slate-700">
-                                {trackedLinks} {trackedLinks === 1 ? 'linked system' : 'linked systems'}
-                            </Badge>
-                            {app.contactMail && (
+
+                            {!isDashboard && (
+                                <Badge variant="outline" className="rounded-full border-slate-300 bg-white px-3 py-1 text-xs text-slate-700">
+                                    {trackedLinks} {trackedLinks === 1 ? 'linked system' : 'linked systems'}
+                                </Badge>
+                            )}
+
+                            {!isDashboard && app.contactMail && (
                                 <Badge variant="outline" className="rounded-full border-slate-300 bg-white px-3 py-1 text-xs text-slate-700">
                                     Contact ready
                                 </Badge>
@@ -92,7 +101,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                     </div>
                 </div>
 
-                <div className="grid gap-4 border-t border-slate-200 pt-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-start">
+                <div className={`grid border-t border-slate-200 md:grid-cols-[minmax(0,1fr)_auto] md:items-start ${isDashboard ? 'gap-3 pt-3' : 'gap-4 pt-4'}`}>
                     <div className="space-y-3">
                         <div className="flex flex-wrap gap-2">
                             {(appLinks || [])

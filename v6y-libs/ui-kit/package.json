@@ -46,6 +46,7 @@
     "@refinedev/ui-types": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@v6y/core-logic": "workspace:^",
+    "ag-charts-community": "13.0.0",
     "ag-charts-react": "catalog:",
     "antd": "catalog:",
     "graphql": "catalog:",

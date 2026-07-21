@@ -12,6 +12,7 @@ import VitalityPageHeader from './VitalityPageHeader';
 const VitalityPageLayout = ({ children }: { children: ReactNode }) => {
     const pathname = usePathname();
     const isLoginPage = pathname === '/login';
+    const isDashboardPage = pathname === '/dashboard';
 
     return (
         <div
@@ -23,7 +24,9 @@ const VitalityPageLayout = ({ children }: { children: ReactNode }) => {
                 className={`mx-auto flex w-full max-w-[96rem] flex-col ${
                     isLoginPage
                         ? 'px-3 pt-3 md:px-4 md:pt-4 lg:px-6'
-                        : 'gap-3 px-3 pb-6 pt-3 md:px-4 md:pb-8 md:pt-4 lg:gap-4 lg:px-6'
+                        : isDashboardPage
+                          ? 'gap-3 px-3 pb-4 pt-3 md:px-4 md:pb-6 md:pt-4 lg:gap-4 lg:px-6'
+                          : 'gap-3 px-3 pb-6 pt-3 md:px-4 md:pb-8 md:pt-4 lg:gap-4 lg:px-6'
                 }`}
             >
                 {!isLoginPage && <VitalityBreadcrumb />}
@@ -31,7 +34,9 @@ const VitalityPageLayout = ({ children }: { children: ReactNode }) => {
                     className={
                         isLoginPage
                             ? 'flex min-h-[calc(100dvh-4.75rem)] items-center justify-center px-0 py-0 md:min-h-[calc(100dvh-5rem)]'
-                            : 'min-h-[calc(100vh-6rem)] px-0 py-1 md:min-h-[calc(100vh-6.5rem)] md:py-2'
+                            : isDashboardPage
+                              ? 'min-h-0 px-0 py-0'
+                              : 'min-h-[calc(100vh-6rem)] px-0 py-1 md:min-h-[calc(100vh-6.5rem)] md:py-2'
                     }
                 >
                     {children}
