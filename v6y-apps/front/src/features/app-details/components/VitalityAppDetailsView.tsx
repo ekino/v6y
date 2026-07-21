@@ -277,31 +277,17 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
     if (!targetApplicationId) {
         return (
             <div className="mt-3">
-                <div className="text-sm text-red-500">Invalid application identifier</div>
+                <div className="text-sm text-red-500">
+                    {translate('vitality.appDetailsPage.invalidApplicationIdentifier')}
+                </div>
             </div>
         );
     }
 
     return (
         <div className="space-y-6">
-            <section className="rounded-2xl border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#f4f6f8_55%,#f8fafc_100%)] px-5 py-5 shadow-sm md:px-6">
-                <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
-                    <div className="max-w-3xl space-y-2">
-                        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
-                            Reporting workspace
-                        </p>
-                        <h1 className="text-2xl font-semibold tracking-tight text-slate-950 md:text-3xl">
-                            Review branches, report categories, and audit history without losing the main health story.
-                        </h1>
-                        <p className="max-w-2xl text-sm leading-6 text-slate-600 md:text-base">
-                            Keep operational context pinned on the left, use the toolbar to switch scope, and move through category reports with GitHub-style clarity instead of dashboard clutter.
-                        </p>
-                    </div>
-                </div>
-            </section>
-
             <div className="grid grid-cols-1 gap-5 lg:grid-cols-12 lg:gap-6">
-                <div className="lg:col-span-3 w-full">
+                <div className="w-full lg:col-span-4">
                     {isAppDetailsInfosLoading ? (
                         <div className="bg-gray-100 animate-pulse h-80 rounded-xl"></div>
                     ) : appInfos ? (
@@ -309,7 +295,7 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                     ) : null}
                 </div>
 
-                <div className="w-full lg:col-span-9">
+                <div className="w-full lg:col-span-8">
                     <div className="mb-4 rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#fafbfc_0%,#f4f6f8_100%)] p-4 shadow-sm md:p-5">
                         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
@@ -334,7 +320,7 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                                 variant="outline"
                                 size="sm"
                                 className="h-10 w-10 shrink-0 rounded-lg border-slate-300 bg-white p-2 text-slate-700 hover:bg-slate-50"
-                                title="Reload"
+                                title={translate('vitality.appDetailsPage.actions.reload')}
                             >
                                 <ReloadIcon className="w-4 h-4 shrink-0" />
                             </Button>
@@ -342,7 +328,7 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                                 variant="outline"
                                 size="sm"
                                 className="h-10 w-10 shrink-0 rounded-lg border-slate-300 bg-white p-2 text-slate-700 hover:bg-slate-50"
-                                title="Globe"
+                                title={translate('vitality.appDetailsPage.actions.globe')}
                             >
                                 <GlobeIcon className="w-4 h-4 shrink-0" />
                             </Button>
