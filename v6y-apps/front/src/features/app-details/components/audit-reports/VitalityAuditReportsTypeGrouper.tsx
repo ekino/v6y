@@ -74,6 +74,48 @@ const VitalityAuditReportsTypeGrouper = ({
             title={title}
             reports={auditReports}
             description={description}
+            chartVariant={category === 'dora' ? 'pie' : 'area'}
+            labels={{
+                overviewTitle: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.overview',
+                ),
+                healthyLabel: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.healthy',
+                ),
+                warningLabel: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.warning',
+                ),
+                errorLabel: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.critical',
+                ),
+                attentionNeededLabel: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.attentionNeededLabel',
+                ),
+                statusByFamilyTitle: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.statusByFamilyTitle',
+                ),
+                statusByFamilyDescription: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.statusByFamilyDescription',
+                ),
+                statusBreakdownTitle: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.statusBreakdownTitle',
+                ),
+                statusBreakdownDescription: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.statusBreakdownDescription',
+                ),
+                priorityFindingsTitle: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.priorityFindingsTitle',
+                ),
+                priorityFindingsDescription: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.priorityFindingsDescription',
+                ),
+                noIssuesMessage: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.noIssuesMessage',
+                ),
+                impactedChecksLabel: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.impactedChecksLabel',
+                ),
+            }}
         />
     );
 };
