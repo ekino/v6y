@@ -19,7 +19,7 @@ export const RunAuditButton = ({ isRunningAudit, onRunAuditClicked }: RunAuditBu
             disabled={isRunningAudit}
             variant="outline"
             size="sm"
-            className="flex h-10 items-center gap-1.5 rounded-full border-slate-300 bg-slate-950 px-4 text-white hover:bg-slate-800"
+            className="flex h-10 items-center gap-1.5 rounded-full border-sky-700 bg-sky-700 px-4 text-white hover:bg-sky-800"
         >
             {isRunningAudit ? (
                 <>
