@@ -69,6 +69,14 @@ const VitalityProjectDetailsView = ({ applicationId }: VitalityProjectDetailsVie
 
     return (
         <div className="space-y-5">
+            <section className="rounded-2xl border border-sky-200/80 bg-[linear-gradient(135deg,#ffffff_0%,#edf6ff_58%,#f4fbff_100%)] px-5 py-5 shadow-sm md:px-6">
+                <div className="max-w-3xl space-y-2">
+                    <h1 className="text-2xl font-semibold tracking-tight text-slate-950 md:text-3xl">
+                        Monitor project health and navigate audit outcomes with clarity.
+                    </h1>
+                </div>
+            </section>
+
             <div className="grid grid-cols-1 gap-5 lg:grid-cols-12 lg:gap-7">
                 <div className="lg:col-span-3 w-full">
                     {appInfos ? <VitalitySummaryCard appInfos={appInfos} /> : null}
@@ -77,7 +85,7 @@ const VitalityProjectDetailsView = ({ applicationId }: VitalityProjectDetailsVie
                 <div className="lg:col-span-9 w-full space-y-7">
                     <VitalityGeneralInformationView appInfos={appInfos} />
 
-                    <div className="pt-8 border-t border-slate-200">
+                    <div className="rounded-2xl border border-sky-200/70 bg-[linear-gradient(180deg,#fafdff_0%,#f3f9ff_100%)] px-4 py-5 md:px-5 md:py-6">
                         <h2 className="text-lg font-semibold text-slate-900 mb-2">
                             {translate('vitality.appDetailsPage.auditHistory.title')}
                         </h2>
