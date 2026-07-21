@@ -11,10 +11,17 @@
       "pageTitle": "Vitality : Maintenir votre base de code saine et performante",
       "shortTitle": "tableau de bord",
       "searchByProjectName": "Rechercher par nom de projet",
-      "reportsTrendTitle": "Rapports générés sur le dernier mois",
-      "reportsTrendSubtitle": "Tendance hebdomadaire des audits sur les applications suivies",
-      "reportsTrendLegend": "Rapports",
-      "reportsTrendEmpty": "Aucun rapport généré récemment"
+      "reportsTrendTitle": "Activité des audits dans le temps",
+      "reportsTrendSubtitleDaily": "Tendance quotidienne des rapports d'audit sur les applications suivies",
+      "reportsTrendSubtitleWeekly": "Tendance hebdomadaire des rapports d'audit sur les applications suivies",
+      "reportsTrendSubtitleMonthly": "Tendance mensuelle des rapports d'audit sur les applications suivies",
+      "reportsTrendLegendStatic": "Analyse statique",
+      "reportsTrendLegendDynamic": "Analyse dynamique",
+      "reportsTrendLegendDevops": "Contrôles DevOps",
+      "reportsTrendLegendOther": "Autres contrôles",
+      "reportsTrendEmptyTitle": "Aucun rapport d'audit pour le moment",
+      "reportsTrendEmptyDescription": "Dès que vos applications seront analysées, ce graphique montrera l'évolution de l'activité d'audit. Explorez vos applications pour déclencher les premiers audits.",
+      "reportsTrendEmptyCta": "Parcourir les applications"
     },
     "appListPage": {
       "loadMore": "Cliquez pour charger plus d'applications",
@@ -132,6 +139,18 @@
         "repository": "Dépôt"
       },
       "auditReports": {
+        "summary": {
+          "total": "Contrôles totaux",
+          "passed": "Réussis",
+          "warnings": "Alertes",
+          "issues": "Problèmes",
+          "chartLabels": {
+            "success": "Réussis",
+            "warning": "Alertes",
+            "error": "Problèmes",
+            "unknown": "Inconnu"
+          }
+        },
         "categories": {
           "static": "Analyse Statique",
           "dynamic": "Analyse Dynamique",
@@ -152,6 +171,22 @@
           "greenIndex": "Analyse de l'impact écologique, certification hébergement vert, score Ecoindex et métriques d'efficacité énergétique",
           "dora": "Fréquence de déploiement, délai de livraison, taux d'échec des changements, temps moyen de restauration",
           "general": "Résultats d'analyse"
+        },
+        "visualization": {
+          "overview": "Vue d'ensemble de la santé du rapport",
+          "healthy": "Sain",
+          "warning": "Alerte",
+          "critical": "Critique",
+          "attentionNeededLabel": "Action requise",
+          "statusByFamilyTitle": "Statut par famille de métriques",
+          "statusByFamilyDescription": "Le graphique en aire montre les familles de contrôles qui se dégradent.",
+          "statusBreakdownTitle": "Répartition des statuts",
+          "statusBreakdownDescription": "Part des contrôles sains, en alerte ou critiques.",
+          "priorityFindingsTitle": "Constats prioritaires",
+          "priorityFindingsDescription": "Traitez ces points en premier pour réduire rapidement le risque projet.",
+          "noIssuesMessage": "Aucune alerte ni anomalie critique détectée dans ce rapport.",
+          "locationLabel": "Emplacement",
+          "impactedChecksLabel": "Contrôles impactés"
         },
         "doraMetrics": {
           "DEPLOYMENT_FREQUENCY": "Fréquence de déploiement",
@@ -206,6 +241,18 @@
       "dependencies": {
         "title": "Dépendances",
         "description": "Dépendances avec des problèmes de sécurité ou de compatibilité",
+        "summary": {
+          "total": "Dépendances totales",
+          "upToDate": "À jour",
+          "warnings": "Alertes",
+          "critical": "Critiques",
+          "chartLabels": {
+            "success": "À jour",
+            "warning": "Alertes",
+            "error": "Critiques",
+            "unknown": "Inconnu"
+          }
+        },
         "table": {
           "header": "Problèmes de Sécurité et Compatibilité",
           "columns": {
@@ -263,7 +310,9 @@
     },
     "faqPage": {
       "pageTitle": "Questions fréquentes",
-      "shortTitle": "faq"
+      "shortTitle": "faq",
+      "emptyTitle": "Le contenu de la FAQ est indisponible pour le moment.",
+      "emptyDescription": "Reconnectez la source de données ou contactez l'équipe pour une assistance immédiate."
     },
     "notificationsPage": {
       "pageTitle": "Notifications",

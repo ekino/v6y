@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { AuditType, DependencyType } from '@v6y/core-logic/src/types';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
-import { Badge, Card, CardContent, Check, Clipboard, Lock } from '@v6y/ui-kit-front';
+import { Badge, Card, CardContent, Check, ChevronDown, Clipboard, Lock } from '@v6y/ui-kit-front';
 
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
 import { resolveNumericId } from '../../../../commons/utils/NumericParamUtils';
@@ -20,6 +20,7 @@ import GetApplicationDetailsAuditReportsByParams from '../../api/getApplicationD
 import GetApplicationDetailsDependenciesByParams from '../../api/getApplicationDetailsDependenciesByParams';
 import { matchesAuditReportBranch } from './VitalityAuditReportsBranchFilter';
 import { isSecuritySmell } from './VitalityAuditReportsCategoryFilter';
+import VitalityDependenciesSummary from './VitalityDependenciesSummary';
 
 const VitalityAuditReportsTypeGrouper = DynamicLoader(
     () => import('./VitalityAuditReportsTypeGrouper'),
@@ -195,141 +196,153 @@ const VitalitySecuritySection = ({
                                 </CardContent>
                             </Card>
                         ) : (
-                            <div className="border rounded-lg overflow-hidden">
-                                <div className="bg-slate-50 px-6 py-3 border-b">
-                                    <h4 className="font-semibold text-gray-900">
-                                        {translate(
-                                            'vitality.appDetailsPage.dependencies.table.header',
-                                        )}
-                                    </h4>
-                                    <p className="text-xs text-gray-600 mt-1">
-                                        {dependencies.length === 1
-                                            ? translateHelper(
-                                                  'vitality.appDetailsPage.dependencies.table.itemsCount.one',
-                                                  {
-                                                      count: dependencies.length,
-                                                  },
-                                              )
-                                            : translateHelper(
-                                                  'vitality.appDetailsPage.dependencies.table.itemsCount.other',
-                                                  {
-                                                      count: dependencies.length,
-                                                  },
-                                              )}
-                                    </p>
-                                </div>
-                                <div className="overflow-x-auto">
-                                    <table className="w-full min-w-full">
-                                        <thead className="bg-white border-b border-slate-200">
-                                            <tr>
-                                                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-700">
-                                                    {translate(
-                                                        'vitality.appDetailsPage.dependencies.table.columns.name',
-                                                    )}
-                                                </th>
-                                                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-700">
-                                                    {translate(
-                                                        'vitality.appDetailsPage.dependencies.table.columns.currentVersion',
-                                                    )}
-                                                </th>
-                                                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-700">
-                                                    {translate(
-                                                        'vitality.appDetailsPage.dependencies.table.columns.recommendedVersion',
-                                                    )}
-                                                </th>
-                                                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-700">
-                                                    {translate(
-                                                        'vitality.appDetailsPage.dependencies.table.columns.location',
-                                                    )}
-                                                </th>
-                                                <th className="text-center px-6 py-3 text-xs font-semibold text-gray-700">
-                                                    {translate(
-                                                        'vitality.appDetailsPage.dependencies.table.columns.status',
-                                                    )}
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {dependencies.map((dependency, index) => (
-                                                <tr
-                                                    key={dependency._id || index}
-                                                    className={
-                                                        index % 2 === 0 ? 'bg-white' : 'bg-slate-50'
-                                                    }
-                                                >
-                                                    <td className="px-6 py-3 text-sm font-medium text-gray-900">
-                                                        {dependency.name || 'Unknown'}
-                                                    </td>
-                                                    <td className="px-6 py-3 text-sm text-gray-600">
-                                                        {dependency.version || '-'}
-                                                    </td>
-                                                    <td className="px-6 py-3 text-sm text-gray-600">
-                                                        {dependency.recommendedVersion || '-'}
-                                                    </td>
-                                                    <td className="px-6 py-3 text-sm text-gray-600">
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="max-w-[80px] truncate text-xs">
-                                                                {dependency.module?.branch && (
-                                                                    <div>
-                                                                        {dependency.module.branch}
-                                                                    </div>
-                                                                )}
-                                                                {dependency.module?.path && (
-                                                                    <div className="text-gray-500 truncate">
-                                                                        {dependency.module.path}
-                                                                    </div>
-                                                                )}
-                                                                {!dependency.module?.branch &&
-                                                                    !dependency.module?.path && (
-                                                                        <span className="text-gray-400">
-                                                                            -
-                                                                        </span>
-                                                                    )}
-                                                            </div>
-                                                            {(dependency.module?.branch ||
-                                                                dependency.module?.path) && (
-                                                                <button
-                                                                    onClick={() =>
-                                                                        copyToClipboard(
-                                                                            getDependencyLocationText(
-                                                                                dependency,
-                                                                            ),
-                                                                            String(
-                                                                                dependency._id ||
-                                                                                    index,
-                                                                            ),
-                                                                        )
-                                                                    }
-                                                                    className="p-1 hover:bg-gray-200 rounded transition-colors shrink-0"
-                                                                    title="Copy location"
-                                                                >
-                                                                    {copiedId ===
-                                                                    String(
-                                                                        dependency._id || index,
-                                                                    ) ? (
-                                                                        <Check className="w-3 h-3 text-green-600" />
-                                                                    ) : (
-                                                                        <Clipboard className="w-3 h-3 text-gray-500" />
-                                                                    )}
-                                                                </button>
-                                                            )}
-                                                        </div>
-                                                    </td>
-                                                    <td className="px-6 py-3 text-sm text-center">
-                                                        <Badge
-                                                            className={getDependencyStatusColor(
-                                                                dependency.status || '',
-                                                            )}
-                                                        >
-                                                            {dependency.status || 'Unknown'}
-                                                        </Badge>
-                                                    </td>
+                            <>
+                                <VitalityDependenciesSummary dependencies={allDependencies} />
+                                <details className="group rounded-lg border overflow-hidden">
+                                    <summary className="flex cursor-pointer list-none items-center justify-between gap-3 bg-slate-50 px-6 py-3 border-b [&::-webkit-details-marker]:hidden">
+                                        <div>
+                                            <h4 className="font-semibold text-gray-900">
+                                                {translate(
+                                                    'vitality.appDetailsPage.dependencies.table.header',
+                                                )}
+                                            </h4>
+                                            <p className="text-xs text-gray-600 mt-1">
+                                                {dependencies.length === 1
+                                                    ? translateHelper(
+                                                          'vitality.appDetailsPage.dependencies.table.itemsCount.one',
+                                                          {
+                                                              count: dependencies.length,
+                                                          },
+                                                      )
+                                                    : translateHelper(
+                                                          'vitality.appDetailsPage.dependencies.table.itemsCount.other',
+                                                          {
+                                                              count: dependencies.length,
+                                                          },
+                                                      )}
+                                            </p>
+                                        </div>
+                                        <ChevronDown className="w-4 h-4 shrink-0 text-gray-500 transition-transform group-open:rotate-180" />
+                                    </summary>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full min-w-full">
+                                            <thead className="bg-white border-b border-slate-200">
+                                                <tr>
+                                                    <th className="text-left px-6 py-3 text-xs font-semibold text-gray-700">
+                                                        {translate(
+                                                            'vitality.appDetailsPage.dependencies.table.columns.name',
+                                                        )}
+                                                    </th>
+                                                    <th className="text-left px-6 py-3 text-xs font-semibold text-gray-700">
+                                                        {translate(
+                                                            'vitality.appDetailsPage.dependencies.table.columns.currentVersion',
+                                                        )}
+                                                    </th>
+                                                    <th className="text-left px-6 py-3 text-xs font-semibold text-gray-700">
+                                                        {translate(
+                                                            'vitality.appDetailsPage.dependencies.table.columns.recommendedVersion',
+                                                        )}
+                                                    </th>
+                                                    <th className="text-left px-6 py-3 text-xs font-semibold text-gray-700">
+                                                        {translate(
+                                                            'vitality.appDetailsPage.dependencies.table.columns.location',
+                                                        )}
+                                                    </th>
+                                                    <th className="text-center px-6 py-3 text-xs font-semibold text-gray-700">
+                                                        {translate(
+                                                            'vitality.appDetailsPage.dependencies.table.columns.status',
+                                                        )}
+                                                    </th>
                                                 </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                                            </thead>
+                                            <tbody>
+                                                {dependencies.map((dependency, index) => (
+                                                    <tr
+                                                        key={dependency._id || index}
+                                                        className={
+                                                            index % 2 === 0
+                                                                ? 'bg-white'
+                                                                : 'bg-slate-50'
+                                                        }
+                                                    >
+                                                        <td className="px-6 py-3 text-sm font-medium text-gray-900">
+                                                            {dependency.name || 'Unknown'}
+                                                        </td>
+                                                        <td className="px-6 py-3 text-sm text-gray-600">
+                                                            {dependency.version || '-'}
+                                                        </td>
+                                                        <td className="px-6 py-3 text-sm text-gray-600">
+                                                            {dependency.recommendedVersion || '-'}
+                                                        </td>
+                                                        <td className="px-6 py-3 text-sm text-gray-600">
+                                                            <div className="flex items-center gap-2">
+                                                                <div className="max-w-[80px] truncate text-xs">
+                                                                    {dependency.module?.branch && (
+                                                                        <div>
+                                                                            {
+                                                                                dependency.module
+                                                                                    .branch
+                                                                            }
+                                                                        </div>
+                                                                    )}
+                                                                    {dependency.module?.path && (
+                                                                        <div className="text-gray-500 truncate">
+                                                                            {dependency.module.path}
+                                                                        </div>
+                                                                    )}
+                                                                    {!dependency.module?.branch &&
+                                                                        !dependency.module
+                                                                            ?.path && (
+                                                                            <span className="text-gray-400">
+                                                                                -
+                                                                            </span>
+                                                                        )}
+                                                                </div>
+                                                                {(dependency.module?.branch ||
+                                                                    dependency.module?.path) && (
+                                                                    <button
+                                                                        onClick={() =>
+                                                                            copyToClipboard(
+                                                                                getDependencyLocationText(
+                                                                                    dependency,
+                                                                                ),
+                                                                                String(
+                                                                                    dependency._id ||
+                                                                                        index,
+                                                                                ),
+                                                                            )
+                                                                        }
+                                                                        className="p-1 hover:bg-gray-200 rounded transition-colors shrink-0"
+                                                                        title="Copy location"
+                                                                    >
+                                                                        {copiedId ===
+                                                                        String(
+                                                                            dependency._id || index,
+                                                                        ) ? (
+                                                                            <Check className="w-3 h-3 text-green-600" />
+                                                                        ) : (
+                                                                            <Clipboard className="w-3 h-3 text-gray-500" />
+                                                                        )}
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                        </td>
+                                                        <td className="px-6 py-3 text-sm text-center">
+                                                            <Badge
+                                                                className={getDependencyStatusColor(
+                                                                    dependency.status || '',
+                                                                )}
+                                                            >
+                                                                {dependency.status || 'Unknown'}
+                                                            </Badge>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </details>
+                            </>
                         )}
                     </div>
                 </div>

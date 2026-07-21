@@ -301,8 +301,9 @@ const VitalitySonarQubeView = ({
                                     key={key}
                                     className="rounded-lg border border-slate-100 bg-white px-4 py-3 flex flex-col gap-2"
                                 >
-                                    <span className="text-xs font-medium text-slate-500">
-                                        {config.icon} {config.label}
+                                    <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500">
+                                        <span className="shrink-0">{config.icon}</span>
+                                        <span>{config.label}</span>
                                     </span>
                                     {isRating && grade ? (
                                         <div className="flex items-center gap-3">

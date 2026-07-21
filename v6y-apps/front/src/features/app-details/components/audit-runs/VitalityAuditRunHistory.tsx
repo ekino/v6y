@@ -2,6 +2,8 @@ import React from 'react';
 
 import { useTranslationProvider } from '@v6y/ui-kit';
 
+import { parseDateValue } from '../../../../commons/utils/DateParamUtils.ts';
+
 interface AuditRunType {
     _id: number;
     runStatus: string;
@@ -74,28 +76,6 @@ const getStatusBadgeVariant = (status: string): 'success' | 'warning' | 'error' 
         default:
             return 'info';
     }
-};
-
-const parseDateValue = (value: string | null | undefined) => {
-    if (!value) return null;
-
-    const trimmedValue = value.trim();
-    if (!trimmedValue) return null;
-
-    const isNumericTimestamp = /^\d+$/.test(trimmedValue);
-    const date = isNumericTimestamp
-        ? new Date(
-              Number(trimmedValue) < 1_000_000_000_000
-                  ? Number(trimmedValue) * 1000
-                  : Number(trimmedValue),
-          )
-        : new Date(trimmedValue);
-
-    if (Number.isNaN(date.getTime())) {
-        return null;
-    }
-
-    return date;
 };
 
 export const formatDate = (dateString: string | null | undefined) => {
@@ -263,7 +243,9 @@ export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = (
                     <thead className="sticky top-0 border-b-2 border-slate-200 bg-slate-50">
                         <tr>
                             <th className="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-700">
-                                {translate('vitality.appDetailsPage.auditHistory.table.columns.status')}
+                                {translate(
+                                    'vitality.appDetailsPage.auditHistory.table.columns.status',
+                                )}
                             </th>
                             <th className="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-700">
                                 {translate(
@@ -271,13 +253,19 @@ export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = (
                                 )}
                             </th>
                             <th className="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-700">
-                                {translate('vitality.appDetailsPage.auditHistory.table.columns.triggered')}
+                                {translate(
+                                    'vitality.appDetailsPage.auditHistory.table.columns.triggered',
+                                )}
                             </th>
                             <th className="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-700">
-                                {translate('vitality.appDetailsPage.auditHistory.table.columns.duration')}
+                                {translate(
+                                    'vitality.appDetailsPage.auditHistory.table.columns.duration',
+                                )}
                             </th>
                             <th className="px-4 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-700">
-                                {translate('vitality.appDetailsPage.auditHistory.table.columns.audits')}
+                                {translate(
+                                    'vitality.appDetailsPage.auditHistory.table.columns.audits',
+                                )}
                             </th>
                         </tr>
                     </thead>

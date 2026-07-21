@@ -297,61 +297,57 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                 </div>
 
                 <div className="w-full lg:col-span-8">
-                    <div className="mb-4 rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#fafbfc_0%,#f4f6f8_100%)] p-4 shadow-sm md:p-5">
-                        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                            <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                                <BranchSelector
-                                    branches={auditReportBranches}
-                                    selectedBranch={selectedBranch}
-                                    onBranchChange={setSelectedBranch}
-                                />
-                            </div>
+                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                            <BranchSelector
+                                branches={auditReportBranches}
+                                selectedBranch={selectedBranch}
+                                onBranchChange={setSelectedBranch}
+                            />
+                        </div>
 
-                            <div className="flex items-center gap-2 shrink-0">
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    className="h-10 w-10 shrink-0 rounded-lg border-slate-300 bg-white p-2 text-slate-700 hover:bg-slate-50"
-                                    title={translate('vitality.appDetailsPage.actions.reload')}
-                                >
-                                    <ReloadIcon className="w-4 h-4 shrink-0" />
-                                </Button>
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    className="h-10 w-10 shrink-0 rounded-lg border-slate-300 bg-white p-2 text-slate-700 hover:bg-slate-50"
-                                    title={translate('vitality.appDetailsPage.actions.globe')}
-                                >
-                                    <GlobeIcon className="w-4 h-4 shrink-0" />
-                                </Button>
-                                <Button
-                                    onClick={onRunAuditClicked}
-                                    disabled={isRunningAudit}
-                                    variant="outline"
-                                    size="sm"
-                                    className="flex h-10 items-center gap-1.5 rounded-full border-slate-900 bg-slate-900 px-4 text-white hover:bg-slate-800"
-                                >
-                                    {isRunningAudit ? (
-                                        <>
-                                            <ReloadIcon className="w-4 h-4 animate-spin" />
-                                            <span className="text-sm">
-                                                {translate(
-                                                    'vitality.appDetailsPage.runAuditButtonLoading',
-                                                )}
-                                            </span>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <PlayIcon className="w-4 h-4" />
-                                            <span className="text-sm">
-                                                {translate(
-                                                    'vitality.appDetailsPage.runAuditButton',
-                                                )}
-                                            </span>
-                                        </>
-                                    )}
-                                </Button>
-                            </div>
+                        <div className="flex items-center gap-2 shrink-0">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="h-10 w-10 shrink-0 rounded-lg border-slate-300 bg-white p-2 text-slate-700 hover:bg-slate-50"
+                                title={translate('vitality.appDetailsPage.actions.reload')}
+                            >
+                                <ReloadIcon className="w-4 h-4 shrink-0" />
+                            </Button>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="h-10 w-10 shrink-0 rounded-lg border-slate-300 bg-white p-2 text-slate-700 hover:bg-slate-50"
+                                title={translate('vitality.appDetailsPage.actions.globe')}
+                            >
+                                <GlobeIcon className="w-4 h-4 shrink-0" />
+                            </Button>
+                            <Button
+                                onClick={onRunAuditClicked}
+                                disabled={isRunningAudit}
+                                variant="outline"
+                                size="sm"
+                                className="flex h-10 items-center gap-1.5 rounded-full border-slate-900 bg-slate-900 px-4 text-white hover:bg-slate-800"
+                            >
+                                {isRunningAudit ? (
+                                    <>
+                                        <ReloadIcon className="w-4 h-4 animate-spin" />
+                                        <span className="text-sm">
+                                            {translate(
+                                                'vitality.appDetailsPage.runAuditButtonLoading',
+                                            )}
+                                        </span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <PlayIcon className="w-4 h-4" />
+                                        <span className="text-sm">
+                                            {translate('vitality.appDetailsPage.runAuditButton')}
+                                        </span>
+                                    </>
+                                )}
+                            </Button>
                         </div>
                     </div>
 

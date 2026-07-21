@@ -10,32 +10,30 @@ const VitalityFaqList = ({ dataSource }: { dataSource?: FaqType[] }) => {
     }
 
     return (
-        <div className="w-full rounded-2xl border border-slate-200 bg-white p-4 shadow-sm md:p-5">
+        <div className="w-full rounded-2xl border border-slate-200 bg-white px-5 md:px-6">
             <Accordion
                 type="single"
                 collapsible
-                className="w-full space-y-3"
+                className="w-full"
                 defaultValue={dataSource[0]?.title || ''}
             >
                 {dataSource
                     .filter((option: FaqType) => option.title?.length)
                     .map((option: FaqType, idx: number) => (
                         <AccordionItem
-                            className="rounded-2xl border border-slate-200 bg-slate-50/70 px-5 py-4 shadow-sm"
+                            className="last:border-b-0"
                             key={option.title || idx}
                             value={option.title || String(idx)}
                         >
-                            <AccordionTrigger>
-                                <span className="pr-4 text-left text-base font-semibold text-slate-950">
-                                    {option.title}
-                                </span>
+                            <AccordionTrigger className="text-left text-base font-semibold text-slate-950 hover:no-underline">
+                                {option.title}
                             </AccordionTrigger>
                             <AccordionContent>
-                                <div className="border-t border-slate-200 pt-4">
-                                    <p className="whitespace-pre-wrap text-sm leading-7 text-slate-700">
-                                        {option.description}
-                                    </p>
-                                    <div className="mt-4 flex flex-wrap justify-end gap-2">
+                                <p className="whitespace-pre-wrap text-sm leading-7 text-slate-700">
+                                    {option.description}
+                                </p>
+                                {Boolean(option.links?.length) && (
+                                    <div className="mt-4 flex flex-wrap gap-2">
                                         {option.links?.map((link, linkIdx) => (
                                             <Link
                                                 key={linkIdx}
@@ -46,7 +44,7 @@ const VitalityFaqList = ({ dataSource }: { dataSource?: FaqType[] }) => {
                                             </Link>
                                         ))}
                                     </div>
-                                </div>
+                                )}
                             </AccordionContent>
                         </AccordionItem>
                     ))}

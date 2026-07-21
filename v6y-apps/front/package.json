@@ -46,6 +46,7 @@
     "react-dom": "catalog:react19",
     "react-hook-form": "catalog:",
     "react-i18next": "catalog:react19",
+    "recharts": "catalog:",
     "react-virtualized-auto-sizer": "catalog:",
     "react-window": "catalog:",
     "sonner": "catalog:",
