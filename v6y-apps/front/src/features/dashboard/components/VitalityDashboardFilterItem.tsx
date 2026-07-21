@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@v6y/ui-kit-front';
+import { CardDescription } from '@v6y/ui-kit-front';
 
 import { type DashboardItemType } from '../../../commons/config/VitalityCommonConfig';
 
@@ -15,29 +15,32 @@ const VitalityDashboardFilterItem: React.FC<VitalityDashboardFilterItemProps> = 
 
     return (
         <Link href={option.url}>
-            <Card className="cursor-pointer p-2 md:p-3 lg:p-4 border-slate-200 hover:shadow-md transition-shadow">
-                <CardHeader className="flex flex-row items-center space-y-0 pb-1">
+            <div className="group rounded-xl border border-slate-200 bg-white px-4 py-3 transition-all hover:border-slate-300 hover:bg-slate-950 hover:text-white hover:shadow-md">
+                <div className="flex items-start gap-3">
                     <div
-                        className="flex h-8 w-8 md:h-9 md:w-9 lg:h-10 lg:w-10 items-center justify-center rounded-full text-xs md:text-sm lg:text-lg"
+                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-slate-200 text-sm transition-colors group-hover:border-white/15 group-hover:bg-white/5"
                         style={{
-                            backgroundColor: `${option.avatarColor}1A`,
+                            backgroundColor: `${option.avatarColor}12`,
                             color: option.avatarColor,
                         }}
                     >
                         {option.avatar}
                     </div>
-                    <div className="ml-2 md:ml-3 flex-1">
-                        <CardTitle className="text-xs md:text-sm lg:text-base leading-tight">
-                            {option.title}
-                        </CardTitle>
-                    </div>
-                </CardHeader>
-                <CardContent className="pt-1">
-                    <CardDescription className="text-xs md:text-xs lg:text-xs line-clamp-2">
+                    <div className="min-w-0 flex-1">
+                        <div className="flex items-center justify-between gap-2">
+                            <span className="text-sm font-semibold leading-tight text-slate-900 transition-colors group-hover:text-white">
+                                {option.title}
+                            </span>
+                            <span className="text-[11px] font-medium uppercase tracking-[0.12em] text-slate-400 transition-colors group-hover:text-slate-300">
+                                Open
+                            </span>
+                        </div>
+                        <CardDescription className="mt-1 text-xs leading-5 text-slate-500 transition-colors group-hover:text-slate-300">
                         {option.description}
-                    </CardDescription>
-                </CardContent>
-            </Card>
+                        </CardDescription>
+                    </div>
+                </div>
+            </div>
         </Link>
     );
 };

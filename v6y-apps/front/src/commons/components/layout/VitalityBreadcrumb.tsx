@@ -33,9 +33,9 @@ const VitalityBreadcrumb = () => {
     if (!items || items.length === 0) return null;
 
     return (
-        <nav className="py-2 md:py-3 px-0 overflow-x-auto" aria-label="Breadcrumb">
+        <nav className="overflow-x-auto" aria-label="Breadcrumb">
             <Breadcrumb>
-                <BreadcrumbList className="text-xs md:text-sm whitespace-nowrap">
+                <BreadcrumbList className="whitespace-nowrap px-0 py-1 text-xs text-slate-500 md:text-sm">
                     {items.map((item, idx) => {
                         const isLast = idx === items.length - 1;
                         return (
@@ -43,18 +43,18 @@ const VitalityBreadcrumb = () => {
                                 <BreadcrumbItem className="min-w-fit">
                                     {!isLast ? (
                                         <BreadcrumbLink
-                                            className="text-black hover:text-slate-700 text-xs md:text-sm"
+                                            className="text-slate-500 hover:text-slate-900 text-xs md:text-sm"
                                             asChild
                                         >
                                             <Link href={item.href || '#'}>{item.title}</Link>
                                         </BreadcrumbLink>
                                     ) : (
-                                        <BreadcrumbPage className="text-xs md:text-sm font-medium text-slate-600">
+                                        <BreadcrumbPage className="text-xs md:text-sm font-medium text-slate-900">
                                             {item.title}
                                         </BreadcrumbPage>
                                     )}
                                 </BreadcrumbItem>
-                                {!isLast && <BreadcrumbSeparator className="mx-1 md:mx-2" />}
+                                {!isLast && <BreadcrumbSeparator className="mx-1 text-slate-400 md:mx-2" />}
                             </React.Fragment>
                         );
                     })}

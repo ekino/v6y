@@ -3,16 +3,17 @@
 import * as React from 'react';
 
 import VitalityAppList from '../../app-list/components/VitalityAppList';
-import VitalityDashboardFilters from './VitalityDashboardFilters';
 
 const VitalityDashboardView = () => {
     return (
-        <div className="flex flex-col lg:grid lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 w-full">
-            <div className="w-full lg:col-span-1 order-first lg:order-0">
-                <VitalityDashboardFilters />
+        <div className="flex w-full flex-col gap-6 lg:gap-8">
+            <div className="max-w-3xl space-y-2 px-1">
+                <h1 className="text-3xl font-semibold tracking-tight text-slate-950 md:text-4xl">
+                    Monitor project health without hunting through reports.
+                </h1>
             </div>
 
-            <div className="w-full lg:col-span-2">
+            <div className="w-full">
                 <VitalityAppList source="search" />
             </div>
         </div>

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { DynamicLoader } from '@v6y/ui-kit';
 import {
     Badge,
+    Button,
     Card,
     CardContent,
     CardDescription,
@@ -77,69 +78,102 @@ const VitalityAppListView = () => {
         }
     };
 
+    const clearAllFilters = () => {
+        setSelectedKeywords([]);
+        router.replace(pathname, { scroll: false });
+    };
+
     return (
-        <div className="space-y-8 mt-4">
-            <Card className="border-gray-200 shadow-md">
-                <CardHeader>
-                    <CardTitle className="text-md">
+        <div className="space-y-6">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                <div className="max-w-3xl space-y-2 px-1">
+                    <h1 className="text-2xl font-semibold tracking-tight text-slate-950 md:text-3xl">
+                        Filter the portfolio like a repository index, not a form.
+                    </h1>
+                </div>
+
+                {selectedKeywords.length > 0 && (
+                    <div className="flex flex-wrap items-center gap-2">
+                        <span className="rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-500 ring-1 ring-slate-200">
+                            {selectedKeywords.length} active
+                        </span>
+                        <Button
+                            variant="outline"
+                            className="h-9 rounded-full border-slate-300 px-4 text-sm"
+                            onClick={clearAllFilters}
+                        >
+                            Clear filters
+                        </Button>
+                    </div>
+                )}
+            </div>
+
+            <Card className="overflow-hidden border-slate-200 shadow-sm">
+                <CardHeader className="pb-4">
+                    <CardTitle className="text-base font-semibold text-slate-950 md:text-lg">
                         {translate('vitality.dashboardPage.filters.technologies') ||
                             'Available Technologies'}
                     </CardTitle>
-                    <CardDescription>
-                        Select technologies to filter applications and discover matching projects
+                    <CardDescription className="max-w-2xl text-sm leading-6 text-slate-600">
+                        Toggle the stacks you want to monitor. Filters stay lightweight, readable,
+                        and easy to clear.
                     </CardDescription>
                 </CardHeader>
-                <CardContent>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
-                        {AVAILABLE_TECHNOLOGIES.map(({ slug, name }) => (
-                            <div
-                                key={slug}
-                                className="flex items-center space-x-2 hover:bg-gray-50 p-2 rounded transition-colors"
-                            >
-                                <Checkbox
-                                    id={slug}
-                                    checked={selectedKeywords.includes(slug)}
-                                    onCheckedChange={(checked) =>
-                                        handleKeywordToggle(slug, checked as boolean)
-                                    }
-                                />
+                <CardContent className="space-y-4 p-4 md:p-5">
+                    <div className="flex flex-wrap gap-2">
+                        {AVAILABLE_TECHNOLOGIES.map(({ slug, name }) => {
+                            const isSelected = selectedKeywords.includes(slug);
+
+                            return (
                                 <label
+                                    key={slug}
                                     htmlFor={slug}
-                                    className="text-sm font-medium cursor-pointer select-none flex-1"
+                                    className={`inline-flex cursor-pointer items-center gap-2 rounded-full border px-3 py-2 text-sm font-medium transition-colors ${
+                                        isSelected
+                                            ? 'border-slate-900 bg-slate-900 text-white'
+                                            : 'border-slate-300 bg-white text-slate-700 hover:border-slate-400 hover:bg-slate-50'
+                                    }`}
                                 >
-                                    {name}
+                                    <Checkbox
+                                        id={slug}
+                                        checked={isSelected}
+                                        onCheckedChange={(checked) =>
+                                            handleKeywordToggle(slug, checked as boolean)
+                                        }
+                                    />
+                                    <span>{name}</span>
                                 </label>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
+
+                    {selectedKeywords.length > 0 && (
+                        <div className="space-y-3 rounded-xl bg-slate-50 px-4 py-4 ring-1 ring-slate-200">
+                            <div className="flex items-center gap-2">
+                                <TypographyH3 className="text-sm font-semibold text-slate-900">
+                                    {translate('vitality.appListPage.activeFiltersLabel') ||
+                                        'Active Filters'}
+                                </TypographyH3>
+                                <span className="rounded-full bg-white px-2 py-1 text-xs text-slate-500">
+                                    {selectedKeywords.length} selected
+                                </span>
+                            </div>
+                            <div className="flex flex-wrap gap-2">
+                                {selectedKeywords.map((keyword) => (
+                                    <Badge
+                                        key={keyword}
+                                        variant="default"
+                                        className="cursor-pointer rounded-full bg-slate-900 px-3 py-1 text-white hover:bg-slate-700"
+                                        onClick={() => handleKeywordToggle(keyword, false)}
+                                    >
+                                        {keyword} ×
+                                    </Badge>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </CardContent>
             </Card>
-
-            {selectedKeywords.length > 0 && (
-                <div className="space-y-3">
-                    <div className="flex items-center gap-2">
-                        <TypographyH3 className="text-md">
-                            {translate('vitality.appListPage.activeFiltersLabel') ||
-                                'Active Filters'}
-                        </TypographyH3>
-                        <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                            {selectedKeywords.length} selected
-                        </span>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                        {selectedKeywords.map((keyword) => (
-                            <Badge
-                                key={keyword}
-                                variant="default"
-                                className="cursor-pointer hover:bg-gray-200"
-                                onClick={() => handleKeywordToggle(keyword, false)}
-                            >
-                                {keyword} ×
-                            </Badge>
-                        ))}
-                    </div>
-                </div>
-            )}
 
             <VitalityAppList />
         </div>

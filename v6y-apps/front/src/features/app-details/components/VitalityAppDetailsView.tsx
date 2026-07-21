@@ -234,8 +234,24 @@ const VitalityAppDetailsView = () => {
     }
 
     return (
-        <div className="min-h-screen mt-4 md:px-6 lg:px-0">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
+        <div className="space-y-6">
+            <section className="rounded-2xl border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#f6f8fa_100%)] px-5 py-5 shadow-sm md:px-6">
+                <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+                    <div className="max-w-3xl space-y-2">
+                        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+                            Reporting workspace
+                        </p>
+                        <h1 className="text-2xl font-semibold tracking-tight text-slate-950 md:text-3xl">
+                            Review branches, report categories, and audit history without losing the main health story.
+                        </h1>
+                        <p className="max-w-2xl text-sm leading-6 text-slate-600 md:text-base">
+                            Keep operational context pinned on the left, use the toolbar to switch scope, and move through category reports with GitHub-style clarity instead of dashboard clutter.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <div className="grid grid-cols-1 gap-5 lg:grid-cols-12 lg:gap-6">
                 <div className="lg:col-span-3 w-full">
                     {isAppDetailsInfosLoading ? (
                         <div className="bg-gray-100 animate-pulse h-80 rounded-xl"></div>
@@ -245,7 +261,8 @@ const VitalityAppDetailsView = () => {
                 </div>
 
                 <div className="lg:col-span-9 w-full">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-2 mb-4 md:mb-2.5">
+                    <div className="mb-4 rounded-2xl border border-slate-200 bg-slate-50/80 p-4 shadow-sm md:p-5">
+                        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                             <BranchSelector
                                 branches={auditReportBranches}
@@ -255,7 +272,7 @@ const VitalityAppDetailsView = () => {
 
                             <Input
                                 type="date"
-                                className="h-10 sm:h-8 w-fit border-slate-300 rounded-md text-sm"
+                                className="h-10 w-fit rounded-lg border-slate-300 bg-white text-sm"
                                 value={selectedDate}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                                     setSelectedDate(e.target.value)
@@ -263,11 +280,11 @@ const VitalityAppDetailsView = () => {
                             />
                         </div>
 
-                        <div className="flex items-center gap-1.5 shrink-0">
+                        <div className="flex items-center gap-2 shrink-0">
                             <Button
                                 variant="outline"
                                 size="sm"
-                                className="h-10 sm:h-8 w-10 sm:w-9 p-2 border-slate-300 rounded-md shrink-0"
+                                className="h-10 w-10 shrink-0 rounded-lg border-slate-300 bg-white p-2 text-slate-700 hover:bg-slate-100"
                                 title="Reload"
                             >
                                 <ReloadIcon className="w-4 h-4 shrink-0" />
@@ -275,7 +292,7 @@ const VitalityAppDetailsView = () => {
                             <Button
                                 variant="outline"
                                 size="sm"
-                                className="h-10 sm:h-8 w-10 sm:w-9 p-2 border-slate-300 rounded-md shrink-0"
+                                className="h-10 w-10 shrink-0 rounded-lg border-slate-300 bg-white p-2 text-slate-700 hover:bg-slate-100"
                                 title="Globe"
                             >
                                 <GlobeIcon className="w-4 h-4 shrink-0" />
@@ -285,7 +302,7 @@ const VitalityAppDetailsView = () => {
                                 disabled={isRunningAudit}
                                 variant="outline"
                                 size="sm"
-                                className="h-8 px-3 border-slate-300 rounded-md flex items-center gap-1.5"
+                                className="flex h-10 items-center gap-1.5 rounded-full border-slate-300 bg-slate-950 px-4 text-white hover:bg-slate-800"
                             >
                                 {isRunningAudit ? (
                                     <>
@@ -308,9 +325,9 @@ const VitalityAppDetailsView = () => {
                         </div>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 md:gap-2 mb-4 md:mb-2">
+                    <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between md:gap-2">
                         <div
-                            className="bg-slate-100 p-1.5 rounded-md inline-flex overflow-x-auto"
+                            className="inline-flex overflow-x-auto rounded-xl border border-slate-200 bg-white p-1 shadow-sm"
                             role="tablist"
                             aria-label="Details tabs"
                         >
@@ -320,10 +337,10 @@ const VitalityAppDetailsView = () => {
                                     onClick={() => setActiveTab(tab.id)}
                                     role="tab"
                                     aria-selected={activeTab === tab.id}
-                                    className={`px-2 sm:px-3 py-1.5 rounded text-xs sm:text-sm font-medium transition-colors shrink-0 ${
+                                    className={`shrink-0 rounded-lg px-3 py-2 text-xs font-medium transition-colors sm:text-sm ${
                                         activeTab === tab.id
-                                            ? 'bg-white text-slate-900 shadow-xs'
-                                            : 'text-slate-700 hover:text-slate-900'
+                                            ? 'bg-slate-950 text-white shadow-sm'
+                                            : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
                                     }`}
                                 >
                                     {tab.label}
@@ -333,10 +350,11 @@ const VitalityAppDetailsView = () => {
 
                         <Button
                             onClick={onExportClicked}
-                            className="w-full sm:w-auto h-10 sm:h-8 bg-slate-900 hover:bg-slate-800 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium shrink-0"
+                            className="h-10 w-full shrink-0 rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-900 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 sm:w-auto"
                         >
                             {translate('vitality.appDetailsPage.exportButton')}
                         </Button>
+                    </div>
                     </div>
 
                     {renderTabContent()}

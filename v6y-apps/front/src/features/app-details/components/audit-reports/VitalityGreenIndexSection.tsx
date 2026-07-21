@@ -56,7 +56,7 @@ const parseExtraInfos = <T,>(extraInfos?: string): T | null => {
 const GRADE_COLORS: Record<string, string> = {
     A: 'bg-emerald-500 text-white',
     B: 'bg-green-400 text-white',
-    C: 'bg-yellow-400 text-gray-900',
+    C: 'bg-yellow-400 text-yellow-950',
     D: 'bg-orange-400 text-white',
     E: 'bg-orange-500 text-white',
     F: 'bg-red-500 text-white',

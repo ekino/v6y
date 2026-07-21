@@ -162,7 +162,7 @@ export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = (
                         return (
                             <div
                                 key={run._id || index}
-                                className={`p-5 border-l-4 hover:bg-slate-50 transition-colors ${getStatusColor(run.runStatus)}`}
+                                className={`rounded-none border-b border-slate-200 p-5 transition-colors hover:bg-slate-50 ${getStatusColor(run.runStatus)}`}
                             >
                                 {/* Header with status and date */}
                                 <div className="flex items-start justify-between gap-2 mb-3">
