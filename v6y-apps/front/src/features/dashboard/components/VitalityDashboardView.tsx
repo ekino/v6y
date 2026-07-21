@@ -14,7 +14,7 @@ const VitalityDashboardView = () => {
                 </h1>
             </div>
             <section className="rounded-xl border border-slate-200 bg-linear-to-b from-slate-50/70 to-white p-3 md:p-4 shadow-sm">
-                <VitalityAppList source="search" />
+                <VitalityAppList source="dashboard" />
             </section>
         </div>
     );

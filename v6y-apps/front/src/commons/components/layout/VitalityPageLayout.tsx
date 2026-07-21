@@ -15,7 +15,7 @@ const VitalityPageLayout = ({ children }: { children: ReactNode }) => {
 
     return (
         <div
-            className={`min-h-screen bg-[radial-gradient(1200px_520px_at_12%_-8%,#e0ecff_0%,rgba(224,236,255,0)_60%),radial-gradient(1000px_520px_at_100%_0%,#e3f4ff_0%,rgba(227,244,255,0)_58%),linear-gradient(180deg,#f7faff_0%,#f8fafc_40%,#f8fafc_100%)] text-slate-950 ${isLoginPage ? 'overflow-hidden' : ''}`}
+            className={`min-h-screen bg-[radial-gradient(1200px_520px_at_12%_-8%,#f1f5f9_0%,rgba(241,245,249,0)_60%),radial-gradient(1000px_520px_at_100%_0%,#f5f5f4_0%,rgba(245,245,244,0)_58%),linear-gradient(180deg,#f8fafc_0%,#f8fafc_40%,#f8fafc_100%)] text-slate-950 ${isLoginPage ? 'overflow-hidden' : ''}`}
         >
             <VitalityPageHeader />
 

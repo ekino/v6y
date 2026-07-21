@@ -6,12 +6,15 @@ import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 const VitalityAppListHeader = ({
     appsTotal,
     addApplicationUrl,
+    source,
 }: {
     appsTotal: number;
     addApplicationUrl?: string;
+    source?: string;
 }) => {
     const { translate } = useTranslationProvider();
     const targetUrl = addApplicationUrl || VitalityApiConfig.VITALITY_FRONT_BO_URL;
+    const isDashboard = source === 'dashboard';
 
     return (
         <div className="w-full flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -27,19 +30,34 @@ const VitalityAppListHeader = ({
                 <p className="text-sm text-slate-600">
                     Compare repositories and jump straight to the report that matters.
                 </p>
+
+                {isDashboard && (
+                    <a href={targetUrl} className="inline-flex pt-2 no-underline hover:no-underline">
+                        <Button className="h-9 md:h-10 text-sm md:text-base">
+                            <AppstoreAddOutlined className="w-4 h-4" />
+                            <span className="ml-2">
+                                {translate('vitality.appListPage.addApplicationLabel') ||
+                                    'Add Application'}
+                            </span>
+                        </Button>
+                    </a>
+                )}
             </div>
 
-            <a
-                href={targetUrl}
-                className="inline-flex w-full md:w-auto justify-center md:justify-start no-underline hover:no-underline"
-            >
-                <Button className="h-10 w-full rounded-full bg-slate-950 px-5 text-sm font-medium text-white hover:bg-slate-800 md:w-auto">
-                    <AppstoreAddOutlined className="w-4 h-4" />
-                    <span className="ml-2">
-                        {translate('vitality.appListPage.addApplicationLabel') || 'Add Application'}
-                    </span>
-                </Button>
-            </a>
+            {!isDashboard && (
+                <a
+                    href={targetUrl}
+                    className="inline-flex w-full md:w-auto justify-center md:justify-start no-underline hover:no-underline"
+                >
+                    <Button className="h-9 md:h-10 text-sm md:text-base">
+                        <AppstoreAddOutlined className="w-4 h-4" />
+                        <span className="ml-2">
+                            {translate('vitality.appListPage.addApplicationLabel') ||
+                                'Add Application'}
+                        </span>
+                    </Button>
+                </a>
+            )}
         </div>
     );
 };
