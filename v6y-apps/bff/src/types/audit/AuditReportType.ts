@@ -26,6 +26,12 @@ const AuditReportType = `
    
     """ Audit extra infos """
     extraInfos: String  
+
+    """ When this specific audit measurement started """
+    dateStart: String
+
+    """ When this specific audit measurement ended """
+    dateEnd: String
      
     """ Audit Concerned Module """
     module: ModuleType

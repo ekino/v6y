@@ -54,7 +54,6 @@ const createOrEditApplication = async (
             gitUrl,
             gitWebUrl,
             productionLink,
-            additionalProductionLinks,
             dataDogApiKey,
             dataDogAppKey,
             dataDogUrl,
@@ -91,11 +90,6 @@ const createOrEditApplication = async (
             `[AppMutations - createOrEditApplication] productionLink : ${productionLink}`,
         );
         AppLogger.info(`[AppMutations - createOrEditApplication] contactMail : ${contactMail}`);
-        AppLogger.info(
-            `[AppMutations - createOrEditApplication] additionalProductionLinks : ${additionalProductionLinks?.join(
-                ',',
-            )}`,
-        );
         AppLogger.info(`[AppMutations - createOrEditApplication] sonarqubeLink : ${sonarqubeLink}`);
         AppLogger.info(
             `[AppMutations - createOrEditApplication] sonarqubeToken : ${sonarqubeToken ? '"********"' : 'null'}`,
@@ -120,7 +114,6 @@ const createOrEditApplication = async (
                 codeQualityPlatformLink,
                 ciPlatformLink,
                 deploymentPlatformLink,
-                additionalProductionLinks,
                 dataDogApiKey,
                 dataDogAppKey,
                 dataDogUrl,
@@ -148,7 +141,6 @@ const createOrEditApplication = async (
             codeQualityPlatformLink,
             ciPlatformLink,
             deploymentPlatformLink,
-            additionalProductionLinks,
             dataDogApiKey,
             dataDogAppKey,
             dataDogUrl,

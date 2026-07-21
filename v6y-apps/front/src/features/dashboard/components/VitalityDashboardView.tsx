@@ -3,18 +3,14 @@
 import * as React from 'react';
 
 import VitalityAppList from '../../app-list/components/VitalityAppList';
-import VitalityDashboardFilters from './VitalityDashboardFilters';
 
 const VitalityDashboardView = () => {
     return (
-        <div className="flex flex-col lg:grid lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 w-full">
-            <div className="w-full lg:col-span-1 order-first lg:order-0">
-                <VitalityDashboardFilters />
-            </div>
-
-            <div className="w-full lg:col-span-2">
+        <div className="mt-4">
+            <div className="h-1 w-full rounded-full bg-linear-to-r from-indigo-400 via-fuchsia-400 to-amber-400 animate-gradient-pan mb-3" />
+            <section className="rounded-xl border border-slate-200 bg-linear-to-b from-slate-50/70 to-white p-3 md:p-4 shadow-sm">
                 <VitalityAppList source="search" />
-            </div>
+            </section>
         </div>
     );
 };

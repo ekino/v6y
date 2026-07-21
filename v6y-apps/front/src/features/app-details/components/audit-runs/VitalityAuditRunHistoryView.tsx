@@ -2,7 +2,10 @@
 
 import React from 'react';
 
+import { useNavigationAdapter } from '@v6y/ui-kit-front';
+
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
+import VitalityNavigationPaths from '../../../../commons/config/VitalityNavigationPaths';
 import {
     buildClientQuery,
     useClientQuery,
@@ -13,6 +16,8 @@ import VitalityAuditRunHistory from './VitalityAuditRunHistory.tsx';
 
 interface VitalityAuditRunHistoryViewProps {
     applicationId?: number;
+    onRunClick?: (runId: number) => void;
+    source?: string;
 }
 
 interface AuditRunType {
@@ -33,10 +38,14 @@ interface AuditRunType {
 
 export const VitalityAuditRunHistoryView: React.FC<VitalityAuditRunHistoryViewProps> = ({
     applicationId,
+    onRunClick,
+    source,
 }) => {
-    const isAppSpecific = applicationId !== undefined;
+    const { router } = useNavigationAdapter();
+    const isAppSpecific = Number.isFinite(applicationId);
+    const targetApplicationId = isAppSpecific ? Number(applicationId) : undefined;
     const cacheKey = isAppSpecific
-        ? ['getApplicationAuditRunsByParams', `${applicationId}`]
+        ? ['getApplicationAuditRunsByParams', `${targetApplicationId}`]
         : ['getAllAuditRuns'];
 
     const { isLoading, data, error } = useClientQuery<{
@@ -48,7 +57,7 @@ export const VitalityAuditRunHistoryView: React.FC<VitalityAuditRunHistoryViewPr
             buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
                 query: isAppSpecific ? GetApplicationAuditRuns : GetAllAuditRuns,
-                variables: isAppSpecific ? { _id: applicationId } : {},
+                variables: isAppSpecific ? { _id: targetApplicationId } : {},
             }),
     });
 
@@ -77,7 +86,29 @@ export const VitalityAuditRunHistoryView: React.FC<VitalityAuditRunHistoryViewPr
         ? data?.getApplicationAuditRunsByParams || []
         : data?.getAllAuditRuns || [];
 
-    return <VitalityAuditRunHistory auditRuns={auditRuns} isLoading={isLoading} />;
+    const handleRunClick = (runId: number) => {
+        if (onRunClick) {
+            onRunClick(runId);
+            return;
+        }
+
+        if (!applicationId) {
+            return;
+        }
+
+        const targetUrl = source
+            ? `${VitalityNavigationPaths.APP}/${targetApplicationId}/reports/${runId}?source=${source}`
+            : `${VitalityNavigationPaths.APP}/${targetApplicationId}/reports/${runId}`;
+        router.push(targetUrl);
+    };
+
+    return (
+        <VitalityAuditRunHistory
+            auditRuns={auditRuns}
+            isLoading={isLoading}
+            onRunClick={isAppSpecific ? handleRunClick : undefined}
+        />
+    );
 };
 
 export default VitalityAuditRunHistoryView;

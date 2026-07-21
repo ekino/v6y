@@ -128,7 +128,13 @@ const getAuditRunWithAudits = async (auditRunId: number) => {
             include: { audits: true },
         });
 
-        return auditRun ? { ...auditRun, _id: auditRun.id } : null;
+        return auditRun
+            ? {
+                  ...auditRun,
+                  _id: auditRun.id,
+                  audits: auditRun.audits.map((audit) => ({ ...audit, _id: audit.id })),
+              }
+            : null;
     } catch (error) {
         AppLogger.error('[AuditRunProvider - getAuditRunWithAudits] error: ', error);
         return null;
@@ -143,7 +149,13 @@ const getAuditRunById = async (auditRunId: number) => {
         });
 
         AppLogger.info('[AuditRunProvider - getAuditRunById] found: ' + auditRunId);
-        return auditRun ? { ...auditRun, _id: auditRun.id } : null;
+        return auditRun
+            ? {
+                  ...auditRun,
+                  _id: auditRun.id,
+                  audits: auditRun.audits.map((audit) => ({ ...audit, _id: audit.id })),
+              }
+            : null;
     } catch (error) {
         AppLogger.error('[AuditRunProvider - getAuditRunById] error: ', error);
         return null;
@@ -201,7 +213,13 @@ const getLatestAuditRun = async (appId: number) => {
         });
 
         AppLogger.info('[AuditRunProvider - getLatestAuditRun] found: ' + auditRun?.id);
-        return auditRun ? { ...auditRun, _id: auditRun.id } : null;
+        return auditRun
+            ? {
+                  ...auditRun,
+                  _id: auditRun.id,
+                  audits: auditRun.audits.map((audit) => ({ ...audit, _id: audit.id })),
+              }
+            : null;
     } catch (error) {
         AppLogger.error('[AuditRunProvider - getLatestAuditRun] error: ', error);
         return null;
@@ -253,7 +271,11 @@ const getAllAuditRuns = async (limit?: number, offset?: number) => {
 
         AppLogger.info('[AuditRunProvider - getAllAuditRuns] count: ' + auditRuns?.length);
 
-        const mapped = auditRuns.map((run) => ({ ...run, _id: run.id }));
+        const mapped = auditRuns.map((run) => ({
+            ...run,
+            _id: run.id,
+            audits: run.audits.map((audit) => ({ ...audit, _id: audit.id })),
+        }));
 
         AppLogger.info('[AuditRunProvider - getAllAuditRuns] mapped first: ' + mapped[0]?.appId);
         return mapped || [];

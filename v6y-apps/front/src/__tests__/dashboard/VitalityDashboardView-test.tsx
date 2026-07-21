@@ -1,15 +1,9 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@testing-library/jest-dom/vitest';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
 import VitalityDashboardView from '../../features/dashboard/components/VitalityDashboardView';
-
-// Mock child components used by VitalityDashboardView
-vi.mock('../../features/dashboard/components/VitalityDashboardFilters', () => ({
-    __esModule: true,
-    default: () => <div data-testid="mock-filters">Mock Filters</div>,
-}));
 
 vi.mock('../../features/app-list/components/VitalityAppList', () => ({
     __esModule: true,
@@ -17,15 +11,17 @@ vi.mock('../../features/app-list/components/VitalityAppList', () => ({
 }));
 
 describe('VitalityDashboardView', () => {
-    it('renders filters and app list', () => {
+    it('wraps the app list inside a bordered panel', () => {
         const qc = new QueryClient();
-        render(
+        const { container } = render(
             <QueryClientProvider client={qc}>
                 <VitalityDashboardView />
             </QueryClientProvider>,
         );
 
-        expect(screen.getByTestId('mock-filters')).toBeInTheDocument();
-        expect(screen.getByTestId('mock-app-list')).toBeInTheDocument();
+        const section = container.querySelector('section');
+        expect(section).not.toBeNull();
+        expect(section).toHaveClass('rounded-xl');
+        expect(section).toHaveClass('border-slate-200');
     });
 });

@@ -23,9 +23,6 @@ const ApplicationCreateOrEditInput = `
         
       """ Application production url """
       productionLink: String!
-      
-      """ Additional Application production urls """
-      additionalProductionLinks: [String]
 
       """ DataDog API Key """
       dataDogApiKey: String

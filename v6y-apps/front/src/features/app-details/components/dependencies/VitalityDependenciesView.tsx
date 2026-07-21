@@ -5,6 +5,7 @@ import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6
 import { Card, CardContent, Package } from '@v6y/ui-kit-front';
 
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
+import { parseNumericParam } from '../../../../commons/utils/NumericParamUtils';
 import {
     buildClientQuery,
     useClientQuery,
@@ -28,7 +29,7 @@ const VitalityDependenciesView = () => {
                     queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
                     query: GetApplicationDetailsDependenciesByParams,
                     variables: {
-                        _id: parseInt(_id as string, 10),
+                        _id: parseNumericParam(_id as string),
                     },
                 }),
         });
