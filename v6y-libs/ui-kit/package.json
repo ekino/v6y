@@ -84,6 +84,7 @@
     "react": "catalog:react19",
     "react-dom": "catalog:react19",
     "react-i18next": "catalog:react19",
+    "@typescript/native": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:eslint10",
     "vite": "catalog:",

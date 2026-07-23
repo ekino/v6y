@@ -18,6 +18,7 @@
     "forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
     /* Type Checking */
     "strict": true,                                      /* Enable all strict type-checking options. */
+    "types": ["node"],                                   /* Explicit ambient @types packages (TS7 defaults to []). */
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */

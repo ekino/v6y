@@ -76,6 +76,7 @@
     "msw": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
+    "@typescript/native": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:eslint10",
     "vite": "catalog:",

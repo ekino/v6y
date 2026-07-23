@@ -4,7 +4,7 @@
     "target": "ES2022",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
     /* Modules */
     "module": "NodeNext",                                /* Specify what module code is generated. */
-    // "rootDir": "./",                                  /* Specify the root folder within your source files. */
+    "rootDir": "./src",                                 /* Specify the root folder within your source files. */
     "moduleResolution": "NodeNext",                     /* Specify how TypeScript looks up a file from a given module specifier. */
     "allowImportingTsExtensions": true,               /* Allow imports to include TypeScript file extensions. Requires '--moduleResolution bundler' and either '--noEmit' or '--emitDeclarationOnly' to be set. */
     "typeRoots": ["./src/types", "../../node_modules/@types"],  /* Specify multiple folders that act like `./node_modules/@types`. */
@@ -18,6 +18,7 @@
     "forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
     /* Type Checking */
     "strict": true,                                      /* Enable all strict type-checking options. */
+    "types": ["node"],                                   /* Explicit ambient @types packages (TS7 defaults to []). */
     /* Decorators (NestJS) */
     "experimentalDecorators": true,                      /* Enable experimental support for legacy experimental decorators. */
     "emitDecoratorMetadata": true,                       /* Emit design-type metadata for decorated declarations in source files. */

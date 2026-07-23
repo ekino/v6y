@@ -13,7 +13,6 @@
     "allowImportingTsExtensions": true,
     "module": "ESNext",
     "target": "ES2023",
-    "downlevelIteration": true,
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -25,11 +24,10 @@
         "name": "next"
       }
     ],
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["vitest/globals", "@testing-library/jest-dom","./environment.d.ts"]
+    "types": ["./environment.d.ts"]
   },
   "include": [
     "./src/**/*.ts",

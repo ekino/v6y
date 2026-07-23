@@ -36,6 +36,7 @@
     "@trivago/prettier-plugin-sort-imports": "catalog:",
     "@types/bcrypt": "catalog:",
     "@types/jsonwebtoken": "catalog:",
+    "@types/node": "catalog:",
     "@types/passport": "catalog:",
     "@types/passport-jwt": "catalog:",
     "@vitest/coverage-v8": "catalog:testing",
@@ -47,6 +48,7 @@
     "globals": "catalog:",
     "prisma": "catalog:data",
     "tsx": "catalog:",
+    "@typescript/native": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:eslint10",
     "vitest": "catalog:testing"
