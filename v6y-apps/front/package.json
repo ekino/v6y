@@ -65,6 +65,7 @@
     "postcss": "catalog:",
     "prettier": "catalog:",
     "tailwindcss": "catalog:",
+    "@typescript/native": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:eslint10",
     "vite": "catalog:",
