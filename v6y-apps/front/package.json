@@ -84,6 +84,7 @@
     "prettier": "catalog:",
     "semantic-ui-react": "catalog:",
     "tailwindcss": "catalog:",
+    "@typescript/native": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:eslint10",
     "vite": "catalog:",

@@ -30,6 +30,7 @@
     "@types/express": "catalog:",
     "@types/express-status-monitor": "catalog:",
     "@types/fs-extra": "catalog:",
+    "@types/node": "catalog:",
     "@types/node-cron": "catalog:",
     "@types/supertest": "catalog:testing",
     "@vitest/coverage-v8": "catalog:testing",
@@ -41,6 +42,7 @@
     "globals": "catalog:",
     "supertest": "catalog:testing",
     "tsx": "catalog:",
+    "@typescript/native": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:eslint10",
     "vitest": "catalog:testing"

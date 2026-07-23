@@ -65,6 +65,7 @@
     "react-i18next": "catalog:react19",
     "shadcn": "catalog:",
     "tailwindcss": "catalog:",
+    "@typescript/native": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:eslint10"
   }

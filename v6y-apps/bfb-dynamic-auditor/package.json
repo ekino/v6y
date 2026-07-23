@@ -29,6 +29,7 @@
     "@types/cookie-parser": "catalog:",
     "@types/express": "catalog:",
     "@types/express-status-monitor": "catalog:",
+    "@types/node": "catalog:",
     "@types/supertest": "catalog:testing",
     "@vitest/coverage-v8": "catalog:testing",
     "@vitest/ui": "catalog:testing",
@@ -41,6 +42,7 @@
     "puppeteer-core": "catalog:",
     "supertest": "catalog:testing",
     "tsx": "catalog:",
+    "@typescript/native": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:eslint10",
     "vitest": "catalog:testing"
