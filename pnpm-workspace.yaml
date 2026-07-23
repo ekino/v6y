@@ -93,7 +93,7 @@ catalogs:
     'ag-charts-react': '=14.0.2'
     'antd': '=5.23.1'
     'autoprefixer': '=10.4.20'
-    'axios': '=1.18.0'
+    'axios': '=1.18.1'
     'axios-retry': '=4.5.0'
     'bcrypt': '=6.0.0'
     'class-variance-authority': '=0.7.1'
@@ -150,7 +150,7 @@ catalogs:
     'passport': '=0.7.0'
     'passport-jwt': '=4.0.1'
     'posix-getopt': '=1.2.1'
-    'postcss': '=8.5.12'
+    'postcss': '=8.5.13'
     'prettier': '=3.4.2'
     'puppeteer-core': '=24.0.0'
     'react-chatbotify': '=2.0.0-beta.26'
@@ -192,7 +192,7 @@ catalogs:
   next16:
     '@next/bundle-analyzer': '=16.2.1'
     'eslint-config-next': '=16.2.1'
-    'next': '=16.2.6'
+    'next': '=16.2.11'
 
   eslint10:
     '@eslint/eslintrc': '=3.2.0'
