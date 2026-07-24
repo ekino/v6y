@@ -12,7 +12,7 @@ const VitalitySummaryCard = ({ appInfos }: VitalitySummaryCardProps) => {
     const totalBranches = appInfos.repo?.allBranches?.length || 0;
 
     return (
-        <div className="space-y-5 rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5 shadow-sm">
+        <div className="space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="space-y-4">
                 <span className="inline-flex rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">
                     {translate('vitality.appDetailsPage.summaryCard.title')}

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Area, AreaChart, CartesianGrid, Cell, Pie, PieChart, XAxis, YAxis } from 'recharts';
+import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart } from 'recharts';
 
 import { AuditType } from '@v6y/core-logic/src/types';
 import {
@@ -32,7 +32,7 @@ interface VitalityAuditReportsSectionLabels {
     impactedChecksLabel: string;
 }
 
-type ChartVariant = 'area' | 'pie';
+type ChartVariant = 'family' | 'breakdown';
 
 interface VitalityAuditReportsSectionProps {
     title: string;
@@ -49,7 +49,7 @@ const defaultLabels: VitalityAuditReportsSectionLabels = {
     errorLabel: 'Critical',
     attentionNeededLabel: 'Attention needed',
     statusByFamilyTitle: 'Status by metric family',
-    statusByFamilyDescription: 'Area chart highlights where health checks are drifting.',
+    statusByFamilyDescription: 'Radar chart highlights where health checks are drifting.',
     statusBreakdownTitle: 'Status breakdown',
     statusBreakdownDescription: 'Share of checks that are healthy, in warning, or critical.',
     priorityFindingsTitle: 'Priority findings',
@@ -137,7 +137,7 @@ const VitalityAuditReportsSection = ({
     reports,
     description,
     labels = {},
-    chartVariant = 'area',
+    chartVariant = 'family',
 }: VitalityAuditReportsSectionProps) => {
     const copyLabels = { ...defaultLabels, ...labels };
 
@@ -282,13 +282,24 @@ const VitalityAuditReportsSection = ({
         },
     } satisfies ChartConfig;
 
-    const pieData = (
+    const radarData = (
         [
             { key: 'error', value: summary.error },
             { key: 'warning', value: summary.warning },
             { key: 'success', value: summary.success },
         ] as const
     ).filter((entry) => entry.value > 0);
+
+    // A radar chart needs at least 3 axes to draw a legible polygon; with 1-2
+    // metric families it degenerates to a single spoke or a flat line, so we
+    // fall back to a readable stacked-bar list instead.
+    const hasEnoughFamiliesForRadar = chartData.length >= 3;
+
+    // Same constraint applies to the breakdown radar: with only 1-2 of the
+    // error/warning/success statuses actually present, it can't form a
+    // legible polygon either, so fall back to a single overall status bar.
+    const hasEnoughStatusesForRadar = radarData.length >= 3;
+    const breakdownTotal = summary.error + summary.warning + summary.success;
 
     return (
         <div className="mb-8 space-y-5">
@@ -331,129 +342,225 @@ const VitalityAuditReportsSection = ({
                 <CardContent className="space-y-4 p-5">
                     <div>
                         <h4 className="text-sm font-semibold text-slate-900">
-                            {chartVariant === 'pie'
+                            {chartVariant === 'breakdown'
                                 ? copyLabels.statusBreakdownTitle
                                 : copyLabels.statusByFamilyTitle}
                         </h4>
                         <p className="mt-1 text-xs text-slate-600">
-                            {chartVariant === 'pie'
+                            {chartVariant === 'breakdown'
                                 ? copyLabels.statusBreakdownDescription
                                 : copyLabels.statusByFamilyDescription}
                         </p>
                     </div>
 
-                    {chartVariant === 'pie' ? (
-                        <ChartContainer
-                            config={chartConfig}
-                            className="h-[280px] w-full aspect-auto"
-                        >
-                            <PieChart>
-                                <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-                                <Pie
-                                    data={pieData}
-                                    dataKey="value"
-                                    nameKey="key"
-                                    innerRadius={60}
-                                    outerRadius={100}
-                                    paddingAngle={2}
-                                    strokeWidth={2}
+                    {chartVariant === 'breakdown' ? (
+                        <div className="space-y-3">
+                            <div className="flex flex-wrap items-center gap-3">
+                                {(['error', 'warning', 'success'] as const).map((key) => (
+                                    <span
+                                        key={key}
+                                        className="flex items-center gap-1.5 text-xs text-slate-600"
+                                    >
+                                        <span
+                                            className="h-2 w-2 rounded-full"
+                                            style={{ backgroundColor: chartConfig[key].color }}
+                                            aria-hidden="true"
+                                        />
+                                        {chartConfig[key].label}
+                                    </span>
+                                ))}
+                            </div>
+
+                            {hasEnoughStatusesForRadar ? (
+                                <ChartContainer
+                                    config={chartConfig}
+                                    className="mx-auto aspect-square max-h-70"
                                 >
-                                    {pieData.map((entry) => (
-                                        <Cell
-                                            key={entry.key}
-                                            fill={`var(--color-${entry.key})`}
-                                            stroke="var(--background)"
+                                    <RadarChart
+                                        data={radarData}
+                                        margin={{ top: 8, right: 24, bottom: 8, left: 24 }}
+                                    >
+                                        <ChartTooltip
+                                            content={
+                                                <ChartTooltipContent hideLabel nameKey="key" />
+                                            }
                                         />
-                                    ))}
-                                </Pie>
-                            </PieChart>
-                        </ChartContainer>
+                                        <PolarGrid />
+                                        <PolarAngleAxis
+                                            dataKey="key"
+                                            tickFormatter={(key: string) =>
+                                                chartConfig[key as keyof typeof chartConfig]
+                                                    ?.label ?? key
+                                            }
+                                        />
+                                        <PolarRadiusAxis tick={false} axisLine={false} />
+                                        <Radar
+                                            dataKey="value"
+                                            fill="#0f172a"
+                                            fillOpacity={0.28}
+                                            stroke="#0f172a"
+                                            strokeWidth={2}
+                                            dot={{ r: 3, fillOpacity: 1 }}
+                                        />
+                                    </RadarChart>
+                                </ChartContainer>
+                            ) : breakdownTotal > 0 ? (
+                                <div className="flex h-2.5 w-full overflow-hidden rounded-full bg-slate-100">
+                                    {summary.error > 0 && (
+                                        <div
+                                            className="h-full"
+                                            style={{
+                                                width: `${(summary.error / breakdownTotal) * 100}%`,
+                                                backgroundColor: chartConfig.error.color,
+                                            }}
+                                        />
+                                    )}
+                                    {summary.warning > 0 && (
+                                        <div
+                                            className="h-full"
+                                            style={{
+                                                width: `${(summary.warning / breakdownTotal) * 100}%`,
+                                                backgroundColor: chartConfig.warning.color,
+                                            }}
+                                        />
+                                    )}
+                                    {summary.success > 0 && (
+                                        <div
+                                            className="h-full"
+                                            style={{
+                                                width: `${(summary.success / breakdownTotal) * 100}%`,
+                                                backgroundColor: chartConfig.success.color,
+                                            }}
+                                        />
+                                    )}
+                                </div>
+                            ) : (
+                                <p className="text-sm text-slate-600">
+                                    {copyLabels.noIssuesMessage}
+                                </p>
+                            )}
+                        </div>
                     ) : (
-                        <ChartContainer
-                            config={chartConfig}
-                            className="h-[320px] w-full aspect-auto"
-                        >
-                            <AreaChart
-                                data={chartData}
-                                margin={{ top: 8, right: 12, left: -12, bottom: 8 }}
-                            >
-                                <defs>
-                                    <linearGradient id="fill-error" x1="0" y1="0" x2="0" y2="1">
-                                        <stop
-                                            offset="5%"
-                                            stopColor="var(--color-error)"
-                                            stopOpacity={0.55}
+                        <div className="space-y-3">
+                            <div className="flex flex-wrap items-center gap-3">
+                                {(['error', 'warning', 'success'] as const).map((key) => (
+                                    <span
+                                        key={key}
+                                        className="flex items-center gap-1.5 text-xs text-slate-600"
+                                    >
+                                        <span
+                                            className="h-2 w-2 rounded-full"
+                                            style={{ backgroundColor: chartConfig[key].color }}
+                                            aria-hidden="true"
                                         />
-                                        <stop
-                                            offset="95%"
-                                            stopColor="var(--color-error)"
-                                            stopOpacity={0.08}
+                                        {chartConfig[key].label}
+                                    </span>
+                                ))}
+                            </div>
+
+                            {hasEnoughFamiliesForRadar ? (
+                                <ChartContainer
+                                    config={chartConfig}
+                                    className="mx-auto aspect-square max-h-85"
+                                >
+                                    <RadarChart
+                                        data={chartData}
+                                        margin={{ top: 8, right: 24, bottom: 8, left: 24 }}
+                                    >
+                                        <ChartTooltip
+                                            cursor={false}
+                                            content={<ChartTooltipContent indicator="line" />}
                                         />
-                                    </linearGradient>
-                                    <linearGradient id="fill-warning" x1="0" y1="0" x2="0" y2="1">
-                                        <stop
-                                            offset="5%"
-                                            stopColor="var(--color-warning)"
-                                            stopOpacity={0.55}
+                                        <PolarGrid />
+                                        <PolarAngleAxis
+                                            dataKey="metricGroup"
+                                            tick={{ fontSize: 11 }}
                                         />
-                                        <stop
-                                            offset="95%"
-                                            stopColor="var(--color-warning)"
-                                            stopOpacity={0.08}
+                                        <PolarRadiusAxis
+                                            tick={false}
+                                            axisLine={false}
+                                            allowDecimals={false}
                                         />
-                                    </linearGradient>
-                                    <linearGradient id="fill-success" x1="0" y1="0" x2="0" y2="1">
-                                        <stop
-                                            offset="5%"
-                                            stopColor="var(--color-success)"
-                                            stopOpacity={0.55}
+                                        <Radar
+                                            name={copyLabels.errorLabel}
+                                            dataKey="error"
+                                            stroke="var(--color-error)"
+                                            fill="var(--color-error)"
+                                            fillOpacity={0.1}
+                                            strokeWidth={2}
                                         />
-                                        <stop
-                                            offset="95%"
-                                            stopColor="var(--color-success)"
-                                            stopOpacity={0.08}
+                                        <Radar
+                                            name={copyLabels.warningLabel}
+                                            dataKey="warning"
+                                            stroke="var(--color-warning)"
+                                            fill="var(--color-warning)"
+                                            fillOpacity={0.1}
+                                            strokeWidth={2}
                                         />
-                                    </linearGradient>
-                                </defs>
-                                <CartesianGrid vertical={false} />
-                                <XAxis
-                                    dataKey="metricGroup"
-                                    tickLine={false}
-                                    axisLine={false}
-                                    tickMargin={8}
-                                    minTickGap={18}
-                                />
-                                <YAxis tickLine={false} axisLine={false} allowDecimals={false} />
-                                <ChartTooltip
-                                    cursor={false}
-                                    content={<ChartTooltipContent indicator="line" />}
-                                />
-                                <Area
-                                    dataKey="error"
-                                    stackId="status"
-                                    type="natural"
-                                    fill="url(#fill-error)"
-                                    stroke="var(--color-error)"
-                                    strokeWidth={2}
-                                />
-                                <Area
-                                    dataKey="warning"
-                                    stackId="status"
-                                    type="natural"
-                                    fill="url(#fill-warning)"
-                                    stroke="var(--color-warning)"
-                                    strokeWidth={2}
-                                />
-                                <Area
-                                    dataKey="success"
-                                    stackId="status"
-                                    type="natural"
-                                    fill="url(#fill-success)"
-                                    stroke="var(--color-success)"
-                                    strokeWidth={2}
-                                />
-                            </AreaChart>
-                        </ChartContainer>
+                                        <Radar
+                                            name={copyLabels.healthyLabel}
+                                            dataKey="success"
+                                            stroke="var(--color-success)"
+                                            fill="var(--color-success)"
+                                            fillOpacity={0.1}
+                                            strokeWidth={2}
+                                        />
+                                    </RadarChart>
+                                </ChartContainer>
+                            ) : (
+                                <div className="space-y-3">
+                                    {chartData.map((group) => {
+                                        const total = group.error + group.warning + group.success;
+
+                                        return (
+                                            <div key={group.metricGroup} className="space-y-1.5">
+                                                <div className="flex items-center justify-between gap-2 text-xs">
+                                                    <span className="font-medium text-slate-900">
+                                                        {group.metricGroup}
+                                                    </span>
+                                                    <span className="text-slate-500">
+                                                        {total}{' '}
+                                                        {copyLabels.impactedChecksLabel.toLowerCase()}
+                                                    </span>
+                                                </div>
+                                                <div className="flex h-2 w-full overflow-hidden rounded-full bg-slate-100">
+                                                    {group.error > 0 && (
+                                                        <div
+                                                            className="h-full"
+                                                            style={{
+                                                                width: `${(group.error / total) * 100}%`,
+                                                                backgroundColor:
+                                                                    chartConfig.error.color,
+                                                            }}
+                                                        />
+                                                    )}
+                                                    {group.warning > 0 && (
+                                                        <div
+                                                            className="h-full"
+                                                            style={{
+                                                                width: `${(group.warning / total) * 100}%`,
+                                                                backgroundColor:
+                                                                    chartConfig.warning.color,
+                                                            }}
+                                                        />
+                                                    )}
+                                                    {group.success > 0 && (
+                                                        <div
+                                                            className="h-full"
+                                                            style={{
+                                                                width: `${(group.success / total) * 100}%`,
+                                                                backgroundColor:
+                                                                    chartConfig.success.color,
+                                                            }}
+                                                        />
+                                                    )}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
                     )}
                 </CardContent>
             </Card>

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import * as React from 'react';
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 
 import { useTranslationProvider } from '@v6y/ui-kit';
 import {
@@ -303,30 +303,7 @@ const VitalityDashboardReportsChart = () => {
             </div>
 
             <ChartContainer config={chartConfig} className="h-[280px] w-full aspect-auto">
-                <AreaChart data={chartData} margin={{ top: 8, right: 12, left: -12, bottom: 8 }}>
-                    <defs>
-                        {activeCategories.map((category) => (
-                            <linearGradient
-                                key={category}
-                                id={`fill-${category}`}
-                                x1="0"
-                                y1="0"
-                                x2="0"
-                                y2="1"
-                            >
-                                <stop
-                                    offset="5%"
-                                    stopColor={`var(--color-${category})`}
-                                    stopOpacity={0.45}
-                                />
-                                <stop
-                                    offset="95%"
-                                    stopColor={`var(--color-${category})`}
-                                    stopOpacity={0.06}
-                                />
-                            </linearGradient>
-                        ))}
-                    </defs>
+                <BarChart data={chartData} margin={{ top: 8, right: 12, left: -12, bottom: 8 }}>
                     <CartesianGrid vertical={false} />
                     <XAxis
                         dataKey="period"
@@ -340,18 +317,24 @@ const VitalityDashboardReportsChart = () => {
                         cursor={false}
                         content={<ChartTooltipContent indicator="line" />}
                     />
-                    {activeCategories.map((category) => (
-                        <Area
+                    {activeCategories.map((category, index) => (
+                        <Bar
                             key={category}
                             dataKey={category}
                             stackId="reports"
-                            type="natural"
-                            fill={`url(#fill-${category})`}
-                            stroke={`var(--color-${category})`}
-                            strokeWidth={2}
+                            fill={`var(--color-${category})`}
+                            radius={
+                                activeCategories.length === 1
+                                    ? [4, 4, 4, 4]
+                                    : index === 0
+                                      ? [0, 0, 4, 4]
+                                      : index === activeCategories.length - 1
+                                        ? [4, 4, 0, 0]
+                                        : 0
+                            }
                         />
                     ))}
-                </AreaChart>
+                </BarChart>
             </ChartContainer>
         </div>
     );
