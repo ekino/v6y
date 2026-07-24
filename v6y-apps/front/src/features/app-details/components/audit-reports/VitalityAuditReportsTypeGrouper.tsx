@@ -74,7 +74,7 @@ const VitalityAuditReportsTypeGrouper = ({
             title={title}
             reports={auditReports}
             description={description}
-            chartVariant={category === 'dora' ? 'pie' : 'area'}
+            chartVariant={category === 'dora' ? 'breakdown' : 'family'}
             labels={{
                 overviewTitle: translate(
                     'vitality.appDetailsPage.auditReports.visualization.overview',

@@ -344,7 +344,7 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                         ) : null}
                     </div>
 
-                    <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between md:gap-2">
+                    <div className="mt-5 mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between md:gap-2">
                         <div
                             className="inline-flex overflow-x-auto rounded-xl border border-slate-200 bg-white/95 p-1 shadow-sm"
                             role="tablist"

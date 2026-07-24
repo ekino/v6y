@@ -188,7 +188,7 @@
           "critical": "Critical",
           "attentionNeededLabel": "Attention needed",
           "statusByFamilyTitle": "Status by metric family",
-          "statusByFamilyDescription": "Area chart highlights where health checks are drifting.",
+          "statusByFamilyDescription": "Radar chart highlights where health checks are drifting.",
           "statusBreakdownTitle": "Status breakdown",
           "statusBreakdownDescription": "Share of checks that are healthy, in warning, or critical.",
           "priorityFindingsTitle": "Priority findings",
@@ -245,7 +245,10 @@
           "hotspotsDesc": "Review security hotspots that may pose security risks",
           "measuresDesc": "Analyze detailed code metrics including coverage, complexity, and duplication"
         },
-        "noData": "No SonarQube audit data available yet. Run an audit to populate this section."
+        "noData": "No SonarQube audit data available yet. Run an audit to populate this section.",
+        "repartitionTitle": "Reports repartition",
+        "repartitionDescription": "Radar view of coverage, duplication, reliability, security and maintainability.",
+        "repartitionUnavailable": "Not enough graded metrics yet to plot a repartition radar."
       },
       "dependencies": {
         "title": "Dependencies",

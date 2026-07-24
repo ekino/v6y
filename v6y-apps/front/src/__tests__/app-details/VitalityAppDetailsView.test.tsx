@@ -233,8 +233,8 @@ describe('VitalityAppDetailsView', () => {
             const performanceTab = screen.getByText('vitality.appDetailsPage.tabs.performance');
             const accessibilityTab = screen.getByText('vitality.appDetailsPage.tabs.accessibility');
 
-            expect(performanceTab).toHaveClass('bg-white', 'text-slate-900', 'shadow-xs');
-            expect(accessibilityTab).toHaveClass('text-slate-700');
+            expect(performanceTab).toHaveClass('bg-slate-900', 'text-white', 'shadow-sm');
+            expect(accessibilityTab).toHaveClass('text-slate-600');
         });
 
         fireEvent.click(screen.getByText('vitality.appDetailsPage.tabs.accessibility'));
@@ -243,8 +243,8 @@ describe('VitalityAppDetailsView', () => {
             const performanceTab = screen.getByText('vitality.appDetailsPage.tabs.performance');
             const accessibilityTab = screen.getByText('vitality.appDetailsPage.tabs.accessibility');
 
-            expect(accessibilityTab).toHaveClass('bg-white', 'text-slate-900', 'shadow-xs');
-            expect(performanceTab).toHaveClass('text-slate-700');
+            expect(accessibilityTab).toHaveClass('bg-slate-900', 'text-white', 'shadow-sm');
+            expect(performanceTab).toHaveClass('text-slate-600');
         });
     });
 
@@ -290,8 +290,8 @@ describe('VitalityAppDetailsView', () => {
         const mainContainer = document.querySelector('.grid.grid-cols-1');
         expect(mainContainer).toBeInTheDocument();
 
-        const summaryColumn = document.querySelector('.lg\\:col-span-3');
-        const contentColumn = document.querySelector('.lg\\:col-span-9');
+        const summaryColumn = document.querySelector('.lg\\:col-span-4');
+        const contentColumn = document.querySelector('.lg\\:col-span-8');
 
         expect(summaryColumn).toBeInTheDocument();
         expect(contentColumn).toBeInTheDocument();
