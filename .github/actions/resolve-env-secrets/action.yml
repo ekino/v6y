@@ -1,0 +1,96 @@
+name: Resolve environment secrets
+description: Determines whether this run targets the prod or dev environment and exports the matching secrets to GITHUB_ENV.
+
+inputs:
+  prod-psql-db-host: { required: true }
+  prod-psql-db-name: { required: true }
+  prod-psql-db-user: { required: true }
+  prod-psql-db-password: { required: true }
+  prod-psql-db-port: { required: true }
+  prod-gitlab-private-token: { required: true }
+  prod-github-private-token: { required: true }
+  prod-jwt-secret: { required: true }
+  prod-v6y-static-analyzer-api-path: { required: true }
+  prod-v6y-static-analyzer-api-port: { required: true }
+  prod-v6y-devops-api-path: { required: true }
+  prod-v6y-devops-api-port: { required: true }
+  prod-v6y-dynamic-analyzer-api-path: { required: true }
+  prod-v6y-dynamic-analyzer-api-port: { required: true }
+  prod-v6y-main-api-path: { required: true }
+  prod-v6y-main-api-port: { required: true }
+  prod-v6y-bff-api-path: { required: true }
+  prod-v6y-bff-api-port: { required: true }
+  prod-next-public-v6y-bff-path: { required: true }
+  prod-nextauth-url: { required: true }
+  dev-psql-db-host: { required: true }
+  dev-psql-db-name: { required: true }
+  dev-psql-db-user: { required: true }
+  dev-psql-db-password: { required: true }
+  dev-psql-db-port: { required: true }
+  dev-gitlab-private-token: { required: true }
+  dev-github-private-token: { required: true }
+  dev-jwt-secret: { required: true }
+  dev-v6y-static-analyzer-api-path: { required: true }
+  dev-v6y-static-analyzer-api-port: { required: true }
+  dev-v6y-devops-api-path: { required: true }
+  dev-v6y-devops-api-port: { required: true }
+  dev-v6y-dynamic-analyzer-api-path: { required: true }
+  dev-v6y-dynamic-analyzer-api-port: { required: true }
+  dev-v6y-main-api-path: { required: true }
+  dev-v6y-main-api-port: { required: true }
+  dev-v6y-bff-api-path: { required: true }
+  dev-v6y-bff-api-port: { required: true }
+  dev-next-public-v6y-bff-path: { required: true }
+  dev-nextauth-url: { required: true }
+
+runs:
+  using: composite
+  steps:
+    - name: Set Environment Variables
+      shell: bash
+      run: |
+        if [[ "${{ github.event_name }}" == "release" ]]; then
+          echo "ENV=prod" >> "$GITHUB_ENV"
+          echo "PSQL_DB_HOST=${{ inputs.prod-psql-db-host }}" >> "$GITHUB_ENV"
+          echo "PSQL_DB_NAME=${{ inputs.prod-psql-db-name }}" >> "$GITHUB_ENV"
+          echo "PSQL_DB_USER=${{ inputs.prod-psql-db-user }}" >> "$GITHUB_ENV"
+          echo "PSQL_DB_PASSWORD=${{ inputs.prod-psql-db-password }}" >> "$GITHUB_ENV"
+          echo "PSQL_DB_PORT=${{ inputs.prod-psql-db-port }}" >> "$GITHUB_ENV"
+          echo "GITLAB_PRIVATE_TOKEN=${{ inputs.prod-gitlab-private-token }}" >> "$GITHUB_ENV"
+          echo "GITHUB_PRIVATE_TOKEN=${{ inputs.prod-github-private-token }}" >> "$GITHUB_ENV"
+          echo "JWT_SECRET=${{ inputs.prod-jwt-secret }}" >> "$GITHUB_ENV"
+          echo "V6Y_STATIC_ANALYZER_API_PATH=${{ inputs.prod-v6y-static-analyzer-api-path }}" >> "$GITHUB_ENV"
+          echo "V6Y_STATIC_ANALYZER_API_PORT=${{ inputs.prod-v6y-static-analyzer-api-port }}" >> "$GITHUB_ENV"
+          echo "V6Y_DEVOPS_API_PATH=${{ inputs.prod-v6y-devops-api-path }}" >> "$GITHUB_ENV"
+          echo "V6Y_DEVOPS_API_PORT=${{ inputs.prod-v6y-devops-api-port }}" >> "$GITHUB_ENV"
+          echo "V6Y_DYNAMIC_ANALYZER_API_PATH=${{ inputs.prod-v6y-dynamic-analyzer-api-path }}" >> "$GITHUB_ENV"
+          echo "V6Y_DYNAMIC_ANALYZER_API_PORT=${{ inputs.prod-v6y-dynamic-analyzer-api-port }}" >> "$GITHUB_ENV"
+          echo "V6Y_MAIN_API_PATH=${{ inputs.prod-v6y-main-api-path }}" >> "$GITHUB_ENV"
+          echo "V6Y_MAIN_API_PORT=${{ inputs.prod-v6y-main-api-port }}" >> "$GITHUB_ENV"
+          echo "V6Y_BFF_API_PATH=${{ inputs.prod-v6y-bff-api-path }}" >> "$GITHUB_ENV"
+          echo "V6Y_BFF_API_PORT=${{ inputs.prod-v6y-bff-api-port }}" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_V6Y_BFF_PATH=${{ inputs.prod-next-public-v6y-bff-path }}" >> "$GITHUB_ENV"
+          echo "NEXTAUTH_URL=${{ inputs.prod-nextauth-url }}" >> "$GITHUB_ENV"
+        else
+          echo "ENV=dev" >> "$GITHUB_ENV"
+          echo "PSQL_DB_HOST=${{ inputs.dev-psql-db-host }}" >> "$GITHUB_ENV"
+          echo "PSQL_DB_NAME=${{ inputs.dev-psql-db-name }}" >> "$GITHUB_ENV"
+          echo "PSQL_DB_USER=${{ inputs.dev-psql-db-user }}" >> "$GITHUB_ENV"
+          echo "PSQL_DB_PASSWORD=${{ inputs.dev-psql-db-password }}" >> "$GITHUB_ENV"
+          echo "PSQL_DB_PORT=${{ inputs.dev-psql-db-port }}" >> "$GITHUB_ENV"
+          echo "GITLAB_PRIVATE_TOKEN=${{ inputs.dev-gitlab-private-token }}" >> "$GITHUB_ENV"
+          echo "GITHUB_PRIVATE_TOKEN=${{ inputs.dev-github-private-token }}" >> "$GITHUB_ENV"
+          echo "JWT_SECRET=${{ inputs.dev-jwt-secret }}" >> "$GITHUB_ENV"
+          echo "V6Y_STATIC_ANALYZER_API_PATH=${{ inputs.dev-v6y-static-analyzer-api-path }}" >> "$GITHUB_ENV"
+          echo "V6Y_STATIC_ANALYZER_API_PORT=${{ inputs.dev-v6y-static-analyzer-api-port }}" >> "$GITHUB_ENV"
+          echo "V6Y_DEVOPS_API_PATH=${{ inputs.dev-v6y-devops-api-path }}" >> "$GITHUB_ENV"
+          echo "V6Y_DEVOPS_API_PORT=${{ inputs.dev-v6y-devops-api-port }}" >> "$GITHUB_ENV"
+          echo "V6Y_DYNAMIC_ANALYZER_API_PATH=${{ inputs.dev-v6y-dynamic-analyzer-api-path }}" >> "$GITHUB_ENV"
+          echo "V6Y_DYNAMIC_ANALYZER_API_PORT=${{ inputs.dev-v6y-dynamic-analyzer-api-port }}" >> "$GITHUB_ENV"
+          echo "V6Y_MAIN_API_PATH=${{ inputs.dev-v6y-main-api-path }}" >> "$GITHUB_ENV"
+          echo "V6Y_MAIN_API_PORT=${{ inputs.dev-v6y-main-api-port }}" >> "$GITHUB_ENV"
+          echo "V6Y_BFF_API_PATH=${{ inputs.dev-v6y-bff-api-path }}" >> "$GITHUB_ENV"
+          echo "V6Y_BFF_API_PORT=${{ inputs.dev-v6y-bff-api-port }}" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_V6Y_BFF_PATH=${{ inputs.dev-next-public-v6y-bff-path }}" >> "$GITHUB_ENV"
+          echo "NEXTAUTH_URL=${{ inputs.dev-nextauth-url }}" >> "$GITHUB_ENV"
+        fi
