@@ -6,7 +6,7 @@ export interface GithubConfigType {
         repositoryDetailsUrl: (repoName: string) => string;
     };
     headers: {
-        Authorization: string;
+        Authorization?: string;
         Accept: string;
         'Content-Type': string;
         'User-Agent': string;

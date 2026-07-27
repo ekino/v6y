@@ -36,7 +36,7 @@ export const useRunApplicationAudit = (applicationId?: number, onAuditCompleted?
     }, []);
 
     const pollAuditRunStatus = React.useCallback(
-        async (targetId: number, loadingToastId: string | number, triggeredAfter: number) => {
+        async (targetId: number, loadingToastId: string | number, previousRunId: number | null) => {
             for (let attempt = 0; attempt < AUDIT_RUN_POLL_MAX_ATTEMPTS; attempt += 1) {
                 await new Promise((resolve) => setTimeout(resolve, AUDIT_RUN_POLL_INTERVAL_MS));
 
@@ -47,9 +47,9 @@ export const useRunApplicationAudit = (applicationId?: number, onAuditCompleted?
                 try {
                     const response = await buildClientQuery<{
                         getApplicationLatestAuditRunByParams: {
+                            _id: number;
                             runStatus: string;
                             errorMessage: string | null;
-                            updatedAt: string;
                         } | null;
                     }>({
                         queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
@@ -61,17 +61,17 @@ export const useRunApplicationAudit = (applicationId?: number, onAuditCompleted?
 
                     const latestRun = response?.getApplicationLatestAuditRunByParams;
                     const runStatus = latestRun?.runStatus;
-                    const updatedAt = latestRun?.updatedAt ? Date.parse(latestRun.updatedAt) : NaN;
 
                     // The query returns the application's most recent run regardless of
-                    // whether it is the one we just triggered. Ignore stale runs (created
-                    // or last updated before we triggered this audit) so an older
-                    // completed/failed run doesn't produce a premature toast.
+                    // whether it is the one we just triggered. Ignore it until its _id
+                    // differs from the run that was already latest before we triggered
+                    // this audit, so an older completed/failed run doesn't produce a
+                    // premature toast.
                     if (
+                        !latestRun ||
+                        latestRun._id === previousRunId ||
                         !runStatus ||
-                        !AUDIT_RUN_SETTLED_STATUSES.has(runStatus) ||
-                        Number.isNaN(updatedAt) ||
-                        updatedAt < triggeredAfter
+                        !AUDIT_RUN_SETTLED_STATUSES.has(runStatus)
                     ) {
                         continue;
                     }
@@ -137,7 +137,25 @@ export const useRunApplicationAudit = (applicationId?: number, onAuditCompleted?
 
         setIsRunningAudit(true);
         try {
-            const triggeredAfter = Date.now();
+            // Capture the run that is currently latest (if any) before triggering,
+            // so the poller can tell it apart from the run this trigger creates.
+            let previousRunId: number | null = null;
+            try {
+                const previousRunResponse = await buildClientQuery<{
+                    getApplicationLatestAuditRunByParams: { _id: number } | null;
+                }>({
+                    queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
+                    query: GetApplicationLatestAuditRunByParams,
+                    variables: {
+                        _id: applicationId,
+                    },
+                });
+                previousRunId =
+                    previousRunResponse?.getApplicationLatestAuditRunByParams?._id ?? null;
+            } catch (error) {
+                console.error('Error fetching the current latest audit run:', error);
+            }
+
             const response = await buildClientQuery<{
                 triggerApplicationAnalysis: {
                     success: boolean;
@@ -165,7 +183,7 @@ export const useRunApplicationAudit = (applicationId?: number, onAuditCompleted?
 
             // Keep polling so the user is alerted when the queued audit actually
             // finishes (or fails), not just when it has been accepted.
-            void pollAuditRunStatus(applicationId, loadingToastId, triggeredAfter);
+            void pollAuditRunStatus(applicationId, loadingToastId, previousRunId);
         } catch (error) {
             toast.error(translate('vitality.appDetailsPage.auditToasts.failed'), {
                 id: loadingToastId,

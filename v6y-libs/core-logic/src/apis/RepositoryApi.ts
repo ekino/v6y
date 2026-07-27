@@ -121,11 +121,21 @@ const getRepositoryDetails = async ({
 
         const repositoryJsonResponse = await repositoryResponse.json();
 
-        if (!repositoryJsonResponse || !Array.isArray(repositoryJsonResponse)) {
-            return null;
+        // GitLab's search endpoint returns an array of matches; GitHub's repo details
+        // endpoint returns a single object. Support both response shapes.
+        if (Array.isArray(repositoryJsonResponse)) {
+            return repositoryJsonResponse[0] || null;
         }
 
-        return repositoryJsonResponse[0];
+        if (
+            repositoryJsonResponse &&
+            typeof repositoryJsonResponse === 'object' &&
+            'id' in repositoryJsonResponse
+        ) {
+            return repositoryJsonResponse;
+        }
+
+        return null;
     } catch (error) {
         AppLogger.info(
             `[RepositoryApi - getRepositoryDetails] error:  ${

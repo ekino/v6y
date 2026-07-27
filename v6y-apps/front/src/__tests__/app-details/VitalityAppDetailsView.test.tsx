@@ -345,6 +345,9 @@ describe('VitalityAppDetailsView', () => {
             vi.mocked(toast.loading).mockReturnValue('audit-toast-id');
             vi.mocked(buildClientQuery)
                 .mockResolvedValueOnce({
+                    getApplicationLatestAuditRunByParams: { _id: 1 },
+                })
+                .mockResolvedValueOnce({
                     triggerApplicationAnalysis: {
                         success: true,
                         applicationId: 123,
@@ -353,9 +356,9 @@ describe('VitalityAppDetailsView', () => {
                 })
                 .mockResolvedValueOnce({
                     getApplicationLatestAuditRunByParams: {
+                        _id: 2,
                         runStatus: 'completed',
                         errorMessage: null,
-                        updatedAt: new Date(Date.now() + 60000).toISOString(),
                     },
                 });
 
@@ -402,6 +405,9 @@ describe('VitalityAppDetailsView', () => {
             vi.mocked(toast.loading).mockReturnValue('audit-toast-id');
             vi.mocked(buildClientQuery)
                 .mockResolvedValueOnce({
+                    getApplicationLatestAuditRunByParams: { _id: 1 },
+                })
+                .mockResolvedValueOnce({
                     triggerApplicationAnalysis: {
                         success: true,
                         applicationId: 123,
@@ -410,9 +416,9 @@ describe('VitalityAppDetailsView', () => {
                 })
                 .mockResolvedValueOnce({
                     getApplicationLatestAuditRunByParams: {
+                        _id: 2,
                         runStatus: 'error',
                         errorMessage: 'Static auditor unavailable',
-                        updatedAt: new Date(Date.now() + 60000).toISOString(),
                     },
                 });
 
@@ -438,6 +444,74 @@ describe('VitalityAppDetailsView', () => {
             await waitFor(() => {
                 expect(toast.error).toHaveBeenCalledWith(
                     'Static auditor unavailable',
+                    expect.objectContaining({ id: 'audit-toast-id' }),
+                );
+            });
+        });
+
+        it('keeps polling while the latest run is still the pre-trigger run, even if already settled', async () => {
+            const { toast } = await import('@v6y/ui-kit-front');
+
+            vi.mocked(toast.loading).mockReturnValue('audit-toast-id');
+            vi.mocked(buildClientQuery)
+                .mockResolvedValueOnce({
+                    getApplicationLatestAuditRunByParams: { _id: 1 },
+                })
+                .mockResolvedValueOnce({
+                    triggerApplicationAnalysis: {
+                        success: true,
+                        applicationId: 123,
+                        message: 'Application analysis queued successfully.',
+                    },
+                })
+                // Stale poll: still the same run (_id: 1) as before the trigger, and
+                // already settled from a previous audit - must be ignored, not
+                // reported as the outcome of the new run.
+                .mockResolvedValueOnce({
+                    getApplicationLatestAuditRunByParams: {
+                        _id: 1,
+                        runStatus: 'completed',
+                        errorMessage: null,
+                    },
+                })
+                // Fresh poll: a new run (_id: 2) has appeared and settled.
+                .mockResolvedValueOnce({
+                    getApplicationLatestAuditRunByParams: {
+                        _id: 2,
+                        runStatus: 'completed',
+                        errorMessage: null,
+                    },
+                });
+
+            renderComponent();
+
+            await waitFor(() => {
+                expect(
+                    screen.getByText('vitality.appDetailsPage.runAuditButton'),
+                ).toBeInTheDocument();
+            });
+
+            fireEvent.click(screen.getByText('vitality.appDetailsPage.runAuditButton'));
+
+            await waitFor(() => {
+                expect(toast.success).toHaveBeenCalledWith(
+                    'vitality.appDetailsPage.auditToasts.queued',
+                    expect.objectContaining({ id: 'audit-toast-id' }),
+                );
+            });
+
+            await vi.advanceTimersByTimeAsync(4000);
+
+            expect(toast.success).not.toHaveBeenCalledWith(
+                'vitality.appDetailsPage.auditToasts.completed',
+                expect.anything(),
+            );
+
+            await vi.advanceTimersByTimeAsync(4000);
+
+            await waitFor(() => {
+                expect(toast.success).toHaveBeenCalledWith(
+                    'vitality.appDetailsPage.auditToasts.completed',
                     expect.objectContaining({ id: 'audit-toast-id' }),
                 );
             });

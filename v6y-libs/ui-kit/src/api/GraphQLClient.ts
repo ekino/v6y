@@ -20,21 +20,30 @@ const resolveGraphQLUrl = (graphQLUrl: string) => {
     return new URL(graphQLUrl, baseOrigin).toString();
 };
 
-export const gqlClient = new GraphQLClient(
-    resolveGraphQLUrl(process.env.NEXT_PUBLIC_V6Y_BFF_PATH as string),
-    {
-        fetch: (url: RequestInfo | URL, options?: RequestInit) => {
-            return fetch(url, {
-                ...options,
-                headers: {
-                    ...(options?.headers || {}),
-                    'content-type': 'application/json',
-                    Authorization: `Bearer ${JSON.parse(Cookie.get('auth') || '{}')?.token}`,
-                },
-            });
-        },
+export const gqlClient = new GraphQLClient('', {
+    fetch: (url: RequestInfo | URL, options?: RequestInit) => {
+        return fetch(url, {
+            ...options,
+            headers: {
+                ...(options?.headers || {}),
+                'content-type': 'application/json',
+                Authorization: `Bearer ${JSON.parse(Cookie.get('auth') || '{}')?.token}`,
+            },
+        });
     },
-);
+});
+
+// Resolving the BFF URL can throw (e.g. NEXT_PUBLIC_V6Y_BFF_PATH not configured).
+// Defer that resolution until the client is actually used instead of at module
+// import time, so merely importing this module never crashes the whole app.
+let resolvedBaseUrl: string | null = null;
+
+const ensureGqlClientUrl = () => {
+    if (resolvedBaseUrl === null) {
+        resolvedBaseUrl = resolveGraphQLUrl(process.env.NEXT_PUBLIC_V6Y_BFF_PATH as string);
+        gqlClient.setEndpoint(resolvedBaseUrl);
+    }
+};
 
 type GqlClientRequestParams = {
     gqlQueryPath?: RequestDocument;
@@ -44,5 +53,11 @@ type GqlClientRequestParams = {
 export const gqlClientRequest = <T>({
     gqlQueryPath,
     gqlQueryParams,
-}: GqlClientRequestParams): Promise<T> =>
-    gqlQueryPath ? gqlClient.request(gqlQueryPath, gqlQueryParams) : Promise.resolve({} as T);
+}: GqlClientRequestParams): Promise<T> => {
+    if (!gqlQueryPath) {
+        return Promise.resolve({} as T);
+    }
+
+    ensureGqlClientUrl();
+    return gqlClient.request(gqlQueryPath, gqlQueryParams);
+};

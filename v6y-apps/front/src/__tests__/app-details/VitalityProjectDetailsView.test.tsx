@@ -143,6 +143,9 @@ describe('VitalityProjectDetailsView', () => {
             vi.mocked(toast.loading).mockReturnValue('audit-toast-id');
             vi.mocked(buildClientQuery)
                 .mockResolvedValueOnce({
+                    getApplicationLatestAuditRunByParams: { _id: 1 },
+                })
+                .mockResolvedValueOnce({
                     triggerApplicationAnalysis: {
                         success: true,
                         applicationId: 123,
@@ -151,9 +154,9 @@ describe('VitalityProjectDetailsView', () => {
                 })
                 .mockResolvedValueOnce({
                     getApplicationLatestAuditRunByParams: {
+                        _id: 2,
                         runStatus: 'completed',
                         errorMessage: null,
-                        updatedAt: new Date(Date.now() + 60000).toISOString(),
                     },
                 });
 

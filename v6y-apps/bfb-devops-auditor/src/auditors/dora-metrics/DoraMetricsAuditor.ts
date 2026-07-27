@@ -45,7 +45,7 @@ const startAuditorAnalysis = async ({ applicationId, auditRunId }: DoraMetricsAu
         const repositoryDetails = await RepositoryApi.getRepositoryDetails({
             organization: application.repo?.organization,
             gitRepositoryName: application.repo?.gitUrl?.split('/').pop()?.replace('.git', ''),
-            type: 'gitlab',
+            type: application.repo?.webUrl?.includes('github.com') ? 'github' : 'gitlab',
         });
 
         if (!repositoryDetails?.id) {
