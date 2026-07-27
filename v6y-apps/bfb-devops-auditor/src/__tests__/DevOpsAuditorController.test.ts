@@ -1,43 +1,47 @@
+import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { MockInstance, afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { AuditOutcome } from '../auditors/types/AuditCommonsType.ts';
+import { DevOpsAnalysisQueueService } from '../queues/DevOpsAnalysisQueueService.ts';
 
 /**
  * The controller reaches the analysis through the queue service, so the HTTP
- * contract is asserted by stubbing that service on the real provider: Nest keeps
- * resolving it normally and the spy stands in for the queued run.
+ * contract is asserted by stubbing that service on the real provider prototype:
+ * Nest keeps resolving the provider normally and the stub stands in for the
+ * queued run.
+ *
+ * The application is booted once for the whole file — booting one per test case
+ * made the suite slow enough to time out when the workspace runs projects in
+ * parallel.
  */
-const buildApp = async (outcome: AuditOutcome | null, rejection?: Error) => {
+let app: INestApplication;
+let endpoint: string;
+let runAnalysis: MockInstance;
+
+beforeAll(async () => {
     const { createApp } = await import('../app.ts');
-    const { DevOpsAnalysisQueueService } = await import('../queues/DevOpsAnalysisQueueService.ts');
-
-    const spy = vi.spyOn(DevOpsAnalysisQueueService.prototype, 'runDevOpsAnalysis');
-    if (rejection) {
-        spy.mockRejectedValue(rejection);
-    } else {
-        spy.mockResolvedValue(outcome);
-    }
-
-    return { spy, app: await createApp() };
-};
-
-const endpoint = async () => {
     const { default: ServerConfig } = await import('../commons/ServerConfig.ts');
-    return `${ServerConfig.currentConfig?.devopsAuditorApiPath}/start-devops-auditor.json`;
-};
+
+    runAnalysis = vi.spyOn(DevOpsAnalysisQueueService.prototype, 'runDevOpsAnalysis');
+    endpoint = `${ServerConfig.currentConfig?.devopsAuditorApiPath}/start-devops-auditor.json`;
+    app = await createApp();
+});
+
+afterAll(async () => {
+    vi.restoreAllMocks();
+    await app?.close();
+});
 
 describe('DevOpsAuditorController', () => {
-    afterEach(() => {
-        vi.restoreAllMocks();
-        vi.resetModules();
+    beforeEach(() => {
+        runAnalysis.mockReset();
     });
 
     it('should return 200 with success body when audits complete', async () => {
-        const { spy, app } = await buildApp({ status: 'success' });
+        runAnalysis.mockResolvedValue({ status: 'success' });
 
         const response = await request(app.getHttpServer())
-            .post(await endpoint())
+            .post(endpoint)
             .send({ applicationId: 1 })
             .expect(200);
 
@@ -46,19 +50,17 @@ describe('DevOpsAuditorController', () => {
             skipped: false,
             message: 'DevOps Audits have end successfully!',
         });
-        expect(spy).toHaveBeenCalledWith({
+        expect(runAnalysis).toHaveBeenCalledWith({
             applicationId: 1,
             auditRunId: undefined,
         });
-
-        await app.close();
     });
 
     it('should report a skipped audit as a success rather than an error', async () => {
-        const { app } = await buildApp({ status: 'skipped', message: 'Nothing to audit.' });
+        runAnalysis.mockResolvedValue({ status: 'skipped', message: 'Nothing to audit.' });
 
         const response = await request(app.getHttpServer())
-            .post(await endpoint())
+            .post(endpoint)
             .send({ applicationId: 1 })
             .expect(200);
 
@@ -67,32 +69,23 @@ describe('DevOpsAuditorController', () => {
             skipped: true,
             message: 'Nothing to audit.',
         });
-
-        await app.close();
     });
 
     it('should return 400 when applicationId is missing', async () => {
-        const { spy, app } = await buildApp(null);
-
-        const response = await request(app.getHttpServer())
-            .post(await endpoint())
-            .send({})
-            .expect(400);
+        const response = await request(app.getHttpServer()).post(endpoint).send({}).expect(400);
 
         expect(response.body).toEqual({
             success: false,
             message: 'The applicationId is required to start the DevOps Audits.',
         });
-        expect(spy).not.toHaveBeenCalled();
-
-        await app.close();
+        expect(runAnalysis).not.toHaveBeenCalled();
     });
 
     it('should return 500 when the analysis reports a failure', async () => {
-        const { app } = await buildApp({ status: 'failed', message: 'auditor exploded' });
+        runAnalysis.mockResolvedValue({ status: 'failed', message: 'auditor exploded' });
 
         const response = await request(app.getHttpServer())
-            .post(await endpoint())
+            .post(endpoint)
             .send({ applicationId: 1 })
             .expect(500);
 
@@ -100,15 +93,13 @@ describe('DevOpsAuditorController', () => {
             success: false,
             message: 'auditor exploded',
         });
-
-        await app.close();
     });
 
     it('should return 500 when the queue is unavailable', async () => {
-        const { app } = await buildApp(null);
+        runAnalysis.mockResolvedValue(null);
 
         const response = await request(app.getHttpServer())
-            .post(await endpoint())
+            .post(endpoint)
             .send({ applicationId: 1 })
             .expect(500);
 
@@ -116,15 +107,13 @@ describe('DevOpsAuditorController', () => {
             success: false,
             message: 'The DevOps analysis queue is currently unavailable.',
         });
-
-        await app.close();
     });
 
     it('should return 500 with legacy body when the queue service throws', async () => {
-        const { app } = await buildApp(null, new Error('boom'));
+        runAnalysis.mockRejectedValue(new Error('boom'));
 
         const response = await request(app.getHttpServer())
-            .post(await endpoint())
+            .post(endpoint)
             .send({ applicationId: 1 })
             .expect(500);
 
@@ -132,7 +121,5 @@ describe('DevOpsAuditorController', () => {
             success: false,
             message: 'An error occurred during the DevOps Audits.',
         });
-
-        await app.close();
     });
 });
