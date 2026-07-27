@@ -1,38 +1,118 @@
 # Vitality (v6y)
 
-![image](https://github.com/ekino/v6y/assets/1331451/60950262-3a75-4a57-ae53-08a9d553f1f8)
+<img src="v6y-apps/front/public/vitality_logo.svg" alt="Vitality logo" width="120" />
 
-**Vitality (v6y)** is a web-based application developed by Ekino, designed to maintain and optimize the health and performance of codebases and applications. While it is primarily used for Ekino projects, it can also be generalized for use by the wider development community.
+Vitality (v6y) is a project health monitoring platform built by Ekino. It audits codebases and running applications, then turns the results into a single, readable view so teams can see the state of their projects and know what to fix first.
 
 ## Table of Contents
-1. [Introduction](#introduction)
-2. [Features](#features)
-3. [Usage](#usage)
-4. [Contributing](#contributing)
-5. [License](#license)
+1. [Why Vitality Exists](#why-vitality-exists)
+2. [Architecture](#architecture)
+3. [Prerequisites](#prerequisites)
+4. [Project Setup](#project-setup)
+5. [Running the Project](#running-the-project)
+6. [Testing, Linting and Code Quality](#testing-linting-and-code-quality)
+7. [Contributing](#contributing)
+8. [License](#license)
 
-## Introduction
-**Vitality (v6y)** helps developers ensure high-quality code and robust applications by providing continuous health checks, detailed reports, and actionable insights. Although it was developed for Ekino projects, it is versatile and can be used by any development team.
+## Why Vitality Exists
 
-## Features
-- **Code Quality Analysis**: Runs static analysis to detect issues in your code.
-- **Runtime Monitoring**: Monitors applications in real-time to catch errors and performance issues.
-- **Comprehensive Reports**: Generates detailed reports with insights and recommendations for improving code health.
-- **User-friendly Dashboard**: Offers an intuitive dashboard for monitoring the health status of all your projects at a glance.
+Project health data is usually scattered across many tools: static analysis output, dependency reports, runtime checks, DevOps signals. Each source speaks a different language, and most of them are too technical or too noisy to read quickly.
 
-## Usage
-To use **Vitality (v6y)**, follow these steps:
+Vitality exists to solve that problem for teams maintaining many projects at once, developers, technical leads, and engineering managers. It collects those signals, audits applications automatically, and presents the results as structured, human-readable reports instead of raw logs. The goal is that anyone can look at a project, understand its health in a few seconds, and decide what needs attention without needing to be an expert in every underlying tool.
 
-1. Access the application online at [Vitality (v6y) Web App](http://your-vitality-app-url.com).
+Vitality is not a generic analytics dashboard or a raw audit log viewer. It is a monitoring product: clarity and trust in what it reports matter more than covering every possible metric.
 
-2. Create an account or log in using your existing credentials.
+## Architecture
 
-3. Add your projects to the dashboard to start monitoring their health and performance.
+The repository is an Nx/pnpm monorepo made of several applications and shared libraries.
 
-4. Use the dashboard to view real-time data and detailed reports on the health of your codebases and applications.
+### Applications (`v6y-apps/`)
+- **front**: Next.js web application, the main dashboard used to browse projects and audit reports.
+- **front-bo**: Back-office application (built with Refine) used to administer projects, users and configuration.
+- **bff**: Backend-for-frontend exposing a GraphQL API consumed by `front` and `front-bo`.
+- **bfb-main-analyzer**: Orchestrates analysis jobs and dispatches work to the specialized auditor services below.
+- **bfb-static-auditor**: Runs static code analysis (code quality, dependency and duplication checks) on a codebase.
+- **bfb-dynamic-auditor**: Runs runtime/browser checks (e.g. Lighthouse) against a deployed application URL.
+- **bfb-devops-auditor**: Audits operational/DevOps aspects of a project (CI, deployment configuration, etc.).
+
+### Libraries (`v6y-libs/`)
+- **core-logic**: Shared domain logic, database access and the Prisma schema used across the backend services.
+- **ui-kit** / **ui-kit-front**: Shared, framework-agnostic UI components used by `front` and `front-bo`.
+
+Each service is independent (own `package.json`, own start/build/test scripts) and orchestrated through Nx targets and pnpm workspaces.
+
+## Prerequisites
+
+- Node.js `v22.11.0` (see [.nvmrc](.nvmrc))
+- pnpm (installed via Corepack, version pinned in [package.json](package.json))
+- Docker and Docker Compose, for the local PostgreSQL database and containerized runs
+- A GitHub and/or GitLab personal access token if you plan to analyze repositories hosted there
+
+## Project Setup
+
+1. **Install dependencies** from the repository root (this installs every app and library through the pnpm workspace):
+   ```bash
+   pnpm install
+   ```
+
+2. **Configure environment variables**. Each app has its own `env-template` file; the root [env-template](env-template) covers the shared/database variables. Copy it to `.env` and fill in real values:
+   ```bash
+   cp env-template .env
+   ```
+   Key variables include the PostgreSQL connection settings (`PSQL_DB_*`, `DATABASE_URL`), the initial admin account (`SUPERADMIN_*`), source-control tokens (`GITLAB_PRIVATE_TOKEN`, `GITHUB_PRIVATE_TOKEN`), `JWT_SECRET`, and the API path/port for each backend service.
+
+3. **Start the database** (and apply migrations) using Docker Compose:
+   ```bash
+   docker compose up v6y-database v6y-migrate
+   ```
+   Alternatively, once dependencies are installed and `DATABASE_URL` is set, migrations can be run directly with:
+   ```bash
+   pnpm run init-db
+   ```
+
+## Running the Project
+
+- **Everything with Docker Compose** (database, migrations, BFF, and all analyzer services):
+  ```bash
+  docker compose up
+  ```
+
+- **Everything locally in development mode**, with hot reload:
+  ```bash
+  pnpm run start:dev:all
+  ```
+
+- **A single service**, for example the frontend or the BFF:
+  ```bash
+  pnpm run start:frontend
+  pnpm run start:bff
+  ```
+  See the `scripts` section of the root [package.json](package.json) for the full list of `start:*` commands, one per app.
+
+- **Stop everything**:
+  ```bash
+  pnpm run stop:all
+  ```
+
+## Testing, Linting and Code Quality
+
+Run these from the repository root; Nx fans them out to every affected app and library:
+
+```bash
+pnpm run test              # unit tests
+pnpm run lint               # lint all apps/libs
+pnpm run lint:fix           # lint and auto-fix
+pnpm run format:check       # verify formatting
+pnpm run build              # build all apps/libs
+pnpm run verify:code:duplication  # duplication check (jscpd)
+```
+
+`front` and `front-bo` also expose `pnpm --filter <app> run test:e2e` for Playwright end-to-end tests.
 
 ## Contributing
-We welcome contributions to **Vitality (v6y)**. To contribute, please read our guidelines outlined in the project [Wiki](https://github.com/ekino/v6y/wiki).
+
+Contributions are welcome. Please read the guidelines in the project [Wiki](https://github.com/ekino/v6y/wiki) before opening a pull request.
 
 ## License
-**Vitality (v6y)** is licensed under the MIT License. See the `LICENSE` file for more details.
+
+Vitality (v6y) is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
