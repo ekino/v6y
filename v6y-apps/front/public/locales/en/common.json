@@ -53,6 +53,9 @@
       "auditToasts": {
         "running": "Audit is running...",
         "queued": "Audit successfully queued.",
+        "completed": "Audit completed successfully.",
+        "jobFailed": "The audit run failed.",
+        "stillRunning": "Audit is taking longer than expected. Check back soon.",
         "failed": "Unable to trigger audit.",
         "invalidApplication": "Invalid application id."
       },

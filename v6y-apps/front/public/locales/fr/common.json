@@ -52,7 +52,10 @@
       "runAuditButtonLoading": "En cours...",
       "auditToasts": {
         "running": "Audit en cours...",
-        "queued": "Audit lance avec succes.",
+        "queued": "Audit lancé avec succès.",
+        "completed": "Audit terminé avec succès.",
+        "jobFailed": "L'audit a échoué.",
+        "stillRunning": "L'audit prend plus de temps que prévu. Revenez bientôt.",
         "failed": "Impossible de lancer l'audit.",
         "invalidApplication": "Identifiant d'application invalide."
       },

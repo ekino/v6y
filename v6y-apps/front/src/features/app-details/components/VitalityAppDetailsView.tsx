@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { ApplicationType, AuditType } from '@v6y/core-logic/src/types';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
-import { Button, GlobeIcon, PlayIcon, ReloadIcon, toast } from '@v6y/ui-kit-front';
+import { Button, GlobeIcon, ReloadIcon } from '@v6y/ui-kit-front';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import { resolveNumericId } from '../../../commons/utils/NumericParamUtils';
@@ -15,10 +15,11 @@ import {
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationDetailsInfosByParams from '../api/getApplicationDetailsInfosByParams';
 import GetAuditRunDetailsByParams from '../api/getAuditRunDetailsByParams';
-import TriggerApplicationAnalysis from '../api/triggerApplicationAnalysis';
 import VitalityDetailsPageSkeleton from '../components/VitalityDetailsPageSkeleton';
 import VitalitySummaryCard from '../components/summary-card/VitalitySummaryCard';
+import { useRunApplicationAudit } from '../hooks/useRunApplicationAudit';
 import BranchSelector from './BranchSelector';
+import { RunAuditButton, RunningAuditBanner } from './RunAuditControl';
 
 const VitalityAuditReportsView = DynamicLoader(
     () => import('./audit-reports/VitalityAuditReportsView'),
@@ -29,13 +30,6 @@ const VitalitySecuritySection = DynamicLoader(
 );
 
 const VitalitySonarQubeView = DynamicLoader(() => import('./sonarqube/VitalitySonarQubeView'));
-const MIN_AUDIT_RUNNING_MS = 2500;
-
-const auditToastStyle = {
-    background: 'rgba(255, 255, 255, 0.96)',
-    color: '#111827',
-    border: '1px solid rgba(17, 24, 39, 0.15)',
-};
 
 interface AuditRunDetailsType {
     _id: number;
@@ -103,7 +97,6 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
 
     const [activeTab, setActiveTab] = React.useState('performance');
     const [selectedBranch, setSelectedBranch] = React.useState('');
-    const [isRunningAudit, setIsRunningAudit] = React.useState(false);
     const [auditTrigger, setAuditTrigger] = React.useState(0);
 
     const { isLoading: isAppDetailsInfosLoading, data: appDetailsInfos } = useClientQuery<{
@@ -153,6 +146,10 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
     const reportAudits = reportDetails?.audits || [];
     const reportBranch = reportDetails?.branch || '';
     const auditReportBranches = (appInfos?.repo?.allBranches || []) as string[];
+    // A specific, already-completed audit run is being viewed (read-only report),
+    // as opposed to the live application details page: the run-audit action only
+    // makes sense on the latter.
+    const isReportDetailsView = Boolean(targetAuditRunId);
 
     React.useEffect(() => {
         if (reportBranch) {
@@ -188,66 +185,9 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
         }
     };
 
-    const onRunAuditClicked = async () => {
-        const applicationId = parseInt(_id as string, 10);
-        if (Number.isNaN(applicationId)) {
-            toast.error(translate('vitality.appDetailsPage.auditToasts.invalidApplication'), {
-                style: auditToastStyle,
-            });
-            console.error('Unable to trigger audit: invalid application id');
-            return;
-        }
-
-        const startTimestamp = Date.now();
-        const loadingToastId = toast.loading(
-            translate('vitality.appDetailsPage.auditToasts.running'),
-            {
-                style: auditToastStyle,
-            },
-        );
-
-        setIsRunningAudit(true);
-        try {
-            const response = await buildClientQuery<{
-                triggerApplicationAnalysis: {
-                    success: boolean;
-                    applicationId: number;
-                    message: string;
-                };
-            }>({
-                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
-                query: TriggerApplicationAnalysis,
-                variables: {
-                    applicationId,
-                },
-            });
-
-            if (!response?.triggerApplicationAnalysis?.success) {
-                throw new Error(
-                    response?.triggerApplicationAnalysis?.message || 'Unable to trigger the audit',
-                );
-            }
-
-            toast.success(translate('vitality.appDetailsPage.auditToasts.queued'), {
-                id: loadingToastId,
-                style: auditToastStyle,
-            });
-            setAuditTrigger((prev) => prev + 1);
-        } catch (error) {
-            toast.error(translate('vitality.appDetailsPage.auditToasts.failed'), {
-                id: loadingToastId,
-                style: auditToastStyle,
-            });
-            console.error('Error running audit:', error);
-        } finally {
-            const elapsed = Date.now() - startTimestamp;
-            const remainingDelay = Math.max(0, MIN_AUDIT_RUNNING_MS - elapsed);
-            if (remainingDelay) {
-                await new Promise((resolve) => setTimeout(resolve, remainingDelay));
-            }
-            setIsRunningAudit(false);
-        }
-    };
+    const { isRunningAudit, onRunAuditClicked } = useRunApplicationAudit(targetApplicationId, () =>
+        setAuditTrigger((prev) => prev + 1),
+    );
 
     const renderTabContent = () => {
         switch (activeTab) {
@@ -380,43 +320,16 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                             >
                                 <GlobeIcon className="w-4 h-4 shrink-0" />
                             </Button>
-                            <Button
-                                onClick={onRunAuditClicked}
-                                disabled={isRunningAudit}
-                                variant="outline"
-                                size="sm"
-                                className="h-8 px-3 border-slate-300 rounded-md flex items-center gap-1.5"
-                            >
-                                {isRunningAudit ? (
-                                    <>
-                                        <ReloadIcon className="w-4 h-4 animate-spin" />
-                                        <span className="text-sm">
-                                            {translate(
-                                                'vitality.appDetailsPage.runAuditButtonLoading',
-                                            )}
-                                        </span>
-                                    </>
-                                ) : (
-                                    <>
-                                        <PlayIcon className="w-4 h-4" />
-                                        <span className="text-sm">
-                                            {translate('vitality.appDetailsPage.runAuditButton')}
-                                        </span>
-                                    </>
-                                )}
-                            </Button>
+                            {isReportDetailsView ? null : (
+                                <RunAuditButton
+                                    isRunningAudit={isRunningAudit}
+                                    onRunAuditClicked={onRunAuditClicked}
+                                />
+                            )}
                         </div>
 
-                        {isRunningAudit ? (
-                            <div className="flex items-center gap-2 rounded-md border border-amber-300 bg-amber-50 px-3 py-1.5 animate-pulse self-start md:self-center">
-                                <span className="relative inline-flex h-2.5 w-2.5">
-                                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500 opacity-75"></span>
-                                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-amber-600"></span>
-                                </span>
-                                <span className="text-xs font-medium text-amber-800">
-                                    {translate('vitality.appDetailsPage.auditToasts.running')}
-                                </span>
-                            </div>
+                        {!isReportDetailsView ? (
+                            <RunningAuditBanner isRunningAudit={isRunningAudit} />
                         ) : null}
                     </div>
 
