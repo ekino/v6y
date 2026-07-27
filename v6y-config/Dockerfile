@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.9
 
-# One multi-stage build for every v6y service. The heavy stages (deps, builder,
+# One multi-stage build for every v6y service. The heavy stages (deps, source,
 # backend-deps) are shared, so the published images reuse each other's layers
 # instead of each carrying its own copy of the monorepo.
 #
@@ -12,13 +12,16 @@
 ARG NODE_VERSION=22-alpine
 ARG PNPM_VERSION=11.17.0
 ARG PRISMA_VERSION=7.8.0
-ARG TSX_VERSION=4.21.0
 
 # --------------------------------------------------------------------- base
 # Runtime foundation. openssl is required by the Prisma query engine and
 # libc6-compat by the prebuilt native addons (sharp, swc) on musl.
 FROM node:${NODE_VERSION} AS base
 RUN apk add --no-cache openssl libc6-compat
+# Every build stage inherits this. Harmless for the builds themselves, but it
+# does break vitest if you run it inside one of them: under NODE_ENV=production
+# Vite externalises Node built-ins for the browser and the jsdom suites die with
+# ERR_UNKNOWN_BUILTIN_MODULE. Debug tests with `-e NODE_ENV=test`.
 ENV NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1
 WORKDIR /app
@@ -63,29 +66,53 @@ FROM build-toolchain AS deps
 RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
     pnpm install --frozen-lockfile --store-dir=/pnpm/store
 
+# ------------------------------------------------------------------- source
+# Shared parent of every build stage: sources plus a generated Prisma client.
+FROM deps AS source
+COPY . .
+# Must run before any type-check: @v6y/core-logic re-exports types from
+# @prisma/client, and both the Next builds and the backend compilation
+# type-check against them. Skipping this is what broke every previous docker
+# publish run.
+RUN pnpm --filter @v6y/core-logic db:generate
+
 # ------------------------------------------------------------------- builder
-FROM deps AS builder
+# Next.js production builds.
+FROM source AS builder
 # NEXT_PUBLIC_* values are inlined into the browser bundle by next build, so
 # they have to be supplied here. Overriding them at container runtime has no
 # effect on client-side code.
 ARG NEXT_PUBLIC_V6Y_BFF_PATH=""
 ENV NEXT_PUBLIC_V6Y_BFF_PATH=${NEXT_PUBLIC_V6Y_BFF_PATH}
-COPY . .
-# Must run before any type-check: @v6y/core-logic re-exports types from
-# @prisma/client, and the Next builds type-check against them. Skipping this is
-# what broke every previous docker publish run.
-RUN pnpm --filter @v6y/core-logic db:generate
 RUN pnpm --filter @v6y/front build \
     && pnpm --filter @v6y/front-bo build
+
+# ------------------------------------------------------------- backend-build
+# Compiles the shared library and the five Node services to JavaScript. The app
+# tsconfigs are emitDeclarationOnly because sources import each other with .ts
+# specifiers; tsconfig.build.json turns on rewriteRelativeImportExtensions so
+# TypeScript rewrites those to .js and real emit becomes possible.
+FROM source AS backend-build
+RUN pnpm --filter @v6y/core-logic build:prod \
+    && pnpm --filter @v6y/bff build:prod \
+    && pnpm --filter @v6y/bfb-main-analyzer build:prod \
+    && pnpm --filter @v6y/bfb-static-auditor build:prod \
+    && pnpm --filter @v6y/bfb-dynamic-auditor build:prod \
+    && pnpm --filter @v6y/bfb-devops-auditor build:prod
 
 # ------------------------------------------------------------- backend-deps
 # Production-only tree for the five Node services. The filters pull in each
 # service plus its workspace dependencies and nothing else, so the Next/antd
 # dependency trees stay out of the backend images.
+#
+# --no-optional matters more than it looks: @prisma/client declares prisma and
+# typescript as optional peer dependencies, which otherwise drags the Prisma
+# CLI, Prisma Studio, pglite and two TypeScript copies (~307 MB of development
+# tooling) into every backend image.
 FROM build-toolchain AS backend-deps
 ARG PRISMA_VERSION
 RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
-    pnpm install --frozen-lockfile --prod --store-dir=/pnpm/store \
+    pnpm install --frozen-lockfile --prod --no-optional --store-dir=/pnpm/store \
     --filter "@v6y/bff..." \
     --filter "@v6y/bfb-main-analyzer..." \
     --filter "@v6y/bfb-static-auditor..." \
@@ -100,28 +127,23 @@ RUN cd v6y-libs/core-logic \
     && pnpm dlx prisma@${PRISMA_VERSION} generate
 
 # --------------------------------------------------------- backend-runtime
-# Shared runtime layer for the five Node services. They execute their
-# TypeScript sources through tsx: the app tsconfigs are emitDeclarationOnly and
-# use .ts import specifiers, so there is no JavaScript build output to run.
-# tsx is a dev dependency, so the production install above does not provide it.
-# It is installed into an isolated prefix and linked into the workspace root
-# node_modules rather than promoted to a production dependency, which would
-# desynchronise pnpm-lock.yaml.
-#
-# The link is what makes it resolvable, not just runnable: core-logic's
-# WorkerHelper spawns worker threads whose eval code calls
-# import('tsx/esm/api'), and ESM resolution walks node_modules upwards from the
-# app directory - it never consults globally installed packages.
+# Shared runtime layer for the five Node services: production dependencies plus
+# compiled JavaScript. No TypeScript sources, no transpiler, no pnpm.
 FROM base AS backend-runtime
-ARG TSX_VERSION
-RUN mkdir -p /opt/tsx \
-    && cd /opt/tsx \
-    && npm init -y > /dev/null \
-    && npm install --no-save tsx@${TSX_VERSION} \
-    && ln -s /opt/tsx/node_modules/.bin/tsx /usr/local/bin/tsx
 COPY --from=backend-deps --chown=node:node /app /app
-COPY --chown=node:node . .
-RUN ln -s /opt/tsx/node_modules/tsx /app/node_modules/tsx
+COPY --from=backend-build --chown=node:node /app/v6y-libs/core-logic/dist          /app/v6y-libs/core-logic/dist
+COPY --from=backend-build --chown=node:node /app/v6y-apps/bff/dist                 /app/v6y-apps/bff/dist
+COPY --from=backend-build --chown=node:node /app/v6y-apps/bfb-main-analyzer/dist    /app/v6y-apps/bfb-main-analyzer/dist
+COPY --from=backend-build --chown=node:node /app/v6y-apps/bfb-static-auditor/dist   /app/v6y-apps/bfb-static-auditor/dist
+COPY --from=backend-build --chown=node:node /app/v6y-apps/bfb-dynamic-auditor/dist  /app/v6y-apps/bfb-dynamic-auditor/dist
+COPY --from=backend-build --chown=node:node /app/v6y-apps/bfb-devops-auditor/dist   /app/v6y-apps/bfb-devops-auditor/dist
+# @v6y/core-logic resolves to src/index.ts for development tooling, and a few
+# backend modules deep-import its internals. The images ship no sources, so
+# remap the package onto its compiled output; see the script for why the deep
+# imports are mapped rather than rewritten.
+COPY v6y-config/repoint-core-logic.cjs /tmp/repoint-core-logic.cjs
+RUN node /tmp/repoint-core-logic.cjs /app/v6y-libs/core-logic/package.json \
+    && rm /tmp/repoint-core-logic.cjs
 USER node
 
 # --------------------------------------------------------------------- bff
@@ -131,7 +153,7 @@ WORKDIR /app/v6y-apps/bff
 EXPOSE 4001
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 --start-period=40s \
     CMD wget -q --spider "http://127.0.0.1:${V6Y_BFF_API_PORT}/health" || exit 1
-CMD ["tsx", "src/index.ts"]
+CMD ["node", "dist/index.js"]
 
 # ------------------------------------------------------- bfb-main-analyzer
 FROM backend-runtime AS bfb-main-analyzer
@@ -140,7 +162,7 @@ WORKDIR /app/v6y-apps/bfb-main-analyzer
 EXPOSE 4002
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 --start-period=40s \
     CMD wget -q --spider "http://127.0.0.1:${V6Y_MAIN_API_PORT}/health" || exit 1
-CMD ["tsx", "src/index.ts"]
+CMD ["node", "dist/index.js"]
 
 # ------------------------------------------------- bfb-static-code-auditor
 FROM backend-runtime AS bfb-static-code-auditor
@@ -149,7 +171,7 @@ WORKDIR /app/v6y-apps/bfb-static-auditor
 EXPOSE 4003
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 --start-period=40s \
     CMD wget -q --spider "http://127.0.0.1:${V6Y_STATIC_ANALYZER_API_PORT}/health" || exit 1
-CMD ["tsx", "src/index.ts"]
+CMD ["node", "dist/index.js"]
 
 # ------------------------------------------------- bfb-url-dynamic-auditor
 FROM backend-runtime AS bfb-url-dynamic-auditor
@@ -158,7 +180,7 @@ WORKDIR /app/v6y-apps/bfb-dynamic-auditor
 EXPOSE 4004
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 --start-period=40s \
     CMD wget -q --spider "http://127.0.0.1:${V6Y_DYNAMIC_ANALYZER_API_PORT}/health" || exit 1
-CMD ["tsx", "src/index.ts"]
+CMD ["node", "dist/index.js"]
 
 # ----------------------------------------------------- bfb-devops-auditor
 FROM backend-runtime AS bfb-devops-auditor
@@ -167,7 +189,7 @@ WORKDIR /app/v6y-apps/bfb-devops-auditor
 EXPOSE 4005
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 --start-period=40s \
     CMD wget -q --spider "http://127.0.0.1:${V6Y_DEVOPS_API_PORT}/health" || exit 1
-CMD ["tsx", "src/index.ts"]
+CMD ["node", "dist/index.js"]
 
 # ---------------------------------------------------------------- frontend
 # next build with output: 'standalone' emits a self-contained server bundle, so
@@ -198,8 +220,9 @@ HEALTHCHECK --interval=30s --timeout=10s --retries=3 --start-period=40s \
 CMD ["node", "v6y-apps/front-bo/server.js"]
 
 # ------------------------------------------------------------- migrate-deps
-# Short-lived job image. It keeps the Prisma CLI (a dev dependency) and the
-# TypeScript prisma.config.ts, both of which migrate deploy needs.
+# Short-lived job image. Unlike the services it keeps the Prisma CLI (a dev
+# dependency) and the TypeScript prisma.config.ts, both of which migrate deploy
+# needs, so it is installed without --prod.
 FROM build-toolchain AS migrate-deps
 RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
     pnpm install --frozen-lockfile --store-dir=/pnpm/store \

@@ -1,6 +1,32 @@
+import { existsSync } from 'fs';
 import path from 'path';
 import { pathToFileURL } from 'url';
 import { Worker, WorkerOptions } from 'worker_threads';
+
+/**
+ * Resolve a worker entry point, accepting the TypeScript path used by callers.
+ *
+ * Callers reference sources (./src/workers/Foo.ts) because that is what exists
+ * during development. A compiled deployment ships dist/ and no sources, so fall
+ * back to the emitted JavaScript when the TypeScript file is absent.
+ */
+const resolveWorkerEntry = (filepath: string): string => {
+    const absolutePath = path.isAbsolute(filepath)
+        ? filepath
+        : path.resolve(process.cwd(), filepath);
+
+    if (existsSync(absolutePath)) {
+        return absolutePath;
+    }
+
+    const compiledPath = absolutePath
+        .replace(`${path.sep}src${path.sep}`, `${path.sep}dist${path.sep}`)
+        .replace(/\.ts$/, '.js');
+
+    // Returning the original path on a miss keeps the failure message pointing
+    // at what the caller actually asked for.
+    return existsSync(compiledPath) ? compiledPath : absolutePath;
+};
 
 /**
  * Fork a worker thread to run CPU intensive tasks.
@@ -9,10 +35,9 @@ import { Worker, WorkerOptions } from 'worker_threads';
  */
 const forkWorker = (filepath: string, workerData: WorkerOptions['workerData']) => {
     return new Promise((resolve, reject) => {
-        const absolutePath = path.isAbsolute(filepath)
-            ? filepath
-            : path.resolve(process.cwd(), filepath);
+        const absolutePath = resolveWorkerEntry(filepath);
         const targetUrl = pathToFileURL(absolutePath).href;
+        // Only an uncompiled entry needs a TypeScript loader registered.
         const isTypeScriptEntry = absolutePath.endsWith('.ts');
 
         const worker = isTypeScriptEntry
