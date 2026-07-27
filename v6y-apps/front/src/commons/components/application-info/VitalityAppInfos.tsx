@@ -12,12 +12,7 @@ import {
 import VitalityNavigationPaths from '../../config/VitalityNavigationPaths';
 import { VitalityAppInfosProps } from '../../types/VitalityAppInfosProps';
 
-const VitalityAppInfos = ({
-    app,
-    source,
-    canOpenDetails = true,
-    style,
-}: VitalityAppInfosProps) => {
+const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: VitalityAppInfosProps) => {
     const { translate } = useTranslationProvider();
     const appDetailsLink = source
         ? `${VitalityNavigationPaths.APP}/${app._id}?source=${source}`
