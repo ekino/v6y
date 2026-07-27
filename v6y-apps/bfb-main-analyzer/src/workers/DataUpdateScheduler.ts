@@ -1,47 +1,46 @@
 import CronJob from 'node-cron';
 
-import { AppLogger, WorkerHelper } from '@v6y/core-logic';
+import { AppLogger } from '@v6y/core-logic';
 
-import ServerConfig from '../config/ServerConfig.ts';
-import { ApplicationAnalysisQueueService } from '../queues/ApplicationAnalysisQueueService.ts';
-
-const { forkWorker } = WorkerHelper;
-const { currentConfig } = ServerConfig;
+import { DataUpdateQueueService } from '../queues/DataUpdateQueueService.ts';
 
 /**
- * Start the workers that will update the database.
+ * Enqueue the database refreshes.
+ *
+ * Every unit of work now goes through the data-update queue, so this only writes
+ * three jobs to Redis and returns: it no longer forks worker threads itself, and a
+ * failing refresh is retried with backoff by BullMQ instead of surfacing as an
+ * unhandled rejection that terminates the process. The jobs still run one after
+ * another, since a single queue processes them sequentially.
  */
-const startUpdateWorkers = (applicationAnalysisQueueService: ApplicationAnalysisQueueService) => {
-    (async () => {
+const startUpdateWorkers = async (dataUpdateQueueService: DataUpdateQueueService) => {
+    try {
         // *********************************************** Update APP List ***********************************************
-        await applicationAnalysisQueueService.enqueueStartupAnalysis();
+        await dataUpdateQueueService.enqueueApplicationListUpdate();
 
         // *********************************************** Update Keywords List ******************************************
-        await forkWorker('./src/workers/KeywordWorker.ts', currentConfig as WorkerOptions); // Start worker thread
+        await dataUpdateQueueService.enqueueKeywordUpdate();
 
         // *********************************************** Update Evolutions List ******************************************
-        await forkWorker('./src/workers/EvolutionWorker.ts', currentConfig as WorkerOptions); // Start worker thread
-    })();
+        await dataUpdateQueueService.enqueueEvolutionUpdate();
+    } catch (error) {
+        AppLogger.error('[DataUpdateScheduler] Failed to enqueue the data updates: ', error);
+    }
 };
 
 /**
  * Database updates are performed by default at startup, then every midnight.
  */
-const start = (applicationAnalysisQueueService: ApplicationAnalysisQueueService | null) => {
-    if (!applicationAnalysisQueueService) {
-        AppLogger.warn('[DataUpdateScheduler] Application analysis queue is unavailable.');
-        return;
-    }
-
+const start = (dataUpdateQueueService: DataUpdateQueueService) => {
     // Initial update
     AppLogger.info('******************** Starting initial update **************************');
     setTimeout(() => {
-        startUpdateWorkers(applicationAnalysisQueueService);
+        void startUpdateWorkers(dataUpdateQueueService);
     }, 2000); // Delay the initial update by 2 seconds
 
     const job = CronJob.schedule('00 00 00 * * *', () => {
         AppLogger.info('******************** Starting scheduled update **************************');
-        startUpdateWorkers(applicationAnalysisQueueService);
+        void startUpdateWorkers(dataUpdateQueueService);
     });
     job.start();
 };

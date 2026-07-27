@@ -18,6 +18,26 @@ export const auditToastStyle = {
     border: '1px solid rgba(17, 24, 39, 0.15)',
 };
 
+type LatestAuditRun = {
+    _id: number;
+    runStatus: string;
+    errorMessage: string | null;
+};
+
+const fetchLatestAuditRun = async (targetId: number) => {
+    const response = await buildClientQuery<{
+        getApplicationLatestAuditRunByParams: LatestAuditRun | null;
+    }>({
+        queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
+        query: GetApplicationLatestAuditRunByParams,
+        variables: {
+            _id: targetId,
+        },
+    });
+
+    return response?.getApplicationLatestAuditRunByParams ?? null;
+};
+
 /**
  * Encapsulates the "run an audit now" action: triggers the analysis via the BFF,
  * then polls the latest audit run for the application until it settles
@@ -36,7 +56,7 @@ export const useRunApplicationAudit = (applicationId?: number, onAuditCompleted?
     }, []);
 
     const pollAuditRunStatus = React.useCallback(
-        async (targetId: number, loadingToastId: string | number, triggeredAfter: number) => {
+        async (targetId: number, loadingToastId: string | number, previousRunId: number | null) => {
             for (let attempt = 0; attempt < AUDIT_RUN_POLL_MAX_ATTEMPTS; attempt += 1) {
                 await new Promise((resolve) => setTimeout(resolve, AUDIT_RUN_POLL_INTERVAL_MS));
 
@@ -45,33 +65,19 @@ export const useRunApplicationAudit = (applicationId?: number, onAuditCompleted?
                 }
 
                 try {
-                    const response = await buildClientQuery<{
-                        getApplicationLatestAuditRunByParams: {
-                            runStatus: string;
-                            errorMessage: string | null;
-                            updatedAt: string;
-                        } | null;
-                    }>({
-                        queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
-                        query: GetApplicationLatestAuditRunByParams,
-                        variables: {
-                            _id: targetId,
-                        },
-                    });
-
-                    const latestRun = response?.getApplicationLatestAuditRunByParams;
+                    const latestRun = await fetchLatestAuditRun(targetId);
                     const runStatus = latestRun?.runStatus;
-                    const updatedAt = latestRun?.updatedAt ? Date.parse(latestRun.updatedAt) : NaN;
 
                     // The query returns the application's most recent run regardless of
-                    // whether it is the one we just triggered. Ignore stale runs (created
-                    // or last updated before we triggered this audit) so an older
-                    // completed/failed run doesn't produce a premature toast.
+                    // whether it is the one we just triggered. Audit run ids are
+                    // auto-incremented, so requiring an id strictly greater than the
+                    // pre-trigger one discards a stale run without depending on clock
+                    // agreement between the browser and the server.
                     if (
+                        !latestRun ||
                         !runStatus ||
                         !AUDIT_RUN_SETTLED_STATUSES.has(runStatus) ||
-                        Number.isNaN(updatedAt) ||
-                        updatedAt < triggeredAfter
+                        (previousRunId !== null && latestRun._id <= previousRunId)
                     ) {
                         continue;
                     }
@@ -137,7 +143,16 @@ export const useRunApplicationAudit = (applicationId?: number, onAuditCompleted?
 
         setIsRunningAudit(true);
         try {
-            const triggeredAfter = Date.now();
+            // Baseline the run the application already has so the poller can tell the
+            // run it triggered apart from a previous one. A failure here is not fatal:
+            // we fall back to accepting the first settled run we observe.
+            let previousRunId: number | null = null;
+            try {
+                previousRunId = (await fetchLatestAuditRun(applicationId))?._id ?? null;
+            } catch (error) {
+                console.error('Unable to read the current audit run before triggering:', error);
+            }
+
             const response = await buildClientQuery<{
                 triggerApplicationAnalysis: {
                     success: boolean;
@@ -165,7 +180,7 @@ export const useRunApplicationAudit = (applicationId?: number, onAuditCompleted?
 
             // Keep polling so the user is alerted when the queued audit actually
             // finishes (or fails), not just when it has been accepted.
-            void pollAuditRunStatus(applicationId, loadingToastId, triggeredAfter);
+            void pollAuditRunStatus(applicationId, loadingToastId, previousRunId);
         } catch (error) {
             toast.error(translate('vitality.appDetailsPage.auditToasts.failed'), {
                 id: loadingToastId,

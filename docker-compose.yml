@@ -137,9 +137,14 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - V6Y_STATIC_ANALYZER_API_PATH=${V6Y_STATIC_ANALYZER_API_PATH}
       - V6Y_STATIC_ANALYZER_API_PORT=${V6Y_STATIC_ANALYZER_API_PORT}
+      - V6Y_QUEUE_HOST=v6y-redis
+      - V6Y_QUEUE_PORT=${V6Y_QUEUE_PORT}
+      - V6Y_QUEUE_PREFIX=${V6Y_QUEUE_PREFIX}
     depends_on:
       v6y-migrate:
         condition: service_completed_successfully
+      v6y-redis:
+        condition: service_healthy
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4003/health" ]
       interval: 30s
@@ -166,9 +171,14 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - V6Y_DYNAMIC_ANALYZER_API_PATH=${V6Y_DYNAMIC_ANALYZER_API_PATH}
       - V6Y_DYNAMIC_ANALYZER_API_PORT=${V6Y_DYNAMIC_ANALYZER_API_PORT}
+      - V6Y_QUEUE_HOST=v6y-redis
+      - V6Y_QUEUE_PORT=${V6Y_QUEUE_PORT}
+      - V6Y_QUEUE_PREFIX=${V6Y_QUEUE_PREFIX}
     depends_on:
       v6y-migrate:
         condition: service_completed_successfully
+      v6y-redis:
+        condition: service_healthy
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4004/health" ]
       interval: 30s
@@ -195,9 +205,14 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - V6Y_DEVOPS_API_PATH=${V6Y_DEVOPS_API_PATH}
       - V6Y_DEVOPS_API_PORT=${V6Y_DEVOPS_API_PORT}
+      - V6Y_QUEUE_HOST=v6y-redis
+      - V6Y_QUEUE_PORT=${V6Y_QUEUE_PORT}
+      - V6Y_QUEUE_PREFIX=${V6Y_QUEUE_PREFIX}
     depends_on:
       v6y-migrate:
         condition: service_completed_successfully
+      v6y-redis:
+        condition: service_healthy
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4005/health" ]
       interval: 30s
@@ -215,6 +230,9 @@ services:
       - "4006:4006"
     environment:
       - NEXT_PUBLIC_V6Y_BFF_PATH=${NEXT_PUBLIC_V6Y_BFF_PATH}
+      # Server-side rewrite target, on the container network. Distinct from the
+      # browser-facing NEXT_PUBLIC_V6Y_BFF_PATH above.
+      - V6Y_BFF_PROXY_TARGET=http://v6y-bff:4001/v6y/graphql/
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4006/health" ]
       interval: 30s

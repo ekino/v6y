@@ -1,12 +1,15 @@
 import request from 'supertest';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import StaticAuditorManager from '../auditors/StaticAuditorManager.ts';
 import ServerConfig from '../commons/ServerConfig.ts';
 
-vi.mock('../auditors/StaticAuditorManager.ts', () => ({
-    default: {
-        startStaticAudit: vi.fn(),
+const runStaticAnalysis = vi.fn();
+
+// The controller now goes through the queue service, so that is what the HTTP
+// contract is asserted against.
+vi.mock('../queues/StaticAnalysisQueueService.ts', () => ({
+    StaticAnalysisQueueService: class {
+        runStaticAnalysis = runStaticAnalysis;
     },
 }));
 
@@ -21,7 +24,7 @@ describe('StaticAuditorController', () => {
     });
 
     it('should return 200 with success body when audits complete', async () => {
-        vi.mocked(StaticAuditorManager.startStaticAudit).mockResolvedValue(true);
+        runStaticAnalysis.mockResolvedValue({ status: 'success' });
         const app = await createApp();
 
         const response = await request(app.getHttpServer())
@@ -31,36 +34,69 @@ describe('StaticAuditorController', () => {
 
         expect(response.body).toEqual({
             success: true,
+            skipped: false,
             message: 'Static Code Audits have end successfully!',
         });
-        expect(StaticAuditorManager.startStaticAudit).toHaveBeenCalledWith({
+        expect(runStaticAnalysis).toHaveBeenCalledWith({
             applicationId: 1,
             workspaceFolder: '/tmp/workspace',
+            auditRunId: undefined,
         });
     });
 
-    it('should return 500 with legacy body when the manager reports a failure', async () => {
-        vi.mocked(StaticAuditorManager.startStaticAudit).mockResolvedValue(false);
+    it('should report a skipped audit as a success rather than an error', async () => {
+        runStaticAnalysis.mockResolvedValue({ status: 'skipped', message: 'Nothing to audit.' });
         const app = await createApp();
 
         const response = await request(app.getHttpServer())
             .post(auditEndpoint)
-            .send({ applicationId: 1 })
+            .send({ applicationId: 1, workspaceFolder: '/tmp/workspace' })
+            .expect(200);
+
+        expect(response.body).toEqual({
+            success: true,
+            skipped: true,
+            message: 'Nothing to audit.',
+        });
+    });
+
+    it('should return 500 when the analysis reports a failure', async () => {
+        runStaticAnalysis.mockResolvedValue({ status: 'failed', message: 'auditor exploded' });
+        const app = await createApp();
+
+        const response = await request(app.getHttpServer())
+            .post(auditEndpoint)
+            .send({ applicationId: 1, workspaceFolder: '/tmp/workspace' })
             .expect(500);
 
         expect(response.body).toEqual({
             success: false,
-            message: 'An error occurred while starting the Static Code Audits.',
+            message: 'auditor exploded',
         });
     });
 
-    it('should return 500 with legacy body when the manager throws', async () => {
-        vi.mocked(StaticAuditorManager.startStaticAudit).mockRejectedValue(new Error('boom'));
+    it('should return 500 when the queue is unavailable', async () => {
+        runStaticAnalysis.mockResolvedValue(null);
         const app = await createApp();
 
         const response = await request(app.getHttpServer())
             .post(auditEndpoint)
-            .send({ applicationId: 1 })
+            .send({ applicationId: 1, workspaceFolder: '/tmp/workspace' })
+            .expect(500);
+
+        expect(response.body).toEqual({
+            success: false,
+            message: 'The static code analysis queue is currently unavailable.',
+        });
+    });
+
+    it('should return 500 with legacy body when the queue service throws', async () => {
+        runStaticAnalysis.mockRejectedValue(new Error('boom'));
+        const app = await createApp();
+
+        const response = await request(app.getHttpServer())
+            .post(auditEndpoint)
+            .send({ applicationId: 1, workspaceFolder: '/tmp/workspace' })
             .expect(500);
 
         expect(response.body).toEqual({

@@ -2,8 +2,9 @@ import { Body, Controller, HttpCode, InternalServerErrorException, Post } from '
 
 import { AppLogger } from '@v6y/core-logic';
 
-import StaticAuditorManager from '../auditors/StaticAuditorManager.ts';
+import { AuditOutcome } from '../auditors/types/AuditCommonsType.ts';
 import ServerConfig from '../commons/ServerConfig.ts';
+import { StaticAnalysisQueueService } from '../queues/StaticAnalysisQueueService.ts';
 
 const { currentConfig } = ServerConfig;
 const basePath = (currentConfig?.staticAuditorApiPath || '').toString();
@@ -16,11 +17,14 @@ interface StartStaticAuditorBody {
 
 interface StartStaticAuditorResponse {
     success: boolean;
+    skipped: boolean;
     message: string;
 }
 
 @Controller(basePath)
 export class StaticAuditorController {
+    constructor(private readonly staticAnalysisQueueService: StaticAnalysisQueueService) {}
+
     @Post('start-static-auditor.json')
     @HttpCode(200)
     async startStaticAudit(
@@ -30,9 +34,9 @@ export class StaticAuditorController {
 
         const { applicationId, workspaceFolder, auditRunId } = body || {};
 
-        let auditsStartedSuccessfully: boolean;
+        let outcome: AuditOutcome | null;
         try {
-            auditsStartedSuccessfully = await StaticAuditorManager.startStaticAudit({
+            outcome = await this.staticAnalysisQueueService.runStaticAnalysis({
                 applicationId,
                 workspaceFolder,
                 auditRunId,
@@ -48,16 +52,25 @@ export class StaticAuditorController {
             });
         }
 
-        if (!auditsStartedSuccessfully) {
+        if (!outcome) {
             throw new InternalServerErrorException({
                 success: false,
-                message: 'An error occurred while starting the Static Code Audits.',
+                message: 'The static code analysis queue is currently unavailable.',
+            });
+        }
+
+        if (outcome.status === 'failed') {
+            throw new InternalServerErrorException({
+                success: false,
+                message:
+                    outcome.message || 'An error occurred while starting the Static Code Audits.',
             });
         }
 
         return {
             success: true,
-            message: 'Static Code Audits have end successfully!',
+            skipped: outcome.status === 'skipped',
+            message: outcome.message || 'Static Code Audits have end successfully!',
         };
     }
 }

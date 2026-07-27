@@ -4,14 +4,14 @@
  */
 import { AppLogger, WorkerHelper } from '@v6y/core-logic';
 
-import { AuditCommonsType } from './types/AuditCommonsType.ts';
+import { AuditCommonsType, AuditOutcome, AuditOutcomeStatus } from './types/AuditCommonsType.ts';
 
 const { forkWorker } = WorkerHelper;
 
 type DevOpsWorkerResult =
     | string
     | {
-          status?: 'success' | 'failed';
+          status?: AuditOutcomeStatus;
           message?: string;
       };
 
@@ -20,7 +20,10 @@ type DevOpsWorkerResult =
  * @param applicationId
  * @param auditRunId
  */
-const startDevOpsAudit = async ({ applicationId, auditRunId }: AuditCommonsType) => {
+const startDevOpsAudit = async ({
+    applicationId,
+    auditRunId,
+}: AuditCommonsType): Promise<AuditOutcome> => {
     try {
         AppLogger.info('[DevOpsAuditorManager - startDevOpsAudit] applicationId: ', applicationId);
         AppLogger.info('[DevOpsAuditorManager - startDevOpsAudit] auditRunId: ', auditRunId);
@@ -36,29 +39,41 @@ const startDevOpsAudit = async ({ applicationId, auditRunId }: AuditCommonsType)
             workerConfig,
         )) as DevOpsWorkerResult;
 
-        const isWorkerFailure =
-            (typeof workerResult === 'object' && workerResult?.status === 'failed') ||
-            (typeof workerResult === 'string' && /failed|error/i.test(workerResult));
+        if (typeof workerResult === 'string') {
+            // Legacy string payload: only its wording tells success from failure.
+            return /failed|error/i.test(workerResult)
+                ? { status: 'failed', message: workerResult }
+                : { status: 'success', message: workerResult };
+        }
 
-        if (isWorkerFailure) {
+        const status = workerResult?.status ?? 'failed';
+
+        if (status === 'failed') {
             AppLogger.error(
                 '[DevOpsAuditorManager - startDevOpsAudit] DevOps Audit worker reported failure.',
                 workerResult,
             );
-            return false;
+            return { status: 'failed', message: workerResult?.message };
+        }
+
+        if (status === 'skipped') {
+            AppLogger.warn(
+                `[DevOpsAuditorManager - startDevOpsAudit] DevOps Audit skipped: ${workerResult?.message}`,
+            );
+            return { status: 'skipped', message: workerResult?.message };
         }
 
         AppLogger.info(
             '[DevOpsAuditorManager - startDevOpsAudit] DevOps Audit have completed successfully.',
         );
 
-        return true; // Indicates successful initiation of audits
+        return { status: 'success', message: workerResult?.message };
     } catch (error) {
-        AppLogger.info(
+        AppLogger.error(
             '[DevOpsAuditorManager - startDevOpsAudit] An exception occurred during the app audits: ',
             error,
         );
-        return false; // Indicates failure to initiate audits
+        return { status: 'failed', message: String(error) };
     }
 };
 

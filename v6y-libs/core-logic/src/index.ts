@@ -1,5 +1,6 @@
 import MonitoringApi from './apis/MonitoringApi.ts';
 import RepositoryApi from './apis/RepositoryApi.ts';
+import QueueConfig from './config/QueueConfig.ts';
 import AppLogger from './core/AppLogger.ts';
 import AuditUtils from './core/AuditUtils.ts';
 import PerformancesUtils from './core/PerformancesUtils.ts';
@@ -41,6 +42,7 @@ export * from './nest/HealthController.ts';
 
 export {
     AppLogger,
+    QueueConfig,
     PerformancesUtils,
     SemverUtils,
     StringUtils,

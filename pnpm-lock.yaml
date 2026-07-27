@@ -633,6 +633,9 @@ importers:
 
   v6y-apps/bfb-devops-auditor:
     dependencies:
+      '@nestjs/bullmq':
+        specifier: '=11.0.4'
+        version: 11.0.4(@nestjs/common@11.1.26(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.1.26)(bullmq@5.61.0(supports-color@7.2.0))
       '@nestjs/common':
         specifier: catalog:nestjs11
         version: 11.1.26(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0)
@@ -654,6 +657,9 @@ importers:
       axios-retry:
         specifier: 'catalog:'
         version: 4.5.0(axios@1.18.1(debug@4.1.1(supports-color@7.2.0))(supports-color@7.2.0))
+      bullmq:
+        specifier: '=5.61.0'
+        version: 5.61.0(supports-color@7.2.0)
       cookie-parser:
         specifier: 'catalog:'
         version: 1.4.7
@@ -742,6 +748,9 @@ importers:
 
   v6y-apps/bfb-dynamic-auditor:
     dependencies:
+      '@nestjs/bullmq':
+        specifier: '=11.0.4'
+        version: 11.0.4(@nestjs/common@11.1.26(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.1.26)(bullmq@5.61.0(supports-color@7.2.0))
       '@nestjs/common':
         specifier: catalog:nestjs11
         version: 11.1.26(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0)
@@ -763,6 +772,9 @@ importers:
       axios-retry:
         specifier: 'catalog:'
         version: 4.5.0(axios@1.18.1(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0))
+      bullmq:
+        specifier: '=5.61.0'
+        version: 5.61.0(supports-color@7.2.0)
       cookie-parser:
         specifier: 'catalog:'
         version: 1.4.7
@@ -972,6 +984,9 @@ importers:
       '@creedengo/eslint-plugin':
         specifier: 'catalog:'
         version: 3.0.0(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))
+      '@nestjs/bullmq':
+        specifier: '=11.0.4'
+        version: 11.0.4(@nestjs/common@11.1.26(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.1.26)(bullmq@5.61.0(supports-color@7.2.0))
       '@nestjs/common':
         specifier: catalog:nestjs11
         version: 11.1.26(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0)
@@ -999,6 +1014,9 @@ importers:
       axios-retry:
         specifier: 'catalog:'
         version: 4.5.0(axios@1.18.1(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0))
+      bullmq:
+        specifier: '=5.61.0'
+        version: 5.61.0(supports-color@7.2.0)
       cookie-parser:
         specifier: 'catalog:'
         version: 1.4.7
