@@ -13,8 +13,8 @@ catalogs:
       specifier: '=7.8.0'
       version: 7.8.0
     mongoose:
-      specifier: '=9.3.0'
-      version: 9.3.0
+      specifier: '=9.7.2'
+      version: 9.7.2
     pg:
       specifier: '=8.13.1'
       version: 8.13.1
@@ -886,7 +886,7 @@ importers:
         version: 11.2.0
       mongoose:
         specifier: catalog:data
-        version: 9.3.0(socks@2.8.9)
+        version: 9.7.2(socks@2.8.9)
       node-cron:
         specifier: 'catalog:'
         version: 4.2.1
@@ -8854,8 +8854,8 @@ packages:
   jws@3.2.3:
     resolution: {integrity: sha512-byiJ0FLRdLdSVSReO/U4E7RoEyOCKnEnEPMjq3HxWtvzLsV08/i5RQKsFVNkCldrCaPr2vDNAOMsfs8T/Hze7g==}
 
-  kareem@3.2.0:
-    resolution: {integrity: sha512-VS8MWZz/cT+SqBCpVfNN4zoVz5VskR3N4+sTmUXme55e9avQHntpwpNq0yjnosISXqwJ3AQVjlbI4Dyzv//JtA==}
+  kareem@3.3.0:
+    resolution: {integrity: sha512-kpSuLD3/7RenBnjnJdOHXCKC8dTd1JzeOiJhN0necWWci6cC+qX+VuwPnMVgb+a4+KNJSfgqahpnfWaeDXCimw==}
     engines: {node: '>=18.0.0'}
 
   kbar@0.1.0-beta.40:
@@ -9413,8 +9413,8 @@ packages:
     resolution: {integrity: sha512-ZoS07RoFqpKYQwAk59qmrx8+jJHNHU30UjlU96QktiGn1ltvDr+vCznLX5DiUBLEpMAHatHNWV1nM/74ul66kA==}
     engines: {node: '>=20.19.0'}
 
-  mongodb@7.1.1:
-    resolution: {integrity: sha512-067DXiMjcpYQl6bGjWQoTUEE9UoRViTtKFcoqX7z08I+iDZv/emH1g8XEFiO3qiDfXAheT5ozl1VffDTKhIW/w==}
+  mongodb@7.2.0:
+    resolution: {integrity: sha512-F/2+BMZtLVhY30ioZp0dAmZ+IRZMBqI+nrv6t5+9/1AIwCa8sMRC3jBf81lpxMhnZgqq8CoUD503Z1oZWq1/sw==}
     engines: {node: '>=20.19.0'}
     peerDependencies:
       '@aws-sdk/credential-providers': ^3.806.0
@@ -9440,8 +9440,8 @@ packages:
       socks:
         optional: true
 
-  mongoose@9.3.0:
-    resolution: {integrity: sha512-Tv2p3DLBkftoGFp+VM/19k0t0RYPAAYjGIbCVGlV6Tf5Dnq6TICfYyeKeYvwQ06nK9sRDvymP3B+tjGHnUlaxw==}
+  mongoose@9.7.2:
+    resolution: {integrity: sha512-VxxS3tjOGRIvhBMd84RR7L1WbDdm08Qq6V88VMq6jP6aE1Q+NlbTZDBtye2NAyO48i5kBFxM2oxfX0CPKNwCMg==}
     engines: {node: '>=20.19.0'}
 
   moo@0.5.3:
@@ -19726,7 +19726,7 @@ snapshots:
       jwa: 1.4.2
       safe-buffer: 5.2.1
 
-  kareem@3.2.0: {}
+  kareem@3.3.0: {}
 
   kbar@0.1.0-beta.40(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
     dependencies:
@@ -20323,7 +20323,7 @@ snapshots:
       '@types/whatwg-url': 13.0.0
       whatwg-url: 14.2.0
 
-  mongodb@7.1.1(socks@2.8.9):
+  mongodb@7.2.0(socks@2.8.9):
     dependencies:
       '@mongodb-js/saslprep': 1.4.12
       bson: 7.3.1
@@ -20331,10 +20331,10 @@ snapshots:
     optionalDependencies:
       socks: 2.8.9
 
-  mongoose@9.3.0(socks@2.8.9):
+  mongoose@9.7.2(socks@2.8.9):
     dependencies:
-      kareem: 3.2.0
-      mongodb: 7.1.1(socks@2.8.9)
+      kareem: 3.3.0
+      mongodb: 7.2.0(socks@2.8.9)
       mpath: 0.9.0
       mquery: 6.0.0
       ms: 2.1.3

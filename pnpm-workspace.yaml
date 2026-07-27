@@ -234,7 +234,7 @@ catalogs:
   data:
     '@prisma/adapter-pg': '^7.8.0'
     '@prisma/client': '=7.8.0'
-    'mongoose': '=9.3.0'
+    'mongoose': '=9.7.2'
     'pg': '=8.13.1'
     'pg-hstore': '=2.3.4'
     'prisma': '^7.8.0'
