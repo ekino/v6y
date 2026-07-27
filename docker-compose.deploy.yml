@@ -1,17 +1,17 @@
-# Local stack: builds every image from source and runs it.
+# Deployment stack: pulls the published images, builds nothing.
 #
-#   docker compose up --build
+#   REGISTRY=ghcr.io/ekino/ IMAGE_TAG=latest \
+#     docker compose -f docker-compose.deploy.yml up -d
 #
-# Each service now builds its own target from v6y-config/Dockerfile, so the
-# images match exactly what CI publishes. Nothing is bind-mounted: the previous
-# version mounted ./:/app over every service, which overwrote the image contents
-# and made the published images untestable. For hot-reloading development, run
-# the apps outside Docker with `pnpm start:dev:all`.
+# Pin IMAGE_TAG to sha-<short> or to a release tag for a reproducible deploy;
+# `latest` follows the main branch.
 #
-# Healthchecks live in the Dockerfile, so they ship with the images instead of
-# only applying when they are started through this file.
+# Every value below is read at container runtime. The one exception is
+# NEXT_PUBLIC_V6Y_BFF_PATH, which next build inlines into the browser bundle:
+# changing it requires rebuilding the two front images, not restarting them.
 #
-# To run the published images instead of building, use docker-compose.deploy.yml.
+# v6y-database is provided for a self-contained host. When the target platform
+# offers a managed PostgreSQL, delete that service and point PSQL_DB_HOST at it.
 
 x-backend-env: &backend-env
   PSQL_DB_HOST: ${PSQL_DB_HOST:-v6y-database}
@@ -24,25 +24,27 @@ x-backend-env: &backend-env
   JWT_SECRET: ${JWT_SECRET}
 
 x-queue-env: &queue-env
-  V6Y_QUEUE_HOST: v6y-redis
+  V6Y_QUEUE_HOST: ${V6Y_QUEUE_HOST:-v6y-redis}
   V6Y_QUEUE_PORT: ${V6Y_QUEUE_PORT:-6379}
   V6Y_QUEUE_PREFIX: ${V6Y_QUEUE_PREFIX:-v6y}
+
+x-service-defaults: &service-defaults
+  pull_policy: always
+  restart: unless-stopped
 
 services:
   v6y-redis:
     image: redis:8-alpine
     restart: unless-stopped
-    # Redis holds the recurring audit job schedulers, so it is persisted like the
-    # database instead of being treated as a pure cache. The analyzer still
-    # reconciles the schedulers against the database on boot, which covers the
-    # cases this volume cannot (a flush, a fresh volume, a lost append-only file).
-    command: [ "redis-server", "--appendonly", "yes" ]
+    # Persisted, not treated as a cache: Redis holds the recurring audit job
+    # schedulers. The analyzer reconciles them against the database on boot,
+    # which covers what this volume cannot (a flush, a fresh volume, a lost AOF).
+    command: ["redis-server", "--appendonly", "yes"]
+    # Deliberately not published on the host, like the database.
     volumes:
       - v6y-redis-data:/data
-    ports:
-      - "6379:6379"
     healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
+      test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -54,11 +56,8 @@ services:
       POSTGRES_USER: ${PSQL_DB_USER}
       POSTGRES_PASSWORD: ${PSQL_DB_PASSWORD}
       POSTGRES_DB: ${PSQL_DB_NAME}
-    # PSQL_DB_HOST_PORT only controls the host mapping. Inside the network
-    # PostgreSQL always listens on 5432, so PSQL_DB_PORT (used by the services to
-    # connect) must stay 5432 while the bundled database is in use.
-    ports:
-      - "${PSQL_DB_HOST_PORT:-5432}:5432"
+    # Deliberately not published on the host: only the services on this network
+    # need to reach the database.
     volumes:
       - v6y-database-data:/var/lib/postgresql
     healthcheck:
@@ -68,25 +67,18 @@ services:
       retries: 5
 
   v6y-migrate:
-    image: ${REGISTRY-}v6y-migrate:${IMAGE_TAG:-latest}
-    build:
-      context: .
-      dockerfile: v6y-config/Dockerfile
-      target: migrate
+    image: ${REGISTRY:-ghcr.io/ekino/}v6y-migrate:${IMAGE_TAG:-latest}
+    pull_policy: always
+    restart: "no"
     environment:
-      DATABASE_URL: postgresql://${PSQL_DB_USER}:${PSQL_DB_PASSWORD}@v6y-database:5432/${PSQL_DB_NAME}
+      DATABASE_URL: postgresql://${PSQL_DB_USER}:${PSQL_DB_PASSWORD}@${PSQL_DB_HOST:-v6y-database}:${PSQL_DB_PORT:-5432}/${PSQL_DB_NAME}
     depends_on:
       v6y-database:
         condition: service_healthy
-    restart: "no"
 
   v6y-bff:
-    image: ${REGISTRY-}v6y-bff:${IMAGE_TAG:-latest}
-    build:
-      context: .
-      dockerfile: v6y-config/Dockerfile
-      target: bff
-    restart: unless-stopped
+    <<: *service-defaults
+    image: ${REGISTRY:-ghcr.io/ekino/}v6y-bff:${IMAGE_TAG:-latest}
     ports:
       - "4001:4001"
     environment:
@@ -102,12 +94,8 @@ services:
         condition: service_completed_successfully
 
   v6y-bfb-main-analyzer:
-    image: ${REGISTRY-}v6y-bfb-main-analyzer:${IMAGE_TAG:-latest}
-    build:
-      context: .
-      dockerfile: v6y-config/Dockerfile
-      target: bfb-main-analyzer
-    restart: unless-stopped
+    <<: *service-defaults
+    image: ${REGISTRY:-ghcr.io/ekino/}v6y-bfb-main-analyzer:${IMAGE_TAG:-latest}
     ports:
       - "4002:4002"
     environment:
@@ -129,12 +117,8 @@ services:
         condition: service_healthy
 
   v6y-bfb-static-code-auditor:
-    image: ${REGISTRY-}v6y-bfb-static-code-auditor:${IMAGE_TAG:-latest}
-    build:
-      context: .
-      dockerfile: v6y-config/Dockerfile
-      target: bfb-static-code-auditor
-    restart: unless-stopped
+    <<: *service-defaults
+    image: ${REGISTRY:-ghcr.io/ekino/}v6y-bfb-static-code-auditor:${IMAGE_TAG:-latest}
     ports:
       - "4003:4003"
     environment:
@@ -148,12 +132,8 @@ services:
         condition: service_healthy
 
   v6y-bfb-url-dynamic-auditor:
-    image: ${REGISTRY-}v6y-bfb-url-dynamic-auditor:${IMAGE_TAG:-latest}
-    build:
-      context: .
-      dockerfile: v6y-config/Dockerfile
-      target: bfb-url-dynamic-auditor
-    restart: unless-stopped
+    <<: *service-defaults
+    image: ${REGISTRY:-ghcr.io/ekino/}v6y-bfb-url-dynamic-auditor:${IMAGE_TAG:-latest}
     ports:
       - "4004:4004"
     environment:
@@ -167,12 +147,8 @@ services:
         condition: service_healthy
 
   v6y-bfb-devops-auditor:
-    image: ${REGISTRY-}v6y-bfb-devops-auditor:${IMAGE_TAG:-latest}
-    build:
-      context: .
-      dockerfile: v6y-config/Dockerfile
-      target: bfb-devops-auditor
-    restart: unless-stopped
+    <<: *service-defaults
+    image: ${REGISTRY:-ghcr.io/ekino/}v6y-bfb-devops-auditor:${IMAGE_TAG:-latest}
     ports:
       - "4005:4005"
     environment:
@@ -186,32 +162,18 @@ services:
         condition: service_healthy
 
   v6y-frontend:
-    image: ${REGISTRY-}v6y-frontend:${IMAGE_TAG:-latest}
-    build:
-      context: .
-      dockerfile: v6y-config/Dockerfile
-      target: frontend
-      args:
-        # Inlined into the browser bundle here; setting it below under
-        # environment would not reach client-side code.
-        NEXT_PUBLIC_V6Y_BFF_PATH: ${NEXT_PUBLIC_V6Y_BFF_PATH}
-    restart: unless-stopped
+    <<: *service-defaults
+    image: ${REGISTRY:-ghcr.io/ekino/}v6y-frontend:${IMAGE_TAG:-latest}
     ports:
       - "4006:4006"
     environment:
-      # Server-side rewrite target, on the container network. Distinct from the
-      # browser-facing NEXT_PUBLIC_V6Y_BFF_PATH build arg above.
+      # Server-side rewrite target, on the container network. The browser-facing
+      # NEXT_PUBLIC_V6Y_BFF_PATH is baked into the image at build time.
       V6Y_BFF_PROXY_TARGET: http://v6y-bff:4001/v6y/graphql/
 
   v6y-frontend-bo:
-    image: ${REGISTRY-}v6y-frontend-bo:${IMAGE_TAG:-latest}
-    build:
-      context: .
-      dockerfile: v6y-config/Dockerfile
-      target: frontend-bo
-      args:
-        NEXT_PUBLIC_V6Y_BFF_PATH: ${NEXT_PUBLIC_V6Y_BFF_PATH}
-    restart: unless-stopped
+    <<: *service-defaults
+    image: ${REGISTRY:-ghcr.io/ekino/}v6y-frontend-bo:${IMAGE_TAG:-latest}
     ports:
       - "4008:4008"
     environment:
