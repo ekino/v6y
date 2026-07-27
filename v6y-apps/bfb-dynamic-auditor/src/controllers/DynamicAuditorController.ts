@@ -1,4 +1,11 @@
-import { Body, Controller, HttpCode, InternalServerErrorException, Post } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    HttpCode,
+    Inject,
+    InternalServerErrorException,
+    Post,
+} from '@nestjs/common';
 
 import { AppLogger } from '@v6y/core-logic';
 
@@ -22,7 +29,12 @@ interface StartDynamicAuditorResponse {
 
 @Controller(basePath)
 export class DynamicAuditorController {
-    constructor(private readonly dynamicAnalysisQueueService: DynamicAnalysisQueueService) {}
+    constructor(
+        // Explicit token: the esbuild-based test transform does not emit
+        // design:paramtypes, so relying on inferred metadata would inject undefined.
+        @Inject(DynamicAnalysisQueueService)
+        private readonly dynamicAnalysisQueueService: DynamicAnalysisQueueService,
+    ) {}
 
     @Post('start-dynamic-auditor.json')
     @HttpCode(200)

@@ -1,4 +1,11 @@
-import { Body, Controller, HttpCode, InternalServerErrorException, Post } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    HttpCode,
+    Inject,
+    InternalServerErrorException,
+    Post,
+} from '@nestjs/common';
 
 import { AppLogger } from '@v6y/core-logic';
 
@@ -23,7 +30,12 @@ interface StartStaticAuditorResponse {
 
 @Controller(basePath)
 export class StaticAuditorController {
-    constructor(private readonly staticAnalysisQueueService: StaticAnalysisQueueService) {}
+    constructor(
+        // Explicit token: the esbuild-based test transform does not emit
+        // design:paramtypes, so relying on inferred metadata would inject undefined.
+        @Inject(StaticAnalysisQueueService)
+        private readonly staticAnalysisQueueService: StaticAnalysisQueueService,
+    ) {}
 
     @Post('start-static-auditor.json')
     @HttpCode(200)

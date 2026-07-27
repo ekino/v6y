@@ -1,34 +1,45 @@
 import request from 'supertest';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import ServerConfig from '../commons/ServerConfig.ts';
+import { AuditOutcome } from '../auditors/types/AuditCommonsType.ts';
 
-const runDynamicAnalysis = vi.fn();
+/**
+ * The controller reaches the analysis through the queue service, so the HTTP
+ * contract is asserted by stubbing that service on the real provider: Nest keeps
+ * resolving it normally and the spy stands in for the queued run.
+ */
+const buildApp = async (outcome: AuditOutcome | null, rejection?: Error) => {
+    const { createApp } = await import('../app.ts');
+    const { DynamicAnalysisQueueService } = await import(
+        '../queues/DynamicAnalysisQueueService.ts'
+    );
 
-// The controller now goes through the queue service, so that is what the HTTP
-// contract is asserted against.
-vi.mock('../queues/DynamicAnalysisQueueService.ts', () => ({
-    DynamicAnalysisQueueService: class {
-        runDynamicAnalysis = runDynamicAnalysis;
-    },
-}));
+    const spy = vi.spyOn(DynamicAnalysisQueueService.prototype, 'runDynamicAnalysis');
+    if (rejection) {
+        spy.mockRejectedValue(rejection);
+    } else {
+        spy.mockResolvedValue(outcome);
+    }
 
-const { createApp } = await import('../app.ts');
+    return { spy, app: await createApp() };
+};
 
-const { currentConfig } = ServerConfig;
-const auditEndpoint = `${currentConfig?.dynamicAuditorApiPath}/start-dynamic-auditor.json`;
+const endpoint = async () => {
+    const { default: ServerConfig } = await import('../commons/ServerConfig.ts');
+    return `${ServerConfig.currentConfig?.dynamicAuditorApiPath}/start-dynamic-auditor.json`;
+};
 
 describe('DynamicAuditorController', () => {
     afterEach(() => {
-        vi.clearAllMocks();
+        vi.restoreAllMocks();
+        vi.resetModules();
     });
 
     it('should return 200 with success body when audits complete', async () => {
-        runDynamicAnalysis.mockResolvedValue({ status: 'success' });
-        const app = await createApp();
+        const { spy, app } = await buildApp({ status: 'success' });
 
         const response = await request(app.getHttpServer())
-            .post(auditEndpoint)
+            .post(await endpoint())
             .send({ applicationId: 1 })
             .expect(200);
 
@@ -37,18 +48,19 @@ describe('DynamicAuditorController', () => {
             skipped: false,
             message: 'Dynamic Audits have end successfully!',
         });
-        expect(runDynamicAnalysis).toHaveBeenCalledWith({
+        expect(spy).toHaveBeenCalledWith({
             applicationId: 1,
             auditRunId: undefined,
         });
+
+        await app.close();
     });
 
     it('should report a skipped audit as a success rather than an error', async () => {
-        runDynamicAnalysis.mockResolvedValue({ status: 'skipped', message: 'Nothing to audit.' });
-        const app = await createApp();
+        const { app } = await buildApp({ status: 'skipped', message: 'Nothing to audit.' });
 
         const response = await request(app.getHttpServer())
-            .post(auditEndpoint)
+            .post(await endpoint())
             .send({ applicationId: 1 })
             .expect(200);
 
@@ -57,14 +69,15 @@ describe('DynamicAuditorController', () => {
             skipped: true,
             message: 'Nothing to audit.',
         });
+
+        await app.close();
     });
 
     it('should return 500 when the analysis reports a failure', async () => {
-        runDynamicAnalysis.mockResolvedValue({ status: 'failed', message: 'auditor exploded' });
-        const app = await createApp();
+        const { app } = await buildApp({ status: 'failed', message: 'auditor exploded' });
 
         const response = await request(app.getHttpServer())
-            .post(auditEndpoint)
+            .post(await endpoint())
             .send({ applicationId: 1 })
             .expect(500);
 
@@ -72,14 +85,15 @@ describe('DynamicAuditorController', () => {
             success: false,
             message: 'auditor exploded',
         });
+
+        await app.close();
     });
 
     it('should return 500 when the queue is unavailable', async () => {
-        runDynamicAnalysis.mockResolvedValue(null);
-        const app = await createApp();
+        const { app } = await buildApp(null);
 
         const response = await request(app.getHttpServer())
-            .post(auditEndpoint)
+            .post(await endpoint())
             .send({ applicationId: 1 })
             .expect(500);
 
@@ -87,14 +101,15 @@ describe('DynamicAuditorController', () => {
             success: false,
             message: 'The dynamic analysis queue is currently unavailable.',
         });
+
+        await app.close();
     });
 
     it('should return 500 with legacy body when the queue service throws', async () => {
-        runDynamicAnalysis.mockRejectedValue(new Error('boom'));
-        const app = await createApp();
+        const { app } = await buildApp(null, new Error('boom'));
 
         const response = await request(app.getHttpServer())
-            .post(auditEndpoint)
+            .post(await endpoint())
             .send({ applicationId: 1 })
             .expect(500);
 
@@ -102,5 +117,7 @@ describe('DynamicAuditorController', () => {
             success: false,
             message: 'An error occurred during the Dynamic Audits.',
         });
+
+        await app.close();
     });
 });

@@ -3,6 +3,7 @@ import {
     Body,
     Controller,
     HttpCode,
+    Inject,
     InternalServerErrorException,
     Post,
 } from '@nestjs/common';
@@ -29,7 +30,12 @@ interface StartDevOpsAuditorResponse {
 
 @Controller(basePath)
 export class DevOpsAuditorController {
-    constructor(private readonly devOpsAnalysisQueueService: DevOpsAnalysisQueueService) {}
+    constructor(
+        // Explicit token: the esbuild-based test transform does not emit
+        // design:paramtypes, so relying on inferred metadata would inject undefined.
+        @Inject(DevOpsAnalysisQueueService)
+        private readonly devOpsAnalysisQueueService: DevOpsAnalysisQueueService,
+    ) {}
 
     @Post('start-devops-auditor.json')
     @HttpCode(200)
