@@ -23,7 +23,7 @@ V6Y_DYNAMIC_ANALYZER_API_PORT=4004
 
 V6Y_MAIN_API_PATH=/v6y/bfb-main/
 V6Y_MAIN_API_PORT=4005
-V6Y_MAIN_ANALYZER_TRIGGER_API_PATH=http://localhost:4009/v6y/bfb-main/trigger-application-analysis.json
+V6Y_MAIN_ANALYZER_TRIGGER_API_PATH=http://localhost:4005/v6y/bfb-main/trigger-application-analysis.json
 
 V6Y_STATIC_ANALYZER_API_PATH=/v6y/bfb-static-auditor/
 V6Y_STATIC_ANALYZER_API_PORT=4003

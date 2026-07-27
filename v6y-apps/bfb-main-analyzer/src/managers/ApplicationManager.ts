@@ -104,15 +104,13 @@ const buildApplicationReports = async (application: ApplicationType) => {
             repositoryBranches = [{ name: 'main' }, { name: 'master' }];
         }
 
-        if (repositoryBranches?.length) {
-            await ApplicationProvider.editApplication({
-                ...application,
-                repo: {
-                    ...application?.repo,
-                    allBranches: repositoryBranches.map((branch) => branch?.name),
-                },
-            });
-        }
+        await ApplicationProvider.editApplication({
+            ...application,
+            repo: {
+                ...application?.repo,
+                allBranches: repositoryBranches.map((branch) => branch?.name),
+            },
+        });
 
         // Create AuditRun record for this scheduled analysis
         const auditRun = await AuditRunProvider.createAuditRun({
@@ -137,18 +135,11 @@ const buildApplicationReports = async (application: ApplicationType) => {
 
         AppLogger.info('[ApplicationManager - buildApplicationDetails] start of static analysis');
 
-        let staticSuccess = false;
-        if (repositoryBranches?.length) {
-            staticSuccess = await buildStaticReports({
-                application,
-                branches: repositoryBranches,
-                auditRunId,
-            });
-        } else {
-            AppLogger.warn(
-                '[ApplicationManager - buildApplicationDetails] static analysis skipped: no branches available',
-            );
-        }
+        const staticSuccess = await buildStaticReports({
+            application,
+            branches: repositoryBranches,
+            auditRunId,
+        });
 
         AppLogger.info('[ApplicationManager - buildApplicationDetails] end of static analysis');
 
@@ -161,16 +152,29 @@ const buildApplicationReports = async (application: ApplicationType) => {
 
         AppLogger.info('[ApplicationManager - buildApplicationDetails] end of dynamic analysis');
 
-        // Update AuditRun status to completed
-        if (auditRunId && staticSuccess && dynamicSuccess) {
-            await AuditRunProvider.updateAuditRunStatus({
-                auditRunId: Number(auditRunId),
-                runStatus: 'completed',
-                completedAt: new Date(),
-            });
-            AppLogger.info(
-                `[ApplicationManager - buildApplicationReports] AuditRun completed: ${auditRunId}`,
-            );
+        // Update AuditRun status: completed only when every analysis type succeeded,
+        // otherwise mark it failed so it doesn't stay stuck in in_progress forever.
+        if (auditRunId) {
+            if (staticSuccess && dynamicSuccess) {
+                await AuditRunProvider.updateAuditRunStatus({
+                    auditRunId: Number(auditRunId),
+                    runStatus: 'completed',
+                    completedAt: new Date(),
+                });
+                AppLogger.info(
+                    `[ApplicationManager - buildApplicationReports] AuditRun completed: ${auditRunId}`,
+                );
+            } else {
+                await AuditRunProvider.updateAuditRunStatus({
+                    auditRunId: Number(auditRunId),
+                    runStatus: 'failed',
+                    completedAt: new Date(),
+                    errorMessage: `Partial analysis failure (staticSuccess=${staticSuccess}, dynamicSuccess=${dynamicSuccess})`,
+                });
+                AppLogger.warn(
+                    `[ApplicationManager - buildApplicationReports] AuditRun failed: ${auditRunId}`,
+                );
+            }
         }
 
         return true;

@@ -52,8 +52,12 @@ export class ApplicationAnalysisController {
             });
         }
 
+        let enqueuedJob;
         try {
-            await this.applicationAnalysisQueueService.enqueueApplicationAnalysis(applicationId);
+            enqueuedJob =
+                await this.applicationAnalysisQueueService.enqueueApplicationAnalysis(
+                    applicationId,
+                );
         } catch (error) {
             AppLogger.error(
                 '[ApplicationAnalysisController] An exception occurred while enqueuing the application analysis:',
@@ -62,6 +66,13 @@ export class ApplicationAnalysisController {
             throw new InternalServerErrorException({
                 success: false,
                 message: 'An error occurred while triggering the application analysis.',
+            });
+        }
+
+        if (!enqueuedJob) {
+            throw new InternalServerErrorException({
+                success: false,
+                message: 'The application analysis queue is currently unavailable.',
             });
         }
 

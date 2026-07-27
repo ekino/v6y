@@ -1,7 +1,7 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Job } from 'bullmq';
 
-import { AppLogger, AuditProvider, DataBaseManager, DependencyProvider } from '@v6y/core-logic';
+import { AppLogger, DataBaseManager, DependencyProvider } from '@v6y/core-logic';
 
 import ApplicationManager from '../managers/ApplicationManager.ts';
 import {
@@ -19,7 +19,8 @@ export class ApplicationAnalysisProcessor extends WorkerHost {
 
         switch (job.name) {
             case APPLICATION_ANALYSIS_STARTUP_JOB: {
-                await AuditProvider.deleteAuditList();
+                // Note: audits are intentionally kept for historical tracking (createdAt
+                // timestamps). Only dependencies are cleared before a fresh analysis.
                 await DependencyProvider.deleteDependencyList();
                 return ApplicationManager.buildApplicationList();
             }

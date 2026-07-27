@@ -52,7 +52,7 @@ const startAuditorAnalysis = async ({ applicationId, auditRunId }: DoraMetricsAu
             AppLogger.warn(
                 `[DoraMetricsAuditor - startAuditorAnalysis] repository id is missing, skipping Dora metrics audit`,
             );
-            return true;
+            return false;
         }
 
         const auditReports = [];

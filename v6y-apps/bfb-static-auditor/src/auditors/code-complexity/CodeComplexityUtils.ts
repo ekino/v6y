@@ -390,12 +390,12 @@ const aggregateCodeComplexityReports = ({
         operands: {
             total: defaultAggregate.halstead?.operands?.total || 0,
             distinct: defaultAggregate.halstead?.operands?.distinct || 0,
-            identifiers: defaultAggregate.halstead?.operands?.identifiers || [],
+            identifiers: [...(defaultAggregate.halstead?.operands?.identifiers || [])],
         },
         operators: {
             total: defaultAggregate.halstead?.operators?.total || 0,
             distinct: defaultAggregate.halstead?.operators?.distinct || 0,
-            identifiers: defaultAggregate.halstead?.operators?.identifiers || [],
+            identifiers: [...(defaultAggregate.halstead?.operators?.identifiers || [])],
         },
         length: defaultAggregate.halstead?.length || 0,
         vocabulary: defaultAggregate.halstead?.vocabulary || 0,

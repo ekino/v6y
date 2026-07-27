@@ -355,6 +355,7 @@ describe('VitalityAppDetailsView', () => {
                     getApplicationLatestAuditRunByParams: {
                         runStatus: 'completed',
                         errorMessage: null,
+                        updatedAt: new Date(Date.now() + 60000).toISOString(),
                     },
                 });
 
@@ -411,6 +412,7 @@ describe('VitalityAppDetailsView', () => {
                     getApplicationLatestAuditRunByParams: {
                         runStatus: 'error',
                         errorMessage: 'Static auditor unavailable',
+                        updatedAt: new Date(Date.now() + 60000).toISOString(),
                     },
                 });
 

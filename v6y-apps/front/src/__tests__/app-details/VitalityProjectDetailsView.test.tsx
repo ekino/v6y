@@ -153,6 +153,7 @@ describe('VitalityProjectDetailsView', () => {
                     getApplicationLatestAuditRunByParams: {
                         runStatus: 'completed',
                         errorMessage: null,
+                        updatedAt: new Date(Date.now() + 60000).toISOString(),
                     },
                 });
 

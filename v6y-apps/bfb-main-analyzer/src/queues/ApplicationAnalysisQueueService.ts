@@ -52,6 +52,20 @@ export class ApplicationAnalysisQueueService {
             return null;
         }
 
+        const jobId = `${APPLICATION_ANALYSIS_SINGLE_JOB}-${applicationId}`;
+
+        // BullMQ refuses to create a new job while one with the same jobId still
+        // exists (including in the failed set, since removeOnFail keeps it around).
+        // Clear out a settled (failed/completed) job first so re-triggering after a
+        // failure actually enqueues a new attempt instead of silently no-op'ing.
+        const existingJob = await this.applicationAnalysisQueue.getJob(jobId);
+        if (existingJob) {
+            const existingJobState = await existingJob.getState();
+            if (existingJobState === 'failed' || existingJobState === 'completed') {
+                await existingJob.remove();
+            }
+        }
+
         AppLogger.info(
             `[ApplicationAnalysisQueueService] Enqueuing application analysis for applicationId=${applicationId}`,
         );
@@ -65,7 +79,7 @@ export class ApplicationAnalysisQueueService {
                     type: 'exponential',
                     delay: 1000,
                 },
-                jobId: `${APPLICATION_ANALYSIS_SINGLE_JOB}-${applicationId}`,
+                jobId,
                 removeOnComplete: true,
                 removeOnFail: 20,
             },

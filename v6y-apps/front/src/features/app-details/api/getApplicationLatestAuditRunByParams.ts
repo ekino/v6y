@@ -8,6 +8,7 @@ const GetApplicationLatestAuditRunByParams = gql`
             triggeredAt
             completedAt
             errorMessage
+            updatedAt
         }
     }
 `;

@@ -18,7 +18,7 @@ describe('ApplicationAnalysisController', () => {
 
         const enqueueSpy = vi
             .spyOn(ApplicationAnalysisQueueService.prototype, 'enqueueApplicationAnalysis')
-            .mockResolvedValue(null);
+            .mockResolvedValue({ id: 'job-1' } as never);
 
         const app = await createApp();
 
@@ -33,6 +33,34 @@ describe('ApplicationAnalysisController', () => {
             message: 'Application analysis queued successfully.',
             applicationId: 42,
         });
+
+        await app.close();
+    });
+
+    it('should fail when the analysis queue is unavailable', async () => {
+        process.env.V6Y_MAIN_API_PATH = '/v6y/bfb-main/';
+
+        const { createApp } = await import('../app.ts');
+        const { default: ServerConfig } = await import('../config/ServerConfig.ts');
+        const { ApplicationAnalysisQueueService } = await import(
+            '../queues/ApplicationAnalysisQueueService.ts'
+        );
+
+        vi.spyOn(
+            ApplicationAnalysisQueueService.prototype,
+            'enqueueApplicationAnalysis',
+        ).mockResolvedValue(null);
+
+        const app = await createApp();
+
+        const response = await request(app.getHttpServer())
+            .post(`${ServerConfig.currentConfig?.apiPath}trigger-application-analysis.json`)
+            .send({ applicationId: 42 })
+            .expect(500);
+
+        expect(response.body.message).toBe(
+            'The application analysis queue is currently unavailable.',
+        );
 
         await app.close();
     });

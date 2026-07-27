@@ -4,6 +4,12 @@ import { GraphQLClient, RequestDocument } from 'graphql-request';
 import Cookie from 'js-cookie';
 
 const resolveGraphQLUrl = (graphQLUrl: string) => {
+    if (!graphQLUrl?.length) {
+        throw new Error(
+            '[GraphQLClient] NEXT_PUBLIC_V6Y_BFF_PATH is not configured; unable to resolve the BFF GraphQL endpoint.',
+        );
+    }
+
     if (/^https?:\/\//i.test(graphQLUrl)) {
         return graphQLUrl;
     }

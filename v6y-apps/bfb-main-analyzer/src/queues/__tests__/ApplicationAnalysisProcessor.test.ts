@@ -29,7 +29,7 @@ describe('ApplicationAnalysisProcessor', () => {
         vi.clearAllMocks();
     });
 
-    it('clears audits and dependencies then rebuilds the application list on a startup job', async () => {
+    it('clears dependencies (but keeps audit history) then rebuilds the application list on a startup job', async () => {
         const { ApplicationAnalysisProcessor } = await import('../ApplicationAnalysisProcessor.ts');
         const { APPLICATION_ANALYSIS_STARTUP_JOB } = await import('../ApplicationAnalysisQueue.ts');
         const { AuditProvider, DataBaseManager, DependencyProvider } = await import(
@@ -45,7 +45,7 @@ describe('ApplicationAnalysisProcessor', () => {
         const result = await processor.process(job);
 
         expect(DataBaseManager.connect).toHaveBeenCalled();
-        expect(AuditProvider.deleteAuditList).toHaveBeenCalled();
+        expect(AuditProvider.deleteAuditList).not.toHaveBeenCalled();
         expect(DependencyProvider.deleteDependencyList).toHaveBeenCalled();
         expect(ApplicationManager.buildApplicationList).toHaveBeenCalled();
         expect(result).toBe(true);

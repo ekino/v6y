@@ -36,7 +36,7 @@ export const useRunApplicationAudit = (applicationId?: number, onAuditCompleted?
     }, []);
 
     const pollAuditRunStatus = React.useCallback(
-        async (targetId: number, loadingToastId: string | number) => {
+        async (targetId: number, loadingToastId: string | number, triggeredAfter: number) => {
             for (let attempt = 0; attempt < AUDIT_RUN_POLL_MAX_ATTEMPTS; attempt += 1) {
                 await new Promise((resolve) => setTimeout(resolve, AUDIT_RUN_POLL_INTERVAL_MS));
 
@@ -49,6 +49,7 @@ export const useRunApplicationAudit = (applicationId?: number, onAuditCompleted?
                         getApplicationLatestAuditRunByParams: {
                             runStatus: string;
                             errorMessage: string | null;
+                            updatedAt: string;
                         } | null;
                     }>({
                         queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
@@ -60,8 +61,18 @@ export const useRunApplicationAudit = (applicationId?: number, onAuditCompleted?
 
                     const latestRun = response?.getApplicationLatestAuditRunByParams;
                     const runStatus = latestRun?.runStatus;
+                    const updatedAt = latestRun?.updatedAt ? Date.parse(latestRun.updatedAt) : NaN;
 
-                    if (!runStatus || !AUDIT_RUN_SETTLED_STATUSES.has(runStatus)) {
+                    // The query returns the application's most recent run regardless of
+                    // whether it is the one we just triggered. Ignore stale runs (created
+                    // or last updated before we triggered this audit) so an older
+                    // completed/failed run doesn't produce a premature toast.
+                    if (
+                        !runStatus ||
+                        !AUDIT_RUN_SETTLED_STATUSES.has(runStatus) ||
+                        Number.isNaN(updatedAt) ||
+                        updatedAt < triggeredAfter
+                    ) {
                         continue;
                     }
 
@@ -126,6 +137,7 @@ export const useRunApplicationAudit = (applicationId?: number, onAuditCompleted?
 
         setIsRunningAudit(true);
         try {
+            const triggeredAfter = Date.now();
             const response = await buildClientQuery<{
                 triggerApplicationAnalysis: {
                     success: boolean;
@@ -153,7 +165,7 @@ export const useRunApplicationAudit = (applicationId?: number, onAuditCompleted?
 
             // Keep polling so the user is alerted when the queued audit actually
             // finishes (or fails), not just when it has been accepted.
-            void pollAuditRunStatus(applicationId, loadingToastId);
+            void pollAuditRunStatus(applicationId, loadingToastId, triggeredAfter);
         } catch (error) {
             toast.error(translate('vitality.appDetailsPage.auditToasts.failed'), {
                 id: loadingToastId,

@@ -23,6 +23,11 @@ import DateUtils from '../utils/DateUtils.ts';
 const GithubConfig = (organization: string | null): GithubConfigType => {
     const baseURL = 'https://api.github.com';
     const reposBaseUrl = organization ? `${baseURL}/repos/${organization}` : `${baseURL}/repos`;
+    const githubToken = process.env.GITHUB_PRIVATE_TOKEN;
+
+    if (!githubToken?.length) {
+        AppLogger.warn('[RepositoryApi - GithubConfig] Missing GitHub token environment variable');
+    }
 
     return {
         baseURL,
@@ -33,7 +38,7 @@ const GithubConfig = (organization: string | null): GithubConfigType => {
             repositoryDetailsUrl: (repoName: string) => `${reposBaseUrl}/${repoName}`,
         },
         headers: {
-            Authorization: `Bearer ${process.env.GITHUB_PRIVATE_TOKEN}`,
+            ...(githubToken?.length ? { Authorization: `Bearer ${githubToken}` } : {}),
             Accept: 'application/vnd.github+json',
             'Content-Type': 'application/json',
             'User-Agent': 'V6Y',
@@ -75,7 +80,7 @@ const GitlabConfig = (organization: string | null): GitlabConfigType => {
 
         headers: {
             'PRIVATE-TOKEN': gitlabToken,
-            Authorization: gitlabToken.length ? `Bearer ${gitlabToken}` : undefined,
+            ...(gitlabToken.length ? { Authorization: `Bearer ${gitlabToken}` } : {}),
             'Content-Type': 'application/json',
         },
     };
@@ -341,12 +346,17 @@ const prepareGitBranchZipConfig = ({
         const repositoryOrigin = new URL(repositoryWebUrl).origin;
         const repositoryPath = new URL(repositoryWebUrl).pathname.replace(/^\//, '');
 
+        // GitHub's archive URL is a path (…/archive/refs/heads/<branch>.zip), so each
+        // path segment must be percent-encoded individually while keeping the '/'
+        // separators literal (encodeURIComponent alone would also escape '/').
+        const encodedBranchNamePath = branchName.split('/').map(encodeURIComponent).join('/');
+
         // GitLab web archive URLs can return HTML (login/forbidden) instead of binary zip.
         // Prefer the API archive endpoint, which supports PRIVATE-TOKEN auth headers.
         const gitlabProjectRef = encodeURIComponent(String(repo?.id || repositoryPath));
 
         const zipSourceUrl = isGithubRepository
-            ? `${repositoryWebUrl}/archive/refs/heads/${encodedBranchName}.zip`
+            ? `${repositoryWebUrl}/archive/refs/heads/${encodedBranchNamePath}.zip`
             : `${repositoryOrigin}/api/v4/projects/${gitlabProjectRef}/repository/archive.zip?sha=${encodedBranchName}`;
 
         AppLogger.info(`[RepositoryApi - prepareGitZipConfig] zipSourceUrl:  ${zipSourceUrl}`);

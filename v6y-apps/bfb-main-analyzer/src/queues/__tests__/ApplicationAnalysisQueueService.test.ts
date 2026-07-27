@@ -10,7 +10,8 @@ describe('ApplicationAnalysisQueueService', () => {
     describe('when the queue is available', () => {
         it('enqueues a startup analysis job', async () => {
             const add = vi.fn().mockResolvedValue({ id: 'job-1' });
-            const service = new ApplicationAnalysisQueueService({ add } as never);
+            const getJob = vi.fn().mockResolvedValue(undefined);
+            const service = new ApplicationAnalysisQueueService({ add, getJob } as never);
 
             const job = await service.enqueueStartupAnalysis();
 
@@ -27,10 +28,12 @@ describe('ApplicationAnalysisQueueService', () => {
 
         it('enqueues a single application analysis job with a deterministic jobId', async () => {
             const add = vi.fn().mockResolvedValue({ id: 'job-2' });
-            const service = new ApplicationAnalysisQueueService({ add } as never);
+            const getJob = vi.fn().mockResolvedValue(undefined);
+            const service = new ApplicationAnalysisQueueService({ add, getJob } as never);
 
             const job = await service.enqueueApplicationAnalysis(42);
 
+            expect(getJob).toHaveBeenCalledWith(`${APPLICATION_ANALYSIS_SINGLE_JOB}-42`);
             expect(add).toHaveBeenCalledWith(
                 APPLICATION_ANALYSIS_SINGLE_JOB,
                 { applicationId: 42 },
@@ -40,6 +43,26 @@ describe('ApplicationAnalysisQueueService', () => {
                 }),
             );
             expect(job).toEqual({ id: 'job-2' });
+        });
+
+        it('removes a previously failed job with the same jobId before re-enqueuing', async () => {
+            const add = vi.fn().mockResolvedValue({ id: 'job-3' });
+            const remove = vi.fn().mockResolvedValue(undefined);
+            const getJob = vi.fn().mockResolvedValue({
+                getState: vi.fn().mockResolvedValue('failed'),
+                remove,
+            });
+            const service = new ApplicationAnalysisQueueService({ add, getJob } as never);
+
+            const job = await service.enqueueApplicationAnalysis(42);
+
+            expect(remove).toHaveBeenCalled();
+            expect(add).toHaveBeenCalledWith(
+                APPLICATION_ANALYSIS_SINGLE_JOB,
+                { applicationId: 42 },
+                expect.objectContaining({ jobId: `${APPLICATION_ANALYSIS_SINGLE_JOB}-42` }),
+            );
+            expect(job).toEqual({ id: 'job-3' });
         });
     });
 
