@@ -192,7 +192,7 @@ catalogs:
   next16:
     '@next/bundle-analyzer': '=16.2.1'
     'eslint-config-next': '=16.2.1'
-    'next': '=16.2.6'
+    'next': '=16.2.11'
 
   eslint10:
     '@eslint/eslintrc': '=3.2.0'

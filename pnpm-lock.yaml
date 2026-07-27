@@ -537,8 +537,8 @@ catalogs:
       specifier: '=16.2.1'
       version: 16.2.1
     next:
-      specifier: '=16.2.6'
-      version: 16.2.6
+      specifier: '=16.2.11'
+      version: 16.2.11
   react19:
     '@types/react':
       specifier: '=19.0.7'
@@ -687,7 +687,7 @@ importers:
         version: 10.0.1(eslint@10.0.1(jiti@2.7.0))
       '@trivago/prettier-plugin-sort-imports':
         specifier: 'catalog:'
-        version: 6.0.0(@vue/compiler-sfc@3.5.40)(prettier@3.9.6)
+        version: 6.0.0(@vue/compiler-sfc@3.5.40)(prettier@3.4.2)
       '@types/cookie-parser':
         specifier: 'catalog:'
         version: 1.4.8(@types/express@5.0.5)
@@ -720,7 +720,7 @@ importers:
         version: 10.0.1(eslint@10.0.1(jiti@2.7.0))
       eslint-plugin-prettier:
         specifier: catalog:eslint10
-        version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@10.0.1(eslint@10.0.1(jiti@2.7.0)))(eslint@10.0.1(jiti@2.7.0))(prettier@3.9.6)
+        version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@10.0.1(eslint@10.0.1(jiti@2.7.0)))(eslint@10.0.1(jiti@2.7.0))(prettier@3.4.2)
       globals:
         specifier: 'catalog:'
         version: 16.4.0
@@ -793,7 +793,7 @@ importers:
         version: 10.0.1(eslint@10.0.1(jiti@2.7.0))
       '@trivago/prettier-plugin-sort-imports':
         specifier: 'catalog:'
-        version: 6.0.0(@vue/compiler-sfc@3.5.40)(prettier@3.9.6)
+        version: 6.0.0(@vue/compiler-sfc@3.5.40)(prettier@3.4.2)
       '@types/cookie-parser':
         specifier: 'catalog:'
         version: 1.4.8(@types/express@5.0.5)
@@ -823,7 +823,7 @@ importers:
         version: 10.0.1(eslint@10.0.1(jiti@2.7.0))
       eslint-plugin-prettier:
         specifier: catalog:eslint10
-        version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@10.0.1(eslint@10.0.1(jiti@2.7.0)))(eslint@10.0.1(jiti@2.7.0))(prettier@3.9.6)
+        version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@10.0.1(eslint@10.0.1(jiti@2.7.0)))(eslint@10.0.1(jiti@2.7.0))(prettier@3.4.2)
       globals:
         specifier: 'catalog:'
         version: 16.4.0
@@ -902,7 +902,7 @@ importers:
         version: 10.0.1(eslint@10.0.1(jiti@2.7.0))
       '@trivago/prettier-plugin-sort-imports':
         specifier: 'catalog:'
-        version: 6.0.0(@vue/compiler-sfc@3.5.40)(prettier@3.9.6)
+        version: 6.0.0(@vue/compiler-sfc@3.5.40)(prettier@3.4.2)
       '@types/body-parser':
         specifier: 'catalog:'
         version: 1.19.5
@@ -941,7 +941,7 @@ importers:
         version: 10.0.1(eslint@10.0.1(jiti@2.7.0))
       eslint-plugin-prettier:
         specifier: catalog:eslint10
-        version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@10.0.1(eslint@10.0.1(jiti@2.7.0)))(eslint@10.0.1(jiti@2.7.0))(prettier@3.9.6)
+        version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@10.0.1(eslint@10.0.1(jiti@2.7.0)))(eslint@10.0.1(jiti@2.7.0))(prettier@3.4.2)
       globals:
         specifier: 'catalog:'
         version: 16.4.0
@@ -1065,7 +1065,7 @@ importers:
         version: 10.0.1(eslint@10.0.1(jiti@2.7.0))
       '@trivago/prettier-plugin-sort-imports':
         specifier: 'catalog:'
-        version: 6.0.0(@vue/compiler-sfc@3.5.40)(prettier@3.9.6)
+        version: 6.0.0(@vue/compiler-sfc@3.5.40)(prettier@3.4.2)
       '@types/cookie-parser':
         specifier: 'catalog:'
         version: 1.4.8(@types/express@5.0.5)
@@ -1104,7 +1104,7 @@ importers:
         version: 10.0.1(eslint@10.0.1(jiti@2.7.0))
       eslint-plugin-prettier:
         specifier: catalog:eslint10
-        version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@10.0.1(eslint@10.0.1(jiti@2.7.0)))(eslint@10.0.1(jiti@2.7.0))(prettier@3.9.6)
+        version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@10.0.1(eslint@10.0.1(jiti@2.7.0)))(eslint@10.0.1(jiti@2.7.0))(prettier@3.4.2)
       graphology-types:
         specifier: 'catalog:'
         version: 0.24.8
@@ -1186,7 +1186,7 @@ importers:
         version: 10.0.1(eslint@10.0.1(jiti@2.7.0))
       '@trivago/prettier-plugin-sort-imports':
         specifier: 'catalog:'
-        version: 6.0.0(@vue/compiler-sfc@3.5.40)(prettier@3.9.6)
+        version: 6.0.0(@vue/compiler-sfc@3.5.40)(prettier@3.4.2)
       '@types/express':
         specifier: 'catalog:'
         version: 5.0.5
@@ -1213,7 +1213,7 @@ importers:
         version: 10.0.1(eslint@10.0.1(jiti@2.7.0))
       eslint-plugin-prettier:
         specifier: catalog:eslint10
-        version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@10.0.1(eslint@10.0.1(jiti@2.7.0)))(eslint@10.0.1(jiti@2.7.0))(prettier@3.9.6)
+        version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@10.0.1(eslint@10.0.1(jiti@2.7.0)))(eslint@10.0.1(jiti@2.7.0))(prettier@3.4.2)
       globals:
         specifier: 'catalog:'
         version: 16.4.0
@@ -1243,7 +1243,7 @@ importers:
         version: 5.90.2(@tanstack/react-query@5.90.2(react@19.2.4))(react@19.2.4)
       '@tanstack/react-query-next-experimental':
         specifier: 'catalog:'
-        version: 5.90.2(@tanstack/react-query@5.90.2(react@19.2.4))(next@16.2.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
+        version: 5.90.2(@tanstack/react-query@5.90.2(react@19.2.4))(next@16.2.11(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
       '@v6y/core-logic':
         specifier: workspace:^
         version: link:../../v6y-libs/core-logic
@@ -1285,7 +1285,7 @@ importers:
         version: 3.0.7
       next:
         specifier: catalog:next16
-        version: 16.2.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        version: 16.2.11(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react:
         specifier: catalog:react19
         version: 19.2.4
@@ -1472,10 +1472,10 @@ importers:
         version: 3.0.7
       next:
         specifier: catalog:next16
-        version: 16.2.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        version: 16.2.11(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       next-i18next:
         specifier: 'catalog:'
-        version: 15.4.1(i18next@26.3.6(typescript@5.7.3))(next@16.2.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-i18next@15.4.0(i18next@26.3.6(typescript@5.7.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
+        version: 15.4.1(i18next@26.3.6(typescript@5.7.3))(next@16.2.11(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-i18next@15.4.0(i18next@26.3.6(typescript@5.7.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
       react:
         specifier: catalog:react19
         version: 19.2.4
@@ -1702,7 +1702,7 @@ importers:
         version: 10.0.1(eslint@10.0.1(jiti@2.7.0))
       '@trivago/prettier-plugin-sort-imports':
         specifier: 'catalog:'
-        version: 6.0.0(@vue/compiler-sfc@3.5.40)(prettier@3.9.6)
+        version: 6.0.0(@vue/compiler-sfc@3.5.40)(prettier@3.4.2)
       '@types/bcrypt':
         specifier: 'catalog:'
         version: 6.0.0
@@ -1732,7 +1732,7 @@ importers:
         version: 10.0.1(eslint@10.0.1(jiti@2.7.0))
       eslint-plugin-prettier:
         specifier: catalog:eslint10
-        version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@10.0.1(eslint@10.0.1(jiti@2.7.0)))(eslint@10.0.1(jiti@2.7.0))(prettier@3.9.6)
+        version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@10.0.1(eslint@10.0.1(jiti@2.7.0)))(eslint@10.0.1(jiti@2.7.0))(prettier@3.4.2)
       prisma:
         specifier: catalog:data
         version: 7.9.0(@types/react-dom@19.0.3(@types/react@19.2.17))(@types/react@19.2.17)(magicast@0.5.3)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.7.3)
@@ -1756,7 +1756,7 @@ importers:
         version: 6.1.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@ant-design/nextjs-registry':
         specifier: 'catalog:'
-        version: 1.0.2(@ant-design/cssinjs@1.24.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(antd@5.23.1(date-fns@4.1.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(next@16.2.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        version: 1.0.2(@ant-design/cssinjs@1.24.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(antd@5.23.1(date-fns@4.1.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(next@16.2.11(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@ant-design/v5-patch-for-react-19':
         specifier: 'catalog:'
         version: 1.0.3(antd@5.23.1(date-fns@4.1.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -1823,7 +1823,7 @@ importers:
         version: 16.0.7
       '@refinedev/nextjs-router':
         specifier: 'catalog:'
-        version: 7.0.5(@refinedev/core@5.0.10(@tanstack/react-query@5.90.2(react@19.2.4))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(next@16.2.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        version: 7.0.5(@refinedev/core@5.0.10(@tanstack/react-query@5.90.2(react@19.2.4))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(next@16.2.11(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@testing-library/dom':
         specifier: catalog:testing
         version: 10.4.0
@@ -1886,7 +1886,7 @@ importers:
         version: 26.3.6(typescript@5.7.3)
       next:
         specifier: catalog:next16
-        version: 16.2.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        version: 16.2.11(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       prettier:
         specifier: 'catalog:'
         version: 3.4.2
@@ -2025,7 +2025,7 @@ importers:
         version: 26.3.6(typescript@5.7.3)
       next:
         specifier: catalog:next16
-        version: 16.2.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        version: 16.2.11(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       postcss:
         specifier: 'catalog:'
         version: 8.5.12
@@ -3452,60 +3452,60 @@ packages:
   '@next/bundle-analyzer@16.2.1':
     resolution: {integrity: sha512-fbj2WE6dnCyG8CvQnrBfpHyxdOIyZ4aEHJY0bSqAmamRiIXDqunFQPDvuSOPo24mJE9zQHw7TY6d+sGrXO98TQ==}
 
-  '@next/env@16.2.6':
-    resolution: {integrity: sha512-gd8HoHN4ufj73WmR3JmVolrpJR47ILK6LouP5xElPglaVxir6e1a7VzvTvDWkOoPXT9rkkTzyCxBu4yeZfZwcw==}
+  '@next/env@16.2.11':
+    resolution: {integrity: sha512-0do5A3BJ2gxWr0ZCMcD6BhW+e595jyxdTl3rXTS6lOtD8ektMiW6CO+EPwt1Eca1DBnm90r/7GdiKWBKxH++DA==}
 
   '@next/eslint-plugin-next@16.2.1':
     resolution: {integrity: sha512-r0epZGo24eT4g08jJlg2OEryBphXqO8aL18oajoTKLzHJ6jVr6P6FI58DLMug04MwD3j8Fj0YK0slyzneKVyzA==}
 
-  '@next/swc-darwin-arm64@16.2.6':
-    resolution: {integrity: sha512-ZJGkkcNfYgrrMkqOdZ7zoLa1TOy0qpcMfk/z4Mh/FKUz40gVO+HNQWqmLxf67Z5WB64DRp0dhEbyHfel+6sJUg==}
+  '@next/swc-darwin-arm64@16.2.11':
+    resolution: {integrity: sha512-wryL4pjKmDwGv2ox6+GZDFxvmtSRLqApBR8kL1j4+vhB7Z5vJC/zAnXpiR9Xkfzl0AS8WLMnsuGV/UKI67/rrw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
 
-  '@next/swc-darwin-x64@16.2.6':
-    resolution: {integrity: sha512-v/YLBHIY132Ced3puBJ7YJKw1lqsCrgcNo2aRJlCEyQrrCeRJlvGlnmxhPxNQI3KE3N1DN5r9TPNPvka3nq5RQ==}
+  '@next/swc-darwin-x64@16.2.11':
+    resolution: {integrity: sha512-aZl2j4f/fLyjQvOhv0Oe9UaMAQHolYpKhctsoYzplSumKJKPUmgjcf6545aBtysLTcu994TREd0+pSgNE4ohmg==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
 
-  '@next/swc-linux-arm64-gnu@16.2.6':
-    resolution: {integrity: sha512-RPOvqlYBbcQjkz9VQQDZ2T2bARIjXZV1KFlt+V2Mr6SW/e4I9fcKsaA0hdyf2FHoTlsV2xnBd5Y912rP/1Ce6w==}
+  '@next/swc-linux-arm64-gnu@16.2.11':
+    resolution: {integrity: sha512-5jEriyEnH/LWFy27L2ZG0XaLlyEJIjhsImEsiS9P563PKEVp2BVups/xfOucIrsvVntp11oNcZwjHvaDPYVB5g==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@next/swc-linux-arm64-musl@16.2.6':
-    resolution: {integrity: sha512-URUTu1+dMkxJsPFgm+OeEvq9wf5sujw0EvgYy80TDGHTSLTnIHeqb0Eu8A3sC95IRgjejQL+kC4mw+4yPxiAXA==}
+  '@next/swc-linux-arm64-musl@16.2.11':
+    resolution: {integrity: sha512-eIjcpx2fnnFSSkZDbTxy74KnokUXDjfoLClpWelfgHLf621aTqswhwXQ7GkD5K5rplrS6LZ/Bj+mVuvzluBOEg==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@next/swc-linux-x64-gnu@16.2.6':
-    resolution: {integrity: sha512-DOj182mPV8G3UkrayLoREM5YEYI+Dk5wv7Ox9xl1fFibAELEsFD0lDPfHIeILlutMMfdyhlzYPELG3peuKaurw==}
+  '@next/swc-linux-x64-gnu@16.2.11':
+    resolution: {integrity: sha512-8WgzpaWMs46qJT9kiV47cje86L0x/Mu9t8/Gwj+pnbgW3rETVfCnaScPjlYUwNScpOozdcIMHWmAvuZJUonR2w==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@next/swc-linux-x64-musl@16.2.6':
-    resolution: {integrity: sha512-HKQ5SP/V/ub73UvF7n/zeJlxk2kLmtL7Wzrg4WfmkjmNos5onJ2tKu7yZOPdL18A6Svfn3max29ym+ry7NkK4g==}
+  '@next/swc-linux-x64-musl@16.2.11':
+    resolution: {integrity: sha512-I3UgPds7G4ZYnTb/H+5GBGuUT2DhAk6j0mL6A4s63RjFs74wB2hOWP0vaxsK+3NJraExt3eYEPQ/UtT0x/64Nw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@next/swc-win32-arm64-msvc@16.2.6':
-    resolution: {integrity: sha512-LZXpTlPyS5v7HhSmnvsLGP3iIYgYOBnc8r8ArlT55sGHV89bR2HlDdBjWQ+PY6SJMmk8TuVGFuxalnP3k/0Dwg==}
+  '@next/swc-win32-arm64-msvc@16.2.11':
+    resolution: {integrity: sha512-n89CjtcThnjrwgJMAiI5xbqwLY51zvwC9tSlArmVndAJLYVl9T9UAdlkXTmZvE++idoXe8KdglQlhNRdUp1c6g==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [win32]
 
-  '@next/swc-win32-x64-msvc@16.2.6':
-    resolution: {integrity: sha512-F0+4i0h9J6C4eE3EAPWsoCk7UW/dbzOjyzxY0qnDUOYFu6FFmdZ6l97/XdV3/Nz3VYyO7UWjyEJUXkGqcoXfMA==}
+  '@next/swc-win32-x64-msvc@16.2.11':
+    resolution: {integrity: sha512-md8CLNggS1Dx9pUgApzps5uAf+N8GN9xywzmNx9vHAWo94HtBwCCqkSnhIrdfQe83Dhz8Lfo/20Nb1Zxal092w==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
@@ -9561,8 +9561,8 @@ packages:
       react: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
       react-dom: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
 
-  next@16.2.6:
-    resolution: {integrity: sha512-qOVgKJg1+At15NpeUP+eJgCHvTCgXsogweq87Ri/Ix7PkqQHg4sdaXmSFqKlgaIXE4kW0g25LE68W87UANlHtw==}
+  next@16.2.11:
+    resolution: {integrity: sha512-B339zaqbyK8cmxhoAvLrcwoabwCP1wz21zSzfqxqXAemTu2BXnH7tQnfcglKv1vnMUIDBc+Hth7XODQriTZiRQ==}
     engines: {node: '>=20.9.0'}
     hasBin: true
     peerDependencies:
@@ -10156,11 +10156,6 @@ packages:
 
   prettier@3.4.2:
     resolution: {integrity: sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ==}
-    engines: {node: '>=14'}
-    hasBin: true
-
-  prettier@3.9.6:
-    resolution: {integrity: sha512-OpN0zzVdiaiAhxpuuj5efpIS4sY9j7bY6uR5mnj5yPzGkdkjNKSJeUThPb60Jw29QuAZgA4o+/iB49kFiaBX6g==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -12380,11 +12375,11 @@ snapshots:
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
 
-  '@ant-design/nextjs-registry@1.0.2(@ant-design/cssinjs@1.24.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(antd@5.23.1(date-fns@4.1.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(next@16.2.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+  '@ant-design/nextjs-registry@1.0.2(@ant-design/cssinjs@1.24.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(antd@5.23.1(date-fns@4.1.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(next@16.2.11(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@ant-design/cssinjs': 1.24.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       antd: 5.23.1(date-fns@4.1.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      next: 16.2.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      next: 16.2.11(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
 
@@ -13776,34 +13771,34 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@next/env@16.2.6': {}
+  '@next/env@16.2.11': {}
 
   '@next/eslint-plugin-next@16.2.1':
     dependencies:
       fast-glob: 3.3.1
 
-  '@next/swc-darwin-arm64@16.2.6':
+  '@next/swc-darwin-arm64@16.2.11':
     optional: true
 
-  '@next/swc-darwin-x64@16.2.6':
+  '@next/swc-darwin-x64@16.2.11':
     optional: true
 
-  '@next/swc-linux-arm64-gnu@16.2.6':
+  '@next/swc-linux-arm64-gnu@16.2.11':
     optional: true
 
-  '@next/swc-linux-arm64-musl@16.2.6':
+  '@next/swc-linux-arm64-musl@16.2.11':
     optional: true
 
-  '@next/swc-linux-x64-gnu@16.2.6':
+  '@next/swc-linux-x64-gnu@16.2.11':
     optional: true
 
-  '@next/swc-linux-x64-musl@16.2.6':
+  '@next/swc-linux-x64-musl@16.2.11':
     optional: true
 
-  '@next/swc-win32-arm64-msvc@16.2.6':
+  '@next/swc-win32-arm64-msvc@16.2.11':
     optional: true
 
-  '@next/swc-win32-x64-msvc@16.2.6':
+  '@next/swc-win32-x64-msvc@16.2.11':
     optional: true
 
   '@noble/hashes@1.8.0': {}
@@ -15161,12 +15156,12 @@ snapshots:
       - '@types/react'
       - '@types/react-dom'
 
-  '@refinedev/nextjs-router@7.0.5(@refinedev/core@5.0.10(@tanstack/react-query@5.90.2(react@19.2.4))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(next@16.2.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+  '@refinedev/nextjs-router@7.0.5(@refinedev/core@5.0.10(@tanstack/react-query@5.90.2(react@19.2.4))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(next@16.2.11(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@refinedev/core': 5.0.10(@tanstack/react-query@5.90.2(react@19.2.4))(@types/react-dom@19.0.3(@types/react@19.0.7))(@types/react@19.0.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@types/react': 19.0.7
       '@types/react-dom': 19.0.3(@types/react@19.0.7)
-      next: 16.2.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      next: 16.2.11(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       qs: 6.15.3
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
@@ -15518,10 +15513,10 @@ snapshots:
       '@tanstack/react-query': 5.90.2(react@19.2.4)
       react: 19.2.4
 
-  '@tanstack/react-query-next-experimental@5.90.2(@tanstack/react-query@5.90.2(react@19.2.4))(next@16.2.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)':
+  '@tanstack/react-query-next-experimental@5.90.2(@tanstack/react-query@5.90.2(react@19.2.4))(next@16.2.11(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@tanstack/react-query': 5.90.2(react@19.2.4)
-      next: 16.2.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      next: 16.2.11(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react: 19.2.4
 
   '@tanstack/react-query@4.44.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
@@ -15599,22 +15594,6 @@ snapshots:
       minimatch: 9.0.9
       parse-imports-exports: 0.2.4
       prettier: 3.4.2
-    optionalDependencies:
-      '@vue/compiler-sfc': 3.5.40
-    transitivePeerDependencies:
-      - supports-color
-
-  '@trivago/prettier-plugin-sort-imports@6.0.0(@vue/compiler-sfc@3.5.40)(prettier@3.9.6)':
-    dependencies:
-      '@babel/generator': 7.29.7
-      '@babel/parser': 7.29.7
-      '@babel/traverse': 7.29.7
-      '@babel/types': 7.29.7
-      javascript-natural-sort: 0.7.1
-      lodash-es: 4.18.1
-      minimatch: 9.0.9
-      parse-imports-exports: 0.2.4
-      prettier: 3.9.6
     optionalDependencies:
       '@vue/compiler-sfc': 3.5.40
     transitivePeerDependencies:
@@ -16831,7 +16810,7 @@ snapshots:
 
   axios@1.18.0:
     dependencies:
-      follow-redirects: 1.16.0
+      follow-redirects: 1.16.0(debug@4.4.3)
       form-data: 4.0.6
       https-proxy-agent: 5.0.1
       proxy-from-env: 2.1.0
@@ -16841,7 +16820,7 @@ snapshots:
 
   axios@1.18.1:
     dependencies:
-      follow-redirects: 1.16.0
+      follow-redirects: 1.16.0(debug@4.4.3)
       form-data: 4.0.6
       https-proxy-agent: 5.0.1
       proxy-from-env: 2.1.0
@@ -18143,16 +18122,6 @@ snapshots:
       '@types/eslint': 9.6.1
       eslint-config-prettier: 10.0.1(eslint@10.0.1(jiti@2.7.0))
 
-  eslint-plugin-prettier@5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@10.0.1(eslint@10.0.1(jiti@2.7.0)))(eslint@10.0.1(jiti@2.7.0))(prettier@3.9.6):
-    dependencies:
-      eslint: 10.0.1(jiti@2.7.0)
-      prettier: 3.9.6
-      prettier-linter-helpers: 1.0.1
-      synckit: 0.9.3
-    optionalDependencies:
-      '@types/eslint': 9.6.1
-      eslint-config-prettier: 10.0.1(eslint@10.0.1(jiti@2.7.0))
-
   eslint-plugin-react-hooks@5.2.0(eslint@10.0.1(jiti@2.7.0)):
     dependencies:
       eslint: 10.0.1(jiti@2.7.0)
@@ -18653,8 +18622,6 @@ snapshots:
       flow-estree: 0.323.0
 
   fn.name@1.1.0: {}
-
-  follow-redirects@1.16.0: {}
 
   follow-redirects@1.16.0(debug@4.1.1):
     optionalDependencies:
@@ -20525,14 +20492,14 @@ snapshots:
 
   netmask@2.1.1: {}
 
-  next-i18next@15.4.1(i18next@26.3.6(typescript@5.7.3))(next@16.2.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-i18next@15.4.0(i18next@26.3.6(typescript@5.7.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4):
+  next-i18next@15.4.1(i18next@26.3.6(typescript@5.7.3))(next@16.2.11(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-i18next@15.4.0(i18next@26.3.6(typescript@5.7.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4):
     dependencies:
       '@babel/runtime': 7.29.7
       core-js: 3.49.0
       hoist-non-react-statics: 3.3.2
       i18next: 26.3.6(typescript@5.7.3)
       i18next-fs-backend: 2.6.6
-      next: 16.2.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      next: 16.2.11(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react: 19.2.4
       react-i18next: 15.4.0(i18next@26.3.6(typescript@5.7.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
 
@@ -20541,9 +20508,9 @@ snapshots:
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
 
-  next@16.2.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
+  next@16.2.11(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
     dependencies:
-      '@next/env': 16.2.6
+      '@next/env': 16.2.11
       '@swc/helpers': 0.5.15
       baseline-browser-mapping: 2.10.44
       caniuse-lite: 1.0.30001806
@@ -20552,14 +20519,14 @@ snapshots:
       react-dom: 19.2.4(react@19.2.4)
       styled-jsx: 5.1.6(@babel/core@7.29.7)(react@19.2.4)
     optionalDependencies:
-      '@next/swc-darwin-arm64': 16.2.6
-      '@next/swc-darwin-x64': 16.2.6
-      '@next/swc-linux-arm64-gnu': 16.2.6
-      '@next/swc-linux-arm64-musl': 16.2.6
-      '@next/swc-linux-x64-gnu': 16.2.6
-      '@next/swc-linux-x64-musl': 16.2.6
-      '@next/swc-win32-arm64-msvc': 16.2.6
-      '@next/swc-win32-x64-msvc': 16.2.6
+      '@next/swc-darwin-arm64': 16.2.11
+      '@next/swc-darwin-x64': 16.2.11
+      '@next/swc-linux-arm64-gnu': 16.2.11
+      '@next/swc-linux-arm64-musl': 16.2.11
+      '@next/swc-linux-x64-gnu': 16.2.11
+      '@next/swc-linux-x64-musl': 16.2.11
+      '@next/swc-win32-arm64-msvc': 16.2.11
+      '@next/swc-win32-x64-msvc': 16.2.11
       '@opentelemetry/api': 1.9.1
       '@playwright/test': 1.58.2
       sharp: 0.34.5
@@ -21210,8 +21177,6 @@ snapshots:
   prettier@2.8.8: {}
 
   prettier@3.4.2: {}
-
-  prettier@3.9.6: {}
 
   pretty-format@27.5.1:
     dependencies:
