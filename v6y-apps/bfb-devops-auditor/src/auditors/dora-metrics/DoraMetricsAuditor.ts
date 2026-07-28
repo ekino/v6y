@@ -46,15 +46,31 @@ const startAuditorAnalysis = async ({
             `[DoraMetricsAuditor - startAuditorAnalysis] application _id:  ${application?._id}`,
         );
 
+        // DORA metrics are computed from GitLab-only endpoints
+        // (projects/:id/deployments and /merge_requests). GithubConfig exposes no
+        // equivalent, and startDoraMetricsAnalysis below fetches with the default
+        // 'gitlab' type, so resolving a GitHub repository id would query GitLab with a
+        // GitHub id: every request fails, and empty metrics get reported as a success.
+        // Skip explicitly instead, until GitHub DORA endpoints actually exist.
+        if (application.repo?.webUrl?.includes('github.com')) {
+            AppLogger.warn(
+                `[DoraMetricsAuditor - startAuditorAnalysis] GitHub-hosted repository, skipping Dora metrics audit`,
+            );
+            return {
+                status: 'skipped',
+                message: 'DORA metrics are only available for GitLab-hosted repositories.',
+            };
+        }
+
         const repositoryDetails = await RepositoryApi.getRepositoryDetails({
             organization: application.repo?.organization,
             gitRepositoryName: application.repo?.gitUrl?.split('/').pop()?.replace('.git', ''),
-            type: application.repo?.webUrl?.includes('github.com') ? 'github' : 'gitlab',
+            type: 'gitlab',
         });
 
         if (!repositoryDetails?.id) {
-            // Not a failure: DORA metrics are GitLab-only, so a project without a
-            // resolvable GitLab id simply has nothing to audit here.
+            // Not a failure: a project with no resolvable GitLab id simply has nothing
+            // to audit here.
             AppLogger.warn(
                 `[DoraMetricsAuditor - startAuditorAnalysis] repository id is missing, skipping Dora metrics audit`,
             );
