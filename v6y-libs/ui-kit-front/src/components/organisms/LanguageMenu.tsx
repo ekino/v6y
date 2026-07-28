@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { useIsClient } from '../../hooks/useIsClient.ts';
 import { useTranslationProvider } from '../../translation/useTranslationProvider';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '../molecules';
 
@@ -22,7 +23,13 @@ const Flag = ({ code, label }: { code: string; label: string }) => (
 
 const LanguageMenu = () => {
     const { getLocale, changeLocale } = useTranslationProvider();
-    const currentLocale = getLocale();
+    const isClient = useIsClient();
+    const detectedLocale = getLocale();
+    // The i18next language detector only resolves the browser's preferred
+    // language on the client. Rendering it before hydration completes would
+    // mismatch the server-rendered fallback language, so keep the fallback
+    // until the client has taken over.
+    const currentLocale = isClient ? detectedLocale : 'en';
     const currentLanguage = languages.find((lang) => lang.code === currentLocale) || languages[0];
 
     return (
