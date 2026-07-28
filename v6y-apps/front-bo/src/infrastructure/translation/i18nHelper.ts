@@ -51,6 +51,8 @@ const DETECTION_OPTIONS = {
     caches: ['localStorage', 'cookie'],
 };
 
+const FALLBACK_LOCALE = 'en';
+
 i18next
     .use(initReactI18next)
     .use(LanguageDetector)
@@ -61,11 +63,38 @@ i18next
         ),
     )
     .init({
+        // Boot with the SSR fallback locale explicitly: passing `lng` makes
+        // i18next skip `LanguageDetector`'s synchronous detect() call at
+        // init time. Without this, the detector resolves a cached locale
+        // (e.g. 'fr' from localStorage/cookies) before React starts
+        // hydrating, so any component rendering translated text mismatches
+        // the server's fallback-only render, throwing a hydration error.
+        // The real cached locale is applied after mount instead, via
+        // `applyDetectedLocale()` below.
+        lng: FALLBACK_LOCALE,
         supportedLngs: ['en', 'fr'],
-        fallbackLng: 'en',
+        fallbackLng: FALLBACK_LOCALE,
         detection: DETECTION_OPTIONS,
         defaultNS: 'common',
         react: {
             useSuspense: false,
         },
     });
+
+/**
+ * Client-only: resolves the user's previously detected/cached locale (via
+ * the same `i18next-browser-languagedetector` instance registered above)
+ * and switches to it. Must be called after the initial hydration-safe
+ * render (e.g. from a `useEffect`) so the language change happens as a
+ * normal client-side update rather than during hydration comparison.
+ */
+export const applyDetectedLocale = () => {
+    if (typeof window === 'undefined') return;
+
+    const detected = i18next.services.languageDetector?.detect();
+    const detectedLocale = Array.isArray(detected) ? detected[0] : detected;
+
+    if (detectedLocale && detectedLocale !== i18next.language) {
+        i18next.changeLanguage(detectedLocale);
+    }
+};

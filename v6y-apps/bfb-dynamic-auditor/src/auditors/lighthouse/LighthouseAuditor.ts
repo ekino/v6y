@@ -18,14 +18,15 @@ const { formatLighthouseReports } = LighthouseUtils;
  * @param auditConfig
  */
 const startLighthouseAudit = async (auditConfig: LighthouseAuditConfigType) => {
-    try {
-        // open browser
-        const { link, browserPath, lightHouseConfig } = auditConfig || {};
-        if (!link || !browserPath || !lightHouseConfig) {
-            return null;
-        }
+    // open browser
+    const { link, browserPath, lightHouseConfig } = auditConfig || {};
+    if (!link || !browserPath || !lightHouseConfig) {
+        return null;
+    }
 
-        const browser = await puppeteer.launch({
+    let browser: Awaited<ReturnType<typeof puppeteer.launch>> | undefined;
+    try {
+        browser = await puppeteer.launch({
             ...PUPPETEER_SETTINGS,
             executablePath: browserPath,
         });
@@ -60,15 +61,22 @@ const startLighthouseAudit = async (auditConfig: LighthouseAuditConfigType) => {
             ).join(', ')}`,
         );
 
-        // close browser
-        await browser.close();
-        AppLogger.info(`[LightHouseAuditor - startLighthouseAudit] browser closed`);
-
         // lighthouse json report
         return report;
     } catch (error) {
         AppLogger.info(`[LightHouseAuditor - startLighthouseAudit] error:  ${error}`);
         return null;
+    } finally {
+        // Always close the browser, even on error/timeout, otherwise the headless
+        // Chromium process is orphaned and keeps consuming memory indefinitely.
+        if (browser) {
+            await browser.close().catch((closeError) => {
+                AppLogger.info(
+                    `[LightHouseAuditor - startLighthouseAudit] error closing browser:  ${closeError}`,
+                );
+            });
+            AppLogger.info(`[LightHouseAuditor - startLighthouseAudit] browser closed`);
+        }
     }
 };
 

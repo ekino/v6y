@@ -21,13 +21,29 @@ const forkWorker = (filepath: string, workerData: WorkerOptions['workerData']) =
                   { eval: true, workerData },
               )
             : new Worker(absolutePath, { workerData });
+
+        // The worker keeps a DB connection pool (and possibly other open handles)
+        // alive, so its event loop never drains on its own and the thread never
+        // emits 'exit' by itself. Without an explicit terminate() the worker (and
+        // its own V8 heap + DB connections) would stay resident in memory forever,
+        // leaking a little more with every audit run.
+        const terminateWorker = () => {
+            worker.terminate().catch(() => {
+                // Already exited/terminated — nothing to clean up.
+            });
+        };
+
         worker.on('online', () => {
             console.log('******************** Launching intensive CPU task ******************** ');
         });
         worker.on('message', (messageFromWorker) => {
-            return resolve(messageFromWorker);
+            resolve(messageFromWorker);
+            terminateWorker();
         });
-        worker.on('error', reject);
+        worker.on('error', (error) => {
+            reject(error);
+            terminateWorker();
+        });
         worker.on('exit', (code) => {
             if (code !== 0) {
                 reject(new Error(`Worker stopped with exit code ${code}`));

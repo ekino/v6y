@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { useIsClient } from '../../hooks/useIsClient';
 import { useTranslationProvider } from '../../translation/useTranslationProvider';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '../molecules';
 
@@ -22,7 +23,16 @@ const Flag = ({ code, label }: { code: string; label: string }) => (
 
 const LanguageMenu = () => {
     const { getLocale, changeLocale } = useTranslationProvider();
-    const currentLocale = getLocale();
+    // i18next-browser-languagedetector only has access to localStorage/cookies
+    // on the client, so the server always renders the `fallbackLng` ('en')
+    // while the client can resolve a different cached locale (e.g. 'fr')
+    // during the very first render pass. Rendering that client-only value
+    // immediately would make hydration compare mismatched markup (wrong flag
+    // image/label) against the server HTML. Gate on `useIsClient()` so the
+    // first client render still matches the server's 'en' output, then swap
+    // to the real locale right after hydration completes.
+    const isClient = useIsClient();
+    const currentLocale = isClient ? getLocale() : 'en';
     const currentLanguage = languages.find((lang) => lang.code === currentLocale) || languages[0];
 
     return (
