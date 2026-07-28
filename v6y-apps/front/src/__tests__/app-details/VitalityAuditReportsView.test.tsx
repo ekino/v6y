@@ -107,9 +107,7 @@ describe('VitalityAuditReportsView', () => {
         );
         expect(screen.getByTestId('audit-reports-type-grouper')).not.toHaveTextContent('develop');
 
-        rerender(
-            <VitalityAuditReportsView category="performance" branch="develop" />,
-        );
+        rerender(<VitalityAuditReportsView category="performance" branch="develop" />);
 
         expect(await screen.findByTestId('audit-reports-type-grouper')).toHaveTextContent(
             'myze-battery-develop:bundle-size|myze-battery-develop:performance',

@@ -6,7 +6,9 @@ export interface GithubConfigType {
         repositoryDetailsUrl: (repoName: string) => string;
     };
     headers: {
-        Authorization: string;
+        // Omitted entirely when no token is configured, so public repositories are
+        // reached anonymously instead of with a literal "Bearer undefined".
+        Authorization?: string;
         Accept: string;
         'Content-Type': string;
         'User-Agent': string;
@@ -24,6 +26,7 @@ export interface GitlabConfigType {
     };
     headers: {
         'PRIVATE-TOKEN': string;
+        Authorization?: string;
         'Content-Type': string;
     };
 }

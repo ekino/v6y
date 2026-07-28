@@ -2,10 +2,28 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@testing-library/jest-dom/vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import * as React from 'react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import VitalityAppDetailsView from '../../features/app-details/components/VitalityAppDetailsView';
-import { useClientQuery } from '../../infrastructure/adapters/api/useQueryAdapter';
+import {
+    buildClientQuery,
+    useClientQuery,
+} from '../../infrastructure/adapters/api/useQueryAdapter';
+
+vi.mock('@v6y/ui-kit-front', async () => {
+    const actual = await vi.importActual<typeof import('@v6y/ui-kit-front')>('@v6y/ui-kit-front');
+
+    return {
+        ...actual,
+        toast: {
+            ...actual.toast,
+            loading: vi.fn(),
+            success: vi.fn(),
+            error: vi.fn(),
+            message: vi.fn(),
+        },
+    };
+});
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => {
     const queryClient = new QueryClient({
@@ -285,6 +303,232 @@ describe('VitalityAppDetailsView', () => {
         await waitFor(() => {
             const branchSelector = screen.getByRole('combobox');
             expect(branchSelector).toBeInTheDocument();
+        });
+    });
+
+    it('shows the run audit button on the application details view', async () => {
+        renderComponent();
+
+        await waitFor(() => {
+            expect(screen.getByText('vitality.appDetailsPage.runAuditButton')).toBeInTheDocument();
+        });
+    });
+
+    it('hides the run audit button when viewing a specific audit run (report details)', async () => {
+        render(
+            <TestWrapper>
+                <VitalityAppDetailsView applicationId={123} auditRunId={99} />
+            </TestWrapper>,
+        );
+
+        await waitFor(() => {
+            expect(screen.getByTestId('summary-card')).toBeInTheDocument();
+        });
+
+        expect(
+            screen.queryByText('vitality.appDetailsPage.runAuditButton'),
+        ).not.toBeInTheDocument();
+    });
+
+    describe('running an audit', () => {
+        beforeEach(() => {
+            vi.useFakeTimers({ shouldAdvanceTime: true });
+        });
+
+        afterEach(() => {
+            vi.useRealTimers();
+        });
+
+        it('queues the analysis then alerts the user once the queued run completes', async () => {
+            const { toast } = await import('@v6y/ui-kit-front');
+
+            vi.mocked(toast.loading).mockReturnValue('audit-toast-id');
+            vi.mocked(buildClientQuery)
+                // Baseline read: the application already has an older *completed* run,
+                // which must not be mistaken for the one about to be triggered.
+                .mockResolvedValueOnce({
+                    getApplicationLatestAuditRunByParams: {
+                        _id: 10,
+                        runStatus: 'completed',
+                        errorMessage: null,
+                    },
+                })
+                .mockResolvedValueOnce({
+                    triggerApplicationAnalysis: {
+                        success: true,
+                        applicationId: 123,
+                        message: 'Application analysis queued successfully.',
+                    },
+                })
+                .mockResolvedValueOnce({
+                    getApplicationLatestAuditRunByParams: {
+                        _id: 11,
+                        runStatus: 'completed',
+                        errorMessage: null,
+                    },
+                });
+
+            renderComponent();
+
+            await waitFor(() => {
+                expect(
+                    screen.getByText('vitality.appDetailsPage.runAuditButton'),
+                ).toBeInTheDocument();
+            });
+
+            fireEvent.click(screen.getByText('vitality.appDetailsPage.runAuditButton'));
+
+            await waitFor(() => {
+                expect(toast.success).toHaveBeenCalledWith(
+                    'vitality.appDetailsPage.auditToasts.queued',
+                    expect.objectContaining({ id: 'audit-toast-id' }),
+                );
+            });
+
+            expect(
+                screen.getByText('vitality.appDetailsPage.runAuditButtonLoading'),
+            ).toBeInTheDocument();
+
+            await vi.advanceTimersByTimeAsync(4000);
+
+            await waitFor(() => {
+                expect(toast.success).toHaveBeenCalledWith(
+                    'vitality.appDetailsPage.auditToasts.completed',
+                    expect.objectContaining({ id: 'audit-toast-id' }),
+                );
+            });
+
+            await waitFor(() => {
+                expect(
+                    screen.getByText('vitality.appDetailsPage.runAuditButton'),
+                ).toBeInTheDocument();
+            });
+        });
+
+        it('alerts the user when the queued run ends up failing', async () => {
+            const { toast } = await import('@v6y/ui-kit-front');
+
+            vi.mocked(toast.loading).mockReturnValue('audit-toast-id');
+            vi.mocked(buildClientQuery)
+                .mockResolvedValueOnce({
+                    getApplicationLatestAuditRunByParams: {
+                        _id: 10,
+                        runStatus: 'completed',
+                        errorMessage: null,
+                    },
+                })
+                .mockResolvedValueOnce({
+                    triggerApplicationAnalysis: {
+                        success: true,
+                        applicationId: 123,
+                        message: 'Application analysis queued successfully.',
+                    },
+                })
+                .mockResolvedValueOnce({
+                    getApplicationLatestAuditRunByParams: {
+                        _id: 11,
+                        runStatus: 'error',
+                        errorMessage: 'Static auditor unavailable',
+                    },
+                });
+
+            renderComponent();
+
+            await waitFor(() => {
+                expect(
+                    screen.getByText('vitality.appDetailsPage.runAuditButton'),
+                ).toBeInTheDocument();
+            });
+
+            fireEvent.click(screen.getByText('vitality.appDetailsPage.runAuditButton'));
+
+            await waitFor(() => {
+                expect(toast.success).toHaveBeenCalledWith(
+                    'vitality.appDetailsPage.auditToasts.queued',
+                    expect.objectContaining({ id: 'audit-toast-id' }),
+                );
+            });
+
+            await vi.advanceTimersByTimeAsync(4000);
+
+            await waitFor(() => {
+                expect(toast.error).toHaveBeenCalledWith(
+                    'Static auditor unavailable',
+                    expect.objectContaining({ id: 'audit-toast-id' }),
+                );
+            });
+        });
+
+        it('ignores a stale settled run and keeps polling until a newer run appears', async () => {
+            const { toast } = await import('@v6y/ui-kit-front');
+
+            vi.mocked(toast.loading).mockReturnValue('audit-toast-id');
+            vi.mocked(buildClientQuery)
+                .mockResolvedValueOnce({
+                    getApplicationLatestAuditRunByParams: {
+                        _id: 10,
+                        runStatus: 'completed',
+                        errorMessage: null,
+                    },
+                })
+                .mockResolvedValueOnce({
+                    triggerApplicationAnalysis: {
+                        success: true,
+                        applicationId: 123,
+                        message: 'Application analysis queued successfully.',
+                    },
+                })
+                // The new run does not exist yet, so the query still returns the stale
+                // one. It must not be reported as this audit's outcome.
+                .mockResolvedValueOnce({
+                    getApplicationLatestAuditRunByParams: {
+                        _id: 10,
+                        runStatus: 'completed',
+                        errorMessage: null,
+                    },
+                })
+                .mockResolvedValueOnce({
+                    getApplicationLatestAuditRunByParams: {
+                        _id: 11,
+                        runStatus: 'completed',
+                        errorMessage: null,
+                    },
+                });
+
+            renderComponent();
+
+            await waitFor(() => {
+                expect(
+                    screen.getByText('vitality.appDetailsPage.runAuditButton'),
+                ).toBeInTheDocument();
+            });
+
+            fireEvent.click(screen.getByText('vitality.appDetailsPage.runAuditButton'));
+
+            await waitFor(() => {
+                expect(toast.success).toHaveBeenCalledWith(
+                    'vitality.appDetailsPage.auditToasts.queued',
+                    expect.objectContaining({ id: 'audit-toast-id' }),
+                );
+            });
+
+            // First poll: the stale run is returned, no completion toast may fire.
+            await vi.advanceTimersByTimeAsync(4000);
+
+            expect(toast.success).not.toHaveBeenCalledWith(
+                'vitality.appDetailsPage.auditToasts.completed',
+                expect.anything(),
+            );
+
+            // Second poll: the freshly created run finally shows up.
+            await vi.advanceTimersByTimeAsync(4000);
+
+            await waitFor(() => {
+                expect(toast.success).toHaveBeenCalledWith(
+                    'vitality.appDetailsPage.auditToasts.completed',
+                    expect.objectContaining({ id: 'audit-toast-id' }),
+                );
+            });
         });
     });
 });

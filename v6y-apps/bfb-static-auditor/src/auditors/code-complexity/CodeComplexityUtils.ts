@@ -387,15 +387,23 @@ const aggregateCodeComplexityReports = ({
     let totalPhysicalSLOC = 0;
     let totalLogicalSLOC = 0;
     const halsteadAggregate = {
-        operands: { total: 0, distinct: 0, identifiers: [] as string[] },
-        operators: { total: 0, distinct: 0, identifiers: [] as string[] },
-        length: 0,
-        vocabulary: 0,
-        difficulty: 0,
-        volume: 0,
-        effort: 0,
-        bugs: 0,
-        time: 0,
+        operands: {
+            total: defaultAggregate.halstead?.operands?.total || 0,
+            distinct: defaultAggregate.halstead?.operands?.distinct || 0,
+            identifiers: [...(defaultAggregate.halstead?.operands?.identifiers || [])],
+        },
+        operators: {
+            total: defaultAggregate.halstead?.operators?.total || 0,
+            distinct: defaultAggregate.halstead?.operators?.distinct || 0,
+            identifiers: [...(defaultAggregate.halstead?.operators?.identifiers || [])],
+        },
+        length: defaultAggregate.halstead?.length || 0,
+        vocabulary: defaultAggregate.halstead?.vocabulary || 0,
+        difficulty: defaultAggregate.halstead?.difficulty || 0,
+        volume: defaultAggregate.halstead?.volume || 0,
+        effort: defaultAggregate.halstead?.effort || 0,
+        bugs: defaultAggregate.halstead?.bugs || 0,
+        time: defaultAggregate.halstead?.time || 0,
     };
     let fileCount = 0;
 

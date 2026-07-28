@@ -1,10 +1,19 @@
 import { AppLogger, WorkerHelper } from '@v6y/core-logic';
 
-import { AuditCommonsType } from './types/AuditCommonsType.ts';
+import { AuditCommonsType, AuditOutcome } from './types/AuditCommonsType.ts';
 
 const { forkWorker } = WorkerHelper;
 
-const startDynamicAudit = async ({ applicationId, auditRunId }: AuditCommonsType) => {
+const DYNAMIC_AUDITS = [
+    { name: 'Lighthouse', worker: './src/workers/LighthouseAnalysisWorker.ts' },
+    { name: 'Green Hosting', worker: './src/workers/GreenHostingAnalysisWorker.ts' },
+    { name: 'SonarQube', worker: './src/workers/SonarQubeAnalysisWorker.ts' },
+];
+
+const startDynamicAudit = async ({
+    applicationId,
+    auditRunId,
+}: AuditCommonsType): Promise<AuditOutcome> => {
     try {
         AppLogger.info(
             '[DynamicAuditorManager - startDynamicAudit] applicationId: ',
@@ -18,61 +27,46 @@ const startDynamicAudit = async ({ applicationId, auditRunId }: AuditCommonsType
             auditRunId,
         };
 
-        // start Lighthouse analysis
-        try {
-            await forkWorker(
-                './src/workers/LighthouseAnalysisWorker.ts',
-                workerConfig as WorkerOptions,
-            );
-            AppLogger.info(
-                '[DynamicAuditorManager - startDynamicAudit] Lighthouse Audit have completed successfully.',
-            );
-        } catch (lighthouseError) {
-            AppLogger.error(
-                '[DynamicAuditorManager - startDynamicAudit] Lighthouse worker error:',
-                lighthouseError,
-            );
+        // One auditor being unavailable must not discard the reports the others
+        // produced, so each failure is collected instead of aborting the batch.
+        const failures: string[] = [];
+
+        for (const { name, worker } of DYNAMIC_AUDITS) {
+            try {
+                await forkWorker(worker, workerConfig as WorkerOptions);
+                AppLogger.info(
+                    `[DynamicAuditorManager - startDynamicAudit] ${name} Audit have completed successfully.`,
+                );
+            } catch (auditError) {
+                failures.push(name);
+                AppLogger.error(
+                    `[DynamicAuditorManager - startDynamicAudit] ${name} worker error:`,
+                    auditError,
+                );
+            }
         }
 
-        // start Green Hosting analysis
-        try {
-            await forkWorker(
-                './src/workers/GreenHostingAnalysisWorker.ts',
-                workerConfig as WorkerOptions,
-            );
-            AppLogger.info(
-                '[DynamicAuditorManager - startDynamicAudit] Green Hosting Audit have completed successfully.',
-            );
-        } catch (greenError) {
-            AppLogger.error(
-                '[DynamicAuditorManager - startDynamicAudit] Green Hosting worker error:',
-                greenError,
-            );
+        // Only a total wipeout is a failure: nothing at all was produced, so reporting
+        // success would tell the caller an audit ran when none did.
+        if (failures.length === DYNAMIC_AUDITS.length) {
+            return {
+                status: 'failed',
+                message: `Every dynamic auditor failed: ${failures.join(', ')}.`,
+            };
         }
 
-        // start SonarQube analysis
-        try {
-            await forkWorker(
-                './src/workers/SonarQubeAnalysisWorker.ts',
-                workerConfig as WorkerOptions,
-            );
-            AppLogger.info(
-                '[DynamicAuditorManager - startDynamicAudit] SonarQube Audit have completed successfully.',
-            );
-        } catch (sonarError) {
-            AppLogger.error(
-                '[DynamicAuditorManager - startDynamicAudit] SonarQube worker error:',
-                sonarError,
-            );
-        }
-
-        return true; // Indicates successful initiation of audits
+        return {
+            status: 'success',
+            message: failures.length
+                ? `Dynamic audit completed with failures: ${failures.join(', ')}.`
+                : undefined,
+        };
     } catch (error) {
         AppLogger.error(
             '[DynamicAuditorManager - startDynamicAudit] An exception occurred during the app audits: ',
             error,
         );
-        return false; // Indicates failure to initiate audits
+        return { status: 'failed', message: String(error) };
     }
 };
 

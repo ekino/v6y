@@ -12,6 +12,58 @@ import { buildDynamicReports, buildStaticReports } from './AuditManager.ts';
 const { getRepositoryDetails, getRepositoryBranches } = RepositoryApi;
 
 /**
+ * Resolves the branches to analyze for an application, falling back to cached
+ * branches (and finally default branch names) whenever repository metadata or
+ * branch listing calls fail or return nothing usable.
+ */
+const resolveRepositoryBranches = async ({
+    organization,
+    gitRepositoryName,
+    fallbackBranches,
+    applicationName,
+}: {
+    organization?: string;
+    gitRepositoryName?: string;
+    fallbackBranches: RepositoryBranchType[];
+    applicationName?: string;
+}): Promise<RepositoryBranchType[]> => {
+    let repositoryDetails;
+
+    try {
+        repositoryDetails = await getRepositoryDetails({
+            organization,
+            gitRepositoryName,
+        });
+    } catch (repoError) {
+        AppLogger.warn(
+            `[ApplicationManager - buildApplicationReports] Failed to fetch repository details for ${applicationName}: ${repoError}. Will use cached branches.`,
+        );
+    }
+
+    if (!repositoryDetails?.id || repositoryDetails?.archived || repositoryDetails?.empty_repo) {
+        AppLogger.warn(
+            '[ApplicationManager - buildApplicationDetails] repository metadata unavailable, using cached branches only',
+        );
+        return fallbackBranches;
+    }
+
+    const { _links: repositoryLinks } = repositoryDetails;
+
+    try {
+        const fetchedBranches = await getRepositoryBranches({
+            repoBranchesUrl: repositoryLinks?.repo_branches,
+        });
+
+        return fetchedBranches?.length ? fetchedBranches : fallbackBranches;
+    } catch (branchError) {
+        AppLogger.warn(
+            `[ApplicationManager - buildApplicationReports] Failed to fetch branches for ${applicationName}: ${branchError}`,
+        );
+        return fallbackBranches;
+    }
+};
+
+/**
  * Builds the application reports.
  * @param application
  */
@@ -33,49 +85,22 @@ const buildApplicationReports = async (application: ApplicationType) => {
         const { organization, gitUrl } = application.repo;
         const gitRepositoryName = gitUrl?.split('/')?.pop()?.replace('.git', '');
 
-        let repositoryDetails;
-        let repositoryBranches: RepositoryBranchType[] = [];
+        const fallbackBranches = (application?.repo?.allBranches || [])
+            .filter((branch) => branch?.length)
+            .map((name) => ({ name }));
 
-        try {
-            repositoryDetails = await getRepositoryDetails({
-                organization,
-                gitRepositoryName,
-            });
-        } catch (repoError) {
-            AppLogger.warn(
-                `[ApplicationManager - buildApplicationReports] Failed to fetch repository details for ${application.name}: ${repoError}. Will use default branches.`,
-            );
-        }
-
-        if (
-            !repositoryDetails?.id ||
-            repositoryDetails?.archived ||
-            repositoryDetails?.empty_repo
-        ) {
-            AppLogger.warn(
-                `[ApplicationManager - buildApplicationReports] Repository check failed for ${application.name}, using default branches only.`,
-            );
-        } else {
-            const { _links: repositoryLinks } = repositoryDetails;
-
-            try {
-                repositoryBranches =
-                    (await getRepositoryBranches({
-                        repoBranchesUrl: repositoryLinks?.repo_branches,
-                    })) ?? [];
-            } catch (branchError) {
-                AppLogger.warn(
-                    `[ApplicationManager - buildApplicationReports] Failed to fetch branches for ${application.name}: ${branchError}`,
-                );
-            }
-        }
+        let repositoryBranches = await resolveRepositoryBranches({
+            organization,
+            gitRepositoryName,
+            fallbackBranches,
+            applicationName: application.name,
+        });
 
         // If no branches found, attempt to use default branch names
         if (!repositoryBranches?.length) {
             AppLogger.warn(
                 `[ApplicationManager - buildApplicationReports] No branches found for ${application.name}, attempting default branches (main/master)`,
             );
-            // Create default branch objects for main and master
             repositoryBranches = [{ name: 'main' }, { name: 'master' }];
         }
 
@@ -127,16 +152,29 @@ const buildApplicationReports = async (application: ApplicationType) => {
 
         AppLogger.info('[ApplicationManager - buildApplicationDetails] end of dynamic analysis');
 
-        // Update AuditRun status to completed
-        if (auditRunId && staticSuccess && dynamicSuccess) {
-            await AuditRunProvider.updateAuditRunStatus({
-                auditRunId: Number(auditRunId),
-                runStatus: 'completed',
-                completedAt: new Date(),
-            });
-            AppLogger.info(
-                `[ApplicationManager - buildApplicationReports] AuditRun completed: ${auditRunId}`,
-            );
+        // Update AuditRun status: completed only when every analysis type succeeded,
+        // otherwise mark it failed so it doesn't stay stuck in in_progress forever.
+        if (auditRunId) {
+            if (staticSuccess && dynamicSuccess) {
+                await AuditRunProvider.updateAuditRunStatus({
+                    auditRunId: Number(auditRunId),
+                    runStatus: 'completed',
+                    completedAt: new Date(),
+                });
+                AppLogger.info(
+                    `[ApplicationManager - buildApplicationReports] AuditRun completed: ${auditRunId}`,
+                );
+            } else {
+                await AuditRunProvider.updateAuditRunStatus({
+                    auditRunId: Number(auditRunId),
+                    runStatus: 'failed',
+                    completedAt: new Date(),
+                    errorMessage: `Partial analysis failure (staticSuccess=${staticSuccess}, dynamicSuccess=${dynamicSuccess})`,
+                });
+                AppLogger.warn(
+                    `[ApplicationManager - buildApplicationReports] AuditRun failed: ${auditRunId}`,
+                );
+            }
         }
 
         return true;
@@ -156,6 +194,34 @@ const buildApplicationReports = async (application: ApplicationType) => {
             );
         }
 
+        return false;
+    }
+};
+
+/**
+ * Builds the reports for a single application id.
+ * @param applicationId
+ */
+const buildApplicationReportsById = async (applicationId: number) => {
+    try {
+        if (!applicationId) {
+            return false;
+        }
+
+        const application = await ApplicationProvider.getApplicationDetailsInfoByParams({
+            _id: applicationId,
+        });
+
+        if (!application?._id) {
+            AppLogger.info(
+                `[ApplicationManager - buildApplicationReportsById] application not found: ${applicationId}`,
+            );
+            return false;
+        }
+
+        return buildApplicationReports(application as unknown as ApplicationType);
+    } catch (error) {
+        AppLogger.error(`[ApplicationManager - buildApplicationReportsById] error: ${error}`);
         return false;
     }
 };
@@ -205,6 +271,7 @@ const buildApplicationList = async () => {
 };
 
 const ApplicationManager = {
+    buildApplicationReportsById,
     buildApplicationList,
 };
 

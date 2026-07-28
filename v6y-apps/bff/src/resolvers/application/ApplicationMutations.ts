@@ -1,39 +1,10 @@
 import {
+    AccountType,
     AppLogger,
     ApplicationInputType,
     ApplicationProvider,
     SearchQueryType,
 } from '@v6y/core-logic';
-
-import ServerConfig from '../../config/ServerConfig.ts';
-
-const { currentConfig } = ServerConfig;
-
-/**
- * Trigger audit analysis via main-analyzer
- */
-const triggerAuditAnalysis = async (
-    applicationId: number,
-    branch: string | undefined,
-    analysisTypes: string[],
-) => {
-    try {
-        const mainAnalyzerUrl = currentConfig?.mainAnalyzerApiPath;
-        if (!mainAnalyzerUrl) {
-            AppLogger.warn(
-                '[AppMutations - triggerApplicationAnalysis] Missing mainAnalyzerApiPath configuration',
-            );
-            return;
-        }
-        await fetch(mainAnalyzerUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ applicationId, branch, analysisTypes }),
-        });
-    } catch (err) {
-        AppLogger.warn(`[AppMutations - triggerApplicationAnalysis] Main analyzer error: ${err}`);
-    }
-};
 
 /**
  * Create or edit application
@@ -189,92 +160,69 @@ const deleteApplication = async (_: unknown, params: { input: SearchQueryType })
 };
 
 /**
- * Trigger application analysis
+ * Trigger application analysis asynchronously.
  * @param _
  * @param params
+ * @param user
  */
 const triggerApplicationAnalysis = async (
     _: unknown,
-    params: {
-        input: {
-            applicationId: number;
-            branch?: string;
-            analysisTypes: string[];
-        };
-    },
+    params: { applicationId: number },
+    { user }: { user: AccountType },
 ) => {
     try {
-        const { applicationId, branch, analysisTypes } = params?.input || {};
+        const { applicationId } = params || {};
 
-        if (!applicationId || !analysisTypes || analysisTypes.length === 0) {
-            AppLogger.error(
-                '[AppMutations - triggerApplicationAnalysis] Missing required parameters',
-            );
-            return {
-                success: false,
-                message: 'Missing applicationId or analysisTypes',
-                applicationId,
-                branch,
-                auditRun: null,
-            };
+        if (!applicationId) {
+            throw new Error('The applicationId is required');
+        }
+
+        if (!(user.role === 'ADMIN' || user.role === 'SUPERADMIN')) {
+            const userApplicationsIds = user.applications || [];
+            if (!userApplicationsIds.includes(applicationId)) {
+                throw new Error('Unauthorized');
+            }
+        }
+
+        const triggerUrl = process.env.V6Y_MAIN_ANALYZER_TRIGGER_API_PATH;
+
+        if (!triggerUrl?.length) {
+            throw new Error('The main analyzer trigger API path is not configured');
         }
 
         AppLogger.info(
-            `[AppMutations - triggerApplicationAnalysis] applicationId: ${applicationId}, branch: ${branch}, analysisTypes: ${analysisTypes.join(',')}`,
+            `[AppMutations - triggerApplicationAnalysis] applicationId : ${applicationId}`,
         );
 
-        // Verify application exists
-        const application = await ApplicationProvider.getApplicationDetailsInfoByParams({
-            _id: applicationId,
+        const response = await fetch(triggerUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ applicationId }),
         });
 
-        if (!application) {
-            AppLogger.error(
-                `[AppMutations - triggerApplicationAnalysis] Application not found: ${applicationId}`,
+        const responseBody = (await response.json().catch(() => null)) as {
+            success?: boolean;
+            message?: string;
+            applicationId?: number;
+        } | null;
+
+        if (!response.ok || !responseBody?.success) {
+            throw new Error(
+                responseBody?.message || `Unable to trigger the analysis (HTTP ${response.status})`,
             );
-            return {
-                success: false,
-                message: 'Application not found',
-                applicationId,
-                branch,
-                auditRun: null,
-            };
         }
-
-        AppLogger.info(
-            `[AppMutations - triggerApplicationAnalysis] applicationId: ${applicationId}, branch: ${branch}, analysisTypes: ${analysisTypes.join(',')}`,
-        );
-
-        // Trigger async analysis job via main-analyzer
-        (async () => {
-            try {
-                AppLogger.info(
-                    `[AppMutations - triggerApplicationAnalysis] Triggering main-analyzer for app ${applicationId}`,
-                );
-                await triggerAuditAnalysis(applicationId, branch, analysisTypes);
-            } catch (asyncError) {
-                AppLogger.error(
-                    `[AppMutations - triggerApplicationAnalysis] Async analysis job error: ${asyncError}`,
-                );
-            }
-        })();
 
         return {
             success: true,
-            message: 'Analysis triggered successfully',
-            applicationId,
-            branch,
-            auditRun: null,
+            message: responseBody.message || 'Analysis triggered successfully',
+            applicationId: responseBody.applicationId || applicationId,
         };
     } catch (error) {
-        AppLogger.error(`[AppMutations - triggerApplicationAnalysis] error: ${error}`);
-
+        AppLogger.info(`[AppMutations - triggerApplicationAnalysis] error : ${error}`);
         return {
             success: false,
-            message: `Error triggering analysis: ${error}`,
-            applicationId: params?.input?.applicationId,
-            branch: params?.input?.branch,
-            auditRun: null,
+            message: error instanceof Error ? error.message : 'Unable to trigger analysis',
+            applicationId: params?.applicationId || 0,
         };
     }
 };

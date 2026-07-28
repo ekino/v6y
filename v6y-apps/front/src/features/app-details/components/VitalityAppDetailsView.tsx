@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { ApplicationType, AuditType } from '@v6y/core-logic/src/types';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
-import { Button, GlobeIcon, PlayIcon, ReloadIcon } from '@v6y/ui-kit-front';
+import { Button, GlobeIcon, ReloadIcon } from '@v6y/ui-kit-front';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import { resolveNumericId } from '../../../commons/utils/NumericParamUtils';
@@ -17,7 +17,9 @@ import GetApplicationDetailsInfosByParams from '../api/getApplicationDetailsInfo
 import GetAuditRunDetailsByParams from '../api/getAuditRunDetailsByParams';
 import VitalityDetailsPageSkeleton from '../components/VitalityDetailsPageSkeleton';
 import VitalitySummaryCard from '../components/summary-card/VitalitySummaryCard';
+import { useRunApplicationAudit } from '../hooks/useRunApplicationAudit';
 import BranchSelector from './BranchSelector';
+import { RunAuditButton, RunningAuditBanner } from './RunAuditControl';
 
 const VitalityAuditReportsView = DynamicLoader(
     () => import('./audit-reports/VitalityAuditReportsView'),
@@ -95,7 +97,6 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
 
     const [activeTab, setActiveTab] = React.useState('performance');
     const [selectedBranch, setSelectedBranch] = React.useState('');
-    const [isRunningAudit, setIsRunningAudit] = React.useState(false);
     const [auditTrigger, setAuditTrigger] = React.useState(0);
 
     const { isLoading: isAppDetailsInfosLoading, data: appDetailsInfos } = useClientQuery<{
@@ -145,6 +146,10 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
     const reportAudits = reportDetails?.audits || [];
     const reportBranch = reportDetails?.branch || '';
     const auditReportBranches = (appInfos?.repo?.allBranches || []) as string[];
+    // A specific, already-completed audit run is being viewed (read-only report),
+    // as opposed to the live application details page: the run-audit action only
+    // makes sense on the latter.
+    const isReportDetailsView = Boolean(targetAuditRunId);
 
     React.useEffect(() => {
         if (reportBranch) {
@@ -180,18 +185,9 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
         }
     };
 
-    const onRunAuditClicked = async () => {
-        setIsRunningAudit(true);
-        try {
-            setAuditTrigger((prev) => prev + 1);
-        } catch (error) {
-            console.error('Error running audit:', error);
-        } finally {
-            setTimeout(() => {
-                setIsRunningAudit(false);
-            }, 2000);
-        }
-    };
+    const { isRunningAudit, onRunAuditClicked } = useRunApplicationAudit(targetApplicationId, () =>
+        setAuditTrigger((prev) => prev + 1),
+    );
 
     const renderTabContent = () => {
         switch (activeTab) {
@@ -324,32 +320,17 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                             >
                                 <GlobeIcon className="w-4 h-4 shrink-0" />
                             </Button>
-                            <Button
-                                onClick={onRunAuditClicked}
-                                disabled={isRunningAudit}
-                                variant="outline"
-                                size="sm"
-                                className="h-8 px-3 border-slate-300 rounded-md flex items-center gap-1.5"
-                            >
-                                {isRunningAudit ? (
-                                    <>
-                                        <ReloadIcon className="w-4 h-4 animate-spin" />
-                                        <span className="text-sm">
-                                            {translate(
-                                                'vitality.appDetailsPage.runAuditButtonLoading',
-                                            )}
-                                        </span>
-                                    </>
-                                ) : (
-                                    <>
-                                        <PlayIcon className="w-4 h-4" />
-                                        <span className="text-sm">
-                                            {translate('vitality.appDetailsPage.runAuditButton')}
-                                        </span>
-                                    </>
-                                )}
-                            </Button>
+                            {isReportDetailsView ? null : (
+                                <RunAuditButton
+                                    isRunningAudit={isRunningAudit}
+                                    onRunAuditClicked={onRunAuditClicked}
+                                />
+                            )}
                         </div>
+
+                        {!isReportDetailsView ? (
+                            <RunningAuditBanner isRunningAudit={isRunningAudit} />
+                        ) : null}
                     </div>
 
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 md:gap-2 mb-4 md:mb-2">

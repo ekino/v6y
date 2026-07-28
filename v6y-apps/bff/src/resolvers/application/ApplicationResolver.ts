@@ -160,7 +160,9 @@ export class ApplicationResolver {
     @Mutation('triggerApplicationAnalysis')
     triggerApplicationAnalysis(
         @Args() args: Parameters<typeof ApplicationMutations.triggerApplicationAnalysis>[1],
+        @Context()
+        context: Parameters<typeof ApplicationMutations.triggerApplicationAnalysis>[2],
     ) {
-        return ApplicationMutations.triggerApplicationAnalysis(undefined, args);
+        return ApplicationMutations.triggerApplicationAnalysis(undefined, args, context);
     }
 }

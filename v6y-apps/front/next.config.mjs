@@ -9,6 +9,20 @@ const withBundleAnalyzer = BundleAnalyzer({
 
 const workspaceRoot = fileURLToPath(new URL('../../', import.meta.url));
 
+// Server-side only: where this app's /v6y/graphql rewrite forwards to. It is a
+// private, internal address and must stay distinct from NEXT_PUBLIC_V6Y_BFF_PATH,
+// which is the browser-facing endpoint used by ui-kit and front-bo. Sharing one
+// variable for both broke any deployment where the two addresses differ.
+//
+// NEXT_PUBLIC_V6Y_BFF_PATH is still honoured as a fallback, but only when it holds
+// an absolute URL, so deployments configured before V6Y_BFF_PROXY_TARGET existed
+// keep working while a relative browser path is never used as a rewrite target.
+const legacyBffProxyTarget = process.env.NEXT_PUBLIC_V6Y_BFF_PATH;
+const bffProxyTarget =
+    process.env.V6Y_BFF_PROXY_TARGET ||
+    (/^https?:\/\//i.test(legacyBffProxyTarget ?? '') ? legacyBffProxyTarget : undefined) ||
+    'http://localhost:4001/v6y/graphql/';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     turbopack: {
@@ -20,6 +34,18 @@ const nextConfig = {
                 source: '/',
                 destination: '/dashboard',
                 permanent: true,
+            },
+        ];
+    },
+    async rewrites() {
+        return [
+            {
+                source: '/v6y/graphql',
+                destination: bffProxyTarget,
+            },
+            {
+                source: '/v6y/graphql/:path*',
+                destination: `${bffProxyTarget}:path*`,
             },
         ];
     },

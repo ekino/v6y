@@ -23,6 +23,11 @@ import DateUtils from '../utils/DateUtils.ts';
 const GithubConfig = (organization: string | null): GithubConfigType => {
     const baseURL = 'https://api.github.com';
     const reposBaseUrl = organization ? `${baseURL}/repos/${organization}` : `${baseURL}/repos`;
+    const githubToken = process.env.GITHUB_PRIVATE_TOKEN;
+
+    if (!githubToken?.length) {
+        AppLogger.warn('[RepositoryApi - GithubConfig] Missing GitHub token environment variable');
+    }
 
     return {
         baseURL,
@@ -33,7 +38,7 @@ const GithubConfig = (organization: string | null): GithubConfigType => {
             repositoryDetailsUrl: (repoName: string) => `${reposBaseUrl}/${repoName}`,
         },
         headers: {
-            Authorization: `Bearer ${process.env.GITHUB_PRIVATE_TOKEN}`,
+            ...(githubToken?.length ? { Authorization: `Bearer ${githubToken}` } : {}),
             Accept: 'application/vnd.github+json',
             'Content-Type': 'application/json',
             'User-Agent': 'V6Y',
@@ -48,6 +53,16 @@ const GithubConfig = (organization: string | null): GithubConfigType => {
  */
 const GitlabConfig = (organization: string | null): GitlabConfigType => {
     const baseURL = organization ? `https://gitlab.${organization}.com` : 'https://gitlab.com';
+    const gitlabToken =
+        process.env.GITLAB_PRIVATE_TOKEN ||
+        process.env.GITLAB_TOKEN ||
+        process.env.GITLAB_ACCESS_TOKEN ||
+        '';
+
+    if (!gitlabToken.length) {
+        AppLogger.warn('[RepositoryApi - GitlabConfig] Missing GitLab token environment variable');
+    }
+
     return {
         baseURL,
         api: 'api/v4',
@@ -64,7 +79,8 @@ const GitlabConfig = (organization: string | null): GitlabConfigType => {
         },
 
         headers: {
-            'PRIVATE-TOKEN': process.env.GITLAB_PRIVATE_TOKEN || '',
+            'PRIVATE-TOKEN': gitlabToken,
+            ...(gitlabToken.length ? { Authorization: `Bearer ${gitlabToken}` } : {}),
             'Content-Type': 'application/json',
         },
     };
@@ -105,11 +121,21 @@ const getRepositoryDetails = async ({
 
         const repositoryJsonResponse = await repositoryResponse.json();
 
-        if (!repositoryJsonResponse || !Array.isArray(repositoryJsonResponse)) {
-            return null;
+        // GitLab's search endpoint returns an array of matches; GitHub's repo details
+        // endpoint returns a single object. Support both response shapes.
+        if (Array.isArray(repositoryJsonResponse)) {
+            return repositoryJsonResponse[0] || null;
         }
 
-        return repositoryJsonResponse[0];
+        if (
+            repositoryJsonResponse &&
+            typeof repositoryJsonResponse === 'object' &&
+            'id' in repositoryJsonResponse
+        ) {
+            return repositoryJsonResponse;
+        }
+
+        return null;
     } catch (error) {
         AppLogger.info(
             `[RepositoryApi - getRepositoryDetails] error:  ${
@@ -306,20 +332,43 @@ const prepareGitBranchZipConfig = ({
             return null;
         }
 
-        const normalizedBranchName = branchName.split('/').pop()?.replaceAll(' ', '-');
+        const normalizedBranchName = branchName.replaceAll('/', '-').replaceAll(' ', '-');
         AppLogger.info(
             `[RepositoryApi - prepareGitZipConfig] normalizedBranchName:  ${normalizedBranchName}`,
         );
 
         const { repo } = application;
 
-        const projectName = repo?.webUrl?.split('/').pop();
+        const repositoryWebUrl = repo?.webUrl?.replace(/\/+$/, '');
+
+        if (!repositoryWebUrl?.length) {
+            return null;
+        }
+
+        const projectName = repositoryWebUrl.split('/').pop();
         AppLogger.info(`[RepositoryApi - prepareGitZipConfig] projectName:  ${projectName}`);
 
         const zipFileName = `${projectName}-${normalizedBranchName}.zip`;
         AppLogger.info(`[RepositoryApi - prepareGitZipConfig] zipFileName:  ${zipFileName}`);
 
-        const zipSourceUrl = `${repo?.webUrl}/-/archive/${branchName}/${zipFileName}`;
+        const encodedBranchName = encodeURIComponent(branchName);
+        const isGithubRepository = repositoryWebUrl.includes('github.com');
+        const repositoryOrigin = new URL(repositoryWebUrl).origin;
+        const repositoryPath = new URL(repositoryWebUrl).pathname.replace(/^\//, '');
+
+        // GitHub's archive URL is a path (…/archive/refs/heads/<branch>.zip), so each
+        // path segment must be percent-encoded individually while keeping the '/'
+        // separators literal (encodeURIComponent alone would also escape '/').
+        const encodedBranchNamePath = branchName.split('/').map(encodeURIComponent).join('/');
+
+        // GitLab web archive URLs can return HTML (login/forbidden) instead of binary zip.
+        // Prefer the API archive endpoint, which supports PRIVATE-TOKEN auth headers.
+        const gitlabProjectRef = encodeURIComponent(String(repo?.id || repositoryPath));
+
+        const zipSourceUrl = isGithubRepository
+            ? `${repositoryWebUrl}/archive/refs/heads/${encodedBranchNamePath}.zip`
+            : `${repositoryOrigin}/api/v4/projects/${gitlabProjectRef}/repository/archive.zip?sha=${encodedBranchName}`;
+
         AppLogger.info(`[RepositoryApi - prepareGitZipConfig] zipSourceUrl:  ${zipSourceUrl}`);
 
         const zipDestinationDir = `${zipBaseDir}/${application?.acronym}`;
@@ -338,7 +387,8 @@ const prepareGitBranchZipConfig = ({
             zipBaseFileName,
             zipDestinationDir,
             zipOptions: {
-                headers: buildQueryOptions({})?.headers,
+                headers: buildQueryOptions({ type: isGithubRepository ? 'github' : 'gitlab' })
+                    ?.headers,
             },
         };
     } catch (error) {

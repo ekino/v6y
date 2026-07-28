@@ -1,5 +1,7 @@
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
+
 import { ApplicationType } from '@v6y/core-logic/src/types';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
 
@@ -10,6 +12,8 @@ import {
     useClientQuery,
 } from '../../../infrastructure/adapters/api/useQueryAdapter';
 import GetApplicationDetailsInfosByParams from '../api/getApplicationDetailsInfosByParams';
+import { useRunApplicationAudit } from '../hooks/useRunApplicationAudit';
+import { RunAuditButton, RunningAuditBanner } from './RunAuditControl';
 import VitalityDetailsPageSkeleton from './VitalityDetailsPageSkeleton';
 import VitalitySummaryCard from './summary-card/VitalitySummaryCard';
 
@@ -29,8 +33,24 @@ const VitalityProjectDetailsView = ({ applicationId }: VitalityProjectDetailsVie
     const { getUrlParams } = useNavigationAdapter();
     const { translate } = useTranslationProvider();
     const [_id, source] = getUrlParams(['_id', 'source']);
+    const queryClient = useQueryClient();
 
     const targetApplicationId = resolveNumericId(applicationId, _id as string);
+
+    const { isRunningAudit, onRunAuditClicked } = useRunApplicationAudit(
+        targetApplicationId,
+        () => {
+            queryClient.invalidateQueries({
+                queryKey: [
+                    'getApplicationDetailsInfoByParams',
+                    `${targetApplicationId ?? 'invalid'}`,
+                ],
+            });
+            queryClient.invalidateQueries({
+                queryKey: ['getApplicationAuditRunsByParams', `${targetApplicationId}`],
+            });
+        },
+    );
 
     const { isLoading: isAppDetailsInfosLoading, data: appDetailsInfos } = useClientQuery<{
         getApplicationDetailsInfoByParams: ApplicationType | null;
@@ -75,6 +95,14 @@ const VitalityProjectDetailsView = ({ applicationId }: VitalityProjectDetailsVie
                 </div>
 
                 <div className="lg:col-span-9 w-full space-y-8">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-3">
+                        <RunningAuditBanner isRunningAudit={isRunningAudit} />
+                        <RunAuditButton
+                            isRunningAudit={isRunningAudit}
+                            onRunAuditClicked={onRunAuditClicked}
+                        />
+                    </div>
+
                     <VitalityGeneralInformationView appInfos={appInfos} />
 
                     <div className="pt-8 border-t border-slate-200">

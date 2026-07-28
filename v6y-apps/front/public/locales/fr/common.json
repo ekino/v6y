@@ -50,6 +50,15 @@
       "exportButton": "Exporter le reporting",
       "runAuditButton": "Lancer l'audit",
       "runAuditButtonLoading": "En cours...",
+      "auditToasts": {
+        "running": "Audit en cours...",
+        "queued": "Audit lancé avec succès.",
+        "completed": "Audit terminé avec succès.",
+        "jobFailed": "L'audit a échoué.",
+        "stillRunning": "L'audit prend plus de temps que prévu. Revenez bientôt.",
+        "failed": "Impossible de lancer l'audit.",
+        "invalidApplication": "Identifiant d'application invalide."
+      },
       "loadingStates": {
         "auditReports": "Chargement des rapports d'audit...",
         "qualityIndicators": "Chargement des indicateurs de qualité...",

@@ -46,6 +46,8 @@ const formatAuditCategory = (
     if (!auditCategory) return null;
 
     const { id, title, score, description } = auditCategory;
+    const normalizedTitle = title ?? undefined;
+    const normalizedDescription = description ?? undefined;
 
     const currentScore = (score || 0) * 100;
     const status = Matcher()
@@ -65,8 +67,8 @@ const formatAuditCategory = (
 
     return {
         category: id,
-        title,
-        description,
+        title: normalizedTitle,
+        description: normalizedDescription,
         auditStatus: auditStatus.success,
         scoreStatus: status as string,
         score: currentScore,
