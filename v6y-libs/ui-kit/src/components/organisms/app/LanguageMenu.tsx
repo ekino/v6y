@@ -1,18 +1,13 @@
-import * as React from 'react';
-
+import { useIsClient } from '../../../hooks/useIsClient.ts';
 import { useTranslationProvider } from '../../../translation/useTranslationProvider';
 import { Avatar, Button, DownOutlined, Dropdown, Space } from '../../atoms';
 import TextView from './TextView.tsx';
 
 const LanguageMenu = () => {
     const { getLocale, changeLocale } = useTranslationProvider();
-    const [mounted, setMounted] = React.useState(false);
-    const currentLocale = getLocale();
-
     // Only render after client-side hydration to avoid hydration mismatch
-    React.useEffect(() => {
-        setMounted(true);
-    }, []);
+    const isClient = useIsClient();
+    const currentLocale = getLocale();
 
     const languageMenuItems = ['en', 'fr'].sort().map((lang) => ({
         key: lang,
@@ -24,7 +19,7 @@ const LanguageMenu = () => {
     }));
 
     // Show a placeholder during SSR to match initial render
-    if (!mounted) {
+    if (!isClient) {
         return (
             <Button type="text" disabled>
                 <Space>

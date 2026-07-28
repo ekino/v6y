@@ -492,8 +492,8 @@ catalogs:
       specifier: '=5.2.1'
       version: 5.2.1
     eslint-plugin-react-hooks:
-      specifier: '=5.2.0'
-      version: 5.2.0
+      specifier: '=7.1.1'
+      version: 7.1.1
     eslint-plugin-react-refresh:
       specifier: '=0.4.18'
       version: 0.4.18
@@ -1898,7 +1898,7 @@ importers:
         version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@10.0.1(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0)))(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))(prettier@3.4.2)
       eslint-plugin-react-hooks:
         specifier: catalog:eslint10
-        version: 5.2.0(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))
+        version: 7.1.1(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)
       eslint-plugin-react-refresh:
         specifier: catalog:eslint10
         version: 0.4.18(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))
@@ -2037,7 +2037,7 @@ importers:
         version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@10.0.1(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0)))(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))(prettier@3.4.2)
       eslint-plugin-react-hooks:
         specifier: catalog:eslint10
-        version: 5.2.0(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))
+        version: 7.1.1(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)
       eslint-plugin-react-refresh:
         specifier: catalog:eslint10
         version: 0.4.18(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))
@@ -7540,12 +7540,6 @@ packages:
         optional: true
       eslint-config-prettier:
         optional: true
-
-  eslint-plugin-react-hooks@5.2.0:
-    resolution: {integrity: sha512-+f15FfK64YQwZdJNELETdn5ibXEUQmW1DZL6KXhNnc2heoy/sg9VJJeT7n8TlMWouzWqSWavFkIhHyIbIAEapg==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
 
   eslint-plugin-react-hooks@7.1.1:
     resolution: {integrity: sha512-f2I7Gw6JbvCexzIInuSbZpfdQ44D7iqdWX01FKLvrPgqxoE7oMj8clOfto8U6vYiz4yd5oKu39rRSVOe1zRu0g==}
@@ -18254,10 +18248,6 @@ snapshots:
     optionalDependencies:
       '@types/eslint': 9.6.1
       eslint-config-prettier: 10.0.1(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))
-
-  eslint-plugin-react-hooks@5.2.0(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0)):
-    dependencies:
-      eslint: 10.0.1(jiti@2.7.0)(supports-color@7.2.0)
 
   eslint-plugin-react-hooks@7.1.1(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0):
     dependencies:
