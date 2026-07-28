@@ -3,7 +3,6 @@
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { App as AntdApp, theme as AntdTheme, ConfigProvider } from 'antd';
 import * as React from 'react';
-import { useEffect, useLayoutEffect, useState } from 'react';
 
 import { ThemeContextConfigType, ThemeProps } from '../types/ThemeProps.ts';
 import { ThemeConfigProvider } from './ThemeContext.tsx';
@@ -58,35 +57,32 @@ const ThemeProviderContentView = ({ themeConfig, config, children }: ThemeProps)
  */
 export const ThemeProvider = ({ theme, themeMode, config, children }: ThemeProps) => {
     const [currentTheme, setCurrentTheme] = React.useState(theme);
-    const [currentConfig, setCurrentConfig] = React.useState<ThemeContextConfigType | undefined>(
-        undefined,
-    );
-    const [isMounted, setIsMounted] = useState(false);
+    // Tracks the previous `theme` prop so that the internal state can stay in
+    // sync with prop changes while still being independently settable via
+    // `onThemeChanged`, without calling setState inside an effect.
+    const [prevTheme, setPrevTheme] = React.useState(theme);
 
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
+    if (theme !== prevTheme) {
+        setPrevTheme(theme);
+        setCurrentTheme(theme);
+    }
 
-    useLayoutEffect(() => {
-        if (isMounted) {
-            setCurrentTheme(theme);
+    const currentConfig = React.useMemo<ThemeContextConfigType | undefined>(() => {
+        if (!currentTheme) {
+            return undefined;
         }
-    }, [isMounted, theme]);
 
-    useEffect(() => {
-        if (currentTheme) {
-            setCurrentConfig({
-                components: undefined,
-                cssVar: undefined,
-                hashed: false,
-                inherit: false,
-                status: undefined,
-                statusIcons: undefined,
-                token: undefined,
-                ...(loadTheme({ theme: currentTheme }) || {}),
-                algorithm: themeMode === ThemeModes.LIGHT ? defaultAlgorithm : darkAlgorithm,
-            });
-        }
+        return {
+            components: undefined,
+            cssVar: undefined,
+            hashed: false,
+            inherit: false,
+            status: undefined,
+            statusIcons: undefined,
+            token: undefined,
+            ...(loadTheme({ theme: currentTheme }) || {}),
+            algorithm: themeMode === ThemeModes.LIGHT ? defaultAlgorithm : darkAlgorithm,
+        };
     }, [currentTheme, themeMode]);
 
     const onThemeChanged = (theme: string) => {
