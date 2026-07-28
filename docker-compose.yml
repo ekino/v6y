@@ -67,7 +67,7 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - V6Y_BFF_API_PATH=${V6Y_BFF_API_PATH}
       - V6Y_BFF_API_PORT=${V6Y_BFF_API_PORT}
-      - V6Y_MAIN_ANALYZER_TRIGGER_API_PATH=http://v6y-bfb-main-analyzer:4002/v6y/bfb-main/trigger-application-analysis.json
+      - V6Y_MAIN_ANALYZER_TRIGGER_API_PATH=http://v6y-bfb-main-analyzer:4005/v6y/bfb-main/trigger-application-analysis.json
     depends_on:
       v6y-migrate:
         condition: service_completed_successfully
@@ -85,7 +85,7 @@ services:
       service: v6y-service-base
     command: pnpm run start:bfb:main
     ports:
-      - "4002:4002"
+      - "4005:4005"
     environment:
       - PSQL_DB_HOST=${PSQL_DB_HOST}
       - PSQL_DB_NAME=${PSQL_DB_NAME}
@@ -112,7 +112,7 @@ services:
       v6y-redis:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:4002/health" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:4005/health" ]
       interval: 30s
       timeout: 10s
       retries: 3
