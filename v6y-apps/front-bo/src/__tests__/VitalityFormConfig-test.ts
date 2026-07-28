@@ -116,6 +116,9 @@ describe('VitalityFormConfig - Form Items', () => {
             'app-data-dog-app-key': 'testAppKey',
             'app-data-dog-url': 'https://api.testdatadog.com',
             'app-data-dog-monitor-id': 'testMonitorId',
+            'app-audit-frequency-enabled': false,
+            'app-audit-frequency-period': undefined,
+            'app-audit-frequency-count': undefined,
         });
     });
 
@@ -158,6 +161,8 @@ describe('VitalityFormConfig - Form Items', () => {
                 dataDogAppKey: 'testAppKey',
                 dataDogUrl: 'https://api.testdatadog.com',
                 dataDogMonitorId: 'testMonitorId',
+                auditFrequencyEnabled: false,
+                auditFrequencyCron: undefined,
             },
         });
     });
@@ -200,10 +205,16 @@ describe('VitalityFormConfig - Form Items', () => {
             'app-production-link': undefined,
             'app-sonarqube-link': undefined,
             'app-sonarqube-token': undefined,
+            'app-code-quality-platform-link': undefined,
+            'app-ci-cd-platform-link': undefined,
+            'app-deployment-platform-link': undefined,
             'app-data-dog-api-key': undefined,
             'app-data-dog-app-key': undefined,
             'app-data-dog-url': undefined,
             'app-data-dog-monitor-id': undefined,
+            'app-audit-frequency-enabled': false,
+            'app-audit-frequency-period': undefined,
+            'app-audit-frequency-count': undefined,
         });
     });
 

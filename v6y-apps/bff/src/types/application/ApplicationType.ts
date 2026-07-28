@@ -29,6 +29,12 @@ const ApplicationType = `
     
     """ Application links: prod, gitlab, github, aws """
     links: [LinkType]
+
+    """ Whether recurring audit scheduling is enabled for this application """
+    auditFrequencyEnabled: Boolean
+
+    """ Audit reporting frequency, expressed as a 5-field cron expression """
+    auditFrequencyCron: String
   }
 `;
 

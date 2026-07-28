@@ -20,21 +20,23 @@ model Account {
 }
 
 model Application {
-  id            Int          @id @default(autoincrement()) @map("_id")
-  name          String       @unique
-  acronym       String       @unique
-  contactMail   String       @map("contact_mail")
-  description   String
-  repo          Json?
-  configuration Json?
-  links         Json?
-  createdAt     DateTime     @default(now()) @map("created_at")
-  updatedAt     DateTime     @updatedAt @map("updated_at")
-  audits        Audit[]
-  auditRuns     AuditRun[]
-  dependencies  Dependency[]
-  evolutions    Evolution[]
-  keywords      Keyword[]
+  id                    Int          @id @default(autoincrement()) @map("_id")
+  name                  String       @unique
+  acronym               String       @unique
+  contactMail           String       @map("contact_mail")
+  description           String
+  repo                  Json?
+  configuration         Json?
+  links                 Json?
+  auditFrequencyEnabled Boolean      @default(false) @map("audit_frequency_enabled")
+  auditFrequencyCron    String?      @map("audit_frequency_cron")
+  createdAt             DateTime     @default(now()) @map("created_at")
+  updatedAt             DateTime     @updatedAt @map("updated_at")
+  audits                Audit[]
+  auditRuns             AuditRun[]
+  dependencies          Dependency[]
+  evolutions            Evolution[]
+  keywords              Keyword[]
 
   @@map("applications")
 }

@@ -1,6 +1,9 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { APPLICATION_ANALYSIS_SINGLE_JOB } from '../ApplicationAnalysisQueue.ts';
+import {
+    APPLICATION_ANALYSIS_SCHEDULE,
+    APPLICATION_ANALYSIS_SINGLE_JOB,
+} from '../ApplicationAnalysisQueue.ts';
 import { ApplicationAnalysisQueueService } from '../ApplicationAnalysisQueueService.ts';
 
 describe('ApplicationAnalysisQueueService', () => {
@@ -66,6 +69,57 @@ describe('ApplicationAnalysisQueueService', () => {
             const job = await service.enqueueApplicationAnalysis(42);
 
             expect(job).toBeNull();
+        });
+    });
+
+    describe('upsertApplicationSchedule', () => {
+        it('upserts a job scheduler with a deterministic id and the application cron', async () => {
+            const upsertJobScheduler = vi.fn().mockResolvedValue({ id: 'sched-job-1' });
+            const service = new ApplicationAnalysisQueueService({
+                upsertJobScheduler,
+            } as never);
+
+            const scheduledJob = await service.upsertApplicationSchedule(42, '0 */6 * * *');
+
+            expect(upsertJobScheduler).toHaveBeenCalledWith(
+                `${APPLICATION_ANALYSIS_SCHEDULE}-42`,
+                { pattern: '0 */6 * * *' },
+                expect.objectContaining({
+                    name: APPLICATION_ANALYSIS_SINGLE_JOB,
+                    data: { applicationId: 42 },
+                }),
+            );
+            expect(scheduledJob).toEqual({ id: 'sched-job-1' });
+        });
+
+        it('returns null and skips upserting when the queue is unavailable', async () => {
+            const service = new ApplicationAnalysisQueueService(undefined);
+
+            const scheduledJob = await service.upsertApplicationSchedule(42, '0 0 * * *');
+
+            expect(scheduledJob).toBeNull();
+        });
+    });
+
+    describe('removeApplicationSchedule', () => {
+        it('removes the job scheduler for the given application', async () => {
+            const removeJobScheduler = vi.fn().mockResolvedValue(true);
+            const service = new ApplicationAnalysisQueueService({
+                removeJobScheduler,
+            } as never);
+
+            const removed = await service.removeApplicationSchedule(42);
+
+            expect(removeJobScheduler).toHaveBeenCalledWith(`${APPLICATION_ANALYSIS_SCHEDULE}-42`);
+            expect(removed).toBe(true);
+        });
+
+        it('returns false and skips removal when the queue is unavailable', async () => {
+            const service = new ApplicationAnalysisQueueService(undefined);
+
+            const removed = await service.removeApplicationSchedule(42);
+
+            expect(removed).toBe(false);
         });
     });
 });

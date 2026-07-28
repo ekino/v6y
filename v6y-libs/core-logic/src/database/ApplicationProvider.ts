@@ -33,6 +33,8 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
         dataDogAppKey,
         dataDogUrl,
         dataDogMonitorId,
+        auditFrequencyEnabled,
+        auditFrequencyCron,
     } = application || {};
     return {
         _id,
@@ -40,6 +42,8 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
         acronym,
         description,
         contactMail,
+        auditFrequencyEnabled: !!auditFrequencyEnabled,
+        auditFrequencyCron: auditFrequencyEnabled ? auditFrequencyCron || null : null,
         repo: { webUrl: gitWebUrl, gitUrl, organization: gitOrganization },
         links: [
             { label: 'Application production url', value: productionLink, description: '' },
@@ -111,6 +115,8 @@ const normalizeApplication = (application: {
     repo: Prisma.JsonValue | null;
     configuration: Prisma.JsonValue | null;
     links: Prisma.JsonValue | null;
+    auditFrequencyEnabled?: boolean;
+    auditFrequencyCron?: string | null;
 }) => {
     return {
         ...application,
@@ -168,6 +174,8 @@ const createFormApplication = async (application: ApplicationInputType) => {
                 links: formApplication.links
                     ? (formApplication.links as unknown as Prisma.InputJsonValue)
                     : undefined,
+                auditFrequencyEnabled: formApplication.auditFrequencyEnabled ?? false,
+                auditFrequencyCron: formApplication.auditFrequencyCron ?? null,
             },
         });
         AppLogger.info('[ApplicationProvider - createFormApplication] created: ' + created.id);
@@ -218,6 +226,8 @@ const editFormApplication = async (application: ApplicationInputType) => {
                 links: formApplication.links
                     ? (formApplication.links as unknown as Prisma.InputJsonValue)
                     : undefined,
+                auditFrequencyEnabled: formApplication.auditFrequencyEnabled ?? undefined,
+                auditFrequencyCron: formApplication.auditFrequencyCron ?? null,
             },
         });
         return { _id: application._id };

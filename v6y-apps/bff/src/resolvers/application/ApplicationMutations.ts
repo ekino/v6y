@@ -7,6 +7,56 @@ import {
 } from '@v6y/core-logic';
 
 /**
+ * Create or update the recurring application analysis schedule on the main
+ * analyzer, based on the application's audit reporting frequency. Failures are
+ * logged but never thrown, so a main-analyzer/queue hiccup never blocks saving
+ * the application itself.
+ * @param applicationId
+ * @param cron
+ * @param enabled
+ */
+const scheduleApplicationAnalysis = async (
+    applicationId: number,
+    cron: string | null | undefined,
+    enabled: boolean | undefined,
+) => {
+    try {
+        const scheduleUrl = process.env.V6Y_MAIN_ANALYZER_SCHEDULE_API_PATH;
+
+        if (!scheduleUrl?.length) {
+            AppLogger.info(
+                '[AppMutations - scheduleApplicationAnalysis] The main analyzer schedule API path is not configured, skipping.',
+            );
+            return;
+        }
+
+        AppLogger.info(
+            `[AppMutations - scheduleApplicationAnalysis] applicationId : ${applicationId}, enabled : ${enabled}, cron : ${cron}`,
+        );
+
+        const response = await fetch(scheduleUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ applicationId, cron, enabled: !!enabled }),
+        });
+
+        if (!response.ok) {
+            const responseBody = (await response.json().catch(() => null)) as {
+                message?: string;
+            } | null;
+            AppLogger.error(
+                `[AppMutations - scheduleApplicationAnalysis] Unable to update the audit schedule for applicationId=${applicationId}: ${responseBody?.message || response.status}`,
+            );
+        }
+    } catch (error) {
+        AppLogger.error(
+            `[AppMutations - scheduleApplicationAnalysis] An exception occurred while updating the audit schedule for applicationId=${applicationId}: `,
+            error,
+        );
+    }
+};
+
+/**
  * Create or edit application
  * @param _
  * @param params
@@ -35,6 +85,8 @@ const createOrEditApplication = async (
             codeQualityPlatformLink,
             ciPlatformLink,
             deploymentPlatformLink,
+            auditFrequencyEnabled,
+            auditFrequencyCron,
         } = params?.applicationInput || {};
 
         AppLogger.info(`[AppMutations - createOrEditApplication] _id : ${_id}`);
@@ -89,11 +141,21 @@ const createOrEditApplication = async (
                 dataDogAppKey,
                 dataDogUrl,
                 dataDogMonitorId,
+                auditFrequencyEnabled,
+                auditFrequencyCron,
             } as ApplicationInputType);
 
             AppLogger.info(
                 `[AppMutations - createOrEditApplication] editedApplication : ${editedApplication?._id}`,
             );
+
+            if (editedApplication?._id) {
+                await scheduleApplicationAnalysis(
+                    editedApplication._id,
+                    auditFrequencyCron,
+                    auditFrequencyEnabled,
+                );
+            }
 
             return editedApplication;
         }
@@ -116,11 +178,21 @@ const createOrEditApplication = async (
             dataDogAppKey,
             dataDogUrl,
             dataDogMonitorId,
+            auditFrequencyEnabled,
+            auditFrequencyCron,
         } as ApplicationInputType);
 
         AppLogger.info(
             `[AppMutations - createOrEditApplication] createdApplication : ${createdApplication?._id}`,
         );
+
+        if (createdApplication?._id) {
+            await scheduleApplicationAnalysis(
+                createdApplication._id,
+                auditFrequencyCron,
+                auditFrequencyEnabled,
+            );
+        }
 
         return createdApplication;
     } catch (error) {

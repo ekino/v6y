@@ -13,6 +13,10 @@ export interface ApplicationType {
     repo?: RepositoryType;
     configuration?: ApplicationConfigType;
     links?: LinkType[];
+    /** Whether recurring audit scheduling is enabled for this application */
+    auditFrequencyEnabled?: boolean;
+    /** Audit reporting frequency, expressed as a 5-field cron expression */
+    auditFrequencyCron?: string | null;
 }
 
 export interface ApplicationInputType {
@@ -34,4 +38,6 @@ export interface ApplicationInputType {
     codeQualityPlatformLink?: string;
     ciPlatformLink?: string;
     deploymentPlatformLink?: string;
+    auditFrequencyEnabled?: boolean;
+    auditFrequencyCron?: string | null;
 }

@@ -248,7 +248,27 @@
         "label": "Application DataDog Monitor ID",
         "placeholder": "Enter your application DataDog Monitor ID",
         "error": ""
-      }
+      },
+      "app-audit-frequency-group": "Audit Scheduling (optional)",
+      "app-audit-frequency-enabled": {
+        "label": "Enable scheduled audits"
+      },
+      "app-audit-frequency-period": {
+        "label": "Audit reporting frequency period",
+        "placeholder": "Select a period",
+        "error": "Please select a period",
+        "options": {
+          "day": "Day",
+          "week": "Week",
+          "month": "Month"
+        }
+      },
+      "app-audit-frequency-count": {
+        "label": "Number of audits per period",
+        "placeholder": "Select how many times",
+        "error": "Please select how many times the audit should run"
+      },
+      "app-audit-frequency-preview": "Generated schedule (cron): {{cron}}"
     },
     
     "titles": {

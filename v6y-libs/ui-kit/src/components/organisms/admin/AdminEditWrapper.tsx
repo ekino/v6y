@@ -5,6 +5,7 @@ import { BaseRecord, GetOneResponse, UseFormProps, UseUpdateProps } from '@refin
 import { useEffect } from 'react';
 
 import { gqlClientRequest } from '../../../api';
+import { useIsClient } from '../../../hooks';
 import { EditLayout, Form } from '../../atoms';
 import { FormWrapperType } from '../../types';
 
@@ -31,6 +32,14 @@ const AdminEditWrapper = ({ title, queryOptions, mutationOptions, formItems }: F
         } as UseUpdateProps,
     });
 
+    // `saveButtonProps.disabled` reflects the query's loading state, which is
+    // always `true` during SSR (the fetch hasn't started yet) but can already
+    // be settled by the time the client hydrates, causing a `disabled`
+    // attribute mismatch warning. Force it to stay `true` until this
+    // component has actually mounted on the client, so the very first client
+    // render always matches the server-rendered markup.
+    const isClient = useIsClient();
+
     useEffect(() => {
         const formDetails = query?.data?.[
             queryOptions?.queryResource as keyof typeof query.data
@@ -50,7 +59,14 @@ const AdminEditWrapper = ({ title, queryOptions, mutationOptions, formItems }: F
     const { onValuesChange, ...otherFormProps } = formProps || {};
 
     return (
-        <EditLayout canDelete={false} title={title} saveButtonProps={saveButtonProps}>
+        <EditLayout
+            canDelete={false}
+            title={title}
+            saveButtonProps={{
+                ...saveButtonProps,
+                disabled: !isClient || saveButtonProps.disabled,
+            }}
+        >
             <Form {...otherFormProps} layout="vertical" variant="filled">
                 {formItems?.map((item) => item)}
             </Form>

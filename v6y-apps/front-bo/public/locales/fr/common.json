@@ -247,7 +247,27 @@
                 "label": "Application DataDog Monitor ID",
                 "placeholder": "Enter your application DataDog Monitor ID",
                 "error": ""
-            }
+            },
+            "app-audit-frequency-group": "Planification des audits (optionnel)",
+            "app-audit-frequency-enabled": {
+                "label": "Activer les audits planifiés"
+            },
+            "app-audit-frequency-period": {
+                "label": "Période de la fréquence d'audit",
+                "placeholder": "Sélectionnez une période",
+                "error": "Veuillez sélectionner une période",
+                "options": {
+                    "day": "Jour",
+                    "week": "Semaine",
+                    "month": "Mois"
+                }
+            },
+            "app-audit-frequency-count": {
+                "label": "Nombre d'audits par période",
+                "placeholder": "Sélectionnez le nombre de fois",
+                "error": "Veuillez sélectionner le nombre de fois où l'audit doit s'exécuter"
+            },
+            "app-audit-frequency-preview": "Planification générée (cron) : {{cron}}"
         },
 
         "titles": {

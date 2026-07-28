@@ -6,3 +6,9 @@
 export const APPLICATION_ANALYSIS_QUEUE = 'application-analysis';
 
 export const APPLICATION_ANALYSIS_SINGLE_JOB = 'application-analysis';
+
+/**
+ * Prefix for the BullMQ job scheduler id backing an application's recurring
+ * "audit reporting frequency" (one repeatable job scheduler per application).
+ */
+export const APPLICATION_ANALYSIS_SCHEDULE = 'application-schedule';

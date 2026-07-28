@@ -68,6 +68,7 @@ services:
       - V6Y_BFF_API_PATH=${V6Y_BFF_API_PATH}
       - V6Y_BFF_API_PORT=${V6Y_BFF_API_PORT}
       - V6Y_MAIN_ANALYZER_TRIGGER_API_PATH=http://v6y-bfb-main-analyzer:4002/v6y/bfb-main/trigger-application-analysis.json
+      - V6Y_MAIN_ANALYZER_SCHEDULE_API_PATH=http://v6y-bfb-main-analyzer:4002/v6y/bfb-main/schedule-application-analysis.json
     depends_on:
       v6y-migrate:
         condition: service_completed_successfully
