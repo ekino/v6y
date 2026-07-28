@@ -1,6 +1,6 @@
 import { AppLogger, WorkerHelper } from '@v6y/core-logic';
 
-import { AuditCommonsType } from './types/AuditCommonsType.ts';
+import { AuditCommonsType, AuditOutcome } from './types/AuditCommonsType.ts';
 
 const { forkWorker } = WorkerHelper;
 
@@ -8,7 +8,7 @@ const startStaticAudit = async ({
     applicationId,
     workspaceFolder,
     auditRunId,
-}: AuditCommonsType) => {
+}: AuditCommonsType): Promise<AuditOutcome> => {
     try {
         AppLogger.info('[StaticAuditorManager - startStaticAudit] applicationId: ', applicationId);
         AppLogger.info(
@@ -39,13 +39,13 @@ const startStaticAudit = async ({
             '[StaticAuditorManager - startStaticAudit] Bundle Analyze Audits have completed successfully.',
         );
 
-        return true; // Indicates successful initiation of audits
+        return { status: 'success' };
     } catch (error) {
-        AppLogger.info(
+        AppLogger.error(
             '[StaticAuditorManager - startStaticAudit] An exception occurred during the app audits: ',
             error,
         );
-        return false; // Indicates failure to initiate audits
+        return { status: 'failed', message: String(error) };
     }
 };
 

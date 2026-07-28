@@ -18,6 +18,26 @@ export const auditToastStyle = {
     border: '1px solid rgba(17, 24, 39, 0.15)',
 };
 
+type LatestAuditRun = {
+    _id: number;
+    runStatus: string;
+    errorMessage: string | null;
+};
+
+const fetchLatestAuditRun = async (targetId: number) => {
+    const response = await buildClientQuery<{
+        getApplicationLatestAuditRunByParams: LatestAuditRun | null;
+    }>({
+        queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
+        query: GetApplicationLatestAuditRunByParams,
+        variables: {
+            _id: targetId,
+        },
+    });
+
+    return response?.getApplicationLatestAuditRunByParams ?? null;
+};
+
 /**
  * Encapsulates the "run an audit now" action: triggers the analysis via the BFF,
  * then polls the latest audit run for the application until it settles
@@ -45,33 +65,19 @@ export const useRunApplicationAudit = (applicationId?: number, onAuditCompleted?
                 }
 
                 try {
-                    const response = await buildClientQuery<{
-                        getApplicationLatestAuditRunByParams: {
-                            _id: number;
-                            runStatus: string;
-                            errorMessage: string | null;
-                        } | null;
-                    }>({
-                        queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
-                        query: GetApplicationLatestAuditRunByParams,
-                        variables: {
-                            _id: targetId,
-                        },
-                    });
-
-                    const latestRun = response?.getApplicationLatestAuditRunByParams;
+                    const latestRun = await fetchLatestAuditRun(targetId);
                     const runStatus = latestRun?.runStatus;
 
                     // The query returns the application's most recent run regardless of
-                    // whether it is the one we just triggered. Ignore it until its _id
-                    // differs from the run that was already latest before we triggered
-                    // this audit, so an older completed/failed run doesn't produce a
-                    // premature toast.
+                    // whether it is the one we just triggered. Audit run ids are
+                    // auto-incremented, so requiring an id strictly greater than the
+                    // pre-trigger one discards a stale run without depending on clock
+                    // agreement between the browser and the server.
                     if (
                         !latestRun ||
-                        latestRun._id === previousRunId ||
                         !runStatus ||
-                        !AUDIT_RUN_SETTLED_STATUSES.has(runStatus)
+                        !AUDIT_RUN_SETTLED_STATUSES.has(runStatus) ||
+                        (previousRunId !== null && latestRun._id <= previousRunId)
                     ) {
                         continue;
                     }
@@ -137,23 +143,14 @@ export const useRunApplicationAudit = (applicationId?: number, onAuditCompleted?
 
         setIsRunningAudit(true);
         try {
-            // Capture the run that is currently latest (if any) before triggering,
-            // so the poller can tell it apart from the run this trigger creates.
+            // Baseline the run the application already has so the poller can tell the
+            // run it triggered apart from a previous one. A failure here is not fatal:
+            // we fall back to accepting the first settled run we observe.
             let previousRunId: number | null = null;
             try {
-                const previousRunResponse = await buildClientQuery<{
-                    getApplicationLatestAuditRunByParams: { _id: number } | null;
-                }>({
-                    queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
-                    query: GetApplicationLatestAuditRunByParams,
-                    variables: {
-                        _id: applicationId,
-                    },
-                });
-                previousRunId =
-                    previousRunResponse?.getApplicationLatestAuditRunByParams?._id ?? null;
+                previousRunId = (await fetchLatestAuditRun(applicationId))?._id ?? null;
             } catch (error) {
-                console.error('Error fetching the current latest audit run:', error);
+                console.error('Unable to read the current audit run before triggering:', error);
             }
 
             const response = await buildClientQuery<{

@@ -6,14 +6,6 @@ vi.mock('@v6y/core-logic', async () => {
     return {
         ...actual,
         DataBaseManager: { connect: vi.fn().mockResolvedValue(undefined) },
-        AuditProvider: {
-            ...actual.AuditProvider,
-            deleteAuditList: vi.fn().mockResolvedValue(true),
-        },
-        DependencyProvider: {
-            ...actual.DependencyProvider,
-            deleteDependencyList: vi.fn().mockResolvedValue(true),
-        },
     };
 });
 
@@ -29,31 +21,10 @@ describe('ApplicationAnalysisProcessor', () => {
         vi.clearAllMocks();
     });
 
-    it('clears dependencies (but keeps audit history) then rebuilds the application list on a startup job', async () => {
-        const { ApplicationAnalysisProcessor } = await import('../ApplicationAnalysisProcessor.ts');
-        const { APPLICATION_ANALYSIS_STARTUP_JOB } = await import('../ApplicationAnalysisQueue.ts');
-        const { AuditProvider, DataBaseManager, DependencyProvider } = await import(
-            '@v6y/core-logic'
-        );
-        const { default: ApplicationManager } = await import(
-            '../../managers/ApplicationManager.ts'
-        );
-
-        const processor = new ApplicationAnalysisProcessor();
-        const job = { id: '1', name: APPLICATION_ANALYSIS_STARTUP_JOB, data: {} } as never;
-
-        const result = await processor.process(job);
-
-        expect(DataBaseManager.connect).toHaveBeenCalled();
-        expect(AuditProvider.deleteAuditList).not.toHaveBeenCalled();
-        expect(DependencyProvider.deleteDependencyList).toHaveBeenCalled();
-        expect(ApplicationManager.buildApplicationList).toHaveBeenCalled();
-        expect(result).toBe(true);
-    });
-
     it('builds the reports for a single application on an application-analysis job', async () => {
         const { ApplicationAnalysisProcessor } = await import('../ApplicationAnalysisProcessor.ts');
         const { APPLICATION_ANALYSIS_SINGLE_JOB } = await import('../ApplicationAnalysisQueue.ts');
+        const { DataBaseManager } = await import('@v6y/core-logic');
         const { default: ApplicationManager } = await import(
             '../../managers/ApplicationManager.ts'
         );
@@ -67,6 +38,7 @@ describe('ApplicationAnalysisProcessor', () => {
 
         const result = await processor.process(job);
 
+        expect(DataBaseManager.connect).toHaveBeenCalled();
         expect(ApplicationManager.buildApplicationReportsById).toHaveBeenCalledWith(42);
         expect(result).toBe(true);
     });

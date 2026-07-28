@@ -3,7 +3,12 @@ import { GraphQLClient, RequestDocument } from 'graphql-request';
 // @ts-expect-error
 import Cookie from 'js-cookie';
 
-const resolveGraphQLUrl = (graphQLUrl: string) => {
+/**
+ * NEXT_PUBLIC_V6Y_BFF_PATH is the browser-facing GraphQL endpoint. It may be an
+ * absolute URL, or a path relative to the origin serving the app (which is how the
+ * `front` app reaches the BFF, through its own rewrite).
+ */
+const resolveGraphQLUrl = (graphQLUrl?: string) => {
     if (!graphQLUrl?.length) {
         throw new Error(
             '[GraphQLClient] NEXT_PUBLIC_V6Y_BFF_PATH is not configured; unable to resolve the BFF GraphQL endpoint.',
@@ -14,35 +19,42 @@ const resolveGraphQLUrl = (graphQLUrl: string) => {
         return graphQLUrl;
     }
 
-    const baseOrigin =
-        typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
+    // A relative path is only meaningful against the browser origin. Assuming a
+    // server origin used to silently send requests to localhost:3000, so a relative
+    // value outside the browser is surfaced as the misconfiguration it is.
+    if (typeof window === 'undefined') {
+        throw new Error(
+            `[GraphQLClient] NEXT_PUBLIC_V6Y_BFF_PATH must be an absolute URL to be usable outside the browser; received "${graphQLUrl}".`,
+        );
+    }
 
-    return new URL(graphQLUrl, baseOrigin).toString();
+    return new URL(graphQLUrl, window.location.origin).toString();
 };
 
-export const gqlClient = new GraphQLClient('', {
-    fetch: (url: RequestInfo | URL, options?: RequestInit) => {
-        return fetch(url, {
-            ...options,
-            headers: {
-                ...(options?.headers || {}),
-                'content-type': 'application/json',
-                Authorization: `Bearer ${JSON.parse(Cookie.get('auth') || '{}')?.token}`,
+let client: GraphQLClient | undefined;
+
+/**
+ * Built on first use rather than at import time: resolving the endpoint can throw,
+ * and throwing while the module is evaluated would take down every page that
+ * transitively imports it instead of only the request that needs the BFF.
+ */
+export const getGqlClient = () => {
+    if (!client) {
+        client = new GraphQLClient(resolveGraphQLUrl(process.env.NEXT_PUBLIC_V6Y_BFF_PATH), {
+            fetch: (url: RequestInfo | URL, options?: RequestInit) => {
+                return fetch(url, {
+                    ...options,
+                    headers: {
+                        ...(options?.headers || {}),
+                        'content-type': 'application/json',
+                        Authorization: `Bearer ${JSON.parse(Cookie.get('auth') || '{}')?.token}`,
+                    },
+                });
             },
         });
-    },
-});
-
-// Resolving the BFF URL can throw (e.g. NEXT_PUBLIC_V6Y_BFF_PATH not configured).
-// Defer that resolution until the client is actually used instead of at module
-// import time, so merely importing this module never crashes the whole app.
-let resolvedBaseUrl: string | null = null;
-
-const ensureGqlClientUrl = () => {
-    if (resolvedBaseUrl === null) {
-        resolvedBaseUrl = resolveGraphQLUrl(process.env.NEXT_PUBLIC_V6Y_BFF_PATH as string);
-        gqlClient.setEndpoint(resolvedBaseUrl);
     }
+
+    return client;
 };
 
 type GqlClientRequestParams = {
@@ -53,11 +65,5 @@ type GqlClientRequestParams = {
 export const gqlClientRequest = <T>({
     gqlQueryPath,
     gqlQueryParams,
-}: GqlClientRequestParams): Promise<T> => {
-    if (!gqlQueryPath) {
-        return Promise.resolve({} as T);
-    }
-
-    ensureGqlClientUrl();
-    return gqlClient.request(gqlQueryPath, gqlQueryParams);
-};
+}: GqlClientRequestParams): Promise<T> =>
+    gqlQueryPath ? getGqlClient().request(gqlQueryPath, gqlQueryParams) : Promise.resolve({} as T);

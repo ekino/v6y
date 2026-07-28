@@ -6,6 +6,8 @@ export interface GithubConfigType {
         repositoryDetailsUrl: (repoName: string) => string;
     };
     headers: {
+        // Omitted entirely when no token is configured, so public repositories are
+        // reached anonymously instead of with a literal "Bearer undefined".
         Authorization?: string;
         Accept: string;
         'Content-Type': string;

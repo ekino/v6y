@@ -1,4 +1,8 @@
 # API
-NEXT_PUBLIC_V6Y_BFF_PATH=xxxx
+# Browser-facing GraphQL endpoint. Left relative so requests go through the
+# /v6y/graphql rewrite below instead of hitting the BFF directly.
+NEXT_PUBLIC_V6Y_BFF_PATH=/v6y/graphql
+# Server-side only: where the /v6y/graphql rewrite forwards to.
+V6Y_BFF_PROXY_TARGET=http://localhost:4001/v6y/graphql/
 NEXT_PUBLIC_V6Y_FRONT_BO_PATH=http://localhost:3001
 

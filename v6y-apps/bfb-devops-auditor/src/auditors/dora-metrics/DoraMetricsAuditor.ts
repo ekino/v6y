@@ -6,6 +6,7 @@ import {
     RepositoryApi,
 } from '@v6y/core-logic';
 
+import { AuditOutcome } from '../types/AuditCommonsType.ts';
 import {
     DoraMetricsAuditConfigType,
     startDoraMetricsAnalysisParamsType,
@@ -19,7 +20,10 @@ const { analyseDoraMetrics } = DoraMetricsUtils;
  * Starts the Dora Metrics auditor analysis.
  * @param auditConfig
  */
-const startAuditorAnalysis = async ({ applicationId, auditRunId }: DoraMetricsAuditConfigType) => {
+const startAuditorAnalysis = async ({
+    applicationId,
+    auditRunId,
+}: DoraMetricsAuditConfigType): Promise<AuditOutcome> => {
     try {
         AppLogger.info(
             `[DoraMetricsAuditor - startAuditorAnalysis] applicationId:  ${applicationId}`,
@@ -27,7 +31,7 @@ const startAuditorAnalysis = async ({ applicationId, auditRunId }: DoraMetricsAu
         AppLogger.info(`[DoraMetricsAuditor - startAuditorAnalysis] auditRunId:  ${auditRunId}`);
 
         if (applicationId === undefined) {
-            return false;
+            return { status: 'failed', message: 'The applicationId is required.' };
         }
 
         const application = await ApplicationProvider.getApplicationDetailsInfoByParams({
@@ -35,7 +39,7 @@ const startAuditorAnalysis = async ({ applicationId, auditRunId }: DoraMetricsAu
         });
 
         if (!application?._id) {
-            return false;
+            return { status: 'failed', message: `Unknown application ${applicationId}.` };
         }
 
         AppLogger.info(
@@ -49,10 +53,15 @@ const startAuditorAnalysis = async ({ applicationId, auditRunId }: DoraMetricsAu
         });
 
         if (!repositoryDetails?.id) {
+            // Not a failure: DORA metrics are GitLab-only, so a project without a
+            // resolvable GitLab id simply has nothing to audit here.
             AppLogger.warn(
                 `[DoraMetricsAuditor - startAuditorAnalysis] repository id is missing, skipping Dora metrics audit`,
             );
-            return false;
+            return {
+                status: 'skipped',
+                message: 'No GitLab repository id resolved; DORA metrics audit skipped.',
+            };
         }
 
         const auditReports = [];
@@ -87,13 +96,13 @@ const startAuditorAnalysis = async ({ applicationId, auditRunId }: DoraMetricsAu
             `[DoraMetricsAuditor - startAuditorAnalysis] audit reports inserted successfully`,
         );
 
-        return true;
+        return { status: 'success' };
     } catch (error) {
         AppLogger.error(
             '[DoraMetricsAuditor - startAuditorAnalysis] An exception occurred during the audits:',
             error,
         );
-        return false;
+        return { status: 'failed', message: String(error) };
     }
 };
 
