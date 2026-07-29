@@ -15,6 +15,7 @@ import GetApplicationDetailsInfosByParams from '../api/getApplicationDetailsInfo
 import { useRunApplicationAudit } from '../hooks/useRunApplicationAudit';
 import { RunAuditButton, RunningAuditBanner } from './RunAuditControl';
 import VitalityDetailsPageSkeleton from './VitalityDetailsPageSkeleton';
+import VitalityAiSummaryCard from './ai-summary/VitalityAiSummaryCard';
 import VitalitySummaryCard from './summary-card/VitalitySummaryCard';
 
 const VitalityGeneralInformationView = DynamicLoader(
@@ -91,7 +92,12 @@ const VitalityProjectDetailsView = ({ applicationId }: VitalityProjectDetailsVie
         <div className="min-h-screen mt-4 md:px-6 lg:px-0">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
                 <div className="lg:col-span-3 w-full">
-                    {appInfos ? <VitalitySummaryCard appInfos={appInfos} /> : null}
+                    {appInfos ? (
+                        <div className="space-y-4">
+                            <VitalitySummaryCard appInfos={appInfos} />
+                            <VitalityAiSummaryCard applicationId={targetApplicationId} />
+                        </div>
+                    ) : null}
                 </div>
 
                 <div className="lg:col-span-9 w-full space-y-8">

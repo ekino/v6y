@@ -50,6 +50,21 @@
       "exportButton": "Exporter le reporting",
       "runAuditButton": "Lancer l'audit",
       "runAuditButtonLoading": "En cours...",
+      "aiSummaryCard": {
+        "title": "Synthèse IA",
+        "empty": "Aucune synthèse IA n'a encore été générée pour cette application.",
+        "loadError": "Impossible de charger la synthèse IA.",
+        "retry": "Réessayer",
+        "generatedAt": "Générée le {date}",
+        "generateButton": "Générer la synthèse IA",
+        "regenerateButton": "Régénérer",
+        "generatingButton": "Génération...",
+        "toasts": {
+          "generated": "Synthèse IA générée avec succès.",
+          "failed": "Impossible de générer la synthèse IA.",
+          "invalidApplication": "Identifiant d'application invalide."
+        }
+      },
       "auditToasts": {
         "running": "Audit en cours...",
         "queued": "Audit lancé avec succès.",

@@ -16,6 +16,7 @@ import {
 import GetApplicationDetailsInfosByParams from '../api/getApplicationDetailsInfosByParams';
 import GetAuditRunDetailsByParams from '../api/getAuditRunDetailsByParams';
 import VitalityDetailsPageSkeleton from '../components/VitalityDetailsPageSkeleton';
+import VitalityAiSummaryCard from '../components/ai-summary/VitalityAiSummaryCard';
 import VitalitySummaryCard from '../components/summary-card/VitalitySummaryCard';
 import { useRunApplicationAudit } from '../hooks/useRunApplicationAudit';
 import BranchSelector from './BranchSelector';
@@ -289,7 +290,12 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                     {isAppDetailsInfosLoading ? (
                         <div className="bg-gray-100 animate-pulse h-80 rounded-xl"></div>
                     ) : appInfos ? (
-                        <VitalitySummaryCard appInfos={appInfos} />
+                        <div className="space-y-4">
+                            <VitalitySummaryCard appInfos={appInfos} />
+                            {!isReportDetailsView && (
+                                <VitalityAiSummaryCard applicationId={targetApplicationId} />
+                            )}
+                        </div>
                     ) : null}
                 </div>
 

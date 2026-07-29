@@ -34,6 +34,7 @@ export {
     Search,
     Settings,
     Shield,
+    Sparkles,
     Type,
     Unlock,
     Wind,
