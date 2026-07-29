@@ -40,6 +40,7 @@ export {
     Search,
     Settings,
     Shield,
+    Sparkles,
     TrendingUp,
     Type,
     Unlock,

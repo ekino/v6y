@@ -37,6 +37,7 @@ model Application {
   dependencies          Dependency[]
   evolutions            Evolution[]
   keywords              Keyword[]
+  aiSummaryReport       AiSummaryReport?
 
   @@map("applications")
 }
@@ -128,6 +129,24 @@ model Evolution {
 
   @@index([appId])
   @@map("evolutions")
+}
+
+// Stores the latest LLM-generated synthesis of an application (name,
+// description, tech stack and dependencies). One row per application: it is
+// a generic overview of the app, not tied to any specific audit run or
+// report, and is only (re)generated when the user explicitly requests it.
+model AiSummaryReport {
+  id          Int         @id @default(autoincrement()) @map("_id")
+  appId       Int         @unique @map("app_id")
+  application Application @relation(fields: [appId], references: [id], onDelete: Cascade)
+  summary     String
+  model       String?
+  tokensUsed  Int?        @map("tokens_used")
+  generatedAt DateTime    @default(now()) @map("generated_at")
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+
+  @@map("ai_summary_reports")
 }
 
 model AuditHelp {

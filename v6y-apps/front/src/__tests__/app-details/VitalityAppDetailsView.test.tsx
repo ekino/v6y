@@ -309,6 +309,29 @@ describe('VitalityAppDetailsView', () => {
         ).not.toBeInTheDocument();
     });
 
+    it('shows the AI summary card on the application details view', async () => {
+        renderComponent();
+
+        await waitFor(() => {
+            expect(screen.getByTestId('ai-summary-card')).toBeInTheDocument();
+        });
+    });
+
+    it('hides the AI summary card when viewing a specific audit run (report details)', async () => {
+        render(
+            <TestWrapper>
+                <VitalityAppDetailsView applicationId={123} auditRunId={99} />
+            </TestWrapper>,
+        );
+
+        await waitFor(() => {
+            expect(screen.getByTestId('summary-card')).toBeInTheDocument();
+        });
+
+        expect(screen.queryByTestId('ai-summary-card')).not.toBeInTheDocument();
+        expect(screen.queryByTestId('ai-summary-card-loading')).not.toBeInTheDocument();
+    });
+
     describe('running an audit', () => {
         beforeEach(() => {
             vi.useFakeTimers({ shouldAdvanceTime: true });
