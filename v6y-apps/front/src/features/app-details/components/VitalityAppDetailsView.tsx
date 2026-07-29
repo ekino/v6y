@@ -303,15 +303,6 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                                 selectedBranch={selectedBranch}
                                 onBranchChange={setSelectedBranch}
                             />
-
-                            <Input
-                                type="date"
-                                className="h-10 w-fit rounded-lg border-slate-300 bg-white text-sm"
-                                value={selectedDate}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                    setSelectedDate(e.target.value)
-                                }
-                            />
                         </div>
 
                         <div className="flex items-center gap-2 shrink-0">
@@ -373,7 +364,6 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                         >
                             {translate('vitality.appDetailsPage.exportButton')}
                         </Button>
-                    </div>
                     </div>
 
                     {renderTabContent()}
