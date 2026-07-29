@@ -63,6 +63,10 @@
         "release": "release"
       },
       "exportButton": "Export Reporting",
+      "auditControl": {
+        "title": "Audit control",
+        "description": "Trigger a new run whenever you want a fresh read on this project's health."
+      },
       "runAuditButton": "Run Audit",
       "runAuditButtonLoading": "Running...",
       "auditToasts": {

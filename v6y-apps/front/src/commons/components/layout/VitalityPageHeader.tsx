@@ -20,7 +20,7 @@ const VitalityPageHeader = () => {
 
     return (
         <>
-            <header className="border-b border-slate-200/80 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] text-slate-950">
+            <header className="border-b border-gray-200 bg-white text-gray-950">
                 <div className="mx-auto flex w-full max-w-[96rem] items-center justify-between gap-3 px-3 py-3 md:px-4 lg:px-6">
                     <div className="flex min-w-0 items-center gap-3 md:gap-4">
                         <HeaderLogo />
@@ -36,11 +36,16 @@ const VitalityPageHeader = () => {
                         <Button
                             size="icon"
                             variant="outline"
-                            className="h-10 w-10 shrink-0 border-slate-300 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-950 md:hidden"
+                            className="h-10 w-10 shrink-0 border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-950 md:hidden"
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             aria-label="Toggle menu"
                         >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg
+                                className="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
                                 {isMobileMenuOpen ? (
                                     <path
                                         strokeLinecap="round"

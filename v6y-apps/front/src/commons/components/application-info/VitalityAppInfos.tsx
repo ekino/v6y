@@ -35,7 +35,10 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                     <div className={`min-w-0 flex-1 ${isDashboard ? 'space-y-2' : 'space-y-3'}`}>
                         <div className="flex items-center gap-3">
-                            <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-700" aria-hidden>
+                            <span
+                                className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-700"
+                                aria-hidden
+                            >
                                 <StarIcon className="scale-125" />
                             </span>
                             <div className="min-w-0">
@@ -44,25 +47,37 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                                 </h4>
                                 {!isDashboard && (
                                     <p className="text-sm text-slate-500">
-                                        Repository health snapshot with direct access to reporting and tracked links.
+                                        Repository health snapshot with direct access to reporting
+                                        and tracked links.
                                     </p>
                                 )}
                             </div>
                         </div>
 
                         <div className="flex flex-wrap gap-2">
-                            <Badge variant={appOpenedBranches >= 4 ? 'warning' : 'default'} className="rounded-full px-3 py-1 text-xs">
-                                {appOpenedBranches} {appOpenedBranches === 1 ? 'branch' : 'branches'} tracked
+                            <Badge
+                                variant={appOpenedBranches >= 4 ? 'warning' : 'default'}
+                                className="rounded-full px-3 py-1 text-xs"
+                            >
+                                {appOpenedBranches}{' '}
+                                {appOpenedBranches === 1 ? 'branch' : 'branches'} tracked
                             </Badge>
 
                             {!isDashboard && (
-                                <Badge variant="outline" className="rounded-full border-slate-300 bg-white px-3 py-1 text-xs text-slate-700">
-                                    {trackedLinks} {trackedLinks === 1 ? 'linked system' : 'linked systems'}
+                                <Badge
+                                    variant="outline"
+                                    className="rounded-full border-slate-300 bg-white px-3 py-1 text-xs text-slate-700"
+                                >
+                                    {trackedLinks}{' '}
+                                    {trackedLinks === 1 ? 'linked system' : 'linked systems'}
                                 </Badge>
                             )}
 
                             {!isDashboard && app.contactMail && (
-                                <Badge variant="outline" className="rounded-full border-slate-300 bg-white px-3 py-1 text-xs text-slate-700">
+                                <Badge
+                                    variant="outline"
+                                    className="rounded-full border-slate-300 bg-white px-3 py-1 text-xs text-slate-700"
+                                >
                                     Contact ready
                                 </Badge>
                             )}
@@ -94,14 +109,17 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                         {canOpenDetails && (
                             <Link href={appDetailsLink}>
                                 <Button className="h-10 rounded-full bg-slate-950 px-5 text-sm font-medium text-white hover:bg-slate-800">
-                                    {translate('vitality.appListPage.seeReporting') || 'See Reporting'}
+                                    {translate('vitality.appListPage.seeReporting') ||
+                                        'See Reporting'}
                                 </Button>
                             </Link>
                         )}
                     </div>
                 </div>
 
-                <div className={`grid border-t border-slate-200 md:grid-cols-[minmax(0,1fr)_auto] md:items-start ${isDashboard ? 'gap-3 pt-3' : 'gap-4 pt-4'}`}>
+                <div
+                    className={`grid border-t border-slate-200 md:grid-cols-[minmax(0,1fr)_auto] md:items-start ${isDashboard ? 'gap-3 pt-3' : 'gap-4 pt-4'}`}
+                >
                     <div className="space-y-3">
                         <div className="flex flex-wrap gap-2">
                             {(appLinks || [])

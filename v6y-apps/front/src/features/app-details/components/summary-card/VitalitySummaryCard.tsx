@@ -12,24 +12,24 @@ const VitalitySummaryCard = ({ appInfos }: VitalitySummaryCardProps) => {
     const totalBranches = appInfos.repo?.allBranches?.length || 0;
 
     return (
-        <div className="space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="space-y-5 rounded-2xl border border-gray-200 bg-white p-5">
             <div className="space-y-4">
-                <span className="inline-flex rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+                <span className="inline-flex rounded-full border border-gray-200 bg-gray-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-500">
                     {translate('vitality.appDetailsPage.summaryCard.title')}
                 </span>
 
                 <div className="min-w-0 space-y-1">
-                    <h2 className="truncate text-2xl font-semibold tracking-tight text-slate-950">
+                    <h2 className="truncate text-2xl font-semibold tracking-tight text-gray-950">
                         {appInfos.name || 'Vitality'}
                     </h2>
-                    <p className="text-sm leading-6 text-slate-600">
+                    <p className="text-sm leading-6 text-gray-600">
                         {translate('vitality.appDetailsPage.summaryCard.description')}
                     </p>
                 </div>
             </div>
 
-            <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
-                <span className="inline-flex h-5 w-5 items-center justify-center text-slate-500">
+            <div className="flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-100 px-4 py-3 text-sm text-gray-600">
+                <span className="inline-flex h-5 w-5 items-center justify-center text-gray-500">
                     <ReloadIcon className="h-4 w-4" />
                 </span>
                 <span>
@@ -41,7 +41,7 @@ const VitalitySummaryCard = ({ appInfos }: VitalitySummaryCardProps) => {
             </div>
 
             {totalBranches > 0 && (
-                <div className="text-sm font-medium text-slate-700">
+                <div className="text-sm font-medium text-gray-700">
                     {translate('vitality.appDetailsPage.summaryCard.branchesLabel').replace(
                         '{count}',
                         totalBranches.toString(),

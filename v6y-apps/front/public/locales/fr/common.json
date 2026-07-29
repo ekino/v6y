@@ -63,6 +63,10 @@
         "release": "release"
       },
       "exportButton": "Exporter le reporting",
+      "auditControl": {
+        "title": "Contrôle de l'audit",
+        "description": "Lancez un nouvel audit dès que vous voulez un état à jour de la santé du projet."
+      },
       "runAuditButton": "Lancer l'audit",
       "runAuditButtonLoading": "En cours...",
       "auditToasts": {

@@ -97,21 +97,31 @@ const VitalityProjectDetailsView = ({ applicationId }: VitalityProjectDetailsVie
                 </div>
 
                 <div className="lg:col-span-8 w-full space-y-7">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-3">
-                        <RunningAuditBanner isRunningAudit={isRunningAudit} />
-                        <RunAuditButton
-                            isRunningAudit={isRunningAudit}
-                            onRunAuditClicked={onRunAuditClicked}
-                        />
+                    <div className="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-4 sm:flex-row sm:items-center sm:justify-between md:px-5">
+                        <div className="min-w-0">
+                            <h2 className="text-base font-semibold text-gray-950">
+                                {translate('vitality.appDetailsPage.auditControl.title')}
+                            </h2>
+                            <p className="text-sm text-gray-600">
+                                {translate('vitality.appDetailsPage.auditControl.description')}
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-3 shrink-0">
+                            <RunningAuditBanner isRunningAudit={isRunningAudit} />
+                            <RunAuditButton
+                                isRunningAudit={isRunningAudit}
+                                onRunAuditClicked={onRunAuditClicked}
+                            />
+                        </div>
                     </div>
 
                     <VitalityGeneralInformationView appInfos={appInfos} />
 
-                    <div className="rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#fbfcfd_0%,#f4f6f8_100%)] px-4 py-5 md:px-5 md:py-6">
-                        <h2 className="text-lg font-semibold text-slate-900 mb-2">
+                    <div className="rounded-2xl border border-gray-200 bg-white px-4 py-5 md:px-5 md:py-6">
+                        <h2 className="text-lg font-semibold text-gray-950 mb-2">
                             {translate('vitality.appDetailsPage.auditHistory.title')}
                         </h2>
-                        <p className="text-sm text-slate-600 mb-6">
+                        <p className="text-sm text-gray-600 mb-6">
                             {translate('vitality.appDetailsPage.auditHistory.description')}
                         </p>
                         <VitalityAuditRunHistoryView
