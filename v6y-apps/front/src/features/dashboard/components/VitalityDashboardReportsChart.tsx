@@ -119,6 +119,11 @@ const normalizeCategory = (type: string): CategoryKey => {
 const VitalityDashboardReportsChart = () => {
     const { translate } = useTranslationProvider();
 
+    const [hasMounted, setHasMounted] = React.useState(false);
+    React.useEffect(() => {
+        setHasMounted(true);
+    }, []);
+
     const { isLoading, data } = useClientQuery<{ getAllAuditRuns?: AuditRunType[] }>({
         queryCacheKey: ['dashboard', 'getAllAuditRuns'],
         queryBuilder: async () =>
@@ -217,7 +222,7 @@ const VitalityDashboardReportsChart = () => {
         };
     }, [data]);
 
-    if (isLoading) {
+    if (!hasMounted || isLoading) {
         return (
             <div className="space-y-3">
                 <Skeleton className="h-5 w-64" />

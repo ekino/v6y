@@ -22,7 +22,7 @@ describe('VitalityAppListView', () => {
 
         const section = container.querySelector('section');
         expect(section).not.toBeNull();
-        expect(section).toHaveClass('rounded-xl');
+        expect(section).toHaveClass('rounded-2xl');
         expect(section).toHaveClass('border-slate-200');
     });
 });

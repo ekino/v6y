@@ -230,7 +230,7 @@ const EcoindexCard = ({ report }: { report: AuditType }) => {
                     {metrics.map(({ label, value, icon }) => (
                         <div
                             key={label}
-                            className="bg-white/50 rounded-md p-2 text-center border border-white/30"
+                            className="bg-white/50 rounded-lg p-2 text-center border border-white/30"
                         >
                             {React.createElement(icon, {
                                 className: 'w-4 h-4 mx-auto text-gray-600',

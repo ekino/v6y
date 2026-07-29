@@ -27,7 +27,7 @@ const DesktopMenuItems = ({ isLoggedIn, userName, onLogout }: DesktopMenuItemsPr
         <div className="hidden md:flex items-center gap-2 flex-wrap justify-end">
             <Link className="shrink-0" href="/faq">
                 <Button
-                    className="h-10 w-10 border-slate-300 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-950"
+                    className="h-10 w-10 rounded-lg border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-950"
                     size="icon"
                     variant="outline"
                 >
@@ -39,7 +39,7 @@ const DesktopMenuItems = ({ isLoggedIn, userName, onLogout }: DesktopMenuItemsPr
                 <Button
                     size="icon"
                     variant="outline"
-                    className="h-10 w-10 shrink-0 border-slate-300 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-950"
+                    className="h-10 w-10 shrink-0 rounded-lg border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-950"
                 >
                     <MagnifyingGlassIcon className="w-5 h-5" />
                 </Button>
@@ -51,8 +51,8 @@ const DesktopMenuItems = ({ isLoggedIn, userName, onLogout }: DesktopMenuItemsPr
 
             {isLoggedIn && (
                 <>
-                    <div className="min-w-0 rounded-full border border-slate-200 bg-slate-50 px-3 py-2">
-                        <TypographySmall className="truncate px-0 text-xs text-slate-600">
+                    <div className="min-w-0 rounded-full border border-gray-200 bg-gray-100 px-3 py-2">
+                        <TypographySmall className="truncate px-0 text-xs text-gray-600">
                             {translate('vitality.header.welcome')} {userName}
                         </TypographySmall>
                     </div>
@@ -65,7 +65,7 @@ const DesktopMenuItems = ({ isLoggedIn, userName, onLogout }: DesktopMenuItemsPr
                         <Button
                             size="icon"
                             variant="outline"
-                            className="h-10 w-10 border-slate-300 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-950"
+                            className="h-10 w-10 border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-950"
                         >
                             <ExitIcon className="w-5 h-5" />
                         </Button>

@@ -12,8 +12,8 @@ export default async function NotFound() {
 
     return (
         <div className="mx-auto w-full max-w-3xl px-2 py-6 md:py-10">
-            <section className="rounded-3xl border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#f5f7fa_58%,#f8fafc_100%)] p-6 shadow-sm md:p-10">
-                <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-300 bg-white text-slate-700">
+            <section className="rounded-2xl border border-gray-200 bg-white p-6 md:p-10">
+                <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-lg border border-gray-200 bg-gray-100 text-gray-600">
                     <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path
                             strokeLinecap="round"
@@ -24,24 +24,24 @@ export default async function NotFound() {
                     </svg>
                 </div>
 
-                <p className="text-sm font-medium uppercase tracking-wide text-slate-600">{badge}</p>
-                <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950 md:text-4xl">
+                <p className="text-sm font-medium uppercase tracking-wide text-gray-500">{badge}</p>
+                <h1 className="mt-2 text-3xl font-semibold tracking-tight text-gray-950 md:text-4xl">
                     {title}
                 </h1>
-                <p className="mt-3 max-w-2xl text-base leading-relaxed text-slate-700">
+                <p className="mt-3 max-w-2xl text-base leading-relaxed text-gray-600">
                     {description}
                 </p>
 
                 <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                     <Link
                         href={VitalityNavigationPaths.DASHBOARD}
-                        className="inline-flex h-11 items-center justify-center rounded-full bg-slate-900 px-5 text-sm font-medium text-white transition-colors hover:bg-slate-800"
+                        className="inline-flex h-11 items-center justify-center rounded-full bg-gray-950 px-5 text-sm font-medium text-white transition-colors hover:bg-gray-800"
                     >
                         {backToDashboard}
                     </Link>
                     <Link
                         href={VitalityNavigationPaths.APP_LIST}
-                        className="inline-flex h-11 items-center justify-center rounded-full border border-slate-300 bg-white px-5 text-sm font-medium text-slate-900 transition-colors hover:bg-slate-50"
+                        className="inline-flex h-11 items-center justify-center rounded-full border border-gray-300 bg-white px-5 text-sm font-medium text-gray-950 transition-colors hover:bg-gray-50"
                     >
                         {openApplications}
                     </Link>

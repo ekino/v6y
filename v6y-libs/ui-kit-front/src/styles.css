@@ -216,6 +216,9 @@
   .bg-primary {
     background-color: var(--primary);
   }
+  .bg-primary\/10 {
+    background-color: color-mix(in oklab, var(--primary) 10%, transparent);
+  }
   .text-primary {
     color: var(--primary);
   }
@@ -253,6 +256,9 @@
   .border-destructive {
     border-color: var(--destructive);
   }
+  .border-destructive\/50 {
+    border-color: color-mix(in oklab, var(--destructive) 50%, transparent);
+  }
 
   /* Muted colors */
   .bg-muted {
@@ -271,6 +277,9 @@
   /* Accent colors */
   .bg-accent {
     background-color: var(--accent);
+  }
+  .bg-accent\/50 {
+    background-color: color-mix(in oklab, var(--accent) 50%, transparent);
   }
   .text-accent {
     color: var(--accent);
