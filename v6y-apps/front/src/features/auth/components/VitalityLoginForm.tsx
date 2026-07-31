@@ -65,7 +65,7 @@ const VitalityLoginForm = () => {
                         {translate('vitality.loginPage.formDescription')}
                     </CardDescription>
                 </CardHeader>
-                <CardContent className="p-5 md:p-6">
+                <CardContent className="pt-5 md:pt-6">
                     <Form {...form}>
                         <form
                             onSubmit={form.handleSubmit(onAuthentication)}
