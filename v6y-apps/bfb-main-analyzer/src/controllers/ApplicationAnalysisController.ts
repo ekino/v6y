@@ -7,13 +7,16 @@ import {
     InternalServerErrorException,
     Optional,
     Post,
+    UseGuards,
 } from '@nestjs/common';
 import { validate as validateCronExpression } from 'node-cron';
 
 import { AppLogger } from '@v6y/core-logic';
 
+import { isAuditCronRateAcceptable } from '../config/AuditCronPolicy.ts';
 import ServerConfig from '../config/ServerConfig.ts';
 import { ApplicationAnalysisQueueService } from '../queues/ApplicationAnalysisQueueService.ts';
+import { InternalApiGuard } from './InternalApiGuard.ts';
 
 const { currentConfig } = ServerConfig;
 const basePath = (currentConfig?.apiPath || '').toString();
@@ -41,6 +44,7 @@ interface ScheduleApplicationAnalysisResponse {
 }
 
 @Controller(basePath)
+@UseGuards(InternalApiGuard)
 export class ApplicationAnalysisController {
     constructor(
         @Optional()
@@ -141,6 +145,14 @@ export class ApplicationAnalysisController {
                 success: false,
                 message:
                     'A valid cron expression is required to enable the application analysis schedule.',
+            });
+        }
+
+        if (!isAuditCronRateAcceptable(cron)) {
+            throw new BadRequestException({
+                success: false,
+                message:
+                    'The cron expression schedules audits too frequently: the seconds and minutes fields must pin a single value, so a schedule runs at most once per hour.',
             });
         }
 

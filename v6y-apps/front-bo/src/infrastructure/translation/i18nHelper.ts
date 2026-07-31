@@ -65,6 +65,12 @@ i18next
         fallbackLng: 'en',
         detection: DETECTION_OPTIONS,
         defaultNS: 'common',
+        interpolation: {
+            // React already escapes everything it renders as text, and i18next's
+            // own escaping is applied on top of it: it turned the `/` of cron
+            // patterns into a literal `&#x2F;` in the audit frequency preview.
+            escapeValue: false,
+        },
         react: {
             useSuspense: false,
         },

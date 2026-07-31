@@ -42,8 +42,17 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
         acronym,
         description,
         contactMail,
-        auditFrequencyEnabled: !!auditFrequencyEnabled,
-        auditFrequencyCron: auditFrequencyEnabled ? auditFrequencyCron || null : null,
+        // Left `undefined` when the input omits the field, so a partial update
+        // (a script, a client on an older schema) does not silently disable an
+        // application's scheduled audits and drop its cron.
+        auditFrequencyEnabled:
+            auditFrequencyEnabled === undefined ? undefined : !!auditFrequencyEnabled,
+        auditFrequencyCron:
+            auditFrequencyEnabled === undefined
+                ? undefined
+                : auditFrequencyEnabled
+                  ? auditFrequencyCron || null
+                  : null,
         repo: { webUrl: gitWebUrl, gitUrl, organization: gitOrganization },
         links: [
             { label: 'Application production url', value: productionLink, description: '' },
@@ -227,7 +236,9 @@ const editFormApplication = async (application: ApplicationInputType) => {
                     ? (formApplication.links as unknown as Prisma.InputJsonValue)
                     : undefined,
                 auditFrequencyEnabled: formApplication.auditFrequencyEnabled ?? undefined,
-                auditFrequencyCron: formApplication.auditFrequencyCron ?? null,
+                // `undefined` leaves the column untouched, `null` clears it: both
+                // are meaningful here, so this must not collapse them.
+                auditFrequencyCron: formApplication.auditFrequencyCron,
             },
         });
         return { _id: application._id };
@@ -377,6 +388,35 @@ const getApplicationTotalByParams = async (
     }
 };
 
+/**
+ * Every application whose scheduled audits are enabled, with the cron to install.
+ * The database is the source of truth for these schedules: the analyzer's job
+ * schedulers live in Redis, which can be lost (no persistence guarantee, image
+ * bump, flush) and can also drift when a schedule write failed at save time.
+ *
+ * Returns `null` — not an empty list — when the read fails, so a caller
+ * reconciling Redis against this list cannot mistake an unreachable database for
+ * "no application schedules audits" and delete every schedule.
+ */
+const getScheduledApplicationList = async () => {
+    try {
+        const applications = await getPrismaClient().application.findMany({
+            where: { auditFrequencyEnabled: true, auditFrequencyCron: { not: null } },
+            select: { id: true, auditFrequencyCron: true },
+        });
+
+        return applications
+            .filter((application) => application.auditFrequencyCron?.length)
+            .map((application) => ({
+                _id: application.id,
+                auditFrequencyCron: application.auditFrequencyCron as string,
+            }));
+    } catch (error) {
+        AppLogger.error('[ApplicationProvider - getScheduledApplicationList] error: ', error);
+        return null;
+    }
+};
+
 const getApplicationStatsByParams = async ({ keywords }: SearchQueryType) => {
     try {
         return KeywordProvider.getKeywordsStatsByParams({ keywords });
@@ -400,6 +440,7 @@ const ApplicationProvider = {
     getApplicationListByPageAndParams,
     getApplicationTotalByParams,
     getApplicationStatsByParams,
+    getScheduledApplicationList,
 };
 
 export default ApplicationProvider;

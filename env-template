@@ -35,6 +35,16 @@ V6Y_QUEUE_HOST=localhost
 V6Y_QUEUE_PORT=6379
 V6Y_QUEUE_PREFIX=v6y
 
+# Timezone the scheduled audit cron patterns are evaluated in. Defaults to UTC so
+# a schedule does not depend on the container's timezone; set it to the timezone
+# the back office presets should read as (e.g. Europe/Paris).
+V6Y_AUDIT_SCHEDULE_TIMEZONE=UTC
+
+# Shared secret the BFF sends, and the main analyzer requires, on the internal
+# endpoints that trigger and schedule an application analysis. Left empty, those
+# endpoints stay open to anything that can reach the port.
+V6Y_INTERNAL_API_SECRET=
+
 V6Y_BFF_API_PATH=/v6y/graphql/
 V6Y_BFF_API_PORT=4001
 

@@ -9,8 +9,15 @@ import { useIsClient } from '../../../hooks';
 import { EditLayout, Form } from '../../atoms';
 import { FormWrapperType } from '../../types';
 
-const AdminEditWrapper = ({ title, queryOptions, mutationOptions, formItems }: FormWrapperType) => {
+const AdminEditWrapper = ({
+    title,
+    queryOptions,
+    mutationOptions,
+    formItems,
+    onMutationSuccess,
+}: FormWrapperType) => {
     const { form, formProps, saveButtonProps, query } = useForm<UseFormProps>({
+        onMutationSuccess: (data) => onMutationSuccess?.(data),
         queryOptions: {
             queryKey: [queryOptions?.resource, queryOptions?.queryParams],
             queryFn: async (): Promise<GetOneResponse<BaseRecord>> =>

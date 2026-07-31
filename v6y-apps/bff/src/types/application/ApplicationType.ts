@@ -35,6 +35,14 @@ const ApplicationType = `
 
     """ Audit reporting frequency, expressed as a 5-field cron expression """
     auditFrequencyCron: String
+
+    """
+    Whether the analyzer confirmed the audit schedule change made by the last
+    createOrEditApplication call. False means the application was saved but its
+    schedule is not installed yet (the analyzer re-applies it on its next
+    reconciliation). Only set on that mutation's result.
+    """
+    auditFrequencyScheduled: Boolean
   }
 `;
 

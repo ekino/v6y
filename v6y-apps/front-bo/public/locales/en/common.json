@@ -268,9 +268,14 @@
         "placeholder": "Select how many times",
         "error": "Please select how many times the audit should run"
       },
-      "app-audit-frequency-preview": "Generated schedule (cron): {{cron}}"
+      "app-audit-frequency-preview": "Generated schedule (cron): {{cron}}",
+      "app-audit-frequency-custom": "Custom schedule set outside the back office (cron): {{cron}}. It is kept as-is; select a period and a number of audits to replace it."
     },
-    
+
+    "messages": {
+      "audit-frequency-schedule-failed": "The application was saved, but its audit schedule could not be applied on the analyzer. It will be re-applied automatically on the next reconciliation."
+    },
+
     "titles": {
       "create": "Create Application",
       "edit": "Edit Application",

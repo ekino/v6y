@@ -1,12 +1,13 @@
 import * as React from 'react';
 
-import { Flex, Form, Select, Switch, Text, TranslateType } from '@v6y/ui-kit';
+import { Flex, Form, Input, Select, Switch, Text, TranslateType } from '@v6y/ui-kit';
 
 import {
     AuditFrequencyPeriod,
     getAuditFrequencyCounts,
     getAuditFrequencyCron,
     getAuditFrequencyPeriods,
+    isCustomAuditFrequencyCron,
 } from '../utils/AuditFrequencyUtils';
 
 interface VitalityAuditFrequencyFieldProps {
@@ -18,6 +19,7 @@ interface AuditFrequencyWatchedValues {
     count?: number;
     enabled?: boolean;
     period?: AuditFrequencyPeriod;
+    storedCron?: string;
 }
 
 /**
@@ -37,13 +39,14 @@ const VitalityAuditFrequencyField = ({
 }: VitalityAuditFrequencyFieldProps) => {
     const form = Form.useFormInstance();
     // A single selector-based watch (instead of one `Form.useWatch` call per
-    // field) so only these 3 primitive values are diffed on each form change.
-    const { enabled, period, count } =
+    // field) so only these primitive values are diffed on each form change.
+    const { enabled, period, count, storedCron } =
         Form.useWatch(
             (allValues: Record<string, unknown>): AuditFrequencyWatchedValues => ({
                 enabled: allValues['app-audit-frequency-enabled'] as boolean | undefined,
                 period: allValues['app-audit-frequency-period'] as AuditFrequencyPeriod | undefined,
                 count: allValues['app-audit-frequency-count'] as number | undefined,
+                storedCron: allValues['app-audit-frequency-cron'] as string | undefined,
             }),
             form,
         ) || ({} as AuditFrequencyWatchedValues);
@@ -54,10 +57,20 @@ const VitalityAuditFrequencyField = ({
     // while it's still dispatching the period field's own change.
     const previousPeriodRef = React.useRef(period);
     React.useEffect(() => {
-        if (previousPeriodRef.current !== period) {
-            previousPeriodRef.current = period;
-            form?.setFieldValue('app-audit-frequency-count', undefined);
+        const previousPeriod = previousPeriodRef.current;
+        previousPeriodRef.current = period;
+
+        // `AdminEditWrapper` hydrates the form from the API in its own effect,
+        // i.e. after this component's first render, so the first period this
+        // effect observes is `undefined` and the second one is the saved value.
+        // Treating that transition as a period change used to wipe the saved
+        // count on every visit to the Edit page, leaving the count Select empty
+        // and its `required` rule failing on any subsequent save.
+        if (previousPeriod === undefined || previousPeriod === period) {
+            return;
         }
+
+        form?.setFieldValue('app-audit-frequency-count', undefined);
     }, [period, form]);
 
     const periodOptions = getAuditFrequencyPeriods().map((item) => ({
@@ -68,7 +81,12 @@ const VitalityAuditFrequencyField = ({
         value: item,
         label: String(item),
     }));
-    const cron = getAuditFrequencyCron(period, count);
+
+    const presetCron = getAuditFrequencyCron(period, count);
+    const hasCustomCron = isCustomAuditFrequencyCron(storedCron);
+    // Once a full preset is selected it replaces the custom expression on save,
+    // so stop advertising the latter.
+    const showCustomCron = hasCustomCron && !presetCron;
 
     return (
         <fieldset>
@@ -88,6 +106,12 @@ const VitalityAuditFrequencyField = ({
                 </Text>
             </Flex>
 
+            {/* Carries a saved expression the presets cannot express, so it is
+                preserved instead of being dropped on the next save. */}
+            <Form.Item name="app-audit-frequency-cron" hidden>
+                <Input />
+            </Form.Item>
+
             {!!enabled && (
                 <>
                     <Form.Item
@@ -95,14 +119,18 @@ const VitalityAuditFrequencyField = ({
                             'v6y-applications.fields.app-audit-frequency-period.label',
                         )}
                         name="app-audit-frequency-period"
-                        rules={[
-                            {
-                                required: true,
-                                message: translate(
-                                    'v6y-applications.fields.app-audit-frequency-period.error',
-                                ),
-                            },
-                        ]}
+                        rules={
+                            hasCustomCron
+                                ? []
+                                : [
+                                      {
+                                          required: true,
+                                          message: translate(
+                                              'v6y-applications.fields.app-audit-frequency-period.error',
+                                          ),
+                                      },
+                                  ]
+                        }
                     >
                         <Select
                             placeholder={translate(
@@ -115,14 +143,18 @@ const VitalityAuditFrequencyField = ({
                     <Form.Item
                         label={translate('v6y-applications.fields.app-audit-frequency-count.label')}
                         name="app-audit-frequency-count"
-                        rules={[
-                            {
-                                required: true,
-                                message: translate(
-                                    'v6y-applications.fields.app-audit-frequency-count.error',
-                                ),
-                            },
-                        ]}
+                        rules={
+                            hasCustomCron
+                                ? []
+                                : [
+                                      {
+                                          required: true,
+                                          message: translate(
+                                              'v6y-applications.fields.app-audit-frequency-count.error',
+                                          ),
+                                      },
+                                  ]
+                        }
                     >
                         <Select
                             disabled={!period}
@@ -133,10 +165,18 @@ const VitalityAuditFrequencyField = ({
                         />
                     </Form.Item>
 
-                    {!!cron && (
+                    {showCustomCron && (
+                        <Text type="warning">
+                            {translate('v6y-applications.fields.app-audit-frequency-custom', {
+                                cron: storedCron,
+                            } as never)}
+                        </Text>
+                    )}
+
+                    {!!presetCron && (
                         <Text type="secondary">
                             {translate('v6y-applications.fields.app-audit-frequency-preview', {
-                                cron,
+                                cron: presetCron,
                             } as never)}
                         </Text>
                     )}

@@ -5,7 +5,13 @@
  *
  * Only evenly-spaced presets are supported so the generated cron expression is
  * always exact (never rounded): a day can be split into 1/2/3/4/6/8/12/24 equal
- * slices, a week into 1 (weekly) or 7 (daily) slices, and a month only once.
+ * slices, and a week or a month only once.
+ *
+ * Every preset cron is unique across periods, so `getAuditFrequencyCron` and
+ * `parseAuditFrequencyCron` are exact inverses. "7 times per week" is therefore
+ * deliberately absent: it is the same schedule as "1 time per day", and offering
+ * both made the round-trip lossy (a schedule saved as week/7 always reloaded as
+ * day/1).
  */
 export type AuditFrequencyPeriod = 'day' | 'week' | 'month';
 
@@ -25,10 +31,7 @@ const AUDIT_FREQUENCY_PRESETS: Record<AuditFrequencyPeriod, AuditFrequencyPreset
         { count: 12, cron: '0 */2 * * *' },
         { count: 24, cron: '0 * * * *' },
     ],
-    week: [
-        { count: 1, cron: '0 0 * * 1' },
-        { count: 7, cron: '0 0 * * *' },
-    ],
+    week: [{ count: 1, cron: '0 0 * * 1' }],
     month: [{ count: 1, cron: '0 0 1 * *' }],
 };
 
@@ -61,3 +64,14 @@ export const parseAuditFrequencyCron = (
 
     return undefined;
 };
+
+/**
+ * A cron expression the presets above cannot express (set straight in the
+ * database, or left over from an older preset table) has no period/count to
+ * select in the form. It is treated as a read-only "custom schedule" that the
+ * form carries through untouched, rather than as an empty selection — which
+ * would otherwise trip the period/count `required` rules and block every save
+ * on that application, including edits to unrelated fields.
+ */
+export const isCustomAuditFrequencyCron = (cron?: string | null): boolean =>
+    !!cron?.length && !parseAuditFrequencyCron(cron);

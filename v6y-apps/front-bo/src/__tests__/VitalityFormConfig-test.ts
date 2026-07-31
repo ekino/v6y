@@ -226,4 +226,64 @@ describe('VitalityFormConfig - Form Items', () => {
             expect(fieldset).toBeDefined();
         });
     });
+
+    it('should map a preset audit frequency cron to a period and a count', () => {
+        const result = applicationCreateOrEditFormInAdapter({
+            _id: 1,
+            auditFrequencyEnabled: true,
+            auditFrequencyCron: '0 */6 * * *',
+        } as ApplicationType);
+
+        expect(result['app-audit-frequency-enabled']).toBe(true);
+        expect(result['app-audit-frequency-period']).toBe('day');
+        expect(result['app-audit-frequency-count']).toBe(4);
+        expect(result['app-audit-frequency-cron']).toBeUndefined();
+    });
+
+    it('should carry a non-preset audit frequency cron through the form untouched', () => {
+        const result = applicationCreateOrEditFormInAdapter({
+            _id: 1,
+            auditFrequencyEnabled: true,
+            auditFrequencyCron: '0 30 3 * * 1-5',
+        } as ApplicationType);
+
+        expect(result['app-audit-frequency-period']).toBeUndefined();
+        expect(result['app-audit-frequency-count']).toBeUndefined();
+        expect(result['app-audit-frequency-cron']).toBe('0 30 3 * * 1-5');
+
+        // The unchanged form must send that same expression back, instead of
+        // silently dropping the schedule it could not represent.
+        const output = applicationCreateOrEditFormOutputAdapter({
+            ...result,
+            'app-name': 'TestApp',
+        }) as { applicationInput: Record<string, unknown> };
+
+        expect(output.applicationInput.auditFrequencyEnabled).toBe(true);
+        expect(output.applicationInput.auditFrequencyCron).toBe('0 30 3 * * 1-5');
+    });
+
+    it('should let a completed preset selection replace a non-preset cron', () => {
+        const output = applicationCreateOrEditFormOutputAdapter({
+            _id: 1,
+            'app-audit-frequency-enabled': true,
+            'app-audit-frequency-period': 'week',
+            'app-audit-frequency-count': 1,
+            'app-audit-frequency-cron': '0 30 3 * * 1-5',
+        }) as { applicationInput: Record<string, unknown> };
+
+        expect(output.applicationInput.auditFrequencyCron).toBe('0 0 * * 1');
+    });
+
+    it('should drop the audit frequency cron when scheduling is disabled', () => {
+        const output = applicationCreateOrEditFormOutputAdapter({
+            _id: 1,
+            'app-audit-frequency-enabled': false,
+            'app-audit-frequency-period': 'day',
+            'app-audit-frequency-count': 4,
+            'app-audit-frequency-cron': '0 30 3 * * 1-5',
+        }) as { applicationInput: Record<string, unknown> };
+
+        expect(output.applicationInput.auditFrequencyEnabled).toBe(false);
+        expect(output.applicationInput.auditFrequencyCron).toBeUndefined();
+    });
 });

@@ -267,7 +267,12 @@
                 "placeholder": "Sélectionnez le nombre de fois",
                 "error": "Veuillez sélectionner le nombre de fois où l'audit doit s'exécuter"
             },
-            "app-audit-frequency-preview": "Planification générée (cron) : {{cron}}"
+            "app-audit-frequency-preview": "Planification générée (cron) : {{cron}}",
+            "app-audit-frequency-custom": "Planification personnalisée définie hors du back-office (cron) : {{cron}}. Elle est conservée telle quelle ; sélectionnez une période et un nombre d'audits pour la remplacer."
+        },
+
+        "messages": {
+            "audit-frequency-schedule-failed": "L'application a été enregistrée, mais sa planification d'audit n'a pas pu être appliquée sur l'analyseur. Elle sera réappliquée automatiquement à la prochaine réconciliation."
         },
 
         "titles": {

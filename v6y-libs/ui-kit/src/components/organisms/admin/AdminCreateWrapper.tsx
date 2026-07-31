@@ -7,9 +7,15 @@ import { gqlClientRequest } from '../../../api';
 import { CreateLayout, Form } from '../../atoms';
 import { FormCreateWrapperType } from '../../types';
 
-const AdminCreateWrapper = ({ title, createOptions, formItems }: FormCreateWrapperType) => {
+const AdminCreateWrapper = ({
+    title,
+    createOptions,
+    formItems,
+    onMutationSuccess,
+}: FormCreateWrapperType) => {
     const { form, formProps, saveButtonProps } = useForm<UseFormProps>({
         defaultFormValues: {},
+        onMutationSuccess: (data) => onMutationSuccess?.(data),
         createMutationOptions: {
             mutationFn: async (): Promise<GetOneResponse<BaseRecord>> =>
                 gqlClientRequest({
