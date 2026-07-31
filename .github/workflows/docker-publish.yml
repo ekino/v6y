@@ -1,114 +1,108 @@
-name: Docker Compose Deploy
+name: Publish Docker images
+
+# Builds every v6y service image and pushes it to the GitHub Container Registry
+# so a deployment target can pull them.
+#
+# Tagging:
+#   push to main -> main, sha-<short>, latest
+#   release      -> <release tag>, latest
+# latest tracks main because releases are cut rarely; pin to sha-<short> or to a
+# release tag when a deployment must not move.
+#
+# This workflow only builds and pushes. It deliberately performs no deployment:
+# the previous version ran "docker-compose up -d" on the ephemeral GitHub
+# runner, which started containers that were destroyed along with the runner.
 
 on:
   push:
     branches: ["main"]
   release:
-    types: ["created"]
-    branches: ["main"]
+    types: ["published"]
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
 
+# A superseded main build is never worth finishing.
+concurrency:
+  group: docker-publish-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  deploy:
+  publish:
     runs-on: ubuntu-latest
 
     permissions:
       contents: read
       packages: write
-      id-token: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Resolve environment secrets
-        uses: ./.github/actions/resolve-env-secrets
-        with:
-          prod-psql-db-host: ${{ secrets.PROD_PSQL_DB_HOST }}
-          prod-psql-db-name: ${{ secrets.PROD_PSQL_DB_NAME }}
-          prod-psql-db-user: ${{ secrets.PROD_PSQL_DB_USER }}
-          prod-psql-db-password: ${{ secrets.PROD_PSQL_DB_PASSWORD }}
-          prod-psql-db-port: ${{ secrets.PROD_PSQL_DB_PORT }}
-          prod-gitlab-private-token: ${{ secrets.PROD_GITLAB_PRIVATE_TOKEN }}
-          prod-github-private-token: ${{ secrets.PROD_GITHUB_PRIVATE_TOKEN }}
-          prod-jwt-secret: ${{ secrets.PROD_JWT_SECRET }}
-          prod-v6y-static-analyzer-api-path: ${{ secrets.PROD_V6Y_STATIC_ANALYZER_API_PATH }}
-          prod-v6y-static-analyzer-api-port: ${{ secrets.PROD_V6Y_STATIC_ANALYZER_API_PORT }}
-          prod-v6y-devops-api-path: ${{ secrets.PROD_V6Y_DEVOPS_API_PATH }}
-          prod-v6y-devops-api-port: ${{ secrets.PROD_V6Y_DEVOPS_API_PORT }}
-          prod-v6y-dynamic-analyzer-api-path: ${{ secrets.PROD_V6Y_DYNAMIC_ANALYZER_API_PATH }}
-          prod-v6y-dynamic-analyzer-api-port: ${{ secrets.PROD_V6Y_DYNAMIC_ANALYZER_API_PORT }}
-          prod-v6y-main-api-path: ${{ secrets.PROD_V6Y_MAIN_API_PATH }}
-          prod-v6y-main-api-port: ${{ secrets.PROD_V6Y_MAIN_API_PORT }}
-          prod-v6y-bff-api-path: ${{ secrets.PROD_V6Y_BFF_API_PATH }}
-          prod-v6y-bff-api-port: ${{ secrets.PROD_V6Y_BFF_API_PORT }}
-          prod-next-public-v6y-bff-path: ${{ secrets.PROD_NEXT_PUBLIC_V6Y_BFF_PATH }}
-          prod-nextauth-url: ${{ secrets.PROD_NEXTAUTH_URL }}
-          dev-psql-db-host: ${{ secrets.DEV_PSQL_DB_HOST }}
-          dev-psql-db-name: ${{ secrets.DEV_PSQL_DB_NAME }}
-          dev-psql-db-user: ${{ secrets.DEV_PSQL_DB_USER }}
-          dev-psql-db-password: ${{ secrets.DEV_PSQL_DB_PASSWORD }}
-          dev-psql-db-port: ${{ secrets.DEV_PSQL_DB_PORT }}
-          dev-gitlab-private-token: ${{ secrets.DEV_GITLAB_PRIVATE_TOKEN }}
-          dev-github-private-token: ${{ secrets.DEV_GITHUB_PRIVATE_TOKEN }}
-          dev-jwt-secret: ${{ secrets.DEV_JWT_SECRET }}
-          dev-v6y-static-analyzer-api-path: ${{ secrets.DEV_V6Y_STATIC_ANALYZER_API_PATH }}
-          dev-v6y-static-analyzer-api-port: ${{ secrets.DEV_V6Y_STATIC_ANALYZER_API_PORT }}
-          dev-v6y-devops-api-path: ${{ secrets.DEV_V6Y_DEVOPS_API_PATH }}
-          dev-v6y-devops-api-port: ${{ secrets.DEV_V6Y_DEVOPS_API_PORT }}
-          dev-v6y-dynamic-analyzer-api-path: ${{ secrets.DEV_V6Y_DYNAMIC_ANALYZER_API_PATH }}
-          dev-v6y-dynamic-analyzer-api-port: ${{ secrets.DEV_V6Y_DYNAMIC_ANALYZER_API_PORT }}
-          dev-v6y-main-api-path: ${{ secrets.DEV_V6Y_MAIN_API_PATH }}
-          dev-v6y-main-api-port: ${{ secrets.DEV_V6Y_MAIN_API_PORT }}
-          dev-v6y-bff-api-path: ${{ secrets.DEV_V6Y_BFF_API_PATH }}
-          dev-v6y-bff-api-port: ${{ secrets.DEV_V6Y_BFF_API_PORT }}
-          dev-next-public-v6y-bff-path: ${{ secrets.DEV_NEXT_PUBLIC_V6Y_BFF_PATH }}
-          dev-nextauth-url: ${{ secrets.DEV_NEXTAUTH_URL }}
-
-      - name: Install Docker
+      # NEXT_PUBLIC_* values are inlined into the browser bundle by next build,
+      # so this is the one value the images need at build time. Everything else
+      # (database credentials, JWT secret, service ports) is read at runtime and
+      # must be injected by the deployment target, never baked into a layer.
+      #
+      # The production value is used even for main builds: these images exist to
+      # be deployed, and a NEXT_PUBLIC_ value is public by construction since it
+      # ships to browsers. Targeting another environment means rebuilding with a
+      # different NEXT_PUBLIC_V6Y_BFF_PATH.
+      - name: Resolve the public BFF path baked into the front bundles
         run: |
-          curl -fsSL https://get.docker.com -o get-docker.sh
-          sudo sh get-docker.sh
-          docker --version
+          echo "NEXT_PUBLIC_V6Y_BFF_PATH=${{ secrets.PROD_NEXT_PUBLIC_V6Y_BFF_PATH }}" >> "$GITHUB_ENV"
 
-      - name: Install Docker Compose
+      - name: Compute image tags
+        id: tags
         run: |
-          DOCKER_COMPOSE_VERSION=$(curl -s "https://api.github.com/repos/docker/compose/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
-          sudo curl -L "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-          docker-compose --version
-
-      - name: Determine Image Tag
-        id: set-tag
-        run: |
-          if [[ "${{ github.event_name }}" == "push" ]]; then
-            echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
-          elif [[ "${{ github.event_name }}" == "release" ]]; then
-            echo "IMAGE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+          set -euo pipefail
+          short_sha="$(git rev-parse --short HEAD)"
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            tags="${{ github.event.release.tag_name }} latest"
+          else
+            tags="main sha-${short_sha} latest"
           fi
-        shell: bash
+          echo "IMAGE_TAGS=${tags}" >> "$GITHUB_ENV"
+          echo "list=${tags}" >> "$GITHUB_OUTPUT"
+          echo "Tagging every image with: ${tags}"
 
-      - name: Log into Docker registry
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to the container registry
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
-          username: ${{ github.repository_owner }}
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Validate Docker Compose Configuration
-        run: docker-compose -f docker-compose.yml config
+      - name: Build and push every service image
+        uses: docker/bake-action@v5
+        with:
+          files: docker-bake.hcl
+          push: true
+          # A shared cache scope is intentional: all targets descend from the
+          # same install and build stages, so they warm each other's layers.
+          set: |
+            *.cache-from=type=gha,scope=v6y-images
+            *.cache-to=type=gha,mode=max,scope=v6y-images
+        env:
+          REGISTRY: ${{ env.REGISTRY }}/${{ github.repository_owner }}/
+          IMAGE_TAGS: ${{ env.IMAGE_TAGS }}
+          NEXT_PUBLIC_V6Y_BFF_PATH: ${{ env.NEXT_PUBLIC_V6Y_BFF_PATH }}
+          SOURCE_COMMIT: ${{ github.sha }}
 
-      - name: Build and push images using Docker Compose
+      - name: Summarise what was published
         run: |
-          export REGISTRY="ghcr.io/${{ github.repository_owner }}/"
-          export IMAGE_TAG="${{ env.IMAGE_TAG }}"
-          docker-compose -f docker-compose.yml build
-          docker-compose -f docker-compose.yml push
-
-      - name: Deploy services using Docker Compose
-        if: github.event_name == 'push' || github.event_name == 'release'
-        run: |
-          docker-compose -f docker-compose.yml pull
-          docker-compose -f docker-compose.yml up -d
+          {
+            echo "### Images published to ${REGISTRY}/${{ github.repository_owner }}"
+            echo
+            echo "Tags applied to each image: \`${{ steps.tags.outputs.list }}\`"
+            echo
+            for image in v6y-migrate v6y-bff v6y-bfb-main-analyzer \
+                         v6y-bfb-static-code-auditor v6y-bfb-url-dynamic-auditor \
+                         v6y-bfb-devops-auditor v6y-frontend v6y-frontend-bo; do
+              echo "- \`${REGISTRY}/${{ github.repository_owner }}/${image}\`"
+            done
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -7,25 +7,33 @@ lerna-debug.log*
 **/v6y-logs/**
 
 # Coverage directory used by tools like istanbul
-coverage
+**/coverage
 *.lcov
 
-# Dependency directories
-node_modules/
+# Dependency directories. The recursive pattern matters: a bare "node_modules/"
+# only matches the repository root and would let pnpm's nested symlinked
+# workspace node_modules leak into the build context and corrupt the install.
+**/node_modules
 
 # Optional npm cache directory
 .npm
 
 # Optional eslint cache
-.eslintcache
+**/.eslintcache
 
 # Optional stylelint cache
-.stylelintcache
+**/.stylelintcache
 
 # ignore all markdown files (md) beside all README*.md other than README-secret.md
 *.md
 !README*.md
 README-secret.md
+
+# git metadata: the runtime images copy the working tree, and the repository
+# history would otherwise be shipped inside every published image
+.git
+.gitignore
+.husky
 
 # github related files
 .github/
@@ -38,10 +46,14 @@ README-secret.md
 .env.local
 
 # Next.js build output
-.next
+**/.next
 
 # Build cache
-.nx
+**/.nx
+
+# Compiled output: gitignored, so absent in CI. Excluding it here keeps local
+# builds byte-identical to CI ones instead of reusing stale local artifacts.
+**/dist
 
 # Others
 database/psql/**

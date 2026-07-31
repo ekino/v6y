@@ -1,0 +1,17 @@
+{
+  // Production emit for the shared library. The backends import it as
+  // @v6y/core-logic, whose package.json main points at src/index.ts for
+  // development; the Docker runtime stage repoints it at this dist output.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "emitDeclarationOnly": false,
+    "declaration": false,
+    "noEmit": false,
+    "rewriteRelativeImportExtensions": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "sourceMap": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/__tests__/**", "src/**/*.test.ts", "src/**/*.spec.ts"]
+}

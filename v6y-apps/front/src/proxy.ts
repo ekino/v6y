@@ -1,7 +1,16 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const PUBLIC_ROUTES = ['/login', '/faq', '/contact', '/v6y/graphql', '/v6y/graphql/'];
+// /health must stay reachable without a session: it is what the container
+// healthcheck and the orchestrator liveness probe call.
+const PUBLIC_ROUTES = [
+    '/login',
+    '/faq',
+    '/contact',
+    '/health',
+    '/v6y/graphql',
+    '/v6y/graphql/',
+];
 
 export function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl;

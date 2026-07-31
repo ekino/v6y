@@ -2,7 +2,12 @@ PSQL_DB_HOST=localhost
 PSQL_DB_NAME=x
 PSQL_DB_USER=x
 PSQL_DB_PASSWORD=x
-PSQL_DB_PORT=
+# Port the services connect to. With the database bundled in docker-compose.yml
+# this must stay 5432, which is where PostgreSQL listens inside the network.
+PSQL_DB_PORT=5432
+# Host port the bundled database is published on. Change this one, not
+# PSQL_DB_PORT, when 5432 is already taken on your machine.
+PSQL_DB_HOST_PORT=5432
 DATABASE_URL=postgresql://user:password@localhost:port/database
 
 SUPERADMIN_USERNAME=x
@@ -49,14 +54,19 @@ V6Y_BFF_API_PATH=/v6y/graphql/
 V6Y_BFF_API_PORT=4001
 
 # Browser-facing GraphQL endpoint (ui-kit, front-bo). Absolute URL, or a path
-# relative to the origin serving the app.
+# relative to the origin serving the app. Build-time only: next build inlines it
+# into the browser bundle, so setting it on a running container has no effect on
+# client-side code — the two front images have to be rebuilt to change it.
 NEXT_PUBLIC_V6Y_BFF_PATH=xxxx
 # Server-side only: internal address the `front` app's /v6y/graphql rewrite targets.
 V6Y_BFF_PROXY_TARGET=http://localhost:4001/v6y/graphql/
 NEXTAUTH_URL=xxxx
 
 # Docker Registry
-# For local development, keep REGISTRY empty to use simple image names (e.g., v6y-bff:latest)
-# For CI/CD, this is set to ghcr.io/ekino/ by the workflow
+# Leave REGISTRY empty for local builds, so images are named v6y-bff:latest etc.
+# For docker-compose.deploy.yml, set it to the published registry (trailing
+# slash required): REGISTRY=ghcr.io/ekino/
 REGISTRY=
+# latest tracks the main branch. Pin to sha-<short> or to a release tag for a
+# reproducible deployment.
 IMAGE_TAG=latest
