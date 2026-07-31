@@ -26,7 +26,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
 
     return (
         <li
-            className={`w-full rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg ${
+            className={`w-full rounded-lg border border-slate-200 bg-white shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg ${
                 isDashboard ? 'px-4 py-4' : 'px-5 py-5'
             }`}
             style={style}
@@ -36,7 +36,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                     <div className={`min-w-0 flex-1 ${isDashboard ? 'space-y-2' : 'space-y-3'}`}>
                         <div className="flex items-center gap-3">
                             <span
-                                className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-700"
+                                className="flex h-10 w-10 items-center justify-center rounded-md border border-slate-200 bg-slate-50 text-slate-700"
                                 aria-hidden
                             >
                                 <StarIcon className="scale-125" />
@@ -57,7 +57,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                         <div className="flex flex-wrap gap-2">
                             <Badge
                                 variant={appOpenedBranches >= 4 ? 'warning' : 'default'}
-                                className="rounded-full px-3 py-1 text-xs"
+                                className="px-3 py-1 text-xs"
                             >
                                 {appOpenedBranches}{' '}
                                 {appOpenedBranches === 1 ? 'branch' : 'branches'} tracked
@@ -66,7 +66,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                             {!isDashboard && (
                                 <Badge
                                     variant="outline"
-                                    className="rounded-full border-slate-300 bg-white px-3 py-1 text-xs text-slate-700"
+                                    className="border-slate-300 bg-white px-3 py-1 text-xs text-slate-700"
                                 >
                                     {trackedLinks}{' '}
                                     {trackedLinks === 1 ? 'linked system' : 'linked systems'}
@@ -76,7 +76,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                             {!isDashboard && app.contactMail && (
                                 <Badge
                                     variant="outline"
-                                    className="rounded-full border-slate-300 bg-white px-3 py-1 text-xs text-slate-700"
+                                    className="border-slate-300 bg-white px-3 py-1 text-xs text-slate-700"
                                 >
                                     Contact ready
                                 </Badge>
@@ -89,7 +89,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                             <Link href={appRepository.gitUrl}>
                                 <Button
                                     variant="outline"
-                                    className="h-10 w-10 rounded-lg border border-slate-300 bg-white text-slate-700 transition-colors duration-200 hover:border-indigo-300 hover:bg-indigo-50"
+                                    className="h-10 w-10 border border-slate-300 bg-white text-slate-700 transition-colors duration-200 hover:border-indigo-300 hover:bg-indigo-50"
                                 >
                                     <CommitIcon className="scale-300" />
                                 </Button>
@@ -99,7 +99,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                             <Link href={appRepository.webUrl}>
                                 <Button
                                     variant="outline"
-                                    className="h-10 w-10 rounded-lg border border-slate-300 bg-white text-slate-700 transition-colors duration-200 hover:border-indigo-300 hover:bg-indigo-50"
+                                    className="h-10 w-10 border border-slate-300 bg-white text-slate-700 transition-colors duration-200 hover:border-indigo-300 hover:bg-indigo-50"
                                 >
                                     <GlobeIcon className="scale-300" />
                                 </Button>
@@ -108,7 +108,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
 
                         {canOpenDetails && (
                             <Link href={appDetailsLink}>
-                                <Button className="h-10 rounded-full bg-slate-950 px-5 text-sm font-medium text-white hover:bg-slate-800">
+                                <Button className="h-10 bg-slate-950 px-5 text-sm font-medium text-white hover:bg-slate-800">
                                     {translate('vitality.appListPage.seeReporting') ||
                                         'See Reporting'}
                                 </Button>
@@ -126,7 +126,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                                 .filter((link) => typeof link.value === 'string')
                                 .map((link, id: number) => (
                                     <Link
-                                        className="inline-flex max-w-full items-center rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-medium text-slate-700 transition-colors hover:border-slate-400 hover:bg-slate-100"
+                                        className="inline-flex max-w-full items-center rounded-md border border-slate-300 bg-white px-3 py-1 text-xs font-medium text-slate-700 transition-colors hover:border-slate-400 hover:bg-slate-100"
                                         key={id}
                                         href={link.value as string}
                                         target="_blank"

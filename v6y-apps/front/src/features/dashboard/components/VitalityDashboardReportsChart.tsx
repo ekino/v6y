@@ -236,7 +236,7 @@ const VitalityDashboardReportsChart = () => {
         return (
             <Card className="border-dashed border-slate-300 bg-slate-50/60 shadow-none">
                 <CardContent className="flex flex-col items-center gap-3 p-10 text-center">
-                    <span className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-900/5 text-slate-500">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-slate-900/5 text-slate-500">
                         <TrendingUp className="h-5 w-5" aria-hidden="true" />
                     </span>
                     <h3 className="text-base font-semibold text-slate-900">

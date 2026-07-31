@@ -39,7 +39,7 @@ const VitalityAppListHeader = ({
                             {translate('vitality.appListPage.headerTitle')}
                         </h2>
                     </div>
-                    <span className="rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-500 ring-1 ring-slate-200">
+                    <span className="rounded-md bg-white px-3 py-1 text-xs font-medium text-slate-500 ring-1 ring-slate-200">
                         {appsTotal} {resultsLabel}
                     </span>
                 </div>
@@ -51,7 +51,10 @@ const VitalityAppListHeader = ({
                 )}
 
                 {isDashboard && (
-                    <a href={targetUrl} className="inline-flex pt-1.5 no-underline hover:no-underline">
+                    <a
+                        href={targetUrl}
+                        className="inline-flex pt-1.5 no-underline hover:no-underline"
+                    >
                         <Button className="h-9 md:h-10 text-sm md:text-base">
                             <AppstoreAddOutlined className="w-4 h-4" />
                             <span className="ml-2">
