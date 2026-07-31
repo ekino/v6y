@@ -1,69 +1,77 @@
 import { describe, expect, it } from 'vitest';
 
 import {
-    getAuditFrequencyCounts,
-    getAuditFrequencyCron,
-    getAuditFrequencyPeriods,
-    isCustomAuditFrequencyCron,
-    parseAuditFrequencyCron,
+    AUDIT_FREQUENCY_EXAMPLES,
+    validateAuditFrequencyCron,
 } from '../commons/utils/AuditFrequencyUtils';
 
 describe('AuditFrequencyUtils', () => {
-    it('should list the supported periods', () => {
-        expect(getAuditFrequencyPeriods()).toEqual(['day', 'week', 'month']);
-    });
-
-    it('should list the supported counts for each period', () => {
-        expect(getAuditFrequencyCounts('day')).toEqual([1, 2, 3, 4, 6, 8, 12, 24]);
-        expect(getAuditFrequencyCounts('week')).toEqual([1]);
-        expect(getAuditFrequencyCounts('month')).toEqual([1]);
-        expect(getAuditFrequencyCounts(undefined)).toEqual([]);
-    });
-
-    it('should compute the correct cron expression for a given period/count', () => {
-        expect(getAuditFrequencyCron('day', 1)).toBe('0 0 * * *');
-        expect(getAuditFrequencyCron('day', 4)).toBe('0 */6 * * *');
-        expect(getAuditFrequencyCron('day', 24)).toBe('0 * * * *');
-        expect(getAuditFrequencyCron('week', 1)).toBe('0 0 * * 1');
-        expect(getAuditFrequencyCron('month', 1)).toBe('0 0 1 * *');
-    });
-
-    it('should return undefined for an unsupported period/count combination', () => {
-        expect(getAuditFrequencyCron('day', 5)).toBeUndefined();
-        // "7 times per week" is the same schedule as "1 time per day"; offering both
-        // made the cron ambiguous, so only the daily preset remains.
-        expect(getAuditFrequencyCron('week', 7)).toBeUndefined();
-        expect(getAuditFrequencyCron(undefined, 1)).toBeUndefined();
-    });
-
-    it('should parse a known cron expression back into a period/count', () => {
-        expect(parseAuditFrequencyCron('0 */6 * * *')).toEqual({ period: 'day', count: 4 });
-        expect(parseAuditFrequencyCron('0 0 * * 1')).toEqual({ period: 'week', count: 1 });
-        expect(parseAuditFrequencyCron('0 0 1 * *')).toEqual({ period: 'month', count: 1 });
-    });
-
-    it('should round-trip every supported period/count without collision', () => {
-        for (const period of getAuditFrequencyPeriods()) {
-            for (const count of getAuditFrequencyCounts(period)) {
-                const cron = getAuditFrequencyCron(period, count);
-                expect(cron).toBeDefined();
-                expect(parseAuditFrequencyCron(cron)).toEqual({ period, count });
-            }
+    it('should accept every expression offered as an example', () => {
+        // The examples are what an admin is invited to copy, so a refused one is a
+        // bug in the list, not in the input.
+        for (const { cron } of AUDIT_FREQUENCY_EXAMPLES) {
+            expect(validateAuditFrequencyCron(cron), cron).toBeUndefined();
         }
     });
 
-    it('should return undefined when parsing an unknown or empty cron expression', () => {
-        expect(parseAuditFrequencyCron('* * * * *')).toBeUndefined();
-        expect(parseAuditFrequencyCron(undefined)).toBeUndefined();
-        expect(parseAuditFrequencyCron(null)).toBeUndefined();
-        expect(parseAuditFrequencyCron('')).toBeUndefined();
+    it('should accept the common 5-field expressions', () => {
+        expect(validateAuditFrequencyCron('0 0 * * *')).toBeUndefined();
+        expect(validateAuditFrequencyCron('0 * * * *')).toBeUndefined();
+        expect(validateAuditFrequencyCron('30 3 * * 1-5')).toBeUndefined();
+        expect(validateAuditFrequencyCron('0 0,6,12,18 1,15 * *')).toBeUndefined();
+        expect(validateAuditFrequencyCron('15 2 * */2 *')).toBeUndefined();
     });
 
-    it('should flag a cron expression the presets cannot express as custom', () => {
-        expect(isCustomAuditFrequencyCron('0 30 3 * * 1-5')).toBe(true);
-        expect(isCustomAuditFrequencyCron('0 0 * * *')).toBe(false);
-        expect(isCustomAuditFrequencyCron(undefined)).toBe(false);
-        expect(isCustomAuditFrequencyCron(null)).toBe(false);
-        expect(isCustomAuditFrequencyCron('')).toBe(false);
+    it('should accept a 6-field expression whose seconds are pinned', () => {
+        expect(validateAuditFrequencyCron('0 30 3 * * 1-5')).toBeUndefined();
+    });
+
+    it('should accept the three-letter month and day aliases', () => {
+        expect(validateAuditFrequencyCron('0 4 * jan mon')).toBeUndefined();
+        expect(validateAuditFrequencyCron('0 4 * JAN-MAR MON-FRI')).toBeUndefined();
+    });
+
+    it('should accept surrounding and repeated whitespace', () => {
+        expect(validateAuditFrequencyCron('  0   0 * * *  ')).toBeUndefined();
+    });
+
+    it('should treat an empty value as the required rule concern, not its own', () => {
+        expect(validateAuditFrequencyCron('')).toBeUndefined();
+        expect(validateAuditFrequencyCron('   ')).toBeUndefined();
+        expect(validateAuditFrequencyCron(undefined)).toBeUndefined();
+        expect(validateAuditFrequencyCron(null)).toBeUndefined();
+    });
+
+    it('should reject an expression that is not 5 or 6 fields', () => {
+        expect(validateAuditFrequencyCron('0 0 * *')).toBe('syntax');
+        expect(validateAuditFrequencyCron('0 0 0 0 * * *')).toBe('syntax');
+    });
+
+    it('should reject out-of-range and malformed fields', () => {
+        expect(validateAuditFrequencyCron('0 24 * * *')).toBe('syntax');
+        expect(validateAuditFrequencyCron('0 0 32 * *')).toBe('syntax');
+        expect(validateAuditFrequencyCron('0 0 * 13 *')).toBe('syntax');
+        expect(validateAuditFrequencyCron('0 0 * * 8')).toBe('syntax');
+        expect(validateAuditFrequencyCron('0 0 * * mun')).toBe('syntax');
+        expect(validateAuditFrequencyCron('0 5-2 * * *')).toBe('syntax');
+        expect(validateAuditFrequencyCron('0 0/0 * * *')).toBe('syntax');
+        expect(validateAuditFrequencyCron('0 0/2/3 * * *')).toBe('syntax');
+        expect(validateAuditFrequencyCron('0 0,,1 * * *')).toBe('syntax');
+        expect(validateAuditFrequencyCron('every minute please')).toBe('syntax');
+    });
+
+    it('should reject a schedule running more than once per hour', () => {
+        // Syntactically valid, and each run clones the repository and executes the
+        // full audit suite, so these are refused rather than installed.
+        expect(validateAuditFrequencyCron('* * * * *')).toBe('rate');
+        expect(validateAuditFrequencyCron('*/5 * * * *')).toBe('rate');
+        expect(validateAuditFrequencyCron('0-30 * * * *')).toBe('rate');
+        expect(validateAuditFrequencyCron('0,30 * * * *')).toBe('rate');
+        expect(validateAuditFrequencyCron('* * * * * *')).toBe('rate');
+        expect(validateAuditFrequencyCron('*/10 0 * * *')).toBe('rate');
+    });
+
+    it('should report the syntax error first when an expression is both invalid and too frequent', () => {
+        expect(validateAuditFrequencyCron('* 24 * * *')).toBe('syntax');
     });
 });

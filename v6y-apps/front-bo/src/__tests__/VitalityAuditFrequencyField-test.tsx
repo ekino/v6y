@@ -4,16 +4,14 @@ import { useEffect } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 
 // `setupTests.tsx` replaces the whole ui-kit with lightweight stubs whose `Form`
-// has no `useFormInstance`/`useWatch`. This field is built on top of those two
-// hooks and on the real form store's notification cycle, which is exactly what
-// the hydration bug lived in, so the real ui-kit form primitives are restored
-// here rather than stubbed.
+// has no `useFormInstance`/`useWatch`. This field is built on those two hooks and
+// on the real form store's validation, which is what the tests below exercise, so
+// the actual ui-kit form primitives are restored here rather than stubbed.
 vi.mock('@v6y/ui-kit', async () => {
-    const [Flex, Form, Input, Select, Switch, Typography] = await Promise.all([
+    const [Flex, Form, Input, Switch, Typography] = await Promise.all([
         import('@v6y/ui-kit/src/components/atoms/app/Flex.tsx'),
         import('@v6y/ui-kit/src/components/atoms/app/Form.tsx'),
         import('@v6y/ui-kit/src/components/atoms/app/Input.tsx'),
-        import('@v6y/ui-kit/src/components/atoms/app/Select.tsx'),
         import('@v6y/ui-kit/src/components/atoms/app/Switch.tsx'),
         import('@v6y/ui-kit/src/components/atoms/app/Typography.tsx'),
     ]);
@@ -22,7 +20,6 @@ vi.mock('@v6y/ui-kit', async () => {
         Flex: Flex.default,
         Form: Form.default,
         Input: Input.default,
-        Select: Select.default,
         Switch: Switch.default,
         Text: Typography.Text,
     };
@@ -31,13 +28,12 @@ vi.mock('@v6y/ui-kit', async () => {
 const { default: VitalityAuditFrequencyField } = await import(
     '../commons/components/VitalityAuditFrequencyField'
 );
+const { AUDIT_FREQUENCY_EXAMPLES } = await import('../commons/utils/AuditFrequencyUtils');
 const { Form } = await import('@v6y/ui-kit');
 
 type FormInstance = ReturnType<typeof Form.useForm>[0];
 
-const mockTranslate = vi.fn((key: string, params?: Record<string, unknown>) =>
-    params?.cron ? `${key}:${params.cron}` : key,
-) as never;
+const mockTranslate = vi.fn((key: string) => key) as never;
 
 /**
  * Mirrors how `AdminEditWrapper` uses the field: the form is rendered first and
@@ -80,74 +76,94 @@ const renderHydratedField = (values: Record<string, unknown>) => {
     return () => form as FormInstance;
 };
 
+const CRON_FIELD_KEY = 'v6y-applications.fields.app-audit-frequency-cron';
+
 describe('VitalityAuditFrequencyField', () => {
-    it('should keep the saved count when the form is hydrated after the first render', async () => {
+    it('should keep the saved cron expression once the form is hydrated', async () => {
         const getForm = renderHydratedField({
             'app-audit-frequency-enabled': true,
-            'app-audit-frequency-period': 'day',
-            'app-audit-frequency-count': 4,
+            'app-audit-frequency-cron': '30 3 * * 1-5',
         });
 
         await waitFor(() => {
-            expect(getForm().getFieldValue('app-audit-frequency-period')).toBe('day');
+            expect(getForm().getFieldValue('app-audit-frequency-cron')).toBe('30 3 * * 1-5');
         });
-
-        // The period/count reset must not treat the initial `undefined` -> saved
-        // value transition as a period change, otherwise the count Select comes up
-        // empty and its `required` rule blocks every later save.
-        await waitFor(() => {
-            expect(getForm().getFieldValue('app-audit-frequency-count')).toBe(4);
-        });
-
-        expect(
-            await screen.findByText(
-                'v6y-applications.fields.app-audit-frequency-preview:0 */6 * * *',
-            ),
-        ).toBeInTheDocument();
-    });
-
-    it('should clear the count when the admin changes the period', async () => {
-        const getForm = renderHydratedField({
-            'app-audit-frequency-enabled': true,
-            'app-audit-frequency-period': 'day',
-            'app-audit-frequency-count': 4,
-        });
-
-        await waitFor(() => {
-            expect(getForm().getFieldValue('app-audit-frequency-count')).toBe(4);
-        });
-
-        getForm().setFieldValue('app-audit-frequency-period', 'week');
-
-        await waitFor(() => {
-            expect(getForm().getFieldValue('app-audit-frequency-count')).toBeUndefined();
-        });
-    });
-
-    it('should surface a schedule the presets cannot express instead of an empty selection', async () => {
-        const getForm = renderHydratedField({
-            'app-audit-frequency-enabled': true,
-            'app-audit-frequency-cron': '0 30 3 * * 1-5',
-        });
-
-        expect(
-            await screen.findByText(
-                'v6y-applications.fields.app-audit-frequency-custom:0 30 3 * * 1-5',
-            ),
-        ).toBeInTheDocument();
-
-        // Nothing to validate: the expression is carried through as-is, so the
-        // period/count rules must not fire on an otherwise untouched form.
+        expect(await screen.findByDisplayValue('30 3 * * 1-5')).toBeInTheDocument();
         await expect(getForm().validateFields()).resolves.toBeDefined();
     });
 
-    it('should hide the audit frequency selects while scheduling is disabled', async () => {
-        renderHydratedField({ 'app-audit-frequency-enabled': false });
+    it('should accept any valid expression, not only a preset one', async () => {
+        const getForm = renderHydratedField({
+            'app-audit-frequency-enabled': true,
+            'app-audit-frequency-cron': '15 2 * */2 *',
+        });
 
         await waitFor(() => {
-            expect(
-                screen.queryByText('v6y-applications.fields.app-audit-frequency-period.label'),
-            ).not.toBeInTheDocument();
+            expect(getForm().getFieldValue('app-audit-frequency-cron')).toBe('15 2 * */2 *');
         });
+        await expect(getForm().validateFields()).resolves.toBeDefined();
+    });
+
+    it('should list every documented example under the input', async () => {
+        renderHydratedField({ 'app-audit-frequency-enabled': true });
+
+        expect(await screen.findByText(`${CRON_FIELD_KEY}.examples.title`)).toBeInTheDocument();
+
+        for (const { labelKey, cron } of AUDIT_FREQUENCY_EXAMPLES) {
+            expect(screen.getByText(cron)).toBeInTheDocument();
+            expect(screen.getByText(`${CRON_FIELD_KEY}.examples.${labelKey}`)).toBeInTheDocument();
+        }
+
+        expect(screen.getByText(`${CRON_FIELD_KEY}.examples.timezone`)).toBeInTheDocument();
+    });
+
+    it('should refuse a malformed expression with a syntax message', async () => {
+        const getForm = renderHydratedField({
+            'app-audit-frequency-enabled': true,
+            'app-audit-frequency-cron': 'every minute please',
+        });
+
+        await waitFor(() => {
+            expect(getForm().getFieldValue('app-audit-frequency-cron')).toBeDefined();
+        });
+        await expect(getForm().validateFields()).rejects.toBeDefined();
+
+        expect(await screen.findByText(`${CRON_FIELD_KEY}.error-syntax`)).toBeInTheDocument();
+    });
+
+    it('should refuse a schedule running more than once per hour', async () => {
+        const getForm = renderHydratedField({
+            'app-audit-frequency-enabled': true,
+            'app-audit-frequency-cron': '* * * * *',
+        });
+
+        await waitFor(() => {
+            expect(getForm().getFieldValue('app-audit-frequency-cron')).toBe('* * * * *');
+        });
+        await expect(getForm().validateFields()).rejects.toBeDefined();
+
+        expect(await screen.findByText(`${CRON_FIELD_KEY}.error-rate`)).toBeInTheDocument();
+    });
+
+    it('should require an expression once scheduling is enabled', async () => {
+        const getForm = renderHydratedField({ 'app-audit-frequency-enabled': true });
+
+        await waitFor(() => {
+            expect(getForm().getFieldValue('app-audit-frequency-enabled')).toBe(true);
+        });
+        await expect(getForm().validateFields()).rejects.toBeDefined();
+
+        expect(await screen.findByText(`${CRON_FIELD_KEY}.error`)).toBeInTheDocument();
+    });
+
+    it('should hide the cron input while scheduling is disabled', async () => {
+        const getForm = renderHydratedField({ 'app-audit-frequency-enabled': false });
+
+        await waitFor(() => {
+            expect(screen.queryByText(`${CRON_FIELD_KEY}.label`)).not.toBeInTheDocument();
+        });
+
+        // No schedule is asked for, so nothing about it should block the save.
+        await expect(getForm().validateFields()).resolves.toBeDefined();
     });
 });

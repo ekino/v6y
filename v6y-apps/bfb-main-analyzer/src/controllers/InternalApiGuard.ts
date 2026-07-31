@@ -3,7 +3,7 @@ import { timingSafeEqual } from 'node:crypto';
 
 import { AppLogger } from '@v6y/core-logic';
 
-export const INTERNAL_API_SECRET_HEADER = 'x-v6y-internal-secret';
+const INTERNAL_API_SECRET_HEADER = 'x-v6y-internal-secret';
 
 const isSecretMatching = (provided: string, expected: string) => {
     const providedBuffer = Buffer.from(provided);

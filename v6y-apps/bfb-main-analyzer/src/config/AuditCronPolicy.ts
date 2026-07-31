@@ -9,10 +9,14 @@
  * an over-frequent pattern is a load generator rather than a one-off mistake.
  *
  * The rule below caps a schedule at one run per hour by requiring the seconds
- * (when present) and minutes fields to pin a single value. That admits every
- * back-office preset — whose densest option is the hourly `0 * * * *` — as well
- * as hand-written expressions such as `0 30 3 * * 1-5`, while rejecting
- * per-second and per-minute patterns.
+ * (when present) and minutes fields to pin a single value. That admits the
+ * expressions the back office documents (down to the hourly `0 * * * *`) as well
+ * as anything else an admin types in its free-form cron input, such as
+ * `0 30 3 * * 1-5`, while rejecting per-second and per-minute patterns.
+ *
+ * The back office applies the same rule in `AuditFrequencyUtils.ts` so the admin
+ * gets the error inline; this one is what actually protects the analyzer, since
+ * the endpoint must not trust its caller.
  */
 const FIXED_FIELD_PATTERN = /^\d{1,2}$/;
 

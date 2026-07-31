@@ -5,11 +5,6 @@ import { SelectOptionType, TranslateType } from '@v6y/ui-kit';
 
 import VitalityAuditFrequencyField from '../components/VitalityAuditFrequencyField';
 import VitalityFormFieldSet from '../components/VitalityFormFieldSet';
-import {
-    getAuditFrequencyCron,
-    isCustomAuditFrequencyCron,
-    parseAuditFrequencyCron,
-} from '../utils/AuditFrequencyUtils';
 
 interface LinkOptions {
     value: string;
@@ -240,11 +235,6 @@ export const applicationCreateEditItems = (translate: TranslateType) => {
 };
 
 export const applicationCreateOrEditFormInAdapter = (params: ApplicationType) => {
-    const storedCron = params?.['auditFrequencyEnabled']
-        ? params?.['auditFrequencyCron']
-        : undefined;
-    const auditFrequency = parseAuditFrequencyCron(storedCron);
-
     return {
         _id: params?.['_id'],
         'app-acronym': params?.['acronym'],
@@ -275,11 +265,9 @@ export const applicationCreateOrEditFormInAdapter = (params: ApplicationType) =>
         'app-data-dog-url': params?.['configuration']?.dataDog?.url,
         'app-data-dog-monitor-id': params?.['configuration']?.dataDog?.monitorId,
         'app-audit-frequency-enabled': !!params?.['auditFrequencyEnabled'],
-        'app-audit-frequency-period': auditFrequency?.period,
-        'app-audit-frequency-count': auditFrequency?.count,
-        // Only kept when the presets cannot express it, so a schedule set outside
-        // the back office is carried through the form instead of being dropped.
-        'app-audit-frequency-cron': isCustomAuditFrequencyCron(storedCron) ? storedCron : undefined,
+        'app-audit-frequency-cron': params?.['auditFrequencyEnabled']
+            ? params?.['auditFrequencyCron']
+            : undefined,
     };
 };
 
@@ -306,15 +294,8 @@ export const applicationCreateOrEditFormOutputAdapter = (data: unknown): Variabl
             dataDogUrl: params?.['app-data-dog-url'],
             dataDogMonitorId: params?.['app-data-dog-monitor-id'],
             auditFrequencyEnabled: !!params?.['app-audit-frequency-enabled'],
-            // A completed preset selection always wins; otherwise a schedule the
-            // presets cannot express is sent back unchanged.
             auditFrequencyCron: params?.['app-audit-frequency-enabled']
-                ? getAuditFrequencyCron(
-                      params?.['app-audit-frequency-period'] as string,
-                      params?.['app-audit-frequency-count'] as number,
-                  ) ||
-                  (params?.['app-audit-frequency-cron'] as string) ||
-                  undefined
+                ? (params?.['app-audit-frequency-cron'] as string)?.trim() || undefined
                 : undefined,
         },
     };

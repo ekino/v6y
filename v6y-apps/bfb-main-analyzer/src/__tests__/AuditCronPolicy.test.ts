@@ -3,27 +3,27 @@ import { describe, expect, it } from 'vitest';
 import { isAuditCronRateAcceptable } from '../config/AuditCronPolicy.ts';
 
 describe('AuditCronPolicy', () => {
-    it('accepts every back-office preset', () => {
-        const presets = [
+    it('accepts every expression the back office documents as an example', () => {
+        // Kept in sync with AUDIT_FREQUENCY_EXAMPLES in the front-bo
+        // AuditFrequencyUtils: an example the analyzer refuses would be a schedule
+        // the back office invites an admin to enter and then fails to install.
+        const documentedExamples = [
             '0 0 * * *',
-            '0 */12 * * *',
-            '0 */8 * * *',
+            '0 0,12 * * *',
             '0 */6 * * *',
-            '0 */4 * * *',
-            '0 */3 * * *',
-            '0 */2 * * *',
             '0 * * * *',
             '0 0 * * 1',
             '0 0 1 * *',
+            '30 3 * * 1-5',
         ];
 
-        for (const preset of presets) {
-            expect(isAuditCronRateAcceptable(preset), preset).toBe(true);
+        for (const example of documentedExamples) {
+            expect(isAuditCronRateAcceptable(example), example).toBe(true);
         }
     });
 
     it('accepts a hand-written expression that pins a minute', () => {
-        expect(isAuditCronRateAcceptable('30 3 * * 1-5')).toBe(true);
+        expect(isAuditCronRateAcceptable('15 2 * */2 *')).toBe(true);
         expect(isAuditCronRateAcceptable('0 30 3 * * 1-5')).toBe(true);
     });
 

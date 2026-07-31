@@ -117,8 +117,7 @@ describe('VitalityFormConfig - Form Items', () => {
             'app-data-dog-url': 'https://api.testdatadog.com',
             'app-data-dog-monitor-id': 'testMonitorId',
             'app-audit-frequency-enabled': false,
-            'app-audit-frequency-period': undefined,
-            'app-audit-frequency-count': undefined,
+            'app-audit-frequency-cron': undefined,
         });
     });
 
@@ -213,8 +212,7 @@ describe('VitalityFormConfig - Form Items', () => {
             'app-data-dog-url': undefined,
             'app-data-dog-monitor-id': undefined,
             'app-audit-frequency-enabled': false,
-            'app-audit-frequency-period': undefined,
-            'app-audit-frequency-count': undefined,
+            'app-audit-frequency-cron': undefined,
         });
     });
 
@@ -227,60 +225,51 @@ describe('VitalityFormConfig - Form Items', () => {
         });
     });
 
-    it('should map a preset audit frequency cron to a period and a count', () => {
+    it('should round-trip the audit frequency cron expression unchanged', () => {
         const result = applicationCreateOrEditFormInAdapter({
             _id: 1,
             auditFrequencyEnabled: true,
-            auditFrequencyCron: '0 */6 * * *',
+            auditFrequencyCron: '30 3 * * 1-5',
         } as ApplicationType);
 
         expect(result['app-audit-frequency-enabled']).toBe(true);
-        expect(result['app-audit-frequency-period']).toBe('day');
-        expect(result['app-audit-frequency-count']).toBe(4);
-        expect(result['app-audit-frequency-cron']).toBeUndefined();
-    });
+        expect(result['app-audit-frequency-cron']).toBe('30 3 * * 1-5');
 
-    it('should carry a non-preset audit frequency cron through the form untouched', () => {
-        const result = applicationCreateOrEditFormInAdapter({
-            _id: 1,
-            auditFrequencyEnabled: true,
-            auditFrequencyCron: '0 30 3 * * 1-5',
-        } as ApplicationType);
-
-        expect(result['app-audit-frequency-period']).toBeUndefined();
-        expect(result['app-audit-frequency-count']).toBeUndefined();
-        expect(result['app-audit-frequency-cron']).toBe('0 30 3 * * 1-5');
-
-        // The unchanged form must send that same expression back, instead of
-        // silently dropping the schedule it could not represent.
         const output = applicationCreateOrEditFormOutputAdapter({
             ...result,
             'app-name': 'TestApp',
         }) as { applicationInput: Record<string, unknown> };
 
         expect(output.applicationInput.auditFrequencyEnabled).toBe(true);
-        expect(output.applicationInput.auditFrequencyCron).toBe('0 30 3 * * 1-5');
+        expect(output.applicationInput.auditFrequencyCron).toBe('30 3 * * 1-5');
     });
 
-    it('should let a completed preset selection replace a non-preset cron', () => {
+    it('should ignore the stored cron of an application whose scheduling is off', () => {
+        const result = applicationCreateOrEditFormInAdapter({
+            _id: 1,
+            auditFrequencyEnabled: false,
+            auditFrequencyCron: '0 0 * * *',
+        } as ApplicationType);
+
+        expect(result['app-audit-frequency-enabled']).toBe(false);
+        expect(result['app-audit-frequency-cron']).toBeUndefined();
+    });
+
+    it('should trim the submitted cron expression', () => {
         const output = applicationCreateOrEditFormOutputAdapter({
             _id: 1,
             'app-audit-frequency-enabled': true,
-            'app-audit-frequency-period': 'week',
-            'app-audit-frequency-count': 1,
-            'app-audit-frequency-cron': '0 30 3 * * 1-5',
+            'app-audit-frequency-cron': '  0 0 * * *  ',
         }) as { applicationInput: Record<string, unknown> };
 
-        expect(output.applicationInput.auditFrequencyCron).toBe('0 0 * * 1');
+        expect(output.applicationInput.auditFrequencyCron).toBe('0 0 * * *');
     });
 
     it('should drop the audit frequency cron when scheduling is disabled', () => {
         const output = applicationCreateOrEditFormOutputAdapter({
             _id: 1,
             'app-audit-frequency-enabled': false,
-            'app-audit-frequency-period': 'day',
-            'app-audit-frequency-count': 4,
-            'app-audit-frequency-cron': '0 30 3 * * 1-5',
+            'app-audit-frequency-cron': '30 3 * * 1-5',
         }) as { applicationInput: Record<string, unknown> };
 
         expect(output.applicationInput.auditFrequencyEnabled).toBe(false);
