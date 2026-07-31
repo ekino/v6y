@@ -15,6 +15,7 @@ export interface AiSummaryReportData {
     _id: number;
     appId: number;
     summary: string;
+    score: number | null;
     model: string | null;
     generatedAt: string | null;
 }

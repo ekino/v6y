@@ -290,12 +290,7 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                     {isAppDetailsInfosLoading ? (
                         <div className="bg-gray-100 animate-pulse h-80 rounded-xl"></div>
                     ) : appInfos ? (
-                        <div className="space-y-4">
-                            <VitalitySummaryCard appInfos={appInfos} />
-                            {!isReportDetailsView && (
-                                <VitalityAiSummaryCard applicationId={targetApplicationId} />
-                            )}
-                        </div>
+                        <VitalitySummaryCard appInfos={appInfos} />
                     ) : null}
                 </div>
 
@@ -338,6 +333,12 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                             <RunningAuditBanner isRunningAudit={isRunningAudit} />
                         ) : null}
                     </div>
+
+                    {!isReportDetailsView && (
+                        <div className="mb-4">
+                            <VitalityAiSummaryCard applicationId={targetApplicationId} />
+                        </div>
+                    )}
 
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 md:gap-2 mb-4 md:mb-2">
                         <div

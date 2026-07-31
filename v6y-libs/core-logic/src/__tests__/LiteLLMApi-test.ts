@@ -93,6 +93,28 @@ describe('LiteLLMApi', () => {
         });
     });
 
+    it('forwards a responseFormat option as the OpenAI-compatible response_format field', async () => {
+        const fetchMock = vi.fn().mockResolvedValue({
+            ok: true,
+            status: 200,
+            json: async () => ({
+                model: 'gpt-4o-mini',
+                choices: [{ message: { content: '{"bullets":["Point"]}' } }],
+                usage: { total_tokens: 42 },
+            }),
+        });
+        vi.stubGlobal('fetch', fetchMock);
+
+        const responseFormat = { type: 'json_schema', json_schema: { name: 'test' } };
+        await LiteLLMApi.generateChatCompletion([{ role: 'user', content: 'usr' }], {
+            responseFormat,
+        });
+
+        const [, requestInit] = fetchMock.mock.calls[0];
+        const body = JSON.parse(requestInit.body as string);
+        expect(body.response_format).toEqual(responseFormat);
+    });
+
     it('throws when the provider responds with a non-ok HTTP status', async () => {
         vi.stubGlobal(
             'fetch',

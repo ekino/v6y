@@ -28,7 +28,7 @@ const getByAppId = async (appId: number): Promise<AiSummaryReportType | null> =>
  * successful generation always overwrites the previous cache entry.
  */
 const upsert = async (
-    report: Pick<AiSummaryReportType, 'appId' | 'summary' | 'model' | 'tokensUsed'>,
+    report: Pick<AiSummaryReportType, 'appId' | 'summary' | 'score' | 'model' | 'tokensUsed'>,
 ): Promise<AiSummaryReportType | null> => {
     try {
         if (!report?.appId || !report?.summary) {
@@ -41,11 +41,13 @@ const upsert = async (
             create: {
                 appId: report.appId,
                 summary: report.summary,
+                score: report.score ?? null,
                 model: report.model ?? null,
                 tokensUsed: report.tokensUsed ?? null,
             },
             update: {
                 summary: report.summary,
+                score: report.score ?? null,
                 model: report.model ?? null,
                 tokensUsed: report.tokensUsed ?? null,
                 generatedAt: new Date(),

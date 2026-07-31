@@ -6,7 +6,9 @@ export interface AiSummaryDependencyInput {
 
 export interface AiSummaryApplicationInput {
     name?: string | null;
+    acronym?: string | null;
     description?: string | null;
+    repo?: { organization?: string | null } | null;
 }
 
 export interface AiTechStackSummary {
@@ -94,17 +96,78 @@ const LANGUAGE_NAMES: Record<string, string> = {
 const resolveLanguageName = (language?: string | null): string =>
     LANGUAGE_NAMES[language || ''] || LANGUAGE_NAMES.en;
 
+// Cap on the number of bullet points requested from (and accepted back from) the model.
+const MAX_SUMMARY_BULLETS = 4;
+
+export const AI_SUMMARY_RESPONSE_FORMAT = {
+    type: 'json_schema',
+    json_schema: {
+        name: 'ai_summary_response',
+        strict: true,
+        schema: {
+            type: 'object',
+            properties: {
+                bullets: {
+                    type: 'array',
+                    items: { type: 'string' },
+                },
+                score: {
+                    type: 'integer',
+                },
+            },
+            required: ['bullets', 'score'],
+            additionalProperties: false,
+        },
+    },
+} as const;
+
+const parseAiSummaryBullets = (content: string): string[] => {
+    const trimmed = (content || '').trim();
+
+    try {
+        const parsed = JSON.parse(trimmed);
+        if (parsed && Array.isArray(parsed.bullets)) {
+            const bullets = parsed.bullets
+                .filter((bullet: unknown): bullet is string => typeof bullet === 'string')
+                .map((bullet: string) => bullet.trim())
+                .filter((bullet: string) => bullet.length > 0)
+                .slice(0, MAX_SUMMARY_BULLETS);
+
+            if (bullets.length > 0) {
+                return bullets;
+            }
+        }
+    } catch {
+        // Not valid JSON: fall through to the plain-text fallback below.
+    }
+
+    return trimmed
+        .split('\n')
+        .map((line) => line.trim().replace(/^[-•]\s*/, ''))
+        .filter((line) => line.length > 0)
+        .slice(0, MAX_SUMMARY_BULLETS);
+};
+
 /**
- * Builds a minimal chat prompt (system + user messages) instructing the model
- * to produce a short, plain-language summary of the application's current
- * health (based on its tech stack and current audit health), aimed at a
- * non-technical audience: mostly a simple status overview, with at most one
- * or two concrete next steps rather than a full technical checklist. The
- * audit data is aggregated across categories from the latest audit run
- * rather than referring to one particular report. The response language
- * follows the given locale (defaults to English), so the summary matches
- * whatever language is currently selected in the UI.
+ * Extracts the overall health score (0-10) from the same structured JSON
+ * response parsed by parseAiSummaryBullets. Returns null when the content
+ * isn't valid JSON or has no usable numeric score, rather than guessing.
  */
+const parseAiSummaryScore = (content: string): number | null => {
+    const trimmed = (content || '').trim();
+
+    try {
+        const parsed = JSON.parse(trimmed);
+        if (typeof parsed?.score === 'number' && Number.isFinite(parsed.score)) {
+            return Math.min(10, Math.max(0, Math.round(parsed.score)));
+        }
+    } catch {
+        // Not valid JSON: no reliable score can be extracted from free-form text.
+    }
+
+    return null;
+};
+
 const buildAiSummaryPrompt = ({
     application,
     techStack,
@@ -122,6 +185,7 @@ const buildAiSummaryPrompt = ({
                 `- ${stack.type}: ${stack.count} dependencies (e.g. ${stack.examples.join(', ') || 'n/a'})`,
         )
         .join('\n');
+    const totalDependencyCount = techStack.reduce((total, stack) => total + stack.count, 0);
 
     const auditHealthLines = auditHealth
         .map(
@@ -133,24 +197,20 @@ const buildAiSummaryPrompt = ({
 
     const languageName = resolveLanguageName(language);
 
-    const system =
-        'You are a technical advisor writing for a non-expert, business-oriented audience (e.g. ' +
-        "a product owner), based only on the application's name, description, tech stack and " +
-        'latest audit results provided below. Produce a short, plain-language summary of the ' +
-        "application's current health. Avoid technical jargon and raw metric or tool names " +
-        '(e.g. say "the code is hard to maintain" rather than naming a specific metric or score). ' +
-        'Most bullet points should simply describe the current state in accessible terms; include ' +
-        'at most one or two next steps to prioritize, only when the audit health clearly shows a ' +
-        `problem, and keep them short and non-technical. Respond in ${languageName}. Limit the ` +
-        'answer to at most 4 short bullet points. Do not use markdown formatting (no "**", "#", ' +
-        'etc.): plain text bullet points starting with "-" only. If there is no audit data ' +
-        'available, simply mention that no audit has been run yet. Do not invent information ' +
-        'that is not present in the provided data.';
+    const system = `You are a technical advisor writing for a non-expert, business-oriented audience (e.g. a product owner), based only on the application's name, description, tech stack and latest audit results provided below. Produce a short, plain-language summary of the application's current health. Avoid technical jargon and raw metric or tool names (e.g. say "the code is hard to maintain" rather than naming a specific metric or score). Most bullet points should simply describe the current state in accessible terms; include at most one or two next steps to prioritize, only when the audit health clearly shows a problem, and keep them short and non-technical. Respond in ${languageName}. Limit the answer to at most ${MAX_SUMMARY_BULLETS} short bullet points, each as one plain-text string with no markdown (no "**", "#", leading "-"/"•", etc.). The "Context" section below is the complete set of information available to you: treat it as exhaustive. Never state, imply or hedge that information, data or context is missing, incomplete or insufficient, and never ask for more details - if a particular aspect (e.g. audit results) has no data, simply omit it or note in one short bullet that it has not been evaluated yet, without apologizing. Do not invent information that is not present in the Context section. Also include an overall health "score" from 0 (critical) to 10 (excellent) that is consistent with the bullet points (e.g. do not describe a healthy application and then give it a low score, or vice versa). Respond with ONLY a single valid JSON object of the exact shape {"bullets": string[], "score": number} (${MAX_SUMMARY_BULLETS} bullets max, score between 0 and 10) - no surrounding text, no code fences, no extra keys.`;
+
+    const applicationLine =
+        `Application: ${application?.name || 'unknown'}` +
+        (application?.acronym ? ` (${application.acronym})` : '') +
+        (application?.repo?.organization
+            ? ` - organization: ${application.repo.organization}`
+            : '');
 
     const user =
-        `Application: ${application?.name || 'unknown'}\n` +
+        `Context:\n` +
+        `${applicationLine}\n` +
         `Description: ${application?.description || 'n/a'}\n` +
-        `Tech stack:\n${techStackLines || '- no dependency data available'}\n` +
+        `Tech stack (${totalDependencyCount} total dependencies):\n${techStackLines || '- no dependency data available'}\n` +
         `Latest audit results:\n${auditHealthLines || '- no audit data available'}`;
 
     return { system, user };
@@ -160,6 +220,9 @@ const AiSummaryUtils = {
     buildTechStackSummary,
     buildAuditHealthSummary,
     buildAiSummaryPrompt,
+    parseAiSummaryBullets,
+    parseAiSummaryScore,
+    AI_SUMMARY_RESPONSE_FORMAT,
 };
 
 export default AiSummaryUtils;

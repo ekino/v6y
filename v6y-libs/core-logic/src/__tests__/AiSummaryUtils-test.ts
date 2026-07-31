@@ -110,6 +110,31 @@ describe('AiSummaryUtils', () => {
             expect(user).toContain('performance: 88/100 (success)');
         });
 
+        it('includes the application acronym and organization as extra context when available', () => {
+            const { user } = AiSummaryUtils.buildAiSummaryPrompt({
+                application: {
+                    name: 'Vitality',
+                    acronym: 'VLT',
+                    repo: { organization: 'ekino' },
+                },
+                techStack: [],
+            });
+
+            expect(user).toContain('Vitality (VLT)');
+            expect(user).toContain('organization: ekino');
+        });
+
+        it('instructs the model to never claim missing context and to answer as strict JSON', () => {
+            const { system } = AiSummaryUtils.buildAiSummaryPrompt({
+                application: { name: 'Vitality' },
+                techStack: [],
+            });
+
+            expect(system).toContain('complete set of information available');
+            expect(system).toContain('Never state, imply or hedge that information');
+            expect(system).toContain('{"bullets": string[], "score": number}');
+        });
+
         it('stays short even with no tech stack or audit data available', () => {
             const { user } = AiSummaryUtils.buildAiSummaryPrompt({
                 application: { name: 'Vitality' },
@@ -134,6 +159,79 @@ describe('AiSummaryUtils', () => {
                 language: 'fr',
             });
             expect(frenchSystem).toContain('Respond in French');
+        });
+    });
+
+    describe('parseAiSummaryBullets', () => {
+        it('parses a well-formed JSON response into its bullet list', () => {
+            const bullets = AiSummaryUtils.parseAiSummaryBullets(
+                JSON.stringify({ bullets: ['First point', 'Second point'] }),
+            );
+
+            expect(bullets).toEqual(['First point', 'Second point']);
+        });
+
+        it('trims whitespace, drops empty entries and caps the list at 4 items', () => {
+            const bullets = AiSummaryUtils.parseAiSummaryBullets(
+                JSON.stringify({ bullets: [' A ', '', 'B', 'C', 'D', 'E'] }),
+            );
+
+            expect(bullets).toEqual(['A', 'B', 'C', 'D']);
+        });
+
+        it('falls back to plain-text, newline-separated parsing when the content is not valid JSON', () => {
+            const bullets = AiSummaryUtils.parseAiSummaryBullets(
+                '- First point\n• Second point\nThird point',
+            );
+
+            expect(bullets).toEqual(['First point', 'Second point', 'Third point']);
+        });
+
+        it('falls back to plain-text parsing when the JSON has no usable bullets array', () => {
+            const bullets = AiSummaryUtils.parseAiSummaryBullets(JSON.stringify({ bullets: [] }));
+
+            expect(bullets).toEqual([JSON.stringify({ bullets: [] })]);
+        });
+    });
+
+    describe('parseAiSummaryScore', () => {
+        it('parses a well-formed JSON response into its score', () => {
+            const score = AiSummaryUtils.parseAiSummaryScore(
+                JSON.stringify({ bullets: ['First point'], score: 7 }),
+            );
+
+            expect(score).toBe(7);
+        });
+
+        it('clamps the score between 0 and 10', () => {
+            expect(
+                AiSummaryUtils.parseAiSummaryScore(JSON.stringify({ bullets: [], score: 42 })),
+            ).toBe(10);
+            expect(
+                AiSummaryUtils.parseAiSummaryScore(JSON.stringify({ bullets: [], score: -3 })),
+            ).toBe(0);
+        });
+
+        it('rounds a non-integer score', () => {
+            const score = AiSummaryUtils.parseAiSummaryScore(
+                JSON.stringify({ bullets: [], score: 6.6 }),
+            );
+
+            expect(score).toBe(7);
+        });
+
+        it('returns null when the content is not valid JSON', () => {
+            const score = AiSummaryUtils.parseAiSummaryScore('- First point\nSecond point');
+
+            expect(score).toBeNull();
+        });
+
+        it('returns null when the JSON has no usable score', () => {
+            const score = AiSummaryUtils.parseAiSummaryScore(
+                JSON.stringify({ bullets: ['First point'] }),
+            );
+
+            expect(score).toBeNull();
         });
     });
 });

@@ -140,6 +140,7 @@ model AiSummaryReport {
   appId       Int         @unique @map("app_id")
   application Application @relation(fields: [appId], references: [id], onDelete: Cascade)
   summary     String
+  score       Int?
   model       String?
   tokensUsed  Int?        @map("tokens_used")
   generatedAt DateTime    @default(now()) @map("generated_at")

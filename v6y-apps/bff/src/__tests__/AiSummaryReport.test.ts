@@ -139,6 +139,46 @@ describe('AI summary report', () => {
             await app.close();
         }, 15000);
 
+        it('requests a structured JSON completion and stores the parsed bullets and score', async () => {
+            getApplicationDetailsInfoByParamsMock.mockResolvedValue({ _id: 42, name: 'Vitality' });
+            generateChatCompletionMock.mockResolvedValue({
+                content: JSON.stringify({
+                    bullets: ['First point', 'Second point'],
+                    score: 8,
+                }),
+                model: 'gpt-4o-mini',
+                tokensUsed: 120,
+            });
+            upsertMock.mockResolvedValue({
+                _id: 4,
+                appId: 42,
+                summary: 'First point\nSecond point',
+                score: 8,
+                model: 'gpt-4o-mini',
+            });
+
+            const { createApp } = await import('../app.ts');
+            const { default: ServerConfig } = await import('../config/ServerConfig.ts');
+            const app = await createApp();
+
+            await request(app.getHttpServer())
+                .post(ServerConfig.currentConfig?.apiPath as string)
+                .send({
+                    operationName: 'GenerateApplicationAiSummary',
+                    query: GENERATE_MUTATION,
+                    variables: { applicationId: 42 },
+                })
+                .expect(200);
+
+            const [, options] = generateChatCompletionMock.mock.calls[0];
+            expect(options?.responseFormat).toBeDefined();
+            expect(upsertMock).toHaveBeenCalledWith(
+                expect.objectContaining({ summary: 'First point\nSecond point', score: 8 }),
+            );
+
+            await app.close();
+        }, 15000);
+
         it('still generates a summary when the application has no audit run yet', async () => {
             getApplicationDetailsInfoByParamsMock.mockResolvedValue({ _id: 42, name: 'Vitality' });
             getLatestAuditRunMock.mockResolvedValue(null);

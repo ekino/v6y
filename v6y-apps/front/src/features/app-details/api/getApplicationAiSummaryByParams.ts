@@ -6,6 +6,7 @@ const GetApplicationAiSummaryByParams = gql`
             _id
             appId
             summary
+            score
             model
             generatedAt
         }
