@@ -24,7 +24,7 @@ describe('VitalityDashboardView', () => {
             section.querySelector('[data-testid="mock-app-list"]'),
         );
         expect(appListSection).not.toBeUndefined();
-        expect(appListSection).toHaveClass('rounded-2xl');
+        expect(appListSection).toHaveClass('rounded-lg');
         expect(appListSection).toHaveClass('border-slate-200/80');
     });
 });
