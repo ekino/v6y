@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { useTranslationProvider } from '@v6y/ui-kit';
-import { Button, ReloadIcon, Sparkles } from '@v6y/ui-kit-front';
+import { Badge, Button, ReloadIcon, Sparkles } from '@v6y/ui-kit-front';
 
 import { useAiSummaryReport } from '../../hooks/useAiSummaryReport';
 
@@ -16,6 +16,20 @@ const formatGeneratedAt = (generatedAt: string | null) => {
 
     const parsed = new Date(generatedAt);
     return Number.isNaN(parsed.getTime()) ? null : parsed.toLocaleString();
+};
+
+/**
+ * Maps a 0-10 AI health score to a Badge variant: green for a healthy
+ * application, orange for a middling one, red when it clearly needs attention.
+ */
+const getScoreBadgeVariant = (score: number) => {
+    if (score >= 7) {
+        return 'success';
+    }
+    if (score >= 4) {
+        return 'warning';
+    }
+    return 'error';
 };
 
 /**
@@ -95,6 +109,14 @@ const VitalityAiSummaryCard = ({ applicationId }: VitalityAiSummaryCardProps) =>
                         {translate('vitality.appDetailsPage.aiSummaryCard.title')}
                     </h2>
                 </div>
+                {!loadError && !isGenerating && typeof report?.score === 'number' && (
+                    <Badge
+                        variant={getScoreBadgeVariant(report.score)}
+                        data-testid="ai-summary-card-score"
+                    >
+                        {report.score}/10
+                    </Badge>
+                )}
             </div>
 
             {loadError && (

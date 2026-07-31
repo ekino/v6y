@@ -87,14 +87,25 @@ const generateApplicationAiSummary = async (
             language,
         });
 
-        const completion = await LiteLLMApi.generateChatCompletion([
-            { role: 'system', content: system },
-            { role: 'user', content: userPrompt },
-        ]);
+        const completion = await LiteLLMApi.generateChatCompletion(
+            [
+                { role: 'system', content: system },
+                { role: 'user', content: userPrompt },
+            ],
+            { responseFormat: AiSummaryUtils.AI_SUMMARY_RESPONSE_FORMAT },
+        );
+
+        // The model is asked to answer as strict JSON ({"bullets": string[], "score": number})
+        // rather than free-form text, so the response can't come back as unstructured or
+        // inconsistently formatted prose. parseAiSummaryBullets still falls back to
+        // plain-text parsing if a provider ever ignores the JSON instruction.
+        const bullets = AiSummaryUtils.parseAiSummaryBullets(completion.content);
+        const score = AiSummaryUtils.parseAiSummaryScore(completion.content);
 
         const savedReport = await AiSummaryReportProvider.upsert({
             appId: applicationId,
-            summary: completion.content,
+            summary: bullets.join('\n'),
+            score,
             model: completion.model,
             tokensUsed: completion.tokensUsed,
         });

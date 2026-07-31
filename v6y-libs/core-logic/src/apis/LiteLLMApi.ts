@@ -14,6 +14,12 @@ export interface LiteLLMCompletionResult {
     tokensUsed: number | null;
 }
 
+export interface LiteLLMChatCompletionOptions {
+    // Forwarded as-is as the OpenAI-compatible `response_format` field, letting
+    // callers force a structured (JSON) completion instead of free-form text.
+    responseFormat?: Record<string, unknown>;
+}
+
 /**
  * Thin client for a LiteLLM proxy (https://www.litellm.ai/), exposed behind
  * the OpenAI-compatible `/chat/completions` route. Routing through LiteLLM
@@ -23,6 +29,7 @@ export interface LiteLLMCompletionResult {
  */
 const generateChatCompletion = async (
     messages: LiteLLMChatMessage[],
+    options?: LiteLLMChatCompletionOptions,
 ): Promise<LiteLLMCompletionResult> => {
     const baseUrl = process.env.LITELLM_BASE_URL;
     const apiKey = process.env.LITELLM_API_KEY;
@@ -54,6 +61,7 @@ const generateChatCompletion = async (
                 messages,
                 temperature: 0.2,
                 max_tokens: DEFAULT_MAX_TOKENS,
+                ...(options?.responseFormat ? { response_format: options.responseFormat } : {}),
             }),
             signal: controller.signal,
         });

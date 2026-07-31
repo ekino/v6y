@@ -93,6 +93,39 @@ describe('VitalityAiSummaryCard', () => {
         ).toBeInTheDocument();
     });
 
+    it('shows a score badge next to the title when the cached summary has a score', () => {
+        mockQueryResult({
+            getApplicationAiSummaryByParams: {
+                _id: 1,
+                appId: 42,
+                summary: 'Everything looks great.',
+                score: 9,
+                model: 'gpt-4o-mini',
+                generatedAt: '2026-01-01T10:00:00.000Z',
+            },
+        });
+
+        render(<VitalityAiSummaryCard applicationId={42} />);
+
+        expect(screen.getByTestId('ai-summary-card-score')).toHaveTextContent('9/10');
+    });
+
+    it('does not show a score badge when the cached summary has no score', () => {
+        mockQueryResult({
+            getApplicationAiSummaryByParams: {
+                _id: 1,
+                appId: 42,
+                summary: 'Everything looks great.',
+                model: 'gpt-4o-mini',
+                generatedAt: '2026-01-01T10:00:00.000Z',
+            },
+        });
+
+        render(<VitalityAiSummaryCard applicationId={42} />);
+
+        expect(screen.queryByTestId('ai-summary-card-score')).not.toBeInTheDocument();
+    });
+
     it('shows a retry action when loading the cached summary fails', () => {
         mockQueryResult(null, { error: new Error('network error') });
 

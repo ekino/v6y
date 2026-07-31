@@ -94,12 +94,7 @@ const VitalityProjectDetailsView = ({ applicationId }: VitalityProjectDetailsVie
         <div className="space-y-5">
             <div className="grid grid-cols-1 gap-5 lg:grid-cols-12 lg:gap-7">
                 <div className="lg:col-span-4 w-full">
-                    {appInfos ? (
-                        <div className="space-y-5">
-                            <VitalitySummaryCard appInfos={appInfos} />
-                            <VitalityAiSummaryCard applicationId={targetApplicationId} />
-                        </div>
-                    ) : null}
+                    {appInfos ? <VitalitySummaryCard appInfos={appInfos} /> : null}
                 </div>
 
                 <div className="lg:col-span-8 w-full space-y-7">
@@ -120,6 +115,8 @@ const VitalityProjectDetailsView = ({ applicationId }: VitalityProjectDetailsVie
                             />
                         </div>
                     </div>
+
+                    <VitalityAiSummaryCard applicationId={targetApplicationId} />
 
                     <VitalityGeneralInformationView appInfos={appInfos} />
 

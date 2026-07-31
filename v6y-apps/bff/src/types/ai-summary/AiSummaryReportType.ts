@@ -10,6 +10,10 @@ const AiSummaryReportType = `
         and current audit health), independent of any specific audit report """
     summary: String!
 
+    """ Overall application health score from 0 (critical) to 10 (excellent),
+        generated alongside the summary and consistent with its bullet points """
+    score: Int
+
     """ The LLM model that generated this summary (as routed by LiteLLM) """
     model: String
 
