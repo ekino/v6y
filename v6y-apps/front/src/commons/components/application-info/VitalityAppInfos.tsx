@@ -35,12 +35,14 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                     <div className={`min-w-0 flex-1 ${isDashboard ? 'space-y-2' : 'space-y-3'}`}>
                         <div className="flex items-center gap-3">
-                            <span
-                                className="flex h-10 w-10 items-center justify-center rounded-md border border-slate-200 bg-slate-50 text-slate-700"
-                                aria-hidden
-                            >
-                                <StarIcon className="scale-125" />
-                            </span>
+                            {!isDashboard && (
+                                <span
+                                    className="flex h-10 w-10 items-center justify-center rounded-md border border-slate-200 bg-slate-50 text-slate-700"
+                                    aria-hidden
+                                >
+                                    <StarIcon className="scale-125" />
+                                </span>
+                            )}
                             <div className="min-w-0">
                                 <h4 className="truncate text-lg font-semibold tracking-tight text-slate-950 md:text-xl">
                                     <span data-testid="app-name">{app.name}</span>
