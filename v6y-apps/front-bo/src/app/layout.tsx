@@ -4,11 +4,11 @@ import { Suspense } from 'react';
 import AppProvider from '../infrastructure/providers/AppProvider';
 
 export const metadata = {
-    title: 'Vitality Back Office (V6Y BO)',
+    title: 'Vitality Back Office | Manage and Configure Your Codebase Health Audits',
     description:
         'Vitality (v6y) is a web-based application developed by Ekino, designed to maintain and optimize the health and performance of codebases and applications.',
     icons: {
-        icon: '/favicon.ico',
+        icon: '/favicon.svg',
     },
 };
 

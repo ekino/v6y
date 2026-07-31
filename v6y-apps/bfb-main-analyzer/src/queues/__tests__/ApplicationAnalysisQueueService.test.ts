@@ -1,7 +1,13 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { APPLICATION_ANALYSIS_SINGLE_JOB } from '../ApplicationAnalysisQueue.ts';
-import { ApplicationAnalysisQueueService } from '../ApplicationAnalysisQueueService.ts';
+import {
+    APPLICATION_ANALYSIS_SCHEDULE,
+    APPLICATION_ANALYSIS_SINGLE_JOB,
+} from '../ApplicationAnalysisQueue.ts';
+import {
+    AUDIT_SCHEDULE_TIMEZONE,
+    ApplicationAnalysisQueueService,
+} from '../ApplicationAnalysisQueueService.ts';
 
 describe('ApplicationAnalysisQueueService', () => {
     describe('when the queue is available', () => {
@@ -66,6 +72,100 @@ describe('ApplicationAnalysisQueueService', () => {
             const job = await service.enqueueApplicationAnalysis(42);
 
             expect(job).toBeNull();
+        });
+    });
+
+    describe('upsertApplicationSchedule', () => {
+        it('upserts a job scheduler with a deterministic id, the application cron and an explicit timezone', async () => {
+            const upsertJobScheduler = vi.fn().mockResolvedValue({ id: 'sched-job-1' });
+            const service = new ApplicationAnalysisQueueService({
+                upsertJobScheduler,
+            } as never);
+
+            const scheduledJob = await service.upsertApplicationSchedule(42, '0 */6 * * *');
+
+            expect(upsertJobScheduler).toHaveBeenCalledWith(
+                `${APPLICATION_ANALYSIS_SCHEDULE}-42`,
+                // Without an explicit tz the pattern follows the container's
+                // timezone, so the same schedule fires at a different wall-clock
+                // time per host and shifts across DST.
+                { pattern: '0 */6 * * *', tz: AUDIT_SCHEDULE_TIMEZONE },
+                expect.objectContaining({
+                    name: APPLICATION_ANALYSIS_SINGLE_JOB,
+                    data: { applicationId: 42 },
+                }),
+            );
+            expect(scheduledJob).toEqual({ id: 'sched-job-1' });
+        });
+
+        it('returns null and skips upserting when the queue is unavailable', async () => {
+            const service = new ApplicationAnalysisQueueService(undefined);
+
+            const scheduledJob = await service.upsertApplicationSchedule(42, '0 0 * * *');
+
+            expect(scheduledJob).toBeNull();
+        });
+    });
+
+    describe('removeApplicationSchedule', () => {
+        it('removes the job scheduler for the given application', async () => {
+            const removeJobScheduler = vi.fn().mockResolvedValue(true);
+            const service = new ApplicationAnalysisQueueService({
+                removeJobScheduler,
+            } as never);
+
+            const removed = await service.removeApplicationSchedule(42);
+
+            expect(removeJobScheduler).toHaveBeenCalledWith(`${APPLICATION_ANALYSIS_SCHEDULE}-42`);
+            expect(removed).toBe(true);
+        });
+
+        it('returns false and skips removal when the queue is unavailable', async () => {
+            const service = new ApplicationAnalysisQueueService(undefined);
+
+            const removed = await service.removeApplicationSchedule(42);
+
+            expect(removed).toBe(false);
+        });
+    });
+
+    describe('listApplicationScheduleIds', () => {
+        it('lists only the application analysis scheduler ids', async () => {
+            const getJobSchedulers = vi
+                .fn()
+                .mockResolvedValue([
+                    { key: `${APPLICATION_ANALYSIS_SCHEDULE}-42` },
+                    { key: `${APPLICATION_ANALYSIS_SCHEDULE}-7` },
+                    { key: 'some-other-scheduler-1' },
+                ]);
+            const service = new ApplicationAnalysisQueueService({ getJobSchedulers } as never);
+
+            const schedulerIds = await service.listApplicationScheduleIds();
+
+            expect(schedulerIds).toEqual([
+                `${APPLICATION_ANALYSIS_SCHEDULE}-42`,
+                `${APPLICATION_ANALYSIS_SCHEDULE}-7`,
+            ]);
+        });
+
+        it('falls back to the id field and skips entries without an identifier', async () => {
+            const getJobSchedulers = vi
+                .fn()
+                .mockResolvedValue([
+                    { id: `${APPLICATION_ANALYSIS_SCHEDULE}-42` },
+                    { key: null, id: null },
+                ]);
+            const service = new ApplicationAnalysisQueueService({ getJobSchedulers } as never);
+
+            expect(await service.listApplicationScheduleIds()).toEqual([
+                `${APPLICATION_ANALYSIS_SCHEDULE}-42`,
+            ]);
+        });
+
+        it('returns an empty list when the queue is unavailable', async () => {
+            const service = new ApplicationAnalysisQueueService(undefined);
+
+            expect(await service.listApplicationScheduleIds()).toEqual([]);
         });
     });
 });

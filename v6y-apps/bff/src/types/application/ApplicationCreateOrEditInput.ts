@@ -53,6 +53,12 @@ const ApplicationCreateOrEditInput = `
       
       """ Application deployment platform url """
       deploymentPlatformLink: String
+
+      """ Whether recurring audit scheduling is enabled for this application """
+      auditFrequencyEnabled: Boolean
+
+      """ Audit reporting frequency, expressed as a 5-field cron expression """
+      auditFrequencyCron: String
   }
 `;
 

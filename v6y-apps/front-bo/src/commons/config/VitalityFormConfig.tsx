@@ -3,6 +3,7 @@ import { Variables } from 'graphql-request';
 import { ApplicationType } from '@v6y/core-logic/src/types';
 import { SelectOptionType, TranslateType } from '@v6y/ui-kit';
 
+import VitalityAuditFrequencyField from '../components/VitalityAuditFrequencyField';
 import VitalityFormFieldSet from '../components/VitalityFormFieldSet';
 
 interface LinkOptions {
@@ -225,39 +226,50 @@ export const applicationCreateEditItems = (translate: TranslateType) => {
             groupTitle={translate('v6y-applications.fields.app-datadog-configuration-group')}
             items={applicationDataDogConfigurationFormItems(translate)}
         />,
+        <VitalityAuditFrequencyField
+            key={translate('v6y-applications.fields.app-audit-frequency-group')}
+            groupTitle={translate('v6y-applications.fields.app-audit-frequency-group')}
+            translate={translate}
+        />,
     ];
 };
 
-export const applicationCreateOrEditFormInAdapter = (params: ApplicationType) => ({
-    _id: params?.['_id'],
-    'app-acronym': params?.['acronym'],
-    'app-name': params?.['name'],
-    'app-description': params?.['description'],
-    'app-git-organization': params?.['repo']?.organization,
-    'app-git-web-url': params?.['repo']?.webUrl,
-    'app-git-url': params?.['repo']?.gitUrl,
-    'app-contact-email': params?.['contactMail'],
-    'app-production-link': params?.['links']?.find?.(
-        (item) => item.label === 'Application production url',
-    )?.value,
-    'app-code-quality-platform-link': params?.['links']?.find?.(
-        (item) => item.label === 'Application code quality platform url',
-    )?.value,
-    'app-sonarqube-link': params?.['links']?.find?.(
-        (item) => item.label === 'Application SonarQube url',
-    )?.value,
-    'app-sonarqube-token': params?.['configuration']?.sonarqube?.token,
-    'app-ci-cd-platform-link': params?.['links']?.find?.(
-        (item) => item.label === 'Application CI/CD platform url',
-    )?.value,
-    'app-deployment-platform-link': params?.['links']?.find?.(
-        (item) => item.label === 'Application deployment platform url',
-    )?.value,
-    'app-data-dog-api-key': params?.['configuration']?.dataDog?.apiKey,
-    'app-data-dog-app-key': params?.['configuration']?.dataDog?.appKey,
-    'app-data-dog-url': params?.['configuration']?.dataDog?.url,
-    'app-data-dog-monitor-id': params?.['configuration']?.dataDog?.monitorId,
-});
+export const applicationCreateOrEditFormInAdapter = (params: ApplicationType) => {
+    return {
+        _id: params?.['_id'],
+        'app-acronym': params?.['acronym'],
+        'app-name': params?.['name'],
+        'app-description': params?.['description'],
+        'app-git-organization': params?.['repo']?.organization,
+        'app-git-web-url': params?.['repo']?.webUrl,
+        'app-git-url': params?.['repo']?.gitUrl,
+        'app-contact-email': params?.['contactMail'],
+        'app-production-link': params?.['links']?.find?.(
+            (item) => item.label === 'Application production url',
+        )?.value,
+        'app-code-quality-platform-link': params?.['links']?.find?.(
+            (item) => item.label === 'Application code quality platform url',
+        )?.value,
+        'app-sonarqube-link': params?.['links']?.find?.(
+            (item) => item.label === 'Application SonarQube url',
+        )?.value,
+        'app-sonarqube-token': params?.['configuration']?.sonarqube?.token,
+        'app-ci-cd-platform-link': params?.['links']?.find?.(
+            (item) => item.label === 'Application CI/CD platform url',
+        )?.value,
+        'app-deployment-platform-link': params?.['links']?.find?.(
+            (item) => item.label === 'Application deployment platform url',
+        )?.value,
+        'app-data-dog-api-key': params?.['configuration']?.dataDog?.apiKey,
+        'app-data-dog-app-key': params?.['configuration']?.dataDog?.appKey,
+        'app-data-dog-url': params?.['configuration']?.dataDog?.url,
+        'app-data-dog-monitor-id': params?.['configuration']?.dataDog?.monitorId,
+        'app-audit-frequency-enabled': !!params?.['auditFrequencyEnabled'],
+        'app-audit-frequency-cron': params?.['auditFrequencyEnabled']
+            ? params?.['auditFrequencyCron']
+            : undefined,
+    };
+};
 
 export const applicationCreateOrEditFormOutputAdapter = (data: unknown): Variables => {
     const params = data as Record<string, unknown>;
@@ -281,6 +293,10 @@ export const applicationCreateOrEditFormOutputAdapter = (data: unknown): Variabl
             dataDogAppKey: params?.['app-data-dog-app-key'],
             dataDogUrl: params?.['app-data-dog-url'],
             dataDogMonitorId: params?.['app-data-dog-monitor-id'],
+            auditFrequencyEnabled: !!params?.['app-audit-frequency-enabled'],
+            auditFrequencyCron: params?.['app-audit-frequency-enabled']
+                ? (params?.['app-audit-frequency-cron'] as string)?.trim() || undefined
+                : undefined,
         },
     };
 };

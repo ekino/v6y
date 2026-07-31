@@ -247,7 +247,33 @@
                 "label": "Application DataDog Monitor ID",
                 "placeholder": "Enter your application DataDog Monitor ID",
                 "error": ""
+            },
+            "app-audit-frequency-group": "Planification des audits (optionnel)",
+            "app-audit-frequency-enabled": {
+                "label": "Activer les audits planifiés"
+            },
+            "app-audit-frequency-cron": {
+                "label": "Planification des audits (expression cron)",
+                "placeholder": "0 0 * * *",
+                "error": "Veuillez saisir une expression cron",
+                "error-syntax": "Cette expression cron n'est pas valide. 5 champs attendus (minute heure jour-du-mois mois jour-de-la-semaine), ou 6 avec un champ secondes en tête.",
+                "error-rate": "Les audits peuvent s'exécuter au maximum une fois par heure : le champ des minutes doit être une valeur fixe (ainsi que celui des secondes, s'il est présent).",
+                "examples": {
+                    "title": "Exemples :",
+                    "daily": "1 fois par jour, à minuit",
+                    "twice-a-day": "2 fois par jour, à minuit et à midi",
+                    "every-six-hours": "toutes les 6 heures",
+                    "hourly": "1 fois par heure",
+                    "weekly": "1 fois par semaine, le lundi à minuit",
+                    "monthly": "1 fois par mois, le 1er à minuit",
+                    "weekdays": "du lundi au vendredi à 03h30",
+                    "timezone": "Les horaires sont évalués dans le fuseau horaire configuré sur l'analyseur (UTC par défaut)."
+                }
             }
+        },
+
+        "messages": {
+            "audit-frequency-schedule-failed": "L'application a été enregistrée, mais sa planification d'audit n'a pas pu être appliquée sur l'analyseur. Elle sera réappliquée automatiquement à la prochaine réconciliation."
         },
 
         "titles": {

@@ -116,6 +116,8 @@ describe('VitalityFormConfig - Form Items', () => {
             'app-data-dog-app-key': 'testAppKey',
             'app-data-dog-url': 'https://api.testdatadog.com',
             'app-data-dog-monitor-id': 'testMonitorId',
+            'app-audit-frequency-enabled': false,
+            'app-audit-frequency-cron': undefined,
         });
     });
 
@@ -158,6 +160,8 @@ describe('VitalityFormConfig - Form Items', () => {
                 dataDogAppKey: 'testAppKey',
                 dataDogUrl: 'https://api.testdatadog.com',
                 dataDogMonitorId: 'testMonitorId',
+                auditFrequencyEnabled: false,
+                auditFrequencyCron: undefined,
             },
         });
     });
@@ -200,10 +204,15 @@ describe('VitalityFormConfig - Form Items', () => {
             'app-production-link': undefined,
             'app-sonarqube-link': undefined,
             'app-sonarqube-token': undefined,
+            'app-code-quality-platform-link': undefined,
+            'app-ci-cd-platform-link': undefined,
+            'app-deployment-platform-link': undefined,
             'app-data-dog-api-key': undefined,
             'app-data-dog-app-key': undefined,
             'app-data-dog-url': undefined,
             'app-data-dog-monitor-id': undefined,
+            'app-audit-frequency-enabled': false,
+            'app-audit-frequency-cron': undefined,
         });
     });
 
@@ -214,5 +223,56 @@ describe('VitalityFormConfig - Form Items', () => {
         result.forEach((fieldset) => {
             expect(fieldset).toBeDefined();
         });
+    });
+
+    it('should round-trip the audit frequency cron expression unchanged', () => {
+        const result = applicationCreateOrEditFormInAdapter({
+            _id: 1,
+            auditFrequencyEnabled: true,
+            auditFrequencyCron: '30 3 * * 1-5',
+        } as ApplicationType);
+
+        expect(result['app-audit-frequency-enabled']).toBe(true);
+        expect(result['app-audit-frequency-cron']).toBe('30 3 * * 1-5');
+
+        const output = applicationCreateOrEditFormOutputAdapter({
+            ...result,
+            'app-name': 'TestApp',
+        }) as { applicationInput: Record<string, unknown> };
+
+        expect(output.applicationInput.auditFrequencyEnabled).toBe(true);
+        expect(output.applicationInput.auditFrequencyCron).toBe('30 3 * * 1-5');
+    });
+
+    it('should ignore the stored cron of an application whose scheduling is off', () => {
+        const result = applicationCreateOrEditFormInAdapter({
+            _id: 1,
+            auditFrequencyEnabled: false,
+            auditFrequencyCron: '0 0 * * *',
+        } as ApplicationType);
+
+        expect(result['app-audit-frequency-enabled']).toBe(false);
+        expect(result['app-audit-frequency-cron']).toBeUndefined();
+    });
+
+    it('should trim the submitted cron expression', () => {
+        const output = applicationCreateOrEditFormOutputAdapter({
+            _id: 1,
+            'app-audit-frequency-enabled': true,
+            'app-audit-frequency-cron': '  0 0 * * *  ',
+        }) as { applicationInput: Record<string, unknown> };
+
+        expect(output.applicationInput.auditFrequencyCron).toBe('0 0 * * *');
+    });
+
+    it('should drop the audit frequency cron when scheduling is disabled', () => {
+        const output = applicationCreateOrEditFormOutputAdapter({
+            _id: 1,
+            'app-audit-frequency-enabled': false,
+            'app-audit-frequency-cron': '30 3 * * 1-5',
+        }) as { applicationInput: Record<string, unknown> };
+
+        expect(output.applicationInput.auditFrequencyEnabled).toBe(false);
+        expect(output.applicationInput.auditFrequencyCron).toBeUndefined();
     });
 });

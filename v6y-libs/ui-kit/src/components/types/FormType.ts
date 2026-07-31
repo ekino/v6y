@@ -35,10 +35,18 @@ export interface FormShowOptions {
     renderShowView?: <T>({ data, error }: { data?: T; error?: AdminHttpError }) => ReactNode;
 }
 
+/**
+ * Called with the raw GraphQL payload once the save succeeded, so a resource can
+ * react to what the mutation actually reported (e.g. a side effect the server
+ * could not apply) on top of the generic success notification.
+ */
+export type FormMutationSuccessHandler = (data: unknown) => void;
+
 export interface FormCreateWrapperType {
     title: string | ReactNode;
     createOptions: FormCreateOptionsType;
     formItems: ReactNode[];
+    onMutationSuccess?: FormMutationSuccessHandler;
 }
 
 export interface SelectOptionsType {
@@ -57,4 +65,5 @@ export interface FormWrapperType {
         queryParams?: Record<string, unknown>;
     };
     renderSelectOption?: <T>(options: T) => ReactNode[];
+    onMutationSuccess?: FormMutationSuccessHandler;
 }

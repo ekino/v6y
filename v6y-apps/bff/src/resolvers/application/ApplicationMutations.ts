@@ -7,6 +7,81 @@ import {
 } from '@v6y/core-logic';
 
 /**
+ * Header carrying the shared secret used by the analyzer services to
+ * authenticate calls coming from the BFF. Omitted when unset, in which case the
+ * analyzer accepts the call as before.
+ */
+const buildInternalApiHeaders = () => {
+    const internalSecret = process.env.V6Y_INTERNAL_API_SECRET;
+
+    return {
+        'Content-Type': 'application/json',
+        ...(internalSecret?.length ? { 'x-v6y-internal-secret': internalSecret } : {}),
+    };
+};
+
+/**
+ * Create or update the recurring application analysis schedule on the main
+ * analyzer, based on the application's audit reporting frequency. Failures are
+ * logged and reported back to the caller but never thrown, so a
+ * main-analyzer/queue hiccup never blocks saving the application itself.
+ *
+ * Returns whether the analyzer confirmed the change. A `false` here means the
+ * database and the analyzer's schedulers are temporarily out of sync; the
+ * analyzer's own reconciliation (boot + daily) re-applies every enabled
+ * schedule from the database, so the divergence is transient rather than
+ * permanent — but the caller still gets to say so instead of reporting a clean
+ * success.
+ * @param applicationId
+ * @param cron
+ * @param enabled
+ */
+const scheduleApplicationAnalysis = async (
+    applicationId: number,
+    cron: string | null | undefined,
+    enabled: boolean | undefined,
+): Promise<boolean> => {
+    try {
+        const scheduleUrl = process.env.V6Y_MAIN_ANALYZER_SCHEDULE_API_PATH;
+
+        if (!scheduleUrl?.length) {
+            AppLogger.error(
+                `[AppMutations - scheduleApplicationAnalysis] V6Y_MAIN_ANALYZER_SCHEDULE_API_PATH is not configured, the audit schedule for applicationId=${applicationId} was not applied.`,
+            );
+            return false;
+        }
+
+        AppLogger.info(
+            `[AppMutations - scheduleApplicationAnalysis] applicationId : ${applicationId}, enabled : ${enabled}, cron : ${cron}`,
+        );
+
+        const response = await fetch(scheduleUrl, {
+            method: 'POST',
+            headers: buildInternalApiHeaders(),
+            body: JSON.stringify({ applicationId, cron, enabled: !!enabled }),
+        });
+
+        if (!response.ok) {
+            const responseBody = (await response.json().catch(() => null)) as {
+                message?: string;
+            } | null;
+            AppLogger.error(
+                `[AppMutations - scheduleApplicationAnalysis] Unable to update the audit schedule for applicationId=${applicationId}: ${responseBody?.message || response.status}`,
+            );
+            return false;
+        }
+
+        return true;
+    } catch (error) {
+        AppLogger.error(
+            `[AppMutations - scheduleApplicationAnalysis] An exception occurred while updating the audit schedule for applicationId=${applicationId}: `,
+            error,
+        );
+        return false;
+    }
+};
+
+/**
  * Create or edit application
  * @param _
  * @param params
@@ -35,6 +110,8 @@ const createOrEditApplication = async (
             codeQualityPlatformLink,
             ciPlatformLink,
             deploymentPlatformLink,
+            auditFrequencyEnabled,
+            auditFrequencyCron,
         } = params?.applicationInput || {};
 
         AppLogger.info(`[AppMutations - createOrEditApplication] _id : ${_id}`);
@@ -89,13 +166,25 @@ const createOrEditApplication = async (
                 dataDogAppKey,
                 dataDogUrl,
                 dataDogMonitorId,
+                auditFrequencyEnabled,
+                auditFrequencyCron,
             } as ApplicationInputType);
 
             AppLogger.info(
                 `[AppMutations - createOrEditApplication] editedApplication : ${editedApplication?._id}`,
             );
 
-            return editedApplication;
+            if (!editedApplication?._id) {
+                return editedApplication;
+            }
+
+            const editedScheduleApplied = await scheduleApplicationAnalysis(
+                editedApplication._id,
+                auditFrequencyCron,
+                auditFrequencyEnabled,
+            );
+
+            return { ...editedApplication, auditFrequencyScheduled: editedScheduleApplied };
         }
 
         const createdApplication = await ApplicationProvider.createFormApplication({
@@ -116,13 +205,25 @@ const createOrEditApplication = async (
             dataDogAppKey,
             dataDogUrl,
             dataDogMonitorId,
+            auditFrequencyEnabled,
+            auditFrequencyCron,
         } as ApplicationInputType);
 
         AppLogger.info(
             `[AppMutations - createOrEditApplication] createdApplication : ${createdApplication?._id}`,
         );
 
-        return createdApplication;
+        if (!createdApplication?._id) {
+            return createdApplication;
+        }
+
+        const createdScheduleApplied = await scheduleApplicationAnalysis(
+            createdApplication._id,
+            auditFrequencyCron,
+            auditFrequencyEnabled,
+        );
+
+        return { ...createdApplication, auditFrequencyScheduled: createdScheduleApplied };
     } catch (error) {
         AppLogger.info(`[AppMutations - createOrEditApplication] error : ${error}`);
         return null;
@@ -148,7 +249,14 @@ const deleteApplication = async (_: unknown, params: { input: SearchQueryType })
 
         AppLogger.info(`[AppMutations - deleteApplication] appId : ${appId}`);
 
-        await ApplicationProvider.deleteApplication({ _id: parseInt(appId, 10) });
+        const applicationId = parseInt(appId, 10);
+
+        // Unschedule before the row is gone: a job scheduler left behind in Redis
+        // keeps enqueuing analyses (hourly for the densest preset) for an
+        // application the analyzer can no longer find.
+        await scheduleApplicationAnalysis(applicationId, null, false);
+
+        await ApplicationProvider.deleteApplication({ _id: applicationId });
 
         return {
             _id: appId,
@@ -196,7 +304,7 @@ const triggerApplicationAnalysis = async (
 
         const response = await fetch(triggerUrl, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: buildInternalApiHeaders(),
             body: JSON.stringify({ applicationId }),
         });
 

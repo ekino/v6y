@@ -248,9 +248,35 @@
         "label": "Application DataDog Monitor ID",
         "placeholder": "Enter your application DataDog Monitor ID",
         "error": ""
+      },
+      "app-audit-frequency-group": "Audit Scheduling (optional)",
+      "app-audit-frequency-enabled": {
+        "label": "Enable scheduled audits"
+      },
+      "app-audit-frequency-cron": {
+        "label": "Audit schedule (cron expression)",
+        "placeholder": "0 0 * * *",
+        "error": "Please enter a cron expression",
+        "error-syntax": "This is not a valid cron expression. Expected 5 fields (minute hour day-of-month month day-of-week), or 6 with a leading seconds field.",
+        "error-rate": "Audits can run at most once per hour, so the minutes field must be a single fixed value (and the seconds field too, when present).",
+        "examples": {
+          "title": "Examples:",
+          "daily": "once a day, at midnight",
+          "twice-a-day": "twice a day, at midnight and noon",
+          "every-six-hours": "every 6 hours",
+          "hourly": "once an hour",
+          "weekly": "once a week, on Monday at midnight",
+          "monthly": "once a month, on the 1st at midnight",
+          "weekdays": "Monday to Friday at 03:30",
+          "timezone": "Times are evaluated in the analyzer's configured timezone (UTC unless set otherwise)."
+        }
       }
     },
-    
+
+    "messages": {
+      "audit-frequency-schedule-failed": "The application was saved, but its audit schedule could not be applied on the analyzer. It will be re-applied automatically on the next reconciliation."
+    },
+
     "titles": {
       "create": "Create Application",
       "edit": "Edit Application",

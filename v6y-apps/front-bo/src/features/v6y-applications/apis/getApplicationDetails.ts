@@ -29,6 +29,8 @@ const GetApplicationDetails = gql`
                     token
                 }
             }
+            auditFrequencyEnabled
+            auditFrequencyCron
         }
     }
 `;

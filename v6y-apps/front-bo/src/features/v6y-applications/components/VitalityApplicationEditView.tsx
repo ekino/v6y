@@ -14,6 +14,7 @@ import {
 } from '../../../commons/config/VitalityFormConfig';
 import CreateOrEditApplication from '../apis/createOrEditApplication';
 import GetApplicationDetails from '../apis/getApplicationDetails';
+import { notifyAuditFrequencyScheduleOutcome } from '../helpers/auditFrequencyFeedback';
 
 export default function VitalityApplicationEditView() {
     const { translate } = useTranslationProvider();
@@ -41,6 +42,7 @@ export default function VitalityApplicationEditView() {
                 },
             }}
             formItems={applicationCreateEditItems(translate)}
+            onMutationSuccess={(data) => notifyAuditFrequencyScheduleOutcome(data, translate)}
         />
     );
 }

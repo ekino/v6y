@@ -7,12 +7,16 @@ import {
     InternalServerErrorException,
     Optional,
     Post,
+    UseGuards,
 } from '@nestjs/common';
+import { validate as validateCronExpression } from 'node-cron';
 
 import { AppLogger } from '@v6y/core-logic';
 
+import { isAuditCronRateAcceptable } from '../config/AuditCronPolicy.ts';
 import ServerConfig from '../config/ServerConfig.ts';
 import { ApplicationAnalysisQueueService } from '../queues/ApplicationAnalysisQueueService.ts';
+import { InternalApiGuard } from './InternalApiGuard.ts';
 
 const { currentConfig } = ServerConfig;
 const basePath = (currentConfig?.apiPath || '').toString();
@@ -27,7 +31,20 @@ interface TriggerApplicationAnalysisResponse {
     applicationId: number;
 }
 
+interface ScheduleApplicationAnalysisBody {
+    applicationId?: number;
+    cron?: string;
+    enabled?: boolean;
+}
+
+interface ScheduleApplicationAnalysisResponse {
+    success: boolean;
+    message: string;
+    applicationId: number;
+}
+
 @Controller(basePath)
+@UseGuards(InternalApiGuard)
 export class ApplicationAnalysisController {
     constructor(
         @Optional()
@@ -79,6 +96,94 @@ export class ApplicationAnalysisController {
         return {
             success: true,
             message: 'Application analysis queued successfully.',
+            applicationId,
+        };
+    }
+
+    @Post('schedule-application-analysis.json')
+    @HttpCode(200)
+    async scheduleApplicationAnalysis(
+        @Body() body: ScheduleApplicationAnalysisBody,
+    ): Promise<ScheduleApplicationAnalysisResponse> {
+        const { applicationId, cron, enabled } = body || {};
+
+        AppLogger.debug('[ApplicationAnalysisController] Entering service: [schedule-analysis]');
+        AppLogger.info(
+            `[ApplicationAnalysisController] applicationId: ${applicationId}, cron: ${cron}, enabled: ${enabled}`,
+        );
+
+        if (!applicationId) {
+            throw new BadRequestException({
+                success: false,
+                message: 'The applicationId is required to schedule the application analysis.',
+            });
+        }
+
+        if (!enabled) {
+            try {
+                await this.applicationAnalysisQueueService.removeApplicationSchedule(applicationId);
+            } catch (error) {
+                AppLogger.error(
+                    '[ApplicationAnalysisController] An exception occurred while removing the application analysis schedule:',
+                    error,
+                );
+                throw new InternalServerErrorException({
+                    success: false,
+                    message: 'An error occurred while removing the application analysis schedule.',
+                });
+            }
+
+            return {
+                success: true,
+                message: 'Application analysis schedule removed.',
+                applicationId,
+            };
+        }
+
+        if (!cron?.length || !validateCronExpression(cron)) {
+            throw new BadRequestException({
+                success: false,
+                message:
+                    'A valid cron expression is required to enable the application analysis schedule.',
+            });
+        }
+
+        if (!isAuditCronRateAcceptable(cron)) {
+            throw new BadRequestException({
+                success: false,
+                message:
+                    'The cron expression schedules audits too frequently: the seconds and minutes fields must pin a single value, so a schedule runs at most once per hour.',
+            });
+        }
+
+        let upsertedScheduler;
+        try {
+            upsertedScheduler =
+                await this.applicationAnalysisQueueService.upsertApplicationSchedule(
+                    applicationId,
+                    cron,
+                );
+        } catch (error) {
+            AppLogger.error(
+                '[ApplicationAnalysisController] An exception occurred while upserting the application analysis schedule:',
+                error,
+            );
+            throw new InternalServerErrorException({
+                success: false,
+                message: 'An error occurred while scheduling the application analysis.',
+            });
+        }
+
+        if (!upsertedScheduler) {
+            throw new InternalServerErrorException({
+                success: false,
+                message: 'The application analysis queue is currently unavailable.',
+            });
+        }
+
+        return {
+            success: true,
+            message: 'Application analysis schedule saved.',
             applicationId,
         };
     }
