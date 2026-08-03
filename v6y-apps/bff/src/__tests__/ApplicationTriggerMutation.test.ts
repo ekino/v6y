@@ -14,6 +14,7 @@ vi.mock('@v6y/core-logic', async () => {
 
 describe('TriggerApplicationAnalysis mutation', () => {
     beforeEach(() => {
+        delete process.env.V6Y_INTERNAL_API_SECRET;
         process.env.V6Y_BFF_API_PATH = '/v6y/graphql/';
         process.env.V6Y_MAIN_ANALYZER_TRIGGER_API_PATH =
             'http://localhost:4002/v6y/bfb-main/trigger-application-analysis.json';
