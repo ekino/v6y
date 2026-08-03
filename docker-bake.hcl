@@ -69,6 +69,7 @@ group "default" {
     "bfb-devops-auditor",
     "frontend",
     "frontend-bo",
+    "back-office",
   ]
 }
 
@@ -160,5 +161,15 @@ target "frontend-bo" {
   labels = {
     "org.opencontainers.image.title"       = "v6y-frontend-bo"
     "org.opencontainers.image.description" = "v6y back-office frontend"
+  }
+}
+
+target "back-office" {
+  inherits = ["_front_common"]
+  target   = "back-office"
+  tags     = tags("v6y-back-office")
+  labels = {
+    "org.opencontainers.image.title"       = "v6y-back-office"
+    "org.opencontainers.image.description" = "v6y back-office frontend (ra-core based)"
   }
 }

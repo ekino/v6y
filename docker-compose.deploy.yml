@@ -179,6 +179,14 @@ services:
     environment:
       NEXTAUTH_URL: ${NEXTAUTH_URL}
 
+  v6y-back-office:
+    <<: *service-defaults
+    image: ${REGISTRY:-ghcr.io/ekino/}v6y-back-office:${IMAGE_TAG:-latest}
+    ports:
+      - "4009:4009"
+    environment:
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+
 volumes:
   v6y-database-data: null
   v6y-redis-data: null

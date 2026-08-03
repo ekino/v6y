@@ -12,6 +12,7 @@
   "scripts": {
     "start:frontend": "nx run @v6y/front:start",
     "start:frontend:bo": "nx run @v6y/front-bo:start",
+    "start:back-office": "nx run @v6y/back-office:start",
     "start:bff": "nx run @v6y/bff:start",
     "start:bfb:main": "nx run @v6y/bfb-main-analyzer:start",
     "start:bfb:static": "nx run @v6y/bfb-static-auditor:start",

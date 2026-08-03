@@ -20,3 +20,13 @@ export {
 } from './breadcrumb.tsx';
 export { Textarea } from './textarea.tsx';
 export { Skeleton } from './skeleton.tsx';
+export {
+    Table,
+    TableHeader,
+    TableBody,
+    TableFooter,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableCaption,
+} from './table.tsx';

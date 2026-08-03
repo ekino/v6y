@@ -1,0 +1,59 @@
+{
+  "name": "@v6y/back-office",
+  "version": "0.0.0",
+  "files": [
+    "src",
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ekino/v6y"
+  },
+  "scripts": {
+    "build:tsc": "tsc --project ./tsconfig.json",
+    "check:tsc": "tsc --noEmit --project ./tsconfig.json",
+    "build": "cross-env NODE_ENV=production next build",
+    "start:dev": "next dev -p 3002",
+    "start": "pnpm run build && next start -p 3002",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write ./src",
+    "test": "vitest --coverage --watch false"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "catalog:",
+    "@v6y/core-logic": "workspace:^",
+    "@v6y/ui-kit-front": "workspace:^",
+    "graphql-request": "catalog:",
+    "js-cookie": "catalog:",
+    "lucide-react": "catalog:",
+    "next": "catalog:next16",
+    "ra-core": "catalog:",
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19",
+    "react-hook-form": "catalog:",
+    "react-router": "catalog:",
+    "react-router-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@eslint/js": "catalog:eslint10",
+    "@testing-library/jest-dom": "catalog:testing",
+    "@testing-library/react": "catalog:testing",
+    "@types/js-cookie": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:react19",
+    "@types/react-dom": "catalog:react19",
+    "@vitejs/plugin-react-swc": "catalog:",
+    "@vitest/coverage-v8": "catalog:testing",
+    "cross-env": "catalog:",
+    "eslint": "catalog:eslint10",
+    "eslint-config-prettier": "catalog:eslint10",
+    "globals": "catalog:",
+    "jsdom": "catalog:testing",
+    "prettier": "catalog:",
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:eslint10",
+    "vitest": "catalog:testing"
+  }
+}
