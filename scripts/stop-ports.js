@@ -13,7 +13,7 @@
  * - 4006: Main Analyzer (alt)
  * - 4009: Main Analyzer (env override)
  * - 3000: Front
- * - 3001: Front BO
+ * - 3001: Back Office
  */
 
 const { execSync } = require('child_process');
@@ -26,7 +26,7 @@ const patterns = [
   'v6y-apps/bfb-dynamic-auditor/node_modules/.bin/../tsx/dist/cli.mjs watch',
   'v6y-apps/bfb-devops-auditor/node_modules/.bin/../tsx/dist/cli.mjs watch',
   'v6y-apps/front/node_modules/.bin/../next/dist/bin/next dev',
-  'v6y-apps/front-bo/node_modules/.bin/../@refinedev/cli/dist/cli.cjs dev',
+  'v6y-apps/back-office/node_modules/.bin/../next/dist/bin/next dev',
 ];
 
 const ports = [4001, 4002, 4003, 4004, 4005, 4006, 4009, 3000, 3001];

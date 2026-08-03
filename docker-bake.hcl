@@ -68,7 +68,6 @@ group "default" {
     "bfb-url-dynamic-auditor",
     "bfb-devops-auditor",
     "frontend",
-    "frontend-bo",
     "back-office",
   ]
 }
@@ -151,16 +150,6 @@ target "frontend" {
   labels = {
     "org.opencontainers.image.title"       = "v6y-frontend"
     "org.opencontainers.image.description" = "v6y public web frontend"
-  }
-}
-
-target "frontend-bo" {
-  inherits = ["_front_common"]
-  target   = "frontend-bo"
-  tags     = tags("v6y-frontend-bo")
-  labels = {
-    "org.opencontainers.image.title"       = "v6y-frontend-bo"
-    "org.opencontainers.image.description" = "v6y back-office frontend"
   }
 }
 
