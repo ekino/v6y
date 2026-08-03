@@ -1,7 +1,11 @@
 import request from 'supertest';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('ApplicationAnalysisController', () => {
+    beforeEach(() => {
+        delete process.env.V6Y_INTERNAL_API_SECRET;
+    });
+
     afterEach(() => {
         vi.restoreAllMocks();
         vi.resetModules();
