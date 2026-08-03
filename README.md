@@ -50,25 +50,20 @@ Each service is independent (own `package.json`, own start/build/test scripts) a
 
 ## Project Setup
 
-1. **Install dependencies** from the repository root (this installs every app and library through the pnpm workspace):
+1. **Install dependencies** from the repository root (this installs every app and library through the pnpm workspace, and generates the Prisma client automatically):
    ```bash
    pnpm install
    ```
 
-2. **Configure environment variables**. Each app has its own `env-template` file; the root [env-template](env-template) covers the shared/database variables. Copy it to `.env` and fill in real values:
+2. **Run the setup script** to configure your environment and start the database:
    ```bash
-   cp env-template .env
+   pnpm run setup
    ```
-   Key variables include the PostgreSQL connection settings (`PSQL_DB_*`, `DATABASE_URL`), the initial admin account (`SUPERADMIN_*`), source-control tokens (`GITLAB_PRIVATE_TOKEN`, `GITHUB_PRIVATE_TOKEN`), `JWT_SECRET`, and the API path/port for each backend service.
+   This creates the root `.env` from [env-template](env-template) on first run (never overwrites an existing one) and links it into every app that needs its own local copy (`v6y-apps/*/.env` or `.env.local`) - one file to edit instead of one per app. It then starts the bundled PostgreSQL database with Docker Compose, applies migrations, generates the Prisma client, and seeds reference data plus the initial admin account.
 
-3. **Start the database** (and apply migrations) using Docker Compose:
-   ```bash
-   docker compose up v6y-database v6y-migrate
-   ```
-   Alternatively, once dependencies are installed and `DATABASE_URL` is set, migrations can be run directly with:
-   ```bash
-   pnpm run init-db
-   ```
+   The defaults already work for local development; at minimum, fill in `GITLAB_PRIVATE_TOKEN`/`GITHUB_PRIVATE_TOKEN` in `.env` if you plan to analyze repositories hosted there, and change `PSQL_DB_PASSWORD` and `JWT_SECRET` before using this anywhere other people can reach. Re-run `pnpm run setup` any time you need to (re)apply migrations - it's safe to run repeatedly.
+
+   If Docker isn't installed or running, the script stops after creating `.env` and tells you so; install/start Docker and re-run it, or point `PSQL_DB_*`/`DATABASE_URL` at your own PostgreSQL instance and run `pnpm run init-db` instead.
 
 ## Running the Project
 

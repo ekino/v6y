@@ -231,10 +231,15 @@ RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
 # ----------------------------------------------------------------- migrate
 # Restarts from pnpm-base rather than inheriting migrate-deps, so the compiler
 # toolchain needed to build bcrypt during the install stays out of the image.
+#
+# Runs the full "first start" sequence a new environment needs: apply pending
+# migrations, (re)generate the Prisma client against the now-current schema,
+# then seed the reference data and superadmin account. db:seed is idempotent
+# (upserts), so re-running this job against an already-seeded database is safe.
 FROM pnpm-base AS migrate
 COPY --from=migrate-deps --chown=node:node /app /app
 COPY --chown=node:node v6y-libs/core-logic/prisma           v6y-libs/core-logic/prisma
 COPY --chown=node:node v6y-libs/core-logic/prisma.config.ts v6y-libs/core-logic/
 COPY --chown=node:node v6y-libs/core-logic/src              v6y-libs/core-logic/src
 USER node
-CMD ["pnpm", "--filter", "@v6y/core-logic", "db:migrate:deploy"]
+CMD ["sh", "-c", "pnpm --filter @v6y/core-logic db:migrate:deploy && pnpm --filter @v6y/core-logic db:generate && pnpm --filter @v6y/core-logic db:seed"]

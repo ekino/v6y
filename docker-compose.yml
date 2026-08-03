@@ -75,6 +75,10 @@ services:
       target: migrate
     environment:
       DATABASE_URL: postgresql://${PSQL_DB_USER}:${PSQL_DB_PASSWORD}@v6y-database:5432/${PSQL_DB_NAME}
+      # Consumed by db:seed, run as part of this job, to create the initial account.
+      SUPERADMIN_USERNAME: ${SUPERADMIN_USERNAME}
+      SUPERADMIN_EMAIL: ${SUPERADMIN_EMAIL}
+      SUPERADMIN_PASSWORD: ${SUPERADMIN_PASSWORD}
     depends_on:
       v6y-database:
         condition: service_healthy
@@ -96,7 +100,7 @@ services:
       V6Y_MAIN_API_PATH: ${V6Y_MAIN_API_PATH}
       V6Y_MAIN_ANALYZER_TRIGGER_API_PATH: http://v6y-bfb-main-analyzer:4002/v6y/bfb-main/trigger-application-analysis.json
       V6Y_MAIN_ANALYZER_SCHEDULE_API_PATH: http://v6y-bfb-main-analyzer:4002/v6y/bfb-main/schedule-application-analysis.json
-      V6Y_INTERNAL_API_SECRET: ${V6Y_INTERNAL_API_SECRET}
+      V6Y_INTERNAL_API_SECRET: ${V6Y_INTERNAL_API_SECRET:-}
     depends_on:
       v6y-migrate:
         condition: service_completed_successfully
@@ -121,7 +125,7 @@ services:
       V6Y_DEVOPS_API_PATH: ${V6Y_DEVOPS_API_PATH}
       V6Y_DEVOPS_API_PORT: ${V6Y_DEVOPS_API_PORT:-4005}
       V6Y_AUDIT_SCHEDULE_TIMEZONE: ${V6Y_AUDIT_SCHEDULE_TIMEZONE:-UTC}
-      V6Y_INTERNAL_API_SECRET: ${V6Y_INTERNAL_API_SECRET}
+      V6Y_INTERNAL_API_SECRET: ${V6Y_INTERNAL_API_SECRET:-}
     depends_on:
       v6y-migrate:
         condition: service_completed_successfully
