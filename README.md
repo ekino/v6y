@@ -28,8 +28,8 @@ The repository is an Nx/pnpm monorepo made of several applications and shared li
 
 ### Applications (`v6y-apps/`)
 - **front**: Next.js web application, the main dashboard used to browse projects and audit reports.
-- **front-bo**: Back-office application (built with Refine) used to administer projects, users and configuration.
-- **bff**: Backend-for-frontend exposing a GraphQL API consumed by `front` and `front-bo`.
+- **back-office**: Next.js admin application (built on ra-core + shadcn/Tailwind) used to administer accounts, applications and configuration.
+- **bff**: Backend-for-frontend exposing a GraphQL API consumed by `front` and `back-office`.
 - **bfb-main-analyzer**: Orchestrates analysis jobs and dispatches work to the specialized auditor services below.
 - **bfb-static-auditor**: Runs static code analysis (code quality, dependency and duplication checks) on a codebase.
 - **bfb-dynamic-auditor**: Runs runtime/browser checks (e.g. Lighthouse) against a deployed application URL.
@@ -37,7 +37,7 @@ The repository is an Nx/pnpm monorepo made of several applications and shared li
 
 ### Libraries (`v6y-libs/`)
 - **core-logic**: Shared domain logic, database access and the Prisma schema used across the backend services.
-- **ui-kit** / **ui-kit-front**: Shared, framework-agnostic UI components used by `front` and `front-bo`.
+- **ui-kit** / **ui-kit-front**: Shared, framework-agnostic UI components used by `front` and `back-office`.
 
 Each service is independent (own `package.json`, own start/build/test scripts) and orchestrated through Nx targets and pnpm workspaces.
 
@@ -107,7 +107,7 @@ pnpm run build              # build all apps/libs
 pnpm run verify:code:duplication  # duplication check (jscpd)
 ```
 
-`front` and `front-bo` also expose `pnpm --filter <app> run test:e2e` for Playwright end-to-end tests.
+`front` also exposes `pnpm --filter @v6y/front run test:e2e` for Playwright end-to-end tests.
 
 ## Contributing
 

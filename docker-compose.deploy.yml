@@ -171,19 +171,11 @@ services:
       # NEXT_PUBLIC_V6Y_BFF_PATH is baked into the image at build time.
       V6Y_BFF_PROXY_TARGET: http://v6y-bff:4001/v6y/graphql/
 
-  v6y-frontend-bo:
-    <<: *service-defaults
-    image: ${REGISTRY:-ghcr.io/ekino/}v6y-frontend-bo:${IMAGE_TAG:-latest}
-    ports:
-      - "4008:4008"
-    environment:
-      NEXTAUTH_URL: ${NEXTAUTH_URL}
-
   v6y-back-office:
     <<: *service-defaults
     image: ${REGISTRY:-ghcr.io/ekino/}v6y-back-office:${IMAGE_TAG:-latest}
     ports:
-      - "4009:4009"
+      - "4008:4008"
     environment:
       NEXTAUTH_URL: ${NEXTAUTH_URL}
 
