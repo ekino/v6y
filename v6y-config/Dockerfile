@@ -51,6 +51,7 @@ COPY v6y-apps/bfb-dynamic-auditor/package.json  v6y-apps/bfb-dynamic-auditor/
 COPY v6y-apps/bfb-devops-auditor/package.json   v6y-apps/bfb-devops-auditor/
 COPY v6y-apps/front/package.json                v6y-apps/front/
 COPY v6y-apps/front-bo/package.json             v6y-apps/front-bo/
+COPY v6y-apps/back-office/package.json          v6y-apps/back-office/
 COPY v6y-libs/core-logic/package.json           v6y-libs/core-logic/
 COPY v6y-libs/ui-kit/package.json               v6y-libs/ui-kit/
 COPY v6y-libs/ui-kit-front/package.json         v6y-libs/ui-kit-front/
@@ -85,7 +86,8 @@ FROM source AS builder
 ARG NEXT_PUBLIC_V6Y_BFF_PATH=""
 ENV NEXT_PUBLIC_V6Y_BFF_PATH=${NEXT_PUBLIC_V6Y_BFF_PATH}
 RUN pnpm --filter @v6y/front build \
-    && pnpm --filter @v6y/front-bo build
+    && pnpm --filter @v6y/front-bo build \
+    && pnpm --filter @v6y/back-office build
 
 # ------------------------------------------------------------- backend-build
 # Compiles the shared library and the five Node services to JavaScript. The app
@@ -218,6 +220,19 @@ EXPOSE 4008
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 --start-period=40s \
     CMD wget -q --spider "http://127.0.0.1:${PORT}/health" || exit 1
 CMD ["node", "v6y-apps/front-bo/server.js"]
+
+# ------------------------------------------------------------ back-office
+FROM base AS back-office
+ENV PORT=4009 \
+    HOSTNAME=0.0.0.0
+COPY --from=builder --chown=node:node /app/v6y-apps/back-office/.next/standalone ./
+COPY --from=builder --chown=node:node /app/v6y-apps/back-office/.next/static ./v6y-apps/back-office/.next/static
+COPY --from=builder --chown=node:node /app/v6y-apps/back-office/public ./v6y-apps/back-office/public
+USER node
+EXPOSE 4009
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 --start-period=40s \
+    CMD wget -q --spider "http://127.0.0.1:${PORT}/health" || exit 1
+CMD ["node", "v6y-apps/back-office/server.js"]
 
 # ------------------------------------------------------------- migrate-deps
 # Short-lived job image. Unlike the services it keeps the Prisma CLI (a dev

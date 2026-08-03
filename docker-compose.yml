@@ -217,6 +217,20 @@ services:
     environment:
       NEXTAUTH_URL: ${NEXTAUTH_URL}
 
+  v6y-back-office:
+    image: ${REGISTRY-}v6y-back-office:${IMAGE_TAG:-latest}
+    build:
+      context: .
+      dockerfile: v6y-config/Dockerfile
+      target: back-office
+      args:
+        NEXT_PUBLIC_V6Y_BFF_PATH: ${NEXT_PUBLIC_V6Y_BFF_PATH}
+    restart: unless-stopped
+    ports:
+      - "4009:4009"
+    environment:
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+
 volumes:
   v6y-database-data: null
   v6y-redis-data: null
