@@ -14,8 +14,17 @@ const evolutionHelps: ResourceConfig = {
         {
             name: 'status',
             label: 'Status',
-            type: 'text',
+            type: 'select',
             required: true,
+            // Mirrors @v6y/core-logic's `evolutionHelpStatus` map
+            // (v6y-libs/core-logic/src/config/EvolutionHelpConfig.ts). Static
+            // here rather than fetched via `getEvolutionHelpStatus` since the
+            // set is small and fixed.
+            options: [
+                { label: 'Critical', value: 'critical' },
+                { label: 'Important', value: 'important' },
+                { label: 'Recommended', value: 'recommended' },
+            ],
         },
         { name: 'links', label: 'Extra links', type: 'links', hideInList: true },
     ],
