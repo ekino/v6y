@@ -141,7 +141,7 @@ catalogs:
     'lighthouse': '=13.0.3'
     'lint-staged': '=16.2.7'
     'lodash': '=4.18.1'
-    'lucide-react': '=0.511.0'
+    'lucide-react': '=1.28.0'
     'madge': '=8.0.0'
     'morgan': '=1.11.0'
     'next-i18next': '=16.0.8'
