@@ -69,6 +69,9 @@ export const dataProvider: DataProvider = {
             variables,
         );
         let data = (result[resource.graphql.listField] ?? []).map(withRaId);
+        if (resource.parseRecord) {
+            data = data.map((record) => withRaId(resource.parseRecord!(record)));
+        }
 
         // Basic full text filter (matches ra-core's `filter: { q: '...' }` convention).
         const query = typeof params.filter?.q === 'string' ? params.filter.q.toLowerCase() : '';
@@ -110,7 +113,8 @@ export const dataProvider: DataProvider = {
         if (!record) {
             throw new Error(`${resourceName} #${params.id} not found`);
         }
-        return { data: withRaId(record) as unknown as RecordType };
+        const parsedRecord = resource.parseRecord ? resource.parseRecord(record) : record;
+        return { data: withRaId(parsedRecord) as unknown as RecordType };
     },
 
     async getMany(resourceName: string, params: GetManyParams) {
@@ -139,9 +143,12 @@ export const dataProvider: DataProvider = {
             throw new Error(`Resource "${resourceName}" does not support create`);
         }
         const client = createAuthenticatedGraphQLClient();
+        const inputData = resource.serializeInput
+            ? resource.serializeInput(params.data as Record<string, unknown>)
+            : params.data;
         const result = await client.request<Record<string, Record<string, unknown>>>(
             resource.graphql.createOrEditMutation,
-            { [resource.graphql.createOrEditArgName as string]: params.data },
+            { [resource.graphql.createOrEditArgName as string]: inputData },
         );
         return {
             data: withRaId(
@@ -159,11 +166,14 @@ export const dataProvider: DataProvider = {
             throw new Error(`Resource "${resourceName}" does not support update`);
         }
         const client = createAuthenticatedGraphQLClient();
+        const inputData = resource.serializeInput
+            ? resource.serializeInput(params.data as Record<string, unknown>)
+            : (params.data as Record<string, unknown>);
         const result = await client.request<Record<string, Record<string, unknown>>>(
             resource.graphql.createOrEditMutation,
             {
                 [resource.graphql.createOrEditArgName as string]: {
-                    ...(params.data as Record<string, unknown>),
+                    ...inputData,
                     _id: Number(params.id),
                 },
             },

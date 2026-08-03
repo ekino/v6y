@@ -75,6 +75,22 @@ const accounts: ResourceConfig = {
         `,
         deleteField: 'deleteAccount',
     },
+    // BFF's `applications` field is `[Int]`; the form edits it as one
+    // comma-separated string of application ids.
+    parseRecord: (record) => ({
+        ...record,
+        applications: Array.isArray(record.applications) ? record.applications.join(', ') : '',
+    }),
+    serializeInput: (data) => ({
+        ...data,
+        applications:
+            typeof data.applications === 'string'
+                ? data.applications
+                      .split(',')
+                      .map((value) => Number(value.trim()))
+                      .filter((value) => !Number.isNaN(value))
+                : [],
+    }),
 };
 
 export default accounts;

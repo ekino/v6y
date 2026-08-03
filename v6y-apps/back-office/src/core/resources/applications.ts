@@ -123,6 +123,30 @@ const applications: ResourceConfig = {
         `,
         deleteField: 'deleteApplication',
     },
+    // The detail query returns gitOrganization/gitWebUrl/gitUrl and the DataDog
+    // keys nested under `repo`/`configuration.dataDog`, but the create/edit
+    // mutation (and this generic form) expects them as flat fields - flatten on
+    // read, the write side already matches the mutation input as-is.
+    // Note: productionLink, sonarqubeLink, codeQualityPlatformLink,
+    // ciPlatformLink, deploymentPlatformLink and sonarqubeToken are write-only
+    // in the BFF schema (ApplicationType exposes none of them), so those fields
+    // always render blank when editing an existing application - this is a BFF
+    // read-schema gap, not fixable from the admin alone.
+    parseRecord: (record) => {
+        const repo = (record.repo ?? {}) as Record<string, unknown>;
+        const configuration = (record.configuration ?? {}) as Record<string, unknown>;
+        const dataDog = (configuration.dataDog ?? {}) as Record<string, unknown>;
+        return {
+            ...record,
+            gitOrganization: repo.organization ?? '',
+            gitWebUrl: repo.webUrl ?? '',
+            gitUrl: repo.gitUrl ?? '',
+            dataDogApiKey: dataDog.apiKey ?? '',
+            dataDogAppKey: dataDog.appKey ?? '',
+            dataDogUrl: dataDog.url ?? '',
+            dataDogMonitorId: dataDog.monitorId ?? '',
+        };
+    },
 };
 
 export default applications;

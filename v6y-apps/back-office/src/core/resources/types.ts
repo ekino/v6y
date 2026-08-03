@@ -67,6 +67,19 @@ export interface ResourceConfig {
     graphql: ResourceGraphQLConfig;
     canCreate: boolean;
     canDelete: boolean;
+    /**
+     * Adapts a raw BFF record (already carrying `id`) into the flat shape the
+     * generic form/list/show components expect, e.g. flattening nested
+     * `repo`/`configuration` objects or turning an int array into a display
+     * string. Applied after every read (getList/getOne).
+     */
+    parseRecord?: (record: Record<string, unknown>) => Record<string, unknown>;
+    /**
+     * Adapts form values back into the shape the create/update mutation input
+     * expects, e.g. turning a comma-separated string back into an int array.
+     * Applied before every write (create/update).
+     */
+    serializeInput?: (data: Record<string, unknown>) => Record<string, unknown>;
 }
 
 export interface RaRecordLike {
