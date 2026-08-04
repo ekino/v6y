@@ -1,9 +1,8 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@testing-library/jest-dom/vitest';
-import { render } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
 import VitalityDashboardView from '../../features/dashboard/components/VitalityDashboardView';
+import { renderWithProviders } from '../../test-utils/renderWithProviders';
 
 vi.mock('../../features/app-list/components/VitalityAppList', () => ({
     __esModule: true,
@@ -12,12 +11,7 @@ vi.mock('../../features/app-list/components/VitalityAppList', () => ({
 
 describe('VitalityDashboardView', () => {
     it('wraps the app list inside a bordered panel', () => {
-        const qc = new QueryClient();
-        const { container } = render(
-            <QueryClientProvider client={qc}>
-                <VitalityDashboardView />
-            </QueryClientProvider>,
-        );
+        const { container } = renderWithProviders(<VitalityDashboardView />);
 
         const sections = container.querySelectorAll('section');
         const appListSection = Array.from(sections).find((section) =>
