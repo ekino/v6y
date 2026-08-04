@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom/vitest';
+import { within } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
 import VitalityDashboardView from '../../features/dashboard/components/VitalityDashboardView';
@@ -15,9 +16,10 @@ describe('VitalityDashboardView', () => {
 
         const sections = container.querySelectorAll('section');
         const appListSection = Array.from(sections).find((section) =>
-            section.querySelector('[data-testid="mock-app-list"]'),
+            within(section).queryByTestId('mock-app-list'),
         );
         expect(appListSection).not.toBeUndefined();
+        expect(within(appListSection as HTMLElement).getByTestId('mock-app-list')).toBeVisible();
         expect(appListSection).toHaveClass('rounded-lg');
         expect(appListSection).toHaveClass('border-slate-200/80');
     });
