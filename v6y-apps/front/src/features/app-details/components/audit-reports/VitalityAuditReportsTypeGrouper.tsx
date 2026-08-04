@@ -115,6 +115,28 @@ const VitalityAuditReportsTypeGrouper = ({
                 impactedChecksLabel: translate(
                     'vitality.appDetailsPage.auditReports.visualization.impactedChecksLabel',
                 ),
+                infoLabel: translate('vitality.appDetailsPage.auditReports.visualization.info'),
+                detailsTitle: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.detailsTitle',
+                ),
+                detailsDescription: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.detailsDescription',
+                ),
+                categoryColumnLabel: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.categoryLabel',
+                ),
+                subcategoryColumnLabel: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.subcategoryLabel',
+                ),
+                locationColumnLabel: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.locationLabel',
+                ),
+                scoreColumnLabel: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.scoreLabel',
+                ),
+                statusColumnLabel: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.statusLabel',
+                ),
             }}
         />
     );

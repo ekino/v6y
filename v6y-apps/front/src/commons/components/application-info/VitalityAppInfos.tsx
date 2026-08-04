@@ -22,7 +22,8 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
     const appLinks = app.links;
     const appRepository = app.repo;
     const appOpenedBranches = app.repo?.allBranches?.length || 0;
-    const trackedLinks = (appLinks || []).filter((link) => typeof link.value === 'string').length;
+    const validLinks = (appLinks || []).filter((link) => typeof link.value === 'string');
+    const trackedLinks = validLinks.length;
 
     return (
         <li
@@ -49,8 +50,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                                 </h4>
                                 {!isDashboard && (
                                     <p className="text-sm text-slate-500">
-                                        Repository health snapshot with direct access to reporting
-                                        and tracked links.
+                                        {translate('vitality.appListPage.cardDescription')}
                                     </p>
                                 )}
                             </div>
@@ -62,7 +62,7 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                                 className="px-3 py-1 text-xs"
                             >
                                 {appOpenedBranches}{' '}
-                                {appOpenedBranches === 1 ? 'branch' : 'branches'} tracked
+                                {translate('vitality.appDetailsPage.summaryCard.branchesTracked')}
                             </Badge>
 
                             {!isDashboard && (
@@ -71,16 +71,19 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                                     className="border-slate-300 bg-white px-3 py-1 text-xs text-slate-700"
                                 >
                                     {trackedLinks}{' '}
-                                    {trackedLinks === 1 ? 'linked system' : 'linked systems'}
+                                    {translate('vitality.appDetailsPage.summaryCard.linkedSystems')}
                                 </Badge>
                             )}
 
-                            {!isDashboard && app.contactMail && (
+                            {!isDashboard && (
                                 <Badge
                                     variant="outline"
                                     className="border-slate-300 bg-white px-3 py-1 text-xs text-slate-700"
                                 >
-                                    Contact ready
+                                    {translate('vitality.appDetailsPage.summaryCard.ownerChannel')}:{' '}
+                                    {app.contactMail
+                                        ? translate('vitality.appDetailsPage.summaryCard.available')
+                                        : translate('vitality.appDetailsPage.summaryCard.missing')}
                                 </Badge>
                             )}
                         </div>
@@ -124,19 +127,17 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                 >
                     <div className="space-y-3">
                         <div className="flex flex-wrap gap-2">
-                            {(appLinks || [])
-                                .filter((link) => typeof link.value === 'string')
-                                .map((link, id: number) => (
-                                    <Link
-                                        className="inline-flex max-w-full items-center rounded-md border border-slate-300 bg-white px-3 py-1 text-xs font-medium text-slate-700 transition-colors hover:border-slate-400 hover:bg-slate-100"
-                                        key={id}
-                                        href={link.value as string}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <span className="truncate">{link.label}</span>
-                                    </Link>
-                                ))}
+                            {validLinks.map((link) => (
+                                <Link
+                                    className="inline-flex max-w-full items-center rounded-md border border-slate-300 bg-white px-3 py-1 text-xs font-medium text-slate-700 transition-colors hover:border-slate-400 hover:bg-slate-100"
+                                    key={link.value as string}
+                                    href={link.value as string}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <span className="truncate">{link.label}</span>
+                                </Link>
+                            ))}
                         </div>
                     </div>
 

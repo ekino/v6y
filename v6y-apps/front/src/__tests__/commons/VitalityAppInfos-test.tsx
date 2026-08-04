@@ -55,7 +55,9 @@ describe('VitalityAppInfos', () => {
         render(<VitalityAppInfos app={mockApp} canOpenDetails={true} />);
 
         expect(screen.getByTestId('app-name')).toHaveTextContent('Test App');
-        expect(getByCollapsedText('2 branches tracked')).toBeInTheDocument();
+        expect(
+            getByCollapsedText('2 vitality.appDetailsPage.summaryCard.branchesTracked'),
+        ).toBeInTheDocument();
         expect(screen.getByText('vitality.appListPage.seeReporting')).toBeInTheDocument();
 
         // Links pills should render
@@ -78,7 +80,9 @@ describe('VitalityAppInfos', () => {
         render(<VitalityAppInfos app={incompleteApp} canOpenDetails={true} />);
 
         expect(screen.getByTestId('app-name')).toHaveTextContent('No Info App');
-        expect(getByCollapsedText('0 branches tracked')).toBeInTheDocument();
+        expect(
+            getByCollapsedText('0 vitality.appDetailsPage.summaryCard.branchesTracked'),
+        ).toBeInTheDocument();
         expect(screen.getByText('vitality.appListPage.seeReporting')).toBeInTheDocument();
     });
 
@@ -120,7 +124,9 @@ describe('VitalityAppInfos', () => {
         render(<VitalityAppInfos app={app} />);
 
         expect(screen.getByTestId('app-name')).toHaveTextContent('Vitality App');
-        expect(getByCollapsedText('2 branches tracked')).toBeInTheDocument();
+        expect(
+            getByCollapsedText('2 vitality.appDetailsPage.summaryCard.branchesTracked'),
+        ).toBeInTheDocument();
         expect(screen.getByText('vitality.appListPage.seeReporting')).toBeInTheDocument();
     });
 
@@ -145,7 +151,9 @@ describe('VitalityAppInfos', () => {
     it('renders without crashing when given an empty object', () => {
         render(<VitalityAppInfos app={{ _id: 999 }} canOpenDetails={true} />);
 
-        expect(getByCollapsedText('0 branches tracked')).toBeInTheDocument();
+        expect(
+            getByCollapsedText('0 vitality.appDetailsPage.summaryCard.branchesTracked'),
+        ).toBeInTheDocument();
         expect(screen.getByText('vitality.appListPage.seeReporting')).toBeInTheDocument();
     });
 
@@ -158,7 +166,9 @@ describe('VitalityAppInfos', () => {
 
         render(<VitalityAppInfos app={app} />);
 
-        expect(getByCollapsedText('5 branches tracked')).toBeInTheDocument();
+        expect(
+            getByCollapsedText('5 vitality.appDetailsPage.summaryCard.branchesTracked'),
+        ).toBeInTheDocument();
     });
 
     it('renders app name correctly', () => {

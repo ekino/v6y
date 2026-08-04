@@ -62,6 +62,12 @@ Use a restrained neutral base with a small set of semantic accents:
 
 Status colors must support comprehension, not branding alone. Never rely on color as the only signal.
 
+Some sections (e.g. the SonarQube quality gate view) deliberately go further and
+stay fully neutral, using icons and text labels alone to convey status instead
+of semantic color. This is an accepted alternate treatment, not a deviation:
+prefer it when a section shows many statuses close together and color coding
+would add more noise than clarity.
+
 ### Typography
 
 Typography should make dense information easier to read:

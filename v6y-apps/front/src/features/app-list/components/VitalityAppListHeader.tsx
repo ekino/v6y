@@ -20,6 +20,15 @@ const VitalityAppListHeader = ({
             ? translate('vitality.appListPage.resultsOne')
             : translate('vitality.appListPage.resultsOther');
 
+    const addApplicationButton = (
+        <Button className="h-9 md:h-10 text-sm md:text-base">
+            <AppstoreAddOutlined className="w-4 h-4" />
+            <span className="ml-2">
+                {translate('vitality.appListPage.addApplicationLabel') || 'Add Application'}
+            </span>
+        </Button>
+    );
+
     return (
         <div
             className={`w-full flex flex-col ${
@@ -55,13 +64,7 @@ const VitalityAppListHeader = ({
                         href={targetUrl}
                         className="inline-flex pt-1.5 no-underline hover:no-underline"
                     >
-                        <Button className="h-9 md:h-10 text-sm md:text-base">
-                            <AppstoreAddOutlined className="w-4 h-4" />
-                            <span className="ml-2">
-                                {translate('vitality.appListPage.addApplicationLabel') ||
-                                    'Add Application'}
-                            </span>
-                        </Button>
+                        {addApplicationButton}
                     </a>
                 )}
             </div>
@@ -71,13 +74,7 @@ const VitalityAppListHeader = ({
                     href={targetUrl}
                     className="inline-flex w-full md:w-auto justify-center md:justify-start no-underline hover:no-underline"
                 >
-                    <Button className="h-9 md:h-10 text-sm md:text-base">
-                        <AppstoreAddOutlined className="w-4 h-4" />
-                        <span className="ml-2">
-                            {translate('vitality.appListPage.addApplicationLabel') ||
-                                'Add Application'}
-                        </span>
-                    </Button>
+                    {addApplicationButton}
                 </a>
             )}
         </div>

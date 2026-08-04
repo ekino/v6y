@@ -1,6 +1,11 @@
 @import 'tailwindcss';
 @import '@v6y/ui-kit-front/styles.css';
 
+:root {
+    /* VitalityPageHeader height: py-3 (24px) + 40px tallest child + 1px border-b. */
+    --vitality-header-height: 65px;
+}
+
 @keyframes fade-in-up {
     from {
         opacity: 0;

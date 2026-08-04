@@ -198,7 +198,7 @@ const VitalitySecuritySection = ({
                         ) : (
                             <>
                                 <VitalityDependenciesSummary dependencies={allDependencies} />
-                                <details className="group rounded-lg border overflow-hidden">
+                                <details open className="group rounded-lg border overflow-hidden">
                                     <summary className="flex cursor-pointer list-none items-center justify-between gap-3 bg-slate-50 px-6 py-3 border-b [&::-webkit-details-marker]:hidden">
                                         <div>
                                             <h4 className="font-semibold text-gray-900">
@@ -222,7 +222,10 @@ const VitalitySecuritySection = ({
                                                       )}
                                             </p>
                                         </div>
-                                        <ChevronDown className="w-4 h-4 shrink-0 text-gray-500 transition-transform group-open:rotate-180" />
+                                        <ChevronDown
+                                            className="w-4 h-4 shrink-0 text-gray-500 transition-transform group-open:rotate-180"
+                                            aria-hidden="true"
+                                        />
                                     </summary>
                                     <div className="overflow-x-auto">
                                         <table className="w-full min-w-full">

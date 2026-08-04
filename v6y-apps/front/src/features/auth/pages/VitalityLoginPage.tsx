@@ -15,7 +15,7 @@ export default function VitalityLoginPage() {
                 }
             `}</style>
 
-            <div className="fixed inset-x-0 bottom-0 top-[65px] flex items-center justify-center overflow-hidden px-3 md:px-4 lg:px-6">
+            <div className="fixed inset-x-0 bottom-0 top-[var(--vitality-header-height)] flex items-center justify-center overflow-hidden px-3 md:px-4 lg:px-6">
                 <VitalityLoginForm />
             </div>
         </>

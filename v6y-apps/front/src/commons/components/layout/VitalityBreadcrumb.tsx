@@ -54,7 +54,9 @@ const VitalityBreadcrumb = () => {
                                         </BreadcrumbPage>
                                     )}
                                 </BreadcrumbItem>
-                                {!isLast && <BreadcrumbSeparator className="mx-1 text-slate-400 md:mx-2" />}
+                                {!isLast && (
+                                    <BreadcrumbSeparator className="mx-1 text-slate-400 md:mx-2" />
+                                )}
                             </React.Fragment>
                         );
                     })}

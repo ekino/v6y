@@ -7,7 +7,7 @@ export interface VitalitySummaryStatItem {
     label: string;
     value: number;
     icon: React.ComponentType<{ className?: string; 'aria-hidden'?: boolean | 'true' | 'false' }>;
-    tone: 'neutral' | 'success' | 'warning' | 'error';
+    tone: 'neutral' | 'success' | 'warning' | 'error' | 'info';
 }
 
 const TONE_ICON_CLASSNAME: Record<VitalitySummaryStatItem['tone'], string> = {
@@ -15,6 +15,7 @@ const TONE_ICON_CLASSNAME: Record<VitalitySummaryStatItem['tone'], string> = {
     success: 'text-emerald-600',
     warning: 'text-amber-600',
     error: 'text-red-600',
+    info: 'text-blue-600',
 };
 
 interface VitalitySummaryStatBarProps {

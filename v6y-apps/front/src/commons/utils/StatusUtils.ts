@@ -39,31 +39,81 @@ const getStatusLabel = (status: string | undefined) => {
     return status ? statusLabels[status] || 'Unknown' : 'Unknown';
 };
 
-const dependencyStatusColors: Array<{ match: (statusLower: string) => boolean; color: string }> = [
-    {
-        match: (statusLower) =>
-            statusLower.includes('up to date') || statusLower.includes('success'),
-        color: 'bg-green-100 text-green-800',
-    },
-    {
-        match: (statusLower) => statusLower.includes('warning') || statusLower.includes('minor'),
-        color: 'bg-yellow-100 text-yellow-800',
-    },
-    {
-        match: (statusLower) =>
-            statusLower.includes('error') ||
-            statusLower.includes('major') ||
-            statusLower.includes('critical'),
-        color: 'bg-red-100 text-red-800',
-    },
-];
+type NormalizedDependencyStatus = 'success' | 'warning' | 'error' | 'unknown';
 
-const getDependencyStatusColor = (status: string): string => {
+// Single source of truth for classifying a raw dependency status string.
+// Keep in sync with `isDependencyUpToDate` in VitalityDependencyUtils.ts.
+const classifyDependencyStatus = (status?: string | null): NormalizedDependencyStatus => {
     const statusLower = status?.toLowerCase() || '';
-    return (
-        dependencyStatusColors.find(({ match }) => match(statusLower))?.color ||
-        'bg-slate-100 text-slate-800'
-    );
+
+    if (
+        statusLower.includes('up to date') ||
+        statusLower.includes('up-to-date') ||
+        statusLower.includes('success')
+    ) {
+        return 'success';
+    }
+
+    if (statusLower.includes('warning') || statusLower.includes('minor')) {
+        return 'warning';
+    }
+
+    if (
+        statusLower.includes('error') ||
+        statusLower.includes('major') ||
+        statusLower.includes('critical')
+    ) {
+        return 'error';
+    }
+
+    return 'unknown';
 };
 
-export { getDependencyStatusColor, getIndicatorColors, getScoreStatusColor, getStatusLabel };
+const dependencyStatusColorByKey: Record<NormalizedDependencyStatus, string> = {
+    success: 'bg-green-100 text-green-800',
+    warning: 'bg-yellow-100 text-yellow-800',
+    error: 'bg-red-100 text-red-800',
+    unknown: 'bg-slate-100 text-slate-800',
+};
+
+const getDependencyStatusColor = (status: string): string => {
+    return dependencyStatusColorByKey[classifyDependencyStatus(status)];
+};
+
+type NormalizedReportStatus = 'success' | 'warning' | 'error' | 'info' | 'unknown';
+
+// Single source of truth for classifying an audit report status. Used by
+// VitalityAuditReportsSection and VitalityAuditReportsSummary so both agree
+// on the same buckets, including `info` (the most-emitted status across the
+// bfb-* auditors).
+const normalizeReportStatus = (status?: string | null): NormalizedReportStatus => {
+    const normalized = status?.toLowerCase() || '';
+
+    if (normalized === 'success' || normalized === 'good') {
+        return 'success';
+    }
+
+    if (normalized === 'warning') {
+        return 'warning';
+    }
+
+    if (['error', 'failure', 'failed', 'fail'].includes(normalized)) {
+        return 'error';
+    }
+
+    if (normalized === 'info') {
+        return 'info';
+    }
+
+    return 'unknown';
+};
+
+export {
+    classifyDependencyStatus,
+    getDependencyStatusColor,
+    getIndicatorColors,
+    getScoreStatusColor,
+    getStatusLabel,
+    normalizeReportStatus,
+};
+export type { NormalizedDependencyStatus, NormalizedReportStatus };

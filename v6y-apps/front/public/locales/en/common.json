@@ -33,6 +33,7 @@
       "addApplicationDescription": "Create and configure a new application from back-office.",
       "headerTitle": "Projects under watch",
       "headerDescription": "Compare repositories, open the right report quickly, and export the current view when needed.",
+      "cardDescription": "Repository health snapshot with direct access to reporting and tracked links.",
       "resultsOne": "result",
       "resultsOther": "results",
       "contactEmail": "Contact The Team",
@@ -157,10 +158,12 @@
           "passed": "Passed",
           "warnings": "Warnings",
           "issues": "Issues",
+          "info": "Info",
           "chartLabels": {
             "success": "Passed",
             "warning": "Warnings",
             "error": "Issues",
+            "info": "Info",
             "unknown": "Unknown"
           }
         },
@@ -190,6 +193,7 @@
           "healthy": "Healthy",
           "warning": "Warning",
           "critical": "Critical",
+          "info": "Info",
           "attentionNeededLabel": "Attention needed",
           "statusByFamilyTitle": "Status by metric family",
           "statusByFamilyDescription": "Radar chart highlights where health checks are drifting.",
@@ -199,7 +203,13 @@
           "priorityFindingsDescription": "Focus these checks first to reduce project risk quickly.",
           "noIssuesMessage": "No warning or critical findings were detected in this report.",
           "locationLabel": "Location",
-          "impactedChecksLabel": "Impacted checks"
+          "impactedChecksLabel": "Impacted checks",
+          "detailsTitle": "Report details",
+          "detailsDescription": "Every check in this category, with its location and score.",
+          "categoryLabel": "Category",
+          "subcategoryLabel": "Subcategory",
+          "scoreLabel": "Score",
+          "statusLabel": "Status"
         },
         "doraMetrics": {
           "DEPLOYMENT_FREQUENCY": "Deployment Frequency",
