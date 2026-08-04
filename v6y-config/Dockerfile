@@ -10,7 +10,7 @@
 #   docker buildx bake -f docker-bake.hcl
 
 ARG NODE_VERSION=22-alpine
-ARG PNPM_VERSION=11.17.0
+ARG PNPM_VERSION=11.18.0
 ARG PRISMA_VERSION=7.8.0
 
 # --------------------------------------------------------------------- base
