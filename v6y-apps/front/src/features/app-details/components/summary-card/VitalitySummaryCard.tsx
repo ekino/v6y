@@ -3,13 +3,45 @@ import * as React from 'react';
 import { ApplicationType } from '@v6y/core-logic/src/types';
 import { ReloadIcon, useTranslationProvider } from '@v6y/ui-kit-front';
 
+import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
+import {
+    buildClientQuery,
+    useClientQuery,
+} from '../../../../infrastructure/adapters/api/useQueryAdapter';
+import GetApplicationLatestAuditRunByParams from '../../api/getApplicationLatestAuditRunByParams';
+import { formatDate } from '../audit-runs/VitalityAuditRunHistory';
+
 interface VitalitySummaryCardProps {
     appInfos: ApplicationType;
 }
 
+type LatestAuditRun = {
+    triggeredAt?: string | null;
+    completedAt?: string | null;
+};
+
 const VitalitySummaryCard = ({ appInfos }: VitalitySummaryCardProps) => {
     const { translate } = useTranslationProvider();
     const totalBranches = appInfos.repo?.allBranches?.length || 0;
+
+    const { data } = useClientQuery<{
+        getApplicationLatestAuditRunByParams: LatestAuditRun | null;
+    }>({
+        queryCacheKey: [
+            'app-details',
+            'getApplicationLatestAuditRunByParams',
+            String(appInfos._id),
+        ],
+        queryBuilder: async () =>
+            buildClientQuery({
+                queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
+                query: GetApplicationLatestAuditRunByParams,
+                variables: { _id: appInfos._id },
+            }),
+    });
+
+    const latestAuditRun = data?.getApplicationLatestAuditRunByParams;
+    const lastAnalyzedDate = latestAuditRun?.completedAt ?? latestAuditRun?.triggeredAt;
 
     return (
         <div className="space-y-5 rounded-2xl border border-gray-200 bg-white p-5">
@@ -33,10 +65,12 @@ const VitalitySummaryCard = ({ appInfos }: VitalitySummaryCardProps) => {
                     <ReloadIcon className="h-4 w-4" />
                 </span>
                 <span>
-                    {translate('vitality.appDetailsPage.summaryCard.lastAnalyze').replace(
-                        '{date}',
-                        '01/05/2025',
-                    )}
+                    {lastAnalyzedDate
+                        ? translate('vitality.appDetailsPage.summaryCard.lastAnalyze').replace(
+                              '{date}',
+                              formatDate(lastAnalyzedDate),
+                          )
+                        : translate('vitality.appDetailsPage.summaryCard.notAnalyzedYet')}
                 </span>
             </div>
 

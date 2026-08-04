@@ -134,6 +134,7 @@
         "title": "App health summary",
         "description": "Follow branches, reporting coverage, and the channels attached to this project before drilling into category-level findings.",
         "lastAnalyze": "Last analyze {date}",
+        "notAnalyzedYet": "Not analyzed yet",
         "branchesLabel": "Git branches: {count}",
         "branchesTracked": "Branches tracked",
         "linkedSystems": "Linked systems",
