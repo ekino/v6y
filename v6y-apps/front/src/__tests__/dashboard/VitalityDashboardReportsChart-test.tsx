@@ -1,22 +1,15 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@testing-library/jest-dom/vitest';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { Mock, afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import VitalityDashboardReportsChart from '../../features/dashboard/components/VitalityDashboardReportsChart';
 import { useClientQuery } from '../../infrastructure/adapters/api/useQueryAdapter';
+import { renderWithProviders } from '../../test-utils/renderWithProviders';
 
 vi.mock('../../infrastructure/adapters/api/useQueryAdapter', () => ({
     useClientQuery: vi.fn(),
     buildClientQuery: vi.fn(),
 }));
-
-const TestWrapper = ({ children }: { children: React.ReactNode }) => {
-    const queryClient = new QueryClient({
-        defaultOptions: { queries: { retry: false } },
-    });
-    return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
-};
 
 describe('VitalityDashboardReportsChart', () => {
     beforeEach(() => {
@@ -33,11 +26,7 @@ describe('VitalityDashboardReportsChart', () => {
             data: undefined,
         });
 
-        render(
-            <TestWrapper>
-                <VitalityDashboardReportsChart />
-            </TestWrapper>,
-        );
+        renderWithProviders(<VitalityDashboardReportsChart />);
 
         expect(screen.getByTestId('dashboard-chart-skeleton')).toBeVisible();
     });
@@ -48,11 +37,7 @@ describe('VitalityDashboardReportsChart', () => {
             data: { getAllAuditRuns: [] },
         });
 
-        render(
-            <TestWrapper>
-                <VitalityDashboardReportsChart />
-            </TestWrapper>,
-        );
+        renderWithProviders(<VitalityDashboardReportsChart />);
 
         expect(
             screen.getByText('vitality.dashboardPage.reportsTrendEmptyTitle'),
@@ -79,11 +64,7 @@ describe('VitalityDashboardReportsChart', () => {
             },
         });
 
-        const { container } = render(
-            <TestWrapper>
-                <VitalityDashboardReportsChart />
-            </TestWrapper>,
-        );
+        const { container } = renderWithProviders(<VitalityDashboardReportsChart />);
 
         expect(
             screen.queryByText('vitality.dashboardPage.reportsTrendEmptyTitle'),

@@ -1,7 +1,5 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@testing-library/jest-dom/vitest';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import * as React from 'react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import VitalityProjectDetailsView from '../../features/app-details/components/VitalityProjectDetailsView';
@@ -9,6 +7,7 @@ import {
     buildClientQuery,
     useClientQuery,
 } from '../../infrastructure/adapters/api/useQueryAdapter';
+import { renderWithProviders } from '../../test-utils/renderWithProviders';
 
 vi.mock('@v6y/ui-kit-front', async () => {
     const actual = await vi.importActual<typeof import('@v6y/ui-kit-front')>('@v6y/ui-kit-front');
@@ -24,17 +23,6 @@ vi.mock('@v6y/ui-kit-front', async () => {
         },
     };
 });
-
-const TestWrapper = ({ children }: { children: React.ReactNode }) => {
-    const queryClient = new QueryClient({
-        defaultOptions: {
-            queries: {
-                retry: false,
-            },
-        },
-    });
-    return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
-};
 
 vi.mock('../../features/app-details/components/infos/VitalityGeneralInformationView', () => ({
     default: () => <div data-testid="general-information-view">General Information View</div>,
@@ -102,11 +90,7 @@ describe('VitalityProjectDetailsView', () => {
     });
 
     const renderComponent = () => {
-        return render(
-            <TestWrapper>
-                <VitalityProjectDetailsView />
-            </TestWrapper>,
-        );
+        return renderWithProviders(<VitalityProjectDetailsView />);
     };
 
     it('renders the summary card, general information and audit history sections', async () => {
