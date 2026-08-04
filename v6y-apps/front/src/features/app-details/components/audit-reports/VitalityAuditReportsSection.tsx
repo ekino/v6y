@@ -231,7 +231,7 @@ const VitalityAuditReportsSection = ({
         const groupedFindings = reports.reduce(
             (acc, report) => {
                 const statusKey = normalizeReportStatus(report.scoreStatus || report.auditStatus);
-                if (statusKey !== 'warning' && statusKey !== 'error') {
+                if (!['warning', 'error'].includes(statusKey)) {
                     return acc;
                 }
 
