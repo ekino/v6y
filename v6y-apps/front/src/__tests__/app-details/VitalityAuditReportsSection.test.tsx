@@ -81,9 +81,9 @@ describe('VitalityAuditReportsSection', () => {
             />,
         );
 
-        expect(screen.getByText('Report health overview')).toBeInTheDocument();
-        expect(screen.getByText('Status by metric family')).toBeInTheDocument();
-        expect(screen.getByText('Priority findings')).toBeInTheDocument();
+        expect(screen.getByText('Report health overview')).toBeVisible();
+        expect(screen.getByText('Status by metric family')).toBeVisible();
+        expect(screen.getByText('Priority findings')).toBeVisible();
         expect(
             screen.getAllByText(
                 (_, element) => element?.textContent?.includes('Critical: 0') ?? false,
@@ -126,9 +126,9 @@ describe('VitalityAuditReportsSection', () => {
             />,
         );
 
-        expect(screen.getByText(/critical: 0/i)).toBeInTheDocument();
-        expect(screen.getByText(/warning: 3/i)).toBeInTheDocument();
-        expect(screen.getByText(/healthy: 3/i)).toBeInTheDocument();
+        expect(screen.getByText(/critical: 0/i)).toBeVisible();
+        expect(screen.getByText(/warning: 3/i)).toBeVisible();
+        expect(screen.getByText(/healthy: 3/i)).toBeVisible();
     });
 
     it('renders a single-series breakdown radar chart when all three statuses are present', () => {
@@ -141,7 +141,7 @@ describe('VitalityAuditReportsSection', () => {
             />,
         );
 
-        expect(screen.getByText('Status breakdown')).toBeInTheDocument();
+        expect(screen.getByText('Status breakdown')).toBeVisible();
         expect(screen.getAllByTestId('radar-series').length).toBe(1);
     });
 
@@ -155,7 +155,7 @@ describe('VitalityAuditReportsSection', () => {
             />,
         );
 
-        expect(screen.getByText('Status breakdown')).toBeInTheDocument();
+        expect(screen.getByText('Status breakdown')).toBeVisible();
         expect(screen.queryByTestId('radar-series')).not.toBeInTheDocument();
     });
 });
