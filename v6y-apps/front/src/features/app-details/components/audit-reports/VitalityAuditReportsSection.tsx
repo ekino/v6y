@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart } from 'recharts';
 
 import { AuditType } from '@v6y/core-logic/src/types';
@@ -12,8 +13,14 @@ import {
     ChartTooltip,
     ChartTooltipContent,
     Check,
+    ChevronDown,
+    Clipboard,
 } from '@v6y/ui-kit-front';
 
+import {
+    NormalizedReportStatus,
+    normalizeReportStatus,
+} from '../../../../commons/utils/StatusUtils';
 import VitalityAuditReportsSummary from './VitalityAuditReportsSummary';
 
 interface VitalityAuditReportsSectionLabels {
@@ -21,6 +28,7 @@ interface VitalityAuditReportsSectionLabels {
     healthyLabel: string;
     warningLabel: string;
     errorLabel: string;
+    infoLabel: string;
     attentionNeededLabel: string;
     statusByFamilyTitle: string;
     statusByFamilyDescription: string;
@@ -30,6 +38,13 @@ interface VitalityAuditReportsSectionLabels {
     priorityFindingsDescription: string;
     noIssuesMessage: string;
     impactedChecksLabel: string;
+    detailsTitle: string;
+    detailsDescription: string;
+    categoryColumnLabel: string;
+    subcategoryColumnLabel: string;
+    locationColumnLabel: string;
+    scoreColumnLabel: string;
+    statusColumnLabel: string;
 }
 
 type ChartVariant = 'family' | 'breakdown';
@@ -47,6 +62,7 @@ const defaultLabels: VitalityAuditReportsSectionLabels = {
     healthyLabel: 'Healthy',
     warningLabel: 'Warning',
     errorLabel: 'Critical',
+    infoLabel: 'Info',
     attentionNeededLabel: 'Attention needed',
     statusByFamilyTitle: 'Status by metric family',
     statusByFamilyDescription: 'Radar chart highlights where health checks are drifting.',
@@ -56,34 +72,24 @@ const defaultLabels: VitalityAuditReportsSectionLabels = {
     priorityFindingsDescription: 'Focus these checks first to reduce project risk quickly.',
     noIssuesMessage: 'No warning or critical findings were detected in this report.',
     impactedChecksLabel: 'Impacted checks',
+    detailsTitle: 'Report details',
+    detailsDescription: 'Every check in this category, with its location and score.',
+    categoryColumnLabel: 'Category',
+    subcategoryColumnLabel: 'Subcategory',
+    locationColumnLabel: 'Location',
+    scoreColumnLabel: 'Score',
+    statusColumnLabel: 'Status',
 };
 
 const statusOrder = {
     error: 0,
     warning: 1,
-    success: 2,
-    unknown: 3,
+    info: 2,
+    success: 3,
+    unknown: 4,
 } as const;
 
-const getStatusKey = (status?: string | null) => {
-    const normalizedStatus = status?.toLowerCase();
-
-    if (normalizedStatus === 'failure' || normalizedStatus === 'error') {
-        return 'error';
-    }
-
-    if (normalizedStatus === 'warning') {
-        return 'warning';
-    }
-
-    if (normalizedStatus === 'success') {
-        return 'success';
-    }
-
-    return 'unknown';
-};
-
-const getStatusBadgeClassName = (statusKey: keyof typeof statusOrder) => {
+const getStatusBadgeClassName = (statusKey: NormalizedReportStatus) => {
     switch (statusKey) {
         case 'success':
             return 'border-emerald-200 bg-emerald-50 text-emerald-800';
@@ -91,6 +97,8 @@ const getStatusBadgeClassName = (statusKey: keyof typeof statusOrder) => {
             return 'border-amber-200 bg-amber-50 text-amber-800';
         case 'error':
             return 'border-red-200 bg-red-50 text-red-800';
+        case 'info':
+            return 'border-blue-200 bg-blue-50 text-blue-800';
         default:
             return 'border-slate-200 bg-slate-100 text-slate-700';
     }
@@ -140,6 +148,13 @@ const VitalityAuditReportsSection = ({
     chartVariant = 'family',
 }: VitalityAuditReportsSectionProps) => {
     const copyLabels = { ...defaultLabels, ...labels };
+    const [copiedId, setCopiedId] = useState<string | null>(null);
+
+    const copyToClipboard = (text: string, reportId: string) => {
+        navigator.clipboard.writeText(text);
+        setCopiedId(reportId);
+        setTimeout(() => setCopiedId(null), 2000);
+    };
 
     const groupedReports = React.useMemo(
         () =>
@@ -163,7 +178,7 @@ const VitalityAuditReportsSection = ({
                 .map(([group, groupReports]) => {
                     const counts = groupReports.reduce(
                         (acc, report) => {
-                            const statusKey = getStatusKey(
+                            const statusKey = normalizeReportStatus(
                                 report.scoreStatus || report.auditStatus,
                             );
                             acc[statusKey] += 1;
@@ -173,6 +188,7 @@ const VitalityAuditReportsSection = ({
                             success: 0,
                             warning: 0,
                             error: 0,
+                            info: 0,
                             unknown: 0,
                         },
                     );
@@ -194,7 +210,9 @@ const VitalityAuditReportsSection = ({
         () =>
             reports.reduce(
                 (acc, report) => {
-                    const statusKey = getStatusKey(report.scoreStatus || report.auditStatus);
+                    const statusKey = normalizeReportStatus(
+                        report.scoreStatus || report.auditStatus,
+                    );
                     acc[statusKey] += 1;
                     return acc;
                 },
@@ -202,6 +220,7 @@ const VitalityAuditReportsSection = ({
                     success: 0,
                     warning: 0,
                     error: 0,
+                    info: 0,
                     unknown: 0,
                 },
             ),
@@ -211,7 +230,7 @@ const VitalityAuditReportsSection = ({
     const priorityFindings = React.useMemo(() => {
         const groupedFindings = reports.reduce(
             (acc, report) => {
-                const statusKey = getStatusKey(report.scoreStatus || report.auditStatus);
+                const statusKey = normalizeReportStatus(report.scoreStatus || report.auditStatus);
                 if (statusKey !== 'warning' && statusKey !== 'error') {
                     return acc;
                 }
@@ -232,7 +251,7 @@ const VitalityAuditReportsSection = ({
             },
             {} as Record<
                 string,
-                { statusKey: keyof typeof statusOrder; label: string; impactedChecks: number }
+                { statusKey: NormalizedReportStatus; label: string; impactedChecks: number }
             >,
         );
 
@@ -280,6 +299,10 @@ const VitalityAuditReportsSection = ({
             label: copyLabels.healthyLabel,
             color: '#8f8f8f',
         },
+        info: {
+            label: copyLabels.infoLabel,
+            color: '#60a5fa',
+        },
     } satisfies ChartConfig;
 
     const radarData = (
@@ -287,6 +310,7 @@ const VitalityAuditReportsSection = ({
             { key: 'error', value: summary.error },
             { key: 'warning', value: summary.warning },
             { key: 'success', value: summary.success },
+            { key: 'info', value: summary.info },
         ] as const
     ).filter((entry) => entry.value > 0);
 
@@ -296,10 +320,10 @@ const VitalityAuditReportsSection = ({
     const hasEnoughFamiliesForRadar = chartData.length >= 3;
 
     // Same constraint applies to the breakdown radar: with only 1-2 of the
-    // error/warning/success statuses actually present, it can't form a
+    // error/warning/success/info statuses actually present, it can't form a
     // legible polygon either, so fall back to a single overall status bar.
     const hasEnoughStatusesForRadar = radarData.length >= 3;
-    const breakdownTotal = summary.error + summary.warning + summary.success;
+    const breakdownTotal = summary.error + summary.warning + summary.success + summary.info;
 
     return (
         <div className="mb-8 space-y-5">
@@ -333,7 +357,8 @@ const VitalityAuditReportsSection = ({
                     </div>
                     <p className="text-sm text-slate-600">
                         {copyLabels.errorLabel}: {summary.error} · {copyLabels.warningLabel}:{' '}
-                        {summary.warning} · {copyLabels.healthyLabel}: {summary.success}
+                        {summary.warning} · {copyLabels.healthyLabel}: {summary.success} ·{' '}
+                        {copyLabels.infoLabel}: {summary.info}
                     </p>
                 </CardContent>
             </Card>
@@ -356,7 +381,7 @@ const VitalityAuditReportsSection = ({
                     {chartVariant === 'breakdown' ? (
                         <div className="space-y-3">
                             <div className="flex flex-wrap items-center gap-3">
-                                {(['error', 'warning', 'success'] as const).map((key) => (
+                                {(['error', 'warning', 'success', 'info'] as const).map((key) => (
                                     <span
                                         key={key}
                                         className="flex items-center gap-1.5 text-xs text-slate-600"
@@ -433,6 +458,15 @@ const VitalityAuditReportsSection = ({
                                             }}
                                         />
                                     )}
+                                    {summary.info > 0 && (
+                                        <div
+                                            className="h-full"
+                                            style={{
+                                                width: `${(summary.info / breakdownTotal) * 100}%`,
+                                                backgroundColor: chartConfig.info.color,
+                                            }}
+                                        />
+                                    )}
                                 </div>
                             ) : (
                                 <p className="text-sm text-slate-600">
@@ -443,7 +477,7 @@ const VitalityAuditReportsSection = ({
                     ) : (
                         <div className="space-y-3">
                             <div className="flex flex-wrap items-center gap-3">
-                                {(['error', 'warning', 'success'] as const).map((key) => (
+                                {(['error', 'warning', 'success', 'info'] as const).map((key) => (
                                     <span
                                         key={key}
                                         className="flex items-center gap-1.5 text-xs text-slate-600"
@@ -505,12 +539,24 @@ const VitalityAuditReportsSection = ({
                                             fillOpacity={0.1}
                                             strokeWidth={2}
                                         />
+                                        <Radar
+                                            name={copyLabels.infoLabel}
+                                            dataKey="info"
+                                            stroke="var(--color-info)"
+                                            fill="var(--color-info)"
+                                            fillOpacity={0.1}
+                                            strokeWidth={2}
+                                        />
                                     </RadarChart>
                                 </ChartContainer>
                             ) : (
                                 <div className="space-y-3">
                                     {chartData.map((group) => {
-                                        const total = group.error + group.warning + group.success;
+                                        const total =
+                                            group.error +
+                                            group.warning +
+                                            group.success +
+                                            group.info;
 
                                         return (
                                             <div key={group.metricGroup} className="space-y-1.5">
@@ -554,6 +600,16 @@ const VitalityAuditReportsSection = ({
                                                             }}
                                                         />
                                                     )}
+                                                    {group.info > 0 && (
+                                                        <div
+                                                            className="h-full"
+                                                            style={{
+                                                                width: `${(group.info / total) * 100}%`,
+                                                                backgroundColor:
+                                                                    chartConfig.info.color,
+                                                            }}
+                                                        />
+                                                    )}
                                                 </div>
                                             </div>
                                         );
@@ -585,7 +641,7 @@ const VitalityAuditReportsSection = ({
                                         className="rounded-lg border border-slate-200 bg-white p-3"
                                     >
                                         <div className="mb-2 flex items-center justify-between gap-2">
-                                            <p className="text-sm font-medium text-slate-900 break-words">
+                                            <p className="text-sm font-medium text-slate-900 wrap-break-word">
                                                 {finding.label}
                                             </p>
                                             <Badge
@@ -609,6 +665,165 @@ const VitalityAuditReportsSection = ({
                     )}
                 </CardContent>
             </Card>
+
+            <div className="space-y-3">
+                <div>
+                    <h4 className="text-sm font-semibold text-slate-900">
+                        {copyLabels.detailsTitle}
+                    </h4>
+                    <p className="mt-1 text-xs text-slate-600">{copyLabels.detailsDescription}</p>
+                </div>
+
+                {Object.entries(groupedReports).map(([group, groupReports]) => (
+                    <details
+                        key={group}
+                        open={groupReports.some((report) => {
+                            const statusKey = normalizeReportStatus(
+                                report.scoreStatus || report.auditStatus,
+                            );
+                            return statusKey === 'error' || statusKey === 'warning';
+                        })}
+                        className="group rounded-lg border border-slate-200 overflow-hidden"
+                    >
+                        <summary className="flex cursor-pointer list-none items-center justify-between gap-3 bg-slate-50 px-6 py-3 border-b border-slate-200 [&::-webkit-details-marker]:hidden">
+                            <div>
+                                <h5 className="text-sm font-semibold text-slate-900">{group}</h5>
+                                <p className="text-xs text-slate-600 mt-1">
+                                    {groupReports.length}{' '}
+                                    {copyLabels.impactedChecksLabel.toLowerCase()}
+                                </p>
+                            </div>
+                            <ChevronDown
+                                className="w-4 h-4 shrink-0 text-slate-500 transition-transform group-open:rotate-180"
+                                aria-hidden="true"
+                            />
+                        </summary>
+                        <div className="overflow-x-auto">
+                            <table className="w-full min-w-full">
+                                <thead className="bg-white border-b border-slate-200">
+                                    <tr>
+                                        <th className="text-left px-4 md:px-6 py-3 text-xs font-semibold text-slate-700">
+                                            {copyLabels.categoryColumnLabel}
+                                        </th>
+                                        <th className="text-left px-4 md:px-6 py-3 text-xs font-semibold text-slate-700 hidden md:table-cell">
+                                            {copyLabels.subcategoryColumnLabel}
+                                        </th>
+                                        <th className="text-left px-4 md:px-6 py-3 text-xs font-semibold text-slate-700">
+                                            {copyLabels.locationColumnLabel}
+                                        </th>
+                                        <th className="text-center px-4 md:px-6 py-3 text-xs font-semibold text-slate-700">
+                                            {copyLabels.scoreColumnLabel}
+                                        </th>
+                                        <th className="text-center px-4 md:px-6 py-3 text-xs font-semibold text-slate-700">
+                                            {copyLabels.statusColumnLabel}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {groupReports.map((report, index) => {
+                                        const statusKey = normalizeReportStatus(
+                                            report.scoreStatus || report.auditStatus,
+                                        );
+                                        const locationText = [
+                                            report.module?.branch,
+                                            report.module?.path,
+                                        ]
+                                            .filter(Boolean)
+                                            .join(' - ');
+                                        const reportId = String(report._id);
+
+                                        return (
+                                            <tr
+                                                key={reportId}
+                                                className={
+                                                    index % 2 === 0 ? 'bg-white' : 'bg-slate-50'
+                                                }
+                                            >
+                                                <td className="px-4 md:px-6 py-3 text-sm font-medium text-slate-900">
+                                                    {report.category || 'Uncategorized'}
+                                                </td>
+                                                <td className="px-4 md:px-6 py-3 text-sm text-slate-700 hidden md:table-cell">
+                                                    {report.subCategory || '-'}
+                                                </td>
+                                                <td className="px-4 md:px-6 py-3 text-sm text-slate-600">
+                                                    <div className="flex items-center gap-2">
+                                                        <div className="max-w-15 truncate text-xs md:max-w-20">
+                                                            {report.module?.branch && (
+                                                                <div>{report.module.branch}</div>
+                                                            )}
+                                                            {report.module?.path && (
+                                                                <div className="text-slate-500 truncate">
+                                                                    {report.module.path}
+                                                                </div>
+                                                            )}
+                                                            {!report.module?.branch &&
+                                                                !report.module?.path && (
+                                                                    <span className="text-slate-400">
+                                                                        -
+                                                                    </span>
+                                                                )}
+                                                        </div>
+                                                        {locationText && (
+                                                            <button
+                                                                type="button"
+                                                                onClick={() =>
+                                                                    copyToClipboard(
+                                                                        locationText,
+                                                                        reportId,
+                                                                    )
+                                                                }
+                                                                className="p-1 hover:bg-slate-200 rounded transition-colors shrink-0"
+                                                                title={
+                                                                    copyLabels.locationColumnLabel
+                                                                }
+                                                            >
+                                                                {copiedId === reportId ? (
+                                                                    <Check
+                                                                        className="w-3 h-3 text-emerald-600"
+                                                                        aria-hidden="true"
+                                                                    />
+                                                                ) : (
+                                                                    <Clipboard
+                                                                        className="w-3 h-3 text-slate-500"
+                                                                        aria-hidden="true"
+                                                                    />
+                                                                )}
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                </td>
+                                                <td className="px-4 md:px-6 py-3 text-sm text-center">
+                                                    {report.score !== undefined &&
+                                                    report.score !== null ? (
+                                                        <span className="font-semibold text-slate-900">
+                                                            {typeof report.score === 'number'
+                                                                ? report.score.toFixed(1)
+                                                                : report.score}
+                                                            {report.scoreUnit &&
+                                                                ` ${report.scoreUnit}`}
+                                                        </span>
+                                                    ) : (
+                                                        <span className="text-slate-400">-</span>
+                                                    )}
+                                                </td>
+                                                <td className="px-4 md:px-6 py-3 text-sm text-center">
+                                                    <Badge
+                                                        className={getStatusBadgeClassName(
+                                                            statusKey,
+                                                        )}
+                                                    >
+                                                        {report.scoreStatus || report.auditStatus}
+                                                    </Badge>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
+                ))}
+            </div>
         </div>
     );
 };

@@ -6,31 +6,15 @@ import { DependencyType } from '@v6y/core-logic/src/types';
 import { useTranslationProvider } from '@v6y/ui-kit';
 import { AlertTriangle, Check, ClipboardList, X } from '@v6y/ui-kit-front';
 
+import {
+    NormalizedDependencyStatus,
+    classifyDependencyStatus,
+} from '../../../../commons/utils/StatusUtils';
 import VitalitySummaryStatBar, { VitalitySummaryStatItem } from './VitalitySummaryStatBar';
 
 interface VitalityDependenciesSummaryProps {
     dependencies: DependencyType[];
 }
-
-type NormalizedDependencyStatus = 'success' | 'warning' | 'error' | 'unknown';
-
-const classifyDependencyStatus = (status?: string | null): NormalizedDependencyStatus => {
-    const statusLower = status?.toLowerCase() || '';
-    if (statusLower.includes('up to date') || statusLower.includes('success')) {
-        return 'success';
-    }
-    if (statusLower.includes('warning') || statusLower.includes('minor')) {
-        return 'warning';
-    }
-    if (
-        statusLower.includes('error') ||
-        statusLower.includes('major') ||
-        statusLower.includes('critical')
-    ) {
-        return 'error';
-    }
-    return 'unknown';
-};
 
 const VitalityDependenciesSummary = ({ dependencies }: VitalityDependenciesSummaryProps) => {
     const { translate } = useTranslationProvider();

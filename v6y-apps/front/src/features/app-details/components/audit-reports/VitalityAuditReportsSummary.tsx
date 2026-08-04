@@ -4,42 +4,31 @@ import * as React from 'react';
 
 import { AuditType } from '@v6y/core-logic/src/types';
 import { useTranslationProvider } from '@v6y/ui-kit';
-import { AlertTriangle, Check, ClipboardList, X } from '@v6y/ui-kit-front';
+import { AlertTriangle, Check, ClipboardList, Info, X } from '@v6y/ui-kit-front';
 
+import {
+    NormalizedReportStatus,
+    normalizeReportStatus,
+} from '../../../../commons/utils/StatusUtils';
 import VitalitySummaryStatBar, { VitalitySummaryStatItem } from './VitalitySummaryStatBar';
 
 interface VitalityAuditReportsSummaryProps {
     reports: AuditType[];
 }
 
-type NormalizedStatus = 'success' | 'warning' | 'error' | 'unknown';
-
-const normalizeStatus = (status?: string | null): NormalizedStatus => {
-    const normalized = (status || '').toLowerCase();
-    if (normalized === 'success' || normalized === 'good') {
-        return 'success';
-    }
-    if (normalized === 'warning') {
-        return 'warning';
-    }
-    if (['error', 'failure', 'failed', 'fail'].includes(normalized)) {
-        return 'error';
-    }
-    return 'unknown';
-};
-
 const VitalityAuditReportsSummary = ({ reports }: VitalityAuditReportsSummaryProps) => {
     const { translate } = useTranslationProvider();
 
     const counts = React.useMemo(() => {
-        const result: Record<NormalizedStatus, number> = {
+        const result: Record<NormalizedReportStatus, number> = {
             success: 0,
             warning: 0,
             error: 0,
+            info: 0,
             unknown: 0,
         };
         reports.forEach((report) => {
-            const status = normalizeStatus(report.scoreStatus || report.auditStatus);
+            const status = normalizeReportStatus(report.scoreStatus || report.auditStatus);
             result[status] += 1;
         });
         return result;
@@ -79,6 +68,13 @@ const VitalityAuditReportsSummary = ({ reports }: VitalityAuditReportsSummaryPro
             value: counts.error,
             icon: X,
             tone: 'error',
+        },
+        {
+            key: 'info',
+            label: translate('vitality.appDetailsPage.auditReports.summary.info'),
+            value: counts.info,
+            icon: Info,
+            tone: 'info',
         },
     ];
 

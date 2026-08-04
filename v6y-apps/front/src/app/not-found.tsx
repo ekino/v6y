@@ -1,14 +1,17 @@
 import Link from 'next/link';
 
 import VitalityNavigationPaths from '../commons/config/VitalityNavigationPaths';
-import { getServerTranslation } from '../infrastructure/translation/serverTranslation';
+import { getServerTranslations } from '../infrastructure/translation/serverTranslation';
 
 export default async function NotFound() {
-    const badge = await getServerTranslation('vitality.notFound.badge');
-    const title = await getServerTranslation('vitality.notFound.title');
-    const description = await getServerTranslation('vitality.notFound.description');
-    const backToDashboard = await getServerTranslation('vitality.notFound.backToDashboard');
-    const openApplications = await getServerTranslation('vitality.notFound.openApplications');
+    const { badge, title, description, backToDashboard, openApplications } =
+        await getServerTranslations({
+            badge: 'vitality.notFound.badge',
+            title: 'vitality.notFound.title',
+            description: 'vitality.notFound.description',
+            backToDashboard: 'vitality.notFound.backToDashboard',
+            openApplications: 'vitality.notFound.openApplications',
+        });
 
     return (
         <div className="mx-auto w-full max-w-3xl px-2 py-6 md:py-10">

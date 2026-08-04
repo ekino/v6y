@@ -6,13 +6,14 @@ import { ReactNode } from 'react';
 
 import { Toaster } from '@v6y/ui-kit-front';
 
+import VitalityNavigationPaths from '../../config/VitalityNavigationPaths';
 import VitalityBreadcrumb from './VitalityBreadcrumb';
 import VitalityPageHeader from './VitalityPageHeader';
 
 const VitalityPageLayout = ({ children }: { children: ReactNode }) => {
     const pathname = usePathname();
-    const isLoginPage = pathname === '/login';
-    const isDashboardPage = pathname === '/dashboard';
+    const isLoginPage = pathname === VitalityNavigationPaths.LOGIN;
+    const isDashboardPage = pathname === VitalityNavigationPaths.DASHBOARD;
 
     return (
         <div
@@ -33,7 +34,7 @@ const VitalityPageLayout = ({ children }: { children: ReactNode }) => {
                 <section
                     className={
                         isLoginPage
-                            ? 'flex min-h-[calc(100dvh-4.75rem)] items-center justify-center px-0 py-0 md:min-h-[calc(100dvh-5rem)]'
+                            ? 'flex min-h-[calc(100dvh-var(--vitality-header-height))] items-center justify-center px-0 py-0'
                             : isDashboardPage
                               ? 'min-h-0 px-0 py-0'
                               : 'min-h-[calc(100vh-6rem)] px-0 py-1 md:min-h-[calc(100vh-6.5rem)] md:py-2'

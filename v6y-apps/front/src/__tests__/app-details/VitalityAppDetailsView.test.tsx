@@ -284,17 +284,14 @@ describe('VitalityAppDetailsView', () => {
         });
     });
 
-    it('renders with correct grid layout', async () => {
+    it('renders the summary card alongside the details tabs', async () => {
         renderComponent();
 
-        const mainContainer = document.querySelector('.grid.grid-cols-1');
-        expect(mainContainer).toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.getByTestId('summary-card')).toBeInTheDocument();
+        });
 
-        const summaryColumn = document.querySelector('.lg\\:col-span-4');
-        const contentColumn = document.querySelector('.lg\\:col-span-8');
-
-        expect(summaryColumn).toBeInTheDocument();
-        expect(contentColumn).toBeInTheDocument();
+        expect(screen.getByRole('tablist', { name: 'Details tabs' })).toBeInTheDocument();
     });
 
     it('handles branch selection correctly', async () => {

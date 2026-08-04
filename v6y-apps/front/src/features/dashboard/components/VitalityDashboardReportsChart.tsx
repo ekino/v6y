@@ -130,7 +130,7 @@ const VitalityDashboardReportsChart = () => {
             buildClientQuery({
                 queryBaseUrl: VitalityApiConfig.VITALITY_BFF_URL as string,
                 query: GetAllAuditRuns,
-                variables: {},
+                variables: { since: new Date(Date.now() - MAX_WINDOW_DAYS * DAY_MS).toISOString() },
             }),
     });
 

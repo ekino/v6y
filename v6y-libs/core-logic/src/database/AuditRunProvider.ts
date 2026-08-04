@@ -256,15 +256,21 @@ const deleteAuditRun = async (auditRunId: number) => {
     }
 };
 
-const getAllAuditRuns = async (limit?: number, offset?: number) => {
+const getAllAuditRuns = async (limit?: number, offset?: number, since?: string) => {
     try {
         AppLogger.info(
-            '[AuditRunProvider - getAllAuditRuns] limit: ' + limit + ', offset: ' + offset,
+            '[AuditRunProvider - getAllAuditRuns] limit: ' +
+                limit +
+                ', offset: ' +
+                offset +
+                ', since: ' +
+                since,
         );
 
         const auditRuns = await getPrismaClient().auditRun.findMany({
             take: limit,
             skip: offset,
+            where: since ? { triggeredAt: { gte: new Date(since) } } : undefined,
             orderBy: { triggeredAt: 'desc' },
             include: { audits: true },
         });

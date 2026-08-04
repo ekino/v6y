@@ -23,3 +23,15 @@ Object.defineProperty(window, 'matchMedia', {
         dispatchEvent: vi.fn(),
     })),
 });
+
+// Chart libraries (e.g. recharts' ResponsiveContainer) observe their
+// container's size; jsdom has no layout engine so this must be stubbed
+// globally rather than per-test.
+vi.stubGlobal(
+    'ResizeObserver',
+    class ResizeObserver {
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+    },
+);

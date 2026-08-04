@@ -34,6 +34,7 @@
       "addApplicationDescription": "Créer et configurer une nouvelle application depuis le back-office.",
       "headerTitle": "Projets sous surveillance",
       "headerDescription": "Comparez les dépôts, ouvrez rapidement le bon rapport et exportez la vue actuelle si nécessaire.",
+      "cardDescription": "Aperçu de la santé du dépôt avec accès direct aux rapports et aux liens suivis.",
       "resultsOne": "résultat",
       "resultsOther": "résultats",
       "contactEmail": " Contacter l'équipe",
@@ -157,10 +158,12 @@
           "passed": "Réussis",
           "warnings": "Alertes",
           "issues": "Problèmes",
+          "info": "Info",
           "chartLabels": {
             "success": "Réussis",
             "warning": "Alertes",
             "error": "Problèmes",
+            "info": "Info",
             "unknown": "Inconnu"
           }
         },
@@ -190,6 +193,7 @@
           "healthy": "Sain",
           "warning": "Alerte",
           "critical": "Critique",
+          "info": "Info",
           "attentionNeededLabel": "Action requise",
           "statusByFamilyTitle": "Statut par famille de métriques",
           "statusByFamilyDescription": "Le graphique radar montre les familles de contrôles qui se dégradent.",
@@ -199,7 +203,13 @@
           "priorityFindingsDescription": "Traitez ces points en premier pour réduire rapidement le risque projet.",
           "noIssuesMessage": "Aucune alerte ni anomalie critique détectée dans ce rapport.",
           "locationLabel": "Emplacement",
-          "impactedChecksLabel": "Contrôles impactés"
+          "impactedChecksLabel": "Contrôles impactés",
+          "detailsTitle": "Détails du rapport",
+          "detailsDescription": "Chaque contrôle de cette catégorie, avec son emplacement et son score.",
+          "categoryLabel": "Catégorie",
+          "subcategoryLabel": "Sous-catégorie",
+          "scoreLabel": "Score",
+          "statusLabel": "Statut"
         },
         "doraMetrics": {
           "DEPLOYMENT_FREQUENCY": "Fréquence de déploiement",

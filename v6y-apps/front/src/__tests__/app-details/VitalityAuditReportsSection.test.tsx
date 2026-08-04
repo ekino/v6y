@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
 import * as React from 'react';
-import { beforeAll, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { AuditType } from '@v6y/core-logic/src/types';
 
@@ -13,22 +13,13 @@ vi.mock('recharts', () => ({
     PolarGrid: () => <g />,
     PolarAngleAxis: () => <g />,
     PolarRadiusAxis: () => <g />,
+    ResponsiveContainer: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+    Tooltip: () => null,
 }));
 
 vi.mock('../../features/app-details/components/audit-reports/VitalityAuditReportsSummary', () => ({
     default: () => <div data-testid="audit-reports-summary">Summary</div>,
 }));
-
-beforeAll(() => {
-    vi.stubGlobal(
-        'ResizeObserver',
-        class ResizeObserver {
-            observe() {}
-            unobserve() {}
-            disconnect() {}
-        },
-    );
-});
 
 const buildBundleReport = (index: number): AuditType => ({
     _id: index,
@@ -109,7 +100,8 @@ describe('VitalityAuditReportsSection', () => {
             />,
         );
 
-        expect(screen.getAllByTestId('radar-series').length).toBe(3);
+        // error, warning, success and info series are always rendered together.
+        expect(screen.getAllByTestId('radar-series').length).toBe(4);
     });
 
     it('falls back to a stacked-bar list when there are too few metric families for a radar', () => {
@@ -122,7 +114,7 @@ describe('VitalityAuditReportsSection', () => {
         );
 
         expect(screen.queryByTestId('radar-series')).not.toBeInTheDocument();
-        expect(screen.getByText('Bundle analysis')).toBeInTheDocument();
+        expect(screen.getAllByText('Bundle analysis').length).toBeGreaterThan(0);
     });
 
     it('surfaces warning and success statuses clearly', () => {

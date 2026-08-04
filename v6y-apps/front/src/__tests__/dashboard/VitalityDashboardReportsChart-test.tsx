@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
-import { Mock, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { Mock, afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import VitalityDashboardReportsChart from '../../features/dashboard/components/VitalityDashboardReportsChart';
 import { useClientQuery } from '../../infrastructure/adapters/api/useQueryAdapter';
@@ -10,17 +10,6 @@ vi.mock('../../infrastructure/adapters/api/useQueryAdapter', () => ({
     useClientQuery: vi.fn(),
     buildClientQuery: vi.fn(),
 }));
-
-beforeAll(() => {
-    vi.stubGlobal(
-        'ResizeObserver',
-        class ResizeObserver {
-            observe() {}
-            unobserve() {}
-            disconnect() {}
-        },
-    );
-});
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => {
     const queryClient = new QueryClient({
