@@ -134,6 +134,7 @@
         "title": "Résumé de santé de l'application",
         "description": "Suivez les branches, la couverture des rapports et les canaux rattachés à ce projet avant d'entrer dans les détails par catégorie.",
         "lastAnalyze": "Dernière analyse {date}",
+        "notAnalyzedYet": "Pas encore analysée",
         "branchesLabel": "Branches Git : {count}",
         "branchesTracked": "Branches suivies",
         "linkedSystems": "Systèmes liés",
