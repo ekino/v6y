@@ -33,6 +33,7 @@ export {
     Leaf,
     Link,
     Lock,
+    Menu,
     Package,
     Scale,
     Search,
