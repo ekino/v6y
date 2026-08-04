@@ -202,6 +202,7 @@
           "priorityFindingsTitle": "Constats prioritaires",
           "priorityFindingsDescription": "Traitez ces points en premier pour réduire rapidement le risque projet.",
           "noIssuesMessage": "Aucune alerte ni anomalie critique détectée dans ce rapport.",
+          "noReportsMessage": "Aucun rapport disponible dans cette catégorie.",
           "locationLabel": "Emplacement",
           "impactedChecksLabel": "Contrôles impactés",
           "detailsTitle": "Détails du rapport",

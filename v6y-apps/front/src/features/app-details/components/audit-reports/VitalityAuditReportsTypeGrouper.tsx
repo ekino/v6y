@@ -112,6 +112,9 @@ const VitalityAuditReportsTypeGrouper = ({
                 noIssuesMessage: translate(
                     'vitality.appDetailsPage.auditReports.visualization.noIssuesMessage',
                 ),
+                noReportsMessage: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.noReportsMessage',
+                ),
                 impactedChecksLabel: translate(
                     'vitality.appDetailsPage.auditReports.visualization.impactedChecksLabel',
                 ),

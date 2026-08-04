@@ -37,6 +37,7 @@ interface VitalityAuditReportsSectionLabels {
     priorityFindingsTitle: string;
     priorityFindingsDescription: string;
     noIssuesMessage: string;
+    noReportsMessage: string;
     impactedChecksLabel: string;
     detailsTitle: string;
     detailsDescription: string;
@@ -71,6 +72,7 @@ const defaultLabels: VitalityAuditReportsSectionLabels = {
     priorityFindingsTitle: 'Priority findings',
     priorityFindingsDescription: 'Focus these checks first to reduce project risk quickly.',
     noIssuesMessage: 'No warning or critical findings were detected in this report.',
+    noReportsMessage: 'No reports available in this category.',
     impactedChecksLabel: 'Impacted checks',
     detailsTitle: 'Report details',
     detailsDescription: 'Every check in this category, with its location and score.',
@@ -275,9 +277,7 @@ const VitalityAuditReportsSection = ({
                 </div>
                 <Card className="border-slate-200 shadow-xs">
                     <CardContent className="flex items-center justify-center p-10">
-                        <p className="text-sm text-slate-500">
-                            No reports available in this category.
-                        </p>
+                        <p className="text-sm text-slate-500">{copyLabels.noReportsMessage}</p>
                     </CardContent>
                 </Card>
             </div>
@@ -324,6 +324,82 @@ const VitalityAuditReportsSection = ({
     // legible polygon either, so fall back to a single overall status bar.
     const hasEnoughStatusesForRadar = radarData.length >= 3;
     const breakdownTotal = summary.error + summary.warning + summary.success + summary.info;
+
+    const renderStatusBreakdownVisualization = () => {
+        if (hasEnoughStatusesForRadar) {
+            return (
+                <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-70">
+                    <RadarChart
+                        data={radarData}
+                        margin={{ top: 8, right: 24, bottom: 8, left: 24 }}
+                    >
+                        <ChartTooltip content={<ChartTooltipContent hideLabel nameKey="key" />} />
+                        <PolarGrid />
+                        <PolarAngleAxis
+                            dataKey="key"
+                            tickFormatter={(key: string) =>
+                                chartConfig[key as keyof typeof chartConfig]?.label ?? key
+                            }
+                        />
+                        <PolarRadiusAxis tick={false} axisLine={false} />
+                        <Radar
+                            dataKey="value"
+                            fill="#0f172a"
+                            fillOpacity={0.28}
+                            stroke="#0f172a"
+                            strokeWidth={2}
+                            dot={{ r: 3, fillOpacity: 1 }}
+                        />
+                    </RadarChart>
+                </ChartContainer>
+            );
+        }
+
+        if (breakdownTotal > 0) {
+            return (
+                <div className="flex h-2.5 w-full overflow-hidden rounded-full bg-slate-100">
+                    {summary.error > 0 && (
+                        <div
+                            className="h-full"
+                            style={{
+                                width: `${(summary.error / breakdownTotal) * 100}%`,
+                                backgroundColor: chartConfig.error.color,
+                            }}
+                        />
+                    )}
+                    {summary.warning > 0 && (
+                        <div
+                            className="h-full"
+                            style={{
+                                width: `${(summary.warning / breakdownTotal) * 100}%`,
+                                backgroundColor: chartConfig.warning.color,
+                            }}
+                        />
+                    )}
+                    {summary.success > 0 && (
+                        <div
+                            className="h-full"
+                            style={{
+                                width: `${(summary.success / breakdownTotal) * 100}%`,
+                                backgroundColor: chartConfig.success.color,
+                            }}
+                        />
+                    )}
+                    {summary.info > 0 && (
+                        <div
+                            className="h-full"
+                            style={{
+                                width: `${(summary.info / breakdownTotal) * 100}%`,
+                                backgroundColor: chartConfig.info.color,
+                            }}
+                        />
+                    )}
+                </div>
+            );
+        }
+
+        return <p className="text-sm text-slate-600">{copyLabels.noIssuesMessage}</p>;
+    };
 
     return (
         <div className="mb-8 space-y-5">
@@ -396,83 +472,7 @@ const VitalityAuditReportsSection = ({
                                 ))}
                             </div>
 
-                            {hasEnoughStatusesForRadar ? (
-                                <ChartContainer
-                                    config={chartConfig}
-                                    className="mx-auto aspect-square max-h-70"
-                                >
-                                    <RadarChart
-                                        data={radarData}
-                                        margin={{ top: 8, right: 24, bottom: 8, left: 24 }}
-                                    >
-                                        <ChartTooltip
-                                            content={
-                                                <ChartTooltipContent hideLabel nameKey="key" />
-                                            }
-                                        />
-                                        <PolarGrid />
-                                        <PolarAngleAxis
-                                            dataKey="key"
-                                            tickFormatter={(key: string) =>
-                                                chartConfig[key as keyof typeof chartConfig]
-                                                    ?.label ?? key
-                                            }
-                                        />
-                                        <PolarRadiusAxis tick={false} axisLine={false} />
-                                        <Radar
-                                            dataKey="value"
-                                            fill="#0f172a"
-                                            fillOpacity={0.28}
-                                            stroke="#0f172a"
-                                            strokeWidth={2}
-                                            dot={{ r: 3, fillOpacity: 1 }}
-                                        />
-                                    </RadarChart>
-                                </ChartContainer>
-                            ) : breakdownTotal > 0 ? (
-                                <div className="flex h-2.5 w-full overflow-hidden rounded-full bg-slate-100">
-                                    {summary.error > 0 && (
-                                        <div
-                                            className="h-full"
-                                            style={{
-                                                width: `${(summary.error / breakdownTotal) * 100}%`,
-                                                backgroundColor: chartConfig.error.color,
-                                            }}
-                                        />
-                                    )}
-                                    {summary.warning > 0 && (
-                                        <div
-                                            className="h-full"
-                                            style={{
-                                                width: `${(summary.warning / breakdownTotal) * 100}%`,
-                                                backgroundColor: chartConfig.warning.color,
-                                            }}
-                                        />
-                                    )}
-                                    {summary.success > 0 && (
-                                        <div
-                                            className="h-full"
-                                            style={{
-                                                width: `${(summary.success / breakdownTotal) * 100}%`,
-                                                backgroundColor: chartConfig.success.color,
-                                            }}
-                                        />
-                                    )}
-                                    {summary.info > 0 && (
-                                        <div
-                                            className="h-full"
-                                            style={{
-                                                width: `${(summary.info / breakdownTotal) * 100}%`,
-                                                backgroundColor: chartConfig.info.color,
-                                            }}
-                                        />
-                                    )}
-                                </div>
-                            ) : (
-                                <p className="text-sm text-slate-600">
-                                    {copyLabels.noIssuesMessage}
-                                </p>
-                            )}
+                            {renderStatusBreakdownVisualization()}
                         </div>
                     ) : (
                         <div className="space-y-3">
