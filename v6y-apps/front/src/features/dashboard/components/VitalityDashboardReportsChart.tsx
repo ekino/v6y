@@ -224,7 +224,7 @@ const VitalityDashboardReportsChart = () => {
 
     if (!hasMounted || isLoading) {
         return (
-            <div className="space-y-3">
+            <div className="space-y-3" data-testid="dashboard-chart-skeleton">
                 <Skeleton className="h-5 w-64" />
                 <Skeleton className="h-4 w-80" />
                 <Skeleton className="h-[280px] w-full" />

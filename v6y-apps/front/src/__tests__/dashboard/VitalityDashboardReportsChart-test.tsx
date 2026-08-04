@@ -33,13 +33,13 @@ describe('VitalityDashboardReportsChart', () => {
             data: undefined,
         });
 
-        const { container } = render(
+        render(
             <TestWrapper>
                 <VitalityDashboardReportsChart />
             </TestWrapper>,
         );
 
-        expect(container.querySelectorAll('.animate-pulse').length).toBeGreaterThan(0);
+        expect(screen.getByTestId('dashboard-chart-skeleton')).toBeVisible();
     });
 
     it('shows a friendly empty state with a call to action when there are no audit runs', () => {
