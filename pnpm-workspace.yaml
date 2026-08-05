@@ -2,6 +2,35 @@ packages:
   - 'v6y-apps/*'
   - 'v6y-libs/*'
 
+# Forces resolution of known-vulnerable transitive dependencies (see `pnpm audit`) to
+# their patched versions without bumping unrelated packages that pin other majors.
+overrides:
+  'express-status-monitor>axios': 'catalog:'
+  'express-status-monitor>debug': '4.4.3'
+  'express-status-monitor>on-headers': '1.1.0'
+  'socket.io>debug': '4.4.3'
+  'engine.io>debug': '4.4.3'
+  'socket.io-parser>debug': '4.4.3'
+  'engine.io>cookie': '0.7.2'
+  'nx>minimatch': '9.0.7'
+  'socket.io-client>parseuri': '3.0.2'
+  'engine.io-client>parseuri': '3.0.2'
+  '@ant-design/pro-layout>path-to-regexp': '8.4.2'
+  '@nestjs/graphql>lodash': 'catalog:'
+  '@nestjs/graphql>ws': '8.21.1'
+  'graphql-ws>ws': '8.21.1'
+  'next>sharp': '0.35.3'
+  'next>postcss': 'catalog:'
+  '@prisma/dev>find-my-way': '9.7.0'
+  '@prisma/dev>valibot': '1.4.2'
+  '@modelcontextprotocol/sdk>@hono/node-server': '2.0.12'
+  '@opentelemetry/core': '2.10.0'
+  'minimatch>brace-expansion': '5.0.9'
+  'vite>esbuild': '0.28.1'
+  'tsx>esbuild': '0.28.1'
+  '@vitest/ui>flatted': '3.4.4'
+  'multer': '2.2.0'
+
 onlyBuiltDependencies:
   - '@apollo/protobufjs'
   - '@prisma/engines'
@@ -243,3 +272,7 @@ catalogs:
 
   legacy-next16:
     '@next/bundle-analyzer': '=16.0.7'
+
+minimumReleaseAgeExclude:
+  - brace-expansion@5.0.9
+  - flatted@3.4.4
