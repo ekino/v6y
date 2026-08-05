@@ -16,16 +16,36 @@ const { existsSync } = require('fs');
 const { execSync } = require('child_process');
 const path = require('path');
 
-const schemaPath = path.resolve(__dirname, '../v6y-libs/core-logic/prisma/schema.prisma');
+const rootDir = path.resolve(__dirname, '..');
+const coreLogicDir = path.join(rootDir, 'v6y-libs/core-logic');
+const schemaPath = path.join(coreLogicDir, 'prisma/schema.prisma');
 
 if (!existsSync(schemaPath)) {
+    process.exit(0);
+}
+
+// Skip when the client is already generated (e.g. `pnpm add <pkg>` on an
+// existing checkout) so the full generation only runs on a fresh clone. The
+// generated client lives in a .prisma/client dir next to @prisma/client, whose
+// pnpm-hashed path we locate by resolving the package itself.
+function isPrismaClientGenerated() {
+    try {
+        const entry = require.resolve('@prisma/client', { paths: [coreLogicDir] });
+        const nodeModulesDir = path.resolve(path.dirname(entry), '../..');
+        return existsSync(path.join(nodeModulesDir, '.prisma/client/index.js'));
+    } catch {
+        return false;
+    }
+}
+
+if (isPrismaClientGenerated()) {
     process.exit(0);
 }
 
 try {
     execSync('pnpm --filter @v6y/core-logic db:generate', {
         stdio: 'inherit',
-        cwd: path.resolve(__dirname, '..'),
+        cwd: rootDir,
     });
 } catch {
     console.warn(

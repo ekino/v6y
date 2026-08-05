@@ -11,8 +11,10 @@
  *
  * Symlinks are used so edits to the root .env show up everywhere immediately.
  * On platforms where symlinking isn't permitted (e.g. Windows without
- * Developer Mode), falls back to a plain copy - re-run this script after
- * editing the root .env for changes to propagate in that case.
+ * Developer Mode), each app gets a plain copy instead. Those copies are not
+ * refreshed on re-run (they're indistinguishable from a user-created file), so
+ * after editing the root .env delete the app-level copies and re-run this
+ * script to propagate the change.
  */
 
 const fs = require('fs');
@@ -23,13 +25,13 @@ const rootEnvTemplate = path.join(rootDir, 'env-template');
 const rootEnv = path.join(rootDir, '.env');
 
 const links = [
-    ['v6y-apps/bff/.env', 3],
-    ['v6y-apps/bfb-main-analyzer/.env', 3],
-    ['v6y-apps/bfb-static-auditor/.env', 3],
-    ['v6y-apps/bfb-dynamic-auditor/.env', 3],
-    ['v6y-apps/bfb-devops-auditor/.env', 3],
-    ['v6y-apps/front/.env.local', 3],
-    ['v6y-apps/front-bo/.env.local', 3],
+    'v6y-apps/bff/.env',
+    'v6y-apps/bfb-main-analyzer/.env',
+    'v6y-apps/bfb-static-auditor/.env',
+    'v6y-apps/bfb-dynamic-auditor/.env',
+    'v6y-apps/bfb-devops-auditor/.env',
+    'v6y-apps/front/.env.local',
+    'v6y-apps/front-bo/.env.local',
 ];
 
 function ensureRootEnv() {
@@ -79,6 +81,6 @@ function linkEnv(relativeTarget) {
 }
 
 ensureRootEnv();
-for (const [relativeTarget] of links) {
+for (const relativeTarget of links) {
     linkEnv(relativeTarget);
 }
