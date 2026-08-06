@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart } from 'recharts';
 
 import { useTranslationProvider } from '@v6y/ui-kit';
 import {
@@ -8,6 +9,10 @@ import {
     CardContent,
     CardHeader,
     CardTitle,
+    ChartConfig,
+    ChartContainer,
+    ChartTooltip,
+    ChartTooltipContent,
     Check,
     CircleHelp,
     Clipboard,
@@ -51,126 +56,129 @@ const getQualityGateStyle = (status: string | undefined) => {
     switch (status) {
         case 'OK':
             return {
-                bg: 'bg-green-50',
-                text: 'text-green-700',
-                border: 'border-green-200',
                 icon: <Check className="w-3.5 h-3.5" aria-hidden="true" />,
                 label: 'Passed',
             };
         case 'ERROR':
             return {
-                bg: 'bg-red-50',
-                text: 'text-red-700',
-                border: 'border-red-200',
                 icon: <X className="w-3.5 h-3.5" aria-hidden="true" />,
                 label: 'Failed',
             };
         case 'WARN':
             return {
-                bg: 'bg-yellow-50',
-                text: 'text-yellow-700',
-                border: 'border-yellow-200',
                 icon: <AlertTriangle className="w-3.5 h-3.5" aria-hidden="true" />,
                 label: 'Warning',
             };
         default:
             return {
-                bg: 'bg-slate-50',
-                text: 'text-slate-600',
-                border: 'border-slate-200',
                 icon: <CircleHelp className="w-3.5 h-3.5" aria-hidden="true" />,
                 label: status || 'Unknown',
             };
     }
 };
 
+const RATING_SCORE: Record<string, number> = { A: 100, B: 80, C: 60, D: 40, E: 20 };
+
+// SonarQube rating metrics (reliability, security, maintainability) report
+// their value as a 1-5 numeric scale (1 = A, 5 = E) rather than the letter
+// itself; `subCategory` sometimes carries the letter directly, so prefer it
+// and fall back to converting the numeric score otherwise.
+const NUMERIC_RATING_GRADE: Record<number, string> = { 1: 'A', 2: 'B', 3: 'C', 4: 'D', 5: 'E' };
+
+const getRatingGrade = (report: AuditReport | undefined): string | undefined => {
+    if (report?.subCategory) {
+        return report.subCategory;
+    }
+
+    if (report?.score !== null && report?.score !== undefined) {
+        return NUMERIC_RATING_GRADE[Math.round(report.score)];
+    }
+
+    return undefined;
+};
+
 const getRatingStyle = (rating: string | undefined) => {
     switch (rating) {
         case 'A':
-            return { cls: 'bg-green-500 text-white', desc: 'Excellent' };
+            return { desc: 'Excellent' };
         case 'B':
-            return { cls: 'bg-lime-500 text-white', desc: 'Good' };
+            return { desc: 'Good' };
         case 'C':
-            return { cls: 'bg-yellow-500 text-white', desc: 'Fair' };
+            return { desc: 'Fair' };
         case 'D':
-            return { cls: 'bg-orange-500 text-white', desc: 'Poor' };
+            return { desc: 'Poor' };
         case 'E':
-            return { cls: 'bg-red-500 text-white', desc: 'Critical' };
+            return { desc: 'Critical' };
         default:
-            return { cls: 'bg-slate-400 text-white', desc: '' };
+            return { desc: '' };
     }
 };
 
 const METRIC_DISPLAY: Record<
     string,
-    { label: string; icon: React.ReactNode; unit?: string; color: string; subtitle: string }
+    { label: string; icon: React.ReactNode; unit?: string; subtitle: string }
 > = {
     coverage: {
         label: 'Coverage',
         icon: <Shield className="w-3.5 h-3.5" aria-hidden="true" />,
         unit: '%',
-        color: 'text-blue-700',
         subtitle: 'Code covered by tests',
     },
     bugs: {
         label: 'Bugs',
         icon: <Bug className="w-3.5 h-3.5" aria-hidden="true" />,
         unit: '',
-        color: 'text-red-700',
         subtitle: 'Reliability issues found',
     },
     vulnerabilities: {
         label: 'Vulnerabilities',
         icon: <Unlock className="w-3.5 h-3.5" aria-hidden="true" />,
         unit: '',
-        color: 'text-orange-700',
         subtitle: 'Security issues found',
     },
     code_smells: {
         label: 'Code Smells',
         icon: <Wind className="w-3.5 h-3.5" aria-hidden="true" />,
         unit: '',
-        color: 'text-yellow-700',
         subtitle: 'Maintainability issues',
     },
     duplicated_lines_density: {
         label: 'Duplications',
         icon: <Clipboard className="w-3.5 h-3.5" aria-hidden="true" />,
         unit: '%',
-        color: 'text-purple-700',
         subtitle: 'Duplicated code blocks',
     },
     ncloc: {
         label: 'Lines of Code',
         icon: <FileText className="w-3.5 h-3.5" aria-hidden="true" />,
         unit: '',
-        color: 'text-slate-700',
         subtitle: 'Non-comment lines',
     },
     reliability_rating: {
         label: 'Reliability',
         icon: <Settings className="w-3.5 h-3.5" aria-hidden="true" />,
         unit: '',
-        color: 'text-blue-700',
         subtitle: 'Bug-free grade (A–E)',
     },
     security_rating: {
         label: 'Security',
         icon: <Lock className="w-3.5 h-3.5" aria-hidden="true" />,
         unit: '',
-        color: 'text-orange-700',
         subtitle: 'Vulnerability grade (A–E)',
     },
     sqale_rating: {
         label: 'Maintainability',
         icon: <Wrench className="w-3.5 h-3.5" aria-hidden="true" />,
         unit: '',
-        color: 'text-green-700',
         subtitle: 'Technical debt grade (A–E)',
     },
 };
 
 const RATING_KEYS = new Set(['reliability_rating', 'security_rating', 'sqale_rating']);
+
+const repartitionConfig = {
+    value: { label: 'Score' },
+} satisfies ChartConfig;
 
 const VitalitySonarQubeView = ({
     applicationId,
@@ -234,6 +242,38 @@ const VitalitySonarQubeView = ({
 
     const hasData = auditReports.length > 0;
 
+    const repartitionData = React.useMemo(() => {
+        const entries: { axis: string; value: number }[] = [];
+        const clamp = (value: number) => Math.max(0, Math.min(100, value));
+
+        const coverageReport = metricMap.coverage;
+        if (coverageReport?.score !== null && coverageReport?.score !== undefined) {
+            entries.push({
+                axis: METRIC_DISPLAY.coverage.label,
+                value: clamp(coverageReport.score),
+            });
+        }
+
+        const duplicationReport = metricMap.duplicated_lines_density;
+        if (duplicationReport?.score !== null && duplicationReport?.score !== undefined) {
+            entries.push({ axis: 'Low duplication', value: clamp(100 - duplicationReport.score) });
+        }
+
+        (['reliability_rating', 'security_rating', 'sqale_rating'] as const).forEach((key) => {
+            const grade = getRatingGrade(metricMap[key]);
+            const score = grade ? RATING_SCORE[grade] : undefined;
+            if (score !== undefined) {
+                entries.push({ axis: METRIC_DISPLAY[key].label, value: score });
+            }
+        });
+
+        return entries;
+    }, [metricMap]);
+
+    // A radar chart needs at least 3 axes to draw a legible polygon; below
+    // that it degenerates to a single spoke or a flat line.
+    const hasEnoughMetricsForRadar = repartitionData.length >= 3;
+
     return (
         <Card className="border-slate-200 shadow-sm">
             <CardHeader className="pb-2">
@@ -250,9 +290,7 @@ const VitalitySonarQubeView = ({
                     </div>
                     {/* Quality Gate inline badge */}
                     {!isLoading && hasData && qualityGateStatus && (
-                        <span
-                            className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${qualityGateStyle.bg} ${qualityGateStyle.border} ${qualityGateStyle.text}`}
-                        >
+                        <span className="flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">
                             {qualityGateStyle.icon} Quality Gate: {qualityGateStyle.label}
                         </span>
                     )}
@@ -267,6 +305,59 @@ const VitalitySonarQubeView = ({
                             <AlertTriangle className="w-3.5 h-3.5" aria-hidden="true" />
                             {translate('vitality.appDetailsPage.sonarqube.noData')}
                         </span>
+                    </div>
+                )}
+
+                {/* Reports repartition */}
+                {!isLoading && hasData && (
+                    <div className="space-y-2 rounded-lg border border-slate-100 bg-white px-4 py-3">
+                        <div>
+                            <h4 className="text-sm font-semibold text-slate-900">
+                                {translate('vitality.appDetailsPage.sonarqube.repartitionTitle')}
+                            </h4>
+                            <p className="mt-0.5 text-xs text-slate-500">
+                                {translate(
+                                    'vitality.appDetailsPage.sonarqube.repartitionDescription',
+                                )}
+                            </p>
+                        </div>
+
+                        {hasEnoughMetricsForRadar ? (
+                            <ChartContainer
+                                config={repartitionConfig}
+                                className="mx-auto aspect-square max-h-64"
+                            >
+                                <RadarChart
+                                    data={repartitionData}
+                                    margin={{ top: 8, right: 24, bottom: 8, left: 24 }}
+                                >
+                                    <ChartTooltip
+                                        content={<ChartTooltipContent hideLabel nameKey="axis" />}
+                                    />
+                                    <PolarGrid />
+                                    <PolarAngleAxis dataKey="axis" tick={{ fontSize: 11 }} />
+                                    <PolarRadiusAxis
+                                        tick={false}
+                                        axisLine={false}
+                                        domain={[0, 100]}
+                                    />
+                                    <Radar
+                                        dataKey="value"
+                                        fill="#0f172a"
+                                        fillOpacity={0.16}
+                                        stroke="#0f172a"
+                                        strokeWidth={2}
+                                        dot={{ r: 3, fillOpacity: 1 }}
+                                    />
+                                </RadarChart>
+                            </ChartContainer>
+                        ) : (
+                            <p className="text-xs text-slate-500">
+                                {translate(
+                                    'vitality.appDetailsPage.sonarqube.repartitionUnavailable',
+                                )}
+                            </p>
+                        )}
                     </div>
                 )}
 
@@ -290,7 +381,7 @@ const VitalitySonarQubeView = ({
                             const report = metricMap[key];
                             if (!report) return null;
                             const isRating = RATING_KEYS.has(key);
-                            const grade = isRating ? (report.subCategory ?? undefined) : undefined;
+                            const grade = isRating ? getRatingGrade(report) : undefined;
                             const ratingStyle = isRating ? getRatingStyle(grade) : null;
                             const displayValue =
                                 report.score !== null && report.score !== undefined
@@ -301,14 +392,13 @@ const VitalitySonarQubeView = ({
                                     key={key}
                                     className="rounded-lg border border-slate-100 bg-white px-4 py-3 flex flex-col gap-2"
                                 >
-                                    <span className="text-xs font-medium text-slate-500">
-                                        {config.icon} {config.label}
+                                    <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500">
+                                        <span className="shrink-0">{config.icon}</span>
+                                        <span>{config.label}</span>
                                     </span>
                                     {isRating && grade ? (
                                         <div className="flex items-center gap-3">
-                                            <span
-                                                className={`inline-flex items-center justify-center w-11 h-11 rounded-full text-2xl font-bold shrink-0 ${ratingStyle!.cls}`}
-                                            >
+                                            <span className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-slate-900 text-white text-2xl font-bold shrink-0">
                                                 {grade}
                                             </span>
                                             <span className="text-sm font-semibold text-slate-700">
@@ -316,9 +406,7 @@ const VitalitySonarQubeView = ({
                                             </span>
                                         </div>
                                     ) : (
-                                        <span
-                                            className={`text-3xl font-bold leading-none ${config.color}`}
-                                        >
+                                        <span className="text-3xl font-bold leading-none text-slate-900">
                                             {displayValue}
                                             {report.scoreUnit && (
                                                 <span className="text-base font-normal text-slate-400 ml-1">
@@ -341,7 +429,7 @@ const VitalitySonarQubeView = ({
                     <Link className="w-3.5 h-3.5 text-slate-400 shrink-0" aria-hidden="true" />
                     <a
                         href={sonarqubeUrl}
-                        className="text-xs text-blue-500 hover:text-blue-700 hover:underline truncate font-mono"
+                        className="text-xs text-slate-500 hover:text-slate-700 hover:underline truncate font-mono"
                         target="_blank"
                         rel="noopener noreferrer"
                     >

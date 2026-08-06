@@ -48,6 +48,7 @@
     "react-i18next": "catalog:react19",
     "react-virtualized-auto-sizer": "catalog:",
     "react-window": "catalog:",
+    "recharts": "catalog:",
     "sonner": "catalog:",
     "zod": "catalog:"
   },

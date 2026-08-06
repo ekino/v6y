@@ -1,6 +1,5 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@testing-library/jest-dom/vitest';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import * as React from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -9,6 +8,7 @@ import {
     buildClientQuery,
     useClientQuery,
 } from '../../infrastructure/adapters/api/useQueryAdapter';
+import { renderWithProviders } from '../../test-utils/renderWithProviders';
 
 vi.mock('@v6y/ui-kit-front', async () => {
     const actual = await vi.importActual<typeof import('@v6y/ui-kit-front')>('@v6y/ui-kit-front');
@@ -24,17 +24,6 @@ vi.mock('@v6y/ui-kit-front', async () => {
         },
     };
 });
-
-const TestWrapper = ({ children }: { children: React.ReactNode }) => {
-    const queryClient = new QueryClient({
-        defaultOptions: {
-            queries: {
-                retry: false,
-            },
-        },
-    });
-    return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
-};
 
 vi.mock('../../features/app-details/components/audit-reports/VitalityAuditReportsView', () => ({
     default: () => <div data-testid="audit-reports-view">Audit Reports View</div>,
@@ -131,12 +120,8 @@ describe('VitalityAppDetailsView', () => {
         } as unknown as ReturnType<typeof useClientQuery>);
     });
 
-    const renderComponent = () => {
-        return render(
-            <TestWrapper>
-                <VitalityAppDetailsView />
-            </TestWrapper>,
-        );
+    const renderComponent = (props?: React.ComponentProps<typeof VitalityAppDetailsView>) => {
+        return renderWithProviders(<VitalityAppDetailsView {...props} />);
     };
 
     it('renders the component with all main sections', async () => {
@@ -226,25 +211,26 @@ describe('VitalityAppDetailsView', () => {
         });
     });
 
-    it('applies correct CSS classes for active and inactive tabs', async () => {
+    it('marks the clicked tab as selected', async () => {
         renderComponent();
 
         await waitFor(() => {
-            const performanceTab = screen.getByText('vitality.appDetailsPage.tabs.performance');
-            const accessibilityTab = screen.getByText('vitality.appDetailsPage.tabs.accessibility');
-
-            expect(performanceTab).toHaveClass('bg-white', 'text-slate-900', 'shadow-xs');
-            expect(accessibilityTab).toHaveClass('text-slate-700');
+            expect(
+                screen.getByRole('tab', { name: 'vitality.appDetailsPage.tabs.performance' }),
+            ).toHaveAttribute('aria-selected', 'true');
         });
 
-        fireEvent.click(screen.getByText('vitality.appDetailsPage.tabs.accessibility'));
+        fireEvent.click(
+            screen.getByRole('tab', { name: 'vitality.appDetailsPage.tabs.accessibility' }),
+        );
 
         await waitFor(() => {
-            const performanceTab = screen.getByText('vitality.appDetailsPage.tabs.performance');
-            const accessibilityTab = screen.getByText('vitality.appDetailsPage.tabs.accessibility');
-
-            expect(accessibilityTab).toHaveClass('bg-white', 'text-slate-900', 'shadow-xs');
-            expect(performanceTab).toHaveClass('text-slate-700');
+            expect(
+                screen.getByRole('tab', { name: 'vitality.appDetailsPage.tabs.accessibility' }),
+            ).toHaveAttribute('aria-selected', 'true');
+            expect(
+                screen.getByRole('tab', { name: 'vitality.appDetailsPage.tabs.performance' }),
+            ).toHaveAttribute('aria-selected', 'false');
         });
     });
 
@@ -284,17 +270,14 @@ describe('VitalityAppDetailsView', () => {
         });
     });
 
-    it('renders with correct grid layout', async () => {
+    it('renders the summary card alongside the details tabs', async () => {
         renderComponent();
 
-        const mainContainer = document.querySelector('.grid.grid-cols-1');
-        expect(mainContainer).toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.getByTestId('summary-card')).toBeInTheDocument();
+        });
 
-        const summaryColumn = document.querySelector('.lg\\:col-span-3');
-        const contentColumn = document.querySelector('.lg\\:col-span-9');
-
-        expect(summaryColumn).toBeInTheDocument();
-        expect(contentColumn).toBeInTheDocument();
+        expect(screen.getByRole('tablist', { name: 'Details tabs' })).toBeInTheDocument();
     });
 
     it('handles branch selection correctly', async () => {
@@ -315,11 +298,7 @@ describe('VitalityAppDetailsView', () => {
     });
 
     it('hides the run audit button when viewing a specific audit run (report details)', async () => {
-        render(
-            <TestWrapper>
-                <VitalityAppDetailsView applicationId={123} auditRunId={99} />
-            </TestWrapper>,
-        );
+        renderComponent({ applicationId: 123, auditRunId: 99 });
 
         await waitFor(() => {
             expect(screen.getByTestId('summary-card')).toBeInTheDocument();

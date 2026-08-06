@@ -1,11 +1,9 @@
-import * as React from 'react';
+'use client';
 
 import VitalityLoginForm from '../components/VitalityLoginForm';
 
+// Centering and no-scroll are handled once in VitalityPageLayout (it already
+// keys off the /login route), so this page only renders the form.
 export default function VitalityLoginPage() {
-    return (
-        <div className="w-full min-h-screen flex justify-center items-center md:py-8 lg:py-12">
-            <VitalityLoginForm />
-        </div>
-    );
+    return <VitalityLoginForm />;
 }

@@ -16,7 +16,7 @@ const VitalityGeneralInformationView = ({
     return isLoading ? (
         <LoaderView />
     ) : (
-        <Card className="border-slate-200 shadow-md">
+        <Card className="rounded-2xl border-slate-200 shadow-md">
             <CardHeader>
                 <CardTitle className="text-2xl text-gray-900">
                     {translate('vitality.appDetailsPage.infos.title') || 'General Informations'}

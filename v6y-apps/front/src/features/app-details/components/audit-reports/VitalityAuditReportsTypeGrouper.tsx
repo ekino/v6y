@@ -74,6 +74,73 @@ const VitalityAuditReportsTypeGrouper = ({
             title={title}
             reports={auditReports}
             description={description}
+            chartVariant={category === 'dora' ? 'breakdown' : 'family'}
+            labels={{
+                overviewTitle: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.overview',
+                ),
+                healthyLabel: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.healthy',
+                ),
+                warningLabel: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.warning',
+                ),
+                errorLabel: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.critical',
+                ),
+                attentionNeededLabel: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.attentionNeededLabel',
+                ),
+                statusByFamilyTitle: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.statusByFamilyTitle',
+                ),
+                statusByFamilyDescription: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.statusByFamilyDescription',
+                ),
+                statusBreakdownTitle: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.statusBreakdownTitle',
+                ),
+                statusBreakdownDescription: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.statusBreakdownDescription',
+                ),
+                priorityFindingsTitle: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.priorityFindingsTitle',
+                ),
+                priorityFindingsDescription: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.priorityFindingsDescription',
+                ),
+                noIssuesMessage: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.noIssuesMessage',
+                ),
+                noReportsMessage: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.noReportsMessage',
+                ),
+                impactedChecksLabel: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.impactedChecksLabel',
+                ),
+                infoLabel: translate('vitality.appDetailsPage.auditReports.visualization.info'),
+                detailsTitle: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.detailsTitle',
+                ),
+                detailsDescription: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.detailsDescription',
+                ),
+                categoryColumnLabel: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.categoryLabel',
+                ),
+                subcategoryColumnLabel: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.subcategoryLabel',
+                ),
+                locationColumnLabel: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.locationLabel',
+                ),
+                scoreColumnLabel: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.scoreLabel',
+                ),
+                statusColumnLabel: translate(
+                    'vitality.appDetailsPage.auditReports.visualization.statusLabel',
+                ),
+            }}
         />
     );
 };
