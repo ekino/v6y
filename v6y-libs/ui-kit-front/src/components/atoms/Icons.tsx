@@ -21,6 +21,7 @@ export {
     Check,
     ChevronDown,
     CircleHelp,
+    CircleX,
     Clipboard,
     ClipboardList,
     Cloud,
