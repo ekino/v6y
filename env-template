@@ -1,23 +1,33 @@
+# Working defaults below get the stack running locally with zero edits beyond
+# the two source-control tokens further down. Change PSQL_DB_PASSWORD and
+# JWT_SECRET before using this anywhere other people can reach.
 PSQL_DB_HOST=localhost
-PSQL_DB_NAME=x
-PSQL_DB_USER=x
-PSQL_DB_PASSWORD=x
+PSQL_DB_NAME=v6y
+PSQL_DB_USER=v6y
+PSQL_DB_PASSWORD=v6y
 # Port the services connect to. With the database bundled in docker-compose.yml
 # this must stay 5432, which is where PostgreSQL listens inside the network.
 PSQL_DB_PORT=5432
 # Host port the bundled database is published on. Change this one, not
 # PSQL_DB_PORT, when 5432 is already taken on your machine.
 PSQL_DB_HOST_PORT=5432
-DATABASE_URL=postgresql://user:password@localhost:port/database
+# Optional: overrides PSQL_DB_* above with a single connection string when set.
+# Leave empty (the default) so the PSQL_DB_* values above are used - setting it
+# to a placeholder here would silently take priority over correct PSQL_DB_*
+# values and break every database connection.
+DATABASE_URL=
 
-SUPERADMIN_USERNAME=x
-SUPERADMIN_EMAIL=x
-SUPERADMIN_PASSWORD=x
+# Account the migrate job creates on first run (see db:seed). Log in with these
+# once the stack is up.
+SUPERADMIN_USERNAME=admin
+SUPERADMIN_EMAIL=admin@v6y.local
+SUPERADMIN_PASSWORD=changeme123
 
-GITLAB_PRIVATE_TOKEN=x
-GITHUB_PRIVATE_TOKEN=x
+GITLAB_PRIVATE_TOKEN=
+GITHUB_PRIVATE_TOKEN=
 
-JWT_SECRET=x
+# Any non-empty value works for local dev; use a real random string elsewhere.
+JWT_SECRET=dev-secret-change-me
 
 V6Y_DEVOPS_API_PATH=/v6y/bfb-devops-auditor/
 V6Y_DEVOPS_API_PORT=4005
@@ -57,10 +67,15 @@ V6Y_BFF_API_PORT=4001
 # relative to the origin serving the app. Build-time only: next build inlines it
 # into the browser bundle, so setting it on a running container has no effect on
 # client-side code — the two front images have to be rebuilt to change it.
-NEXT_PUBLIC_V6Y_BFF_PATH=xxxx
+NEXT_PUBLIC_V6Y_BFF_PATH=/v6y/graphql
 # Server-side only: internal address the `front` app's /v6y/graphql rewrite targets.
 V6Y_BFF_PROXY_TARGET=http://localhost:4001/v6y/graphql/
-NEXTAUTH_URL=xxxx
+# Browser-facing URL of the front-bo app, used by `front` to link over to it.
+NEXT_PUBLIC_V6Y_FRONT_BO_PATH=http://localhost:3001
+# Optional: enable Refine live subscriptions in front-bo only when a WS endpoint
+# is available.
+# NEXT_PUBLIC_V6Y_BFF_WS_PATH=ws://localhost:4001/v6y/graphql/
+NEXTAUTH_URL=http://localhost:3001
 
 # Docker Registry
 # Leave REGISTRY empty for local builds, so images are named v6y-bff:latest etc.

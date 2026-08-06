@@ -14,7 +14,11 @@
 # To run the published images instead of building, use docker-compose.deploy.yml.
 
 x-backend-env: &backend-env
-  PSQL_DB_HOST: ${PSQL_DB_HOST:-v6y-database}
+  # Hardcoded rather than ${PSQL_DB_HOST:-...}: the local .env sets
+  # PSQL_DB_HOST=localhost for `pnpm start:dev:all`, which inside a container
+  # would point each service at its own loopback. On this network the database
+  # is always reachable as v6y-database.
+  PSQL_DB_HOST: v6y-database
   PSQL_DB_NAME: ${PSQL_DB_NAME}
   PSQL_DB_USER: ${PSQL_DB_USER}
   PSQL_DB_PASSWORD: ${PSQL_DB_PASSWORD}
@@ -75,6 +79,17 @@ services:
       target: migrate
     environment:
       DATABASE_URL: postgresql://${PSQL_DB_USER}:${PSQL_DB_PASSWORD}@v6y-database:5432/${PSQL_DB_NAME}
+      # Consumed by db:seed, run as part of this job, to create the initial account.
+      SUPERADMIN_USERNAME: ${SUPERADMIN_USERNAME}
+      SUPERADMIN_EMAIL: ${SUPERADMIN_EMAIL}
+      SUPERADMIN_PASSWORD: ${SUPERADMIN_PASSWORD}
+    # The image's default CMD only migrates and generates the client (kept
+    # seed-free so the same image doesn't seed production). Locally we also want
+    # the reference data and the superadmin account, so append db:seed here.
+    command:
+      - sh
+      - -c
+      - pnpm --filter @v6y/core-logic db:migrate:deploy && pnpm --filter @v6y/core-logic db:generate && pnpm --filter @v6y/core-logic db:seed
     depends_on:
       v6y-database:
         condition: service_healthy
@@ -96,7 +111,7 @@ services:
       V6Y_MAIN_API_PATH: ${V6Y_MAIN_API_PATH}
       V6Y_MAIN_ANALYZER_TRIGGER_API_PATH: http://v6y-bfb-main-analyzer:4002/v6y/bfb-main/trigger-application-analysis.json
       V6Y_MAIN_ANALYZER_SCHEDULE_API_PATH: http://v6y-bfb-main-analyzer:4002/v6y/bfb-main/schedule-application-analysis.json
-      V6Y_INTERNAL_API_SECRET: ${V6Y_INTERNAL_API_SECRET}
+      V6Y_INTERNAL_API_SECRET: ${V6Y_INTERNAL_API_SECRET:-}
     depends_on:
       v6y-migrate:
         condition: service_completed_successfully
@@ -121,7 +136,7 @@ services:
       V6Y_DEVOPS_API_PATH: ${V6Y_DEVOPS_API_PATH}
       V6Y_DEVOPS_API_PORT: ${V6Y_DEVOPS_API_PORT:-4005}
       V6Y_AUDIT_SCHEDULE_TIMEZONE: ${V6Y_AUDIT_SCHEDULE_TIMEZONE:-UTC}
-      V6Y_INTERNAL_API_SECRET: ${V6Y_INTERNAL_API_SECRET}
+      V6Y_INTERNAL_API_SECRET: ${V6Y_INTERNAL_API_SECRET:-}
     depends_on:
       v6y-migrate:
         condition: service_completed_successfully

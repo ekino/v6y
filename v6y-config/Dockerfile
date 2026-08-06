@@ -44,6 +44,11 @@ ENV npm_config_verify_deps_before_run=false \
 # by a manifest or lockfile change, never by a source edit.
 FROM pnpm-base AS manifests
 COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
+# The root postinstall runs scripts/postinstall-prisma-generate.js during every
+# pnpm install below. It has to exist before that install or node aborts the
+# build with MODULE_NOT_FOUND; its own schema guard then makes it a no-op here
+# because the Prisma schema isn't copied in until the source stage.
+COPY scripts ./scripts
 COPY v6y-apps/bff/package.json                  v6y-apps/bff/
 COPY v6y-apps/bfb-main-analyzer/package.json    v6y-apps/bfb-main-analyzer/
 COPY v6y-apps/bfb-static-auditor/package.json   v6y-apps/bfb-static-auditor/
@@ -231,10 +236,16 @@ RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
 # ----------------------------------------------------------------- migrate
 # Restarts from pnpm-base rather than inheriting migrate-deps, so the compiler
 # toolchain needed to build bcrypt during the install stays out of the image.
+#
+# Applies pending migrations and (re)generates the Prisma client against the
+# now-current schema. Seeding is deliberately NOT part of the default CMD: this
+# same image runs in production via docker-compose.deploy.yml, where db:seed
+# would inject the demo applications and the hardcoded local accounts. The local
+# docker-compose.yml appends db:seed through a `command:` override instead.
 FROM pnpm-base AS migrate
 COPY --from=migrate-deps --chown=node:node /app /app
 COPY --chown=node:node v6y-libs/core-logic/prisma           v6y-libs/core-logic/prisma
 COPY --chown=node:node v6y-libs/core-logic/prisma.config.ts v6y-libs/core-logic/
 COPY --chown=node:node v6y-libs/core-logic/src              v6y-libs/core-logic/src
 USER node
-CMD ["pnpm", "--filter", "@v6y/core-logic", "db:migrate:deploy"]
+CMD ["sh", "-c", "pnpm --filter @v6y/core-logic db:migrate:deploy && pnpm --filter @v6y/core-logic db:generate"]
