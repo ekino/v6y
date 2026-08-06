@@ -15,6 +15,7 @@ import GetApplicationDetailsInfosByParams from '../api/getApplicationDetailsInfo
 import { useRunApplicationAudit } from '../hooks/useRunApplicationAudit';
 import { RunAuditButton, RunningAuditBanner } from './RunAuditControl';
 import VitalityDetailsPageSkeleton from './VitalityDetailsPageSkeleton';
+import VitalityAiSummaryCard from './ai-summary/VitalityAiSummaryCard';
 import VitalitySummaryCard from './summary-card/VitalitySummaryCard';
 
 const VitalityGeneralInformationView = DynamicLoader(
@@ -102,6 +103,8 @@ const VitalityProjectDetailsView = ({ applicationId }: VitalityProjectDetailsVie
                             onRunAuditClicked={onRunAuditClicked}
                         />
                     </div>
+
+                    <VitalityAiSummaryCard applicationId={targetApplicationId} />
 
                     <VitalityGeneralInformationView appInfos={appInfos} />
 

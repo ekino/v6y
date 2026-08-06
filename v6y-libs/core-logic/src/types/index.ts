@@ -1,4 +1,5 @@
 export * from './AccountType.ts';
+export * from './AiSummaryReportType.ts';
 export * from './ApplicationType.ts';
 export * from './AuditHelpType.ts';
 export * from './AuditType.ts';

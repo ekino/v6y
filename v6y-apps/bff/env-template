@@ -15,3 +15,8 @@ V6Y_MAIN_ANALYZER_TRIGGER_API_PATH=http://localhost:4002/v6y/bfb-main/trigger-ap
 V6Y_MAIN_ANALYZER_SCHEDULE_API_PATH=http://localhost:4002/v6y/bfb-main/schedule-application-analysis.json
 # Must match the main analyzer's V6Y_INTERNAL_API_SECRET when that one is set.
 V6Y_INTERNAL_API_SECRET=
+
+LITELLM_BASE_URL=http://localhost:4000
+LITELLM_API_KEY=x
+LITELLM_MODEL=claude-4-5-haiku-20251001
+LITELLM_TIMEOUT_MS=15000
