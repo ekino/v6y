@@ -211,25 +211,26 @@ describe('VitalityAppDetailsView', () => {
         });
     });
 
-    it('applies correct CSS classes for active and inactive tabs', async () => {
+    it('marks the clicked tab as selected', async () => {
         renderComponent();
 
         await waitFor(() => {
-            const performanceTab = screen.getByText('vitality.appDetailsPage.tabs.performance');
-            const accessibilityTab = screen.getByText('vitality.appDetailsPage.tabs.accessibility');
-
-            expect(performanceTab).toHaveClass('bg-slate-900', 'text-white', 'shadow-sm');
-            expect(accessibilityTab).toHaveClass('text-slate-600');
+            expect(
+                screen.getByRole('tab', { name: 'vitality.appDetailsPage.tabs.performance' }),
+            ).toHaveAttribute('aria-selected', 'true');
         });
 
-        fireEvent.click(screen.getByText('vitality.appDetailsPage.tabs.accessibility'));
+        fireEvent.click(
+            screen.getByRole('tab', { name: 'vitality.appDetailsPage.tabs.accessibility' }),
+        );
 
         await waitFor(() => {
-            const performanceTab = screen.getByText('vitality.appDetailsPage.tabs.performance');
-            const accessibilityTab = screen.getByText('vitality.appDetailsPage.tabs.accessibility');
-
-            expect(accessibilityTab).toHaveClass('bg-slate-900', 'text-white', 'shadow-sm');
-            expect(performanceTab).toHaveClass('text-slate-600');
+            expect(
+                screen.getByRole('tab', { name: 'vitality.appDetailsPage.tabs.accessibility' }),
+            ).toHaveAttribute('aria-selected', 'true');
+            expect(
+                screen.getByRole('tab', { name: 'vitality.appDetailsPage.tabs.performance' }),
+            ).toHaveAttribute('aria-selected', 'false');
         });
     });
 
