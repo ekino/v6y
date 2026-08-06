@@ -101,8 +101,8 @@ describe('AiSummaryUtils', () => {
                 ],
             });
 
-            expect(system).toContain('non-expert, business-oriented audience');
-            expect(system).toContain('plain-language summary');
+            expect(system).toContain('senior software engineer');
+            expect(system).toContain('technical audience');
             expect(system).toContain('Respond in English');
             expect(user).toContain('Vitality');
             expect(user).toContain('A code audit platform');
@@ -144,6 +144,33 @@ describe('AiSummaryUtils', () => {
             expect(user).toContain('no audit data available');
         });
 
+        it('surfaces failing and at-risk audit categories in a dedicated priority section', () => {
+            const { user } = AiSummaryUtils.buildAiSummaryPrompt({
+                application: { name: 'Vitality' },
+                techStack: [],
+                auditHealth: [
+                    {
+                        category: 'performance',
+                        score: 88,
+                        scoreStatus: 'success',
+                        scoreUnit: '/100',
+                    },
+                    { category: 'security', score: 42, scoreStatus: 'error', scoreUnit: '/100' },
+                    {
+                        category: 'maintainability',
+                        score: 60,
+                        scoreStatus: 'warning',
+                        scoreUnit: '/100',
+                    },
+                ],
+            });
+
+            expect(user).toContain('Categories needing attention');
+            expect(user).toContain('security (error): 42/100');
+            expect(user).toContain('maintainability (warning): 60/100');
+            expect(user).not.toContain('performance (success): 88/100');
+        });
+
         it('responds in the requested language, defaulting to English otherwise', () => {
             const { system: englishSystem } = AiSummaryUtils.buildAiSummaryPrompt({
                 application: { name: 'Vitality' },
@@ -171,12 +198,12 @@ describe('AiSummaryUtils', () => {
             expect(bullets).toEqual(['First point', 'Second point']);
         });
 
-        it('trims whitespace, drops empty entries and caps the list at 4 items', () => {
+        it('trims whitespace, drops empty entries and caps the list at 6 items', () => {
             const bullets = AiSummaryUtils.parseAiSummaryBullets(
-                JSON.stringify({ bullets: [' A ', '', 'B', 'C', 'D', 'E'] }),
+                JSON.stringify({ bullets: [' A ', '', 'B', 'C', 'D', 'E', 'F', 'G'] }),
             );
 
-            expect(bullets).toEqual(['A', 'B', 'C', 'D']);
+            expect(bullets).toEqual(['A', 'B', 'C', 'D', 'E', 'F']);
         });
 
         it('falls back to plain-text, newline-separated parsing when the content is not valid JSON', () => {
