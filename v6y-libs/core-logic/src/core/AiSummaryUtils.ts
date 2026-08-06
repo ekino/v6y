@@ -97,7 +97,10 @@ const resolveLanguageName = (language?: string | null): string =>
     LANGUAGE_NAMES[language || ''] || LANGUAGE_NAMES.en;
 
 // Cap on the number of bullet points requested from (and accepted back from) the model.
-const MAX_SUMMARY_BULLETS = 4;
+const MAX_SUMMARY_BULLETS = 6;
+// Floor on the number of bullet points requested, so the review stays substantive
+// rather than collapsing into one or two vague lines.
+const MIN_SUMMARY_BULLETS = 4;
 
 export const AI_SUMMARY_RESPONSE_FORMAT = {
     type: 'json_schema',
@@ -195,9 +198,21 @@ const buildAiSummaryPrompt = ({
         )
         .join('\n');
 
+    // Surface the failing/at-risk categories explicitly so the model leads its
+    // review (and its recommendations) with the areas that actually need work,
+    // instead of treating every audit result as equally important.
+    const priorityAuditLines = auditHealth
+        .filter((audit) => audit.scoreStatus === 'error' || audit.scoreStatus === 'warning')
+        .sort((a, b) => (a.scoreStatus === 'error' ? -1 : 1) - (b.scoreStatus === 'error' ? -1 : 1))
+        .map(
+            (audit) =>
+                `- ${audit.category} (${audit.scoreStatus}): ${audit.score ?? 'n/a'}${audit.scoreUnit ? audit.scoreUnit : ''}`,
+        )
+        .join('\n');
+
     const languageName = resolveLanguageName(language);
 
-    const system = `You are a technical advisor writing for a non-expert, business-oriented audience (e.g. a product owner), based only on the application's name, description, tech stack and latest audit results provided below. Produce a short, plain-language summary of the application's current health. Avoid technical jargon and raw metric or tool names (e.g. say "the code is hard to maintain" rather than naming a specific metric or score). Most bullet points should simply describe the current state in accessible terms; include at most one or two next steps to prioritize, only when the audit health clearly shows a problem, and keep them short and non-technical. Respond in ${languageName}. Limit the answer to at most ${MAX_SUMMARY_BULLETS} short bullet points, each as one plain-text string with no markdown (no "**", "#", leading "-"/"•", etc.). The "Context" section below is the complete set of information available to you: treat it as exhaustive. Never state, imply or hedge that information, data or context is missing, incomplete or insufficient, and never ask for more details - if a particular aspect (e.g. audit results) has no data, simply omit it or note in one short bullet that it has not been evaluated yet, without apologizing. Do not invent information that is not present in the Context section. Also include an overall health "score" from 0 (critical) to 10 (excellent) that is consistent with the bullet points (e.g. do not describe a healthy application and then give it a low score, or vice versa). Respond with ONLY a single valid JSON object of the exact shape {"bullets": string[], "score": number} (${MAX_SUMMARY_BULLETS} bullets max, score between 0 and 10) - no surrounding text, no code fences, no extra keys.`;
+    const system = `You are a senior software engineer writing a concise technical health review of an application for a technical audience (developers and tech leads), based only on the application's name, description, tech stack and latest audit results provided below. Produce a specific, actionable assessment of the codebase's current health. You may and should reference concrete audit categories, their scores and their status (success / warning / error) as well as notable parts of the tech stack. Prioritize: lead with the categories that are failing or at risk (status "error", then "warning", or low scores), state concisely what each result implies for the codebase, and give a concrete, technical next step for each problem area (which category to tackle first and how), ordered from most to least critical. Acknowledge genuinely healthy areas briefly. Every recommendation must be tied to an actual result in the Context - never give generic filler such as "consider scheduling an audit", "monitor regularly" or "establish a baseline". Respond in ${languageName}. Provide between ${MIN_SUMMARY_BULLETS} and ${MAX_SUMMARY_BULLETS} bullet points, each a single plain-text string with no markdown (no "**", "#", leading "-"/"•", etc.); a bullet may be one or two sentences. The "Context" section below is the complete set of information available to you: treat it as exhaustive. Never state, imply or hedge that information, data or context is missing, incomplete or insufficient, and never ask for more details - if a particular aspect (e.g. audit results) has no data, simply omit it or note in one short bullet that it has not been evaluated yet, without apologizing. Do not invent information that is not present in the Context section. Also include an overall health "score" from 0 (critical) to 10 (excellent) that is consistent with the bullet points and with the audit scores (e.g. do not describe failing audits and then give a high score, or vice versa). Respond with ONLY a single valid JSON object of the exact shape {"bullets": string[], "score": number} (${MAX_SUMMARY_BULLETS} bullets max, score between 0 and 10) - no surrounding text, no code fences, no extra keys.`;
 
     const applicationLine =
         `Application: ${application?.name || 'unknown'}` +
@@ -211,7 +226,8 @@ const buildAiSummaryPrompt = ({
         `${applicationLine}\n` +
         `Description: ${application?.description || 'n/a'}\n` +
         `Tech stack (${totalDependencyCount} total dependencies):\n${techStackLines || '- no dependency data available'}\n` +
-        `Latest audit results:\n${auditHealthLines || '- no audit data available'}`;
+        `Latest audit results:\n${auditHealthLines || '- no audit data available'}\n` +
+        `Categories needing attention (address these first):\n${priorityAuditLines || '- none: no failing or at-risk audit category'}`;
 
     return { system, user };
 };

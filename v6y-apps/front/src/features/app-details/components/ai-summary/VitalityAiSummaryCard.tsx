@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useTranslationProvider } from '@v6y/ui-kit';
 import { Badge, Button, ReloadIcon, Sparkles } from '@v6y/ui-kit-front';
 
+import { getScoreStatusColor } from '../../../../commons/utils/StatusUtils';
 import { useAiSummaryReport } from '../../hooks/useAiSummaryReport';
 
 interface VitalityAiSummaryCardProps {
@@ -19,10 +20,11 @@ const formatGeneratedAt = (generatedAt: string | null) => {
 };
 
 /**
- * Maps a 0-10 AI health score to a Badge variant: green for a healthy
- * application, orange for a middling one, red when it clearly needs attention.
+ * Maps a 0-10 AI health score to one of the platform's shared status keys
+ * (success / warning / error), so the score pill reuses the exact same tonal
+ * colors as the audit report status pills instead of a louder, off-palette badge.
  */
-const getScoreBadgeVariant = (score: number) => {
+const getScoreStatusKey = (score: number) => {
     if (score >= 7) {
         return 'success';
     }
@@ -39,18 +41,24 @@ const getScoreBadgeVariant = (score: number) => {
  * "**bold**" markdown segments into real bold text instead of showing the
  * literal asterisks.
  */
-const renderSummaryLines = (summary: string) => (
-    <ul className="text-sm text-gray-700 space-y-3" data-testid="ai-summary-card-content">
-        {summary
-            .split('\n')
-            .map((line) => line.trim())
-            .filter((line) => line.length > 0)
-            .map((line, lineIndex) => {
+const renderSummaryLines = (summary: string) => {
+    const lines = summary
+        .split('\n')
+        .map((line) => line.trim())
+        .filter((line) => line.length > 0);
+
+    return (
+        <ul className="text-sm text-gray-700 space-y-3" data-testid="ai-summary-card-content">
+            {lines.map((line, lineIndex) => {
                 const content = line.replace(/^[-•]\s*/, '');
                 return (
-                    <li key={`ai-summary-line-${lineIndex}`} className="flex items-start gap-2.5">
+                    <li
+                        key={`ai-summary-line-${lineIndex}`}
+                        className="flex items-start gap-2.5 animate-fade-in-up"
+                        style={{ '--stagger-delay': `${lineIndex * 70}ms` } as React.CSSProperties}
+                    >
                         <span
-                            className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-400"
+                            className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-linear-to-br from-indigo-500 to-violet-500"
                             aria-hidden="true"
                         />
                         <span className="leading-relaxed">
@@ -67,7 +75,19 @@ const renderSummaryLines = (summary: string) => (
                     </li>
                 );
             })}
-    </ul>
+        </ul>
+    );
+};
+
+/**
+ * Small AI-branded icon chip used in the card header, giving the AI card a
+ * subtle visual identity while staying harmonious with the plain white
+ * sibling cards on the page.
+ */
+const AiIconChip = () => (
+    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-linear-to-br from-indigo-500/10 to-violet-500/10 ring-1 ring-inset ring-indigo-500/20">
+        <Sparkles className="w-4 h-4 text-indigo-600" />
+    </span>
 );
 
 /**
@@ -87,12 +107,18 @@ const VitalityAiSummaryCard = ({ applicationId }: VitalityAiSummaryCardProps) =>
     if (isLoadingSummary) {
         return (
             <div
-                className="bg-white rounded-lg shadow-lg border border-slate-200 p-6 space-y-4 animate-pulse"
+                className="bg-white rounded-lg shadow-lg border border-slate-200 p-6 space-y-4"
                 data-testid="ai-summary-card-loading"
             >
-                <div className="h-6 w-2/3 rounded bg-slate-200" />
-                <div className="h-4 w-full rounded bg-slate-100" />
-                <div className="h-4 w-5/6 rounded bg-slate-100" />
+                <div className="flex items-center gap-3">
+                    <AiIconChip />
+                    <div className="h-5 w-1/2 rounded skeleton-shimmer" />
+                </div>
+                <div className="space-y-3">
+                    <div className="h-3 w-full rounded-full skeleton-shimmer" />
+                    <div className="h-3 w-11/12 rounded-full skeleton-shimmer" />
+                    <div className="h-3 w-4/5 rounded-full skeleton-shimmer" />
+                </div>
             </div>
         );
     }
@@ -104,14 +130,15 @@ const VitalityAiSummaryCard = ({ applicationId }: VitalityAiSummaryCardProps) =>
         >
             <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-3">
-                    <Sparkles className="w-5 h-5 text-slate-900" />
+                    <AiIconChip />
                     <h2 className="text-lg font-bold text-gray-900">
                         {translate('vitality.appDetailsPage.aiSummaryCard.title')}
                     </h2>
                 </div>
                 {!loadError && !isGenerating && typeof report?.score === 'number' && (
                     <Badge
-                        variant={getScoreBadgeVariant(report.score)}
+                        variant="outline"
+                        className={getScoreStatusColor(getScoreStatusKey(report.score))}
                         data-testid="ai-summary-card-score"
                     >
                         {report.score}/10
@@ -133,12 +160,19 @@ const VitalityAiSummaryCard = ({ applicationId }: VitalityAiSummaryCardProps) =>
             )}
 
             {!loadError && isGenerating && (
-                <div className="space-y-3 animate-pulse" data-testid="ai-summary-card-generating">
-                    <div className="h-3 w-full rounded bg-slate-100" />
-                    <div className="h-3 w-11/12 rounded bg-slate-100" />
-                    <div className="h-3 w-4/5 rounded bg-slate-100" />
-                    <div className="h-3 w-full rounded bg-slate-100" />
-                    <div className="h-3 w-3/5 rounded bg-slate-100" />
+                <div className="space-y-4" data-testid="ai-summary-card-generating">
+                    <div className="flex items-center gap-2 text-sm font-medium text-indigo-600 animate-pulse">
+                        <span>
+                            {translate('vitality.appDetailsPage.aiSummaryCard.generatingStatus')}
+                        </span>
+                    </div>
+                    <div className="space-y-3">
+                        <div className="h-3 w-full rounded-full skeleton-shimmer" />
+                        <div className="h-3 w-11/12 rounded-full skeleton-shimmer" />
+                        <div className="h-3 w-4/5 rounded-full skeleton-shimmer" />
+                        <div className="h-3 w-full rounded-full skeleton-shimmer" />
+                        <div className="h-3 w-3/5 rounded-full skeleton-shimmer" />
+                    </div>
                 </div>
             )}
 

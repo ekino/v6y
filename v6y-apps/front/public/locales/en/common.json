@@ -59,6 +59,7 @@
         "generateButton": "Generate AI synthesis",
         "regenerateButton": "Regenerate",
         "generatingButton": "Generating...",
+        "generatingStatus": "Analyzing audit results and tech stack...",
         "toasts": {
           "generated": "AI synthesis generated successfully.",
           "failed": "Unable to generate the AI synthesis.",

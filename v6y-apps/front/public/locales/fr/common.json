@@ -59,6 +59,7 @@
         "generateButton": "Générer la synthèse IA",
         "regenerateButton": "Régénérer",
         "generatingButton": "Génération...",
+        "generatingStatus": "Analyse des résultats d'audit et de la stack technique...",
         "toasts": {
           "generated": "Synthèse IA générée avec succès.",
           "failed": "Impossible de générer la synthèse IA.",
