@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import { CircleX } from '@v6y/ui-kit-front';
+
 import VitalityNavigationPaths from '../commons/config/VitalityNavigationPaths';
 import { getServerTranslations } from '../infrastructure/translation/serverTranslation';
 
@@ -17,14 +19,7 @@ export default async function NotFound() {
         <div className="mx-auto w-full max-w-3xl px-2 py-6 md:py-10">
             <section className="rounded-2xl border border-gray-200 bg-white p-6 md:p-10">
                 <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-lg border border-gray-200 bg-gray-100 text-gray-600">
-                    <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="1.8"
-                            d="M9.5 9.5l5 5m0-5l-5 5M12 21a9 9 0 100-18 9 9 0 000 18z"
-                        />
-                    </svg>
+                    <CircleX className="h-6 w-6" strokeWidth={1.8} aria-hidden="true" />
                 </div>
 
                 <p className="text-sm font-medium uppercase tracking-wide text-gray-500">{badge}</p>
