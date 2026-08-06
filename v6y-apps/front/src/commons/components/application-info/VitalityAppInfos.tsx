@@ -6,6 +6,7 @@ import {
     CommitIcon,
     GlobeIcon,
     StarIcon,
+    cn,
     useTranslationProvider,
 } from '@v6y/ui-kit-front';
 
@@ -27,14 +28,15 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
 
     return (
         <li
-            className={`w-full rounded-lg border border-slate-200 bg-white shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg ${
-                isDashboard ? 'px-4 py-4' : 'px-5 py-5'
-            }`}
+            className={cn(
+                'w-full rounded-lg border border-slate-200 bg-white shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg',
+                isDashboard ? 'px-4 py-4' : 'px-5 py-5',
+            )}
             style={style}
         >
-            <div className={`flex flex-col ${isDashboard ? 'gap-4' : 'gap-5'}`}>
+            <div className={cn('flex flex-col', isDashboard ? 'gap-4' : 'gap-5')}>
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                    <div className={`min-w-0 flex-1 ${isDashboard ? 'space-y-2' : 'space-y-3'}`}>
+                    <div className={cn('min-w-0 flex-1', isDashboard ? 'space-y-2' : 'space-y-3')}>
                         <div className="flex items-center gap-3">
                             {!isDashboard && (
                                 <span
@@ -123,7 +125,10 @@ const VitalityAppInfos = ({ app, source, canOpenDetails = true, style }: Vitalit
                 </div>
 
                 <div
-                    className={`grid border-t border-slate-200 md:grid-cols-[minmax(0,1fr)_auto] md:items-start ${isDashboard ? 'gap-3 pt-3' : 'gap-4 pt-4'}`}
+                    className={cn(
+                        'grid border-t border-slate-200 md:grid-cols-[minmax(0,1fr)_auto] md:items-start',
+                        isDashboard ? 'gap-3 pt-3' : 'gap-4 pt-4',
+                    )}
                 >
                     <div className="space-y-3">
                         <div className="flex flex-wrap gap-2">
