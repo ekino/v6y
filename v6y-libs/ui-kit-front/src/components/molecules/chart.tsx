@@ -1,7 +1,12 @@
+'use client';
+
 import * as React from 'react';
 import * as RechartsPrimitive from 'recharts';
+import type { TooltipValueType } from 'recharts';
 
 import { cn } from '../../lib/utils';
+
+type TooltipNameType = number | string;
 
 type ChartConfig = Record<
     string,
@@ -49,7 +54,9 @@ const ChartContainer = React.forwardRef<
                 {...props}
             >
                 <ChartStyle id={chartId} config={config} />
-                <RechartsPrimitive.ResponsiveContainer>
+                <RechartsPrimitive.ResponsiveContainer
+                    initialDimension={{ width: 320, height: 200 }}
+                >
                     {children}
                 </RechartsPrimitive.ResponsiveContainer>
             </div>
@@ -87,7 +94,10 @@ type ChartTooltipContentProps = React.ComponentProps<typeof RechartsPrimitive.To
         indicator?: 'line' | 'dot' | 'dashed';
         nameKey?: string;
         labelKey?: string;
-    };
+    } & Omit<
+        RechartsPrimitive.DefaultTooltipContentProps<TooltipValueType, TooltipNameType>,
+        'accessibilityLayer'
+    >;
 
 const ChartTooltipContent = React.forwardRef<HTMLDivElement, ChartTooltipContentProps>(
     (
@@ -159,7 +169,7 @@ const ChartTooltipContent = React.forwardRef<HTMLDivElement, ChartTooltipContent
 
                         return (
                             <div
-                                key={item.dataKey ?? index}
+                                key={index}
                                 className={cn('flex w-full flex-wrap items-stretch gap-2')}
                             >
                                 {!hideIndicator && (
