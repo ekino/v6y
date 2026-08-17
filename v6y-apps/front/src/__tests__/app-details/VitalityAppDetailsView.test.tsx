@@ -318,11 +318,7 @@ describe('VitalityAppDetailsView', () => {
     });
 
     it('hides the AI summary card when viewing a specific audit run (report details)', async () => {
-        render(
-            <TestWrapper>
-                <VitalityAppDetailsView applicationId={123} auditRunId={99} />
-            </TestWrapper>,
-        );
+        renderComponent({ applicationId: 123, auditRunId: 99 });
 
         await waitFor(() => {
             expect(screen.getByTestId('summary-card')).toBeInTheDocument();
