@@ -61,6 +61,12 @@ i18next
         ),
     )
     .init({
+        // Pin the initial language to the fallback so i18next skips
+        // LanguageDetector's synchronous detect() during init. Otherwise the
+        // client resolves the cached locale (e.g. 'fr') before hydration while
+        // the server renders 'en', causing a hydration mismatch. The real locale
+        // is applied post-mount via applyDetectedLocale().
+        lng: 'en',
         supportedLngs: ['en', 'fr'],
         fallbackLng: 'en',
         detection: DETECTION_OPTIONS,
@@ -75,3 +81,18 @@ i18next
             useSuspense: false,
         },
     });
+
+/**
+ * Applies the browser-detected locale. Must be called from a client-only
+ * useEffect (post-mount) so the switch happens as a normal re-render rather
+ * than during hydration.
+ */
+export const applyDetectedLocale = () => {
+    const detected = i18next.services.languageDetector?.detect();
+    const nextLng = Array.isArray(detected) ? detected[0] : detected;
+    if (nextLng && nextLng !== i18next.language) {
+        i18next.changeLanguage(nextLng);
+    }
+};
+
+export default i18next;
