@@ -14,6 +14,7 @@ import {
 } from '../types/RepositoryType.ts';
 import { ApplicationZipConfigOptions, DownloadZipOptions } from '../types/ZipType.ts';
 import DateUtils from '../utils/DateUtils.ts';
+import { appendQueryParams } from '../utils/UrlUtils.ts';
 
 /**
  * Builds the configuration for the Github API.
@@ -240,10 +241,10 @@ const getRepositoryMergeRequests = async ({
         );
 
         if (dateStart && dateEnd) {
-            mergeRequestsUrl += `?created_after=${DateUtils.formatDateToString(
-                dateStart,
-                'YYYY-MM-DD',
-            )}&created_before=${DateUtils.formatDateToString(dateEnd, 'YYYY-MM-DD')}`;
+            mergeRequestsUrl = appendQueryParams(mergeRequestsUrl, {
+                created_after: DateUtils.formatDateToString(dateStart, 'YYYY-MM-DD'),
+                created_before: DateUtils.formatDateToString(dateEnd, 'YYYY-MM-DD'),
+            });
         }
 
         AppLogger.info(
@@ -283,15 +284,18 @@ const getRepositoryDeployments = async ({
 }: getRepositoryDeploymentsOptions): Promise<DeployementType[]> => {
     try {
         const queryOptions = buildQueryOptions({ organization, type });
-        let deploymentsUrl =
-            (queryOptions as GitlabConfigType).urls.repositoryDeploymentsUrl(repositoryId) +
-            '?status=success';
+        let deploymentsUrl = appendQueryParams(
+            (queryOptions as GitlabConfigType).urls.repositoryDeploymentsUrl(repositoryId),
+            { status: 'success' },
+        );
 
         if (dateStart && dateEnd) {
-            deploymentsUrl += `&finished_after=${DateUtils.formatDateToString(
-                dateStart,
-                'YYYY-MM-DD',
-            )}&finished_before=${DateUtils.formatDateToString(dateEnd, 'YYYY-MM-DD')}&order_by=finished_at&sort=desc`;
+            deploymentsUrl = appendQueryParams(deploymentsUrl, {
+                finished_after: DateUtils.formatDateToString(dateStart, 'YYYY-MM-DD'),
+                finished_before: DateUtils.formatDateToString(dateEnd, 'YYYY-MM-DD'),
+                order_by: 'finished_at',
+                sort: 'desc',
+            });
         }
 
         AppLogger.info(
@@ -351,7 +355,6 @@ const prepareGitBranchZipConfig = ({
         const zipFileName = `${projectName}-${normalizedBranchName}.zip`;
         AppLogger.info(`[RepositoryApi - prepareGitZipConfig] zipFileName:  ${zipFileName}`);
 
-        const encodedBranchName = encodeURIComponent(branchName);
         const isGithubRepository = repositoryWebUrl.includes('github.com');
         const repositoryOrigin = new URL(repositoryWebUrl).origin;
         const repositoryPath = new URL(repositoryWebUrl).pathname.replace(/^\//, '');
@@ -367,7 +370,10 @@ const prepareGitBranchZipConfig = ({
 
         const zipSourceUrl = isGithubRepository
             ? `${repositoryWebUrl}/archive/refs/heads/${encodedBranchNamePath}.zip`
-            : `${repositoryOrigin}/api/v4/projects/${gitlabProjectRef}/repository/archive.zip?sha=${encodedBranchName}`;
+            : appendQueryParams(
+                  `${repositoryOrigin}/api/v4/projects/${gitlabProjectRef}/repository/archive.zip`,
+                  { sha: branchName },
+              );
 
         AppLogger.info(`[RepositoryApi - prepareGitZipConfig] zipSourceUrl:  ${zipSourceUrl}`);
 

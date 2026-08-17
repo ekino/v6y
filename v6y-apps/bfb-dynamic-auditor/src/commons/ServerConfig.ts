@@ -1,8 +1,13 @@
-import { ServerEnvConfigType, getServerConfig, normalizeBasePath } from '@v6y/core-logic';
+import { ServerEnvConfigType, getServerConfig, joinUrlPath } from '@v6y/core-logic';
 
-const V6Y_API_BASE_PATH = normalizeBasePath(process.env.V6Y_DYNAMIC_ANALYZER_API_PATH);
-const V6Y_DYNAMIC_MONITORING_PATH = `${V6Y_API_BASE_PATH}monitoring`;
-const V6Y_DYNAMIC_AUDITOR_API_PATH = `${V6Y_API_BASE_PATH}auditor`;
+const V6Y_DYNAMIC_MONITORING_PATH = joinUrlPath(
+    process.env.V6Y_DYNAMIC_ANALYZER_API_PATH,
+    'monitoring',
+);
+const V6Y_DYNAMIC_AUDITOR_API_PATH = joinUrlPath(
+    process.env.V6Y_DYNAMIC_ANALYZER_API_PATH,
+    'auditor',
+);
 
 /**
  * Server configuration for different environments.
