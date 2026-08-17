@@ -164,7 +164,7 @@ catalogs:
     'rxjs': '=7.8.2'
     'semantic-ui-react': '=2.1.5'
     'semver': '=7.6.3'
-    'shadcn': '=2.6.1'
+    'shadcn': '=4.16.2'
     'sonner': '=2.0.5'
     'superagent': '=10.1.1'
     'tailwind-merge': '=3.5.0'
