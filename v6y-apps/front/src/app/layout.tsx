@@ -5,7 +5,7 @@ import { LoaderView } from '@v6y/ui-kit';
 
 import VitalityPageLayout from '../commons/components/layout/VitalityPageLayout';
 import { AppProvider } from '../infrastructure/providers/AppProvider';
-import { getServerTranslation } from '../infrastructure/translation/serverTranslation';
+import { getServerTranslations } from '../infrastructure/translation/serverTranslation';
 import '../styles.css';
 
 const inter = Inter({
@@ -15,8 +15,10 @@ const inter = Inter({
 });
 
 export async function generateMetadata() {
-    const title = await getServerTranslation('vitality.metadata.title');
-    const description = await getServerTranslation('vitality.metadata.description');
+    const { title, description } = await getServerTranslations({
+        title: 'vitality.metadata.title',
+        description: 'vitality.metadata.description',
+    });
 
     return {
         icons: {

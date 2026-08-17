@@ -41,28 +41,31 @@ export const buildBreadCrumbItems = ({
     const isProjectDetailsPage = /^\/app\/\d+$/.test(currentPage);
     const reportDetailsMatch = currentPage.match(/^\/app\/(\d+)\/reports\/(\d+)$/);
 
-    const sourceItem = {
-        title: Matcher()
-            .on(
-                () => lastPage === 'stats',
-                () => translate('vitality.appStatsPage.shortTitle'),
-            )
-            .on(
-                () => lastPage === 'search',
-                () => translate('vitality.searchPage.shortTitle'),
-            )
-            .otherwise(() => translate('vitality.appListPage.shortTitle')),
-        href: Matcher()
-            .on(
-                () => lastPage === 'stats',
-                () => withSourceParams(VitalityNavigationPaths.APPS_STATS),
-            )
-            .on(
-                () => lastPage === 'search',
-                () => withSourceParams(VitalityNavigationPaths.SEARCH),
-            )
-            .otherwise(() => withSourceParams(VitalityNavigationPaths.APP_LIST)),
-    };
+    const sourceItem =
+        lastPage === 'dashboard'
+            ? undefined
+            : {
+                  title: Matcher()
+                      .on(
+                          () => lastPage === 'stats',
+                          () => translate('vitality.appStatsPage.shortTitle'),
+                      )
+                      .on(
+                          () => lastPage === 'search',
+                          () => translate('vitality.searchPage.shortTitle'),
+                      )
+                      .otherwise(() => translate('vitality.appListPage.shortTitle')),
+                  href: Matcher()
+                      .on(
+                          () => lastPage === 'stats',
+                          () => withSourceParams(VitalityNavigationPaths.APPS_STATS),
+                      )
+                      .on(
+                          () => lastPage === 'search',
+                          () => withSourceParams(VitalityNavigationPaths.SEARCH),
+                      )
+                      .otherwise(() => withSourceParams(VitalityNavigationPaths.APP_LIST)),
+              };
 
     if (isProjectDetailsPage) {
         return [

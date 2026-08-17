@@ -138,18 +138,18 @@ const getApplicationAuditRunsByParams = async (
  */
 const getAllAuditRuns = async (
     _: unknown,
-    args: { limit?: number; offset?: number },
+    args: { limit?: number; offset?: number; since?: string },
     { user }: { user: AccountType },
 ) => {
     try {
-        const { limit, offset } = args || {};
+        const { limit, offset, since } = args || {};
 
         AppLogger.info(
-            `[ApplicationQueries - getAllAuditRuns] Received args: limit=${limit}, offset=${offset}`,
+            `[ApplicationQueries - getAllAuditRuns] Received args: limit=${limit}, offset=${offset}, since=${since}`,
         );
 
-        // Get all audit runs
-        const allAuditRuns = await AuditRunProvider.getAllAuditRuns(limit, offset);
+        // Get all audit runs (bounded by `since` so this never scans the whole table)
+        const allAuditRuns = await AuditRunProvider.getAllAuditRuns(limit, offset, since);
 
         // If user is SUPERADMIN or ADMIN, return all audit runs
         if (user.role === 'ADMIN' || user.role === 'SUPERADMIN') {

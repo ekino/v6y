@@ -10,7 +10,18 @@
       "menuTitle": "Choisissez une option pour afficher les applications pertinentes",
       "pageTitle": "Vitality : Maintenir votre base de code saine et performante",
       "shortTitle": "tableau de bord",
-      "searchByProjectName": "Rechercher par nom de projet"
+      "searchByProjectName": "Rechercher par nom de projet",
+      "reportsTrendTitle": "Activité des audits dans le temps",
+      "reportsTrendSubtitleDaily": "Tendance quotidienne des rapports d'audit sur les applications suivies",
+      "reportsTrendSubtitleWeekly": "Tendance hebdomadaire des rapports d'audit sur les applications suivies",
+      "reportsTrendSubtitleMonthly": "Tendance mensuelle des rapports d'audit sur les applications suivies",
+      "reportsTrendLegendStatic": "Analyse statique",
+      "reportsTrendLegendDynamic": "Analyse dynamique",
+      "reportsTrendLegendDevops": "Contrôles DevOps",
+      "reportsTrendLegendOther": "Autres contrôles",
+      "reportsTrendEmptyTitle": "Aucun rapport d'audit pour le moment",
+      "reportsTrendEmptyDescription": "Dès que vos applications seront analysées, ce graphique montrera l'évolution de l'activité d'audit. Explorez vos applications pour déclencher les premiers audits.",
+      "reportsTrendEmptyCta": "Parcourir les applications"
     },
     "appListPage": {
       "loadMore": "Cliquez pour charger plus d'applications",
@@ -21,6 +32,11 @@
       "exportLabel": "Exporter les applications",
       "addApplicationLabel": "Ajouter une application",
       "addApplicationDescription": "Créer et configurer une nouvelle application depuis le back-office.",
+      "headerTitle": "Projets sous surveillance",
+      "headerDescription": "Comparez les dépôts, ouvrez rapidement le bon rapport et exportez la vue actuelle si nécessaire.",
+      "cardDescription": "Aperçu de la santé du dépôt avec accès direct aux rapports et aux liens suivis.",
+      "resultsOne": "résultat",
+      "resultsOther": "résultats",
       "contactEmail": " Contacter l'équipe",
       "nbBranches": "Nombre de branches ouvertes : ",
       "empty": "Aucune application trouvée",
@@ -48,6 +64,10 @@
         "release": "release"
       },
       "exportButton": "Exporter le reporting",
+      "auditControl": {
+        "title": "Contrôle de l'audit",
+        "description": "Lancez un nouvel audit dès que vous voulez un état à jour de la santé du projet."
+      },
       "runAuditButton": "Lancer l'audit",
       "runAuditButtonLoading": "En cours...",
       "auditToasts": {
@@ -58,6 +78,12 @@
         "stillRunning": "L'audit prend plus de temps que prévu. Revenez bientôt.",
         "failed": "Impossible de lancer l'audit.",
         "invalidApplication": "Identifiant d'application invalide."
+      },
+      "invalidApplicationIdentifier": "Identifiant d'application invalide",
+      "auditIntroTitle": "Parcourez les branches, les catégories de rapports et l'historique des audits.",
+      "actions": {
+        "reload": "Rafraîchir",
+        "globe": "Ouvrir le lien"
       },
       "loadingStates": {
         "auditReports": "Chargement des rapports d'audit...",
@@ -105,8 +131,16 @@
         "noIndicators": "Aucun indicateur de qualité disponible pour cette application."
       },
       "summaryCard": {
+        "title": "Résumé de santé de l'application",
+        "description": "Suivez les branches, la couverture des rapports et les canaux rattachés à ce projet avant d'entrer dans les détails par catégorie.",
         "lastAnalyze": "Dernière analyse {date}",
+        "notAnalyzedYet": "Pas encore analysée",
         "branchesLabel": "Branches Git : {count}",
+        "branchesTracked": "Branches suivies",
+        "linkedSystems": "Systèmes liés",
+        "ownerChannel": "Canal propriétaire",
+        "available": "Disponible",
+        "missing": "Manquant",
         "status": {
           "success": "succès",
           "warning": "avertissement",
@@ -120,6 +154,20 @@
         "repository": "Dépôt"
       },
       "auditReports": {
+        "summary": {
+          "total": "Contrôles totaux",
+          "passed": "Réussis",
+          "warnings": "Alertes",
+          "issues": "Problèmes",
+          "info": "Info",
+          "chartLabels": {
+            "success": "Réussis",
+            "warning": "Alertes",
+            "error": "Problèmes",
+            "info": "Info",
+            "unknown": "Inconnu"
+          }
+        },
         "categories": {
           "static": "Analyse Statique",
           "dynamic": "Analyse Dynamique",
@@ -140,6 +188,30 @@
           "greenIndex": "Analyse de l'impact écologique, certification hébergement vert, score Ecoindex et métriques d'efficacité énergétique",
           "dora": "Fréquence de déploiement, délai de livraison, taux d'échec des changements, temps moyen de restauration",
           "general": "Résultats d'analyse"
+        },
+        "visualization": {
+          "overview": "Vue d'ensemble de la santé du rapport",
+          "healthy": "Sain",
+          "warning": "Alerte",
+          "critical": "Critique",
+          "info": "Info",
+          "attentionNeededLabel": "Action requise",
+          "statusByFamilyTitle": "Statut par famille de métriques",
+          "statusByFamilyDescription": "Le graphique radar montre les familles de contrôles qui se dégradent.",
+          "statusBreakdownTitle": "Répartition des statuts",
+          "statusBreakdownDescription": "Part des contrôles sains, en alerte ou critiques.",
+          "priorityFindingsTitle": "Constats prioritaires",
+          "priorityFindingsDescription": "Traitez ces points en premier pour réduire rapidement le risque projet.",
+          "noIssuesMessage": "Aucune alerte ni anomalie critique détectée dans ce rapport.",
+          "noReportsMessage": "Aucun rapport disponible dans cette catégorie.",
+          "locationLabel": "Emplacement",
+          "impactedChecksLabel": "Contrôles impactés",
+          "detailsTitle": "Détails du rapport",
+          "detailsDescription": "Chaque contrôle de cette catégorie, avec son emplacement et son score.",
+          "categoryLabel": "Catégorie",
+          "subcategoryLabel": "Sous-catégorie",
+          "scoreLabel": "Score",
+          "statusLabel": "Statut"
         },
         "doraMetrics": {
           "DEPLOYMENT_FREQUENCY": "Fréquence de déploiement",
@@ -189,11 +261,26 @@
           "hotspotsDesc": "Examiner les points sensibles en matière de sécurité qui méritent un examen manuel approfondi",
           "measuresDesc": "Analyser les métriques détaillées : couverture de code, complexité, duplication de code et autres indicateurs"
         },
-        "noData": "Aucune donnée d'audit SonarQube disponible pour l'instant. Lancez un audit pour alimenter cette section."
+        "noData": "Aucune donnée d'audit SonarQube disponible pour l'instant. Lancez un audit pour alimenter cette section.",
+        "repartitionTitle": "Répartition des rapports",
+        "repartitionDescription": "Vue radar de la couverture, la duplication, la fiabilité, la sécurité et la maintenabilité.",
+        "repartitionUnavailable": "Pas assez de métriques notées pour tracer un radar de répartition."
       },
       "dependencies": {
         "title": "Dépendances",
         "description": "Dépendances avec des problèmes de sécurité ou de compatibilité",
+        "summary": {
+          "total": "Dépendances totales",
+          "upToDate": "À jour",
+          "warnings": "Alertes",
+          "critical": "Critiques",
+          "chartLabels": {
+            "success": "À jour",
+            "warning": "Alertes",
+            "error": "Critiques",
+            "unknown": "Inconnu"
+          }
+        },
         "table": {
           "header": "Problèmes de Sécurité et Compatibilité",
           "columns": {
@@ -251,7 +338,9 @@
     },
     "faqPage": {
       "pageTitle": "Questions fréquentes",
-      "shortTitle": "faq"
+      "shortTitle": "faq",
+      "emptyTitle": "Le contenu de la FAQ est indisponible pour le moment.",
+      "emptyDescription": "Reconnectez la source de données ou contactez l'équipe pour une assistance immédiate."
     },
     "notificationsPage": {
       "pageTitle": "Notifications",
@@ -302,6 +391,13 @@
           "default": "Envoyer le message"
         }
       }
+    },
+    "notFound": {
+      "badge": "Erreur 404",
+      "title": "Cette page est introuvable",
+      "description": "La ressource demandée est indisponible ou le lien est obsolète. Revenez au tableau de bord ou ouvrez la liste des applications.",
+      "backToDashboard": "Retourner au tableau de bord",
+      "openApplications": "Ouvrir la liste des applications"
     },
     "metadata": {
       "title": "Vitality | Surveiller et Optimiser la Santé de Votre Base de Code",

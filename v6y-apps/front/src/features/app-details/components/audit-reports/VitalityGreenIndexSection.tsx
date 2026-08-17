@@ -56,7 +56,7 @@ const parseExtraInfos = <T,>(extraInfos?: string): T | null => {
 const GRADE_COLORS: Record<string, string> = {
     A: 'bg-emerald-500 text-white',
     B: 'bg-green-400 text-white',
-    C: 'bg-yellow-400 text-gray-900',
+    C: 'bg-yellow-400 text-yellow-950',
     D: 'bg-orange-400 text-white',
     E: 'bg-orange-500 text-white',
     F: 'bg-red-500 text-white',
@@ -230,7 +230,7 @@ const EcoindexCard = ({ report }: { report: AuditType }) => {
                     {metrics.map(({ label, value, icon }) => (
                         <div
                             key={label}
-                            className="bg-white/50 rounded-md p-2 text-center border border-white/30"
+                            className="bg-white/50 rounded-lg p-2 text-center border border-white/30"
                         >
                             {React.createElement(icon, {
                                 className: 'w-4 h-4 mx-auto text-gray-600',

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { ApplicationType } from '@v6y/core-logic/src/types';
-import { Spinner, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit-front';
+import { Spinner, cn, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit-front';
 
 import VitalityAppInfos from '../../../commons/components/application-info/VitalityAppInfos';
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
@@ -22,6 +22,7 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
     const { translate } = useTranslationProvider();
     const { getUrlParams } = useNavigationAdapter();
     const [, searchText] = getUrlParams(['keywords', 'searchText']);
+    const isDashboard = source === 'dashboard';
 
     const { data: dataAppList, isLoading: isAppListLoading } = useClientQuery<{
         getApplicationListByPageAndParams: ApplicationType[];
@@ -54,10 +55,11 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
     }, [searchText]);
 
     return (
-        <div className="w-full flex flex-col items-center gap-6">
+        <div className={cn('w-full flex flex-col items-center', isDashboard ? 'gap-5' : 'gap-6')}>
             <VitalityAppListHeader
                 appsTotal={totalCount}
                 addApplicationUrl={VitalityApiConfig.VITALITY_FRONT_BO_URL}
+                source={source}
             />
 
             {isAppListLoading && !dataAppList ? (
@@ -70,7 +72,7 @@ const VitalityAppList: React.FC<{ source?: string }> = ({ source }) => {
                 </div>
             ) : (
                 <div className="w-full">
-                    <ul className="space-y-4">
+                    <ul className={cn(isDashboard ? 'space-y-3' : 'space-y-4')}>
                         {paginatedAppList.map((app, index) => (
                             <VitalityAppInfos
                                 key={app._id}

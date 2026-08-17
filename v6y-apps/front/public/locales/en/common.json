@@ -10,7 +10,18 @@
       "menuTitle": "Choose an option to view the relevant applications",
       "pageTitle": "Vitality: Keeping Your Codebase Healthy and High-Performing",
       "shortTitle": "dashboard",
-      "searchByProjectName": "Search by project name"
+      "searchByProjectName": "Search by project name",
+      "reportsTrendTitle": "Audit activity over time",
+      "reportsTrendSubtitleDaily": "Daily trend of audit reports across monitored applications",
+      "reportsTrendSubtitleWeekly": "Weekly trend of audit reports across monitored applications",
+      "reportsTrendSubtitleMonthly": "Monthly trend of audit reports across monitored applications",
+      "reportsTrendLegendStatic": "Static analysis",
+      "reportsTrendLegendDynamic": "Dynamic analysis",
+      "reportsTrendLegendDevops": "DevOps checks",
+      "reportsTrendLegendOther": "Other checks",
+      "reportsTrendEmptyTitle": "No audit reports yet",
+      "reportsTrendEmptyDescription": "Once your applications are analyzed, this chart will show how audit activity evolves over time. Explore your applications to trigger the first audits.",
+      "reportsTrendEmptyCta": "Browse applications"
     },
     "appListPage": {
       "loadMore": "Click to load more applications",
@@ -20,6 +31,11 @@
       "exportLabel": "Export Applications",
       "addApplicationLabel": "Add Application",
       "addApplicationDescription": "Create and configure a new application from back-office.",
+      "headerTitle": "Projects under watch",
+      "headerDescription": "Compare repositories, open the right report quickly, and export the current view when needed.",
+      "cardDescription": "Repository health snapshot with direct access to reporting and tracked links.",
+      "resultsOne": "result",
+      "resultsOther": "results",
       "contactEmail": "Contact The Team",
       "nbBranches": "Number of opened branches: ",
       "shortTitle": "applications",
@@ -48,6 +64,10 @@
         "release": "release"
       },
       "exportButton": "Export Reporting",
+      "auditControl": {
+        "title": "Audit control",
+        "description": "Trigger a new run whenever you want a fresh read on this project's health."
+      },
       "runAuditButton": "Run Audit",
       "runAuditButtonLoading": "Running...",
       "auditToasts": {
@@ -58,6 +78,12 @@
         "stillRunning": "Audit is taking longer than expected. Check back soon.",
         "failed": "Unable to trigger audit.",
         "invalidApplication": "Invalid application id."
+      },
+      "invalidApplicationIdentifier": "Invalid application identifier",
+      "auditIntroTitle": "Review branches, report categories, and audit history.",
+      "actions": {
+        "reload": "Reload",
+        "globe": "Open link"
       },
       "loadingStates": {
         "auditReports": "Loading audit reports...",
@@ -105,8 +131,16 @@
         "noIndicators": "No quality indicators available for this application."
       },
       "summaryCard": {
+        "title": "App health summary",
+        "description": "Follow branches, reporting coverage, and the channels attached to this project before drilling into category-level findings.",
         "lastAnalyze": "Last analyze {date}",
+        "notAnalyzedYet": "Not analyzed yet",
         "branchesLabel": "Git branches: {count}",
+        "branchesTracked": "Branches tracked",
+        "linkedSystems": "Linked systems",
+        "ownerChannel": "Owner channel",
+        "available": "Available",
+        "missing": "Missing",
         "status": {
           "success": "success",
           "warning": "warning",
@@ -120,6 +154,20 @@
         "path": "Path"
       },
       "auditReports": {
+        "summary": {
+          "total": "Total checks",
+          "passed": "Passed",
+          "warnings": "Warnings",
+          "issues": "Issues",
+          "info": "Info",
+          "chartLabels": {
+            "success": "Passed",
+            "warning": "Warnings",
+            "error": "Issues",
+            "info": "Info",
+            "unknown": "Unknown"
+          }
+        },
         "categories": {
           "static": "Static Analysis",
           "dynamic": "Dynamic Analysis",
@@ -140,6 +188,30 @@
           "greenIndex": "Ecological impact analysis, hosting green certification, Ecoindex score and energy efficiency metrics",
           "dora": "Deployment frequency, lead time, change failure rate, mean time to restore",
           "general": "Analysis results"
+        },
+        "visualization": {
+          "overview": "Report health overview",
+          "healthy": "Healthy",
+          "warning": "Warning",
+          "critical": "Critical",
+          "info": "Info",
+          "attentionNeededLabel": "Attention needed",
+          "statusByFamilyTitle": "Status by metric family",
+          "statusByFamilyDescription": "Radar chart highlights where health checks are drifting.",
+          "statusBreakdownTitle": "Status breakdown",
+          "statusBreakdownDescription": "Share of checks that are healthy, in warning, or critical.",
+          "priorityFindingsTitle": "Priority findings",
+          "priorityFindingsDescription": "Focus these checks first to reduce project risk quickly.",
+          "noIssuesMessage": "No warning or critical findings were detected in this report.",
+          "noReportsMessage": "No reports available in this category.",
+          "locationLabel": "Location",
+          "impactedChecksLabel": "Impacted checks",
+          "detailsTitle": "Report details",
+          "detailsDescription": "Every check in this category, with its location and score.",
+          "categoryLabel": "Category",
+          "subcategoryLabel": "Subcategory",
+          "scoreLabel": "Score",
+          "statusLabel": "Status"
         },
         "doraMetrics": {
           "DEPLOYMENT_FREQUENCY": "Deployment Frequency",
@@ -189,11 +261,26 @@
           "hotspotsDesc": "Review security hotspots that may pose security risks",
           "measuresDesc": "Analyze detailed code metrics including coverage, complexity, and duplication"
         },
-        "noData": "No SonarQube audit data available yet. Run an audit to populate this section."
+        "noData": "No SonarQube audit data available yet. Run an audit to populate this section.",
+        "repartitionTitle": "Reports repartition",
+        "repartitionDescription": "Radar view of coverage, duplication, reliability, security and maintainability.",
+        "repartitionUnavailable": "Not enough graded metrics yet to plot a repartition radar."
       },
       "dependencies": {
         "title": "Dependencies",
         "description": "Dependencies with security or compatibility issues",
+        "summary": {
+          "total": "Total dependencies",
+          "upToDate": "Up to date",
+          "warnings": "Warnings",
+          "critical": "Critical",
+          "chartLabels": {
+            "success": "Up to date",
+            "warning": "Warnings",
+            "error": "Critical",
+            "unknown": "Unknown"
+          }
+        },
         "table": {
           "header": "Security & Compatibility Issues",
           "columns": {
@@ -251,7 +338,9 @@
     },
     "faqPage": {
       "pageTitle": "Frequent Questions",
-      "shortTitle": "faq"
+      "shortTitle": "faq",
+      "emptyTitle": "FAQ content is unavailable right now.",
+      "emptyDescription": "Reconnect the data source or reach out to the team for immediate support."
     },
     "notificationsPage": {
       "pageTitle": "Notifications",
@@ -302,6 +391,13 @@
           "default": "Send Message"
         }
       }
+    },
+    "notFound": {
+      "badge": "Error 404",
+      "title": "This page could not be found",
+      "description": "The requested resource is unavailable or the link is outdated. Continue from the dashboard or go back to the application list.",
+      "backToDashboard": "Return to dashboard",
+      "openApplications": "Open applications list"
     },
     "metadata": {
       "title": "Vitality | Monitor and Optimize Your Codebase Health",

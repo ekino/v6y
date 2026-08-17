@@ -13,6 +13,26 @@ vi.mock('@v6y/ui-kit-front', async () => {
     };
 });
 
+// The branch count badge text (e.g. "2 branches tracked") is split across
+// multiple text nodes, so a plain string matcher can't find it. This matcher
+// checks the collapsed textContent of the closest element that fully wraps it.
+const getByCollapsedText = (expectedText: string) =>
+    screen.getByText((_, element) => {
+        if (!element) {
+            return false;
+        }
+
+        const hasExactText = (node: Element | null) =>
+            node?.textContent?.replace(/\s+/g, ' ').trim() === expectedText;
+
+        const elementHasText = hasExactText(element);
+        const childrenDontHaveText = Array.from(element.children).every(
+            (child) => !hasExactText(child),
+        );
+
+        return elementHasText && childrenDontHaveText;
+    });
+
 describe('VitalityAppInfos', () => {
     afterEach(() => {
         vi.clearAllMocks();
@@ -35,7 +55,9 @@ describe('VitalityAppInfos', () => {
         render(<VitalityAppInfos app={mockApp} canOpenDetails={true} />);
 
         expect(screen.getByTestId('app-name')).toHaveTextContent('Test App');
-        expect(screen.getByText('Branches (2)')).toBeInTheDocument();
+        expect(
+            getByCollapsedText('2 vitality.appDetailsPage.summaryCard.branchesTracked'),
+        ).toBeInTheDocument();
         expect(screen.getByText('vitality.appListPage.seeReporting')).toBeInTheDocument();
 
         // Links pills should render
@@ -58,7 +80,9 @@ describe('VitalityAppInfos', () => {
         render(<VitalityAppInfos app={incompleteApp} canOpenDetails={true} />);
 
         expect(screen.getByTestId('app-name')).toHaveTextContent('No Info App');
-        expect(screen.getByText('Branches (0)')).toBeInTheDocument();
+        expect(
+            getByCollapsedText('0 vitality.appDetailsPage.summaryCard.branchesTracked'),
+        ).toBeInTheDocument();
         expect(screen.getByText('vitality.appListPage.seeReporting')).toBeInTheDocument();
     });
 
@@ -100,7 +124,9 @@ describe('VitalityAppInfos', () => {
         render(<VitalityAppInfos app={app} />);
 
         expect(screen.getByTestId('app-name')).toHaveTextContent('Vitality App');
-        expect(screen.getByText('Branches (2)')).toBeInTheDocument();
+        expect(
+            getByCollapsedText('2 vitality.appDetailsPage.summaryCard.branchesTracked'),
+        ).toBeInTheDocument();
         expect(screen.getByText('vitality.appListPage.seeReporting')).toBeInTheDocument();
     });
 
@@ -125,7 +151,9 @@ describe('VitalityAppInfos', () => {
     it('renders without crashing when given an empty object', () => {
         render(<VitalityAppInfos app={{ _id: 999 }} canOpenDetails={true} />);
 
-        expect(screen.getByText('Branches (0)')).toBeInTheDocument();
+        expect(
+            getByCollapsedText('0 vitality.appDetailsPage.summaryCard.branchesTracked'),
+        ).toBeInTheDocument();
         expect(screen.getByText('vitality.appListPage.seeReporting')).toBeInTheDocument();
     });
 
@@ -138,7 +166,9 @@ describe('VitalityAppInfos', () => {
 
         render(<VitalityAppInfos app={app} />);
 
-        expect(screen.getByText('Branches (5)')).toBeInTheDocument();
+        expect(
+            getByCollapsedText('5 vitality.appDetailsPage.summaryCard.branchesTracked'),
+        ).toBeInTheDocument();
     });
 
     it('renders app name correctly', () => {

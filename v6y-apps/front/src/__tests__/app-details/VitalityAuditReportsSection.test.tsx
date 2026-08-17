@@ -1,11 +1,25 @@
 import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
 import * as React from 'react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { AuditType } from '@v6y/core-logic/src/types';
 
 import VitalityAuditReportsSection from '../../features/app-details/components/audit-reports/VitalityAuditReportsSection';
+
+vi.mock('recharts', () => ({
+    Radar: () => <g data-testid="radar-series" />,
+    RadarChart: ({ children }: { children: React.ReactNode }) => <svg>{children}</svg>,
+    PolarGrid: () => <g />,
+    PolarAngleAxis: () => <g />,
+    PolarRadiusAxis: () => <g />,
+    ResponsiveContainer: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+    Tooltip: () => null,
+}));
+
+vi.mock('../../features/app-details/components/audit-reports/VitalityAuditReportsSummary', () => ({
+    default: () => <div data-testid="audit-reports-summary">Summary</div>,
+}));
 
 const buildBundleReport = (index: number): AuditType => ({
     _id: index,
@@ -29,8 +43,36 @@ const buildPerformanceReport = (index: number): AuditType => ({
     },
 });
 
+const buildMultiFamilyReport = (index: number): AuditType => {
+    const categories = ['bundle-size', 'largest-contentful-paint', 'seo-index'];
+    return {
+        _id: index,
+        type: 'Multi-Family',
+        category: categories[index % categories.length],
+        score: 90,
+        scoreStatus: 'success',
+        module: {
+            path: `apps/front/file-${index}.tsx`,
+        },
+    };
+};
+
+const buildDoraReport = (index: number): AuditType => {
+    const statuses = ['error', 'warning', 'success'];
+    return {
+        _id: index,
+        type: 'DORA',
+        category: 'DEPLOYMENT_FREQUENCY',
+        score: 80,
+        scoreStatus: statuses[index % statuses.length],
+        module: {
+            path: `apps/front/file-${index}.tsx`,
+        },
+    };
+};
+
 describe('VitalityAuditReportsSection', () => {
-    it('renders bundle analysis reports in the table layout', () => {
+    it('renders chart-first report overview for bundled metrics', () => {
         render(
             <VitalityAuditReportsSection
                 title="Performance Metrics"
@@ -39,13 +81,43 @@ describe('VitalityAuditReportsSection', () => {
             />,
         );
 
-        expect(screen.getByRole('columnheader', { name: 'Category' })).toBeInTheDocument();
-        expect(screen.getByRole('columnheader', { name: 'Location' })).toBeInTheDocument();
-        expect(screen.getAllByText('bundle-size')).toHaveLength(6);
-        expect(screen.queryByText('unknown')).not.toBeInTheDocument();
+        expect(screen.getByText('Report health overview')).toBeVisible();
+        expect(screen.getByText('Status by metric family')).toBeVisible();
+        expect(screen.getByText('Priority findings')).toBeVisible();
+        expect(
+            screen.getAllByText(
+                (_, element) => element?.textContent?.includes('Critical: 0') ?? false,
+            ).length,
+        ).toBeGreaterThan(0);
     });
 
-    it('keeps dense layout for status-based performance metrics', () => {
+    it('renders a multi-series radar chart when there are enough metric families', () => {
+        render(
+            <VitalityAuditReportsSection
+                title="Performance Metrics"
+                description="Performance web, loading times and core web vitals"
+                reports={Array.from({ length: 9 }, (_, index) => buildMultiFamilyReport(index + 1))}
+            />,
+        );
+
+        // error, warning, success and info series are always rendered together.
+        expect(screen.getAllByTestId('radar-series').length).toBe(4);
+    });
+
+    it('falls back to a stacked-bar list when there are too few metric families for a radar', () => {
+        render(
+            <VitalityAuditReportsSection
+                title="Performance Metrics"
+                description="Performance web, loading times and core web vitals"
+                reports={Array.from({ length: 6 }, (_, index) => buildBundleReport(index + 1))}
+            />,
+        );
+
+        expect(screen.queryByTestId('radar-series')).not.toBeInTheDocument();
+        expect(screen.getAllByText('Bundle analysis').length).toBeGreaterThan(0);
+    });
+
+    it('surfaces warning and success statuses clearly', () => {
         render(
             <VitalityAuditReportsSection
                 title="Performance Metrics"
@@ -54,8 +126,36 @@ describe('VitalityAuditReportsSection', () => {
             />,
         );
 
-        expect(screen.queryByRole('columnheader', { name: 'Category' })).not.toBeInTheDocument();
-        expect(screen.getByText('warning')).toBeInTheDocument();
-        expect(screen.getByText('success')).toBeInTheDocument();
+        expect(screen.getByText(/critical: 0/i)).toBeVisible();
+        expect(screen.getByText(/warning: 3/i)).toBeVisible();
+        expect(screen.getByText(/healthy: 3/i)).toBeVisible();
+    });
+
+    it('renders a single-series breakdown radar chart when all three statuses are present', () => {
+        render(
+            <VitalityAuditReportsSection
+                title="DevOps Metrics"
+                description="DORA metrics"
+                reports={Array.from({ length: 9 }, (_, index) => buildDoraReport(index + 1))}
+                chartVariant="breakdown"
+            />,
+        );
+
+        expect(screen.getByText('Status breakdown')).toBeVisible();
+        expect(screen.getAllByTestId('radar-series').length).toBe(1);
+    });
+
+    it('falls back to a status bar when fewer than 3 statuses are present in breakdown mode', () => {
+        render(
+            <VitalityAuditReportsSection
+                title="DevOps Metrics"
+                description="DORA metrics"
+                reports={Array.from({ length: 6 }, (_, index) => buildPerformanceReport(index + 1))}
+                chartVariant="breakdown"
+            />,
+        );
+
+        expect(screen.getByText('Status breakdown')).toBeVisible();
+        expect(screen.queryByTestId('radar-series')).not.toBeInTheDocument();
     });
 });

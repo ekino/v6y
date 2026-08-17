@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/vitest';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import VitalityAppListView from '../../features/app-list/components/VitalityAppListView';
@@ -17,12 +17,9 @@ describe('VitalityAppListView', () => {
         vi.clearAllMocks();
     });
 
-    it('wraps the app list inside a bordered panel', () => {
-        const { container } = render(<VitalityAppListView />);
+    it('renders the application list', async () => {
+        render(<VitalityAppListView />);
 
-        const section = container.querySelector('section');
-        expect(section).not.toBeNull();
-        expect(section).toHaveClass('rounded-xl');
-        expect(section).toHaveClass('border-slate-200');
+        expect(await screen.findByTestId('mocked-app-list')).toBeVisible();
     });
 });

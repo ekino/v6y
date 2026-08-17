@@ -1,5 +1,7 @@
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './Accordion.tsx';
 export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './Card.tsx';
+export { ChartContainer, ChartTooltip, ChartTooltipContent } from './chart.tsx';
+export type { ChartConfig } from './chart.tsx';
 export {
     Form,
     FormControl,

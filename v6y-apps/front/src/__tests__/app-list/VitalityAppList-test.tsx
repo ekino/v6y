@@ -45,7 +45,7 @@ describe('VitalityAppList', () => {
         render(<VitalityAppListHeader appsTotal={25} />);
 
         await waitFor(() => {
-            expect(screen.getByText('25 results')).toBeInTheDocument();
+            expect(screen.getByText('25 vitality.appListPage.resultsOther')).toBeInTheDocument();
         });
     });
 

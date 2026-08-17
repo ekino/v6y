@@ -1,14 +1,16 @@
 import { DependencyType } from '@v6y/core-logic/src/types';
 
+import { classifyDependencyStatus } from './StatusUtils';
+
 interface DependencyAuditSummary {
     dependencies: DependencyType[];
     allDependenciesUpToDate: boolean;
 }
 
-const isDependencyUpToDate = (status?: string): boolean => {
-    const statusLower = status?.toLowerCase() || '';
-    return statusLower.includes('up to date') || statusLower.includes('up-to-date');
-};
+// Delegates to the shared classifier so this stays in sync with the status
+// colors/counts derived elsewhere (StatusUtils.ts, VitalityDependenciesSummary.tsx).
+const isDependencyUpToDate = (status?: string): boolean =>
+    classifyDependencyStatus(status) === 'success';
 
 /**
  * Builds the dependency table content: keeps only outdated dependencies with

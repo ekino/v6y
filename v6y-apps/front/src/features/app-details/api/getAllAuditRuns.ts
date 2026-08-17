@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request';
 
 const GetAllAuditRuns = gql`
-    query getAllAuditRuns {
-        getAllAuditRuns {
+    query getAllAuditRuns($since: String) {
+        getAllAuditRuns(since: $since) {
             _id
             appId
             branch
