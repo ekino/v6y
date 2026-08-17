@@ -31,7 +31,7 @@ const buildAuditorUrl = (
         return '';
     }
     const normalizedPath = normalizeBasePath(apiPath);
-    const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+    const normalizedEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
     const fullUrl = `http://localhost:${port}${normalizedPath}${normalizedEndpoint}`;
     AppLogger.debug(`[buildAuditorUrl] apiPath: ${apiPath}, port: ${port}, endpoint: ${endpoint}`);
     AppLogger.debug(
