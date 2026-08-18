@@ -16,7 +16,7 @@ type AppProviderProps = {
 const AppProvider = ({ children }: AppProviderProps) => {
     // Apply the browser-detected locale after mount to avoid a hydration
     // mismatch (server renders the fallback 'en', client its cached locale).
-    React.useEffect(() => {
+    React.useEffect(function applyBrowserLocaleOnMount() {
         applyDetectedLocale();
     }, []);
 

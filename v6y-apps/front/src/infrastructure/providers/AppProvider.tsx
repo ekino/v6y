@@ -11,7 +11,7 @@ import QueryProvider from './QueryProvider';
 export const AppProvider = ({ children }: ThemeProps) => {
     // Apply the browser-detected locale after mount to avoid a hydration
     // mismatch (server renders the fallback 'en', client its cached locale).
-    useEffect(() => {
+    useEffect(function applyBrowserLocaleOnMount() {
         applyDetectedLocale();
     }, []);
 
