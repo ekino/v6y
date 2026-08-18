@@ -1,12 +1,12 @@
 import {
     AppLogger,
     ServerEnvConfigType,
+    buildHttpUrl,
     getServerConfig,
-    normalizeBasePath,
+    joinUrlPath,
 } from '@v6y/core-logic';
 
-const V6Y_API_BASE_PATH = normalizeBasePath(process.env.V6Y_MAIN_API_PATH);
-const V6Y_MONITORING_PATH = `${V6Y_API_BASE_PATH}monitoring`;
+const V6Y_MONITORING_PATH = joinUrlPath(process.env.V6Y_MAIN_API_PATH, 'monitoring');
 const V6Y_HEALTH_CHECK_PATH = '/health';
 
 // Construct full URLs for auditor services
@@ -21,7 +21,7 @@ const buildAuditorUrl = (
     }
 
     // Backward compatibility: some environments still provide a full URL.
-    if (apiPath.startsWith('http://') || apiPath.startsWith('https://')) {
+    if (/^https?:\/\//i.test(apiPath)) {
         AppLogger.debug(`[buildAuditorUrl] Full URL provided via apiPath: ${apiPath}`);
         return apiPath;
     }
@@ -30,13 +30,8 @@ const buildAuditorUrl = (
         AppLogger.warn(`[buildAuditorUrl] Missing port for apiPath: ${apiPath}`);
         return '';
     }
-    const normalizedPath = normalizeBasePath(apiPath);
-    const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-    const fullUrl = `http://localhost:${port}${normalizedPath}${normalizedEndpoint}`;
+    const fullUrl = buildHttpUrl({ port, path: [apiPath, endpoint] });
     AppLogger.debug(`[buildAuditorUrl] apiPath: ${apiPath}, port: ${port}, endpoint: ${endpoint}`);
-    AppLogger.debug(
-        `[buildAuditorUrl] normalizedPath: ${normalizedPath}, normalizedEndpoint: ${normalizedEndpoint}`,
-    );
     AppLogger.debug(`[buildAuditorUrl] Result: ${fullUrl}`);
     return fullUrl;
 };

@@ -3,6 +3,7 @@ import {
     ApplicationProvider,
     AuditProvider,
     AuditType,
+    appendQueryParams,
     auditStatus,
     scoreStatus,
 } from '@v6y/core-logic';
@@ -114,7 +115,10 @@ const fetchSonarQubeData = async (
     rawMeasures: { metric: string; value: string }[];
     qualityGateStatus: string;
 } | null> => {
-    const measuresUrl = `${baseUrl}/api/measures/component?component=${encodeURIComponent(projectKey)}&metricKeys=${METRIC_KEYS}`;
+    const measuresUrl = appendQueryParams(new URL('/api/measures/component', baseUrl).toString(), {
+        component: projectKey,
+        metricKeys: METRIC_KEYS,
+    });
     AppLogger.info(
         `[SonarQubeAuditorManager - fetchSonarQubeData] fetching measures: ${measuresUrl}`,
     );
@@ -130,7 +134,10 @@ const fetchSonarQubeData = async (
         component?: { measures?: { metric: string; value: string }[] };
     };
 
-    const qgUrl = `${baseUrl}/api/qualitygates/project_status?projectKey=${encodeURIComponent(projectKey)}`;
+    const qgUrl = appendQueryParams(
+        new URL('/api/qualitygates/project_status', baseUrl).toString(),
+        { projectKey },
+    );
     AppLogger.info(
         `[SonarQubeAuditorManager - fetchSonarQubeData] fetching quality gate: ${qgUrl}`,
     );

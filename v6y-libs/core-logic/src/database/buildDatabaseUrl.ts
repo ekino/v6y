@@ -5,7 +5,13 @@ const buildDatabaseUrl = (): string => {
     const user = process.env.PSQL_DB_USER ?? 'v6y';
     const password = process.env.PSQL_DB_PASSWORD ?? 'v6y';
     const port = process.env.PSQL_DB_PORT ?? '5432';
-    return `postgresql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:${port}/${name}`;
+
+    const url = new URL(`postgresql://${host}`);
+    url.port = port;
+    url.username = user;
+    url.password = password;
+    url.pathname = `/${name}`;
+    return url.toString();
 };
 
 export default buildDatabaseUrl;
