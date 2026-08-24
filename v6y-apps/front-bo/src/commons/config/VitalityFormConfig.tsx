@@ -108,9 +108,12 @@ export const applicationRequiredLinksFormItems = (translate: TranslateType) => [
         name: 'app-production-link',
         label: translate('v6y-applications.fields.app-production-link.label'),
         placeholder: translate('v6y-applications.fields.app-production-link.placeholder'),
+        // Not every application is deployed to a public production url (and
+        // plenty of pre-existing ones were saved without one); requiring it
+        // blocked editing any other field on those applications entirely.
         rules: [
             {
-                required: true,
+                type: 'url',
                 message: translate('v6y-applications.fields.app-production-link.error'),
             },
         ],

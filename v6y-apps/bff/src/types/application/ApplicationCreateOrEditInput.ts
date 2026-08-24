@@ -21,8 +21,8 @@ const ApplicationCreateOrEditInput = `
       """ Application git repository url """
       gitUrl: String!
         
-      """ Application production url """
-      productionLink: String!
+      """ Application production url (optional: not every application is deployed to a public production url) """
+      productionLink: String
 
       """ DataDog API Key """
       dataDogApiKey: String

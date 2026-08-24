@@ -202,7 +202,7 @@
             "app-production-link": {
                 "label": "Application production link (needed for runtime analysis)",
                 "placeholder": "Enter your application production link",
-                "error": "Application production link is a mandatory field!"
+                "error": "Le format du lien de production de l'application est invalide"
             },
             "app-sonarqube-link": {
                 "label": "Application SonarQube project link",

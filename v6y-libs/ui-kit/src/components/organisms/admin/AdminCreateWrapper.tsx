@@ -34,7 +34,7 @@ const AdminCreateWrapper = ({
 
     return (
         <CreateLayout title={title} saveButtonProps={saveButtonProps}>
-            <Form {...formProps} layout="vertical" variant="filled">
+            <Form {...formProps} layout="vertical" variant="filled" scrollToFirstError>
                 {formItems?.map((item) => item)}
             </Form>
         </CreateLayout>
