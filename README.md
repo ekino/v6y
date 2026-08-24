@@ -59,7 +59,7 @@ Each service is independent (own `package.json`, own start/build/test scripts) a
    ```bash
    pnpm run setup
    ```
-   This creates the root `.env` from [env-template](env-template) on first run (never overwrites an existing one) and links it into every app that needs its own local copy (`v6y-apps/*/.env` or `.env.local`) - one file to edit instead of one per app. It then starts the bundled PostgreSQL database with Docker Compose, applies migrations, generates the Prisma client, and seeds reference data plus the initial admin account.
+   This creates the root `.env` from [.env.template](.env.template) on first run (never overwrites an existing one) and links it into every app that needs its own local copy (`v6y-apps/*/.env` or `.env.local`) - one file to edit instead of one per app. It then starts the bundled PostgreSQL database with Docker Compose, applies migrations, generates the Prisma client, and seeds reference data plus the initial admin account.
 
    The defaults already work for local development; at minimum, fill in `GITLAB_PRIVATE_TOKEN`/`GITHUB_PRIVATE_TOKEN` in `.env` if you plan to analyze repositories hosted there, and change `PSQL_DB_PASSWORD` and `JWT_SECRET` before using this anywhere other people can reach. Re-run `pnpm run setup` any time you need to (re)apply migrations - it's safe to run repeatedly.
 
