@@ -191,7 +191,7 @@ catalogs:
     '@types/react-i18next': '=8.1.0'
     'react': '=19.2.4'
     'react-dom': '=19.2.4'
-    'react-i18next': '=15.4.0'
+    'react-i18next': '=17.0.12'
 
   next16:
     '@next/bundle-analyzer': '=16.2.1'
