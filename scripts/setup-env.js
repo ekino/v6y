@@ -3,7 +3,7 @@
 /**
  * One env file for the whole monorepo.
  *
- * - Creates the root .env from env-template on first run (never overwrites it).
+ * - Creates the root .env from .env.template on first run (never overwrites it).
  * - Links that single .env into every app that needs its own local copy
  *   (backend services read ./.env via tsx --env-file, front apps read
  *   .env.local via Next.js' own convention), so there is exactly one file to
@@ -21,7 +21,7 @@ const fs = require('fs');
 const path = require('path');
 
 const rootDir = path.resolve(__dirname, '..');
-const rootEnvTemplate = path.join(rootDir, 'env-template');
+const rootEnvTemplate = path.join(rootDir, '.env.template');
 const rootEnv = path.join(rootDir, '.env');
 
 const links = [
@@ -39,7 +39,7 @@ function ensureRootEnv() {
         return;
     }
     fs.copyFileSync(rootEnvTemplate, rootEnv);
-    console.log('Created .env from env-template - fill in your tokens/secrets there.');
+    console.log('Created .env from .env.template - fill in your tokens/secrets there.');
 }
 
 function isLinkedToRootEnv(targetPath) {
