@@ -11,6 +11,9 @@ import { ApplicationAnalysisQueueService } from './queues/ApplicationAnalysisQue
 import { DataUpdateProcessor } from './queues/DataUpdateProcessor.ts';
 import { DATA_UPDATE_QUEUE } from './queues/DataUpdateQueue.ts';
 import { DataUpdateQueueService } from './queues/DataUpdateQueueService.ts';
+import { NotificationProcessor } from './queues/NotificationProcessor.ts';
+import { NOTIFICATION_QUEUE } from './queues/NotificationQueue.ts';
+import { NotificationQueueService } from './queues/NotificationQueueService.ts';
 
 const queueEnabled = QueueConfig.isQueueEnabled();
 
@@ -26,14 +29,24 @@ const queueImports = queueEnabled
           BullModule.registerQueue({
               name: DATA_UPDATE_QUEUE,
           }),
+          BullModule.registerQueue({
+              name: NOTIFICATION_QUEUE,
+          }),
       ]
     : [];
 
-const queueProviders = queueEnabled ? [ApplicationAnalysisProcessor, DataUpdateProcessor] : [];
+const queueProviders = queueEnabled
+    ? [ApplicationAnalysisProcessor, DataUpdateProcessor, NotificationProcessor]
+    : [];
 
 @Module({
     imports: [...queueImports],
     controllers: [ApplicationAnalysisController, HealthController, TriggerAuditController],
-    providers: [ApplicationAnalysisQueueService, DataUpdateQueueService, ...queueProviders],
+    providers: [
+        ApplicationAnalysisQueueService,
+        DataUpdateQueueService,
+        NotificationQueueService,
+        ...queueProviders,
+    ],
 })
 export class AppModule {}

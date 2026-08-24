@@ -7,14 +7,17 @@ datasource db {
 }
 
 model Account {
-  id           Int      @id @default(autoincrement()) @map("_id")
-  username     String   @unique
-  email        String   @unique
-  password     String
-  role         String
-  applications Int[]
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+  id                        Int           @id @default(autoincrement()) @map("_id")
+  username                  String        @unique
+  email                     String        @unique
+  password                  String
+  role                      String
+  applications              Int[]
+  auditReportEmailsEnabled  Boolean       @default(true) @map("audit_report_emails_enabled")
+  dailyDigestEmailsEnabled  Boolean       @default(true) @map("daily_digest_emails_enabled")
+  createdAt                 DateTime      @default(now()) @map("created_at")
+  updatedAt                 DateTime      @updatedAt @map("updated_at")
+  ownedApplications         Application[] @relation("ApplicationOwner")
 
   @@map("accounts")
 }
@@ -30,6 +33,10 @@ model Application {
   links                 Json?
   auditFrequencyEnabled Boolean      @default(false) @map("audit_frequency_enabled")
   auditFrequencyCron    String?      @map("audit_frequency_cron")
+  // Every application belongs to an account: it is the addressee of the audit
+  // notification emails, so an orphaned application would report to nobody.
+  ownerId               Int          @map("owner_id")
+  owner                 Account      @relation("ApplicationOwner", fields: [ownerId], references: [id], onDelete: Restrict)
   createdAt             DateTime     @default(now()) @map("created_at")
   updatedAt             DateTime     @updatedAt @map("updated_at")
   audits                Audit[]
@@ -39,6 +46,7 @@ model Application {
   keywords              Keyword[]
   aiSummaryReport       AiSummaryReport?
 
+  @@index([ownerId])
   @@map("applications")
 }
 

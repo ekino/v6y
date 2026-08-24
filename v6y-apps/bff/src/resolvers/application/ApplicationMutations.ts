@@ -85,10 +85,12 @@ const scheduleApplicationAnalysis = async (
  * Create or edit application
  * @param _
  * @param params
+ * @param context
  */
 const createOrEditApplication = async (
     _: unknown,
     params: { applicationInput: ApplicationInputType },
+    context?: { user?: AccountType },
 ) => {
     try {
         const {
@@ -112,7 +114,13 @@ const createOrEditApplication = async (
             deploymentPlatformLink,
             auditFrequencyEnabled,
             auditFrequencyCron,
+            ownerId,
         } = params?.applicationInput || {};
+
+        // An application always belongs to somebody: it is the addressee of the
+        // audit notification emails. Whoever creates it owns it unless an owner
+        // was named explicitly.
+        const applicationOwnerId = ownerId || context?.user?._id;
 
         AppLogger.info(`[AppMutations - createOrEditApplication] _id : ${_id}`);
         AppLogger.info(`[AppMutations - createOrEditApplication] acronym : ${acronym}`);
@@ -168,6 +176,7 @@ const createOrEditApplication = async (
                 dataDogMonitorId,
                 auditFrequencyEnabled,
                 auditFrequencyCron,
+                ownerId: applicationOwnerId,
             } as ApplicationInputType);
 
             AppLogger.info(
@@ -185,6 +194,10 @@ const createOrEditApplication = async (
             );
 
             return { ...editedApplication, auditFrequencyScheduled: editedScheduleApplied };
+        }
+
+        if (!applicationOwnerId) {
+            throw new Error('An owner account is required to create an application');
         }
 
         const createdApplication = await ApplicationProvider.createFormApplication({
@@ -207,6 +220,7 @@ const createOrEditApplication = async (
             dataDogMonitorId,
             auditFrequencyEnabled,
             auditFrequencyCron,
+            ownerId: applicationOwnerId,
         } as ApplicationInputType);
 
         AppLogger.info(

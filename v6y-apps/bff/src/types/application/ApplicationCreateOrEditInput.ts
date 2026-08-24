@@ -59,6 +59,9 @@ const ApplicationCreateOrEditInput = `
 
       """ Audit reporting frequency, expressed as a 5-field cron expression """
       auditFrequencyCron: String
+
+      """ Account the application belongs to. Defaults to the authenticated account. """
+      ownerId: Int
   }
 `;
 

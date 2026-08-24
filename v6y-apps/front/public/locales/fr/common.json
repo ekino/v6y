@@ -362,6 +362,22 @@
       "pageTitle": "Notifications",
       "shortTitle": "notifications"
     },
+    "notificationSettingsPage": {
+      "pageTitle": "Notifications par e-mail",
+      "shortTitle": "notifications e-mail",
+      "pageDescription": "Choisissez les e-mails que Vitality vous envoie au sujet des applications dont vous êtes responsable.",
+      "auditReportEmails": {
+        "label": "E-mails de rapport d'audit",
+        "description": "Recevez un e-mail dès qu'un audit est terminé, avec un lien vers le rapport."
+      },
+      "dailyDigestEmails": {
+        "label": "Résumé quotidien",
+        "description": "Recevez un e-mail par jour résumant les audits de vos applications."
+      },
+      "saved": "Vos préférences de notification ont été enregistrées.",
+      "saveFailed": "Impossible d'enregistrer vos préférences de notification.",
+      "unavailable": "Vos préférences de notification sont indisponibles pour le moment."
+    },
     "loginPage": {
       "formTitle": "Connexion à votre compte",
       "formDescription": "Si vous n'avez pas de compte, veuillez vous référer à votre organisation.",

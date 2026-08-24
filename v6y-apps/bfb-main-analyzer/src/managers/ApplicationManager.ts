@@ -9,6 +9,7 @@ import {
 } from '@v6y/core-logic';
 
 import { buildDynamicReports, buildStaticReports } from './AuditManager.ts';
+import AuditNotificationManager from './AuditNotificationManager.ts';
 
 const { getRepositoryDetails, getRepositoryBranches } = RepositoryApi;
 
@@ -176,6 +177,10 @@ const buildApplicationReports = async (application: ApplicationType) => {
                     `[ApplicationManager - buildApplicationReports] AuditRun failed: ${auditRunId}`,
                 );
             }
+
+            // The owner is told either way: a failed run is exactly the case
+            // where waiting for a report that never comes is worst.
+            await AuditNotificationManager.notifyAuditRunCompleted(Number(auditRunId));
         }
 
         return true;
@@ -193,6 +198,8 @@ const buildApplicationReports = async (application: ApplicationType) => {
                     `[ApplicationManager - buildApplicationReports] Failed to update error status: ${updateErr}`,
                 ),
             );
+
+            await AuditNotificationManager.notifyAuditRunCompleted(Number(auditRunId));
         }
 
         return false;

@@ -17,6 +17,8 @@ export interface ApplicationType {
     auditFrequencyEnabled?: boolean;
     /** Audit reporting frequency, expressed as a 5-field cron expression */
     auditFrequencyCron?: string | null;
+    /** Account the application belongs to, and whom its audit emails are sent to */
+    ownerId?: number;
 }
 
 export interface ApplicationInputType {
@@ -40,4 +42,5 @@ export interface ApplicationInputType {
     deploymentPlatformLink?: string;
     auditFrequencyEnabled?: boolean;
     auditFrequencyCron?: string | null;
+    ownerId?: number;
 }

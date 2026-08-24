@@ -31,6 +31,7 @@
     "@types/express-status-monitor": "catalog:",
     "@types/fs-extra": "catalog:",
     "@types/node-cron": "catalog:",
+    "@types/nodemailer": "catalog:",
     "@types/supertest": "catalog:testing",
     "@vitest/coverage-v8": "catalog:testing",
     "@vitest/ui": "catalog:testing",
@@ -54,6 +55,7 @@
     "express-status-monitor": "catalog:",
     "fs-extra": "catalog:",
     "node-cron": "catalog:",
+    "nodemailer": "catalog:",
     "reflect-metadata": "catalog:",
     "rxjs": "catalog:"
   }

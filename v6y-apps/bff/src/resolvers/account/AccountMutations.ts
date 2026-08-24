@@ -1,5 +1,6 @@
 import {
     AccountInputType,
+    AccountNotificationSettingsInputType,
     AccountProvider,
     AccountType,
     AccountUpdatePasswordType,
@@ -187,9 +188,48 @@ const deleteAccount = async (
     }
 };
 
+/**
+ * Update the email notification preferences of the authenticated account.
+ *
+ * The target account comes from the authenticated context rather than the input,
+ * so this can never be pointed at somebody else's preferences.
+ * @param _
+ * @param params
+ * @param context
+ */
+const updateAccountNotificationSettings = async (
+    _: unknown,
+    params: { input: AccountNotificationSettingsInputType },
+    context: { user: AccountType },
+) => {
+    try {
+        const accountId = context?.user?._id;
+
+        if (!accountId) {
+            throw new Error('You must be authenticated to update your notification settings');
+        }
+
+        const { auditReportEmailsEnabled, dailyDigestEmailsEnabled } = params?.input || {};
+
+        AppLogger.info(
+            `[AccountMutations - updateAccountNotificationSettings] _id : ${accountId}, auditReportEmailsEnabled : ${auditReportEmailsEnabled}, dailyDigestEmailsEnabled : ${dailyDigestEmailsEnabled}`,
+        );
+
+        return AccountProvider.updateAccountNotificationSettings({
+            _id: accountId,
+            auditReportEmailsEnabled,
+            dailyDigestEmailsEnabled,
+        });
+    } catch (error) {
+        AppLogger.error(`[AccountMutations - updateAccountNotificationSettings] error : `, error);
+        return null;
+    }
+};
+
 const AccountMutations = {
     createOrEditAccount,
     updateAccountPassword,
+    updateAccountNotificationSettings,
     deleteAccount,
 };
 
