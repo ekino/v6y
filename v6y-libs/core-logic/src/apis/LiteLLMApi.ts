@@ -1,7 +1,9 @@
 import AppLogger from '../core/AppLogger.ts';
 
 const DEFAULT_TIMEOUT_MS = 15000;
-const DEFAULT_MAX_TOKENS = 400;
+// High enough to leave room for actual output after 'high' reasoning_effort spends part of
+// this same budget on internal reasoning tokens before producing visible content.
+const DEFAULT_MAX_TOKENS = 4000;
 
 export interface LiteLLMChatMessage {
     role: 'system' | 'user' | 'assistant';
@@ -59,8 +61,10 @@ const generateChatCompletion = async (
             body: JSON.stringify({
                 model,
                 messages,
-                temperature: 0.2,
                 max_tokens: DEFAULT_MAX_TOKENS,
+                // Max reasoning depth for reasoning-capable models ('high' is the top of the
+                // OpenAI-compatible low/medium/high scale); ignored by non-reasoning models.
+                reasoning_effort: 'high',
                 ...(options?.responseFormat ? { response_format: options.responseFormat } : {}),
             }),
             signal: controller.signal,

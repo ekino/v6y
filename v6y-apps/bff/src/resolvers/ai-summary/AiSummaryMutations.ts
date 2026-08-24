@@ -5,7 +5,6 @@ import {
     AppLogger,
     ApplicationProvider,
     AuditProvider,
-    AuditRunProvider,
     DependencyProvider,
     LiteLLMApi,
 } from '@v6y/core-logic';
@@ -61,16 +60,14 @@ const generateApplicationAiSummary = async (
             appId: applicationId,
         });
 
-        const latestAuditRun = await AuditRunProvider.getLatestAuditRun(applicationId);
-
-        // Older audits may not be linked to an audit run (audit_run_id was only
-        // introduced later), so the latest run's `audits` relation can be empty
-        // even when the application has audit reports. Fall back to reading all
-        // audits directly by appId in that case, so the summary always reflects
-        // the same audit reports the user can see elsewhere in the app.
-        const audits = latestAuditRun?.audits?.length
-            ? latestAuditRun.audits
-            : await AuditProvider.getAuditListByPageAndParams({ appId: applicationId });
+        // Read the application's full audit history rather than only the single most
+        // recently triggered audit run: that latest run may only have re-analyzed a subset
+        // of categories (e.g. just performance), which would silently drop other categories
+        // (security, devops, ecodesign, accessibility, maintainability, ...) last audited by
+        // an earlier run. buildAuditHealthSummary below keeps, per category, whichever audit
+        // sorts last - so sorting this full list ascending by date yields the most recent
+        // result for every category that has ever been audited.
+        const audits = await AuditProvider.getAuditListByPageAndParams({ appId: applicationId });
 
         const sortedAudits = [...(audits || [])].sort((a, b) => {
             const aDate = new Date(a?.dateEnd ?? a?.dateStart ?? 0).getTime();

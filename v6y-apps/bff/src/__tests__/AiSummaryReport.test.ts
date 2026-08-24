@@ -6,7 +6,7 @@ const getByAppIdMock = vi.fn();
 const upsertMock = vi.fn();
 const getApplicationDetailsInfoByParamsMock = vi.fn();
 const getDependencyListByPageAndParamsMock = vi.fn();
-const getLatestAuditRunMock = vi.fn();
+const getAuditListByPageAndParamsMock = vi.fn();
 const generateChatCompletionMock = vi.fn();
 
 vi.mock('@v6y/core-logic', async () => {
@@ -28,9 +28,9 @@ vi.mock('@v6y/core-logic', async () => {
             ...actual.DependencyProvider,
             getDependencyListByPageAndParams: getDependencyListByPageAndParamsMock,
         },
-        AuditRunProvider: {
-            ...actual.AuditRunProvider,
-            getLatestAuditRun: getLatestAuditRunMock,
+        AuditProvider: {
+            ...actual.AuditProvider,
+            getAuditListByPageAndParams: getAuditListByPageAndParamsMock,
         },
         LiteLLMApi: {
             ...actual.LiteLLMApi,
@@ -69,7 +69,7 @@ describe('AI summary report', () => {
         process.env.V6Y_BFF_API_PATH = '/v6y/graphql/';
         validateCredentialsMock.mockResolvedValue({ role: 'ADMIN', applications: [42] });
         getDependencyListByPageAndParamsMock.mockResolvedValue([]);
-        getLatestAuditRunMock.mockResolvedValue(null);
+        getAuditListByPageAndParamsMock.mockResolvedValue([]);
     });
 
     afterEach(() => {
@@ -87,10 +87,9 @@ describe('AI summary report', () => {
             getDependencyListByPageAndParamsMock.mockResolvedValue([
                 { type: 'npm', name: 'react', version: '18.0.0' },
             ]);
-            getLatestAuditRunMock.mockResolvedValue({
-                _id: 9,
-                audits: [{ category: 'performance', score: 88, scoreStatus: 'success' }],
-            });
+            getAuditListByPageAndParamsMock.mockResolvedValue([
+                { category: 'performance', score: 88, scoreStatus: 'success' },
+            ]);
             generateChatCompletionMock.mockResolvedValue({
                 content: 'Fresh synthesis',
                 model: 'gpt-4o-mini',
@@ -116,7 +115,7 @@ describe('AI summary report', () => {
                 })
                 .expect(200);
 
-            expect(getLatestAuditRunMock).toHaveBeenCalledWith(42);
+            expect(getAuditListByPageAndParamsMock).toHaveBeenCalledWith({ appId: 42 });
             expect(generateChatCompletionMock).toHaveBeenCalledTimes(1);
             const [messages] = generateChatCompletionMock.mock.calls[0];
             expect(messages[1].content).toContain('performance: 88');
@@ -135,6 +134,85 @@ describe('AI summary report', () => {
                     report: expect.objectContaining({ appId: 42, summary: 'Fresh synthesis' }),
                 }),
             );
+
+            await app.close();
+        }, 15000);
+
+        it('includes every audited category even when they were audited across different runs', async () => {
+            getApplicationDetailsInfoByParamsMock.mockResolvedValue({ _id: 42, name: 'Vitality' });
+            // Simulates categories last audited at different times (e.g. only 'performance' was
+            // re-run most recently) rather than all coming from a single latest audit run.
+            getAuditListByPageAndParamsMock.mockResolvedValue([
+                {
+                    category: 'security',
+                    score: 40,
+                    scoreStatus: 'error',
+                    dateEnd: '2026-01-01T00:00:00.000Z',
+                },
+                {
+                    category: 'devops',
+                    score: 70,
+                    scoreStatus: 'warning',
+                    dateEnd: '2026-01-02T00:00:00.000Z',
+                },
+                {
+                    category: 'ecodesign',
+                    score: 75,
+                    scoreStatus: 'success',
+                    dateEnd: '2026-01-03T00:00:00.000Z',
+                },
+                {
+                    category: 'accessibility',
+                    score: 90,
+                    scoreStatus: 'success',
+                    dateEnd: '2026-01-04T00:00:00.000Z',
+                },
+                {
+                    category: 'maintainability',
+                    score: 60,
+                    scoreStatus: 'warning',
+                    dateEnd: '2026-01-05T00:00:00.000Z',
+                },
+                {
+                    category: 'performance',
+                    score: 88,
+                    scoreStatus: 'success',
+                    dateEnd: '2026-01-06T00:00:00.000Z',
+                },
+            ]);
+            generateChatCompletionMock.mockResolvedValue({
+                content: 'Full synthesis',
+                model: 'gpt-4o-mini',
+                tokensUsed: 150,
+            });
+            upsertMock.mockResolvedValue({
+                _id: 5,
+                appId: 42,
+                summary: 'Full synthesis',
+                model: 'gpt-4o-mini',
+            });
+
+            const { createApp } = await import('../app.ts');
+            const { default: ServerConfig } = await import('../config/ServerConfig.ts');
+            const app = await createApp();
+
+            await request(app.getHttpServer())
+                .post(ServerConfig.currentConfig?.apiPath as string)
+                .send({
+                    operationName: 'GenerateApplicationAiSummary',
+                    query: GENERATE_MUTATION,
+                    variables: { applicationId: 42 },
+                })
+                .expect(200);
+
+            const [messages] = generateChatCompletionMock.mock.calls[0];
+            const userPrompt = messages[1].content as string;
+            expect(userPrompt).toContain('security: 40');
+            expect(userPrompt).toContain('devops: 70');
+            expect(userPrompt).toContain('ecodesign: 75');
+            expect(userPrompt).toContain('accessibility: 90');
+            expect(userPrompt).toContain('maintainability: 60');
+            expect(userPrompt).toContain('performance: 88');
 
             await app.close();
         }, 15000);
@@ -181,7 +259,7 @@ describe('AI summary report', () => {
 
         it('still generates a summary when the application has no audit run yet', async () => {
             getApplicationDetailsInfoByParamsMock.mockResolvedValue({ _id: 42, name: 'Vitality' });
-            getLatestAuditRunMock.mockResolvedValue(null);
+            getAuditListByPageAndParamsMock.mockResolvedValue([]);
             generateChatCompletionMock.mockResolvedValue({
                 content: 'Synthesis without audit data',
                 model: 'gpt-4o-mini',
