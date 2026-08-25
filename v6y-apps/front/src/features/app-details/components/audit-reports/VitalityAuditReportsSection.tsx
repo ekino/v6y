@@ -275,7 +275,7 @@ const VitalityAuditReportsSection = ({
                     <h3 className="text-xl font-semibold text-slate-900">{title}</h3>
                     <p className="max-w-[70ch] text-sm text-slate-600">{description}</p>
                 </div>
-                <Card className="border-slate-200 shadow-xs">
+                <Card className="border-slate-200 shadow-xs p-0">
                     <CardContent className="flex items-center justify-center p-10">
                         <p className="text-sm text-slate-500">{copyLabels.noReportsMessage}</p>
                     </CardContent>
@@ -410,8 +410,8 @@ const VitalityAuditReportsSection = ({
 
             <VitalityAuditReportsSummary reports={reports} />
 
-            <Card className="border-slate-200 shadow-xs">
-                <CardContent className="space-y-2 p-5">
+            <Card className="border-slate-200 shadow-xs p-0">
+                <CardContent className="space-y-2 p-4">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                         <h4 className="text-sm font-semibold text-slate-900">
                             {copyLabels.overviewTitle}
@@ -439,8 +439,8 @@ const VitalityAuditReportsSection = ({
                 </CardContent>
             </Card>
 
-            <Card className="border-slate-200 shadow-xs">
-                <CardContent className="space-y-4 p-5">
+            <Card className="border-slate-200 shadow-xs p-0">
+                <CardContent className="space-y-4 p-4">
                     <div>
                         <h4 className="text-sm font-semibold text-slate-900">
                             {chartVariant === 'breakdown'
@@ -621,8 +621,8 @@ const VitalityAuditReportsSection = ({
                 </CardContent>
             </Card>
 
-            <Card className="border-slate-200 shadow-xs">
-                <CardContent className="space-y-4 p-5">
+            <Card className="border-slate-200 shadow-xs p-0">
+                <CardContent className="space-y-4 p-4">
                     <div>
                         <h4 className="text-sm font-semibold text-slate-900">
                             {copyLabels.priorityFindingsTitle}
@@ -698,7 +698,7 @@ const VitalityAuditReportsSection = ({
                                 aria-hidden="true"
                             />
                         </summary>
-                        <div className="overflow-x-auto">
+                        <div className="max-h-80 overflow-auto">
                             <table className="w-full min-w-full">
                                 <thead className="bg-white border-b border-slate-200">
                                     <tr>
