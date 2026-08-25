@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useTranslationProvider } from '@v6y/ui-kit';
 import { Badge, Button, ReloadIcon, Sparkles } from '@v6y/ui-kit-front';
 
+import { parseDateValue } from '../../../../commons/utils/DateParamUtils';
 import { getScoreStatusColor } from '../../../../commons/utils/StatusUtils';
 import { useAiSummaryReport } from '../../hooks/useAiSummaryReport';
 
@@ -11,12 +12,8 @@ interface VitalityAiSummaryCardProps {
 }
 
 const formatGeneratedAt = (generatedAt: string | null) => {
-    if (!generatedAt) {
-        return null;
-    }
-
-    const parsed = new Date(generatedAt);
-    return Number.isNaN(parsed.getTime()) ? null : parsed.toLocaleString();
+    const parsed = parseDateValue(generatedAt);
+    return parsed ? parsed.toLocaleString() : null;
 };
 
 /**
@@ -37,9 +34,9 @@ const getScoreStatusKey = (score: number) => {
 /**
  * Renders a plain-text AI summary (one recommendation per line, optionally
  * prefixed with "-" or "•") as a proper bullet list: strips the leading
- * marker, adds a visual bullet + spacing per item, and turns any leftover
- * "**bold**" markdown segments into real bold text instead of showing the
- * literal asterisks.
+ * marker and adds a visual bullet + spacing per item. The summary is plain
+ * text by contract (the prompt forbids markdown), so no inline formatting is
+ * parsed here.
  */
 const renderSummaryLines = (summary: string) => {
     const lines = summary
@@ -61,17 +58,7 @@ const renderSummaryLines = (summary: string) => {
                             className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-linear-to-br from-indigo-500 to-violet-500"
                             aria-hidden="true"
                         />
-                        <span className="leading-relaxed">
-                            {content
-                                .split(/(\*\*[^*]+\*\*)/g)
-                                .map((part, partIndex) =>
-                                    part.startsWith('**') && part.endsWith('**') ? (
-                                        <strong key={partIndex}>{part.slice(2, -2)}</strong>
-                                    ) : (
-                                        <React.Fragment key={partIndex}>{part}</React.Fragment>
-                                    ),
-                                )}
-                        </span>
+                        <span className="leading-relaxed">{content}</span>
                     </li>
                 );
             })}

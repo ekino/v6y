@@ -214,10 +214,16 @@ describe('AiSummaryUtils', () => {
             expect(bullets).toEqual(['First point', 'Second point', 'Third point']);
         });
 
-        it('falls back to plain-text parsing when the JSON has no usable bullets array', () => {
+        it('returns an empty list for a valid JSON response with an empty bullets array (no raw-JSON leak)', () => {
             const bullets = AiSummaryUtils.parseAiSummaryBullets(JSON.stringify({ bullets: [] }));
 
-            expect(bullets).toEqual([JSON.stringify({ bullets: [] })]);
+            expect(bullets).toEqual([]);
+        });
+
+        it('falls back to plain-text parsing when the JSON has no bullets array at all', () => {
+            const bullets = AiSummaryUtils.parseAiSummaryBullets(JSON.stringify({ foo: 'bar' }));
+
+            expect(bullets).toEqual([JSON.stringify({ foo: 'bar' })]);
         });
     });
 

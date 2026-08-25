@@ -1,6 +1,9 @@
 import AppLogger from '../core/AppLogger.ts';
 
-const DEFAULT_TIMEOUT_MS = 15000;
+// Matches the value documented in .env.template. A 'high' reasoning_effort
+// completion of up to DEFAULT_MAX_TOKENS routinely takes well over 15s, so the
+// default has to leave real head-room when LITELLM_TIMEOUT_MS is not set.
+const DEFAULT_TIMEOUT_MS = 60000;
 // High enough to leave room for actual output after 'high' reasoning_effort spends part of
 // this same budget on internal reasoning tokens before producing visible content.
 const DEFAULT_MAX_TOKENS = 4000;
@@ -36,7 +39,14 @@ const generateChatCompletion = async (
     const baseUrl = process.env.LITELLM_BASE_URL;
     const apiKey = process.env.LITELLM_API_KEY;
     const model = process.env.LITELLM_MODEL;
-    const timeoutMs = Number(process.env.LITELLM_TIMEOUT_MS) || DEFAULT_TIMEOUT_MS;
+    // Only a valid, strictly-positive override wins; a missing, non-numeric,
+    // negative or 0 value falls back to the default rather than aborting
+    // instantly (0ms) or on NaN.
+    const configuredTimeout = Number(process.env.LITELLM_TIMEOUT_MS);
+    const timeoutMs =
+        Number.isFinite(configuredTimeout) && configuredTimeout > 0
+            ? configuredTimeout
+            : DEFAULT_TIMEOUT_MS;
 
     if (!baseUrl?.length) {
         throw new Error('LITELLM_BASE_URL is not configured');

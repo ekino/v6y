@@ -29,7 +29,6 @@ export interface AiSummaryReportData {
 export const useAiSummaryReport = (applicationId?: number) => {
     const { translate, getLocale } = useTranslationProvider();
     const [isGenerating, setIsGenerating] = React.useState(false);
-    const [refreshToken, setRefreshToken] = React.useState(0);
 
     const {
         isLoading: isLoadingSummary,
@@ -39,11 +38,7 @@ export const useAiSummaryReport = (applicationId?: number) => {
     } = useClientQuery<{
         getApplicationAiSummaryByParams: AiSummaryReportData | null;
     }>({
-        queryCacheKey: [
-            'getApplicationAiSummaryByParams',
-            `${applicationId ?? 'invalid'}`,
-            `${refreshToken}`,
-        ],
+        queryCacheKey: ['getApplicationAiSummaryByParams', `${applicationId ?? 'invalid'}`],
         queryBuilder: async () => {
             if (!applicationId) {
                 return { getApplicationAiSummaryByParams: null };
@@ -91,7 +86,6 @@ export const useAiSummaryReport = (applicationId?: number) => {
 
             toast.success(translate('vitality.appDetailsPage.aiSummaryCard.toasts.generated'));
 
-            setRefreshToken((prev) => prev + 1);
             await refetch();
         } catch (error) {
             toast.error(

@@ -9,6 +9,7 @@ const GenerateApplicationAiSummary = gql`
                 _id
                 appId
                 summary
+                score
                 model
                 generatedAt
             }

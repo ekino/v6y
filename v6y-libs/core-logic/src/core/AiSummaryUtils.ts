@@ -130,15 +130,15 @@ const parseAiSummaryBullets = (content: string): string[] => {
     try {
         const parsed = JSON.parse(trimmed);
         if (parsed && Array.isArray(parsed.bullets)) {
-            const bullets = parsed.bullets
+            // A valid structured response is authoritative: return its bullets
+            // even when none survive filtering, rather than falling through to
+            // the plain-text path below - which would split the raw JSON string
+            // and surface "{...}" itself as a bullet.
+            return parsed.bullets
                 .filter((bullet: unknown): bullet is string => typeof bullet === 'string')
                 .map((bullet: string) => bullet.trim())
                 .filter((bullet: string) => bullet.length > 0)
                 .slice(0, MAX_SUMMARY_BULLETS);
-
-            if (bullets.length > 0) {
-                return bullets;
-            }
         }
     } catch {
         // Not valid JSON: fall through to the plain-text fallback below.
