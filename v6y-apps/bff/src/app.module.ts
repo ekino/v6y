@@ -7,6 +7,7 @@ import { HealthController, validateCredentials } from '@v6y/core-logic';
 
 import ServerConfig from './config/ServerConfig.ts';
 import { AccountResolver } from './resolvers/account/AccountResolver.ts';
+import { AiSummaryResolver } from './resolvers/ai-summary/AiSummaryResolver.ts';
 import { ApplicationResolver } from './resolvers/application/ApplicationResolver.ts';
 import { AuditHelpResolver } from './resolvers/audit/AuditHelpResolver.ts';
 import { DeprecatedDependencyResolver } from './resolvers/dependency/deprecated-status/DeprecatedDependencyResolver.ts';
@@ -55,6 +56,7 @@ const typeDefsSdl = print(VitalityTypes);
     controllers: [HealthController],
     providers: [
         AccountResolver,
+        AiSummaryResolver,
         ApplicationResolver,
         AuditHelpResolver,
         DeprecatedDependencyResolver,

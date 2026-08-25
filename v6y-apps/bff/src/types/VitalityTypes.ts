@@ -11,6 +11,10 @@ import AccountQueriesType from './account/AccountQueriesType.ts';
 import AccountType from './account/AccountType.ts';
 import AccountUpdatePasswordInput from './account/AccountUpdatePasswordInput.ts';
 import AccountUpdatePasswordOutput from './account/AccountUpdatePasswordOutput.ts';
+import AiSummaryMutationsType from './ai-summary/AiSummaryMutationsType.ts';
+import AiSummaryQueriesType from './ai-summary/AiSummaryQueriesType.ts';
+import AiSummaryReportType from './ai-summary/AiSummaryReportType.ts';
+import GenerateAiSummaryOutput from './ai-summary/GenerateAiSummaryOutput.ts';
 import ApplicationAnalysisTriggerOutput from './application/ApplicationAnalysisTriggerOutput.ts';
 import ApplicationCreateOrEditInput from './application/ApplicationCreateOrEditInput.ts';
 import ApplicationDeleteInput from './application/ApplicationDeleteInput.ts';
@@ -96,11 +100,13 @@ const VitalityTypes = gql(`
     ${AuditHelpType}
     ${AuditReportType}
     ${AuditRunType}
+    ${AiSummaryReportType}
     ${FaqType}
     ${NotificationType}
 
     # the schemas allows the following queries
     ${ApplicationQueriesType}
+    ${AiSummaryQueriesType}
     ${FaqQueriesType}
     ${NotificationQueriesType}
     ${EvolutionHelpQueriesType}
@@ -117,6 +123,9 @@ const VitalityTypes = gql(`
     ${TriggerApplicationAnalysisInput}
     ${TriggerApplicationAnalysisOutput}
     ${ApplicationMutationsType}
+
+    ${GenerateAiSummaryOutput}
+    ${AiSummaryMutationsType}
 
     ${FaqCreateOrEditInput}
     ${FaqDeleteOutput}

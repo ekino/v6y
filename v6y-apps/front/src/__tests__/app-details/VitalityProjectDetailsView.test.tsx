@@ -112,6 +112,14 @@ describe('VitalityProjectDetailsView', () => {
         });
     });
 
+    it('shows the AI summary card', async () => {
+        renderComponent();
+
+        await waitFor(() => {
+            expect(screen.getByTestId('ai-summary-card')).toBeInTheDocument();
+        });
+    });
+
     describe('running an audit', () => {
         beforeEach(() => {
             vi.useFakeTimers({ shouldAdvanceTime: true });

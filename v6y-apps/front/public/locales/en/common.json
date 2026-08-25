@@ -70,6 +70,22 @@
       },
       "runAuditButton": "Run Audit",
       "runAuditButtonLoading": "Running...",
+      "aiSummaryCard": {
+        "title": "AI Synthesis",
+        "empty": "No AI synthesis has been generated yet for this application.",
+        "loadError": "Unable to load the AI synthesis.",
+        "retry": "Retry",
+        "generatedAt": "Generated on {date}",
+        "generateButton": "Generate AI synthesis",
+        "regenerateButton": "Regenerate",
+        "generatingButton": "Generating...",
+        "generatingStatus": "Analyzing audit results and tech stack...",
+        "toasts": {
+          "generated": "AI synthesis generated successfully.",
+          "failed": "Unable to generate the AI synthesis.",
+          "invalidApplication": "Invalid application id."
+        }
+      },
       "auditToasts": {
         "running": "Audit is running...",
         "queued": "Audit successfully queued.",

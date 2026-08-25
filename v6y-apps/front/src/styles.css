@@ -38,3 +38,37 @@
     background-size: 200% 200%;
     animation: gradient-pan 8s ease infinite;
 }
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Skeleton line with a light sweep travelling across it, for a livelier
+   "loading"/"generating" state than a plain opacity pulse. */
+.skeleton-shimmer {
+    position: relative;
+    overflow: hidden;
+    background-color: rgb(226 232 240); /* slate-200 */
+}
+
+.skeleton-shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0,
+        rgba(255, 255, 255, 0.65) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    animation: shimmer 1.6s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skeleton-shimmer::after {
+        animation: none;
+    }
+}

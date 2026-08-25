@@ -1,6 +1,8 @@
+import LiteLLMApi from './apis/LiteLLMApi.ts';
 import MonitoringApi from './apis/MonitoringApi.ts';
 import RepositoryApi from './apis/RepositoryApi.ts';
 import QueueConfig from './config/QueueConfig.ts';
+import AiSummaryUtils from './core/AiSummaryUtils.ts';
 import AppLogger from './core/AppLogger.ts';
 import AuditUtils from './core/AuditUtils.ts';
 import PerformancesUtils from './core/PerformancesUtils.ts';
@@ -10,6 +12,7 @@ import StringUtils from './core/StringUtils.ts';
 import WorkerHelper from './core/WorkerHelper.ts';
 import ZipUtils from './core/ZipUtils.ts';
 import AccountProvider from './database/AccountProvider.ts';
+import AiSummaryReportProvider from './database/AiSummaryReportProvider.ts';
 import ApplicationProvider from './database/ApplicationProvider.ts';
 import AuditHelpProvider from './database/AuditHelpProvider.ts';
 import AuditProvider from './database/AuditProvider.ts';
@@ -48,6 +51,7 @@ export {
     StringUtils,
     ServerUtils,
     AuditUtils,
+    AiSummaryUtils,
     WorkerHelper,
     ZipUtils,
     ApplicationProvider,
@@ -56,6 +60,7 @@ export {
     AuditProvider,
     AuditRunProvider,
     AuditHelpProvider,
+    AiSummaryReportProvider,
     FaqProvider,
     AccountProvider,
     NotificationProvider,
@@ -66,6 +71,7 @@ export {
     DeprecatedDependencyProvider,
     RepositoryApi,
     MonitoringApi,
+    LiteLLMApi,
     MonitoringUtils,
     DateUtils,
 };

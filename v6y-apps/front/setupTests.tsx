@@ -51,6 +51,7 @@ vi.mock('@v6y/ui-kit', () => {
     return {
         useTranslationProvider: vi.fn(() => ({
             translate: (key: string) => key,
+            getLocale: () => 'en',
         })),
         useNavigationAdapter: vi.fn(() => {
             return {
