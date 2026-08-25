@@ -288,10 +288,20 @@ const getAllAuditRuns = async (limit?: number, offset?: number, since?: string) 
     }
 };
 
-const recoverInterruptedAuditRuns = async () => {
+// An audit run legitimately sits in "in_progress" for the whole duration of its
+// analysis (static + dynamic + devops), which can take several minutes. Runs are
+// only reaped once they've been in that state longer than this, so we don't kill
+// runs that are still genuinely being processed (e.g. a manually-triggered audit
+// running concurrently with a scheduled sweep).
+const STALE_AUDIT_RUN_THRESHOLD_MS = 30 * 60 * 1000; // 30 minutes
+
+const recoverInterruptedAuditRuns = async (staleThresholdMs = STALE_AUDIT_RUN_THRESHOLD_MS) => {
     try {
         const { count } = await getPrismaClient().auditRun.updateMany({
-            where: { runStatus: 'in_progress' },
+            where: {
+                runStatus: 'in_progress',
+                updatedAt: { lt: new Date(Date.now() - staleThresholdMs) },
+            },
             data: {
                 runStatus: 'failed',
                 completedAt: new Date(),
@@ -300,7 +310,7 @@ const recoverInterruptedAuditRuns = async () => {
         });
         if (count > 0) {
             AppLogger.warn(
-                `[AuditRunProvider - recoverInterruptedAuditRuns] Marked ${count} interrupted run(s) as failed`,
+                `[AuditRunProvider - recoverInterruptedAuditRuns] Marked ${count} stale interrupted run(s) as failed`,
             );
         }
     } catch (error) {
