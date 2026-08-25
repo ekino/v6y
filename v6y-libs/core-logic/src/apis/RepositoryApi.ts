@@ -47,13 +47,9 @@ const GithubConfig = (organization: string | null): GithubConfigType => {
     };
 };
 
-/**
- * Builds the configuration for the Gitlab API.
- * @param organization
- * @constructor
- */
-const GitlabConfig = (organization: string | null): GitlabConfigType => {
-    const baseURL = organization ? `https://gitlab.${organization}.com` : 'https://gitlab.com';
+const GitlabConfig = (organization: string | null, baseUrl?: string): GitlabConfigType => {
+    const baseURL =
+        baseUrl || (organization ? `https://gitlab.${organization}.com` : 'https://gitlab.com');
     const gitlabToken =
         process.env.GITLAB_PRIVATE_TOKEN ||
         process.env.GITLAB_TOKEN ||
@@ -91,12 +87,14 @@ const GitlabConfig = (organization: string | null): GitlabConfigType => {
  * Builds the query options for the API.
  * @param organization
  * @param type
+ * @param baseUrl
  */
 const buildQueryOptions = ({
     organization,
     type = 'gitlab',
+    baseUrl,
 }: BuildQueryOptions): GithubConfigType | GitlabConfigType =>
-    type === 'gitlab' ? GitlabConfig(organization!) : GithubConfig(organization!);
+    type === 'gitlab' ? GitlabConfig(organization!, baseUrl) : GithubConfig(organization!);
 
 /**
  * Gets the details of a repository.
@@ -108,9 +106,10 @@ const getRepositoryDetails = async ({
     organization,
     gitRepositoryName,
     type,
+    baseUrl,
 }: GetFileContentOptions): Promise<RepositoryType | null> => {
     try {
-        const queryOptions = buildQueryOptions({ organization, type });
+        const queryOptions = buildQueryOptions({ organization, type, baseUrl });
 
         const repositoryResponse = await fetch(
             queryOptions.urls.repositoryDetailsUrl(gitRepositoryName || ''),
@@ -136,6 +135,12 @@ const getRepositoryDetails = async ({
             return repositoryJsonResponse;
         }
 
+        if (!repositoryResponse.ok) {
+            AppLogger.warn(
+                `[RepositoryApi - getRepositoryDetails] request failed with status ${repositoryResponse.status}: ${JSON.stringify(repositoryJsonResponse)}`,
+            );
+        }
+
         return null;
     } catch (error) {
         AppLogger.info(
@@ -159,13 +164,17 @@ const getFileContent = async ({
     gitRepositoryName,
     fileName,
     type,
+    baseUrl,
 }: GetFileContentOptions): Promise<unknown | null> => {
     try {
-        const queryOptions = buildQueryOptions({ organization, type });
-        const baseUrl = queryOptions.urls.fileContentUrl(gitRepositoryName || '', fileName || '');
-        AppLogger.info(`[RepositoryApi - getFileContent] baseUrl:  ${baseUrl}`);
+        const queryOptions = buildQueryOptions({ organization, type, baseUrl });
+        const fileContentUrl = queryOptions.urls.fileContentUrl(
+            gitRepositoryName || '',
+            fileName || '',
+        );
+        AppLogger.info(`[RepositoryApi - getFileContent] baseUrl:  ${fileContentUrl}`);
 
-        const fileContentResponse = await fetch(baseUrl, {
+        const fileContentResponse = await fetch(fileContentUrl, {
             method: 'GET',
             headers: queryOptions.headers,
         });
@@ -233,9 +242,10 @@ const getRepositoryMergeRequests = async ({
     dateStart,
     dateEnd,
     type = 'gitlab',
+    baseUrl,
 }: getRepositoryMergeRequestsOptions): Promise<MergeRequestType[]> => {
     try {
-        const queryOptions = buildQueryOptions({ organization, type });
+        const queryOptions = buildQueryOptions({ organization, type, baseUrl });
         let mergeRequestsUrl = (queryOptions as GitlabConfigType).urls.repositoryMergeRequestsUrl(
             repositoryId,
         );
@@ -281,9 +291,10 @@ const getRepositoryDeployments = async ({
     dateStart,
     dateEnd,
     type = 'gitlab',
+    baseUrl,
 }: getRepositoryDeploymentsOptions): Promise<DeployementType[]> => {
     try {
-        const queryOptions = buildQueryOptions({ organization, type });
+        const queryOptions = buildQueryOptions({ organization, type, baseUrl });
         let deploymentsUrl = appendQueryParams(
             (queryOptions as GitlabConfigType).urls.repositoryDeploymentsUrl(repositoryId),
             { status: 'success' },

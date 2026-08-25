@@ -16,6 +16,14 @@ import DoraMetricsUtils from './DoraMetricsUtils.ts';
 
 const { analyseDoraMetrics } = DoraMetricsUtils;
 
+const getGitlabBaseUrl = (webUrl?: string): string | undefined => {
+    try {
+        return webUrl ? new URL(webUrl).origin : undefined;
+    } catch {
+        return undefined;
+    }
+};
+
 /**
  * Starts the Dora Metrics auditor analysis.
  * @param auditConfig
@@ -66,6 +74,7 @@ const startAuditorAnalysis = async ({
             organization: application.repo?.organization,
             gitRepositoryName: application.repo?.gitUrl?.split('/').pop()?.replace('.git', ''),
             type: 'gitlab',
+            baseUrl: getGitlabBaseUrl(application.repo?.webUrl),
         });
 
         if (!repositoryDetails?.id) {
@@ -149,6 +158,7 @@ const startDoraMetricsAnalysis = async ({
         repositoryId: repositoryDetails?.id,
         dateStart,
         dateEnd,
+        baseUrl: getGitlabBaseUrl(application.repo?.webUrl),
     });
 
     AppLogger.info(
@@ -160,6 +170,7 @@ const startDoraMetricsAnalysis = async ({
         repositoryId: repositoryDetails?.id,
         dateStart: dateStart,
         dateEnd: dateEnd,
+        baseUrl: getGitlabBaseUrl(application.repo?.webUrl),
     });
 
     AppLogger.info(

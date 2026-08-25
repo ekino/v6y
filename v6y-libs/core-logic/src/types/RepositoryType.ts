@@ -34,6 +34,7 @@ export interface GitlabConfigType {
 export interface BuildQueryOptions {
     organization?: string;
     type?: string;
+    baseUrl?: string;
 }
 
 export interface GetFileContentOptions {
@@ -41,6 +42,7 @@ export interface GetFileContentOptions {
     gitRepositoryName?: string;
     fileName?: string;
     type?: string;
+    baseUrl?: string;
 }
 
 export interface GetRepositoryBranchesOptions {
@@ -71,6 +73,7 @@ export interface getRepositoryMergeRequestsOptions {
     dateStart?: Date;
     dateEnd?: Date;
     type?: string;
+    baseUrl?: string;
 }
 
 export interface MergeRequestType {
@@ -84,6 +87,7 @@ export interface getRepositoryDeploymentsOptions {
     dateStart?: Date;
     dateEnd?: Date;
     type?: string;
+    baseUrl?: string;
 }
 
 export interface DeployementType {
