@@ -1,7 +1,13 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Job } from 'bullmq';
 
-import { AppLogger, DataBaseManager, DependencyProvider, WorkerHelper } from '@v6y/core-logic';
+import {
+    AppLogger,
+    AuditRunProvider,
+    DataBaseManager,
+    DependencyProvider,
+    WorkerHelper,
+} from '@v6y/core-logic';
 
 import ServerConfig from '../config/ServerConfig.ts';
 import ApplicationManager from '../managers/ApplicationManager.ts';
@@ -34,9 +40,8 @@ export class DataUpdateProcessor extends WorkerHost {
         await DataBaseManager.connect();
 
         if (job.name === APPLICATION_LIST_UPDATE_JOB) {
-            // Audits are intentionally kept for historical tracking (they carry their
-            // own timestamps). Only dependencies are cleared before a fresh sweep.
             await DependencyProvider.deleteDependencyList();
+            await AuditRunProvider.recoverInterruptedAuditRuns();
             return ApplicationManager.buildApplicationList();
         }
 

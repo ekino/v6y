@@ -16,16 +16,13 @@ const createAuditRun = async (auditRun: AuditRunType) => {
             return null;
         }
 
-        // Check if there's a recent pending run for the same app/branch (within last 5 minutes)
-        // to avoid creating duplicates
+        // Block a new run if any non-terminal run (pending or in_progress) already
+        // exists for this app/branch — no time constraint, purely status-based.
         const recentRun = await getPrismaClient().auditRun.findFirst({
             where: {
                 appId: auditRun.appId,
                 branch: auditRun.branch ?? null,
-                runStatus: 'pending',
-                triggeredAt: {
-                    gte: new Date(Date.now() - 5 * 60 * 1000), // Last 5 minutes
-                },
+                runStatus: { in: ['pending', 'in_progress'] },
             },
             orderBy: { triggeredAt: 'desc' },
         });
@@ -291,6 +288,26 @@ const getAllAuditRuns = async (limit?: number, offset?: number, since?: string) 
     }
 };
 
+const recoverInterruptedAuditRuns = async () => {
+    try {
+        const { count } = await getPrismaClient().auditRun.updateMany({
+            where: { runStatus: 'in_progress' },
+            data: {
+                runStatus: 'failed',
+                completedAt: new Date(),
+                errorMessage: 'Run interrupted: analysis process restarted',
+            },
+        });
+        if (count > 0) {
+            AppLogger.warn(
+                `[AuditRunProvider - recoverInterruptedAuditRuns] Marked ${count} interrupted run(s) as failed`,
+            );
+        }
+    } catch (error) {
+        AppLogger.error('[AuditRunProvider - recoverInterruptedAuditRuns] error: ', error);
+    }
+};
+
 const AuditRunProvider = {
     createAuditRun,
     updateAuditRunStatus,
@@ -303,6 +320,7 @@ const AuditRunProvider = {
     getAuditRunsCountByApplicationId,
     deleteAuditRun,
     getAllAuditRuns,
+    recoverInterruptedAuditRuns,
 };
 
 export default AuditRunProvider;
