@@ -309,7 +309,7 @@ export const applicationCreateOrEditFormOutputAdapter = (data: unknown): Variabl
     };
 };
 
-export const faqInfosFormItems = (translate: TranslateType) => {
+const faqInfosFormItems = (translate: TranslateType) => {
     return [
         {
             id: 'faq-title',
@@ -339,7 +339,7 @@ export const faqInfosFormItems = (translate: TranslateType) => {
     ];
 };
 
-export const faqOptionalLinksFormItems = (translate: TranslateType) => [
+const faqOptionalLinksFormItems = (translate: TranslateType) => [
     {
         id: 'faq-optional-link-1',
         name: 'faq-optional-link-1',
@@ -426,7 +426,7 @@ export const notificationCreateOrEditFormOutputAdapter = (params: Record<string,
     };
 };
 
-export const notificationInfosFormItems = (translate: TranslateType) => {
+const notificationInfosFormItems = (translate: TranslateType) => {
     return [
         {
             id: 'notification-title',
@@ -456,7 +456,7 @@ export const notificationInfosFormItems = (translate: TranslateType) => {
     ];
 };
 
-export const notificationOptionalLinksFormItems = (translate: TranslateType) => [
+const notificationOptionalLinksFormItems = (translate: TranslateType) => [
     {
         id: 'notification-optional-link-1',
         name: 'notification-optional-link-1',
@@ -495,7 +495,7 @@ export const notificationCreateEditItems = (translate: TranslateType) => {
     ];
 };
 
-export const evolutionHelpInfosFormItems = (translate: TranslateType) => {
+const evolutionHelpInfosFormItems = (translate: TranslateType) => {
     return [
         {
             id: 'evolution-help-category',
@@ -549,7 +549,7 @@ export const evolutionHelpInfosFormItems = (translate: TranslateType) => {
     ];
 };
 
-export const evolutionHelpOptionalLinksFormItems = (translate: TranslateType) => [
+const evolutionHelpOptionalLinksFormItems = (translate: TranslateType) => [
     {
         id: 'evolution-help-optional-link-1',
         name: 'evolution-help-optional-link-1',
@@ -620,7 +620,7 @@ export const evolutionHelpCreateOrEditFormOutputAdapter = (params: Record<string
     };
 };
 
-export const auditHelpInfosFormItems = (translate: TranslateType) => {
+const auditHelpInfosFormItems = (translate: TranslateType) => {
     return [
         {
             id: 'audit-help-category',
@@ -697,7 +697,7 @@ export const auditHelpCreateOrEditFormOutputAdapter = (params: Record<string, un
     },
 });
 
-export const dependencyStatusHelpInfosFormItems = (translate: TranslateType) => {
+const dependencyStatusHelpInfosFormItems = (translate: TranslateType) => {
     return [
         {
             id: 'dependency-status-help-category',
@@ -778,7 +778,7 @@ export const dependencyStatusHelpCreateOrEditFormOutputAdapter = (
     },
 });
 
-export const deprecatedDependencyInfosFormItems = (translate: TranslateType) => {
+const deprecatedDependencyInfosFormItems = (translate: TranslateType) => {
     return [
         {
             id: 'deprecated-dependency-name',
@@ -880,7 +880,7 @@ export const accountCreateEditItems = (
     ];
 };
 
-export const accountInfosFormItems = (translate: TranslateType, role: string, edit: boolean) => {
+const accountInfosFormItems = (translate: TranslateType, role: string, edit: boolean) => {
     return [
         {
             id: 'account-email',
@@ -953,7 +953,7 @@ export const accountInfosFormItems = (translate: TranslateType, role: string, ed
     ];
 };
 
-export const accountApplicationsFormItems = (translate: TranslateType) => {
+const accountApplicationsFormItems = (translate: TranslateType) => {
     return [
         {
             id: 'account-applications',
