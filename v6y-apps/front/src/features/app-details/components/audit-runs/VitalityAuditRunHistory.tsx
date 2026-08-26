@@ -127,7 +127,7 @@ export const getDuration = (
     return `${Math.floor(seconds / 3600)}h ${Math.floor((seconds % 3600) / 60)}m`;
 };
 
-export const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = ({
+const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = ({
     auditRuns = [],
     isLoading = false,
 }) => {
