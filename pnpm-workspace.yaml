@@ -32,6 +32,9 @@ allowBuilds:
   sharp: true
   unrs-resolver: true
 
+overrides:
+  '@urql/core': '6.0.3'
+
 catalogs:
   default:
     '@ant-design/icons': '=6.1.0'

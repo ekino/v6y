@@ -187,9 +187,6 @@ catalogs:
     '@typhonjs/babel-parser':
       specifier: '=0.2.0'
       version: 0.2.0
-    '@urql/core':
-      specifier: '=6.0.3'
-      version: 6.0.3
     '@vitejs/plugin-react':
       specifier: '=4.3.4'
       version: 4.3.4
@@ -605,6 +602,9 @@ catalogs:
       specifier: '=4.1.0'
       version: 4.1.0
 
+overrides:
+  '@urql/core': 6.0.3
+
 importers:
 
   .:
@@ -865,7 +865,7 @@ importers:
         version: 8.56.0(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
       vitest:
         specifier: catalog:testing
-        version: 4.1.0(@opentelemetry/api@1.9.1)(@types/node@26.1.1)(@vitest/ui@4.1.0)(jsdom@30.0.1(@noble/hashes@1.8.0))(msw@2.15.0(@types/node@26.1.1)(typescript@6.0.3))(vite@7.3.5(@types/node@26.1.1)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0))
+        version: 4.1.0(@opentelemetry/api@1.9.1)(@types/node@26.1.1)(@vitest/ui@4.1.0)(jsdom@30.0.1(@noble/hashes@1.8.0))(msw@2.15.0(@types/node@26.1.0)(typescript@6.0.3))(vite@7.3.5(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0))
 
   v6y-apps/bfb-main-analyzer:
     dependencies:
@@ -983,7 +983,7 @@ importers:
         version: 8.56.0(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
       vitest:
         specifier: catalog:testing
-        version: 4.1.0(@opentelemetry/api@1.9.1)(@types/node@26.1.1)(@vitest/ui@4.1.0)(jsdom@30.0.1(@noble/hashes@1.8.0))(msw@2.15.0(@types/node@26.1.1)(typescript@6.0.3))(vite@7.3.5(@types/node@26.1.1)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0))
+        version: 4.1.0(@opentelemetry/api@1.9.1)(@types/node@26.1.1)(@vitest/ui@4.1.0)(jsdom@30.0.1(@noble/hashes@1.8.0))(msw@2.15.0(@types/node@26.1.0)(typescript@6.0.3))(vite@7.3.5(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0))
 
   v6y-apps/bfb-static-auditor:
     dependencies:
@@ -1155,7 +1155,7 @@ importers:
         version: 8.56.0(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
       vitest:
         specifier: catalog:testing
-        version: 4.1.0(@opentelemetry/api@1.9.1)(@types/node@26.1.1)(@vitest/ui@4.1.0)(jsdom@30.0.1(@noble/hashes@1.8.0))(msw@2.15.0(@types/node@26.1.1)(typescript@6.0.3))(vite@7.3.5(@types/node@26.1.1)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0))
+        version: 4.1.0(@opentelemetry/api@1.9.1)(@types/node@26.1.1)(@vitest/ui@4.1.0)(jsdom@30.0.1(@noble/hashes@1.8.0))(msw@2.15.0(@types/node@26.1.0)(typescript@6.0.3))(vite@7.3.5(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0))
 
   v6y-apps/bff:
     dependencies:
@@ -1261,7 +1261,7 @@ importers:
         version: 8.56.0(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
       vitest:
         specifier: catalog:testing
-        version: 4.1.0(@opentelemetry/api@1.9.1)(@types/node@26.1.1)(@vitest/ui@4.1.0)(jsdom@30.0.1(@noble/hashes@1.8.0))(msw@2.15.0(@types/node@26.1.1)(typescript@6.0.3))(vite@7.3.5(@types/node@26.1.1)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0))
+        version: 4.1.0(@opentelemetry/api@1.9.1)(@types/node@26.1.1)(@vitest/ui@4.1.0)(jsdom@30.0.1(@noble/hashes@1.8.0))(msw@2.15.0(@types/node@26.1.0)(typescript@6.0.3))(vite@7.3.5(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0))
 
   v6y-apps/front:
     dependencies:
@@ -1465,7 +1465,7 @@ importers:
         specifier: 'catalog:'
         version: 5.90.2(react@19.2.4)
       '@urql/core':
-        specifier: 'catalog:'
+        specifier: 6.0.3
         version: 6.0.3(graphql@17.0.2)
       '@v6y/core-logic':
         specifier: workspace:^
@@ -1780,7 +1780,7 @@ importers:
         version: 8.56.0(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
       vitest:
         specifier: catalog:testing
-        version: 4.1.0(@opentelemetry/api@1.9.1)(@types/node@26.1.1)(@vitest/ui@4.1.0)(jsdom@30.0.1(@noble/hashes@1.8.0))(msw@2.15.0(@types/node@26.1.1)(typescript@6.0.3))(vite@7.3.5(@types/node@26.1.1)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0))
+        version: 4.1.0(@opentelemetry/api@1.9.1)(@types/node@26.1.1)(@vitest/ui@4.1.0)(jsdom@30.0.1(@noble/hashes@1.8.0))(msw@2.15.0(@types/node@26.1.0)(typescript@6.0.3))(vite@7.3.5(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0))
 
   v6y-libs/ui-kit:
     dependencies:
@@ -1807,7 +1807,7 @@ importers:
         version: 2.0.5(@refinedev/cli@2.16.42(@types/node@26.1.0)(@types/react-dom@19.0.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(supports-color@7.2.0))(@refinedev/core@5.0.10(@tanstack/react-query@5.90.2(react@19.2.4))(@types/react-dom@19.0.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@refinedev/devtools-server@2.0.2(@types/react-dom@19.0.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(supports-color@7.2.0))(@types/react-dom@19.0.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@refinedev/graphql':
         specifier: 'catalog:'
-        version: 8.0.1(@refinedev/core@5.0.10(@tanstack/react-query@5.90.2(react@19.2.4))(@types/react-dom@19.0.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@urql/core@5.2.0(graphql@17.0.2))(graphql-ws@6.0.4(graphql@17.0.2)(ws@8.21.1))
+        version: 8.0.1(@refinedev/core@5.0.10(@tanstack/react-query@5.90.2(react@19.2.4))(@types/react-dom@19.0.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@urql/core@6.0.3(graphql@17.0.2))(graphql-ws@6.0.4(graphql@17.0.2)(ws@8.21.1))
       '@refinedev/inferencer':
         specifier: 'catalog:'
         version: 7.0.0(e433bbb3f1147c0f62d9867eb0154fc8)
@@ -4885,7 +4885,7 @@ packages:
     engines: {node: '>=20'}
     peerDependencies:
       '@refinedev/core': ^5.0.0
-      '@urql/core': ^5.0.6
+      '@urql/core': 6.0.3
       graphql-ws: ^5.9.1
 
   '@refinedev/inferencer@7.0.0':
@@ -6044,9 +6044,6 @@ packages:
     resolution: {integrity: sha512-nAB74NfSNKknqQ1RrYj6uz8FcXEomu/MATJZxh/x+BArzN2U3JbOYC0APYzUIGhVY3m5hRxA8VPNdPBoG8txlA==}
     cpu: [x64]
     os: [win32]
-
-  '@urql/core@5.2.0':
-    resolution: {integrity: sha512-/n0ieD0mvvDnVAXEQgX/7qJiVcvYvNkOHeBvkwtylfjydar123caCXcl58PXFY11oU1oquJocVXHxLAbtv4x1A==}
 
   '@urql/core@6.0.3':
     resolution: {integrity: sha512-0F39XWR21+IVLJfsqBvLShvoSzxT6h6wWXwrDhN8j9J+IEVOpQIUNHwpgjsp+2ePzn9aCH+rpDonn3HOAUnn9A==}
@@ -13949,14 +13946,6 @@ snapshots:
       '@types/node': 26.1.0
     optional: true
 
-  '@inquirer/confirm@6.1.1(@types/node@26.1.1)':
-    dependencies:
-      '@inquirer/core': 11.2.1(@types/node@26.1.1)
-      '@inquirer/type': 4.0.7(@types/node@26.1.1)
-    optionalDependencies:
-      '@types/node': 26.1.1
-    optional: true
-
   '@inquirer/core@10.3.2(@types/node@26.1.0)':
     dependencies:
       '@inquirer/ansi': 1.0.2
@@ -13983,19 +13972,6 @@ snapshots:
       '@types/node': 26.1.0
     optional: true
 
-  '@inquirer/core@11.2.1(@types/node@26.1.1)':
-    dependencies:
-      '@inquirer/ansi': 2.0.7
-      '@inquirer/figures': 2.0.7
-      '@inquirer/type': 4.0.7(@types/node@26.1.1)
-      cli-width: 4.1.0
-      fast-wrap-ansi: 0.2.2
-      mute-stream: 3.0.0
-      signal-exit: 4.1.0
-    optionalDependencies:
-      '@types/node': 26.1.1
-    optional: true
-
   '@inquirer/external-editor@1.0.3(@types/node@26.1.0)':
     dependencies:
       chardet: 2.2.0
@@ -14015,11 +13991,6 @@ snapshots:
   '@inquirer/type@4.0.7(@types/node@26.1.0)':
     optionalDependencies:
       '@types/node': 26.1.0
-    optional: true
-
-  '@inquirer/type@4.0.7(@types/node@26.1.1)':
-    optionalDependencies:
-      '@types/node': 26.1.1
     optional: true
 
   '@ioredis/commands@1.10.0': {}
@@ -15657,10 +15628,10 @@ snapshots:
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
 
-  '@refinedev/graphql@8.0.1(@refinedev/core@5.0.10(@tanstack/react-query@5.90.2(react@19.2.4))(@types/react-dom@19.0.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@urql/core@5.2.0(graphql@17.0.2))(graphql-ws@6.0.4(graphql@17.0.2)(ws@8.21.1))':
+  '@refinedev/graphql@8.0.1(@refinedev/core@5.0.10(@tanstack/react-query@5.90.2(react@19.2.4))(@types/react-dom@19.0.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@urql/core@6.0.3(graphql@17.0.2))(graphql-ws@6.0.4(graphql@17.0.2)(ws@8.21.1))':
     dependencies:
       '@refinedev/core': 5.0.10(@tanstack/react-query@5.90.2(react@19.2.4))(@types/react-dom@19.0.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      '@urql/core': 5.2.0(graphql@17.0.2)
+      '@urql/core': 6.0.3(graphql@17.0.2)
       camelcase: 6.3.0
       deepmerge: 4.3.1
       graphql: 15.10.2
@@ -16743,13 +16714,6 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.12.2':
     optional: true
 
-  '@urql/core@5.2.0(graphql@17.0.2)':
-    dependencies:
-      '@0no-co/graphql.web': 1.3.2(graphql@17.0.2)
-      wonka: 6.3.6
-    transitivePeerDependencies:
-      - graphql
-
   '@urql/core@6.0.3(graphql@17.0.2)':
     dependencies:
       '@0no-co/graphql.web': 1.3.2(graphql@17.0.2)
@@ -16893,15 +16857,6 @@ snapshots:
     optionalDependencies:
       msw: 2.15.0(@types/node@26.1.0)(typescript@6.0.3)
       vite: 7.3.5(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0)
-
-  '@vitest/mocker@4.1.0(msw@2.15.0(@types/node@26.1.1)(typescript@6.0.3))(vite@7.3.5(@types/node@26.1.1)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0))':
-    dependencies:
-      '@vitest/spy': 4.1.0
-      estree-walker: 3.0.3
-      magic-string: 0.30.21
-    optionalDependencies:
-      msw: 2.15.0(@types/node@26.1.1)(typescript@6.0.3)
-      vite: 7.3.5(@types/node@26.1.1)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0)
 
   '@vitest/pretty-format@4.1.0':
     dependencies:
@@ -21065,32 +21020,6 @@ snapshots:
       - '@types/node'
     optional: true
 
-  msw@2.15.0(@types/node@26.1.1)(typescript@6.0.3):
-    dependencies:
-      '@inquirer/confirm': 6.1.1(@types/node@26.1.1)
-      '@mswjs/interceptors': 0.41.9
-      '@open-draft/deferred-promise': 3.0.0
-      '@types/statuses': 2.0.6
-      cookie: 1.1.1
-      graphql: 16.14.2
-      headers-polyfill: 5.0.1
-      is-node-process: 1.2.0
-      outvariant: 1.4.3
-      path-to-regexp: 6.3.0
-      picocolors: 1.1.1
-      rettime: 0.11.11
-      statuses: 2.0.2
-      strict-event-emitter: 0.5.1
-      tough-cookie: 6.0.2
-      type-fest: 5.8.0
-      until-async: 3.0.2
-      yargs: 17.7.3
-    optionalDependencies:
-      typescript: 6.0.3
-    transitivePeerDependencies:
-      - '@types/node'
-    optional: true
-
   multer@2.1.1:
     dependencies:
       append-field: 1.0.0
@@ -24209,22 +24138,6 @@ snapshots:
       tsx: 4.21.0
       yaml: 2.9.0
 
-  vite@7.3.5(@types/node@26.1.1)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0):
-    dependencies:
-      esbuild: 0.27.7
-      fdir: 6.5.0(picomatch@4.0.5)
-      picomatch: 4.0.5
-      postcss: 8.5.23
-      rollup: 4.62.2
-      tinyglobby: 0.2.17
-    optionalDependencies:
-      '@types/node': 26.1.1
-      fsevents: 2.3.3
-      jiti: 2.7.0
-      lightningcss: 1.31.1
-      tsx: 4.21.0
-      yaml: 2.9.0
-
   vitest@4.1.0(@opentelemetry/api@1.9.1)(@types/node@26.1.0)(@vitest/ui@4.1.0)(jsdom@30.0.1(@noble/hashes@1.8.0))(msw@2.12.10(@types/node@26.1.0)(typescript@6.0.3))(vite@7.3.5(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0)):
     dependencies:
       '@vitest/expect': 4.1.0
@@ -24285,10 +24198,10 @@ snapshots:
     transitivePeerDependencies:
       - msw
 
-  vitest@4.1.0(@opentelemetry/api@1.9.1)(@types/node@26.1.1)(@vitest/ui@4.1.0)(jsdom@30.0.1(@noble/hashes@1.8.0))(msw@2.15.0(@types/node@26.1.1)(typescript@6.0.3))(vite@7.3.5(@types/node@26.1.1)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0)):
+  vitest@4.1.0(@opentelemetry/api@1.9.1)(@types/node@26.1.1)(@vitest/ui@4.1.0)(jsdom@30.0.1(@noble/hashes@1.8.0))(msw@2.15.0(@types/node@26.1.0)(typescript@6.0.3))(vite@7.3.5(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0)):
     dependencies:
       '@vitest/expect': 4.1.0
-      '@vitest/mocker': 4.1.0(msw@2.15.0(@types/node@26.1.1)(typescript@6.0.3))(vite@7.3.5(@types/node@26.1.1)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0))
+      '@vitest/mocker': 4.1.0(msw@2.15.0(@types/node@26.1.0)(typescript@6.0.3))(vite@7.3.5(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0))
       '@vitest/pretty-format': 4.1.0
       '@vitest/runner': 4.1.0
       '@vitest/snapshot': 4.1.0
@@ -24305,7 +24218,7 @@ snapshots:
       tinyexec: 1.2.4
       tinyglobby: 0.2.17
       tinyrainbow: 3.1.0
-      vite: 7.3.5(@types/node@26.1.1)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0)
+      vite: 7.3.5(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@opentelemetry/api': 1.9.1
