@@ -45,10 +45,6 @@ vi.mock(
     }),
 );
 
-vi.mock('../../features/app-details/components/dependencies/VitalityDependenciesView', () => ({
-    default: () => <div data-testid="dependencies-view">Dependencies View</div>,
-}));
-
 vi.mock('../../features/app-details/components/evolutions/VitalityEvolutionsView', () => ({
     default: () => <div data-testid="evolutions-view">Evolutions View</div>,
 }));
