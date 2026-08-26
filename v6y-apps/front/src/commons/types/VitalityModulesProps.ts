@@ -13,9 +13,3 @@ export interface VitalityModuleType {
     statusHelp: Record<string, string>;
     evolutionHelp: Record<string, string>;
 }
-
-export interface VitalityModulesProps {
-    modules: VitalityModuleType[];
-    source?: string;
-    status?: string;
-}
