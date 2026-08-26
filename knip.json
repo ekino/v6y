@@ -11,7 +11,8 @@
     "workspaces": {
         "v6y-apps/front*": {
             "entry": ["src/app/**/*.{ts,tsx}", "next.config.mjs"],
-            "project": ["**/*.{ts,tsx}"]
+            "project": ["**/*.{ts,tsx}"],
+            "ignoreDependencies": ["tailwindcss", "@tailwindcss/postcss"]
         },
         "v6y-apps/bfb-*": {
             "entry": ["src/index.ts", "src/workers/*.ts"],

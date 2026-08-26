@@ -33,17 +33,14 @@
   },
   "devDependencies": {
     "@eslint/js": "catalog:eslint10",
-    "@trivago/prettier-plugin-sort-imports": "catalog:",
     "@types/bcrypt": "catalog:",
     "@types/jsonwebtoken": "catalog:",
     "@types/passport": "catalog:",
     "@types/passport-jwt": "catalog:",
     "@vitest/coverage-v8": "catalog:testing",
     "@vitest/ui": "catalog:testing",
-    "chai": "catalog:testing",
     "eslint": "catalog:eslint10",
     "eslint-config-prettier": "catalog:eslint10",
-    "eslint-plugin-prettier": "catalog:eslint10",
     "globals": "catalog:",
     "prisma": "catalog:data",
     "tsx": "catalog:",
@@ -65,7 +62,6 @@
     "@types/unixify": "catalog:",
     "adm-zip": "catalog:",
     "axios": "catalog:",
-    "axios-retry": "catalog:",
     "bcrypt": "catalog:",
     "compare-versions": "catalog:",
     "cors": "catalog:",
@@ -77,15 +73,12 @@
     "json-2-csv": "catalog:",
     "jsonwebtoken": "catalog:",
     "lodash": "catalog:",
-    "morgan": "catalog:",
     "package-manager-detector": "catalog:",
     "passport": "catalog:",
     "passport-jwt": "catalog:",
     "semver": "catalog:",
-    "superagent": "catalog:",
     "unixify": "catalog:",
     "winston": "catalog:",
-    "winston-daily-rotate-file": "catalog:",
-    "winston-transport": "catalog:"
+    "winston-daily-rotate-file": "catalog:"
   }
 }
