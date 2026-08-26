@@ -4,7 +4,7 @@
         "interface": true,
         "type": true
     },
-    "ignoreDependencies": [],
+    "ignoreDependencies": ["@prisma/client"],
     "ignoreBinaries": ["prisma"],
     "ignore": ["**/*.config.*", "**/vitest.setup.*", "**/setupTests.*", "**/test-mocks/**"],
     "tags": ["-lintignore"],
