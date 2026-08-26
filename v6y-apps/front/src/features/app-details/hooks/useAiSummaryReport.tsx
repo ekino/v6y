@@ -108,5 +108,3 @@ export const useAiSummaryReport = (applicationId?: number) => {
         onRetryLoad: refetch,
     };
 };
-
-export default useAiSummaryReport;

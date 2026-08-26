@@ -12,7 +12,7 @@ const AUDIT_RUN_POLL_INTERVAL_MS = 4000;
 const AUDIT_RUN_POLL_MAX_ATTEMPTS = 45;
 const AUDIT_RUN_SETTLED_STATUSES = new Set(['completed', 'error', 'failed']);
 
-export const auditToastStyle = {
+const auditToastStyle = {
     background: 'rgba(255, 255, 255, 0.96)',
     color: '#111827',
     border: '1px solid rgba(17, 24, 39, 0.15)',
@@ -193,5 +193,3 @@ export const useRunApplicationAudit = (applicationId?: number, onAuditCompleted?
 
     return { isRunningAudit, onRunAuditClicked };
 };
-
-export default useRunApplicationAudit;
