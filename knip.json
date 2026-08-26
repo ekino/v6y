@@ -14,6 +14,16 @@
             "project": ["**/*.{ts,tsx}"],
             "ignoreDependencies": ["tailwindcss", "@tailwindcss/postcss"]
         },
+        "v6y-apps/bfb-static-auditor": {
+            "entry": ["src/index.ts", "src/workers/*.ts"],
+            "project": ["src/**/*.{ts,js}"],
+            "ignoreDependencies": ["jscpd", "lodash", "typhonjs-escomplex"]
+        },
+        "v6y-apps/bfb-main-analyzer": {
+            "entry": ["src/index.ts", "src/workers/*.ts"],
+            "project": ["src/**/*.{ts,js}"],
+            "ignoreDependencies": ["express"]
+        },
         "v6y-apps/bfb-*": {
             "entry": ["src/index.ts", "src/workers/*.ts"],
             "project": ["src/**/*.{ts,js}"]
@@ -26,6 +36,12 @@
         "v6y-apps/*": {
             "entry": ["src/index.ts"],
             "project": ["src/**/*.{ts,js}"]
+        },
+        "v6y-libs/core-logic": {
+            "ignoreDependencies": ["@types/adm-zip", "globals"]
+        },
+        "v6y-libs/ui-kit": {
+            "ignoreDependencies": ["@refinedev/devtools"]
         },
         "v6y-libs/*": {}
     }
