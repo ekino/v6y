@@ -1,4 +1,3 @@
-import { ApplicationType } from '@v6y/core-logic/src/types';
 import { Matcher } from '@v6y/core-logic/src/utils';
 
 import VitalityNavigationPaths from './VitalityNavigationPaths';
@@ -14,16 +13,6 @@ export interface BreadCrumbDisplayItem {
     title: string;
     href?: string;
 }
-
-export const AUDIT_REPORT_TYPES = {
-    lighthouse: 'Lighthouse',
-    codeModularity: 'Code-Modularity',
-    codeComplexity: 'Code-Complexity',
-    codeCoupling: 'Code-Coupling',
-    codeSecurity: 'Code-Security',
-    codeDuplication: 'Code-Duplication',
-    dora: 'DORA',
-};
 
 export const buildBreadCrumbItems = ({
     currentPage,
@@ -164,48 +153,4 @@ export const buildBreadCrumbItems = ({
             ],
         }[currentPage] || []
     );
-};
-
-export const buildPageTitle = (pathname: string, translate: (key: string) => string) => {
-    if (/^\/app\/\d+$/.test(pathname)) {
-        return translate('vitality.appDetailsPage.pageTitle');
-    }
-
-    if (/^\/app\/\d+\/reports\/\d+$/.test(pathname)) {
-        return translate('vitality.appDetailsPage.pageTitle');
-    }
-
-    return (
-        {
-            [VitalityNavigationPaths.DASHBOARD]: translate('vitality.dashboardPage.pageTitle'),
-            [VitalityNavigationPaths.APP_LIST]: translate('vitality.appListPage.pageTitle'),
-            [VitalityNavigationPaths.APP_DETAILS]: translate('vitality.appDetailsPage.pageTitle'),
-            [VitalityNavigationPaths.APPS_STATS]: translate('vitality.appStatsPage.pageTitle'),
-        }[pathname] || []
-    );
-};
-
-export const formatApplicationDataSource = (
-    pagedData: Array<{ getApplicationListByPageAndParams: ApplicationType }>,
-): Array<ApplicationType> => {
-    const mergedAppList = pagedData
-        ?.map((page) => {
-            return page?.getApplicationListByPageAndParams;
-        })
-        ?.flat();
-
-    if (!mergedAppList?.length) {
-        return mergedAppList;
-    }
-
-    const newDataSource: ApplicationType[] = [];
-
-    for (const app of mergedAppList) {
-        const isAppExist = newDataSource.some((oldApp) => oldApp._id === app._id);
-        if (!isAppExist) {
-            newDataSource.push(app);
-        }
-    }
-
-    return newDataSource;
 };

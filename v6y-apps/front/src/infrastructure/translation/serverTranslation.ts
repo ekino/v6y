@@ -33,14 +33,9 @@ const getI18nInstance = async () => {
     return createI18nInstance(lng);
 };
 
-export const getServerTranslation = async (key: string, params?: Record<string, unknown>) => {
-    const i18n = await getI18nInstance();
-    return i18n.t(key, params);
-};
-
 // Resolves several keys against a single shared i18n instance, avoiding the
-// sequential-awaits-each-re-initializing-i18next pattern of calling
-// getServerTranslation() once per key. `keys` maps a local name to its i18n
+// sequential-awaits-each-re-initializing-i18next pattern of calling one
+// translation per await. `keys` maps a local name to its i18n
 // key, e.g. { title: 'vitality.notFound.title' }.
 export const getServerTranslations = async <T extends Record<string, string>>(
     keys: T,

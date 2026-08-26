@@ -36,7 +36,7 @@ interface AuditRunType {
     }>;
 }
 
-export const VitalityAuditRunHistoryView: React.FC<VitalityAuditRunHistoryViewProps> = ({
+const VitalityAuditRunHistoryView: React.FC<VitalityAuditRunHistoryViewProps> = ({
     applicationId,
     onRunClick,
     source,

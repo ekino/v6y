@@ -1,12 +1,8 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { request } from 'graphql-request';
 
 import { SessionType, getSession } from '../../providers/SessionProvider';
-import {
-    BuildClientQueryParams,
-    UseClientQueryParams,
-    UseInfiniteClientQueryParams,
-} from './QueryAdapterType';
+import { BuildClientQueryParams, UseClientQueryParams } from './QueryAdapterType';
 
 const resolveGraphQLUrl = (queryBaseUrl: string) => {
     if (/^https?:\/\//i.test(queryBaseUrl)) {
@@ -37,18 +33,4 @@ export const useClientQuery = <TData = unknown,>({
     queryBuilder,
 }: UseClientQueryParams<TData>) => {
     return useQuery<TData, Error>({ queryKey: queryCacheKey, queryFn: queryBuilder });
-};
-
-export const useInfiniteClientQuery = <TData = unknown,>({
-    queryCacheKey,
-    queryBuilder,
-    getNextPageParam,
-}: UseInfiniteClientQueryParams<TData>) => {
-    return useInfiniteQuery<TData, Error>({
-        initialData: undefined,
-        initialPageParam: undefined,
-        queryKey: queryCacheKey,
-        queryFn: queryBuilder,
-        getNextPageParam: getNextPageParam ? getNextPageParam : () => {},
-    });
 };

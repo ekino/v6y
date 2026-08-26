@@ -94,5 +94,3 @@ export const applyDetectedLocale = () => {
         i18next.changeLanguage(nextLng);
     }
 };
-
-export default i18next;

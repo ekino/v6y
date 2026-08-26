@@ -102,7 +102,7 @@ const MAX_SUMMARY_BULLETS = 6;
 // rather than collapsing into one or two vague lines.
 const MIN_SUMMARY_BULLETS = 4;
 
-export const AI_SUMMARY_RESPONSE_FORMAT = {
+const AI_SUMMARY_RESPONSE_FORMAT = {
     type: 'json_schema',
     json_schema: {
         name: 'ai_summary_response',

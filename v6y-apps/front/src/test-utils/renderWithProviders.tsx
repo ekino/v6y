@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RenderOptions, RenderResult, render } from '@testing-library/react';
 import * as React from 'react';
 
-export const createTestQueryClient = () =>
+const createTestQueryClient = () =>
     new QueryClient({
         defaultOptions: {
             queries: {

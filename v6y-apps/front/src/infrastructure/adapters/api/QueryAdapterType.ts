@@ -11,7 +11,3 @@ export interface UseClientQueryParams<TData> {
     queryBuilder: () => Promise<TData>;
     variables?: Variables;
 }
-
-export interface UseInfiniteClientQueryParams<TData> extends UseClientQueryParams<TData> {
-    getNextPageParam?: (lastPage: TData, allPages: TData[]) => unknown;
-}
