@@ -158,7 +158,7 @@ catalogs:
     'puppeteer-core': '=24.0.0'
     'react-chatbotify': '=2.0.0-beta.26'
     'react-hook-form': '=7.54.2'
-    'react-virtualized-auto-sizer': '=1.0.25'
+    'react-virtualized-auto-sizer': '=2.0.3'
     'react-window': '=2.2.3'
     'recharts': '=3.10.1'
     'reflect-metadata': '=0.2.2'
