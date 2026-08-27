@@ -1,15 +1,13 @@
 /**
- * Notification delivery, kept on its own queue so a digest is never stuck behind
- * an audit or a catalog sweep: an email that arrives hours late is an email that
- * arrives after the day it summarizes.
+ * Notification queue — the analyzer is the producer, the `v6y-notifier`
+ * service is the consumer.  These constants must stay in sync with the
+ * identical set in `v6y-apps/notifier/src/queues/NotificationQueue.ts`.
  */
 export const NOTIFICATION_QUEUE = 'notification';
 
+/** Enqueued by the analyzer after each audit run finishes (pass or fail). */
+export const AUDIT_RUN_COMPLETED_JOB = 'audit-run-completed';
+
 export const DAILY_DIGEST_JOB = 'daily-digest';
 
-/**
- * Id of the BullMQ job scheduler backing the recurring daily digest. There is a
- * single one for the whole platform: the digest fans out to every subscriber
- * itself.
- */
 export const DAILY_DIGEST_SCHEDULE = 'daily-digest-schedule';

@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import EmailTemplates from '../mailer/EmailTemplates.ts';
+import EmailTemplates from '../channels/email/EmailTemplates.ts';
 
 describe('EmailTemplates', () => {
     beforeEach(() => {

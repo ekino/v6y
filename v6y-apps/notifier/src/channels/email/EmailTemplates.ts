@@ -1,4 +1,4 @@
-import MailConfig from '../config/MailConfig.ts';
+import MailConfig from './EmailConfig.ts';
 
 export interface AuditScoreBreakdown {
     total: number;

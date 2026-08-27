@@ -11,7 +11,6 @@ import { ApplicationAnalysisQueueService } from './queues/ApplicationAnalysisQue
 import { DataUpdateProcessor } from './queues/DataUpdateProcessor.ts';
 import { DATA_UPDATE_QUEUE } from './queues/DataUpdateQueue.ts';
 import { DataUpdateQueueService } from './queues/DataUpdateQueueService.ts';
-import { NotificationProcessor } from './queues/NotificationProcessor.ts';
 import { NOTIFICATION_QUEUE } from './queues/NotificationQueue.ts';
 import { NotificationQueueService } from './queues/NotificationQueueService.ts';
 
@@ -29,15 +28,14 @@ const queueImports = queueEnabled
           BullModule.registerQueue({
               name: DATA_UPDATE_QUEUE,
           }),
+          // Producer-only: the `v6y-notifier` service runs the consumer.
           BullModule.registerQueue({
               name: NOTIFICATION_QUEUE,
           }),
       ]
     : [];
 
-const queueProviders = queueEnabled
-    ? [ApplicationAnalysisProcessor, DataUpdateProcessor, NotificationProcessor]
-    : [];
+const queueProviders = queueEnabled ? [ApplicationAnalysisProcessor, DataUpdateProcessor] : [];
 
 @Module({
     imports: [...queueImports],

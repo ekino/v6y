@@ -1,17 +1,13 @@
 /**
- * A project's contact mail is a free-text field that can list several
- * addresses, so a single audit notification is expected to reach more than one
- * inbox. These helpers turn that raw field into a clean, de-duplicated list and
- * merge it with the owner account address.
+ * Helpers to build a clean, de-duplicated recipient list from a project's
+ * contact-mail field and the owning account's address.
  */
 
-// Intentionally permissive: it only rejects the obviously malformed so a typo
-// never silently drops a whole project's contact list.
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /**
- * Split a contact-mail field (comma or semicolon separated) into the individual
- * addresses it actually holds, dropping blanks and anything that isn't an email.
+ * Split a contact-mail field (comma or semicolon separated) into individual
+ * addresses, dropping blanks and anything that is not a valid email.
  */
 export const parseEmailList = (raw?: string | null): string[] => {
     if (!raw?.length) {
@@ -24,10 +20,6 @@ export const parseEmailList = (raw?: string | null): string[] => {
         .filter((entry) => EMAIL_PATTERN.test(entry));
 };
 
-/**
- * Keep the first occurrence of each address, comparing case-insensitively so the
- * same inbox written two different ways is not mailed twice.
- */
 const dedupeEmails = (emails: string[]): string[] => {
     const seen = new Set<string>();
 

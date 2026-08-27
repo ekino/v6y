@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { collectAuditRecipients, parseEmailList } from '../mailer/EmailRecipients.ts';
+import { collectAuditRecipients, parseEmailList } from '../channels/email/EmailRecipients.ts';
 
 describe('EmailRecipients', () => {
     describe('parseEmailList', () => {

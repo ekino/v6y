@@ -1,17 +1,6 @@
 {
-    "name": "@v6y/bfb-main-analyzer",
+    "name": "@v6y/notifier",
     "version": "0.0.0",
-    "main": "src/index.ts",
-    "type": "module",
-    "files": [
-        "src",
-        "dist",
-        "README.md"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/ekino/v6y"
-    },
     "scripts": {
         "build:tsc": "tsc --project ./tsconfig.json",
         "check:tsc": "tsc --noEmit --project ./tsconfig.json",
@@ -24,13 +13,25 @@
         "format": "prettier --write ./src",
         "test": "vitest --coverage --watch false"
     },
+    "dependencies": {
+        "@nestjs/bullmq": "=11.0.4",
+        "@nestjs/common": "catalog:nestjs11",
+        "@nestjs/core": "catalog:nestjs11",
+        "@nestjs/platform-express": "catalog:nestjs11",
+        "@v6y/core-logic": "workspace:^",
+        "bullmq": "=5.61.0",
+        "cookie-parser": "catalog:",
+        "express-status-monitor": "catalog:",
+        "nodemailer": "catalog:",
+        "reflect-metadata": "catalog:",
+        "rxjs": "catalog:"
+    },
     "devDependencies": {
         "@eslint/js": "catalog:eslint10",
         "@types/cookie-parser": "catalog:",
         "@types/express": "catalog:",
         "@types/express-status-monitor": "catalog:",
-        "@types/fs-extra": "catalog:",
-        "@types/node-cron": "catalog:",
+        "@types/nodemailer": "catalog:",
         "@types/supertest": "catalog:testing",
         "@vitest/coverage-v8": "catalog:testing",
         "@vitest/ui": "catalog:testing",
@@ -42,19 +43,5 @@
         "typescript": "catalog:",
         "typescript-eslint": "catalog:eslint10",
         "vitest": "catalog:testing"
-    },
-    "dependencies": {
-        "@nestjs/bullmq": "=11.0.4",
-        "@nestjs/common": "catalog:nestjs11",
-        "@nestjs/core": "catalog:nestjs11",
-        "@nestjs/platform-express": "catalog:nestjs11",
-        "@v6y/core-logic": "workspace:^",
-        "bullmq": "=5.61.0",
-        "cookie-parser": "catalog:",
-        "express-status-monitor": "catalog:",
-        "fs-extra": "catalog:",
-        "node-cron": "catalog:",
-        "reflect-metadata": "catalog:",
-        "rxjs": "catalog:"
     }
 }

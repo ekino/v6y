@@ -14,26 +14,38 @@ vi.mock('@v6y/core-logic', () => ({
     AuditRunProvider: { getAuditRunWithAudits, getAuditRunsForApplicationsSince },
 }));
 
-vi.mock('../mailer/MailerService.ts', () => ({
+vi.mock('../channels/email/EmailMailerService.ts', () => ({
     default: { sendMail },
 }));
 
-const { default: AuditNotificationManager } = await import(
-    '../managers/AuditNotificationManager.ts'
-);
+const { EmailChannel } = await import('../channels/email/EmailChannel.ts');
 
-describe('AuditNotificationManager', () => {
+describe('EmailChannel', () => {
+    let channel: InstanceType<typeof EmailChannel>;
+
     beforeEach(() => {
         vi.clearAllMocks();
         process.env.V6Y_MAIL_SMTP_HOST = 'smtp.example.com';
         sendMail.mockResolvedValue(true);
+        channel = new EmailChannel();
     });
 
     afterEach(() => {
         delete process.env.V6Y_MAIL_SMTP_HOST;
     });
 
-    describe('notifyAuditRunCompleted', () => {
+    describe('isAvailable()', () => {
+        it('returns true when SMTP host is configured', () => {
+            expect(channel.isAvailable()).toBe(true);
+        });
+
+        it('returns false when SMTP host is absent', () => {
+            delete process.env.V6Y_MAIL_SMTP_HOST;
+            expect(channel.isAvailable()).toBe(false);
+        });
+    });
+
+    describe('notify — audit-run-completed', () => {
         beforeEach(() => {
             getAuditRunWithAudits.mockResolvedValue({
                 _id: 42,
@@ -54,7 +66,7 @@ describe('AuditNotificationManager', () => {
                 auditReportEmailsEnabled: true,
             });
 
-            await expect(AuditNotificationManager.notifyAuditRunCompleted(42)).resolves.toBe(true);
+            await channel.notify({ type: 'audit-run-completed', data: { auditRunId: 42 } });
             expect(sendMail).toHaveBeenCalledWith(
                 expect.objectContaining({ to: ['jane@example.com'] }),
             );
@@ -73,7 +85,7 @@ describe('AuditNotificationManager', () => {
                 contactMail: 'team@example.com, ops@example.com',
             });
 
-            await expect(AuditNotificationManager.notifyAuditRunCompleted(42)).resolves.toBe(true);
+            await channel.notify({ type: 'audit-run-completed', data: { auditRunId: 42 } });
             expect(sendMail).toHaveBeenCalledWith(
                 expect.objectContaining({
                     to: ['jane@example.com', 'team@example.com', 'ops@example.com'],
@@ -94,7 +106,7 @@ describe('AuditNotificationManager', () => {
                 contactMail: 'team@example.com;ops@example.com',
             });
 
-            await expect(AuditNotificationManager.notifyAuditRunCompleted(42)).resolves.toBe(true);
+            await channel.notify({ type: 'audit-run-completed', data: { auditRunId: 42 } });
             expect(sendMail).toHaveBeenCalledWith(
                 expect.objectContaining({ to: ['team@example.com', 'ops@example.com'] }),
             );
@@ -113,7 +125,7 @@ describe('AuditNotificationManager', () => {
                 contactMail: 'JANE@example.com, team@example.com',
             });
 
-            await expect(AuditNotificationManager.notifyAuditRunCompleted(42)).resolves.toBe(true);
+            await channel.notify({ type: 'audit-run-completed', data: { auditRunId: 42 } });
             expect(sendMail).toHaveBeenCalledWith(
                 expect.objectContaining({ to: ['jane@example.com', 'team@example.com'] }),
             );
@@ -127,25 +139,20 @@ describe('AuditNotificationManager', () => {
                 auditReportEmailsEnabled: false,
             });
 
-            await expect(AuditNotificationManager.notifyAuditRunCompleted(42)).resolves.toBe(false);
+            await channel.notify({ type: 'audit-run-completed', data: { auditRunId: 42 } });
             expect(sendMail).not.toHaveBeenCalled();
         });
 
-        it('sends nothing when mail delivery is not configured', async () => {
-            delete process.env.V6Y_MAIL_SMTP_HOST;
-
-            await expect(AuditNotificationManager.notifyAuditRunCompleted(42)).resolves.toBe(false);
-            expect(getAuditRunWithAudits).not.toHaveBeenCalled();
-        });
-
-        it('reports a failure instead of throwing when the audit run cannot be read', async () => {
+        it('does not throw when the audit run cannot be read', async () => {
             getAuditRunWithAudits.mockRejectedValue(new Error('database unreachable'));
 
-            await expect(AuditNotificationManager.notifyAuditRunCompleted(42)).resolves.toBe(false);
+            await expect(
+                channel.notify({ type: 'audit-run-completed', data: { auditRunId: 42 } }),
+            ).resolves.not.toThrow();
         });
     });
 
-    describe('sendDailyDigests', () => {
+    describe('notify — daily-digest', () => {
         it('sends one digest per subscriber that had audit runs', async () => {
             getDailyDigestRecipients.mockResolvedValue([
                 {
@@ -159,7 +166,7 @@ describe('AuditNotificationManager', () => {
                 { _id: 1, appId: 7, runStatus: 'completed', audits: [{ scoreStatus: 'success' }] },
             ]);
 
-            await expect(AuditNotificationManager.sendDailyDigests()).resolves.toBe(1);
+            await channel.notify({ type: 'daily-digest', data: {} });
             expect(sendMail).toHaveBeenCalledWith(
                 expect.objectContaining({ to: 'jane@example.com' }),
             );
@@ -176,14 +183,14 @@ describe('AuditNotificationManager', () => {
             ]);
             getAuditRunsForApplicationsSince.mockResolvedValue([]);
 
-            await expect(AuditNotificationManager.sendDailyDigests()).resolves.toBe(0);
+            await channel.notify({ type: 'daily-digest', data: {} });
             expect(sendMail).not.toHaveBeenCalled();
         });
 
-        it('throws when the recipients cannot be read, so the job is retried', async () => {
+        it('does not throw when recipients cannot be read', async () => {
             getDailyDigestRecipients.mockResolvedValue(null);
 
-            await expect(AuditNotificationManager.sendDailyDigests()).rejects.toThrow();
+            await expect(channel.notify({ type: 'daily-digest', data: {} })).resolves.not.toThrow();
         });
     });
 });

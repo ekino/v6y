@@ -9,7 +9,6 @@ import {
 } from '@v6y/core-logic';
 
 import { buildDynamicReports, buildStaticReports } from './AuditManager.ts';
-import AuditNotificationManager from './AuditNotificationManager.ts';
 
 const { getRepositoryDetails, getRepositoryBranches } = RepositoryApi;
 
@@ -68,8 +67,14 @@ const resolveRepositoryBranches = async ({
 /**
  * Builds the application reports.
  * @param application
+ * @param onAuditComplete Optional callback invoked with the audit run id after
+ *   each run completes (pass or fail).  The caller is responsible for any
+ *   side-effects such as queueing notifications.
  */
-const buildApplicationReports = async (application: ApplicationType) => {
+const buildApplicationReports = async (
+    application: ApplicationType,
+    onAuditComplete?: (auditRunId: number) => void | Promise<void>,
+) => {
     let auditRunId: string | undefined;
 
     try {
@@ -180,7 +185,12 @@ const buildApplicationReports = async (application: ApplicationType) => {
 
             // The owner is told either way: a failed run is exactly the case
             // where waiting for a report that never comes is worst.
-            await AuditNotificationManager.notifyAuditRunCompleted(Number(auditRunId));
+            onAuditComplete?.(Number(auditRunId))?.catch((err) =>
+                AppLogger.error(
+                    `[ApplicationManager] onAuditComplete callback failed for auditRunId=${auditRunId}: `,
+                    err,
+                ),
+            );
         }
 
         return true;
@@ -199,7 +209,12 @@ const buildApplicationReports = async (application: ApplicationType) => {
                 ),
             );
 
-            await AuditNotificationManager.notifyAuditRunCompleted(Number(auditRunId));
+            onAuditComplete?.(Number(auditRunId))?.catch((err) =>
+                AppLogger.error(
+                    `[ApplicationManager] onAuditComplete callback failed for auditRunId=${auditRunId}: `,
+                    err,
+                ),
+            );
         }
 
         return false;
@@ -209,8 +224,12 @@ const buildApplicationReports = async (application: ApplicationType) => {
 /**
  * Builds the reports for a single application id.
  * @param applicationId
+ * @param onAuditComplete See `buildApplicationReports`.
  */
-const buildApplicationReportsById = async (applicationId: number) => {
+const buildApplicationReportsById = async (
+    applicationId: number,
+    onAuditComplete?: (auditRunId: number) => void | Promise<void>,
+) => {
     try {
         if (!applicationId) {
             return false;
@@ -227,7 +246,7 @@ const buildApplicationReportsById = async (applicationId: number) => {
             return false;
         }
 
-        return buildApplicationReports(application as unknown as ApplicationType);
+        return buildApplicationReports(application as unknown as ApplicationType, onAuditComplete);
     } catch (error) {
         AppLogger.error(`[ApplicationManager - buildApplicationReportsById] error: ${error}`);
         return false;
