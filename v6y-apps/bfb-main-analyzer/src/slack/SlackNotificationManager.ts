@@ -27,9 +27,11 @@ const notifyAuditComplete = async (
 
         const owners = await AccountProvider.getAccountsByApplicationId(applicationId);
 
-        const status = success ? 'completed successfully' : 'failed';
-        const runSuffix = auditRunId ? ` — run #${auditRunId}` : '';
-        const text = `*Vitality audit for ${application.name}${runSuffix}*\nStatus: ${status}.`;
+        const baseUrl = process.env.V6Y_PUBLIC_APP_URL ?? 'http://localhost:3000';
+        const reportUrl = `${baseUrl}/app/${applicationId}`;
+        const status = success ? 'finished successfully' : 'failed';
+        const runSuffix = auditRunId ? ` (run #${auditRunId})` : '';
+        const text = `*Audit for ${application.name}${runSuffix} ${status}*\n\nPlease checkout on <${reportUrl}|${application.name} reports>`;
 
         await Promise.all(
             owners
@@ -50,12 +52,14 @@ const notifyDigestForApp = async (
     if (!application?.name) return;
 
     const owners = await AccountProvider.getAccountsByApplicationId(appId);
+    const baseUrl = process.env.V6Y_PUBLIC_APP_URL ?? 'http://localhost:3000';
+    const reportUrl = `${baseUrl}/app/${appId}`;
     const lines = runs.map((r) => {
         const status =
             r.runStatus === 'success' || r.runStatus === 'completed' ? 'completed' : 'failed';
         return `- Run #${r.id}: *${status}*`;
     });
-    const message = `*Daily Vitality digest — ${application.name}*\n\n${lines.join('\n')}`;
+    const message = `*Daily Vitality digest — ${application.name}*\n\n${lines.join('\n')}\n\nPlease checkout on <${reportUrl}|${application.name} reports>`;
 
     await Promise.all(
         owners
