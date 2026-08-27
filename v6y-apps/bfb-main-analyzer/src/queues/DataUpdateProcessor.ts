@@ -26,18 +26,6 @@ const FORKED_WORKERS: Record<string, string> = {
     [EVOLUTION_UPDATE_JOB]: './src/workers/EvolutionWorker.ts',
 };
 
-/**
- * The keyword and evolution refreshes keep running in worker threads: a BullMQ
- * processor runs in this service's process, so doing that work inline would block
- * the event loop serving the analyzer's HTTP API. The queue contributes scheduling,
- * retries with backoff and persistence across restarts.
- */
-// The full catalog sweep (APPLICATION_LIST_UPDATE_JOB) runs every application's
-// audits sequentially inside a single BullMQ job and can take several minutes.
-// BullMQ's default lockDuration (30s) is far shorter than that, so without this
-// override the job gets flagged as stalled mid-run, moved back to "waiting", and
-// re-picked-up from scratch — the root cause of the duplicate-run bug this
-// processor otherwise guards against via recoverInterruptedAuditRuns/createAuditRun.
 @Processor(DATA_UPDATE_QUEUE, { lockDuration: 10 * 60 * 1000 })
 export class DataUpdateProcessor extends WorkerHost {
     async process(job: Job<unknown, unknown, string>) {

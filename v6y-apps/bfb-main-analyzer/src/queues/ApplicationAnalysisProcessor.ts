@@ -9,7 +9,7 @@ import {
     APPLICATION_ANALYSIS_SINGLE_JOB,
 } from './ApplicationAnalysisQueue.ts';
 
-@Processor(APPLICATION_ANALYSIS_QUEUE)
+@Processor(APPLICATION_ANALYSIS_QUEUE, { lockDuration: 10 * 60 * 1000 })
 export class ApplicationAnalysisProcessor extends WorkerHost {
     async process(job: Job<{ applicationId?: number }, unknown, string>) {
         AppLogger.info(`[ApplicationAnalysisProcessor] Processing job ${job.id} (${job.name})`);
