@@ -5,11 +5,13 @@ import { AppLogger, DataBaseManager, DependencyProvider, WorkerHelper } from '@v
 
 import ServerConfig from '../config/ServerConfig.ts';
 import ApplicationManager from '../managers/ApplicationManager.ts';
+import SlackNotificationManager from '../slack/SlackNotificationManager.ts';
 import {
     APPLICATION_LIST_UPDATE_JOB,
     DATA_UPDATE_QUEUE,
     EVOLUTION_UPDATE_JOB,
     KEYWORD_UPDATE_JOB,
+    SLACK_DIGEST_JOB,
 } from './DataUpdateQueue.ts';
 
 const { forkWorker } = WorkerHelper;
@@ -38,6 +40,10 @@ export class DataUpdateProcessor extends WorkerHost {
             // own timestamps). Only dependencies are cleared before a fresh sweep.
             await DependencyProvider.deleteDependencyList();
             return ApplicationManager.buildApplicationList();
+        }
+
+        if (job.name === SLACK_DIGEST_JOB) {
+            return SlackNotificationManager.sendDailyDigest();
         }
 
         const workerPath = FORKED_WORKERS[job.name];

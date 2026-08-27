@@ -824,6 +824,7 @@ export const accountCreateOrEditFormInAdapter = (params: Record<string, unknown>
     'account-role': params?.['role'],
     'account-password': params?.['password'],
     'account-applications': params?.['applications'],
+    'account-slack-user-id': params?.['slackUserId'],
 });
 
 export const accountCreateOrEditFormOutputAdapter = (params: Record<string, string>) => ({
@@ -834,6 +835,7 @@ export const accountCreateOrEditFormOutputAdapter = (params: Record<string, stri
         role: params?.['account-role'],
         password: params?.['account-password'],
         applications: params?.['account-applications'],
+        slackUserId: params?.['account-slack-user-id'] || null,
     },
 });
 
@@ -941,6 +943,13 @@ const accountInfosFormItems = (translate: TranslateType, role: string, edit: boo
                       },
                   ]
                 : [],
+        },
+        {
+            id: 'account-slack-user-id',
+            name: 'account-slack-user-id',
+            label: translate('pages.createAccount.fields.account-slack-user-id.label'),
+            placeholder: translate('pages.createAccount.fields.account-slack-user-id.placeholder'),
+            rules: [],
         },
     ];
 };
