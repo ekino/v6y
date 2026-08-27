@@ -27,10 +27,9 @@ const notifyAuditComplete = async (
 
         const owners = await AccountProvider.getAccountsByApplicationId(applicationId);
 
-        const emoji = success ? '✅' : '❌';
-        const status = success ? 'finished successfully' : 'failed';
-        const runSuffix = auditRunId ? ` (run #${auditRunId})` : '';
-        const text = `${emoji} Vitality audit for *${application.name}*${runSuffix} ${status}.`;
+        const status = success ? 'completed successfully' : 'failed';
+        const runSuffix = auditRunId ? ` — run #${auditRunId}` : '';
+        const text = `*Vitality audit for ${application.name}${runSuffix}*\nStatus: ${status}.`;
 
         await Promise.all(
             owners
@@ -52,10 +51,11 @@ const notifyDigestForApp = async (
 
     const owners = await AccountProvider.getAccountsByApplicationId(appId);
     const lines = runs.map((r) => {
-        const emoji = r.runStatus === 'success' || r.runStatus === 'completed' ? '✅' : '❌';
-        return `  ${emoji} ${r.runStatus} (run #${r.id})`;
+        const status =
+            r.runStatus === 'success' || r.runStatus === 'completed' ? 'completed' : 'failed';
+        return `- Run #${r.id}: *${status}*`;
     });
-    const message = `📋 *Daily Vitality digest for ${application.name}*\n${lines.join('\n')}`;
+    const message = `*Daily Vitality digest — ${application.name}*\n\n${lines.join('\n')}`;
 
     await Promise.all(
         owners
