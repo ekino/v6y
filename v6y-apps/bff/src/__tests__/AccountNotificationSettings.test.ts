@@ -1,5 +1,6 @@
+import type { INestApplication } from '@nestjs/common';
 import request from 'supertest';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const validateCredentialsMock = vi.fn();
 const getAccountNotificationSettingsMock = vi.fn();
@@ -39,34 +40,35 @@ const SETTINGS_MUTATION = `
     }
 `;
 
-const postGraphQL = async (
-    body: Record<string, unknown>,
-): Promise<{ body: Record<string, never> }> => {
-    const { createApp } = await import('../app.ts');
-    const { default: ServerConfig } = await import('../config/ServerConfig.ts');
-
-    const app = await createApp();
-
-    try {
-        return await request(app.getHttpServer())
-            .post(ServerConfig.currentConfig?.apiPath as string)
-            .send(body)
-            .expect(200);
-    } finally {
-        await app.close();
-    }
-};
-
 describe('Account notification settings', () => {
-    beforeEach(() => {
+    let app: INestApplication;
+    let apiPath: string;
+
+    beforeAll(async () => {
         process.env.V6Y_BFF_API_PATH = '/v6y/graphql/';
+        validateCredentialsMock.mockResolvedValue({ _id: 3, role: 'USER', applications: [42] });
+
+        const { createApp } = await import('../app.ts');
+        const { default: ServerConfig } = await import('../config/ServerConfig.ts');
+
+        app = await createApp();
+        apiPath = ServerConfig.currentConfig?.apiPath as string;
+    });
+
+    afterAll(async () => {
+        await app.close();
+    });
+
+    beforeEach(() => {
         validateCredentialsMock.mockResolvedValue({ _id: 3, role: 'USER', applications: [42] });
     });
 
     afterEach(() => {
         vi.clearAllMocks();
-        vi.resetModules();
     });
+
+    const postGraphQL = (body: Record<string, unknown>): Promise<{ body: Record<string, never> }> =>
+        request(app.getHttpServer()).post(apiPath).send(body).expect(200);
 
     it('reads the preferences of the authenticated account', async () => {
         getAccountNotificationSettingsMock.mockResolvedValue({

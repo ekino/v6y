@@ -28,7 +28,7 @@ export const parseEmailList = (raw?: string | null): string[] => {
  * Keep the first occurrence of each address, comparing case-insensitively so the
  * same inbox written two different ways is not mailed twice.
  */
-export const dedupeEmails = (emails: string[]): string[] => {
+const dedupeEmails = (emails: string[]): string[] => {
     const seen = new Set<string>();
 
     return emails.filter((email) => {
