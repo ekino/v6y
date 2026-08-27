@@ -56,11 +56,70 @@ describe('AuditNotificationManager', () => {
 
             await expect(AuditNotificationManager.notifyAuditRunCompleted(42)).resolves.toBe(true);
             expect(sendMail).toHaveBeenCalledWith(
-                expect.objectContaining({ to: 'jane@example.com' }),
+                expect.objectContaining({ to: ['jane@example.com'] }),
             );
         });
 
-        it('sends nothing when the owner opted out of the audit report emails', async () => {
+        it('also emails every address listed in the project contact mail', async () => {
+            getApplicationOwner.mockResolvedValue({
+                _id: 3,
+                username: 'jane',
+                email: 'jane@example.com',
+                auditReportEmailsEnabled: true,
+            });
+            getApplicationDetailsInfoByParams.mockResolvedValue({
+                _id: 7,
+                name: 'Checkout',
+                contactMail: 'team@example.com, ops@example.com',
+            });
+
+            await expect(AuditNotificationManager.notifyAuditRunCompleted(42)).resolves.toBe(true);
+            expect(sendMail).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    to: ['jane@example.com', 'team@example.com', 'ops@example.com'],
+                }),
+            );
+        });
+
+        it('still emails the contact mail when the owner opted out', async () => {
+            getApplicationOwner.mockResolvedValue({
+                _id: 3,
+                username: 'jane',
+                email: 'jane@example.com',
+                auditReportEmailsEnabled: false,
+            });
+            getApplicationDetailsInfoByParams.mockResolvedValue({
+                _id: 7,
+                name: 'Checkout',
+                contactMail: 'team@example.com;ops@example.com',
+            });
+
+            await expect(AuditNotificationManager.notifyAuditRunCompleted(42)).resolves.toBe(true);
+            expect(sendMail).toHaveBeenCalledWith(
+                expect.objectContaining({ to: ['team@example.com', 'ops@example.com'] }),
+            );
+        });
+
+        it('de-duplicates an address shared by the owner and the contact mail', async () => {
+            getApplicationOwner.mockResolvedValue({
+                _id: 3,
+                username: 'jane',
+                email: 'jane@example.com',
+                auditReportEmailsEnabled: true,
+            });
+            getApplicationDetailsInfoByParams.mockResolvedValue({
+                _id: 7,
+                name: 'Checkout',
+                contactMail: 'JANE@example.com, team@example.com',
+            });
+
+            await expect(AuditNotificationManager.notifyAuditRunCompleted(42)).resolves.toBe(true);
+            expect(sendMail).toHaveBeenCalledWith(
+                expect.objectContaining({ to: ['jane@example.com', 'team@example.com'] }),
+            );
+        });
+
+        it('sends nothing when the owner opted out and there is no contact mail', async () => {
             getApplicationOwner.mockResolvedValue({
                 _id: 3,
                 username: 'jane',

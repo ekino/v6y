@@ -47,8 +47,28 @@ export const applicationInfosFormItems = (translate: TranslateType) => {
                     message: translate('v6y-applications.fields.app-contact-email.error'),
                 },
                 {
-                    type: 'email',
-                    message: translate('v6y-applications.fields.app-contact-email.error'),
+                    // A project can be watched by several people, so this field
+                    // accepts a comma or semicolon separated list of addresses
+                    // rather than a single one.
+                    validator: (_rule: unknown, value: string) => {
+                        const entries = (value || '')
+                            .split(/[,;]+/)
+                            .map((entry) => entry.trim())
+                            .filter((entry) => entry.length);
+
+                        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        const allValid =
+                            entries.length > 0 &&
+                            entries.every((entry) => emailPattern.test(entry));
+
+                        return allValid
+                            ? Promise.resolve()
+                            : Promise.reject(
+                                  new Error(
+                                      translate('v6y-applications.fields.app-contact-email.error'),
+                                  ),
+                              );
+                    },
                 },
             ],
         },

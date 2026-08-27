@@ -179,9 +179,9 @@
         "error": "Application acronym is a mandatory field!"
       },
       "app-contact-email": {
-        "label": "Application contact email",
-        "placeholder": "Enter the application contact email",
-        "error": "Application contact email is a mandatory field and must be a valid email!"
+        "label": "Application contact email(s)",
+        "placeholder": "Enter one or more contact emails, separated by commas",
+        "error": "At least one valid email is required; separate several addresses with commas or semicolons!"
       },
       "app-git-organization": {
         "label": "Application Git Organization (it can be ekino for example and it will be used like this gitlab.ekino.com, generally gitlab.organization.com)",

@@ -5,7 +5,7 @@ import { AppLogger } from '@v6y/core-logic';
 import MailConfig from '../config/MailConfig.ts';
 
 export interface MailMessage {
-    to: string;
+    to: string | string[];
     subject: string;
     html: string;
     text: string;
@@ -41,6 +41,11 @@ const sendMail = async ({ to, subject, html, text }: MailMessage): Promise<boole
         return false;
     }
 
+    // nodemailer accepts a comma-separated list as well as an array; a single
+    // string is left untouched so existing single-recipient callers behave the
+    // same.
+    const recipients = Array.isArray(to) ? to.join(', ') : to;
+
     try {
         await getTransporter().sendMail({
             from: MailConfig.getMailSender(),
@@ -50,10 +55,10 @@ const sendMail = async ({ to, subject, html, text }: MailMessage): Promise<boole
             html,
         });
 
-        AppLogger.info(`[MailerService] Email sent to ${to}: ${subject}`);
+        AppLogger.info(`[MailerService] Email sent to ${recipients}: ${subject}`);
         return true;
     } catch (error) {
-        AppLogger.error(`[MailerService] Unable to send the email to ${to}: `, error);
+        AppLogger.error(`[MailerService] Unable to send the email to ${recipients}: `, error);
         return false;
     }
 };

@@ -1,6 +1,7 @@
 import { AccountProvider, AppLogger, ApplicationProvider, AuditRunProvider } from '@v6y/core-logic';
 
 import MailConfig from '../config/MailConfig.ts';
+import { collectAuditRecipients } from '../mailer/EmailRecipients.ts';
 import EmailTemplates, { AuditScoreBreakdown } from '../mailer/EmailTemplates.ts';
 import MailerService from '../mailer/MailerService.ts';
 
@@ -25,7 +26,9 @@ const buildScoreBreakdown = (audits: Array<{ scoreStatus?: string | null }>): Au
     );
 
 /**
- * Email the owner of an application that one of its audit runs has settled.
+ * Email the audit run outcome to everyone attached to the application: its owner
+ * account (unless it opted out) and every address listed in the project's
+ * contact mail.
  *
  * Always resolves: this runs at the tail of an audit job, and a notification
  * that could not be built or delivered must not mark the audit itself as failed.
@@ -45,28 +48,22 @@ const notifyAuditRunCompleted = async (auditRunId: number): Promise<boolean> => 
             return false;
         }
 
-        const owner = await ApplicationProvider.getApplicationOwner({ _id: auditRun.appId });
+        const [owner, application] = await Promise.all([
+            ApplicationProvider.getApplicationOwner({ _id: auditRun.appId }),
+            ApplicationProvider.getApplicationDetailsInfoByParams({ _id: auditRun.appId }),
+        ]);
 
-        if (!owner?.email?.length) {
-            AppLogger.warn(
-                `[AuditNotificationManager] applicationId=${auditRun.appId} has no reachable owner, no notification sent.`,
-            );
-            return false;
-        }
+        const recipients = collectAuditRecipients(owner, application?.contactMail);
 
-        if (!owner.auditReportEmailsEnabled) {
+        if (!recipients.length) {
             AppLogger.info(
-                `[AuditNotificationManager] accountId=${owner._id} opted out of the audit report emails.`,
+                `[AuditNotificationManager] applicationId=${auditRun.appId} has no reachable recipient (owner opted out or unset, and no contact mail), no notification sent.`,
             );
             return false;
         }
-
-        const application = await ApplicationProvider.getApplicationDetailsInfoByParams({
-            _id: auditRun.appId,
-        });
 
         const { subject, text, html } = EmailTemplates.buildAuditRunCompletedEmail({
-            username: owner.username,
+            username: owner?.username || 'there',
             applicationId: auditRun.appId,
             applicationName: application?.name || `Application #${auditRun.appId}`,
             auditRunId: auditRun._id,
@@ -76,7 +73,7 @@ const notifyAuditRunCompleted = async (auditRunId: number): Promise<boolean> => 
             scores: buildScoreBreakdown(auditRun.audits),
         });
 
-        return MailerService.sendMail({ to: owner.email, subject, text, html });
+        return MailerService.sendMail({ to: recipients, subject, text, html });
     } catch (error) {
         AppLogger.error(
             `[AuditNotificationManager] Unable to notify the completion of audit run ${auditRunId}: `,
