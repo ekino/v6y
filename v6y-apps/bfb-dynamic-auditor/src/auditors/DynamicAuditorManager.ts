@@ -1,8 +1,10 @@
 import { AppLogger, WorkerHelper } from '@v6y/core-logic';
 
+import ServerConfig from '../commons/ServerConfig.ts';
 import { AuditCommonsType, AuditOutcome } from './types/AuditCommonsType.ts';
 
 const { forkWorker } = WorkerHelper;
+const { currentConfig } = ServerConfig;
 
 const DYNAMIC_AUDITS = [
     { name: 'Lighthouse', worker: './src/workers/LighthouseAnalysisWorker.ts' },
@@ -23,6 +25,7 @@ const startDynamicAudit = async ({
 
         // Start audits in a worker thread to prevent blocking the main thread
         const workerConfig = {
+            chromeExecutablePath: currentConfig?.chromeExecutablePath,
             applicationId,
             auditRunId,
         };
