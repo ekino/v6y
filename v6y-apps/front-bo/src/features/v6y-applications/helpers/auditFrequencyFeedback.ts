@@ -15,6 +15,9 @@ interface CreateOrEditApplicationPayload {
  * The mutation reports the outcome through `auditFrequencyScheduled`; only an
  * explicit `false` is a failure, since the field is absent for clients that do
  * not select it.
+ *
+ * Also checks if the application creation/edit itself failed (null response),
+ * which typically indicates validation errors (duplicate name/acronym, missing fields, etc).
  */
 export const notifyAuditFrequencyScheduleOutcome = (data: unknown, translate: TranslateType) => {
     // refine hands over whatever the mutation function resolved to, which is the
@@ -24,6 +27,15 @@ export const notifyAuditFrequencyScheduleOutcome = (data: unknown, translate: Tr
         | (CreateOrEditApplicationPayload & { data?: CreateOrEditApplicationPayload })
         | undefined;
     const application = payload?.createOrEditApplication || payload?.data?.createOrEditApplication;
+
+    // Check if the mutation failed entirely (null/undefined application)
+    if (application === null || application === undefined) {
+        Message.error(
+            translate('v6y-applications.messages.creation-failed') ||
+                'Failed to save application. Please check the form fields (duplicate name/acronym?) and try again.',
+        );
+        return;
+    }
 
     if (application?.auditFrequencyScheduled === false) {
         Message.warning(translate('v6y-applications.messages.audit-frequency-schedule-failed'));
