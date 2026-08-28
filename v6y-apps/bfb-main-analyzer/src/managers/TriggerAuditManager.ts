@@ -1,4 +1,9 @@
-import { AppLogger, ApplicationProvider, AuditRunProvider } from '@v6y/core-logic';
+import {
+    AUDIT_RUN_STATUS,
+    AppLogger,
+    ApplicationProvider,
+    AuditRunProvider,
+} from '@v6y/core-logic';
 
 import { buildDynamicReports, buildStaticReports } from './AuditManager.ts';
 
@@ -66,7 +71,7 @@ const runAnalysis = async ({
 
         await AuditRunProvider.updateAuditRunStatus({
             auditRunId,
-            runStatus: 'completed',
+            runStatus: AUDIT_RUN_STATUS.COMPLETED,
             completedAt: new Date(),
         });
 
@@ -75,7 +80,7 @@ const runAnalysis = async ({
         AppLogger.error(`[TriggerAuditManager - runAnalysis] Async audit error: ${asyncError}`);
         await AuditRunProvider.updateAuditRunStatus({
             auditRunId,
-            runStatus: 'error',
+            runStatus: AUDIT_RUN_STATUS.ERROR,
             errorMessage: String(asyncError),
         }).catch((err) =>
             AppLogger.warn(
@@ -117,7 +122,7 @@ const triggerAudit = async ({
         const auditRun = await AuditRunProvider.createAuditRun({
             appId: numericApplicationId,
             branch: branch || undefined,
-            runStatus: 'pending',
+            runStatus: AUDIT_RUN_STATUS.PENDING,
             analysisTypes: analysisTypes || ['static', 'dynamic', 'devops'],
         });
 
@@ -135,7 +140,7 @@ const triggerAudit = async ({
 
         await AuditRunProvider.updateAuditRunStatus({
             auditRunId,
-            runStatus: 'in_progress',
+            runStatus: AUDIT_RUN_STATUS.IN_PROGRESS,
         });
 
         void runAnalysis({

@@ -1,6 +1,47 @@
 import AppLogger from '../core/AppLogger.ts';
-import { AuditRunType } from '../types/AuditRunType.ts';
+import {
+    AUDIT_RUN_NON_TERMINAL_STATUSES,
+    AUDIT_RUN_STATUS,
+    AuditRunType,
+} from '../types/AuditRunType.ts';
 import { getPrismaClient } from './PrismaClient.ts';
+
+const PRISMA_UNIQUE_CONSTRAINT_ERROR = 'P2002';
+
+const isPrismaUniqueError = (err: unknown): boolean =>
+    typeof err === 'object' &&
+    err !== null &&
+    'code' in err &&
+    (err as { code: string }).code === PRISMA_UNIQUE_CONSTRAINT_ERROR;
+
+const insertOrFetchConcurrentRun = async (auditRun: AuditRunType) => {
+    try {
+        const created = await getPrismaClient().auditRun.create({
+            data: {
+                appId: auditRun.appId,
+                branch: auditRun.branch ?? null,
+                runStatus: auditRun.runStatus ?? AUDIT_RUN_STATUS.PENDING,
+                analysisTypes: auditRun.analysisTypes ?? [],
+                errorMessage: auditRun.errorMessage ?? null,
+            },
+        });
+        return created;
+    } catch (createError: unknown) {
+        if (!isPrismaUniqueError(createError)) throw createError;
+
+        AppLogger.warn(
+            '[AuditRunProvider - createAuditRun] Unique constraint race — fetching concurrent run',
+        );
+        return getPrismaClient().auditRun.findFirst({
+            where: {
+                appId: auditRun.appId,
+                branch: auditRun.branch ?? null,
+                runStatus: { in: AUDIT_RUN_NON_TERMINAL_STATUSES },
+            },
+            orderBy: { triggeredAt: 'desc' },
+        });
+    }
+};
 
 const createAuditRun = async (auditRun: AuditRunType) => {
     try {
@@ -16,16 +57,13 @@ const createAuditRun = async (auditRun: AuditRunType) => {
             return null;
         }
 
-        // Check if there's a recent pending run for the same app/branch (within last 5 minutes)
-        // to avoid creating duplicates
+        // Block a new run if any non-terminal run (pending or in_progress) already
+        // exists for this app/branch — no time constraint, purely status-based.
         const recentRun = await getPrismaClient().auditRun.findFirst({
             where: {
                 appId: auditRun.appId,
                 branch: auditRun.branch ?? null,
-                runStatus: 'pending',
-                triggeredAt: {
-                    gte: new Date(Date.now() - 5 * 60 * 1000), // Last 5 minutes
-                },
+                runStatus: { in: AUDIT_RUN_NON_TERMINAL_STATUSES },
             },
             orderBy: { triggeredAt: 'desc' },
         });
@@ -37,15 +75,8 @@ const createAuditRun = async (auditRun: AuditRunType) => {
             return { ...recentRun, _id: recentRun.id };
         }
 
-        const created = await getPrismaClient().auditRun.create({
-            data: {
-                appId: auditRun.appId,
-                branch: auditRun.branch ?? null,
-                runStatus: auditRun.runStatus ?? 'pending',
-                analysisTypes: auditRun.analysisTypes ?? [],
-                errorMessage: auditRun.errorMessage ?? null,
-            },
-        });
+        const created = await insertOrFetchConcurrentRun(auditRun);
+        if (!created) return null;
 
         AppLogger.info('[AuditRunProvider - createAuditRun] created: ' + created.id);
         return { ...created, _id: created.id };
@@ -105,7 +136,7 @@ const completeAuditRun = async (auditRunId: number, hasErrors: boolean = false) 
 
         const completed = await updateAuditRunStatus({
             auditRunId,
-            runStatus: hasErrors ? 'failed' : 'completed',
+            runStatus: hasErrors ? AUDIT_RUN_STATUS.FAILED : AUDIT_RUN_STATUS.COMPLETED,
             completedAt: new Date(),
             errorMessage: hasErrors ? 'Audit completed with errors' : undefined,
         });
@@ -291,6 +322,31 @@ const getAllAuditRuns = async (limit?: number, offset?: number, since?: string) 
     }
 };
 
+const STALE_AUDIT_RUN_THRESHOLD_MS = 30 * 60 * 1000; // 30 minutes
+
+const recoverInterruptedAuditRuns = async (staleThresholdMs = STALE_AUDIT_RUN_THRESHOLD_MS) => {
+    try {
+        const { count } = await getPrismaClient().auditRun.updateMany({
+            where: {
+                runStatus: { in: AUDIT_RUN_NON_TERMINAL_STATUSES },
+                updatedAt: { lt: new Date(Date.now() - staleThresholdMs) },
+            },
+            data: {
+                runStatus: AUDIT_RUN_STATUS.FAILED,
+                completedAt: new Date(),
+                errorMessage: 'Run interrupted: analysis process restarted',
+            },
+        });
+        if (count > 0) {
+            AppLogger.warn(
+                `[AuditRunProvider - recoverInterruptedAuditRuns] Marked ${count} stale interrupted run(s) as failed`,
+            );
+        }
+    } catch (error) {
+        AppLogger.error('[AuditRunProvider - recoverInterruptedAuditRuns] error: ', error);
+    }
+};
+
 const AuditRunProvider = {
     createAuditRun,
     updateAuditRunStatus,
@@ -303,6 +359,7 @@ const AuditRunProvider = {
     getAuditRunsCountByApplicationId,
     deleteAuditRun,
     getAllAuditRuns,
+    recoverInterruptedAuditRuns,
 };
 
 export default AuditRunProvider;
