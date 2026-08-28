@@ -16,6 +16,10 @@ vi.mock('@v6y/core-logic', async () => {
             ...actual.DependencyProvider,
             deleteDependencyList: vi.fn().mockResolvedValue(true),
         },
+        AuditRunProvider: {
+            ...actual.AuditRunProvider,
+            recoverInterruptedAuditRuns: vi.fn().mockResolvedValue(undefined),
+        },
         WorkerHelper: { forkWorker },
     };
 });
@@ -53,6 +57,31 @@ describe('DataUpdateProcessor', () => {
         expect(DependencyProvider.deleteDependencyList).toHaveBeenCalled();
         expect(ApplicationManager.buildApplicationList).toHaveBeenCalled();
         expect(result).toBe(true);
+    });
+
+    it('reaps interrupted audit runs before rebuilding the application list', async () => {
+        const { DataUpdateProcessor } = await import('../DataUpdateProcessor.ts');
+        const { APPLICATION_LIST_UPDATE_JOB } = await import('../DataUpdateQueue.ts');
+        const { AuditRunProvider } = await import('@v6y/core-logic');
+        const { default: ApplicationManager } = await import(
+            '../../managers/ApplicationManager.ts'
+        );
+
+        const processor = new DataUpdateProcessor();
+        await processor.process({
+            id: '1',
+            name: APPLICATION_LIST_UPDATE_JOB,
+            data: {},
+        } as never);
+
+        expect(AuditRunProvider.recoverInterruptedAuditRuns).toHaveBeenCalledTimes(1);
+        // The reaper must run before the sweep, otherwise a still-active run would be
+        // reused/recreated before the stale ones are cleared.
+        const reapOrder = (AuditRunProvider.recoverInterruptedAuditRuns as ReturnType<typeof vi.fn>)
+            .mock.invocationCallOrder[0];
+        const buildOrder = (ApplicationManager.buildApplicationList as ReturnType<typeof vi.fn>)
+            .mock.invocationCallOrder[0];
+        expect(reapOrder).toBeLessThan(buildOrder);
     });
 
     it('forks the keyword worker on a keyword-update job', async () => {
