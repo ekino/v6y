@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { ApplicationType, AuditType } from '@v6y/core-logic/src/types';
 import { DynamicLoader, useNavigationAdapter, useTranslationProvider } from '@v6y/ui-kit';
-import { Button, GlobeIcon, ReloadIcon } from '@v6y/ui-kit-front';
+import { Button } from '@v6y/ui-kit-front';
 
 import VitalityApiConfig from '../../../commons/config/VitalityApiConfig';
 import { resolveNumericId } from '../../../commons/utils/NumericParamUtils';
@@ -307,22 +307,6 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
                         </div>
 
                         <div className="flex items-center gap-2 shrink-0">
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                className="h-10 w-10 shrink-0 rounded-lg border-slate-300 bg-white p-2 text-slate-700 hover:bg-slate-50"
-                                title={translate('vitality.appDetailsPage.actions.reload')}
-                            >
-                                <ReloadIcon className="w-4 h-4 shrink-0" />
-                            </Button>
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                className="h-10 w-10 shrink-0 rounded-lg border-slate-300 bg-white p-2 text-slate-700 hover:bg-slate-50"
-                                title={translate('vitality.appDetailsPage.actions.globe')}
-                            >
-                                <GlobeIcon className="w-4 h-4 shrink-0" />
-                            </Button>
                             {isReportDetailsView ? null : (
                                 <RunAuditButton
                                     isRunningAudit={isRunningAudit}

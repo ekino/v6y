@@ -31,19 +31,21 @@ const VitalityGeneralInformationView = ({
                 </p>
 
                 <div className="space-y-3">
-                    <div className="text-sm">
-                        <span className="font-semibold text-gray-900">
-                            {translate('vitality.appDetailsPage.infos.productionUrl')}
-                        </span>{' '}
-                        <a
-                            href={appInfos?.links?.[0]?.value}
-                            className="text-blue-600 hover:underline font-medium"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            {appInfos?.links?.[0]?.value}
-                        </a>
-                    </div>
+                    {appInfos?.links?.[0]?.value && (
+                        <div className="text-sm">
+                            <span className="font-semibold text-gray-900">
+                                {translate('vitality.appDetailsPage.infos.productionUrl')}
+                            </span>{' '}
+                            <a
+                                href={appInfos.links[0].value}
+                                className="text-blue-600 hover:underline font-medium"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                {appInfos.links[0].value}
+                            </a>
+                        </div>
+                    )}
                     <div className="text-sm">
                         <span className="font-semibold text-gray-900">
                             {translate('vitality.appDetailsPage.infos.repository')}
