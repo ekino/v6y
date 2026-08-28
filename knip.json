@@ -37,6 +37,10 @@
             "entry": ["src/index.ts"],
             "project": ["src/**/*.{ts,js}"]
         },
+        "v6y-libs/notifications": {
+            "entry": ["src/index.ts"],
+            "project": ["src/**/*.ts"]
+        },
         "v6y-libs/core-logic": {
             "ignoreDependencies": ["@types/adm-zip", "globals"]
         },

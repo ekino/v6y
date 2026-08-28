@@ -2,14 +2,13 @@ import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Job } from 'bullmq';
 
 import { AppLogger, DataBaseManager } from '@v6y/core-logic';
-
-import { NotificationEvent } from '../channels/INotificationChannel.ts';
-import { NotificationDispatcher } from '../dispatcher/NotificationDispatcher.ts';
 import {
     AUDIT_RUN_COMPLETED_JOB,
     DAILY_DIGEST_JOB,
     NOTIFICATION_QUEUE,
-} from './NotificationQueue.ts';
+    NotificationDispatcher,
+    NotificationEvent,
+} from '@v6y/notifications';
 
 @Processor(NOTIFICATION_QUEUE)
 export class NotificationProcessor extends WorkerHost {

@@ -688,6 +688,9 @@ importers:
       '@v6y/core-logic':
         specifier: workspace:^
         version: link:../../v6y-libs/core-logic
+      '@v6y/notifications':
+        specifier: workspace:^
+        version: link:../../v6y-libs/notifications
       bullmq:
         specifier: '=5.61.0'
         version: 5.61.0(supports-color@7.2.0)
@@ -703,6 +706,9 @@ importers:
       node-cron:
         specifier: 'catalog:'
         version: 4.2.1
+      nodemailer:
+        specifier: 'catalog:'
+        version: 9.0.5
       reflect-metadata:
         specifier: 'catalog:'
         version: 0.2.2
@@ -728,6 +734,9 @@ importers:
       '@types/node-cron':
         specifier: 'catalog:'
         version: 3.0.11
+      '@types/nodemailer':
+        specifier: 'catalog:'
+        version: 8.0.1
       '@types/supertest':
         specifier: catalog:testing
         version: 6.0.2
@@ -1225,91 +1234,6 @@ importers:
         specifier: catalog:testing
         version: 4.1.0(@opentelemetry/api@1.9.1)(@types/node@26.1.0)(@vitest/ui@4.1.0)(jsdom@30.0.1(@noble/hashes@1.8.0))(msw@2.12.10(@types/node@26.1.0)(typescript@6.0.3))(vite@7.3.5(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0))
 
-  v6y-apps/notifier:
-    dependencies:
-      '@nestjs/bullmq':
-        specifier: '=11.0.4'
-        version: 11.0.4(@nestjs/common@11.1.26(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.1.26)(bullmq@5.61.0(supports-color@7.2.0))
-      '@nestjs/common':
-        specifier: catalog:nestjs11
-        version: 11.1.26(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0)
-      '@nestjs/core':
-        specifier: catalog:nestjs11
-        version: 11.1.26(@nestjs/common@11.1.26(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/platform-express@11.1.26)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/platform-express':
-        specifier: catalog:nestjs11
-        version: 11.1.26(@nestjs/common@11.1.26(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.1.26)(supports-color@7.2.0)
-      '@v6y/core-logic':
-        specifier: workspace:^
-        version: link:../../v6y-libs/core-logic
-      bullmq:
-        specifier: '=5.61.0'
-        version: 5.61.0(supports-color@7.2.0)
-      cookie-parser:
-        specifier: 'catalog:'
-        version: 1.4.7
-      express-status-monitor:
-        specifier: 'catalog:'
-        version: 1.3.4(supports-color@7.2.0)
-      nodemailer:
-        specifier: 'catalog:'
-        version: 9.0.5
-      reflect-metadata:
-        specifier: 'catalog:'
-        version: 0.2.2
-      rxjs:
-        specifier: 'catalog:'
-        version: 7.8.2
-    devDependencies:
-      '@eslint/js':
-        specifier: catalog:eslint10
-        version: 10.0.1(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))
-      '@types/cookie-parser':
-        specifier: 'catalog:'
-        version: 1.4.8(@types/express@5.0.5)
-      '@types/express':
-        specifier: 'catalog:'
-        version: 5.0.5
-      '@types/express-status-monitor':
-        specifier: 'catalog:'
-        version: 1.3.3(supports-color@7.2.0)
-      '@types/nodemailer':
-        specifier: 'catalog:'
-        version: 8.0.1
-      '@types/supertest':
-        specifier: catalog:testing
-        version: 6.0.2
-      '@vitest/coverage-v8':
-        specifier: catalog:testing
-        version: 4.1.0(vitest@4.1.0)
-      '@vitest/ui':
-        specifier: catalog:testing
-        version: 4.1.0(vitest@4.1.0)
-      eslint:
-        specifier: catalog:eslint10
-        version: 10.0.1(jiti@2.7.0)(supports-color@7.2.0)
-      eslint-config-prettier:
-        specifier: catalog:eslint10
-        version: 10.0.1(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))
-      globals:
-        specifier: 'catalog:'
-        version: 16.4.0
-      supertest:
-        specifier: catalog:testing
-        version: 7.0.0(supports-color@7.2.0)
-      tsx:
-        specifier: 'catalog:'
-        version: 4.21.0
-      typescript:
-        specifier: 'catalog:'
-        version: 6.0.3
-      typescript-eslint:
-        specifier: catalog:eslint10
-        version: 8.56.0(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
-      vitest:
-        specifier: catalog:testing
-        version: 4.1.0(@opentelemetry/api@1.9.1)(@types/node@26.1.0)(@vitest/ui@4.1.0)(jsdom@30.0.1(@noble/hashes@1.8.0))(msw@2.15.0(@types/node@26.1.0)(typescript@6.0.3))(vite@7.3.5(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0))
-
   v6y-libs/core-logic:
     dependencies:
       '@nestjs/common':
@@ -1448,6 +1372,52 @@ importers:
       vitest:
         specifier: catalog:testing
         version: 4.1.0(@opentelemetry/api@1.9.1)(@types/node@26.1.1)(@vitest/ui@4.1.0)(jsdom@30.0.1(@noble/hashes@1.8.0))(msw@2.15.0(@types/node@26.1.0)(typescript@6.0.3))(vite@7.3.5(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0))
+
+  v6y-libs/notifications:
+    dependencies:
+      '@nestjs/common':
+        specifier: catalog:nestjs11
+        version: 11.1.26(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0)
+      '@v6y/core-logic':
+        specifier: workspace:^
+        version: link:../core-logic
+      nodemailer:
+        specifier: 'catalog:'
+        version: 9.0.5
+      reflect-metadata:
+        specifier: 'catalog:'
+        version: 0.2.2
+    devDependencies:
+      '@eslint/js':
+        specifier: catalog:eslint10
+        version: 10.0.1(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))
+      '@types/nodemailer':
+        specifier: 'catalog:'
+        version: 8.0.1
+      '@vitest/coverage-v8':
+        specifier: catalog:testing
+        version: 4.1.0(vitest@4.1.0)
+      '@vitest/ui':
+        specifier: catalog:testing
+        version: 4.1.0(vitest@4.1.0)
+      eslint:
+        specifier: catalog:eslint10
+        version: 10.0.1(jiti@2.7.0)(supports-color@7.2.0)
+      eslint-config-prettier:
+        specifier: catalog:eslint10
+        version: 10.0.1(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))
+      globals:
+        specifier: 'catalog:'
+        version: 16.4.0
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      typescript-eslint:
+        specifier: catalog:eslint10
+        version: 8.56.0(eslint@10.0.1(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
+      vitest:
+        specifier: catalog:testing
+        version: 4.1.0(@opentelemetry/api@1.9.1)(@types/node@26.1.0)(@vitest/ui@4.1.0)(jsdom@30.0.1(@noble/hashes@1.8.0))(msw@2.15.0(@types/node@26.1.0)(typescript@6.0.3))(vite@7.3.5(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.9.0))
 
   v6y-libs/ui-kit:
     dependencies:
