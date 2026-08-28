@@ -7,27 +7,39 @@ import VitalityDashboardReportsChart from './VitalityDashboardReportsChart';
 
 const VitalityDashboardView = () => {
     return (
-        <div className="mt-2 md:mt-3">
-            {/* Desktop: Grid layout with chart and projects side by side */}
-            <div className="hidden lg:grid lg:grid-cols-2 lg:gap-6">
-                {/* Chart Section */}
-                <section className="rounded-2xl border border-slate-200/60 bg-white px-5 py-6 shadow-md hover:shadow-lg transition-shadow duration-300">
+        <div className="mt-2 space-y-6 md:mt-3">
+            {/* Desktop: Grid layout - chart takes 2 cols, projects take 2 cols */}
+            <div className="hidden lg:grid lg:grid-cols-4 lg:gap-6">
+                {/* Audit Activity Chart - Left Column (spans 2) */}
+                <section className="lg:col-span-2 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
                     <VitalityDashboardReportsChart />
                 </section>
 
-                {/* Projects Section */}
-                <section className="rounded-2xl border border-slate-200/60 bg-white px-5 py-6 shadow-md hover:shadow-lg transition-shadow duration-300">
+                {/* Projects Under Watch - Right Column (spans 2) */}
+                <section className="lg:col-span-2 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+                    <div className="mb-6">
+                        <h2 className="text-sm font-semibold text-slate-900">
+                            Projects Under Watch
+                        </h2>
+                        <p className="mt-1 text-xs text-slate-500">Monitor your applications</p>
+                    </div>
                     <VitalityAppList source="dashboard" />
                 </section>
             </div>
 
             {/* Mobile/Tablet: Stacked layout */}
-            <div className="lg:hidden space-y-4 md:space-y-5">
-                <section className="rounded-xl border border-slate-200/80 bg-white px-3 py-4 shadow-sm md:rounded-2xl md:px-5 md:py-6 md:border-slate-200/60 md:shadow-md">
+            <div className="lg:hidden space-y-6">
+                <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm md:p-6">
                     <VitalityDashboardReportsChart />
                 </section>
 
-                <section className="rounded-xl border border-slate-200/80 bg-white px-3 py-4 shadow-sm md:rounded-2xl md:px-5 md:py-6 md:border-slate-200/60 md:shadow-md">
+                <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm md:p-6">
+                    <div className="mb-6">
+                        <h2 className="text-sm font-semibold text-slate-900">
+                            Projects Under Watch
+                        </h2>
+                        <p className="mt-1 text-xs text-slate-500">Monitor your applications</p>
+                    </div>
                     <VitalityAppList source="dashboard" />
                 </section>
             </div>
