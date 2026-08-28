@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { ApplicationType } from '@v6y/core-logic/src/types';
-import { ReloadIcon, useTranslationProvider } from '@v6y/ui-kit-front';
+import { useTranslationProvider } from '@v6y/ui-kit-front';
 
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
 import {
@@ -61,9 +61,6 @@ const VitalitySummaryCard = ({ appInfos }: VitalitySummaryCardProps) => {
             </div>
 
             <div className="flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-100 px-4 py-3 text-sm text-gray-600">
-                <span className="inline-flex h-5 w-5 items-center justify-center text-gray-500">
-                    <ReloadIcon className="h-4 w-4" />
-                </span>
                 <span>
                     {lastAnalyzedDate
                         ? translate('vitality.appDetailsPage.summaryCard.lastAnalyze').replace(
