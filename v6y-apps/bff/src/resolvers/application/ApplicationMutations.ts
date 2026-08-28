@@ -225,7 +225,11 @@ const createOrEditApplication = async (
 
         return { ...createdApplication, auditFrequencyScheduled: createdScheduleApplied };
     } catch (error) {
-        AppLogger.info(`[AppMutations - createOrEditApplication] error : ${error}`);
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        AppLogger.error(
+            `[AppMutations - createOrEditApplication] Failed to create/edit application: ${errorMessage}`,
+            error,
+        );
         return null;
     }
 };

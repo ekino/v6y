@@ -158,7 +158,8 @@ const buildWhereClause = async (
         }
     }
 
-    if (user && user.role !== 'ADMIN' && user.role !== 'SUPERADMIN' && user.applications?.length) {
+    // Restrict to user's assigned applications only for USER role; ADMIN and SUPERADMIN see all
+    if (user && user.role === 'USER' && user.applications?.length) {
         where = { ...where, id: { in: user.applications } };
     }
 
@@ -190,7 +191,11 @@ const createFormApplication = async (application: ApplicationInputType) => {
         AppLogger.info('[ApplicationProvider - createFormApplication] created: ' + created.id);
         return normalizeApplication(created);
     } catch (error) {
-        AppLogger.error('[ApplicationProvider - createFormApplication] error: ', error);
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        AppLogger.error(
+            `[ApplicationProvider - createFormApplication] Failed to create application - ${errorMessage}. Check for duplicate name (${formApplication.name}) or acronym (${formApplication.acronym}), or ensure all required fields are provided.`,
+            error,
+        );
         return null;
     }
 };
@@ -243,7 +248,11 @@ const editFormApplication = async (application: ApplicationInputType) => {
         });
         return { _id: application._id };
     } catch (error) {
-        AppLogger.error('[ApplicationProvider - editFormApplication] error: ', error);
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        AppLogger.error(
+            `[ApplicationProvider - editFormApplication] Failed to update application (ID: ${application?._id}) - ${errorMessage}. Check for duplicate name or acronym.`,
+            error,
+        );
         return null;
     }
 };
