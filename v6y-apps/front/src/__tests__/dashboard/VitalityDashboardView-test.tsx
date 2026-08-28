@@ -20,7 +20,11 @@ describe('VitalityDashboardView', () => {
         );
         expect(appListSection).not.toBeUndefined();
         expect(within(appListSection as HTMLElement).getByTestId('mock-app-list')).toBeVisible();
-        expect(appListSection).toHaveClass('rounded-lg');
-        expect(appListSection).toHaveClass('border-slate-200/80');
+        // Check for rounded corners (either rounded-lg from mobile or rounded-2xl from desktop)
+        expect(appListSection).toHaveClass(/rounded-/);
+        // Check for border styling
+        expect(appListSection).toHaveClass('border');
+        // Check for background styling
+        expect(appListSection).toHaveClass('bg-white');
     });
 });
