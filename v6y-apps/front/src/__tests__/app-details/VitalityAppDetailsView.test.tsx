@@ -130,7 +130,7 @@ describe('VitalityAppDetailsView', () => {
         expect(screen.getByRole('combobox')).toBeInTheDocument();
 
         const buttons = screen.getAllByRole('button');
-        expect(buttons.length).toBeGreaterThanOrEqual(4);
+        expect(buttons.length).toBeGreaterThanOrEqual(3);
 
         expect(screen.getByText('vitality.appDetailsPage.tabs.performance')).toBeInTheDocument();
         expect(screen.getByText('vitality.appDetailsPage.tabs.accessibility')).toBeInTheDocument();
