@@ -1,4 +1,5 @@
 import {
+    AUDIT_RUN_STATUS,
     AppLogger,
     ApplicationProvider,
     ApplicationType,
@@ -116,7 +117,7 @@ const buildApplicationReports = async (application: ApplicationType) => {
         const auditRun = await AuditRunProvider.createAuditRun({
             appId: application._id!,
             branch: undefined, // Scheduled runs analyze all branches
-            runStatus: 'pending',
+            runStatus: AUDIT_RUN_STATUS.PENDING,
             analysisTypes: ['static', 'dynamic', 'devops'],
         });
 
@@ -129,7 +130,7 @@ const buildApplicationReports = async (application: ApplicationType) => {
             // Update status to in_progress
             await AuditRunProvider.updateAuditRunStatus({
                 auditRunId: Number(auditRunId),
-                runStatus: 'in_progress',
+                runStatus: AUDIT_RUN_STATUS.IN_PROGRESS,
             });
         }
 
@@ -158,7 +159,7 @@ const buildApplicationReports = async (application: ApplicationType) => {
             if (staticSuccess && dynamicSuccess) {
                 await AuditRunProvider.updateAuditRunStatus({
                     auditRunId: Number(auditRunId),
-                    runStatus: 'completed',
+                    runStatus: AUDIT_RUN_STATUS.COMPLETED,
                     completedAt: new Date(),
                 });
                 AppLogger.info(
@@ -167,7 +168,7 @@ const buildApplicationReports = async (application: ApplicationType) => {
             } else {
                 await AuditRunProvider.updateAuditRunStatus({
                     auditRunId: Number(auditRunId),
-                    runStatus: 'failed',
+                    runStatus: AUDIT_RUN_STATUS.FAILED,
                     completedAt: new Date(),
                     errorMessage: `Partial analysis failure (staticSuccess=${staticSuccess}, dynamicSuccess=${dynamicSuccess})`,
                 });
@@ -185,7 +186,7 @@ const buildApplicationReports = async (application: ApplicationType) => {
         if (auditRunId) {
             await AuditRunProvider.updateAuditRunStatus({
                 auditRunId: Number(auditRunId),
-                runStatus: 'error',
+                runStatus: AUDIT_RUN_STATUS.ERROR,
                 errorMessage: String(error),
             }).catch((updateErr) =>
                 AppLogger.warn(

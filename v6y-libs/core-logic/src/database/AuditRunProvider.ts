@@ -328,7 +328,7 @@ const recoverInterruptedAuditRuns = async (staleThresholdMs = STALE_AUDIT_RUN_TH
     try {
         const { count } = await getPrismaClient().auditRun.updateMany({
             where: {
-                runStatus: AUDIT_RUN_STATUS.IN_PROGRESS,
+                runStatus: { in: AUDIT_RUN_NON_TERMINAL_STATUSES },
                 updatedAt: { lt: new Date(Date.now() - staleThresholdMs) },
             },
             data: {
