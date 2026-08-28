@@ -1,0 +1,38 @@
+{
+    "name": "@v6y/notifications",
+    "version": "0.0.0",
+    "main": "src/index.ts",
+    "type": "module",
+    "files": ["src", "dist", "README.md"],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ekino/v6y"
+    },
+    "scripts": {
+        "build:tsc": "tsc --project ./tsconfig.json",
+        "build:prod": "tsc --project ./tsconfig.build.json",
+        "check:tsc": "tsc --noEmit --project ./tsconfig.json",
+        "lint": "eslint --config ./eslint.config.mjs --cache-location ./.eslintcache \"./**/*.ts\" --cache",
+        "lint:fix": "eslint --config ./eslint.config.mjs --cache-location ./.eslintcache \"./**/*.ts\" --cache --fix",
+        "format": "prettier --write ./src",
+        "test": "vitest --coverage --watch false"
+    },
+    "dependencies": {
+        "@nestjs/common": "catalog:nestjs11",
+        "@v6y/core-logic": "workspace:^",
+        "nodemailer": "catalog:",
+        "reflect-metadata": "catalog:"
+    },
+    "devDependencies": {
+        "@eslint/js": "catalog:eslint10",
+        "@types/nodemailer": "catalog:",
+        "@vitest/coverage-v8": "catalog:testing",
+        "@vitest/ui": "catalog:testing",
+        "eslint": "catalog:eslint10",
+        "eslint-config-prettier": "catalog:eslint10",
+        "globals": "catalog:",
+        "typescript": "catalog:",
+        "typescript-eslint": "catalog:eslint10",
+        "vitest": "catalog:testing"
+    }
+}

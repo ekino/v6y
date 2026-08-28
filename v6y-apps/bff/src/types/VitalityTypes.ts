@@ -7,6 +7,8 @@ import AccountDeleteOutput from './account/AccountDeleteOutput.ts';
 import AccountLoginInput from './account/AccountLoginInput.ts';
 import AccountLoginOutput from './account/AccountLoginOutput.ts';
 import AccountMutationsType from './account/AccountMutationsType.ts';
+import AccountNotificationSettingsInput from './account/AccountNotificationSettingsInput.ts';
+import AccountNotificationSettingsType from './account/AccountNotificationSettingsType.ts';
 import AccountQueriesType from './account/AccountQueriesType.ts';
 import AccountType from './account/AccountType.ts';
 import AccountUpdatePasswordInput from './account/AccountUpdatePasswordInput.ts';
@@ -96,6 +98,7 @@ const VitalityTypes = gql(`
     ${EvolutionHelpType}
     ${EvolutionType}
     ${AccountType}
+    ${AccountNotificationSettingsType}
     ${ApplicationType}
     ${AuditHelpType}
     ${AuditReportType}
@@ -161,6 +164,7 @@ const VitalityTypes = gql(`
     ${AccountCreateOrEditOutput}
     ${AccountUpdatePasswordInput}
     ${AccountUpdatePasswordOutput}
+    ${AccountNotificationSettingsInput}
     ${AccountDeleteInput}
     ${AccountDeleteOutput}
     ${AccountMutationsType}

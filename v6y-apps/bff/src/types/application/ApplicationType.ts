@@ -36,6 +36,9 @@ const ApplicationType = `
     """ Audit reporting frequency, expressed as a 5-field cron expression """
     auditFrequencyCron: String
 
+    """ Account the application belongs to, and whom its audit emails are sent to """
+    ownerId: Int
+
     """
     Whether the analyzer confirmed the audit schedule change made by the last
     createOrEditApplication call. False means the application was saved but its

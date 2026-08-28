@@ -151,6 +151,15 @@ export const buildBreadCrumbItems = ({
                     title: translate('vitality.searchPage.shortTitle'),
                 },
             ],
+            [VitalityNavigationPaths.NOTIFICATION_SETTINGS]: [
+                {
+                    title: translate('vitality.dashboardPage.shortTitle'),
+                    href: VitalityNavigationPaths.DASHBOARD,
+                },
+                {
+                    title: translate('vitality.notificationSettingsPage.shortTitle'),
+                },
+            ],
         }[currentPage] || []
     );
 };

@@ -30,6 +30,14 @@ export class AccountResolver {
         return AccountQueries.loginAccount(undefined, args);
     }
 
+    @Query('getCurrentAccountNotificationSettings')
+    getCurrentAccountNotificationSettings(
+        @Context()
+        context: Parameters<typeof AccountQueries.getCurrentAccountNotificationSettings>[2],
+    ) {
+        return AccountQueries.getCurrentAccountNotificationSettings(undefined, undefined, context);
+    }
+
     @Mutation('createOrEditAccount')
     createOrEditAccount(
         @Args() args: Parameters<typeof AccountMutations.createOrEditAccount>[1],
@@ -44,6 +52,15 @@ export class AccountResolver {
         @Context() context: Parameters<typeof AccountMutations.updateAccountPassword>[2],
     ) {
         return AccountMutations.updateAccountPassword(undefined, args, context);
+    }
+
+    @Mutation('updateAccountNotificationSettings')
+    updateAccountNotificationSettings(
+        @Args() args: Parameters<typeof AccountMutations.updateAccountNotificationSettings>[1],
+        @Context()
+        context: Parameters<typeof AccountMutations.updateAccountNotificationSettings>[2],
+    ) {
+        return AccountMutations.updateAccountNotificationSettings(undefined, args, context);
     }
 
     @Mutation('deleteAccount')

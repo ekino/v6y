@@ -5,6 +5,8 @@ export interface AccountType {
     password?: string;
     role?: string;
     applications?: number[];
+    auditReportEmailsEnabled?: boolean;
+    dailyDigestEmailsEnabled?: boolean;
 }
 
 export interface AccountInputType {
@@ -14,6 +16,11 @@ export interface AccountInputType {
     password?: string;
     role: string;
     applications?: number[];
+}
+
+export interface AccountNotificationSettingsInputType {
+    auditReportEmailsEnabled?: boolean;
+    dailyDigestEmailsEnabled?: boolean;
 }
 
 export interface AccountUpdatePasswordType {
