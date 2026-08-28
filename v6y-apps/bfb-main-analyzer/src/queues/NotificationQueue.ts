@@ -7,7 +7,3 @@ export const NOTIFICATION_QUEUE = 'notification';
 
 /** Enqueued by the analyzer after each audit run finishes (pass or fail). */
 export const AUDIT_RUN_COMPLETED_JOB = 'audit-run-completed';
-
-export const DAILY_DIGEST_JOB = 'daily-digest';
-
-export const DAILY_DIGEST_SCHEDULE = 'daily-digest-schedule';
