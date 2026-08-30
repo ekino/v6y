@@ -55,6 +55,7 @@
     "react-dom": "catalog:react19",
     "react-i18next": "catalog:react19",
     "tailwindcss": "catalog:",
+    "@typescript/native": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:eslint10"
   }
