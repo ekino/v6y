@@ -11,6 +11,7 @@ import { ApplicationAnalysisQueueService } from './queues/ApplicationAnalysisQue
 import { DataUpdateProcessor } from './queues/DataUpdateProcessor.ts';
 import { DATA_UPDATE_QUEUE } from './queues/DataUpdateQueue.ts';
 import { DataUpdateQueueService } from './queues/DataUpdateQueueService.ts';
+import { SlackDigestScheduler } from './queues/SlackDigestScheduler.ts';
 
 const queueEnabled = QueueConfig.isQueueEnabled();
 
@@ -29,7 +30,9 @@ const queueImports = queueEnabled
       ]
     : [];
 
-const queueProviders = queueEnabled ? [ApplicationAnalysisProcessor, DataUpdateProcessor] : [];
+const queueProviders = queueEnabled
+    ? [ApplicationAnalysisProcessor, DataUpdateProcessor, SlackDigestScheduler]
+    : [];
 
 @Module({
     imports: [...queueImports],

@@ -4,6 +4,7 @@ import { Job } from 'bullmq';
 import { AppLogger, DataBaseManager } from '@v6y/core-logic';
 
 import ApplicationManager from '../managers/ApplicationManager.ts';
+import SlackNotificationManager from '../slack/SlackNotificationManager.ts';
 import {
     APPLICATION_ANALYSIS_QUEUE,
     APPLICATION_ANALYSIS_SINGLE_JOB,
@@ -11,7 +12,7 @@ import {
 
 @Processor(APPLICATION_ANALYSIS_QUEUE, { lockDuration: 10 * 60 * 1000 })
 export class ApplicationAnalysisProcessor extends WorkerHost {
-    async process(job: Job<{ applicationId?: number }, unknown, string>) {
+    async process(job: Job<{ applicationId?: number; auditRunId?: number }, unknown, string>) {
         AppLogger.info(`[ApplicationAnalysisProcessor] Processing job ${job.id} (${job.name})`);
 
         if (job.name !== APPLICATION_ANALYSIS_SINGLE_JOB) {
@@ -21,11 +22,23 @@ export class ApplicationAnalysisProcessor extends WorkerHost {
         await DataBaseManager.connect();
 
         const applicationId = job.data?.applicationId;
+        const auditRunId = job.data?.auditRunId;
 
         if (!applicationId) {
             throw new Error('The applicationId is required to process an application analysis');
         }
 
-        return ApplicationManager.buildApplicationReportsById(applicationId);
+        const success = await ApplicationManager.buildApplicationReportsById(applicationId);
+
+        // Fire-and-forget: Slack DM failures must never break the audit pipeline.
+        SlackNotificationManager.notifyAuditComplete(
+            applicationId,
+            auditRunId,
+            Boolean(success),
+        ).catch((err) =>
+            AppLogger.error('[ApplicationAnalysisProcessor] Slack notification error:', err),
+        );
+
+        return success;
     }
 }

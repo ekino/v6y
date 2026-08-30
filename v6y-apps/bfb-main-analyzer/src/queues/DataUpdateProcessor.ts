@@ -11,11 +11,13 @@ import {
 
 import ServerConfig from '../config/ServerConfig.ts';
 import ApplicationManager from '../managers/ApplicationManager.ts';
+import SlackNotificationManager from '../slack/SlackNotificationManager.ts';
 import {
     APPLICATION_LIST_UPDATE_JOB,
     DATA_UPDATE_QUEUE,
     EVOLUTION_UPDATE_JOB,
     KEYWORD_UPDATE_JOB,
+    SLACK_DIGEST_JOB,
 } from './DataUpdateQueue.ts';
 
 const { forkWorker } = WorkerHelper;
@@ -37,6 +39,10 @@ export class DataUpdateProcessor extends WorkerHost {
             await DependencyProvider.deleteDependencyList();
             await AuditRunProvider.recoverInterruptedAuditRuns();
             return ApplicationManager.buildApplicationList();
+        }
+
+        if (job.name === SLACK_DIGEST_JOB) {
+            return SlackNotificationManager.sendDailyDigest();
         }
 
         const workerPath = FORKED_WORKERS[job.name];

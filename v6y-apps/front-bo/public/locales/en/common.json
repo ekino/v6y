@@ -58,21 +58,21 @@
         "submit": "Update"
       }
     },
-    "createAccount" : {
+    "createAccount": {
       "title": "Create an account",
       "fields": {
         "account-infos-group": "Account Information",
-        "account-email" : {
+        "account-email": {
           "label": "Account email",
           "placeholder": "Enter an account email",
           "error": "Account email is a mandatory field!"
         },
-        "account-username" : {
+        "account-username": {
           "label": "Account username",
           "placeholder": "Enter an account username",
           "error": "Account username is a mandatory field!"
         },
-        "account-role" : {
+        "account-role": {
           "label": "Account role",
           "placeholder": "Select an account role",
           "options": {
@@ -81,18 +81,21 @@
           },
           "error": "Account role is a mandatory field!"
         },
-        "account-password" : {
+        "account-password": {
           "label": "Account password",
           "placeholder": "Enter your account password",
           "error": "Account password is a mandatory field!"
         },
         "applications-group": "Applications",
-        "account-applications" : {
+        "account-applications": {
           "label": "Account applications",
           "placeholder": "Select account applications",
           "error": "You need to select at least one application!"
+        },
+        "account-slack-user-id": {
+          "label": "Slack Member ID",
+          "placeholder": "e.g. U01XXXXXXXXX"
         }
-        
       }
     },
     "error": {
@@ -272,11 +275,9 @@
         }
       }
     },
-
     "messages": {
       "audit-frequency-schedule-failed": "The application was saved, but its audit schedule could not be applied on the analyzer. It will be re-applied automatically on the next reconciliation."
     },
-
     "titles": {
       "create": "Create Application",
       "edit": "Edit Application",
@@ -316,24 +317,24 @@
     }
   },
   "v6y-accounts": {
-    "v6y-accounts":"Accounts",
-    "titles" : {
+    "v6y-accounts": "Accounts",
+    "titles": {
       "list": "Accounts",
       "create": "Create Account",
       "edit": "Edit Account",
       "show": "Show Account"
     },
     "fields": {
-      "account-username":{
+      "account-username": {
         "label": "Username"
       },
-      "account-email":{
+      "account-email": {
         "label": "Email"
       },
-      "account-role":{
+      "account-role": {
         "label": "Role"
       },
-      "account-applications":{
+      "account-applications": {
         "label": "Applications"
       }
     }

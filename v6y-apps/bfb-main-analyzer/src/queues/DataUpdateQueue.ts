@@ -11,3 +11,7 @@ export const DATA_UPDATE_QUEUE = 'data-update';
 export const APPLICATION_LIST_UPDATE_JOB = 'application-list-update';
 export const KEYWORD_UPDATE_JOB = 'keyword-update';
 export const EVOLUTION_UPDATE_JOB = 'evolution-update';
+export const SLACK_DIGEST_JOB = 'slack-digest';
+
+/** Default cron: every day at 08:00 UTC. Configurable via V6Y_SLACK_DIGEST_CRON. */
+export const SLACK_DIGEST_CRON = process.env.V6Y_SLACK_DIGEST_CRON ?? '0 8 * * *';
