@@ -44,7 +44,7 @@
     "vitest": "catalog:testing"
   },
   "dependencies": {
-    "@nestjs/bullmq": "=11.0.4",
+    "@nestjs/bullmq": "=12.0.0",
     "@nestjs/common": "catalog:nestjs11",
     "@nestjs/core": "catalog:nestjs11",
     "@nestjs/platform-express": "catalog:nestjs11",
