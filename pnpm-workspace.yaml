@@ -193,7 +193,7 @@ catalogs:
     '@nestjs/common': '=11.1.26'
     '@nestjs/core': '=11.1.26'
     '@nestjs/graphql': '=13.2.4'
-    '@nestjs/platform-express': '=11.1.26'
+    '@nestjs/platform-express': '=12.0.1'
 
   data:
     '@prisma/adapter-pg': '^7.8.0'
