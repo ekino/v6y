@@ -85,7 +85,7 @@ catalogs:
     'adm-zip': '=0.6.0'
     'ag-charts-community': '=14.0.1'
     'ag-charts-react': '=14.0.1'
-    'antd': '=5.23.1'
+    'antd': '=6.6.2'
     'axios': '=1.19.0'
     'bcrypt': '=6.0.0'
     'class-variance-authority': '=0.7.1'
