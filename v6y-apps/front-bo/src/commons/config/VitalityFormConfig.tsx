@@ -5,6 +5,7 @@ import { SelectOptionType, TranslateType } from '@v6y/ui-kit';
 
 import VitalityAuditFrequencyField from '../components/VitalityAuditFrequencyField';
 import VitalityFormFieldSet from '../components/VitalityFormFieldSet';
+import VitalityToggleTextField from '../components/VitalityToggleTextField';
 
 interface LinkOptions {
     value: string;
@@ -84,13 +85,6 @@ export const applicationInfosFormItems = (translate: TranslateType) => {
                     message: translate('v6y-applications.fields.app-description.error'),
                 },
             ],
-        },
-        {
-            id: 'app-slack-channel-id',
-            name: 'app-slack-channel-id',
-            label: translate('v6y-applications.fields.app-slack-channel-id.label'),
-            placeholder: translate('v6y-applications.fields.app-slack-channel-id.placeholder'),
-            rules: [],
         },
     ];
 };
@@ -261,6 +255,15 @@ export const applicationCreateEditItems = (translate: TranslateType) => {
             groupTitle={translate('v6y-applications.fields.app-audit-frequency-group')}
             translate={translate}
         />,
+        <VitalityToggleTextField
+            key={translate('v6y-applications.fields.app-slack-channel-group')}
+            groupTitle={translate('v6y-applications.fields.app-slack-channel-group')}
+            translate={translate}
+            switchFieldName="app-slack-channel-notifications-enabled"
+            switchLabelKey="v6y-applications.fields.app-slack-channel-notifications-enabled.label"
+            textFieldName="app-slack-channel-id"
+            textFieldKey="v6y-applications.fields.app-slack-channel-id"
+        />,
     ];
 };
 
@@ -275,6 +278,7 @@ export const applicationCreateOrEditFormInAdapter = (params: ApplicationType) =>
         'app-git-url': params?.['repo']?.gitUrl,
         'app-contact-email': params?.['contactMail'],
         'app-slack-channel-id': params?.['slackChannelId'],
+        'app-slack-channel-notifications-enabled': !!params?.['slackChannelNotificationsEnabled'],
         'app-production-link': params?.['links']?.find?.(
             (item) => item.label === 'Application production url',
         )?.value,
@@ -314,7 +318,10 @@ export const applicationCreateOrEditFormOutputAdapter = (data: unknown): Variabl
             gitUrl: params?.['app-git-url'],
             name: params?.['app-name'],
             contactMail: params?.['app-contact-email'],
-            slackChannelId: params?.['app-slack-channel-id'] || null,
+            slackChannelId: params?.['app-slack-channel-notifications-enabled']
+                ? params?.['app-slack-channel-id'] || null
+                : null,
+            slackChannelNotificationsEnabled: !!params?.['app-slack-channel-notifications-enabled'],
             productionLink: params?.['app-production-link'],
             sonarqubeLink: params?.['app-sonarqube-link'],
             sonarqubeToken: params?.['app-sonarqube-token'] || undefined,
@@ -857,6 +864,7 @@ export const accountCreateOrEditFormInAdapter = (params: Record<string, unknown>
     'account-password': params?.['password'],
     'account-applications': params?.['applications'],
     'account-slack-user-id': params?.['slackUserId'],
+    'account-slack-notifications-enabled': !!params?.['slackNotificationsEnabled'],
 });
 
 export const accountCreateOrEditFormOutputAdapter = (params: Record<string, string>) => ({
@@ -867,7 +875,10 @@ export const accountCreateOrEditFormOutputAdapter = (params: Record<string, stri
         role: params?.['account-role'],
         password: params?.['account-password'],
         applications: params?.['account-applications'],
-        slackUserId: params?.['account-slack-user-id'] || null,
+        slackUserId: params?.['account-slack-notifications-enabled']
+            ? params?.['account-slack-user-id'] || null
+            : null,
+        slackNotificationsEnabled: !!params?.['account-slack-notifications-enabled'],
     },
 });
 
@@ -902,6 +913,15 @@ export const accountCreateEditItems = (
             groupTitle={translate('pages.createAccount.fields.applications-group')}
             items={accountApplicationsFormItems(translate)}
             selectOptions={applicationsValues}
+        />,
+        <VitalityToggleTextField
+            key={translate('pages.createAccount.fields.account-slack-group')}
+            groupTitle={translate('pages.createAccount.fields.account-slack-group')}
+            translate={translate}
+            switchFieldName="account-slack-notifications-enabled"
+            switchLabelKey="pages.createAccount.fields.account-slack-notifications-enabled.label"
+            textFieldName="account-slack-user-id"
+            textFieldKey="pages.createAccount.fields.account-slack-user-id"
         />,
     ];
 };
@@ -975,13 +995,6 @@ const accountInfosFormItems = (translate: TranslateType, role: string, edit: boo
                       },
                   ]
                 : [],
-        },
-        {
-            id: 'account-slack-user-id',
-            name: 'account-slack-user-id',
-            label: translate('pages.createAccount.fields.account-slack-user-id.label'),
-            placeholder: translate('pages.createAccount.fields.account-slack-user-id.placeholder'),
-            rules: [],
         },
     ];
 };

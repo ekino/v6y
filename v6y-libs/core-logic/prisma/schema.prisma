@@ -14,6 +14,7 @@ model Account {
   role                      String
   applications              Int[]
   slackUserId               String?       @map("slack_user_id")
+  slackNotificationsEnabled Boolean       @default(false) @map("slack_notifications_enabled")
   auditReportEmailsEnabled  Boolean       @default(true) @map("audit_report_emails_enabled")
   dailyDigestEmailsEnabled  Boolean       @default(true) @map("daily_digest_emails_enabled")
   createdAt                 DateTime      @default(now()) @map("created_at")
@@ -36,6 +37,7 @@ model Application {
   auditFrequencyCron    String?      @map("audit_frequency_cron")
   // Slack channel (e.g. "C0123456789") the Vitality bot posts audit notifications to, if configured.
   slackChannelId        String?      @map("slack_channel_id")
+  slackChannelNotificationsEnabled Boolean @default(false) @map("slack_channel_notifications_enabled")
   // Every application belongs to an account: it is the addressee of the audit
   // notification emails, so an orphaned application would report to nobody.
   ownerId               Int          @map("owner_id")

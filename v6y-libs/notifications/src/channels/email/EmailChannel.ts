@@ -109,7 +109,7 @@ export class EmailChannel implements INotificationChannel {
 
         for (const recipient of recipients) {
             try {
-                if (!recipient.email?.length) {
+                if (!recipient.email?.length || !recipient.dailyDigestEmailsEnabled) {
                     continue;
                 }
 

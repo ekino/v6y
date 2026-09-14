@@ -159,6 +159,7 @@ describe('EmailChannel', () => {
                     _id: 3,
                     username: 'jane',
                     email: 'jane@example.com',
+                    dailyDigestEmailsEnabled: true,
                     applications: [{ _id: 7, name: 'Checkout', acronym: 'CHK' }],
                 },
             ]);
@@ -172,12 +173,31 @@ describe('EmailChannel', () => {
             );
         });
 
+        it('skips a subscriber that disabled email digests', async () => {
+            getDailyDigestRecipients.mockResolvedValue([
+                {
+                    _id: 3,
+                    username: 'jane',
+                    email: 'jane@example.com',
+                    dailyDigestEmailsEnabled: false,
+                    applications: [{ _id: 7, name: 'Checkout', acronym: 'CHK' }],
+                },
+            ]);
+            getAuditRunsForApplicationsSince.mockResolvedValue([
+                { _id: 1, appId: 7, runStatus: 'completed', audits: [{ scoreStatus: 'success' }] },
+            ]);
+
+            await channel.notify({ type: 'daily-digest', data: {} });
+            expect(sendMail).not.toHaveBeenCalled();
+        });
+
         it('skips a subscriber whose applications had no audit run', async () => {
             getDailyDigestRecipients.mockResolvedValue([
                 {
                     _id: 3,
                     username: 'jane',
                     email: 'jane@example.com',
+                    dailyDigestEmailsEnabled: true,
                     applications: [{ _id: 7, name: 'Checkout', acronym: 'CHK' }],
                 },
             ]);

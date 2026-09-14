@@ -95,6 +95,10 @@
                 "account-slack-user-id": {
                     "label": "Identifiant Slack",
                     "placeholder": "ex. U01XXXXXXXXX"
+                },
+                "account-slack-group": "Notifications Slack",
+                "account-slack-notifications-enabled": {
+                    "label": "Activer les notifications Slack (DM)"
                 }
             }
         },
@@ -189,6 +193,10 @@
             "app-slack-channel-id": {
                 "label": "Canal Slack du projet",
                 "placeholder": "ex. C01XXXXXXXXX"
+            },
+            "app-slack-channel-group": "Notifications Slack",
+            "app-slack-channel-notifications-enabled": {
+                "label": "Activer les notifications du canal Slack"
             },
             "app-git-organization": {
                 "label": "Application Git Organization (it can be ekino for example and it will be used like this gitlab.ekino.com, generally gitlab.organization.com)",

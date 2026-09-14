@@ -20,7 +20,7 @@ describe('VitalityFormConfig - Form Items', () => {
     it('should generate application info form items with correct translations', () => {
         const result = applicationInfosFormItems(mockTranslate);
 
-        expect(result).toHaveLength(5);
+        expect(result).toHaveLength(4);
         expect(result[0].id).toBe('app-name');
         expect(result[0].label).toBe('v6y-applications.fields.app-name.label');
         expect(result[0].rules[0].message).toBe('v6y-applications.fields.app-name.error');
@@ -108,6 +108,8 @@ describe('VitalityFormConfig - Form Items', () => {
             'app-production-link': 'https://testapp.com',
             'app-sonarqube-link': 'https://sonarqube.example.com/dashboard?id=testapp',
             'app-sonarqube-token': undefined,
+            'app-slack-channel-id': undefined,
+            'app-slack-channel-notifications-enabled': false,
             'app-code-quality-platform-link': 'https://sonarqube.example.com/dashboard?id=testapp',
 
             'app-ci-cd-platform-link': undefined,
@@ -154,6 +156,7 @@ describe('VitalityFormConfig - Form Items', () => {
                 sonarqubeLink: 'https://sonarqube.example.com/dashboard?id=testapp',
                 sonarqubeToken: undefined,
                 slackChannelId: null,
+                slackChannelNotificationsEnabled: false,
                 codeQualityPlatformLink: undefined,
                 ciPlatformLink: undefined,
                 deploymentPlatformLink: undefined,
@@ -205,6 +208,8 @@ describe('VitalityFormConfig - Form Items', () => {
             'app-production-link': undefined,
             'app-sonarqube-link': undefined,
             'app-sonarqube-token': undefined,
+            'app-slack-channel-id': undefined,
+            'app-slack-channel-notifications-enabled': false,
             'app-code-quality-platform-link': undefined,
             'app-ci-cd-platform-link': undefined,
             'app-deployment-platform-link': undefined,

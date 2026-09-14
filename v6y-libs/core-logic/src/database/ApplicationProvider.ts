@@ -46,6 +46,10 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
         contactMail,
         ownerId,
         slackChannelId: slackChannelId === undefined ? undefined : slackChannelId || null,
+        slackChannelNotificationsEnabled:
+            application?.slackChannelNotificationsEnabled === undefined
+                ? undefined
+                : !!application.slackChannelNotificationsEnabled,
         // Left `undefined` when the input omits the field, so a partial update
         // (a script, a client on an older schema) does not silently disable an
         // application's scheduled audits and drop its cron.
@@ -190,6 +194,8 @@ const createFormApplication = async (application: ApplicationInputType) => {
                 description: formApplication.description!,
                 ownerId: formApplication.ownerId,
                 slackChannelId: formApplication.slackChannelId ?? null,
+                slackChannelNotificationsEnabled:
+                    !!formApplication.slackChannelNotificationsEnabled,
                 repo: formApplication.repo
                     ? (formApplication.repo as unknown as Prisma.InputJsonValue)
                     : undefined,
@@ -243,6 +249,7 @@ const editFormApplication = async (application: ApplicationInputType) => {
                 contactMail: formApplication.contactMail ?? undefined,
                 description: formApplication.description ?? undefined,
                 slackChannelId: formApplication.slackChannelId,
+                slackChannelNotificationsEnabled: formApplication.slackChannelNotificationsEnabled,
                 repo: formApplication.repo
                     ? (formApplication.repo as unknown as Prisma.InputJsonValue)
                     : undefined,
@@ -277,6 +284,7 @@ const editApplication = async (application: ApplicationType) => {
                 contactMail: application.contactMail ?? undefined,
                 description: application.description ?? undefined,
                 slackChannelId: application.slackChannelId,
+                slackChannelNotificationsEnabled: application.slackChannelNotificationsEnabled,
                 repo: application.repo
                     ? (application.repo as unknown as Prisma.InputJsonValue)
                     : undefined,
@@ -462,6 +470,7 @@ const getApplicationOwner = async ({ _id }: { _id: number }) => {
                         username: true,
                         email: true,
                         slackUserId: true,
+                        slackNotificationsEnabled: true,
                         auditReportEmailsEnabled: true,
                         dailyDigestEmailsEnabled: true,
                     },
@@ -478,11 +487,11 @@ const getApplicationOwner = async ({ _id }: { _id: number }) => {
     }
 };
 
-/** Every application with a Slack channel configured, for the Slack channel digest. */
+/** Every application with Slack channel notifications enabled and a channel configured. */
 const getApplicationsWithSlackChannel = async () => {
     try {
         const applications = await getPrismaClient().application.findMany({
-            where: { slackChannelId: { not: null } },
+            where: { slackChannelNotificationsEnabled: true, slackChannelId: { not: null } },
             select: { id: true, name: true, acronym: true, slackChannelId: true },
         });
 

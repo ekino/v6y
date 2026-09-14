@@ -118,8 +118,10 @@ export class SlackChannel implements INotificationChannel {
             });
 
             const targets = [
-                owner?.slackUserId ?? undefined,
-                application?.slackChannelId ?? undefined,
+                owner?.slackNotificationsEnabled ? owner.slackUserId : undefined,
+                application?.slackChannelNotificationsEnabled
+                    ? application.slackChannelId
+                    : undefined,
             ].filter((target): target is string => !!target?.length);
 
             if (!targets.length) {
@@ -160,7 +162,7 @@ export class SlackChannel implements INotificationChannel {
 
         for (const recipient of recipients) {
             try {
-                if (!recipient.slackUserId?.length) {
+                if (!recipient.slackNotificationsEnabled || !recipient.slackUserId?.length) {
                     continue;
                 }
 

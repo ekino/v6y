@@ -34,6 +34,7 @@ const createAccount = async (account: AccountInputType) => {
                 role: account.role,
                 applications: account.applications ?? [],
                 slackUserId: account.slackUserId ?? null,
+                slackNotificationsEnabled: !!account.slackNotificationsEnabled,
             },
         });
 
@@ -85,6 +86,7 @@ const editAccount = async ({
                 role: account.role,
                 applications: account.applications ?? [],
                 slackUserId: account.slackUserId ?? null,
+                slackNotificationsEnabled: !!account.slackNotificationsEnabled,
             },
         });
 
@@ -316,14 +318,18 @@ const getDailyDigestRecipients = async () => {
     try {
         const accounts = await getPrismaClient().account.findMany({
             where: {
-                dailyDigestEmailsEnabled: true,
+                // Loosened to either opt-in so an account can pick just one channel: a strict
+                // `dailyDigestEmailsEnabled` filter would silently skip Slack-only recipients.
+                OR: [{ dailyDigestEmailsEnabled: true }, { slackNotificationsEnabled: true }],
                 ownedApplications: { some: {} },
             },
             select: {
                 id: true,
                 username: true,
                 email: true,
+                dailyDigestEmailsEnabled: true,
                 slackUserId: true,
+                slackNotificationsEnabled: true,
                 ownedApplications: { select: { id: true, name: true, acronym: true } },
             },
         });
@@ -332,7 +338,9 @@ const getDailyDigestRecipients = async () => {
             _id: account.id,
             username: account.username,
             email: account.email,
+            dailyDigestEmailsEnabled: account.dailyDigestEmailsEnabled,
             slackUserId: account.slackUserId,
+            slackNotificationsEnabled: account.slackNotificationsEnabled,
             applications: account.ownedApplications.map((application) => ({
                 _id: application.id,
                 name: application.name,
