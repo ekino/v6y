@@ -5,6 +5,20 @@
 
 set -e
 
+# Ctrl+C (or the terminal closing) should tear every spawned dev server down
+# immediately instead of waiting on each framework's own graceful-shutdown path
+# (Next.js/refine in particular can take several seconds each) one after another.
+# Disabling the trap first avoids re-entering it when `kill 0` signals this
+# script's own process group.
+cleanup() {
+  trap - EXIT INT TERM
+  echo ""
+  echo "Stopping dev servers..."
+  kill -TERM 0 2>/dev/null || true
+  node scripts/stop-ports.js > /dev/null 2>&1 || true
+}
+trap cleanup EXIT INT TERM
+
 echo "Starting all dev servers..."
 echo ""
 

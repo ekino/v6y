@@ -33,13 +33,17 @@ const logOptions = {
     logDisableFileRotate: true,
 };
 
+// Defaults to 'info' so a dev session running several apps in parallel isn't
+// flooded with 'debug' noise; set V6Y_LOG_LEVEL=debug when you actually need it.
+const consoleLogLevel = process.env.V6Y_LOG_LEVEL || 'info';
+
 const AppLogger = winston.createLogger({
     level: 'info',
     format: winston.format.combine(formatArgs(), winston.format.json()),
     transports: [
         !logOptions.logDisableConsole
             ? new winston.transports.Console({
-                  level: 'debug',
+                  level: consoleLogLevel,
                   format: winston.format.combine(
                       formatArgs(),
                       winston.format.colorize(),
