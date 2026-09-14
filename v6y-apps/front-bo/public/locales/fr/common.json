@@ -91,6 +91,10 @@
                     "label": "Account applications",
                     "placeholder": "Select account applications",
                     "error": "You need to select at least one application!"
+                },
+                "account-slack-user-id": {
+                    "label": "Identifiant Slack",
+                    "placeholder": "ex. U01XXXXXXXXX"
                 }
             }
         },
@@ -181,6 +185,10 @@
                 "label": "Email(s) de contact de l'application",
                 "placeholder": "Saisissez un ou plusieurs emails de contact, séparés par des virgules",
                 "error": "Au moins un email valide est requis ; séparez plusieurs adresses par des virgules ou des points-virgules !"
+            },
+            "app-slack-channel-id": {
+                "label": "Canal Slack du projet",
+                "placeholder": "ex. C01XXXXXXXXX"
             },
             "app-git-organization": {
                 "label": "Application Git Organization (it can be ekino for example and it will be used like this gitlab.ekino.com, generally gitlab.organization.com)",

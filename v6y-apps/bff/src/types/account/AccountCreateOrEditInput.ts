@@ -17,6 +17,9 @@ const AccountCreateOrEditInput = `
 
         """ Applications """
         applications: [Int]
+
+        """ Slack Member ID (U01XXXXXX) for DM notifications """
+        slackUserId: String
     }
 `;
 

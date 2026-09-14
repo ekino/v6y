@@ -17,6 +17,9 @@ const AccountType = `
 
         """ Applications """
         applications: [Int]
+
+        """ Slack Member ID for DM notifications """
+        slackUserId: String
     }
 `;
 export default AccountType;

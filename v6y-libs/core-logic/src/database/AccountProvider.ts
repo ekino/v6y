@@ -33,6 +33,7 @@ const createAccount = async (account: AccountInputType) => {
                 password: account.password,
                 role: account.role,
                 applications: account.applications ?? [],
+                slackUserId: account.slackUserId ?? null,
             },
         });
 
@@ -83,6 +84,7 @@ const editAccount = async ({
                 email: account.email,
                 role: account.role,
                 applications: account.applications ?? [],
+                slackUserId: account.slackUserId ?? null,
             },
         });
 
@@ -341,6 +343,23 @@ const getDailyDigestRecipients = async () => {
     }
 };
 
+const getAccountsByApplicationId = async (applicationId: number) => {
+    try {
+        AppLogger.info(
+            `[AccountProvider - getAccountsByApplicationId] applicationId: ${applicationId}`,
+        );
+
+        const accounts = await getPrismaClient().account.findMany({
+            where: { applications: { has: applicationId } },
+        });
+
+        return accounts.map((a: (typeof accounts)[0]) => ({ ...a, _id: a.id }));
+    } catch (error) {
+        AppLogger.error(`[AccountProvider - getAccountsByApplicationId] error: `, error);
+        return [];
+    }
+};
+
 const AccountProvider = {
     createAccount,
     editAccount,
@@ -351,6 +370,7 @@ const AccountProvider = {
     getAccountNotificationSettings,
     updateAccountNotificationSettings,
     getDailyDigestRecipients,
+    getAccountsByApplicationId,
 };
 
 export default AccountProvider;
