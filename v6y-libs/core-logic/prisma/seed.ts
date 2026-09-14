@@ -114,45 +114,6 @@ async function main() {
     const adminPassword = await bcrypt.hash('admin1234', 10);
     const userPassword = await bcrypt.hash('user1234', 10);
 
-    // ─── Applications (created first so IDs are available for accounts) ───────
-
-    const app1 = await prisma.application.upsert({
-        where: { name: 'v6y Front' },
-        update: {},
-        create: {
-            name: 'v6y Front',
-            acronym: 'V6Y-FRONT',
-            contactMail: 'team@v6y.dev',
-            description: 'The main user-facing front-end application of the v6y platform.',
-            repo: { gitUrl: 'git@github.com:ekino/v6y.git', webUrl: 'https://github.com/ekino/v6y', organization: 'ekino' },
-            links: [
-                { label: 'Production', value: 'https://v6y.dev', description: '' },
-                { label: 'GitHub', value: 'https://github.com/ekino/v6y', description: '' },
-            ],
-        },
-    });
-
-    const app2 = await prisma.application.upsert({
-        where: { name: 'MyZE Battery' },
-        update: {},
-        create: {
-            name: 'MyZE Battery',
-            acronym: 'MFS-MYZE',
-            contactMail: 'team@ekino.com',
-            description: 'MyZE Battery application for Renault.',
-            repo: {
-                gitUrl: 'git@gitlab.ekino.com:renault/mfs/myze-battery.git',
-                webUrl: 'https://gitlab.ekino.com/renault/mfs/myze-battery',
-                organization: 'renault',
-            },
-            links: [
-                { label: 'GitLab', value: 'https://gitlab.ekino.com/renault/mfs/myze-battery', description: '' },
-            ],
-        },
-    });
-
-    console.log('[Seed] Applications created:', { app1: app1.id, app2: app2.id });
-
     const superAdmin = await prisma.account.upsert({
         where: { email: superadminEmail },
         update: {},
@@ -176,6 +137,47 @@ async function main() {
             applications: [],
         },
     });
+
+    // ─── Applications (owned by an account, which is who their audit mails go to) ───
+
+    const app1 = await prisma.application.upsert({
+        where: { name: 'v6y Front' },
+        update: {},
+        create: {
+            name: 'v6y Front',
+            acronym: 'V6Y-FRONT',
+            contactMail: 'team@v6y.dev',
+            description: 'The main user-facing front-end application of the v6y platform.',
+            ownerId: superAdmin.id,
+            repo: { gitUrl: 'git@github.com:ekino/v6y.git', webUrl: 'https://github.com/ekino/v6y', organization: 'ekino' },
+            links: [
+                { label: 'Production', value: 'https://v6y.dev', description: '' },
+                { label: 'GitHub', value: 'https://github.com/ekino/v6y', description: '' },
+            ],
+        },
+    });
+
+    const app2 = await prisma.application.upsert({
+        where: { name: 'MyZE Battery' },
+        update: {},
+        create: {
+            name: 'MyZE Battery',
+            acronym: 'MFS-MYZE',
+            contactMail: 'team@ekino.com',
+            description: 'MyZE Battery application for Renault.',
+            ownerId: admin.id,
+            repo: {
+                gitUrl: 'git@gitlab.ekino.com:renault/mfs/myze-battery.git',
+                webUrl: 'https://gitlab.ekino.com/renault/mfs/myze-battery',
+                organization: 'renault',
+            },
+            links: [
+                { label: 'GitLab', value: 'https://gitlab.ekino.com/renault/mfs/myze-battery', description: '' },
+            ],
+        },
+    });
+
+    console.log('[Seed] Applications created:', { app1: app1.id, app2: app2.id });
 
     const user = await prisma.account.upsert({
         where: { email: 'user@v6y.dev' },

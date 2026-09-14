@@ -47,8 +47,28 @@ export const applicationInfosFormItems = (translate: TranslateType) => {
                     message: translate('v6y-applications.fields.app-contact-email.error'),
                 },
                 {
-                    type: 'email',
-                    message: translate('v6y-applications.fields.app-contact-email.error'),
+                    // A project can be watched by several people, so this field
+                    // accepts a comma or semicolon separated list of addresses
+                    // rather than a single one.
+                    validator: (_rule: unknown, value: string) => {
+                        const entries = (value || '')
+                            .split(/[,;]+/)
+                            .map((entry) => entry.trim())
+                            .filter((entry) => entry.length);
+
+                        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        const allValid =
+                            entries.length > 0 &&
+                            entries.every((entry) => emailPattern.test(entry));
+
+                        return allValid
+                            ? Promise.resolve()
+                            : Promise.reject(
+                                  new Error(
+                                      translate('v6y-applications.fields.app-contact-email.error'),
+                                  ),
+                              );
+                    },
                 },
             ],
         },
@@ -108,9 +128,12 @@ export const applicationRequiredLinksFormItems = (translate: TranslateType) => [
         name: 'app-production-link',
         label: translate('v6y-applications.fields.app-production-link.label'),
         placeholder: translate('v6y-applications.fields.app-production-link.placeholder'),
+        // Not every application is deployed to a public production url (and
+        // plenty of pre-existing ones were saved without one); requiring it
+        // blocked editing any other field on those applications entirely.
         rules: [
             {
-                required: true,
+                type: 'url',
                 message: translate('v6y-applications.fields.app-production-link.error'),
             },
         ],

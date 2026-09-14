@@ -41,6 +41,15 @@ The repository is an Nx/pnpm monorepo made of several applications and shared li
 
 Each service is independent (own `package.json`, own start/build/test scripts) and orchestrated through Nx targets and pnpm workspaces.
 
+### Email notifications
+
+Every application belongs to an account, and that owner is who Vitality writes to:
+
+- **Audit report emails** are sent by `bfb-main-analyzer` as soon as an audit run settles, whether it succeeded or failed, with a link back to the report.
+- **A daily digest** recaps the audit runs of the owner's applications over the last 24 hours. It is a recurring BullMQ job, so it needs Redis to be up.
+
+Both are opt-out per account from the **Email notifications** page in `front`. Delivery itself is off until an SMTP host is configured: fill in the `V6Y_MAIL_*` variables in `.env` (see [env-template](env-template)) to turn the emails on, and `V6Y_PUBLIC_APP_URL` so the emails can link back to the platform.
+
 ## Prerequisites
 
 - Node.js `v22.11.0` (see [.nvmrc](.nvmrc))

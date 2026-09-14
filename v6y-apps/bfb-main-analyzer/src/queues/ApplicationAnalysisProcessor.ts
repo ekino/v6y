@@ -8,9 +8,14 @@ import {
     APPLICATION_ANALYSIS_QUEUE,
     APPLICATION_ANALYSIS_SINGLE_JOB,
 } from './ApplicationAnalysisQueue.ts';
+import { NotificationQueueService } from './NotificationQueueService.ts';
 
 @Processor(APPLICATION_ANALYSIS_QUEUE, { lockDuration: 10 * 60 * 1000 })
 export class ApplicationAnalysisProcessor extends WorkerHost {
+    constructor(private readonly notificationQueueService: NotificationQueueService) {
+        super();
+    }
+
     async process(job: Job<{ applicationId?: number }, unknown, string>) {
         AppLogger.info(`[ApplicationAnalysisProcessor] Processing job ${job.id} (${job.name})`);
 
@@ -26,6 +31,8 @@ export class ApplicationAnalysisProcessor extends WorkerHost {
             throw new Error('The applicationId is required to process an application analysis');
         }
 
-        return ApplicationManager.buildApplicationReportsById(applicationId);
+        return ApplicationManager.buildApplicationReportsById(applicationId, (auditRunId) =>
+            this.notificationQueueService.enqueueAuditRunCompleted(auditRunId),
+        );
     }
 }

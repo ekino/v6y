@@ -347,6 +347,42 @@ const recoverInterruptedAuditRuns = async (staleThresholdMs = STALE_AUDIT_RUN_TH
     }
 };
 
+/**
+ * The audit runs of a set of applications that settled inside a time window,
+ * with just the fields a digest email needs. Ordered oldest first so the digest
+ * reads as a chronology of the day.
+ */
+const getAuditRunsForApplicationsSince = async (appIds: number[], since: Date) => {
+    try {
+        if (!appIds?.length) {
+            return [];
+        }
+
+        const auditRuns = await getPrismaClient().auditRun.findMany({
+            where: {
+                appId: { in: appIds },
+                triggeredAt: { gte: since },
+            },
+            orderBy: { triggeredAt: 'asc' },
+            include: {
+                audits: { select: { id: true, scoreStatus: true } },
+            },
+        });
+
+        AppLogger.info(
+            '[AuditRunProvider - getAuditRunsForApplicationsSince] count: ' + auditRuns?.length,
+        );
+
+        return auditRuns.map((run) => ({
+            ...run,
+            _id: run.id,
+            audits: run.audits.map((audit) => ({ ...audit, _id: audit.id })),
+        }));
+    } catch (error) {
+        AppLogger.error('[AuditRunProvider - getAuditRunsForApplicationsSince] error: ', error);
+        return [];
+    }
+};
 const AuditRunProvider = {
     createAuditRun,
     updateAuditRunStatus,
@@ -360,6 +396,7 @@ const AuditRunProvider = {
     deleteAuditRun,
     getAllAuditRuns,
     recoverInterruptedAuditRuns,
+    getAuditRunsForApplicationsSince,
 };
 
 export default AuditRunProvider;

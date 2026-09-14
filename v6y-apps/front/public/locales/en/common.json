@@ -362,6 +362,22 @@
       "pageTitle": "Notifications",
       "shortTitle": "notifications"
     },
+    "notificationSettingsPage": {
+      "pageTitle": "Email notifications",
+      "shortTitle": "email notifications",
+      "pageDescription": "Choose which emails Vitality sends you about the applications you own.",
+      "auditReportEmails": {
+        "label": "Audit report emails",
+        "description": "Get an email as soon as an audit run finishes, with a link to the report."
+      },
+      "dailyDigestEmails": {
+        "label": "Daily digest",
+        "description": "Get one email a day summarising the audit runs of your applications."
+      },
+      "saved": "Your notification preferences have been saved.",
+      "saveFailed": "Unable to save your notification preferences.",
+      "unavailable": "Your notification preferences are unavailable right now."
+    },
     "loginPage": {
       "formTitle": "Login to your account",
       "formDescription": "If you do not have an account, please refer to your organization.",

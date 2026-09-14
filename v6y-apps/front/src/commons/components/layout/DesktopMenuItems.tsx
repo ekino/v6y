@@ -8,6 +8,7 @@ import {
     LanguageMenu,
     MagnifyingGlassIcon,
     QuestionMarkCircledIcon,
+    Settings,
     TypographySmall,
     useTranslationProvider,
 } from '@v6y/ui-kit-front';
@@ -43,6 +44,22 @@ const DesktopMenuItems = ({ isLoggedIn, userName, onLogout }: DesktopMenuItemsPr
                 >
                     <MagnifyingGlassIcon className="w-5 h-5" />
                 </Button>
+            )}
+
+            {isLoggedIn && (
+                <Link
+                    className="shrink-0"
+                    href={VitalityNavigationPaths.NOTIFICATION_SETTINGS}
+                    aria-label={translate('vitality.notificationSettingsPage.pageTitle')}
+                >
+                    <Button
+                        className="h-10 w-10 rounded-lg border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-950"
+                        size="icon"
+                        variant="outline"
+                    >
+                        <Settings className="w-5 h-5" />
+                    </Button>
+                </Link>
             )}
 
             <div className="shrink-0">

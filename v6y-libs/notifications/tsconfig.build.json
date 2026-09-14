@@ -1,0 +1,18 @@
+{
+  // Production emit. The base config is emitDeclarationOnly because sources use
+  // .ts import specifiers; rewriteRelativeImportExtensions (TypeScript 5.7)
+  // rewrites those to .js on emit, which is what makes real compilation
+  // possible without touching a single import statement.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "emitDeclarationOnly": false,
+    "declaration": false,
+    "noEmit": false,
+    "rewriteRelativeImportExtensions": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "sourceMap": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/__tests__/**", "src/**/*.test.ts", "src/**/*.spec.ts"]
+}

@@ -119,9 +119,43 @@ const loginAccount = async (_: unknown, params: { input: AccountLoginType }) => 
     }
 };
 
+/**
+ * Email notification preferences of the authenticated account.
+ *
+ * Deliberately takes no id: preferences are personal, and reading them off the
+ * authenticated context rather than an argument removes any way to ask for
+ * somebody else's.
+ * @param _
+ * @param __
+ * @param context
+ */
+const getCurrentAccountNotificationSettings = async (
+    _: unknown,
+    __: unknown,
+    context: { user: AccountType },
+) => {
+    try {
+        const accountId = context?.user?._id;
+
+        if (!accountId) {
+            return null;
+        }
+
+        AppLogger.info(
+            `[AccountQueries - getCurrentAccountNotificationSettings] _id : ${accountId}`,
+        );
+
+        return AccountProvider.getAccountNotificationSettings({ _id: accountId });
+    } catch (error) {
+        AppLogger.error(`[AccountQueries - getCurrentAccountNotificationSettings] error : `, error);
+        return null;
+    }
+};
+
 const AccountQueries = {
     getAccountListByPageAndParams,
     getAccountDetailsByParams,
+    getCurrentAccountNotificationSettings,
     loginAccount,
 };
 

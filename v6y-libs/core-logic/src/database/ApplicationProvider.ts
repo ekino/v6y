@@ -35,6 +35,7 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
         dataDogMonitorId,
         auditFrequencyEnabled,
         auditFrequencyCron,
+        ownerId,
     } = application || {};
     return {
         _id,
@@ -42,6 +43,7 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
         acronym,
         description,
         contactMail,
+        ownerId,
         // Left `undefined` when the input omits the field, so a partial update
         // (a script, a client on an older schema) does not silently disable an
         // application's scheduled audits and drop its cron.
@@ -126,6 +128,7 @@ const normalizeApplication = (application: {
     links: Prisma.JsonValue | null;
     auditFrequencyEnabled?: boolean;
     auditFrequencyCron?: string | null;
+    ownerId?: number;
 }) => {
     return {
         ...application,
@@ -168,12 +171,21 @@ const buildWhereClause = async (
 const createFormApplication = async (application: ApplicationInputType) => {
     try {
         const formApplication = formatApplicationInput(application);
+
+        if (!formApplication.ownerId) {
+            AppLogger.error(
+                '[ApplicationProvider - createFormApplication] error: an owner account is required to create an application',
+            );
+            return null;
+        }
+
         const created = await getPrismaClient().application.create({
             data: {
                 name: formApplication.name!,
                 acronym: formApplication.acronym!,
                 contactMail: formApplication.contactMail!,
                 description: formApplication.description!,
+                ownerId: formApplication.ownerId,
                 repo: formApplication.repo
                     ? (formApplication.repo as unknown as Prisma.InputJsonValue)
                     : undefined,
@@ -239,6 +251,7 @@ const editFormApplication = async (application: ApplicationInputType) => {
                 // `undefined` leaves the column untouched, `null` clears it: both
                 // are meaningful here, so this must not collapse them.
                 auditFrequencyCron: formApplication.auditFrequencyCron,
+                ownerId: formApplication.ownerId ?? undefined,
             },
         });
         return { _id: application._id };
@@ -426,6 +439,38 @@ const getApplicationStatsByParams = async ({ keywords }: SearchQueryType) => {
     }
 };
 
+/**
+ * The account an application belongs to, along with the email preferences that
+ * decide whether it is worth building a notification for it at all.
+ */
+const getApplicationOwner = async ({ _id }: { _id: number }) => {
+    try {
+        if (!_id) return null;
+
+        const application = await getPrismaClient().application.findUnique({
+            where: { id: _id },
+            select: {
+                owner: {
+                    select: {
+                        id: true,
+                        username: true,
+                        email: true,
+                        auditReportEmailsEnabled: true,
+                        dailyDigestEmailsEnabled: true,
+                    },
+                },
+            },
+        });
+
+        if (!application?.owner) return null;
+
+        return { ...application.owner, _id: application.owner.id };
+    } catch (error) {
+        AppLogger.error('[ApplicationProvider - getApplicationOwner] error: ', error);
+        return null;
+    }
+};
+
 const ApplicationProvider = {
     createFormApplication,
     editFormApplication,
@@ -441,6 +486,7 @@ const ApplicationProvider = {
     getApplicationTotalByParams,
     getApplicationStatsByParams,
     getScheduledApplicationList,
+    getApplicationOwner,
 };
 
 export default ApplicationProvider;

@@ -148,8 +148,9 @@ export class ApplicationResolver {
     @Mutation('createOrEditApplication')
     createOrEditApplication(
         @Args() args: Parameters<typeof ApplicationMutations.createOrEditApplication>[1],
+        @Context() context: Parameters<typeof ApplicationMutations.createOrEditApplication>[2],
     ) {
-        return ApplicationMutations.createOrEditApplication(undefined, args);
+        return ApplicationMutations.createOrEditApplication(undefined, args, context);
     }
 
     @Mutation('deleteApplication')

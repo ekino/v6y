@@ -2,6 +2,13 @@ import { BullModule } from '@nestjs/bullmq';
 import { Module } from '@nestjs/common';
 
 import { HealthController, QueueConfig } from '@v6y/core-logic';
+import {
+    EmailChannel,
+    NOTIFICATION_CHANNELS,
+    NOTIFICATION_QUEUE,
+    NotificationDispatcher,
+    SlackChannel,
+} from '@v6y/notifications';
 
 import { ApplicationAnalysisController } from './controllers/ApplicationAnalysisController.ts';
 import { TriggerAuditController } from './controllers/TriggerAuditController.ts';
@@ -11,6 +18,8 @@ import { ApplicationAnalysisQueueService } from './queues/ApplicationAnalysisQue
 import { DataUpdateProcessor } from './queues/DataUpdateProcessor.ts';
 import { DATA_UPDATE_QUEUE } from './queues/DataUpdateQueue.ts';
 import { DataUpdateQueueService } from './queues/DataUpdateQueueService.ts';
+import { NotificationProcessor } from './queues/NotificationProcessor.ts';
+import { NotificationQueueService } from './queues/NotificationQueueService.ts';
 
 const queueEnabled = QueueConfig.isQueueEnabled();
 
@@ -20,20 +29,34 @@ const queueImports = queueEnabled
               connection: QueueConfig.buildQueueConnection(),
               prefix: QueueConfig.buildQueuePrefix(),
           }),
-          BullModule.registerQueue({
-              name: APPLICATION_ANALYSIS_QUEUE,
-          }),
-          BullModule.registerQueue({
-              name: DATA_UPDATE_QUEUE,
-          }),
+          BullModule.registerQueue({ name: APPLICATION_ANALYSIS_QUEUE }),
+          BullModule.registerQueue({ name: DATA_UPDATE_QUEUE }),
+          BullModule.registerQueue({ name: NOTIFICATION_QUEUE }),
       ]
     : [];
 
-const queueProviders = queueEnabled ? [ApplicationAnalysisProcessor, DataUpdateProcessor] : [];
+const channelProviders = [EmailChannel, SlackChannel];
+
+const channelMultiProviders = channelProviders.map((Channel) => ({
+    provide: NOTIFICATION_CHANNELS,
+    useExisting: Channel,
+}));
+
+const queueProviders = queueEnabled
+    ? [ApplicationAnalysisProcessor, DataUpdateProcessor, NotificationProcessor]
+    : [];
 
 @Module({
     imports: [...queueImports],
     controllers: [ApplicationAnalysisController, HealthController, TriggerAuditController],
-    providers: [ApplicationAnalysisQueueService, DataUpdateQueueService, ...queueProviders],
+    providers: [
+        ...channelProviders,
+        ...channelMultiProviders,
+        NotificationDispatcher,
+        ApplicationAnalysisQueueService,
+        DataUpdateQueueService,
+        NotificationQueueService,
+        ...queueProviders,
+    ],
 })
 export class AppModule {}

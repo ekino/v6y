@@ -6,7 +6,13 @@
     },
     "ignoreDependencies": ["@prisma/client"],
     "ignoreBinaries": ["prisma"],
-    "ignore": ["**/*.config.*", "**/vitest.setup.*", "**/setupTests.*", "**/test-mocks/**"],
+    "ignore": [
+        "**/*.config.*",
+        "**/vitest.setup.*",
+        "**/setupTests.*",
+        "**/test-mocks/**",
+        "v6y-config/repoint-workspace-libs.cjs"
+    ],
     "tags": ["-lintignore"],
     "workspaces": {
         "v6y-apps/front*": {
@@ -36,6 +42,10 @@
         "v6y-apps/*": {
             "entry": ["src/index.ts"],
             "project": ["src/**/*.{ts,js}"]
+        },
+        "v6y-libs/notifications": {
+            "entry": ["src/index.ts"],
+            "project": ["src/**/*.ts"]
         },
         "v6y-libs/core-logic": {
             "ignoreDependencies": ["@types/adm-zip", "globals"]

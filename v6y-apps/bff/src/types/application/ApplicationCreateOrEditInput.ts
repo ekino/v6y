@@ -21,8 +21,8 @@ const ApplicationCreateOrEditInput = `
       """ Application git repository url """
       gitUrl: String!
         
-      """ Application production url """
-      productionLink: String!
+      """ Application production url (optional: not every application is deployed to a public production url) """
+      productionLink: String
 
       """ DataDog API Key """
       dataDogApiKey: String
@@ -59,6 +59,9 @@ const ApplicationCreateOrEditInput = `
 
       """ Audit reporting frequency, expressed as a 5-field cron expression """
       auditFrequencyCron: String
+
+      """ Account the application belongs to. Defaults to the authenticated account. """
+      ownerId: Int
   }
 `;
 

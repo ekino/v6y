@@ -16,6 +16,10 @@ vi.mock('../../managers/ApplicationManager.ts', () => ({
     },
 }));
 
+const mockNotificationQueueService = {
+    enqueueAuditRunCompleted: vi.fn().mockResolvedValue(undefined),
+};
+
 describe('ApplicationAnalysisProcessor', () => {
     afterEach(() => {
         vi.clearAllMocks();
@@ -29,7 +33,7 @@ describe('ApplicationAnalysisProcessor', () => {
             '../../managers/ApplicationManager.ts'
         );
 
-        const processor = new ApplicationAnalysisProcessor();
+        const processor = new ApplicationAnalysisProcessor(mockNotificationQueueService as never);
         const job = {
             id: '2',
             name: APPLICATION_ANALYSIS_SINGLE_JOB,
@@ -39,7 +43,10 @@ describe('ApplicationAnalysisProcessor', () => {
         const result = await processor.process(job);
 
         expect(DataBaseManager.connect).toHaveBeenCalled();
-        expect(ApplicationManager.buildApplicationReportsById).toHaveBeenCalledWith(42);
+        expect(ApplicationManager.buildApplicationReportsById).toHaveBeenCalledWith(
+            42,
+            expect.any(Function),
+        );
         expect(result).toBe(true);
     });
 
@@ -47,7 +54,7 @@ describe('ApplicationAnalysisProcessor', () => {
         const { ApplicationAnalysisProcessor } = await import('../ApplicationAnalysisProcessor.ts');
         const { APPLICATION_ANALYSIS_SINGLE_JOB } = await import('../ApplicationAnalysisQueue.ts');
 
-        const processor = new ApplicationAnalysisProcessor();
+        const processor = new ApplicationAnalysisProcessor(mockNotificationQueueService as never);
         const job = { id: '3', name: APPLICATION_ANALYSIS_SINGLE_JOB, data: {} } as never;
 
         await expect(processor.process(job)).rejects.toThrow(
@@ -58,7 +65,7 @@ describe('ApplicationAnalysisProcessor', () => {
     it('throws for an unsupported job name', async () => {
         const { ApplicationAnalysisProcessor } = await import('../ApplicationAnalysisProcessor.ts');
 
-        const processor = new ApplicationAnalysisProcessor();
+        const processor = new ApplicationAnalysisProcessor(mockNotificationQueueService as never);
         const job = { id: '4', name: 'unknown-job', data: {} } as never;
 
         await expect(processor.process(job)).rejects.toThrow(

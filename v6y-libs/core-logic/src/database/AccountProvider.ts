@@ -1,6 +1,11 @@
 import AppLogger from '../core/AppLogger.ts';
 import { isAdmin, isSuperAdmin } from '../core/AuthenticationHelper.ts';
-import { AccountInputType, AccountType, SearchQueryType } from '../types/index.ts';
+import {
+    AccountInputType,
+    AccountNotificationSettingsInputType,
+    AccountType,
+    SearchQueryType,
+} from '../types/index.ts';
 import { getPrismaClient } from './PrismaClient.ts';
 
 const createAccount = async (account: AccountInputType) => {
@@ -224,6 +229,118 @@ const getAccountListByPageAndParams = async ({
     }
 };
 
+const getAccountNotificationSettings = async ({ _id }: { _id: number }) => {
+    try {
+        if (!_id) {
+            return null;
+        }
+
+        const account = await getPrismaClient().account.findUnique({
+            where: { id: _id },
+            select: {
+                id: true,
+                auditReportEmailsEnabled: true,
+                dailyDigestEmailsEnabled: true,
+            },
+        });
+
+        if (!account) {
+            return null;
+        }
+
+        return {
+            _id: account.id,
+            auditReportEmailsEnabled: account.auditReportEmailsEnabled,
+            dailyDigestEmailsEnabled: account.dailyDigestEmailsEnabled,
+        };
+    } catch (error) {
+        AppLogger.error(`[AccountProvider - getAccountNotificationSettings] error: `, error);
+        return null;
+    }
+};
+
+/**
+ * Update the email notification preferences of a single account. An omitted flag
+ * is left untouched, so the caller can toggle one preference without having to
+ * resend the other.
+ */
+const updateAccountNotificationSettings = async ({
+    _id,
+    auditReportEmailsEnabled,
+    dailyDigestEmailsEnabled,
+}: { _id: number } & AccountNotificationSettingsInputType) => {
+    try {
+        if (!_id) {
+            return null;
+        }
+
+        AppLogger.info(`[AccountProvider - updateAccountNotificationSettings] _id: ${_id}`);
+
+        const updated = await getPrismaClient().account.update({
+            where: { id: _id },
+            data: {
+                auditReportEmailsEnabled:
+                    auditReportEmailsEnabled === undefined ? undefined : !!auditReportEmailsEnabled,
+                dailyDigestEmailsEnabled:
+                    dailyDigestEmailsEnabled === undefined ? undefined : !!dailyDigestEmailsEnabled,
+            },
+            select: {
+                id: true,
+                auditReportEmailsEnabled: true,
+                dailyDigestEmailsEnabled: true,
+            },
+        });
+
+        return {
+            _id: updated.id,
+            auditReportEmailsEnabled: updated.auditReportEmailsEnabled,
+            dailyDigestEmailsEnabled: updated.dailyDigestEmailsEnabled,
+        };
+    } catch (error) {
+        AppLogger.error(`[AccountProvider - updateAccountNotificationSettings] error: `, error);
+        return null;
+    }
+};
+
+/**
+ * Every account that owns at least one application and still wants the daily
+ * digest, with the applications the digest has to cover.
+ *
+ * Returns `null` — not an empty list — when the read fails, so the caller can
+ * tell "nobody subscribed" from "the database was unreachable" and retry instead
+ * of recording a digest run that reached no one.
+ */
+const getDailyDigestRecipients = async () => {
+    try {
+        const accounts = await getPrismaClient().account.findMany({
+            where: {
+                dailyDigestEmailsEnabled: true,
+                ownedApplications: { some: {} },
+            },
+            select: {
+                id: true,
+                username: true,
+                email: true,
+                ownedApplications: { select: { id: true, name: true, acronym: true } },
+            },
+        });
+
+        return accounts.map((account) => ({
+            _id: account.id,
+            username: account.username,
+            email: account.email,
+            applications: account.ownedApplications.map((application) => ({
+                _id: application.id,
+                name: application.name,
+                acronym: application.acronym,
+            })),
+        }));
+    } catch (error) {
+        AppLogger.error(`[AccountProvider - getDailyDigestRecipients] error: `, error);
+        return null;
+    }
+};
+
 const AccountProvider = {
     createAccount,
     editAccount,
@@ -231,6 +348,9 @@ const AccountProvider = {
     deleteAccount,
     getAccountDetailsByParams,
     getAccountListByPageAndParams,
+    getAccountNotificationSettings,
+    updateAccountNotificationSettings,
+    getDailyDigestRecipients,
 };
 
 export default AccountProvider;

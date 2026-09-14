@@ -8,6 +8,7 @@ import {
     LanguageMenu,
     MagnifyingGlassIcon,
     QuestionMarkCircledIcon,
+    Settings,
     useTranslationProvider,
 } from '@v6y/ui-kit-front';
 
@@ -79,6 +80,21 @@ const MobileMenu = ({ isOpen, onClose, isLoggedIn, userName, onLogout }: MobileM
                             <MagnifyingGlassIcon className="w-5 h-5 shrink-0" />
                             <span className="text-base font-medium">Search</span>
                         </button>
+                    )}
+
+                    {isLoggedIn && (
+                        <Link
+                            href={VitalityNavigationPaths.NOTIFICATION_SETTINGS}
+                            onClick={onClose}
+                            className="mt-3 block"
+                        >
+                            <button className="flex w-full items-center gap-3 rounded-xl border border-gray-200 bg-gray-100 px-4 py-3 text-left transition-colors hover:bg-gray-200">
+                                <Settings className="w-5 h-5 shrink-0" />
+                                <span className="text-base font-medium">
+                                    {translate('vitality.notificationSettingsPage.pageTitle')}
+                                </span>
+                            </button>
+                        </Link>
                     )}
 
                     {isLoggedIn && (

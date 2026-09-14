@@ -74,7 +74,7 @@ const AdminEditWrapper = ({
                 disabled: !isClient || saveButtonProps.disabled,
             }}
         >
-            <Form {...otherFormProps} layout="vertical" variant="filled">
+            <Form {...otherFormProps} layout="vertical" variant="filled" scrollToFirstError>
                 {formItems?.map((item) => item)}
             </Form>
         </EditLayout>
