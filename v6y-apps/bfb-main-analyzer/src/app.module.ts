@@ -4,6 +4,7 @@ import { Module } from '@nestjs/common';
 import { HealthController, QueueConfig } from '@v6y/core-logic';
 import {
     EmailChannel,
+    INotificationChannel,
     NOTIFICATION_CHANNELS,
     NOTIFICATION_QUEUE,
     NotificationDispatcher,
@@ -52,7 +53,11 @@ const queueProviders = queueEnabled
     providers: [
         ...channelProviders,
         ...channelMultiProviders,
-        NotificationDispatcher,
+        {
+            provide: NotificationDispatcher,
+            useFactory: (channels: INotificationChannel[]) => new NotificationDispatcher(channels),
+            inject: [NOTIFICATION_CHANNELS],
+        },
         ApplicationAnalysisQueueService,
         DataUpdateQueueService,
         NotificationQueueService,
