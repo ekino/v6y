@@ -706,9 +706,6 @@ importers:
       node-cron:
         specifier: 'catalog:'
         version: 4.2.1
-      nodemailer:
-        specifier: 'catalog:'
-        version: 9.0.5
       reflect-metadata:
         specifier: 'catalog:'
         version: 0.2.2
@@ -734,9 +731,6 @@ importers:
       '@types/node-cron':
         specifier: 'catalog:'
         version: 3.0.11
-      '@types/nodemailer':
-        specifier: 'catalog:'
-        version: 8.0.1
       '@types/supertest':
         specifier: catalog:testing
         version: 6.0.2
