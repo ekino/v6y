@@ -39,7 +39,15 @@ const channelProviders = [EmailChannel, SlackChannel];
 
 const queueProviders = queueEnabled
     ? [
-          ApplicationAnalysisProcessor,
+          {
+              provide: ApplicationAnalysisProcessor,
+              // Plain (undecorated) type-based constructor injection isn't reliable under
+              // tsx/esbuild's decorator-metadata emission — see NotificationProcessor below —
+              // so this dependency is wired explicitly via factory too.
+              useFactory: (notificationQueueService: NotificationQueueService) =>
+                  new ApplicationAnalysisProcessor(notificationQueueService),
+              inject: [NotificationQueueService],
+          },
           DataUpdateProcessor,
           {
               provide: NotificationProcessor,
