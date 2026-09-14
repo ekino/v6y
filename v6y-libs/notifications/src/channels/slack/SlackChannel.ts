@@ -38,10 +38,12 @@ const buildAuditRunCompletedMessage = ({
     const link = buildReportLink(applicationId, auditRunId);
 
     const lines = [
-        `Vitality audit for *${applicationName}* (run #${auditRunId}) ${status}.`,
+        `*Vitality audit — ${applicationName}* (run #${auditRunId})`,
+        '',
+        `${status.charAt(0).toUpperCase()}${status.slice(1)}.`,
         !succeeded && errorMessage ? `Error: ${errorMessage}` : undefined,
-        link ? `Report: ${link}` : undefined,
-    ].filter((line): line is string => !!line?.length);
+        link ? `<${link}|View report>` : undefined,
+    ].filter((line): line is string => line !== undefined);
 
     return lines.join('\n');
 };
@@ -55,12 +57,13 @@ const buildChannelDigestMessage = (
     applicationId: number,
     auditRuns: Array<{ _id: number; runStatus: string }>,
 ): string => {
-    const lines = auditRuns.map(
-        (run) =>
-            `  - run #${run._id}: ${run.runStatus} — ${buildReportLink(applicationId, run._id)}`,
-    );
+    const lines = auditRuns.map((run) => {
+        const link = buildReportLink(applicationId, run._id);
+        const label = `run #${run._id}: ${run.runStatus}`;
+        return `• ${link ? `<${link}|${label}>` : label}`;
+    });
 
-    return [`Daily Vitality digest for *${applicationName}*`, ...lines].join('\n');
+    return [`Daily Vitality digest — *${applicationName}*`, '', ...lines].join('\n');
 };
 
 /**

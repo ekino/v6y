@@ -5,7 +5,6 @@ import { HealthController, QueueConfig } from '@v6y/core-logic';
 import {
     EmailChannel,
     INotificationChannel,
-    NOTIFICATION_CHANNELS,
     NOTIFICATION_QUEUE,
     NotificationDispatcher,
     SlackChannel,
@@ -38,13 +37,17 @@ const queueImports = queueEnabled
 
 const channelProviders = [EmailChannel, SlackChannel];
 
-const channelMultiProviders = channelProviders.map((Channel) => ({
-    provide: NOTIFICATION_CHANNELS,
-    useExisting: Channel,
-}));
-
 const queueProviders = queueEnabled
-    ? [ApplicationAnalysisProcessor, DataUpdateProcessor, NotificationProcessor]
+    ? [
+          ApplicationAnalysisProcessor,
+          DataUpdateProcessor,
+          {
+              provide: NotificationProcessor,
+              useFactory: (dispatcher: NotificationDispatcher) =>
+                  new NotificationProcessor(dispatcher),
+              inject: [NotificationDispatcher],
+          },
+      ]
     : [];
 
 @Module({
@@ -52,11 +55,13 @@ const queueProviders = queueEnabled
     controllers: [ApplicationAnalysisController, HealthController, TriggerAuditController],
     providers: [
         ...channelProviders,
-        ...channelMultiProviders,
         {
             provide: NotificationDispatcher,
-            useFactory: (channels: INotificationChannel[]) => new NotificationDispatcher(channels),
-            inject: [NOTIFICATION_CHANNELS],
+            // NestJS doesn't aggregate multiple same-token providers into an array,
+            // so the channels are injected individually and assembled here.
+            useFactory: (...channels: INotificationChannel[]) =>
+                new NotificationDispatcher(channels),
+            inject: channelProviders,
         },
         ApplicationAnalysisQueueService,
         DataUpdateQueueService,
