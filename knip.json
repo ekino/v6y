@@ -6,7 +6,13 @@
     },
     "ignoreDependencies": ["@prisma/client"],
     "ignoreBinaries": ["prisma"],
-    "ignore": ["**/*.config.*", "**/vitest.setup.*", "**/setupTests.*", "**/test-mocks/**"],
+    "ignore": [
+        "**/*.config.*",
+        "**/vitest.setup.*",
+        "**/setupTests.*",
+        "**/test-mocks/**",
+        "v6y-config/repoint-workspace-libs.cjs"
+    ],
     "tags": ["-lintignore"],
     "workspaces": {
         "v6y-apps/front*": {

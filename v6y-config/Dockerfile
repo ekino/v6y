@@ -57,6 +57,7 @@ COPY v6y-apps/bfb-devops-auditor/package.json   v6y-apps/bfb-devops-auditor/
 COPY v6y-apps/front/package.json                v6y-apps/front/
 COPY v6y-apps/front-bo/package.json             v6y-apps/front-bo/
 COPY v6y-libs/core-logic/package.json           v6y-libs/core-logic/
+COPY v6y-libs/notifications/package.json        v6y-libs/notifications/
 COPY v6y-libs/ui-kit/package.json               v6y-libs/ui-kit/
 COPY v6y-libs/ui-kit-front/package.json         v6y-libs/ui-kit-front/
 
@@ -99,6 +100,7 @@ RUN pnpm --filter @v6y/front build \
 # TypeScript rewrites those to .js and real emit becomes possible.
 FROM source AS backend-build
 RUN pnpm --filter @v6y/core-logic build:prod \
+    && pnpm --filter @v6y/notifications build:prod \
     && pnpm --filter @v6y/bff build:prod \
     && pnpm --filter @v6y/bfb-main-analyzer build:prod \
     && pnpm --filter @v6y/bfb-static-auditor build:prod \
@@ -137,18 +139,21 @@ RUN cd v6y-libs/core-logic \
 FROM base AS backend-runtime
 COPY --from=backend-deps --chown=node:node /app /app
 COPY --from=backend-build --chown=node:node /app/v6y-libs/core-logic/dist          /app/v6y-libs/core-logic/dist
+COPY --from=backend-build --chown=node:node /app/v6y-libs/notifications/dist        /app/v6y-libs/notifications/dist
 COPY --from=backend-build --chown=node:node /app/v6y-apps/bff/dist                 /app/v6y-apps/bff/dist
 COPY --from=backend-build --chown=node:node /app/v6y-apps/bfb-main-analyzer/dist    /app/v6y-apps/bfb-main-analyzer/dist
 COPY --from=backend-build --chown=node:node /app/v6y-apps/bfb-static-auditor/dist   /app/v6y-apps/bfb-static-auditor/dist
 COPY --from=backend-build --chown=node:node /app/v6y-apps/bfb-dynamic-auditor/dist  /app/v6y-apps/bfb-dynamic-auditor/dist
 COPY --from=backend-build --chown=node:node /app/v6y-apps/bfb-devops-auditor/dist   /app/v6y-apps/bfb-devops-auditor/dist
-# @v6y/core-logic resolves to src/index.ts for development tooling, and a few
-# backend modules deep-import its internals. The images ship no sources, so
-# remap the package onto its compiled output; see the script for why the deep
-# imports are mapped rather than rewritten.
-COPY v6y-config/repoint-core-logic.cjs /tmp/repoint-core-logic.cjs
-RUN node /tmp/repoint-core-logic.cjs /app/v6y-libs/core-logic/package.json \
-    && rm /tmp/repoint-core-logic.cjs
+# @v6y/core-logic and @v6y/notifications resolve to src/index.ts for development
+# tooling, and a few backend modules deep-import core-logic internals. The images
+# ship no sources, so remap both packages onto their compiled output; see the
+# script for why the deep imports are mapped rather than rewritten.
+COPY v6y-config/repoint-workspace-libs.cjs /tmp/repoint-workspace-libs.cjs
+RUN node /tmp/repoint-workspace-libs.cjs \
+        /app/v6y-libs/core-logic/package.json \
+        /app/v6y-libs/notifications/package.json \
+    && rm /tmp/repoint-workspace-libs.cjs
 USER node
 
 # --------------------------------------------------------------------- bff
