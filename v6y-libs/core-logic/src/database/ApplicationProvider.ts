@@ -469,8 +469,6 @@ const getApplicationOwner = async ({ _id }: { _id: number }) => {
                         id: true,
                         username: true,
                         email: true,
-                        slackUserId: true,
-                        slackNotificationsEnabled: true,
                         auditReportEmailsEnabled: true,
                         dailyDigestEmailsEnabled: true,
                     },

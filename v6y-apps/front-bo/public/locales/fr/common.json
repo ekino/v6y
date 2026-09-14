@@ -91,14 +91,6 @@
                     "label": "Account applications",
                     "placeholder": "Select account applications",
                     "error": "You need to select at least one application!"
-                },
-                "account-slack-user-id": {
-                    "label": "Identifiant Slack",
-                    "placeholder": "ex. U01XXXXXXXXX"
-                },
-                "account-slack-group": "Notifications Slack",
-                "account-slack-notifications-enabled": {
-                    "label": "Activer les notifications Slack (DM)"
                 }
             }
         },
@@ -192,7 +184,8 @@
             },
             "app-slack-channel-id": {
                 "label": "Canal Slack du projet",
-                "placeholder": "ex. C01XXXXXXXXX"
+                "placeholder": "ex. C01XXXXXXXXX",
+                "required": "Un identifiant de canal Slack est requis lorsque les notifications de canal sont activées."
             },
             "app-slack-channel-group": "Notifications Slack",
             "app-slack-channel-notifications-enabled": {

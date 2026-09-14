@@ -17,12 +17,6 @@ const AccountCreateOrEditInput = `
 
         """ Applications """
         applications: [Int]
-
-        """ Slack Member ID (U01XXXXXX) for DM notifications """
-        slackUserId: String
-
-        """ Whether Slack DM notifications are enabled for this account """
-        slackNotificationsEnabled: Boolean
     }
 `;
 

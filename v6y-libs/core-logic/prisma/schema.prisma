@@ -13,8 +13,6 @@ model Account {
   password                  String
   role                      String
   applications              Int[]
-  slackUserId               String?       @map("slack_user_id")
-  slackNotificationsEnabled Boolean       @default(false) @map("slack_notifications_enabled")
   auditReportEmailsEnabled  Boolean       @default(true) @map("audit_report_emails_enabled")
   dailyDigestEmailsEnabled  Boolean       @default(true) @map("daily_digest_emails_enabled")
   createdAt                 DateTime      @default(now()) @map("created_at")

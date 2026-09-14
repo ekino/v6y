@@ -21,16 +21,7 @@ const createOrEditAccount = async (
     context: { user: AccountType },
 ) => {
     try {
-        const {
-            _id,
-            username,
-            password,
-            email,
-            role,
-            applications,
-            slackUserId,
-            slackNotificationsEnabled,
-        } = params?.input || {};
+        const { _id, username, password, email, role, applications } = params?.input || {};
 
         AppLogger.info(`[AccountMutations - createOrEditAccount] _id : ${_id}`);
         AppLogger.info(`[AccountMutations - createOrEditAccount] username : ${username}`);
@@ -49,8 +40,6 @@ const createOrEditAccount = async (
                         email,
                         role,
                         applications,
-                        slackUserId,
-                        slackNotificationsEnabled,
                     },
                     currentUser: context.user,
                 });
@@ -63,8 +52,6 @@ const createOrEditAccount = async (
                         email,
                         role,
                         applications,
-                        slackUserId,
-                        slackNotificationsEnabled,
                     },
                     currentUser: context.user,
                 });
@@ -97,8 +84,6 @@ const createOrEditAccount = async (
             email,
             role,
             applications,
-            slackUserId,
-            slackNotificationsEnabled,
         });
 
         if (!createdAccount || !createdAccount._id) {

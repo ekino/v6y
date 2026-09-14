@@ -2,17 +2,13 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const getAuditRunWithAudits = vi.fn();
 const getAuditRunsForApplicationsSince = vi.fn();
-const getApplicationOwner = vi.fn();
 const getApplicationDetailsInfoByParams = vi.fn();
 const getApplicationsWithSlackChannel = vi.fn();
-const getDailyDigestRecipients = vi.fn();
 const sendMessage = vi.fn();
 
 vi.mock('@v6y/core-logic', () => ({
     AppLogger: { info: vi.fn(), warn: vi.fn(), error: vi.fn(), debug: vi.fn() },
-    AccountProvider: { getDailyDigestRecipients },
     ApplicationProvider: {
-        getApplicationOwner,
         getApplicationDetailsInfoByParams,
         getApplicationsWithSlackChannel,
     },
@@ -34,7 +30,6 @@ describe('SlackChannel', () => {
         sendMessage.mockResolvedValue(true);
         getAuditRunsForApplicationsSince.mockResolvedValue([]);
         getApplicationsWithSlackChannel.mockResolvedValue([]);
-        getDailyDigestRecipients.mockResolvedValue([]);
         channel = new SlackChannel();
     });
 
@@ -63,21 +58,7 @@ describe('SlackChannel', () => {
             });
         });
 
-        it('DMs the application owner when slackUserId is set', async () => {
-            getApplicationOwner.mockResolvedValue({
-                _id: 3,
-                slackUserId: 'U0123',
-                slackNotificationsEnabled: true,
-            });
-            getApplicationDetailsInfoByParams.mockResolvedValue({ _id: 7, name: 'Checkout' });
-
-            await channel.notify({ type: 'audit-run-completed', data: { auditRunId: 42 } });
-
-            expect(sendMessage).toHaveBeenCalledWith('U0123', expect.stringContaining('Checkout'));
-        });
-
-        it('also posts to the application Slack channel when configured', async () => {
-            getApplicationOwner.mockResolvedValue({ _id: 3, slackUserId: null });
+        it('posts to the application Slack channel when configured', async () => {
             getApplicationDetailsInfoByParams.mockResolvedValue({
                 _id: 7,
                 name: 'Checkout',
@@ -87,12 +68,24 @@ describe('SlackChannel', () => {
 
             await channel.notify({ type: 'audit-run-completed', data: { auditRunId: 42 } });
 
-            expect(sendMessage).toHaveBeenCalledWith('C0999', expect.any(String));
+            expect(sendMessage).toHaveBeenCalledWith('C0999', expect.stringContaining('Checkout'));
         });
 
-        it('skips silently when neither a Slack user nor a Slack channel is configured', async () => {
-            getApplicationOwner.mockResolvedValue({ _id: 3, slackUserId: null });
+        it('skips silently when no Slack channel is configured', async () => {
             getApplicationDetailsInfoByParams.mockResolvedValue({ _id: 7, name: 'Checkout' });
+
+            await channel.notify({ type: 'audit-run-completed', data: { auditRunId: 42 } });
+
+            expect(sendMessage).not.toHaveBeenCalled();
+        });
+
+        it('skips when channel notifications are disabled even with an id present', async () => {
+            getApplicationDetailsInfoByParams.mockResolvedValue({
+                _id: 7,
+                name: 'Checkout',
+                slackChannelId: 'C0999',
+                slackChannelNotificationsEnabled: false,
+            });
 
             await channel.notify({ type: 'audit-run-completed', data: { auditRunId: 42 } });
 
@@ -109,49 +102,6 @@ describe('SlackChannel', () => {
     });
 
     describe('notify — daily-digest', () => {
-        it('DMs every account digest recipient that has a slackUserId', async () => {
-            getDailyDigestRecipients.mockResolvedValue([
-                {
-                    _id: 1,
-                    slackUserId: 'U0111',
-                    slackNotificationsEnabled: true,
-                    applications: [{ _id: 7, name: 'Checkout', acronym: 'CHK' }],
-                },
-                {
-                    _id: 2,
-                    slackUserId: null,
-                    slackNotificationsEnabled: false,
-                    applications: [{ _id: 8, name: 'Billing', acronym: 'BIL' }],
-                },
-            ]);
-            getAuditRunsForApplicationsSince.mockResolvedValue([
-                { _id: 100, appId: 7, runStatus: 'completed' },
-            ]);
-
-            await channel.notify({ type: 'daily-digest', data: {} });
-
-            expect(sendMessage).toHaveBeenCalledWith('U0111', expect.stringContaining('Checkout'));
-            expect(sendMessage).toHaveBeenCalledTimes(1);
-        });
-
-        it('skips a recipient that has a slackUserId but disabled notifications', async () => {
-            getDailyDigestRecipients.mockResolvedValue([
-                {
-                    _id: 1,
-                    slackUserId: 'U0111',
-                    slackNotificationsEnabled: false,
-                    applications: [{ _id: 7, name: 'Checkout', acronym: 'CHK' }],
-                },
-            ]);
-            getAuditRunsForApplicationsSince.mockResolvedValue([
-                { _id: 100, appId: 7, runStatus: 'completed' },
-            ]);
-
-            await channel.notify({ type: 'daily-digest', data: {} });
-
-            expect(sendMessage).not.toHaveBeenCalled();
-        });
-
         it('posts a digest to every application with a configured Slack channel', async () => {
             getApplicationsWithSlackChannel.mockResolvedValue([
                 { _id: 7, name: 'Checkout', acronym: 'CHK', slackChannelId: 'C0999' },
@@ -163,6 +113,40 @@ describe('SlackChannel', () => {
             await channel.notify({ type: 'daily-digest', data: {} });
 
             expect(sendMessage).toHaveBeenCalledWith('C0999', expect.stringContaining('Checkout'));
+        });
+
+        it('fetches audit runs for all channel applications in a single query', async () => {
+            getApplicationsWithSlackChannel.mockResolvedValue([
+                { _id: 7, name: 'Checkout', acronym: 'CHK', slackChannelId: 'C0999' },
+                { _id: 8, name: 'Billing', acronym: 'BIL', slackChannelId: 'C0888' },
+            ]);
+            getAuditRunsForApplicationsSince.mockResolvedValue([
+                { _id: 100, appId: 7, runStatus: 'completed' },
+                { _id: 101, appId: 8, runStatus: 'completed' },
+            ]);
+
+            await channel.notify({ type: 'daily-digest', data: {} });
+
+            expect(getAuditRunsForApplicationsSince).toHaveBeenCalledTimes(1);
+            expect(getAuditRunsForApplicationsSince).toHaveBeenCalledWith([7, 8], expect.any(Date));
+            expect(sendMessage).toHaveBeenCalledTimes(2);
+        });
+
+        it('lists a channel digest newest run first', async () => {
+            getApplicationsWithSlackChannel.mockResolvedValue([
+                { _id: 7, name: 'Checkout', acronym: 'CHK', slackChannelId: 'C0999' },
+            ]);
+            getAuditRunsForApplicationsSince.mockResolvedValue([
+                { _id: 100, appId: 7, runStatus: 'completed' },
+                { _id: 102, appId: 7, runStatus: 'failed' },
+                { _id: 101, appId: 7, runStatus: 'completed' },
+            ]);
+
+            await channel.notify({ type: 'daily-digest', data: {} });
+
+            const message = sendMessage.mock.calls[0][1] as string;
+            expect(message.indexOf('run #102')).toBeLessThan(message.indexOf('run #101'));
+            expect(message.indexOf('run #101')).toBeLessThan(message.indexOf('run #100'));
         });
     });
 });

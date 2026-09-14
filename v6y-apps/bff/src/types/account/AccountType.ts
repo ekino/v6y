@@ -17,12 +17,6 @@ const AccountType = `
 
         """ Applications """
         applications: [Int]
-
-        """ Slack Member ID for DM notifications """
-        slackUserId: String
-
-        """ Whether Slack DM notifications are enabled for this account """
-        slackNotificationsEnabled: Boolean
     }
 `;
 export default AccountType;

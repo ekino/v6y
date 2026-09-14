@@ -7,8 +7,6 @@ export interface AccountType {
     applications?: number[];
     auditReportEmailsEnabled?: boolean;
     dailyDigestEmailsEnabled?: boolean;
-    slackUserId?: string | null;
-    slackNotificationsEnabled?: boolean;
 }
 
 export interface AccountInputType {
@@ -18,8 +16,6 @@ export interface AccountInputType {
     password?: string;
     role: string;
     applications?: number[];
-    slackUserId?: string | null;
-    slackNotificationsEnabled?: boolean;
 }
 
 export interface AccountNotificationSettingsInputType {

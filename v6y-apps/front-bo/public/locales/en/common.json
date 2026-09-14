@@ -91,14 +91,6 @@
           "label": "Account applications",
           "placeholder": "Select account applications",
           "error": "You need to select at least one application!"
-        },
-        "account-slack-user-id": {
-          "label": "Slack Member ID",
-          "placeholder": "e.g. U01XXXXXXXXX"
-        },
-        "account-slack-group": "Slack notifications",
-        "account-slack-notifications-enabled": {
-          "label": "Enable Slack DM notifications"
         }
       }
     },
@@ -192,7 +184,8 @@
       },
       "app-slack-channel-id": {
         "label": "Slack channel",
-        "placeholder": "e.g. C01XXXXXXXXX"
+        "placeholder": "e.g. C01XXXXXXXXX",
+        "required": "A Slack channel ID is required when channel notifications are enabled."
       },
       "app-slack-channel-group": "Slack notifications",
       "app-slack-channel-notifications-enabled": {

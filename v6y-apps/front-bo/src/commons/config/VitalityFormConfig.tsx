@@ -863,8 +863,6 @@ export const accountCreateOrEditFormInAdapter = (params: Record<string, unknown>
     'account-role': params?.['role'],
     'account-password': params?.['password'],
     'account-applications': params?.['applications'],
-    'account-slack-user-id': params?.['slackUserId'],
-    'account-slack-notifications-enabled': !!params?.['slackNotificationsEnabled'],
 });
 
 export const accountCreateOrEditFormOutputAdapter = (params: Record<string, string>) => ({
@@ -875,10 +873,6 @@ export const accountCreateOrEditFormOutputAdapter = (params: Record<string, stri
         role: params?.['account-role'],
         password: params?.['account-password'],
         applications: params?.['account-applications'],
-        slackUserId: params?.['account-slack-notifications-enabled']
-            ? params?.['account-slack-user-id'] || null
-            : null,
-        slackNotificationsEnabled: !!params?.['account-slack-notifications-enabled'],
     },
 });
 
@@ -913,15 +907,6 @@ export const accountCreateEditItems = (
             groupTitle={translate('pages.createAccount.fields.applications-group')}
             items={accountApplicationsFormItems(translate)}
             selectOptions={applicationsValues}
-        />,
-        <VitalityToggleTextField
-            key={translate('pages.createAccount.fields.account-slack-group')}
-            groupTitle={translate('pages.createAccount.fields.account-slack-group')}
-            translate={translate}
-            switchFieldName="account-slack-notifications-enabled"
-            switchLabelKey="pages.createAccount.fields.account-slack-notifications-enabled.label"
-            textFieldName="account-slack-user-id"
-            textFieldKey="pages.createAccount.fields.account-slack-user-id"
         />,
     ];
 };

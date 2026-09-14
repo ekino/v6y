@@ -33,8 +33,6 @@ const createAccount = async (account: AccountInputType) => {
                 password: account.password,
                 role: account.role,
                 applications: account.applications ?? [],
-                slackUserId: account.slackUserId ?? null,
-                slackNotificationsEnabled: !!account.slackNotificationsEnabled,
             },
         });
 
@@ -85,8 +83,6 @@ const editAccount = async ({
                 email: account.email,
                 role: account.role,
                 applications: account.applications ?? [],
-                slackUserId: account.slackUserId ?? null,
-                slackNotificationsEnabled: !!account.slackNotificationsEnabled,
             },
         });
 
@@ -318,9 +314,7 @@ const getDailyDigestRecipients = async () => {
     try {
         const accounts = await getPrismaClient().account.findMany({
             where: {
-                // Loosened to either opt-in so an account can pick just one channel: a strict
-                // `dailyDigestEmailsEnabled` filter would silently skip Slack-only recipients.
-                OR: [{ dailyDigestEmailsEnabled: true }, { slackNotificationsEnabled: true }],
+                dailyDigestEmailsEnabled: true,
                 ownedApplications: { some: {} },
             },
             select: {
@@ -328,8 +322,6 @@ const getDailyDigestRecipients = async () => {
                 username: true,
                 email: true,
                 dailyDigestEmailsEnabled: true,
-                slackUserId: true,
-                slackNotificationsEnabled: true,
                 ownedApplications: { select: { id: true, name: true, acronym: true } },
             },
         });
@@ -339,8 +331,6 @@ const getDailyDigestRecipients = async () => {
             username: account.username,
             email: account.email,
             dailyDigestEmailsEnabled: account.dailyDigestEmailsEnabled,
-            slackUserId: account.slackUserId,
-            slackNotificationsEnabled: account.slackNotificationsEnabled,
             applications: account.ownedApplications.map((application) => ({
                 _id: application.id,
                 name: application.name,
@@ -350,23 +340,6 @@ const getDailyDigestRecipients = async () => {
     } catch (error) {
         AppLogger.error(`[AccountProvider - getDailyDigestRecipients] error: `, error);
         return null;
-    }
-};
-
-const getAccountsByApplicationId = async (applicationId: number) => {
-    try {
-        AppLogger.info(
-            `[AccountProvider - getAccountsByApplicationId] applicationId: ${applicationId}`,
-        );
-
-        const accounts = await getPrismaClient().account.findMany({
-            where: { applications: { has: applicationId } },
-        });
-
-        return accounts.map((a: (typeof accounts)[0]) => ({ ...a, _id: a.id }));
-    } catch (error) {
-        AppLogger.error(`[AccountProvider - getAccountsByApplicationId] error: `, error);
-        return [];
     }
 };
 
@@ -380,7 +353,6 @@ const AccountProvider = {
     getAccountNotificationSettings,
     updateAccountNotificationSettings,
     getDailyDigestRecipients,
-    getAccountsByApplicationId,
 };
 
 export default AccountProvider;

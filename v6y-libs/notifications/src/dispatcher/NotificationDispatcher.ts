@@ -12,10 +12,10 @@ import { INotificationChannel, NotificationEvent } from '../channels/INotificati
  * prevents the others from delivering.  Each rejection is caught and logged
  * here so that channels themselves can be written without defensive wrapping.
  *
- * `channels` is a plain (undecorated) constructor parameter — see the
- * `NOTIFICATION_CHANNELS`-keyed factory provider in `app.module.ts` — because
- * tsx/esbuild does not reliably enable legacy TS decorators for files loaded
- * from a pnpm-symlinked workspace package, and `@Inject()` requires them.
+ * `channels` is a plain (undecorated) constructor parameter — the channel array
+ * is assembled and passed in by the factory provider in `app.module.ts` —
+ * because tsx/esbuild does not reliably enable legacy TS decorators for files
+ * loaded from a pnpm-symlinked workspace package, and `@Inject()` requires them.
  */
 @Injectable()
 export class NotificationDispatcher {

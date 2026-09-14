@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { AccountProvider, AppLogger, ApplicationProvider, AuditRunProvider } from '@v6y/core-logic';
+import { AppLogger, ApplicationProvider, AuditRunProvider } from '@v6y/core-logic';
 
 import { INotificationChannel, NotificationEvent } from '../INotificationChannel.ts';
 import SlackClient from './SlackClient.ts';
@@ -70,11 +70,10 @@ const buildChannelDigestMessage = (
  * Slack channel: delivers audit-run-completed notifications and daily digests
  * via the Slack Bot API. Active only when `V6Y_SLACK_BOT_TOKEN` is set.
  *
- * Two independent delivery paths, both best-effort:
- *  - a DM to the application owner, when their account has `slackUserId` set;
- *  - a channel post, when the application has `slackChannelId` set — this lets
- *    a whole team follow a project without every member configuring a
- *    personal Slack id.
+ * Delivery is channel-scoped and best-effort: a post to the application's Slack
+ * channel when the application has `slackChannelId` set and channel
+ * notifications enabled — this lets a whole team follow a project without every
+ * member configuring a personal Slack id.
  */
 @Injectable()
 export class SlackChannel implements INotificationChannel {
@@ -103,12 +102,21 @@ export class SlackChannel implements INotificationChannel {
                 return;
             }
 
-            const [owner, application] = await Promise.all([
-                ApplicationProvider.getApplicationOwner({ _id: auditRun.appId }),
-                ApplicationProvider.getApplicationDetailsInfoByParams({ _id: auditRun.appId }),
-            ]);
+            const application = await ApplicationProvider.getApplicationDetailsInfoByParams({
+                _id: auditRun.appId,
+            });
 
-            const applicationName = application?.name || `Application #${auditRun.appId}`;
+            if (
+                !application?.slackChannelNotificationsEnabled ||
+                !application.slackChannelId?.length
+            ) {
+                AppLogger.info(
+                    `[SlackChannel] applicationId=${auditRun.appId} has no Slack channel configured, no notification sent.`,
+                );
+                return;
+            }
+
+            const applicationName = application.name || `Application #${auditRun.appId}`;
             const message = buildAuditRunCompletedMessage({
                 applicationName,
                 applicationId: auditRun.appId,
@@ -117,23 +125,7 @@ export class SlackChannel implements INotificationChannel {
                 errorMessage: auditRun.errorMessage,
             });
 
-            const targets = [
-                owner?.slackNotificationsEnabled ? owner.slackUserId : undefined,
-                application?.slackChannelNotificationsEnabled
-                    ? application.slackChannelId
-                    : undefined,
-            ].filter((target): target is string => !!target?.length);
-
-            if (!targets.length) {
-                AppLogger.info(
-                    `[SlackChannel] applicationId=${auditRun.appId} has no Slack user or channel configured, no notification sent.`,
-                );
-                return;
-            }
-
-            await Promise.allSettled(
-                targets.map((target) => SlackClient.sendMessage(target, message)),
-            );
+            await SlackClient.sendMessage(application.slackChannelId, message);
         } catch (error) {
             AppLogger.error(
                 `[SlackChannel] Unable to notify completion of audit run ${auditRunId}: `,
@@ -145,85 +137,37 @@ export class SlackChannel implements INotificationChannel {
     private async sendDailyDigests(): Promise<void> {
         const since = new Date(Date.now() - DAY_IN_MS);
 
-        await Promise.allSettled([this.sendAccountDigests(since), this.sendChannelDigests(since)]);
-    }
-
-    private async sendAccountDigests(since: Date): Promise<void> {
-        const recipients = await AccountProvider.getDailyDigestRecipients();
-
-        if (!recipients) {
-            AppLogger.error(
-                '[SlackChannel] Unable to read daily digest recipients, account digest aborted.',
-            );
-            return;
-        }
-
-        let sentCount = 0;
-
-        for (const recipient of recipients) {
-            try {
-                if (!recipient.slackNotificationsEnabled || !recipient.slackUserId?.length) {
-                    continue;
-                }
-
-                const applicationIds = recipient.applications.map((a) => a._id);
-                const auditRuns = await AuditRunProvider.getAuditRunsForApplicationsSince(
-                    applicationIds,
-                    since,
-                );
-
-                if (!auditRuns.length) {
-                    continue;
-                }
-
-                const messages = recipient.applications
-                    .map((application) => {
-                        const appRuns = auditRuns.filter((run) => run.appId === application._id);
-
-                        return appRuns.length
-                            ? buildChannelDigestMessage(application.name, application._id, appRuns)
-                            : undefined;
-                    })
-                    .filter((message): message is string => !!message?.length);
-
-                if (!messages.length) {
-                    continue;
-                }
-
-                if (await SlackClient.sendMessage(recipient.slackUserId, messages.join('\n\n'))) {
-                    sentCount += 1;
-                }
-            } catch (error) {
-                AppLogger.error(
-                    `[SlackChannel] Unable to build account digest for accountId=${recipient._id}: `,
-                    error,
-                );
-            }
-        }
-
-        AppLogger.info(`[SlackChannel] Sent ${sentCount} account daily digest(s).`);
+        await this.sendChannelDigests(since);
     }
 
     private async sendChannelDigests(since: Date): Promise<void> {
         const applications = await ApplicationProvider.getApplicationsWithSlackChannel();
 
+        if (!applications.length) {
+            return;
+        }
+
+        const auditRuns = await AuditRunProvider.getAuditRunsForApplicationsSince(
+            applications.map((application) => application._id),
+            since,
+        );
+
         let sentCount = 0;
 
         for (const application of applications) {
             try {
-                const auditRuns = await AuditRunProvider.getAuditRunsForApplicationsSince(
-                    [application._id],
-                    since,
-                );
+                const appRuns = auditRuns
+                    .filter((run) => run.appId === application._id)
+                    .sort((a, b) => b._id - a._id);
 
-                if (!auditRuns.length) {
+                if (!appRuns.length) {
                     continue;
                 }
 
                 const message = buildChannelDigestMessage(
                     application.name,
                     application._id,
-                    auditRuns,
+                    appRuns,
                 );
 
                 if (await SlackClient.sendMessage(application.slackChannelId, message)) {
