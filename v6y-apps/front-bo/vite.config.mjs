@@ -5,8 +5,10 @@ import { configDefaults, defineConfig } from 'vitest/config';
  * https://vitest.dev/config/#configuration
  */
 export default defineConfig({
-    esbuild: {
-        jsx: 'automatic',
+    oxc: {
+        jsx: {
+            runtime: 'automatic',
+        },
     },
     resolve: {
         alias: {
