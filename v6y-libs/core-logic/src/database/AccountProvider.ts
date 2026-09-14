@@ -323,6 +323,7 @@ const getDailyDigestRecipients = async () => {
                 id: true,
                 username: true,
                 email: true,
+                slackUserId: true,
                 ownedApplications: { select: { id: true, name: true, acronym: true } },
             },
         });
@@ -331,6 +332,7 @@ const getDailyDigestRecipients = async () => {
             _id: account.id,
             username: account.username,
             email: account.email,
+            slackUserId: account.slackUserId,
             applications: account.ownedApplications.map((application) => ({
                 _id: application.id,
                 name: application.name,

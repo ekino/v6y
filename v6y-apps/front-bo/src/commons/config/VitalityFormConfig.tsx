@@ -85,6 +85,13 @@ export const applicationInfosFormItems = (translate: TranslateType) => {
                 },
             ],
         },
+        {
+            id: 'app-slack-channel-id',
+            name: 'app-slack-channel-id',
+            label: translate('v6y-applications.fields.app-slack-channel-id.label'),
+            placeholder: translate('v6y-applications.fields.app-slack-channel-id.placeholder'),
+            rules: [],
+        },
     ];
 };
 
@@ -267,6 +274,7 @@ export const applicationCreateOrEditFormInAdapter = (params: ApplicationType) =>
         'app-git-web-url': params?.['repo']?.webUrl,
         'app-git-url': params?.['repo']?.gitUrl,
         'app-contact-email': params?.['contactMail'],
+        'app-slack-channel-id': params?.['slackChannelId'],
         'app-production-link': params?.['links']?.find?.(
             (item) => item.label === 'Application production url',
         )?.value,
@@ -306,6 +314,7 @@ export const applicationCreateOrEditFormOutputAdapter = (data: unknown): Variabl
             gitUrl: params?.['app-git-url'],
             name: params?.['app-name'],
             contactMail: params?.['app-contact-email'],
+            slackChannelId: params?.['app-slack-channel-id'] || null,
             productionLink: params?.['app-production-link'],
             sonarqubeLink: params?.['app-sonarqube-link'],
             sonarqubeToken: params?.['app-sonarqube-token'] || undefined,

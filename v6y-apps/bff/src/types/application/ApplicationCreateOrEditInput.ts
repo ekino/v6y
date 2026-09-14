@@ -39,6 +39,9 @@ const ApplicationCreateOrEditInput = `
       """ APP Contact Mail """
       contactMail: String!
 
+      """ Slack channel (e.g. C0123456789) the Vitality bot posts audit notifications to """
+      slackChannelId: String
+
       """ Application SonarQube url """
       sonarqubeLink: String
       

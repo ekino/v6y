@@ -11,6 +11,9 @@ const ApplicationType = `
     
     """ APP Contact Mail """
     contactMail: String
+
+    """ Slack channel (e.g. C0123456789) the Vitality bot posts audit notifications to """
+    slackChannelId: String
     
     """ APP Description """
     description: String

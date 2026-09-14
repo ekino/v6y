@@ -5,5 +5,7 @@ export { default as EmailMailerService } from './channels/email/EmailMailerServi
 export * from './channels/email/EmailRecipients.ts';
 export { default as EmailTemplates } from './channels/email/EmailTemplates.ts';
 export * from './channels/slack/SlackChannel.ts';
+export { default as SlackClient } from './channels/slack/SlackClient.ts';
+export { default as SlackConfig } from './channels/slack/SlackConfig.ts';
 export * from './dispatcher/NotificationDispatcher.ts';
 export * from './queues/NotificationQueue.ts';

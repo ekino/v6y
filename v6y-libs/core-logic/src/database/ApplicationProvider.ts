@@ -36,6 +36,7 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
         auditFrequencyEnabled,
         auditFrequencyCron,
         ownerId,
+        slackChannelId,
     } = application || {};
     return {
         _id,
@@ -44,6 +45,7 @@ const formatApplicationInput = (application: ApplicationInputType): ApplicationT
         description,
         contactMail,
         ownerId,
+        slackChannelId: slackChannelId === undefined ? undefined : slackChannelId || null,
         // Left `undefined` when the input omits the field, so a partial update
         // (a script, a client on an older schema) does not silently disable an
         // application's scheduled audits and drop its cron.
@@ -129,6 +131,7 @@ const normalizeApplication = (application: {
     auditFrequencyEnabled?: boolean;
     auditFrequencyCron?: string | null;
     ownerId?: number;
+    slackChannelId?: string | null;
 }) => {
     return {
         ...application,
@@ -186,6 +189,7 @@ const createFormApplication = async (application: ApplicationInputType) => {
                 contactMail: formApplication.contactMail!,
                 description: formApplication.description!,
                 ownerId: formApplication.ownerId,
+                slackChannelId: formApplication.slackChannelId ?? null,
                 repo: formApplication.repo
                     ? (formApplication.repo as unknown as Prisma.InputJsonValue)
                     : undefined,
@@ -238,6 +242,7 @@ const editFormApplication = async (application: ApplicationInputType) => {
                 acronym: formApplication.acronym ?? undefined,
                 contactMail: formApplication.contactMail ?? undefined,
                 description: formApplication.description ?? undefined,
+                slackChannelId: formApplication.slackChannelId,
                 repo: formApplication.repo
                     ? (formApplication.repo as unknown as Prisma.InputJsonValue)
                     : undefined,
@@ -271,6 +276,7 @@ const editApplication = async (application: ApplicationType) => {
                 acronym: application.acronym ?? undefined,
                 contactMail: application.contactMail ?? undefined,
                 description: application.description ?? undefined,
+                slackChannelId: application.slackChannelId,
                 repo: application.repo
                     ? (application.repo as unknown as Prisma.InputJsonValue)
                     : undefined,
@@ -455,6 +461,7 @@ const getApplicationOwner = async ({ _id }: { _id: number }) => {
                         id: true,
                         username: true,
                         email: true,
+                        slackUserId: true,
                         auditReportEmailsEnabled: true,
                         dailyDigestEmailsEnabled: true,
                     },
@@ -468,6 +475,28 @@ const getApplicationOwner = async ({ _id }: { _id: number }) => {
     } catch (error) {
         AppLogger.error('[ApplicationProvider - getApplicationOwner] error: ', error);
         return null;
+    }
+};
+
+/** Every application with a Slack channel configured, for the Slack channel digest. */
+const getApplicationsWithSlackChannel = async () => {
+    try {
+        const applications = await getPrismaClient().application.findMany({
+            where: { slackChannelId: { not: null } },
+            select: { id: true, name: true, acronym: true, slackChannelId: true },
+        });
+
+        return applications
+            .filter((application) => application.slackChannelId?.length)
+            .map((application) => ({
+                _id: application.id,
+                name: application.name,
+                acronym: application.acronym,
+                slackChannelId: application.slackChannelId as string,
+            }));
+    } catch (error) {
+        AppLogger.error('[ApplicationProvider - getApplicationsWithSlackChannel] error: ', error);
+        return [];
     }
 };
 
@@ -487,6 +516,7 @@ const ApplicationProvider = {
     getApplicationStatsByParams,
     getScheduledApplicationList,
     getApplicationOwner,
+    getApplicationsWithSlackChannel,
 };
 
 export default ApplicationProvider;

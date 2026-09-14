@@ -20,7 +20,7 @@ describe('VitalityFormConfig - Form Items', () => {
     it('should generate application info form items with correct translations', () => {
         const result = applicationInfosFormItems(mockTranslate);
 
-        expect(result).toHaveLength(4);
+        expect(result).toHaveLength(5);
         expect(result[0].id).toBe('app-name');
         expect(result[0].label).toBe('v6y-applications.fields.app-name.label');
         expect(result[0].rules[0].message).toBe('v6y-applications.fields.app-name.error');
@@ -153,6 +153,7 @@ describe('VitalityFormConfig - Form Items', () => {
                 productionLink: 'https://testapp.com',
                 sonarqubeLink: 'https://sonarqube.example.com/dashboard?id=testapp',
                 sonarqubeToken: undefined,
+                slackChannelId: null,
                 codeQualityPlatformLink: undefined,
                 ciPlatformLink: undefined,
                 deploymentPlatformLink: undefined,

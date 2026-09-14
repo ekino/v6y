@@ -19,6 +19,8 @@ export interface ApplicationType {
     auditFrequencyCron?: string | null;
     /** Account the application belongs to, and whom its audit emails are sent to */
     ownerId?: number;
+    /** Slack channel (e.g. "C0123456789") the Vitality bot posts audit notifications to, if configured */
+    slackChannelId?: string | null;
 }
 
 export interface ApplicationInputType {
@@ -43,4 +45,5 @@ export interface ApplicationInputType {
     auditFrequencyEnabled?: boolean;
     auditFrequencyCron?: string | null;
     ownerId?: number;
+    slackChannelId?: string | null;
 }
