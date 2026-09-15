@@ -308,21 +308,42 @@ const VitalityAppDetailsView = ({ applicationId, auditRunId }: VitalityAppDetail
 
                         <div className="flex items-center gap-2 shrink-0">
                             <Button
+                                type="button"
+                                onClick={() => window.location.reload()}
                                 variant="outline"
                                 size="sm"
                                 className="h-10 w-10 shrink-0 rounded-lg border-slate-300 bg-white p-2 text-slate-700 hover:bg-slate-50"
                                 title={translate('vitality.appDetailsPage.actions.reload')}
+                                aria-label={translate('vitality.appDetailsPage.actions.reload')}
                             >
                                 <ReloadIcon className="w-4 h-4 shrink-0" />
                             </Button>
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                className="h-10 w-10 shrink-0 rounded-lg border-slate-300 bg-white p-2 text-slate-700 hover:bg-slate-50"
-                                title={translate('vitality.appDetailsPage.actions.globe')}
-                            >
-                                <GlobeIcon className="w-4 h-4 shrink-0" />
-                            </Button>
+                            {appInfos?.links?.find((link) =>
+                                link?.label?.toLowerCase?.().includes('production'),
+                            )?.value && (
+                                <Button
+                                    asChild
+                                    variant="outline"
+                                    size="sm"
+                                    className="h-10 w-10 shrink-0 rounded-lg border-slate-300 bg-white p-2 text-slate-700 hover:bg-slate-50"
+                                >
+                                    <a
+                                        href={
+                                            appInfos.links.find((link) =>
+                                                link?.label?.toLowerCase?.().includes('production'),
+                                            )?.value as string
+                                        }
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        title={translate('vitality.appDetailsPage.actions.globe')}
+                                        aria-label={translate(
+                                            'vitality.appDetailsPage.actions.globe',
+                                        )}
+                                    >
+                                        <GlobeIcon className="w-4 h-4 shrink-0" />
+                                    </a>
+                                </Button>
+                            )}
                             {isReportDetailsView ? null : (
                                 <RunAuditButton
                                     isRunningAudit={isRunningAudit}

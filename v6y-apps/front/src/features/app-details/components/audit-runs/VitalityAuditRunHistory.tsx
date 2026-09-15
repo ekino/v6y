@@ -285,6 +285,17 @@ const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = ({
                                     key={run._id || index}
                                     className={`transition-colors duration-150 ${onRunClick ? 'hover:bg-gray-50 cursor-pointer' : 'hover:bg-gray-50'}`}
                                     onClick={onRunClick ? () => onRunClick(run._id) : undefined}
+                                    onKeyDown={
+                                        onRunClick
+                                            ? (event) => {
+                                                  if (event.key === 'Enter' || event.key === ' ') {
+                                                      event.preventDefault();
+                                                      onRunClick(run._id);
+                                                  }
+                                              }
+                                            : undefined
+                                    }
+                                    tabIndex={onRunClick ? 0 : undefined}
                                 >
                                     <td className="px-4 py-3">
                                         <div className="flex flex-col gap-2">
@@ -328,7 +339,9 @@ const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = ({
             {totalPages > 1 && (
                 <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200 bg-gray-50">
                     <span className="text-xs text-gray-600">
-                        Page {currentPage} / {totalPages}
+                        {translate('vitality.appDetailsPage.auditHistory.pagination.page')
+                            .replace('{current}', String(currentPage))
+                            .replace('{total}', String(totalPages))}
                     </span>
                     <div className="flex items-center gap-2">
                         <button
@@ -337,7 +350,7 @@ const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = ({
                             disabled={currentPage === 1}
                             className="px-3 py-1.5 text-xs font-medium rounded border border-gray-300 bg-white text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            Previous
+                            {translate('vitality.appDetailsPage.auditHistory.pagination.previous')}
                         </button>
                         <button
                             type="button"
@@ -345,7 +358,7 @@ const VitalityAuditRunHistory: React.FC<VitalityAuditRunHistoryProps> = ({
                             disabled={currentPage === totalPages}
                             className="px-3 py-1.5 text-xs font-medium rounded border border-gray-300 bg-white text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            Next
+                            {translate('vitality.appDetailsPage.auditHistory.pagination.next')}
                         </button>
                     </div>
                 </div>
