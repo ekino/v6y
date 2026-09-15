@@ -72,10 +72,14 @@ echo ""
 # when all frontends and backend dev servers run together. NX_TUI=false skips
 # nx's interactive dashboard, which takes over the terminal (alternate screen,
 # its own keybindings) and is the actual reason Ctrl+C felt stuck/slow here.
+# --output-style=stream makes nx print each app's log lines live, prefixed
+# with its project name, instead of buffering a task's whole output until it
+# finishes (the non-TUI default) - that buffering is what made per-app logs
+# seem to disappear once the TUI was turned off.
 NX_TUI=false \
 WATCHPACK_POLLING=true \
 CHOKIDAR_USEPOLLING=true \
 NODE_OPTIONS="--max-old-space-size=4096" \
-nx run-many --target=start:dev --all --parallel --maxParallel=7 &
+nx run-many --target=start:dev --all --parallel --maxParallel=7 --output-style=stream &
 
 wait $!
