@@ -88,7 +88,7 @@ catalogs:
     'ag-charts-community': '=14.0.1'
     'ag-charts-react': '=14.0.1'
     'antd': '=5.23.1'
-    'axios': '=1.19.0'
+    'axios': '=1.20.0'
     'bcrypt': '=6.0.0'
     'class-variance-authority': '=0.7.1'
     'clsx': '=2.1.1'
@@ -132,7 +132,7 @@ catalogs:
     'package-manager-detector': '=1.2.0'
     'passport': '=0.7.0'
     'passport-jwt': '=4.0.1'
-    'postcss': '=8.5.23'
+    'postcss': '=8.5.24'
     'prettier': '=3.4.2'
     'puppeteer-core': '=24.0.0'
     'react-hook-form': '=7.54.2'
@@ -187,7 +187,7 @@ catalogs:
     'jsdom': '=30.0.1'
     'msw': '=2.12.10'
     'supertest': '=7.0.0'
-    'vitest': '=4.1.0'
+    'vitest': '=5.0.0'
 
   nestjs11:
     '@apollo/server': '=5.5.0'
