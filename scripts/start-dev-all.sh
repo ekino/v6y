@@ -5,27 +5,20 @@
 
 set -e
 
-# PIDs of the dev servers started below, so cleanup can hard-kill them directly
-# instead of going through nx's task runner, whose own graceful-shutdown
-# sequencing across 7 parallel tasks is what made Ctrl+C take 30s-1min.
-PIDS=()
-
 # Ctrl+C (or the terminal closing) should tear every spawned dev server down
-# immediately instead of waiting on each framework's own graceful-shutdown path
-# (Next.js/refine in particular can take several seconds each) one after another.
-# Disabling the trap first avoids re-entering it when the kills below signal
-# this script's own process group.
+# immediately. Two things make that slow otherwise:
+#  1. nx run-many manages its own child processes and forwards signals with a
+#     grace period per task, so waiting on nx to exit gracefully is slow.
+#  2. Running it in the foreground means bash can't even start cleaning up
+#     until nx itself returns - the trap below only fires promptly because nx
+#     is launched in the background and waited on (see the bottom of this file).
+# So cleanup hard-kills every known dev-server process by name directly rather
+# than asking nx (or the servers) to shut themselves down.
 cleanup() {
   trap - EXIT INT TERM
   echo ""
   echo "Stopping dev servers..."
-  for pid in "${PIDS[@]}"; do
-    kill -TERM "$pid" 2>/dev/null || true
-  done
-  sleep 0.3
-  for pid in "${PIDS[@]}"; do
-    kill -KILL "$pid" 2>/dev/null || true
-  done
+  pkill -9 -f "nx run-many" 2>/dev/null || true
   node scripts/stop-ports.js > /dev/null 2>&1 || true
 }
 trap cleanup EXIT INT TERM
@@ -70,27 +63,19 @@ if command -v watchman &> /dev/null; then
   echo ""
 fi
 
-# 4. Start each dev server directly via pnpm --filter, bypassing nx's task
-# runner entirely. nx run-many is what previously made Ctrl+C so slow: it
-# manages its own child processes and forwards signals with a grace period
-# per task, so killing it does not promptly kill the 7 underlying servers.
+# 4. Run the actual dev command with increased limits. Started in the
+# background (with `wait` below) instead of in the foreground so the trap
+# above can react to Ctrl+C immediately instead of only after nx returns.
 echo "Starting 7 dev servers in parallel..."
 echo ""
-export WATCHPACK_POLLING=true
-export CHOKIDAR_USEPOLLING=true
-export NODE_OPTIONS="--max-old-space-size=4096"
+# Use polling watchers to avoid Watchpack/Chokidar exhausting file descriptors
+# when all frontends and backend dev servers run together. NX_TUI=false skips
+# nx's interactive dashboard, which takes over the terminal (alternate screen,
+# its own keybindings) and is the actual reason Ctrl+C felt stuck/slow here.
+NX_TUI=false \
+WATCHPACK_POLLING=true \
+CHOKIDAR_USEPOLLING=true \
+NODE_OPTIONS="--max-old-space-size=4096" \
+nx run-many --target=start:dev --all --parallel --maxParallel=7 &
 
-for project in \
-  @v6y/bff \
-  @v6y/bfb-main-analyzer \
-  @v6y/bfb-static-auditor \
-  @v6y/bfb-dynamic-auditor \
-  @v6y/bfb-devops-auditor \
-  @v6y/front \
-  @v6y/front-bo \
-; do
-  pnpm --filter "$project" run start:dev &
-  PIDS+=($!)
-done
-
-wait
+wait $!
