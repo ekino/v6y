@@ -182,6 +182,15 @@
                 "placeholder": "Saisissez un ou plusieurs emails de contact, séparés par des virgules",
                 "error": "Au moins un email valide est requis ; séparez plusieurs adresses par des virgules ou des points-virgules !"
             },
+            "app-slack-channel-id": {
+                "label": "Canal Slack du projet",
+                "placeholder": "ex. C01XXXXXXXXX",
+                "required": "Un identifiant de canal Slack est requis lorsque les notifications de canal sont activées."
+            },
+            "app-slack-channel-group": "Notifications Slack",
+            "app-slack-channel-notifications-enabled": {
+                "label": "Activer les notifications du canal Slack"
+            },
             "app-git-organization": {
                 "label": "Application Git Organization (it can be ekino for example and it will be used like this gitlab.ekino.com, generally gitlab.organization.com)",
                 "placeholder": "Enter your application Git Organization"

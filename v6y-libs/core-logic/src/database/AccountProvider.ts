@@ -321,6 +321,7 @@ const getDailyDigestRecipients = async () => {
                 id: true,
                 username: true,
                 email: true,
+                dailyDigestEmailsEnabled: true,
                 ownedApplications: { select: { id: true, name: true, acronym: true } },
             },
         });
@@ -329,6 +330,7 @@ const getDailyDigestRecipients = async () => {
             _id: account.id,
             username: account.username,
             email: account.email,
+            dailyDigestEmailsEnabled: account.dailyDigestEmailsEnabled,
             applications: account.ownedApplications.map((application) => ({
                 _id: application.id,
                 name: application.name,

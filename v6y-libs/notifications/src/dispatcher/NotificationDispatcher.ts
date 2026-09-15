@@ -1,12 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 import { AppLogger } from '@v6y/core-logic';
 
-import {
-    INotificationChannel,
-    NOTIFICATION_CHANNELS,
-    NotificationEvent,
-} from '../channels/INotificationChannel.ts';
+import { INotificationChannel, NotificationEvent } from '../channels/INotificationChannel.ts';
 
 /**
  * Fan-out dispatcher: iterates every registered channel, skips unavailable
@@ -15,13 +11,15 @@ import {
  * `Promise.allSettled` guarantees fault isolation — one broken channel never
  * prevents the others from delivering.  Each rejection is caught and logged
  * here so that channels themselves can be written without defensive wrapping.
+ *
+ * `channels` is a plain (undecorated) constructor parameter — the channel array
+ * is assembled and passed in by the factory provider in `app.module.ts` —
+ * because tsx/esbuild does not reliably enable legacy TS decorators for files
+ * loaded from a pnpm-symlinked workspace package, and `@Inject()` requires them.
  */
 @Injectable()
 export class NotificationDispatcher {
-    constructor(
-        @Inject(NOTIFICATION_CHANNELS)
-        private readonly channels: INotificationChannel[],
-    ) {}
+    constructor(private readonly channels: INotificationChannel[]) {}
 
     async dispatch(event: NotificationEvent): Promise<void> {
         const available = this.channels.filter((c) => c.isAvailable());

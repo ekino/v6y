@@ -5,6 +5,7 @@ import { SelectOptionType, TranslateType } from '@v6y/ui-kit';
 
 import VitalityAuditFrequencyField from '../components/VitalityAuditFrequencyField';
 import VitalityFormFieldSet from '../components/VitalityFormFieldSet';
+import VitalityToggleTextField from '../components/VitalityToggleTextField';
 
 interface LinkOptions {
     value: string;
@@ -254,6 +255,15 @@ export const applicationCreateEditItems = (translate: TranslateType) => {
             groupTitle={translate('v6y-applications.fields.app-audit-frequency-group')}
             translate={translate}
         />,
+        <VitalityToggleTextField
+            key={translate('v6y-applications.fields.app-slack-channel-group')}
+            groupTitle={translate('v6y-applications.fields.app-slack-channel-group')}
+            translate={translate}
+            switchFieldName="app-slack-channel-notifications-enabled"
+            switchLabelKey="v6y-applications.fields.app-slack-channel-notifications-enabled.label"
+            textFieldName="app-slack-channel-id"
+            textFieldKey="v6y-applications.fields.app-slack-channel-id"
+        />,
     ];
 };
 
@@ -267,6 +277,8 @@ export const applicationCreateOrEditFormInAdapter = (params: ApplicationType) =>
         'app-git-web-url': params?.['repo']?.webUrl,
         'app-git-url': params?.['repo']?.gitUrl,
         'app-contact-email': params?.['contactMail'],
+        'app-slack-channel-id': params?.['slackChannelId'],
+        'app-slack-channel-notifications-enabled': !!params?.['slackChannelNotificationsEnabled'],
         'app-production-link': params?.['links']?.find?.(
             (item) => item.label === 'Application production url',
         )?.value,
@@ -306,6 +318,10 @@ export const applicationCreateOrEditFormOutputAdapter = (data: unknown): Variabl
             gitUrl: params?.['app-git-url'],
             name: params?.['app-name'],
             contactMail: params?.['app-contact-email'],
+            slackChannelId: params?.['app-slack-channel-notifications-enabled']
+                ? params?.['app-slack-channel-id'] || null
+                : null,
+            slackChannelNotificationsEnabled: !!params?.['app-slack-channel-notifications-enabled'],
             productionLink: params?.['app-production-link'],
             sonarqubeLink: params?.['app-sonarqube-link'],
             sonarqubeToken: params?.['app-sonarqube-token'] || undefined,

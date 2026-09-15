@@ -19,6 +19,7 @@
     },
     "dependencies": {
         "@nestjs/common": "catalog:nestjs11",
+        "@slack/web-api": "catalog:",
         "@v6y/core-logic": "workspace:^",
         "nodemailer": "catalog:",
         "reflect-metadata": "catalog:"

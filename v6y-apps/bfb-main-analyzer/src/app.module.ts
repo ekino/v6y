@@ -4,7 +4,7 @@ import { Module } from '@nestjs/common';
 import { HealthController, QueueConfig } from '@v6y/core-logic';
 import {
     EmailChannel,
-    NOTIFICATION_CHANNELS,
+    INotificationChannel,
     NOTIFICATION_QUEUE,
     NotificationDispatcher,
     SlackChannel,
@@ -37,13 +37,25 @@ const queueImports = queueEnabled
 
 const channelProviders = [EmailChannel, SlackChannel];
 
-const channelMultiProviders = channelProviders.map((Channel) => ({
-    provide: NOTIFICATION_CHANNELS,
-    useExisting: Channel,
-}));
-
 const queueProviders = queueEnabled
-    ? [ApplicationAnalysisProcessor, DataUpdateProcessor, NotificationProcessor]
+    ? [
+          {
+              provide: ApplicationAnalysisProcessor,
+              // Plain (undecorated) type-based constructor injection isn't reliable under
+              // tsx/esbuild's decorator-metadata emission — see NotificationProcessor below —
+              // so this dependency is wired explicitly via factory too.
+              useFactory: (notificationQueueService: NotificationQueueService) =>
+                  new ApplicationAnalysisProcessor(notificationQueueService),
+              inject: [NotificationQueueService],
+          },
+          DataUpdateProcessor,
+          {
+              provide: NotificationProcessor,
+              useFactory: (dispatcher: NotificationDispatcher) =>
+                  new NotificationProcessor(dispatcher),
+              inject: [NotificationDispatcher],
+          },
+      ]
     : [];
 
 @Module({
@@ -51,8 +63,14 @@ const queueProviders = queueEnabled
     controllers: [ApplicationAnalysisController, HealthController, TriggerAuditController],
     providers: [
         ...channelProviders,
-        ...channelMultiProviders,
-        NotificationDispatcher,
+        {
+            provide: NotificationDispatcher,
+            // NestJS doesn't aggregate multiple same-token providers into an array,
+            // so the channels are injected individually and assembled here.
+            useFactory: (...channels: INotificationChannel[]) =>
+                new NotificationDispatcher(channels),
+            inject: channelProviders,
+        },
         ApplicationAnalysisQueueService,
         DataUpdateQueueService,
         NotificationQueueService,

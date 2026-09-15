@@ -11,8 +11,6 @@
  * Nothing else needs to change.
  */
 
-export const NOTIFICATION_CHANNELS = Symbol('NOTIFICATION_CHANNELS');
-
 /** Shape of the data carried by an audit-run-completed event. */
 export interface AuditRunCompletedPayload {
     auditRunId: number;

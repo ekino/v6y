@@ -56,6 +56,7 @@ catalogs:
     '@refinedev/graphql': '=8.0.1'
     '@refinedev/nextjs-router': '=7.0.5'
     '@refinedev/ui-types': '=2.0.1'
+    '@slack/web-api': '=8.1.1'
     '@tailwindcss/postcss': '=4.2.1'
     '@tanstack/react-query': '=5.90.2'
     '@tanstack/react-query-devtools': '=5.90.2'
