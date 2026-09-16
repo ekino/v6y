@@ -151,6 +151,8 @@
         "description": "Suivez les branches, la couverture des rapports et les canaux rattachés à ce projet avant d'entrer dans les détails par catégorie.",
         "lastAnalyze": "Dernière analyse {date}",
         "notAnalyzedYet": "Pas encore analysée",
+        "current": "À jour",
+        "stale": "À actualiser",
         "branchesLabel": "Branches Git : {count}",
         "branchesTracked": "Branches suivies",
         "linkedSystems": "Systèmes liés",
@@ -343,6 +345,11 @@
           "duration": "Durée",
           "audits": "Audits",
           "error": "Erreur"
+        },
+        "pagination": {
+          "page": "Page {current} sur {total}",
+          "previous": "Précédente",
+          "next": "Suivante"
         }
       }
     },
