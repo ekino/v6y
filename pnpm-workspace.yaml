@@ -43,6 +43,12 @@ overrides:
   # them (^4.7.7, ~2.0.7, ^2.0.7): the override keeps the lockfile above the fix.
   handlebars: '4.7.10'
   proxy-addr: '2.0.8'
+  # Exact pins inside third-party packages, moved to the fix within the same major.
+  # Scoped to the parent so the other copies of these packages are left alone.
+  'prisma>mysql2': '3.23.1'
+  '@nestjs/platform-express>multer': '2.5.0'
+  '@nestjs/graphql>ws': '8.21.0'
+  '@ant-design/pro-layout>path-to-regexp': '8.4.0'
 
 catalogs:
   default:
