@@ -49,6 +49,10 @@ overrides:
   '@nestjs/platform-express>multer': '2.5.0'
   '@nestjs/graphql>ws': '8.21.0'
   '@ant-design/pro-layout>path-to-regexp': '8.4.0'
+  # Cross-major on purpose: basic-ftp 5.x has no fix (GHSA-c475-qrg2-pj4r is fixed
+  # in 6.2.1). get-uri 6.0.5 asks for ^5.0.2 but only calls Client.access, lastMod,
+  # list, downloadTo and close, all unchanged in 6.x. Drop once get-uri allows 6.x.
+  'get-uri>basic-ftp': '6.2.1'
 
 catalogs:
   default:
