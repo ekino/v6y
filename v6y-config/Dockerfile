@@ -9,7 +9,10 @@
 # Build them all with:
 #   docker buildx bake -f docker-bake.hcl
 
-ARG NODE_VERSION=22-alpine
+# Full patch version on purpose: Node 22.23.4 fixes CVE-2026-111497 (Node2Shell,
+# Brotli out-of-bounds write, listed in CISA KEV). Do not relax it to a floating
+# tag, and keep it in sync with .nvmrc.
+ARG NODE_VERSION=22.23.4-alpine
 ARG PNPM_VERSION=11.18.0
 ARG PRISMA_VERSION=7.8.0
 
