@@ -284,8 +284,8 @@ catalogs:
       specifier: '=4.2.1'
       version: 4.2.1
     nodemailer:
-      specifier: '=9.0.5'
-      version: 9.0.5
+      specifier: '=9.1.1'
+      version: 9.1.1
     nx:
       specifier: 23.1.1
       version: 23.1.1
@@ -1391,7 +1391,7 @@ importers:
         version: link:../core-logic
       nodemailer:
         specifier: 'catalog:'
-        version: 9.0.5
+        version: 9.1.1
       reflect-metadata:
         specifier: 'catalog:'
         version: 0.2.2
@@ -8399,8 +8399,8 @@ packages:
     resolution: {integrity: sha512-71kFFjYaSshDTA8/a2HiTYPLdASWjLJxUyJxGE+ffxU+KhxSBtM9kiLUX+R2yooFdSFKMFpi4n3PFtDy6qXv8A==}
     engines: {node: '>=18'}
 
-  nodemailer@9.0.5:
-    resolution: {integrity: sha512-wvjiKvjczmsN7U/8006JOdXubgBk2XFAbioDMbT+sM7cPs0QrhJTa6KBRX7P5REGGkDcLUz/EarWidb8G8C1jQ==}
+  nodemailer@9.1.1:
+    resolution: {integrity: sha512-izw9mVKFix6YSnC9eLgV6g1opl9DUlRio9ZNcq+Wu9Ujn2UwF+8Nl0B8nz22kEC+CTZCvinkxwJ0DeFbb6NwcQ==}
     engines: {node: '>=6.0.0'}
 
   normalize-package-data@6.0.2:
@@ -17769,7 +17769,7 @@ snapshots:
     dependencies:
       '@babel/parser': 7.29.7
 
-  nodemailer@9.0.5: {}
+  nodemailer@9.1.1: {}
 
   normalize-package-data@6.0.2:
     dependencies:
