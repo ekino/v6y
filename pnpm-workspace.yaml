@@ -39,6 +39,10 @@ overrides:
   'express-status-monitor>axios': '0.34.0'
   # nx pins axios 1.18.1 exactly; fixed in 1.20.0.
   'nx>axios': '1.20.0'
+  # Critical advisories, fixed in these releases. Every dependent already allows
+  # them (^4.7.7, ~2.0.7, ^2.0.7): the override keeps the lockfile above the fix.
+  handlebars: '4.7.10'
+  proxy-addr: '2.0.8'
 
 catalogs:
   default:
