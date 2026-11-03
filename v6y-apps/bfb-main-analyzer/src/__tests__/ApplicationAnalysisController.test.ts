@@ -1,7 +1,10 @@
 import request from 'supertest';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-describe('ApplicationAnalysisController', () => {
+// Each test re-imports the Nest app after vi.resetModules(); the first cold boot
+// (transform + coverage instrumentation) can exceed 5s when nx runs every project
+// in parallel on CI, so give the whole suite more headroom.
+describe('ApplicationAnalysisController', { timeout: 15_000 }, () => {
     beforeEach(() => {
         delete process.env.V6Y_INTERNAL_API_SECRET;
     });
