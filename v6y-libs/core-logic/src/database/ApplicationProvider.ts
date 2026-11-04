@@ -146,11 +146,19 @@ const normalizeApplication = (application: {
     } as ApplicationType;
 };
 
+/**
+ * Applications matching the search that the account is allowed to see. Fails
+ * closed: no account, or a member without applications, sees nothing — only
+ * ADMIN and SUPERADMIN see every application. Each id restriction is a separate
+ * `AND` entry so the keyword filter and the account scope intersect instead of
+ * one overwriting the other.
+ */
 const buildWhereClause = async (
     { searchText, keywords }: SearchQueryType,
     user?: AccountType,
 ): Promise<Prisma.ApplicationWhereInput> => {
-    let where: Prisma.ApplicationWhereInput = {};
+    const where: Prisma.ApplicationWhereInput = {};
+    const idRestrictions: Prisma.ApplicationWhereInput[] = [];
 
     if (searchText) {
         where.OR = [
@@ -161,15 +169,17 @@ const buildWhereClause = async (
         ];
     }
 
-    if (keywords) {
+    if (keywords?.length) {
         const appIds = await KeywordProvider.getApplicationsIdsByKeywords({ keywords });
-        if (appIds?.length) {
-            where = { ...where, id: { in: appIds } };
-        }
+        idRestrictions.push({ id: { in: appIds ?? [] } });
     }
 
-    if (user && user.role !== 'ADMIN' && user.role !== 'SUPERADMIN' && user.applications?.length) {
-        where = { ...where, id: { in: user.applications } };
+    if (user?.role !== 'ADMIN' && user?.role !== 'SUPERADMIN') {
+        idRestrictions.push({ id: { in: user?.applications ?? [] } });
+    }
+
+    if (idRestrictions.length) {
+        where.AND = idRestrictions;
     }
 
     return where;
