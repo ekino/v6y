@@ -5,6 +5,7 @@ import { print } from 'graphql';
 
 import { HealthController, validateCredentials } from '@v6y/core-logic';
 
+import { isPublicOperation } from './auth/isPublicOperation.ts';
 import ServerConfig from './config/ServerConfig.ts';
 import { AccountResolver } from './resolvers/account/AccountResolver.ts';
 import { AiSummaryResolver } from './resolvers/ai-summary/AiSummaryResolver.ts';
@@ -32,24 +33,19 @@ const typeDefsSdl = print(VitalityTypes);
             driver: ApolloDriver,
             typeDefs: typeDefsSdl,
             path: apiPath as string,
-            // Preserve the legacy authentication context behavior previously
-            // implemented in resolvers/manager/AuthenticationManager.ts.
-            context: async ({
-                req,
-            }: {
-                req: Express.Request & { body?: { operationName?: string } };
-            }) => {
-                if (
-                    req.body?.operationName !== 'LoginAccount' &&
-                    req.body?.operationName !== 'IntrospectionQuery'
-                ) {
-                    const user = await validateCredentials(req);
-                    if (!user) {
-                        throw new Error('Unauthorized User');
-                    }
-                    return { user };
+            // Every operation requires a valid JWT, except one that only selects
+            // public root fields (login, introspection). That is decided from the
+            // parsed document: the client-supplied operationName proves nothing.
+            context: async ({ req }: { req: Express.Request & { body?: unknown } }) => {
+                if (isPublicOperation(req.body)) {
+                    return {};
                 }
-                return {};
+
+                const user = await validateCredentials(req);
+                if (!user) {
+                    throw new Error('Unauthorized User');
+                }
+                return { user };
             },
         }),
     ],

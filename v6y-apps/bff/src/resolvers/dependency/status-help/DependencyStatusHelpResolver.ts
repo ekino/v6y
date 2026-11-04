@@ -1,5 +1,7 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
+import { AdminGuard } from '../../../auth/AdminGuard.ts';
 import DependencyStatusHelpMutations from './DependencyStatusHelpMutations.ts';
 import DependencyStatusHelpQueries from './DependencyStatusHelpQueries.ts';
 
@@ -35,6 +37,7 @@ export class DependencyStatusHelpResolver {
         return DependencyStatusHelpQueries.getDependencyStatusHelpDetailsByParams(undefined, args);
     }
 
+    @UseGuards(AdminGuard)
     @Mutation('createOrEditDependencyStatusHelp')
     createOrEditDependencyStatusHelp(
         @Args()
@@ -43,6 +46,7 @@ export class DependencyStatusHelpResolver {
         return DependencyStatusHelpMutations.createOrEditDependencyStatusHelp(undefined, args);
     }
 
+    @UseGuards(AdminGuard)
     @Mutation('deleteDependencyStatusHelp')
     deleteDependencyStatusHelp(
         @Args()

@@ -1,5 +1,7 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
+import { AdminGuard } from '../../auth/AdminGuard.ts';
 import EvolutionHelpMutations from './EvolutionHelpMutations.ts';
 import EvolutionHelpQueries from './EvolutionHelpQueries.ts';
 
@@ -33,6 +35,7 @@ export class EvolutionHelpResolver {
         return EvolutionHelpQueries.getEvolutionHelpStatus(undefined, args);
     }
 
+    @UseGuards(AdminGuard)
     @Mutation('createOrEditEvolutionHelp')
     createOrEditEvolutionHelp(
         @Args() args: Parameters<typeof EvolutionHelpMutations.createOrEditEvolutionHelp>[1],
@@ -40,6 +43,7 @@ export class EvolutionHelpResolver {
         return EvolutionHelpMutations.createOrEditEvolutionHelp(undefined, args);
     }
 
+    @UseGuards(AdminGuard)
     @Mutation('deleteEvolutionHelp')
     deleteEvolutionHelp(
         @Args() args: Parameters<typeof EvolutionHelpMutations.deleteEvolutionHelp>[1],

@@ -1,5 +1,7 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
+import { AdminGuard } from '../../auth/AdminGuard.ts';
 import NotificationMutations from './NotificationMutations.ts';
 import NotificationsQueries from './NotificationsQueries.ts';
 
@@ -25,6 +27,7 @@ export class NotificationsResolver {
         return NotificationsQueries.getNotificationDetailsByParams(undefined, args);
     }
 
+    @UseGuards(AdminGuard)
     @Mutation('createOrEditNotification')
     createOrEditNotification(
         @Args() args: Parameters<typeof NotificationMutations.createOrEditNotification>[1],
@@ -32,6 +35,7 @@ export class NotificationsResolver {
         return NotificationMutations.createOrEditNotification(undefined, args);
     }
 
+    @UseGuards(AdminGuard)
     @Mutation('deleteNotification')
     deleteNotification(
         @Args() args: Parameters<typeof NotificationMutations.deleteNotification>[1],
