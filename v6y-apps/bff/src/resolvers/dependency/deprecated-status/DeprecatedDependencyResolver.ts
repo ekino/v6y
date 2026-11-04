@@ -1,5 +1,7 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
+import { AdminGuard } from '../../../auth/AdminGuard.ts';
 import DeprecatedDependencyMutations from './DeprecatedDependencyMutations.ts';
 import DeprecatedDependencyQueries from './DeprecatedDependencyQueries.ts';
 
@@ -34,6 +36,7 @@ export class DeprecatedDependencyResolver {
         return DeprecatedDependencyQueries.getDeprecatedDependencyDetailsByParams(undefined, args);
     }
 
+    @UseGuards(AdminGuard)
     @Mutation('createOrEditDeprecatedDependency')
     createOrEditDeprecatedDependency(
         @Args()
@@ -42,6 +45,7 @@ export class DeprecatedDependencyResolver {
         return DeprecatedDependencyMutations.createOrEditDeprecatedDependency(undefined, args);
     }
 
+    @UseGuards(AdminGuard)
     @Mutation('deleteDeprecatedDependency')
     deleteDeprecatedDependency(
         @Args()

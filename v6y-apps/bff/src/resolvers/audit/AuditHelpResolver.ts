@@ -1,5 +1,7 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
+import { AdminGuard } from '../../auth/AdminGuard.ts';
 import AuditHelpMutations from './AuditHelpMutations.ts';
 import AuditHelpQueries from './AuditHelpQueries.ts';
 
@@ -25,6 +27,7 @@ export class AuditHelpResolver {
         return AuditHelpQueries.getAuditHelpDetailsByParams(undefined, args);
     }
 
+    @UseGuards(AdminGuard)
     @Mutation('createOrEditAuditHelp')
     createOrEditAuditHelp(
         @Args() args: Parameters<typeof AuditHelpMutations.createOrEditAuditHelp>[1],
@@ -32,6 +35,7 @@ export class AuditHelpResolver {
         return AuditHelpMutations.createOrEditAuditHelp(undefined, args);
     }
 
+    @UseGuards(AdminGuard)
     @Mutation('deleteAuditHelp')
     deleteAuditHelp(@Args() args: Parameters<typeof AuditHelpMutations.deleteAuditHelp>[1]) {
         return AuditHelpMutations.deleteAuditHelp(undefined, args);
