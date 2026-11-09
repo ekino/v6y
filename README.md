@@ -52,7 +52,7 @@ Both are opt-out per account from the **Email notifications** page in `front`. D
 
 ## Prerequisites
 
-- Node.js `v22.11.0` (see [.nvmrc](.nvmrc))
+- Node.js `v22.23.4` (see [.nvmrc](.nvmrc))
 - pnpm (installed via Corepack, version pinned in [package.json](package.json))
 - Docker and Docker Compose, for the local PostgreSQL database and containerized runs
 - A GitHub and/or GitLab personal access token if you plan to analyze repositories hosted there
