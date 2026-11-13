@@ -1,5 +1,7 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 
+import { AdminGuard } from '../../auth/AdminGuard.ts';
 import ApplicationMutations from './ApplicationMutations.ts';
 import ApplicationQueries from './ApplicationQueries.ts';
 
@@ -145,6 +147,7 @@ export class ApplicationResolver {
         return ApplicationQueries.getAuditRunDetailsByParams(undefined, args, context);
     }
 
+    @UseGuards(AdminGuard)
     @Mutation('createOrEditApplication')
     createOrEditApplication(
         @Args() args: Parameters<typeof ApplicationMutations.createOrEditApplication>[1],
@@ -153,6 +156,7 @@ export class ApplicationResolver {
         return ApplicationMutations.createOrEditApplication(undefined, args, context);
     }
 
+    @UseGuards(AdminGuard)
     @Mutation('deleteApplication')
     deleteApplication(@Args() args: Parameters<typeof ApplicationMutations.deleteApplication>[1]) {
         return ApplicationMutations.deleteApplication(undefined, args);

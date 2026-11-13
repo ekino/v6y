@@ -1,5 +1,7 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
+import { AdminGuard } from '../../auth/AdminGuard.ts';
 import FaqMutations from './FaqMutations.ts';
 import FaqQueries from './FaqQueries.ts';
 
@@ -23,11 +25,13 @@ export class FaqResolver {
         return FaqQueries.getFaqDetailsByParams(undefined, args);
     }
 
+    @UseGuards(AdminGuard)
     @Mutation('createOrEditFaq')
     createOrEditFaq(@Args() args: Parameters<typeof FaqMutations.createOrEditFaq>[1]) {
         return FaqMutations.createOrEditFaq(undefined, args);
     }
 
+    @UseGuards(AdminGuard)
     @Mutation('deleteFaq')
     deleteFaq(@Args() args: Parameters<typeof FaqMutations.deleteFaq>[1]) {
         return FaqMutations.deleteFaq(undefined, args);
