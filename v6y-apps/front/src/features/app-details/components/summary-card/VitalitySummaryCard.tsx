@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { ApplicationType } from '@v6y/core-logic/src/types';
-import { ReloadIcon, useTranslationProvider } from '@v6y/ui-kit-front';
+import { AlertTriangle, Check, ReloadIcon, useTranslationProvider } from '@v6y/ui-kit-front';
 
 import VitalityApiConfig from '../../../../commons/config/VitalityApiConfig';
 import {
@@ -19,6 +19,8 @@ type LatestAuditRun = {
     triggeredAt?: string | null;
     completedAt?: string | null;
 };
+
+const STALE_AFTER_DAYS = 30;
 
 const VitalitySummaryCard = ({ appInfos }: VitalitySummaryCardProps) => {
     const { translate } = useTranslationProvider();
@@ -42,6 +44,9 @@ const VitalitySummaryCard = ({ appInfos }: VitalitySummaryCardProps) => {
 
     const latestAuditRun = data?.getApplicationLatestAuditRunByParams;
     const lastAnalyzedDate = latestAuditRun?.completedAt ?? latestAuditRun?.triggeredAt;
+    const isAuditStale = lastAnalyzedDate
+        ? Date.now() - new Date(lastAnalyzedDate).getTime() > STALE_AFTER_DAYS * 24 * 60 * 60 * 1000
+        : false;
 
     return (
         <div className="space-y-5 rounded-2xl border border-gray-200 bg-white p-5">
@@ -60,11 +65,21 @@ const VitalitySummaryCard = ({ appInfos }: VitalitySummaryCardProps) => {
                 </div>
             </div>
 
-            <div className="flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-100 px-4 py-3 text-sm text-gray-600">
+            <div
+                className={`flex items-center gap-2 rounded-xl border px-4 py-3 text-sm ${
+                    isAuditStale
+                        ? 'border-amber-200 bg-amber-50 text-amber-900'
+                        : 'border-gray-200 bg-gray-100 text-gray-600'
+                }`}
+            >
                 <span className="inline-flex h-5 w-5 items-center justify-center text-gray-500">
-                    <ReloadIcon className="h-4 w-4" />
+                    {isAuditStale ? (
+                        <AlertTriangle className="h-4 w-4" aria-hidden="true" />
+                    ) : (
+                        <ReloadIcon className="h-4 w-4" aria-hidden="true" />
+                    )}
                 </span>
-                <span>
+                <span className="min-w-0">
                     {lastAnalyzedDate
                         ? translate('vitality.appDetailsPage.summaryCard.lastAnalyze').replace(
                               '{date}',
@@ -72,6 +87,26 @@ const VitalitySummaryCard = ({ appInfos }: VitalitySummaryCardProps) => {
                           )
                         : translate('vitality.appDetailsPage.summaryCard.notAnalyzedYet')}
                 </span>
+                {lastAnalyzedDate && (
+                    <span
+                        className={`ml-auto inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-1 text-[11px] font-semibold ${
+                            isAuditStale
+                                ? 'bg-amber-100 text-amber-900'
+                                : 'bg-emerald-100 text-emerald-800'
+                        }`}
+                    >
+                        {isAuditStale ? (
+                            <AlertTriangle className="h-3 w-3" aria-hidden="true" />
+                        ) : (
+                            <Check className="h-3 w-3" aria-hidden="true" />
+                        )}
+                        {translate(
+                            `vitality.appDetailsPage.summaryCard.${
+                                isAuditStale ? 'stale' : 'current'
+                            }`,
+                        )}
+                    </span>
+                )}
             </div>
 
             {totalBranches > 0 && (
